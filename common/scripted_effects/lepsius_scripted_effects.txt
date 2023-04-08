@@ -1,0 +1,1556 @@
+﻿############################
+# LEPSIUS SCRIPTED EFFECTS #
+############################
+
+#by Marco Dandolo
+
+###Determine the archaeological location###
+
+lepsius_archaeological_expedition_location = {
+	if = {
+		limit = {
+			has_modifier = lepsius_upper_egypt_expedition_modifier
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_UPPER_EGYPT
+			}
+			save_scope_as = lepsius_arrival_state
+		}
+	}
+	if = {
+		limit = {
+			has_modifier = lepsius_lower_egypt_expedition_modifier
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_LOWER_EGYPT
+			}
+			save_scope_as = lepsius_arrival_state
+		}
+	}
+	if = {
+		limit = {
+			has_modifier = lepsius_babylonia_expedition_modifier
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_BAGHDAD
+			}
+			save_scope_as = lepsius_arrival_state
+		}
+	}
+	if = {
+		limit = {
+			has_modifier = lepsius_assyria_expedition_modifier
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_MOSUL
+			}
+			save_scope_as = lepsius_arrival_state
+		}
+	}
+	if = {
+		limit = {
+			has_modifier = lepsius_argolis_expedition_modifier
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_PELOPONNESE
+			}
+			save_scope_as = lepsius_arrival_state
+		}
+	}
+	if = {
+		limit = {
+			has_modifier = lepsius_crete_expedition_modifier
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_CRETE
+			}
+			save_scope_as = lepsius_arrival_state
+		}
+	}
+	if = {
+		limit = {
+			has_modifier = lepsius_yucatan_expedition_modifier
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_YUCATAN
+			}
+			save_scope_as = lepsius_arrival_state
+		}
+	}
+	if = {
+		limit = {
+			has_modifier = lepsius_peru_expedition_modifier
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_ICA
+			}
+			save_scope_as = lepsius_arrival_state
+		}
+	}
+}
+
+###Determine success of archaoelogical expeditions###
+
+lepsius_expedition_success_small_add = {
+	change_variable = {
+ 		name = lepsius_expedition_success
+ 		add = 1
+	}
+	custom_tooltip = lepsius_expedition_success_small_add_tt
+}
+
+lepsius_expedition_success_medium_add = {
+	change_variable = {
+ 		name = lepsius_expedition_success
+ 		add = 2
+	}
+	custom_tooltip = lepsius_expedition_success_medium_add_tt
+}
+
+lepsius_expedition_success_large_add = {
+	change_variable = {
+ 		name = lepsius_expedition_success
+ 		add = 4
+	}
+	custom_tooltip = lepsius_expedition_success_large_add_tt
+}
+
+lepsius_expedition_success_small_sub = {
+	change_variable = {
+ 		name = lepsius_expedition_success
+ 		add = -1
+	}
+	custom_tooltip = lepsius_expedition_success_small_sub_tt
+}
+
+lepsius_expedition_success_medium_sub = {
+	change_variable = {
+ 		name = lepsius_expedition_success
+ 		add = -2
+	}
+	custom_tooltip = lepsius_expedition_success_medium_sub_tt
+}
+
+lepsius_expedition_success_large_sub = {
+	change_variable = {
+ 		name = lepsius_expedition_success
+ 		add = -4
+	}
+	custom_tooltip = lepsius_expedition_success_large_sub_tt
+}
+
+###Determine progess of archaeological expeditions###
+
+lepsius_archaeological_expedition_progress = {
+	change_variable = {
+ 		name = lepsius_archaeological_expedition_progress
+ 		add = 1
+	}
+}
+
+###Add total excavation teams###
+
+lepsius_total_excavation_teams_add = {
+	change_variable = {
+ 		name = lepsius_total_excavation_teams
+ 		add = 1
+	}
+	custom_tooltip = lepsius_total_excavation_teams_add_tt
+}
+
+###Add Archaeologist Experience###
+
+lepsius_archaeologist_experience_add = {
+	change_variable = {
+ 		name = lepsius_archaeologist_experience
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_archaeological_experience_tt
+}
+
+###Add Expedition###
+
+lepsius_archaeological_expedition_add = {
+	change_variable = {
+ 		name = lepsius_total_expeditions
+ 		add = 1
+	}
+}
+
+###Add Discovery###
+
+lepsius_archaeological_discovery_add = {
+	change_variable = {
+ 		name = lepsius_total_discoveries
+ 		add = 1
+	}
+}
+
+###Add Technology###
+
+lepsius_small_add_technology = {
+	if = {
+		limit = {
+			NOT = {
+				has_technology_researched = lepsius_early_archaeology_tech
+			}
+		}
+		add_technology_progress = { progress = 1500 technology = lepsius_early_archaeology_tech }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_early_archaeology_tech
+			NOT = {
+				has_technology_researched = philosophical_pragmatism
+			}
+		}
+		add_technology_progress = { progress = 1500 technology = philosophical_pragmatism }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_early_archaeology_tech
+			has_technology_researched = philosophical_pragmatism
+			NOT = {
+				has_technology_researched = lepsius_modern_archaeology_tech
+			}
+		}
+		add_technology_progress = { progress = 3000 technology = lepsius_modern_archaeology_tech }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_modern_archaeology_tech
+			NOT = {
+				has_technology_researched = analytical_philosophy
+			}
+		}
+		add_technology_progress = { progress = 3000 technology = analytical_philosophy }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_early_archaeology_tech
+			has_technology_researched = lepsius_modern_archaeology_tech
+			has_technology_researched = analytical_philosophy
+		}
+	}
+}
+
+lepsius_medium_add_technology = {
+	if = {
+		limit = {
+			NOT = {
+				has_technology_researched = lepsius_early_archaeology_tech
+			}
+		}
+		add_technology_progress = { progress = 3500 technology = lepsius_early_archaeology_tech }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_early_archaeology_tech
+			NOT = {
+				has_technology_researched = philosophical_pragmatism
+			}
+		}
+		add_technology_progress = { progress = 3500 technology = philosophical_pragmatism }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_early_archaeology_tech
+			has_technology_researched = philosophical_pragmatism
+			NOT = {
+				has_technology_researched = lepsius_modern_archaeology_tech
+			}
+		}
+		add_technology_progress = { progress = 5500 technology = lepsius_modern_archaeology_tech }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_modern_archaeology_tech
+			NOT = {
+				has_technology_researched = analytical_philosophy
+			}
+		}
+		add_technology_progress = { progress = 5500 technology = analytical_philosophy }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_early_archaeology_tech
+			has_technology_researched = lepsius_modern_archaeology_tech
+			has_technology_researched = analytical_philosophy
+		}
+	}
+}
+
+lepsius_large_add_technology = {
+	if = {
+		limit = {
+			NOT = {
+				has_technology_researched = lepsius_early_archaeology_tech
+			}
+		}
+		add_technology_progress = { progress = 6000 technology = lepsius_early_archaeology_tech }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_early_archaeology_tech
+			NOT = {
+				has_technology_researched = philosophical_pragmatism
+			}
+		}
+		add_technology_progress = { progress = 6000 technology = philosophical_pragmatism }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_early_archaeology_tech
+			has_technology_researched = philosophical_pragmatism
+			NOT = {
+				has_technology_researched = lepsius_modern_archaeology_tech
+			}
+		}
+		add_technology_progress = { progress = 9000 technology = lepsius_modern_archaeology_tech }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_modern_archaeology_tech
+			NOT = {
+				has_technology_researched = analytical_philosophy
+			}
+		}
+		add_technology_progress = { progress = 9000 technology = analytical_philosophy }
+	}
+	if = {
+		limit = {
+			has_technology_researched = lepsius_early_archaeology_tech
+			has_technology_researched = lepsius_modern_archaeology_tech
+			has_technology_researched = analytical_philosophy
+		}
+	}
+}
+
+###Adding artifacts###
+
+lepsius_add_egyptian_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_egyptian_artifact_minor
+ 		add = 1
+	}
+}
+
+lepsius_add_mesopotamian_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_mesopotamian_artifact_minor
+ 		add = 1
+	}
+}
+
+lepsius_add_aegean_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_aegean_artifact_minor
+ 		add = 1
+	}
+}
+
+lepsius_add_precolumbian_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_precolumbian_artifact_minor
+ 		add = 1
+	}
+}
+
+lepsius_add_fareastern_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_fareastern_artifact_minor
+ 		add = 1
+	}
+}
+
+#1 artifact
+
+lepsius_add_1_minor_artifact = {
+	if = {
+		limit = {
+			lepsius_expedition_in_egypt = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 1
+		}
+		change_variable = {
+ 			name = lepsius_egyptian_artifact_minor
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_egyptian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_mesopotamia = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 1
+		}
+		change_variable = {
+ 			name = lepsius_mesopotamian_artifact_minor
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_mesopotamian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_greece = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 1
+		}
+		change_variable = {
+ 			name = lepsius_aegean_artifact_minor
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_aegean_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_south_america = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 1
+		}
+		change_variable = {
+ 			name = lepsius_precolumbian_artifact_minor
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_precolumbian_artifact_tt
+	}
+}
+
+#2 artifacts
+
+lepsius_add_2_minor_artifact = {
+	if = {
+		limit = {
+			lepsius_expedition_in_egypt = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 2
+		}
+		change_variable = {
+ 			name = lepsius_egyptian_artifact_minor
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_egyptian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_mesopotamia = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 2
+		}
+		change_variable = {
+ 			name = lepsius_mesopotamian_artifact_minor
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_mesopotamian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_greece = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 2
+		}
+		change_variable = {
+ 			name = lepsius_aegean_artifact_minor
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_aegean_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_south_america = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 2
+		}
+		change_variable = {
+ 			name = lepsius_precolumbian_artifact_minor
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_precolumbian_artifact_tt
+	}
+}
+
+#3 artifacts
+
+lepsius_add_3_minor_artifact = {
+	if = {
+		limit = {
+			lepsius_expedition_in_egypt = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 3
+		}
+		change_variable = {
+ 			name = lepsius_egyptian_artifact_minor
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_egyptian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_mesopotamia = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 3
+		}
+		change_variable = {
+ 			name = lepsius_mesopotamian_artifact_minor
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_mesopotamian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_greece = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 3
+		}
+		change_variable = {
+ 			name = lepsius_aegean_artifact_minor
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_aegean_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_south_america = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 3
+		}
+		change_variable = {
+ 			name = lepsius_precolumbian_artifact_minor
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_precolumbian_artifact_tt
+	}
+}
+
+#4 artifacts
+
+lepsius_add_4_minor_artifact = {
+	if = {
+		limit = {
+			lepsius_expedition_in_egypt = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 4
+		}
+		change_variable = {
+ 			name = lepsius_egyptian_artifact_minor
+ 			add = 4
+		}
+		custom_tooltip = lepsius_add_4_egyptian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_mesopotamia = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 4
+		}
+		change_variable = {
+ 			name = lepsius_mesopotamian_artifact_minor
+ 			add = 4
+		}
+		custom_tooltip = lepsius_add_4_mesopotamian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_greece = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 4
+		}
+		change_variable = {
+ 			name = lepsius_aegean_artifact_minor
+ 			add = 4
+		}
+		custom_tooltip = lepsius_add_4_aegean_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_south_america = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 4
+		}
+		change_variable = {
+ 			name = lepsius_precolumbian_artifact_minor
+ 			add = 4
+		}
+		custom_tooltip = lepsius_add_4_precolumbian_artifact_tt
+	}
+}
+
+#5 artifacts
+
+lepsius_add_5_minor_artifact = {
+	if = {
+		limit = {
+			lepsius_expedition_in_egypt = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 5
+		}
+		change_variable = {
+ 			name = lepsius_egyptian_artifact_minor
+ 			add = 5
+		}
+		custom_tooltip = lepsius_add_5_egyptian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_mesopotamia = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 5
+		}
+		change_variable = {
+ 			name = lepsius_mesopotamian_artifact_minor
+ 			add = 5
+		}
+		custom_tooltip = lepsius_add_5_mesopotamian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_greece = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 5
+		}
+		change_variable = {
+ 			name = lepsius_aegean_artifact_minor
+ 			add = 5
+		}
+		custom_tooltip = lepsius_add_5_aegean_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_south_america = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 5
+		}
+		change_variable = {
+ 			name = lepsius_precolumbian_artifact_minor
+ 			add = 5
+		}
+		custom_tooltip = lepsius_add_5_precolumbian_artifact_tt
+	}
+}
+
+#7 artifacts
+
+lepsius_add_7_minor_artifact = {
+	if = {
+		limit = {
+			lepsius_expedition_in_egypt = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 7
+		}
+		change_variable = {
+ 			name = lepsius_egyptian_artifact_minor
+ 			add = 7
+		}
+		custom_tooltip = lepsius_add_7_egyptian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_mesopotamia = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 7
+		}
+		change_variable = {
+ 			name = lepsius_mesopotamian_artifact_minor
+ 			add = 7
+		}
+		custom_tooltip = lepsius_add_7_mesopotamian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_greece = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 7
+		}
+		change_variable = {
+ 			name = lepsius_aegean_artifact_minor
+ 			add = 7
+		}
+		custom_tooltip = lepsius_add_7_aegean_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_south_america = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 7
+		}
+		change_variable = {
+ 			name = lepsius_precolumbian_artifact_minor
+ 			add = 7
+		}
+		custom_tooltip = lepsius_add_7_precolumbian_artifact_tt
+	}
+}
+
+#10 artifacts
+
+lepsius_add_10_minor_artifact = {
+	if = {
+		limit = {
+			lepsius_expedition_in_egypt = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 10
+		}
+		change_variable = {
+ 			name = lepsius_egyptian_artifact_minor
+ 			add = 10
+		}
+		custom_tooltip = lepsius_add_10_egyptian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_mesopotamia = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 10
+		}
+		change_variable = {
+ 			name = lepsius_mesopotamian_artifact_minor
+ 			add = 10
+		}
+		custom_tooltip = lepsius_add_10_mesopotamian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_greece = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 10
+		}
+		change_variable = {
+ 			name = lepsius_aegean_artifact_minor
+ 			add = 10
+		}
+		custom_tooltip = lepsius_add_10_aegean_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_south_america = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 10
+		}
+		change_variable = {
+ 			name = lepsius_precolumbian_artifact_minor
+ 			add = 10
+		}
+		custom_tooltip = lepsius_add_10_precolumbian_artifact_tt
+	}
+}
+
+################################
+
+#1 major artifact
+
+lepsius_add_1_major_artifact = {
+	if = {
+		limit = {
+			lepsius_expedition_in_egypt = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 1
+		}
+		change_variable = {
+ 			name = lepsius_egyptian_artifact_major
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_major_egyptian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_mesopotamia = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 1
+		}
+		change_variable = {
+ 			name = lepsius_mesopotamian_artifact_major
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_major_mesopotamian_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_greece = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 1
+		}
+		change_variable = {
+ 			name = lepsius_aegean_artifact_major
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_major_aegean_artifact_tt
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_south_america = yes
+		}
+		change_variable = {
+ 			name = lepsius_total_artifacts
+ 			add = 1
+		}
+		change_variable = {
+ 			name = lepsius_precolumbian_artifact_major
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_major_precolumbian_artifact_tt
+	}
+}
+
+#Egyptian
+
+lepsius_add_1_major_egyptian_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_egyptian_artifact_major
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_major_egyptian_artifact_tt
+}
+
+#Mesopotamian
+
+lepsius_add_1_major_mesopotamian_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_mesopotamian_artifact_major
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_major_mesopotamian_artifact_tt
+}
+
+#Aegean
+
+lepsius_add_1_major_aegean_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_aegean_artifact_major
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_major_aegean_artifact_tt
+}
+
+#Pre-Columbian
+
+lepsius_add_1_major_precolumbian_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_precolumbian_artifact_major
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_major_precolumbian_artifact_tt
+}
+
+#Far Eastern
+
+lepsius_add_1_major_fareastern_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 1
+	}
+	change_variable = {
+ 		name = lepsius_fareastern_artifact_major
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_major_fareastern_artifact_tt
+}
+
+#############################
+
+###ADDING CLUES###
+
+#Add 1 Clue
+
+lepsius_add_1_clue = {
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_tut
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_tut
+			}
+		}
+		limit = {
+			has_modifier = lepsius_upper_egypt_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_tut_clue
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_tut_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_ship
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_ship
+			}
+		}
+		limit = {
+			has_modifier = lepsius_lower_egypt_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_ship_clue
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_ship_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_babylon
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_babylon
+			}
+		}
+		limit = {
+			has_modifier = lepsius_babylonia_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_babylon_clue
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_babylon_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_semiramis
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_semiramis
+			}
+		}
+		limit = {
+			has_modifier = lepsius_assyria_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_semiramis_clue
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_semiramis_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_mycenae
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_mycenae
+			}
+		}
+		limit = {
+			has_modifier = lepsius_argolis_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_mycenae_clue
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_mycenae_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_pakal
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_pakal
+			}
+		}
+		limit = {
+			has_modifier = lepsius_yucatan_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_pakal_clue
+ 			add = 1
+		}
+		custom_tooltip = lepsius_add_1_pakal_clue_tt
+	}
+}
+
+#Add 2 Clues
+
+lepsius_add_2_clue = {
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_tut
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_tut
+			}
+		}
+		limit = {
+			has_modifier = lepsius_upper_egypt_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_tut_clue
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_tut_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_ship
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_ship
+			}
+		}
+		limit = {
+			has_modifier = lepsius_lower_egypt_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_ship_clue
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_ship_clue_tt
+		
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_babylon
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_babylon
+			}
+		}
+		limit = {
+			has_modifier = lepsius_babylonia_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_babylon_clue
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_babylon_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_semiramis
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_semiramis
+			}
+		}
+		limit = {
+			has_modifier = lepsius_assyria_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_semiramis_clue
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_semiramis_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_mycenae
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_mycenae
+			}
+		}
+		limit = {
+			has_modifier = lepsius_argolis_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_mycenae_clue
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_mycenae_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_pakal
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_pakal
+			}
+		}
+		limit = {
+			has_modifier = lepsius_yucatan_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_pakal_clue
+ 			add = 2
+		}
+		custom_tooltip = lepsius_add_2_pakal_clue_tt
+	}
+}
+
+#Add 3 Clues
+
+lepsius_add_3_clue = {
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_tut
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_tut
+			}
+		}
+		limit = {
+			has_modifier = lepsius_upper_egypt_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_tut_clue
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_tut_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_ship
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_ship
+			}
+		}
+		limit = {
+			has_modifier = lepsius_lower_egypt_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_ship_clue
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_ship_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_babylon
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_babylon
+			}
+		}
+		limit = {
+			has_modifier = lepsius_babylonia_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_babylon_clue
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_babylon_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_semiramis
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_semiramis
+			}
+		}
+		limit = {
+			has_modifier = lepsius_assyria_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_semiramis_clue
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_semiramis_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_mycenae
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_mycenae
+			}
+		}
+		limit = {
+			has_modifier = lepsius_argolis_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_mycenae_clue
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_mycenae_clue_tt
+	}
+	if = {
+		if = {
+			limit = {
+				NOT = {
+					has_journal_entry = je_lepsius_discovery_pakal
+				}
+			}
+			add_journal_entry = {
+				type = je_lepsius_discovery_pakal
+			}
+		}
+		limit = {
+			has_modifier = lepsius_yucatan_inspection_modifier
+		}
+		change_variable = {
+ 			name = lepsius_pakal_clue
+ 			add = 3
+		}
+		custom_tooltip = lepsius_add_3_pakal_clue_tt
+	}
+}
+
+#Mysterious Clues
+
+lepsius_add_alexander_clue = {
+	change_variable = {
+ 		name = lepsius_alexander_clue
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_alexander_clue_tt
+}
+
+lepsius_add_ark_clue = {
+	change_variable = {
+ 		name = lepsius_ark_clue
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_ark_clue_tt
+}
+
+lepsius_add_atlantis_clue = {
+	change_variable = {
+ 		name = lepsius_atlantis_clue
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_atlantis_clue_tt
+}
+
+lepsius_add_eldorado_clue = {
+	change_variable = {
+ 		name = lepsius_eldorado_clue
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_eldorado_clue_tt
+}
+
+############################
+
+###GILGAMESH PIECES###
+
+lepsius_add_gilgamesh_pieces = {
+	change_variable = {
+ 		name = lepsius_gilgamesh_pieces
+ 		add = 1
+	}
+	custom_tooltip = lepsius_add_gilgamesh_pieces_tt
+}
+
+############################
+
+###ISHTAR FRAGMENTS###
+
+lepsius_add_10k_ishtar_fragments = {
+	change_variable = {
+ 		name = lepsius_ishtar_fragments
+ 		add = 100000
+	}
+	custom_tooltip = lepsius_add_10k_ishtar_fragments_tt
+}
+
+lepsius_add_20k_ishtar_fragments = {
+	change_variable = {
+ 		name = lepsius_ishtar_fragments
+ 		add = 200000
+	}
+	custom_tooltip = lepsius_add_20k_ishtar_fragments_tt
+}
+
+lepsius_add_30k_ishtar_fragments = {
+	change_variable = {
+ 		name = lepsius_ishtar_fragments
+ 		add = 300000
+	}
+	custom_tooltip = lepsius_add_30k_ishtar_fragments_tt
+}
+
+lepsius_sub_5k_ishtar_fragments = {
+	change_variable = {
+ 		name = lepsius_ishtar_fragments
+ 		add = -5000
+	}
+	custom_tooltip = lepsius_sub_5k_ishtar_fragments_tt
+}
+
+###########################
+
+###THE LABYRINTH
+
+lepsius_add_confusion = {
+	change_variable = {
+		name = lepsius_confusion
+		add = 1
+	}
+	custom_tooltip = lepsius_confusion_tt
+}
+
+###########################
+
+###SUMMER PALACE LOOT
+
+lepsius_add_5_fareastern_artifact = {
+	change_variable = {
+ 		name = lepsius_total_artifacts
+ 		add = 5
+	}
+	change_variable = {
+ 		name = lepsius_fareastern_artifact_minor
+ 		add = 5
+	}
+	custom_tooltip = lepsius_add_5_fareastern_artifact_tt
+}
+
+############################
+
+lepsius_add_variables = {
+	set_variable = {
+        name = lepsius_total_artifacts
+        value = 0
+		}
+	set_variable = {
+        name = lepsius_egyptian_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_egyptian_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_mesopotamian_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_mesopotamian_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_aegean_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_aegean_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_precolumbian_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_precolumbian_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_excavation_teams
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_expedition_success
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_archaeological_expedition_progress
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_archaeologist_experience
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_tut_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_ship_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_babylon_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_semiramis_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_mycenae_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_pakal_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_alexander_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_ark_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_atlantis_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_eldorado_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_gilgamesh_pieces
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_total_excavation_teams
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_total_expeditions
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_total_discoveries
+        value = 0
+	}
+	set_variable = lepsius_variables_var
+}

@@ -1,0 +1,640 @@
+﻿############################
+# CURTISS JOURNAL ENTRIES  #
+############################
+
+#by Marco Dandolo
+
+###################
+
+######SCHNEIDER TROPHY######
+
+je_curtiss_found_schneider_trophy = {
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_port
+			}
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 15
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = curtiss.100
+			popup = yes
+		}
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = global_var:curtiss_seaplane_nations
+	}
+
+	goal_add_value = {
+		value = 5
+	}
+
+	progressbar = yes
+
+	weight = 25
+}
+
+###################
+
+######AIRLINES######
+
+je_curtiss_found_private_airline = {
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = military_aviation
+		NOR = {
+			has_law = law_type:law_agrarianism 
+			has_law = law_type:law_traditionalism 
+			has_law = law_type:law_cooperative_ownership
+			has_law = law_type:law_command_economy 	
+		}
+		NOR = {
+			has_variable = curtiss_private_airline
+			has_variable = curtiss_state_airline
+		}
+    }
+
+    possible = {
+        has_technology_researched = curtiss_modern_aviation_tech
+		OR = { 
+			has_law = law_type:law_laissez_faire
+			has_law = law_type:law_interventionism
+		}
+		exists = ig:ig_industrialists
+    }
+
+	complete = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_airport
+				level >= 2
+			}
+		}
+		ig:ig_industrialists = {
+			is_marginal = no
+		}
+	}
+
+	on_complete = {
+		set_variable = {
+            name = curtiss_flight_route
+            value = 1
+		}
+		trigger_event = { 
+			id = curtiss.20
+			popup = yes
+		}
+	}
+
+	invalid = {
+		OR = {
+			has_law = law_type:law_agrarianism 
+			has_law = law_type:law_traditionalism 
+			has_law = law_type:law_cooperative_ownership
+			has_law = law_type:law_command_economy
+		}
+	}
+}
+
+je_curtiss_found_state_airline = {
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = military_aviation
+		NOR = {
+			has_law = law_type:law_agrarianism 
+			has_law = law_type:law_traditionalism 
+			has_law = law_type:law_laissez_faire
+			has_law = law_type:law_interventionism	
+		}
+		NOT = {
+			has_variable = curtiss_state_airline
+			has_variable = curtiss_private_airline
+		}
+    }
+
+    possible = {
+        has_technology_researched = curtiss_modern_aviation_tech
+		any_scope_state = {
+			has_building = building_airport
+			is_incorporated = yes
+		}
+		OR = {
+			has_law = law_type:law_cooperative_ownership
+			has_law = law_type:law_command_economy
+		}
+    }
+
+	complete = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_airport
+				level >= 2
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = {
+            name = curtiss_flight_route
+            value = 1
+		}
+		trigger_event = { 
+			id = curtiss.21
+			popup = yes
+		}
+	}
+
+	invalid = {
+		OR = {
+			has_law = law_type:law_agrarianism 
+			has_law = law_type:law_traditionalism 
+			has_law = law_type:law_laissez_faire
+			has_law = law_type:law_interventionism	
+		}
+	}
+}
+
+######SPRUCE GOOSE######
+
+je_curtiss_spruce_goose_plan = {
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = curtiss_modern_aviation_tech
+		has_variable = curtiss_private_airline
+		has_modifier = curtiss_airplane_focus_modifier
+		is_player = yes
+    }
+
+    possible = {
+        has_modifier = curtiss_airline_level_5_modifier
+    }
+
+	complete = {
+		has_modifier = curtiss_airline_level_6_modifier
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_airport
+				level >= 10
+			}
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_war_machine_industry
+				level >= 25
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = curtiss_building_spruce_goose
+		set_variable = {
+            name = curtiss_spruce_goose_progress
+            value = 0
+		}
+		set_variable = {
+            name = curtiss_spruce_goose_errors
+            value = 0
+		}
+		trigger_event = { 
+			id = curtiss.500
+			popup = yes
+		}
+	}
+
+	invalid = {
+		OR = {
+			has_law = law_type:law_agrarianism 
+			has_law = law_type:law_traditionalism 
+			has_law = law_type:law_cooperative_ownership
+			has_law = law_type:law_command_economy
+		}
+	}
+}
+
+je_curtiss_spruce_goose_build = {
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = curtiss.509 #Curtiss 509: Building progress
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = curtiss.505
+			popup = yes
+		}
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = var:curtiss_spruce_goose_progress
+	}
+
+	goal_add_value = {
+		value = 36
+	}
+
+	invalid = {
+		OR = {
+			has_law = law_type:law_agrarianism 
+			has_law = law_type:law_traditionalism 
+			has_law = law_type:law_cooperative_ownership
+			has_law = law_type:law_command_economy
+		}
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######HINDENBURG######
+
+je_curtiss_hindenburg_plan = {
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = curtiss_modern_aviation_tech
+		has_modifier = curtiss_zeppelin_focus_modifier
+    }
+
+    possible = {
+        curtiss_has_airline = yes
+    }
+
+	complete = {
+		has_modifier = curtiss_airline_level_4_modifier
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_war_machine_industry
+				level >= 10
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = {
+            name = curtiss_hindenburg_progress
+            value = 0
+		}
+		trigger_event = { 
+			id = curtiss.510
+			popup = yes
+		}
+	}
+
+	invalid = {
+	}
+}
+
+je_curtiss_hindenburg_build = {
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			100 = curtiss.519 #Curtiss 519: Building progress
+		}
+	}
+
+	immediate = {
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = curtiss.511
+			popup = yes
+		}
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = var:curtiss_hindenburg_progress
+	}
+
+	goal_add_value = {
+		value = 24
+	}
+
+	invalid = {
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
+######LINDBERGH######
+
+je_curtiss_lindbergh_generic = {
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = military_aviation
+		exists = capital
+		capital = {
+			OR = {
+				region = sr:region_england
+				region = sr:region_france
+				region = sr:region_rhine	
+				region = sr:region_new_england
+				region = sr:region_canada
+			}
+		}
+		NOT = {
+			exists = c:USA
+			this = c:USA
+		}
+    }
+
+    possible = {
+        has_technology_researched = curtiss_modern_aviation_tech
+    }
+
+	complete = {
+		game_date >= 1920.1.1
+		NOT = {
+			game_date >= 1927.1.1
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_airport
+			}
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_war_machine_industry
+			}
+		}
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_ILE_DE_FRANCE
+			}
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}				
+				any_scope_state = {
+					state_region = s:STATE_ILE_DE_FRANCE
+				}
+			}		
+		}
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_NEW_YORK
+			}
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}				
+				any_scope_state = {
+					state_region = s:STATE_NEW_YORK
+				}
+			}		
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = curtiss.40
+			popup = yes
+		}
+	}
+
+	invalid = {
+		has_global_variable = curtiss_lindbergh_happened
+	}
+}
+
+je_curtiss_lindbergh_usa = {
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = military_aviation
+		exists = capital
+		capital = {
+			OR = {
+				region = sr:region_england
+				region = sr:region_france
+				region = sr:region_rhine	
+				region = sr:region_new_england
+				region = sr:region_canada
+			}
+		}
+		exists = c:USA
+		this = c:USA
+    }
+
+    possible = {
+        has_technology_researched = curtiss_modern_aviation_tech
+    }
+
+	complete = {
+		game_date >= 1920.1.1
+		NOT = {
+			game_date >= 1927.1.1
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_airport
+			}
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_war_machine_industry
+			}
+		}
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_ILE_DE_FRANCE
+			}
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}				
+				any_scope_state = {
+					state_region = s:STATE_ILE_DE_FRANCE
+				}
+			}		
+		}
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_NEW_YORK
+			}
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}				
+				any_scope_state = {
+					state_region = s:STATE_NEW_YORK
+				}
+			}		
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = curtiss.41
+			popup = yes
+		}
+	}
+
+	invalid = {
+		has_global_variable = curtiss_lindbergh_happened
+	}
+}
+
+######ZEPPELIN EXPEDITION######
+
+je_curtiss_zeppelin_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_weekly_pulse = {
+		random_events = {
+			125 = curtiss.529 #Curtiss 529: Expedition progress
+			5 = curtiss.527 #Curtiss 527: North Pole Passage
+			20 = curtiss.528 #Curtiss 528: Rendez-Vous with $COUNTRY$
+			10 = curtiss.531 #Curtiss 531: Discovery of ice free passage/Aurora Borealis/Icebears
+			10 = curtiss.532 #Curtiss 532: New maps/Magnetic studies/Narwhal (storm may come)
+			10 = curtiss.533 #Curtiss 533: Searching fossiles/Meteorological station/Surveying Arctica (land)
+			10 = curtiss.534 #Curtiss 534: Strong winds
+			10 = curtiss.535 #Curtiss 535: Storm
+			10 = curtiss.536 #Curtiss 536: Clear weather
+			10 = curtiss.537 #Curtiss 537: Icy propellers
+			10 = curtiss.538 #Curtiss 538: Zeppelin anchorage
+			10 = curtiss.539 #Curtiss 539: Engine failure!
+		}
+	}
+
+	immediate = {
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = curtiss.523
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = var:curtiss_zeppelin_progress
+	}
+
+	goal_add_value = {
+		value = 16
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = curtiss_zeppelin_0_danger
+				trigger = {
+					var:curtiss_zeppelin_danger = 0
+				}
+			}
+			triggered_desc = {
+				desc = curtiss_zeppelin_1_danger
+				trigger = {
+					var:curtiss_zeppelin_danger = 1
+				}
+			}
+			triggered_desc = {
+				desc = curtiss_zeppelin_2_danger
+				trigger = {
+					var:curtiss_zeppelin_danger = 2
+				}
+			}
+		}
+	}
+	
+    fail = {
+		custom_tooltip = {
+			text = je_zeppelin_expedition_fail
+			var:curtiss_zeppelin_danger >= 3
+		}
+    }
+	
+	on_fail = {
+		trigger_event = { 
+			id = curtiss.524
+			popup = yes
+		}
+	}
+
+	invalid = {
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}

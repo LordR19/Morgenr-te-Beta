@@ -1,0 +1,6932 @@
+﻿###################
+# CURTISS EVENTS  #
+###################
+
+#by Marco Dandolo
+
+###################
+
+namespace = curtiss
+
+###################
+
+
+#################################################################################
+
+#Curtiss 1: Airline status
+
+curtiss.1 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		curtiss_has_airline = yes
+	}
+
+	immediate = {
+
+		if = {
+			limit = {
+				var:curtiss_flight_route <= 2
+				NOT = {
+					has_modifier = curtiss_airline_level_1_modifier
+				}
+			}
+			add_modifier = curtiss_airline_level_1_modifier
+			remove_modifier = curtiss_airline_level_2_modifier
+			remove_modifier = curtiss_airline_level_3_modifier
+			remove_modifier = curtiss_airline_level_4_modifier
+			remove_modifier = curtiss_airline_level_5_modifier
+			remove_modifier = curtiss_airline_level_6_modifier
+		}
+		if = {
+			limit = {
+				var:curtiss_flight_route >= 3
+				NOT = {
+					has_modifier = curtiss_airline_level_2_modifier
+					var:lepsius_egyptian_artifact_minor >= 6
+				}
+			}
+			add_modifier = curtiss_airline_level_2_modifier
+			remove_modifier = curtiss_airline_level_1_modifier
+			remove_modifier = curtiss_airline_level_3_modifier
+			remove_modifier = curtiss_airline_level_4_modifier
+			remove_modifier = curtiss_airline_level_5_modifier
+			remove_modifier = curtiss_airline_level_6_modifier
+		}
+		if = {
+			limit = {
+				var:curtiss_flight_route >= 6
+				NOT = {
+					has_modifier = curtiss_airline_level_3_modifier
+					var:curtiss_flight_route >= 9
+				}
+			}
+			add_modifier = curtiss_airline_level_3_modifier
+			remove_modifier = curtiss_airline_level_1_modifier
+			remove_modifier = curtiss_airline_level_2_modifier
+			remove_modifier = curtiss_airline_level_4_modifier
+			remove_modifier = curtiss_airline_level_5_modifier
+			remove_modifier = curtiss_airline_level_6_modifier
+		}
+		if = {
+			limit = {
+				var:curtiss_flight_route >= 9
+				NOT = {
+					has_modifier = curtiss_airline_level_4_modifier
+					var:curtiss_flight_route >= 12
+				}
+			}
+			add_modifier = curtiss_airline_level_4_modifier
+			remove_modifier = curtiss_airline_level_1_modifier
+			remove_modifier = curtiss_airline_level_2_modifier
+			remove_modifier = curtiss_airline_level_3_modifier
+			remove_modifier = curtiss_airline_level_5_modifier
+			remove_modifier = curtiss_airline_level_6_modifier
+		}
+		if = {
+			limit = {
+				var:curtiss_flight_route >= 12
+				NOT = {
+					has_modifier = curtiss_airline_level_5_modifier
+					var:curtiss_flight_route >= 15
+				}
+			}
+			add_modifier = curtiss_airline_level_5_modifier
+			remove_modifier = curtiss_airline_level_1_modifier
+			remove_modifier = curtiss_airline_level_2_modifier
+			remove_modifier = curtiss_airline_level_3_modifier
+			remove_modifier = curtiss_airline_level_4_modifier
+			remove_modifier = curtiss_airline_level_6_modifier
+		}
+		if = {
+			limit = {
+				var:curtiss_flight_route >= 15
+				NOT = {
+					has_modifier = curtiss_airline_level_6_modifier
+				}
+			}
+			add_modifier = curtiss_airline_level_6_modifier
+			remove_modifier = curtiss_airline_level_1_modifier
+			remove_modifier = curtiss_airline_level_2_modifier
+			remove_modifier = curtiss_airline_level_3_modifier
+			remove_modifier = curtiss_airline_level_4_modifier
+			remove_modifier = curtiss_airline_level_5_modifier
+		}
+	}
+}
+
+#Curtiss 10: Seaplanes [Schneider's Trophy JE]
+
+curtiss.10 = {
+	type = country_event
+
+    title = curtiss.10.t
+		
+    desc = curtiss.10.d
+
+	flavor = curtiss.10.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_foundation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		has_technology_researched = curtiss_seaplanes_tech
+		country_rank >= rank_value:major_power
+		any_scope_building = {
+			is_building_type = building_port
+			count >= 3
+		}
+		NOT = {
+			has_global_variable = curtiss_seaplanes_invented
+		}
+	}
+
+	immediate = {
+		set_global_variable = curtiss_seaplanes_invented
+		set_global_variable = {
+			name = curtiss_seaplane_nations
+			value = 1
+		}
+		set_variable = curtiss_has_seaplanes
+	}
+
+	option = { #A noble idea.
+		name = curtiss.10.g
+		add_journal_entry = {
+			type = je_curtiss_found_schneider_trophy
+		}
+	}
+}
+
+#Curtiss 11: Has Seaplanes tech [hidden]
+
+curtiss.11 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		has_technology_researched = curtiss_seaplanes_tech
+		has_global_variable = curtiss_seaplanes_invented
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_port
+					count >= 3
+				}
+				country_rank >= rank_value:major_power
+			}
+			change_global_variable = {
+				name = curtiss_seaplane_nations
+				add = 1
+			}
+		}
+	}
+}
+
+#Curtiss 20: Private Airline Company
+
+curtiss.20 = {
+	type = country_event
+
+	title = curtiss.20.t
+
+	desc = curtiss.20.d
+
+	flavor = curtiss.20.f
+	
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:howard_hughes
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = curtiss_private_airline
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+		ig:ig_rural_folk = {
+			save_scope_as = ig_rural_folk
+		}
+		create_character = {
+			interest_group = ig_industrialists
+			ideology = ideology_market_liberal
+			save_scope_as = howard_hughes
+			ig_leader = yes
+		}
+	}
+
+	option = {	#Congratulations.
+		name = curtiss.20.g
+		default_option = yes
+		scope:howard_hughes = {
+			add_modifier = {
+				name = curtiss_airline_tycoon_modifier
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_thriving_aviation_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_thriving_aviation_modifier
+				years = 5
+			}
+		}
+		hidden_effect = {
+			random_list = {
+				25 = { }
+				25 = {	
+					trigger_event = {	
+						id = curtiss.201
+						days = { 300 400 }
+					}
+				}
+				25 = {	
+					trigger_event = {	
+						id = curtiss.202
+						days = { 300 400 }
+					}
+				}
+				25 = {	
+					trigger_event = {	
+						id = curtiss.203
+						days = { 300 400 }
+					}
+				}
+			}
+		}
+	}
+
+	option = {	# The future is in aviation - support the company!
+		name = curtiss.20.h
+		scope:howard_hughes = {
+			add_modifier = {
+				name = curtiss_airline_tycoon_modifier
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_thriving_aviation_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_thriving_aviation_modifier
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = curtiss_supported_airline_company_approval_modifier
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_rural_folk = {	
+			add_modifier = {
+				name = curtiss_supported_airline_company_disapproval_modifier
+				months = normal_modifier_time
+			}
+		}
+		add_modifier = {
+			name = curtiss_spent_money_on_airline_company_modifier
+			multiplier = money_amount_multiplier_very_small
+			years = 10
+		}
+		curtiss_add_1_flight_route = yes
+		hidden_effect = {
+			random_list = {
+				40 = {	
+					trigger_event = {	
+						id = curtiss.201
+						days = { 300 400 }
+					}
+				}
+				40 = {	
+					trigger_event = {	
+						id = curtiss.202
+						days = { 300 400 }
+					}
+				}
+				20 = {	
+					trigger_event = {	
+						id = curtiss.203
+						days = { 300 400 }
+					}
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 21: National Airline Company
+
+curtiss.21 = {
+	type = country_event
+
+	title = curtiss.21.t
+
+	desc = curtiss.21.d
+
+	flavor = curtiss.21.f
+	
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_imperial_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = curtiss_state_airline
+	}
+
+	option = {	#The sky is the limit
+		name = curtiss.21.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		add_modifier = {
+			name = curtiss_spent_money_on_state_airline_company_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		hidden_effect = {
+			random_list = {
+				33 = { }
+				33 = {	
+					trigger_event = {	
+						id = curtiss.202
+						days = { 300 400 }
+					}
+				}
+				33 = {	
+					trigger_event = {	
+						id = curtiss.203
+						days = { 300 400 }
+					}
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 22: Privatization of National Airline
+
+curtiss.22 = {
+	type = country_event
+
+	title = curtiss.22.t
+
+	desc = curtiss.22.d
+
+	flavor = curtiss.22.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:howard_hughes
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_state_airline
+		OR = { 
+			has_law = law_type:law_laissez_faire
+			has_law = law_type:law_interventionism
+		}
+		exists = ig:ig_industrialists
+	}
+
+	immediate = {
+		remove_variable = curtiss_state_airline
+		remove_modifier = curtiss_spent_money_on_state_airline_company_modifier
+		set_variable = curtiss_private_airline
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+		ig:ig_rural_folk = {
+			save_scope_as = ig_rural_folk
+		}
+		create_character = {
+			interest_group = ig_industrialists
+			ideology = ideology_market_liberal
+			save_scope_as = howard_hughes
+			ig_leader = yes
+		}
+	}
+
+	option = {	#The privatization proceeds should benefit us.
+		name = curtiss.22.g
+		default_option = yes
+		scope:howard_hughes = {
+			add_modifier = {
+				name = curtiss_airline_tycoon_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_1_modifier
+			}
+			add_treasury = 50000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_2_modifier
+			}
+			add_treasury = 100000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_3_modifier
+			}
+			add_treasury = 150000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_4_modifier
+			}
+			add_treasury = 200000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_5_modifier
+			}
+			add_treasury = 300000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_6_modifier
+			}
+			add_treasury = 500000
+		}
+		hidden_effect = {
+			random_list = {
+				25 = { }
+				25 = {	
+					trigger_event = {	
+						id = curtiss.201
+						days = { 300 400 }
+					}
+				}
+				25 = {	
+					trigger_event = {	
+						id = curtiss.202
+						days = { 300 400 }
+					}
+				}
+				25 = {	
+					trigger_event = {	
+						id = curtiss.203
+						days = { 300 400 }
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#The company should keep the money to grow and prosper
+		name = curtiss.22.h
+		scope:howard_hughes = {
+			add_modifier = {
+				name = curtiss_airline_tycoon_modifier
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = curtiss_supported_airline_company_approval_modifier
+				months = normal_modifier_time
+			}
+		}
+		add_modifier = {
+			name = curtiss_no_privatization_proceeds_modifier
+			years = 10
+		}
+		hidden_effect = {
+			random_list = {
+				40 = {	
+					trigger_event = {	
+						id = curtiss.201
+						days = { 300 400 }
+					}
+				}
+				40 = {	
+					trigger_event = {	
+						id = curtiss.202
+						days = { 300 400 }
+					}
+				}
+				20 = {	
+					trigger_event = {	
+						id = curtiss.203
+						days = { 300 400 }
+					}
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 23: Nationalization of Private Airline
+
+curtiss.23 = {
+	type = country_event
+
+	title = curtiss.23.t
+
+	desc = curtiss.23.d
+
+	flavor = curtiss.23.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_imperial_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_private_airline
+		OR = { 
+			has_law = law_type:law_cooperative_ownership
+			has_law = law_type:law_command_economy
+		}
+	}
+
+	immediate = {
+		remove_variable = curtiss_private_airline
+		set_variable = curtiss_state_airline
+		if = {
+			limit = {
+				has_modifier = curtiss_spent_money_on_airline_company_modifier
+			}
+			remove_modifier = curtiss_spent_money_on_airline_company_modifier
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_corrupting_influences_in_politics_modifier
+			}
+			remove_modifier = curtiss_corrupting_influences_in_politics_modifier
+		}
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Nationalize the company in a legally sound way.
+		name = curtiss.23.g
+		default_option = yes
+		scope:howard_hughes = {
+			remove_modifier = curtiss_airline_tycoon_modifier
+		}
+		add_modifier = {
+			name = curtiss_spent_money_on_state_airline_company_modifier
+			multiplier = money_amount_multiplier_small
+		}
+	}
+
+	option = {	#Those fat maggots have been eating the bacon of the people for far too long.
+		name = curtiss.23.h
+		scope:howard_hughes = {
+			remove_modifier = curtiss_airline_tycoon_modifier
+		}
+		hidden_effect = {
+			scope:howard_hughes = {
+				kill_character = yes
+			}
+		}
+		add_modifier = {
+			name = curtiss_spent_money_on_state_airline_company_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = curtiss_illegal_nationalization_modifier
+				months = normal_modifier_time
+			}
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_1_modifier
+			}
+			add_treasury = 50000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_2_modifier
+			}
+			add_treasury = 100000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_3_modifier
+			}
+			add_treasury = 150000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_4_modifier
+			}
+			add_treasury = 200000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_5_modifier
+			}
+			add_treasury = 300000
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_6_modifier
+			}
+			add_treasury = 500000
+		}
+	}
+}
+
+#Curtiss 30: Il Vate
+
+curtiss.30 = {
+	type = country_event
+	
+	title = curtiss.30.t
+	desc = curtiss.30.d
+	flavor = curtiss.30.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_dannunzio.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	trigger = {
+		exists = c:ITA
+		c:ITA = root
+		game_date >= 1914.1.1
+		NOT = {
+			has_global_variable = curtiss_gabriele_dannunzio
+		}
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_character = {
+					owner = ROOT
+					commander_pm_usage = {
+						target = ROOT
+						production_method = pm_aerial_recon
+						value > 0.5
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = curtiss_gabriele_dannunzio
+		create_character = {
+			first_name = curtiss_gabriele
+	  		last_name = curtiss_dannunzio
+	   		culture = cu:south_italian
+    		female = no
+    		religion = catholic
+    		ideology = ideology_ethno_nationalist
+    		interest_group = ig_intelligentsia
+			dna = ecchi_dna_gabriele_dannunzio
+			is_general = yes
+    		birth_date = 1863.3.12
+    		traits = { 
+				curtiss_pilot
+				ambitious 
+				charismatic 
+				hedonist 
+			}
+			save_scope_as = curtiss_dannunzio
+		}
+	}
+
+	option = { #Iterum rudit leo.
+		name = curtiss.30.g
+		default_option = yes
+	}
+}
+
+#Curtiss 31: Der Rote Baron
+
+curtiss.31 = {
+	type = country_event
+	
+	title = curtiss.31.t
+	desc = curtiss.31.d
+	flavor = curtiss.31.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_richthofen.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	trigger = {
+		exists = c:GER
+		c:GER = root
+		game_date >= 1914.1.1
+		NOT = {
+			has_global_variable = curtiss_manfred_von_richthofen
+		}
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_character = {
+					owner = ROOT
+					commander_pm_usage = {
+						target = ROOT
+						production_method = pm_aerial_recon
+						value > 0.5
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = curtiss_manfred_von_richthofen
+		create_character = {
+			first_name = curtiss_manfred
+	  		last_name = curtiss_von_richthofen
+	   		culture = cu:north_german
+    		female = no
+    		religion = protestant
+    		ideology = ideology_royalist
+    		interest_group = ig_armed_forces
+			dna = mr_ger_richthofen
+			is_general = yes
+    		birth_date = 1892.5.2
+    		traits = { 
+				curtiss_pilot_ace
+				brave
+				charismatic
+				resupply_commander
+			}
+			save_scope_as = curtiss_richthofen
+		}
+	}
+
+	option = { #A legend is born.
+		name = curtiss.31.g
+		default_option = yes
+		scope:curtiss_richthofen = {
+			add_modifier = {
+				name = curtiss_red_baron_modifier
+			}
+		}
+	}
+}
+
+#Curtiss 40: Transatlantic Flight (Generic)
+
+curtiss.40 = {
+	type = country_event
+
+	title = curtiss.40.t
+
+	desc = curtiss.40.d
+
+	flavor = curtiss.40.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_lindbergh_generic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = curtiss_lindbergh_happened
+		random_primary_culture = {
+			limit = {
+				NOT = {
+					has_cultural_obsession = air_travel
+				}
+			}
+			save_scope_as = flight_addict_culture
+		}
+		create_character = {
+			is_general = yes
+			traits = { explorer brave romantic curtiss_pilot }
+			birth_date = 1899.12.24
+			save_scope_as = curtiss_lindbergh
+		}
+	}
+
+	option = {	#Mr Lindbergh I presume.
+		name = curtiss.40.g
+		default_option = yes
+		if = {
+			limit = {
+				is_player = yes
+			}
+			set_variable = curtiss_spirit_achievement
+		}
+		add_modifier = {
+			name = curtiss_lindbergh_modifier
+			years = 10
+		}
+		scope:curtiss_lindbergh = {
+			add_modifier = {
+				name = curtiss_lindbergh_character_modifier
+			}
+		}
+		scope:flight_addict_culture = {
+			add_cultural_obsession = air_travel
+		}
+		hidden_effect = {
+			every_country = {
+				limit = {
+					any_scope_state = {
+						has_building = building_airport
+					}
+				}
+				random = {
+        			chance = 33
+        			trigger_event = {
+        				id = curtiss.42
+        				days = { 10 30 }
+					}
+				}
+        	}
+		}
+	}
+}
+
+#Curtiss 41: Transatlantic Flight (USA)
+
+curtiss.41 = {
+	type = country_event
+
+	title = curtiss.40.t
+
+	desc = curtiss.40.d
+
+	flavor = curtiss.40.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_lindbergh_usa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = curtiss_lindbergh_happened
+		random_primary_culture = {
+			limit = {
+				NOT = {
+					has_cultural_obsession = air_travel
+				}
+			}
+			save_scope_as = flight_addict_culture
+		}
+		create_character = {
+			first_name = curtiss_charles
+    		last_name = curtiss_lindbergh
+   			culture = cu:yankee
+    		female = no
+    		religion = protestant
+    		ideology = ideology_ethno_nationalist
+			ig_leader = yes
+    		interest_group = ig_petty_bourgeoisie
+    		birth_date = 1902.2.4
+			dna = ecchi_dna_charles_linbergh
+    		traits = { explorer brave romantic curtiss_pilot }
+			save_scope_as = curtiss_lindbergh
+		}
+	}
+
+	option = {	#Mr Lindbergh I presume.
+		name = curtiss.40.g
+		default_option = yes
+		if = {
+			limit = {
+				is_player = yes
+			}
+			set_variable = curtiss_spirit_achievement
+		}
+		add_modifier = {
+			name = curtiss_lindbergh_modifier
+			years = 10
+		}
+		scope:curtiss_lindbergh = {
+			add_modifier = {
+				name = curtiss_lindbergh_character_modifier
+			}
+		}
+		scope:flight_addict_culture = {
+			add_cultural_obsession = air_travel
+		}
+		hidden_effect = {
+			every_country = {
+				limit = {
+					any_scope_state = {
+						has_building = building_airport
+					}
+				}
+				random = {
+        			chance = 33
+        			trigger_event = {
+        				id = curtiss.42
+        				days = { 10 30 }
+					}
+				}
+        	}
+		}
+	}
+}
+
+#Curtiss 42: Transatlantic Flight (Others)
+
+curtiss.42 = {
+	type = country_event
+
+	title = curtiss.42.t
+
+	desc = curtiss.42.d
+
+	flavor = curtiss.40.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_lindbergh_usa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_primary_culture = {
+			limit = {
+				NOT = {
+					has_cultural_obsession = air_travel
+				}
+			}
+			save_scope_as = flight_addict_culture
+		}
+		random_character = {
+			limit = {
+				has_modifier = curtiss_lindbergh_modifier
+			}
+			save_scope_as = curtiss_lindbergh
+		}
+	}
+
+	option = {	#Everyone wants to fly.
+		name = curtiss.42.g
+		default_option = yes
+		scope:flight_addict_culture = {
+			add_cultural_obsession = air_travel
+		}
+	}
+}
+
+#Curtiss 50: Airplanes or Zeppelins
+
+curtiss.50 = {
+	type = country_event
+
+    title = curtiss.50.t
+		
+    desc = curtiss.50.d
+
+	flavor = curtiss.50.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airport_tempelhof.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		has_technology_researched = curtiss_modern_aviation_tech
+		NOT = {
+			has_variable = curtiss_airplanes_n_zeppelins_decided
+		}
+	}
+
+	immediate = {
+		set_variable = curtiss_airplanes_n_zeppelins_decided
+	}
+
+	option = { #Airplanes
+		name = curtiss.50.g
+		default_option = yes
+		add_modifier = {
+			name = curtiss_airplane_focus_modifier
+		}
+	}
+
+	option = { #Zeppelin
+		name = curtiss.50.h
+		add_modifier = {
+			name = curtiss_zeppelin_focus_modifier
+		}
+	}
+}
+
+#Curtiss 51: Helium discovered
+
+curtiss.51 = {
+	type = country_event
+
+    title = curtiss.51.t
+		
+    desc = curtiss.51.d
+
+	flavor = curtiss.51.f
+
+	placement = scope:curtiss_helium_state
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_helium.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	trigger = {
+		any_scope_state = {
+			has_building = building_oil_rig
+		}
+		has_technology_researched = zeppelins
+		has_technology_researched = pumpjacks
+		NOT = {
+			has_variable = curtiss_helium_discovered
+		}
+	}
+
+	immediate = {
+		set_variable = curtiss_helium_discovered
+		random_scope_state = {
+			limit = {
+				has_building = building_oil_rig
+			}
+			save_scope_as = curtiss_helium_state
+		}
+	}
+
+	option = { #We need a strategic reserve
+		name = curtiss.51.g
+		default_option = yes
+		if = {
+			limit = {
+				scope:curtiss_helium_state = {
+					NOT = {
+						has_modifier = curtiss_helium_reserve_modifier
+					}
+				}
+			}
+			scope:curtiss_helium_state = {
+				add_modifier = {
+					name = curtiss_helium_reserve_modifier
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 52: Helium reserve lost
+
+curtiss.52 = {
+	type = country_event
+
+    title = curtiss.52.t
+		
+    desc = curtiss.52.d
+
+	flavor = curtiss.51.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_helium.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	trigger = {
+		has_variable = curtiss_helium_discovered
+		NOT = {
+			any_scope_state = {
+				has_building = building_oil_rig
+			}
+		}
+	}
+
+	immediate = {
+		remove_variable = curtiss_helium_discovered
+	}
+
+	option = { #That won't be a problem ... I hope.
+		name = curtiss.52.g
+		default_option = yes
+	}
+}
+
+#Curtiss 53: Graf Ferdinand von Zeppelin
+
+curtiss.53 = {
+	type = country_event
+
+    title = curtiss.53.t
+		
+    desc = curtiss.53.d
+
+	flavor = curtiss.53.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_lz1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	trigger = {
+		game_date >= 1900.1.1
+		NOT = {
+			game_date >= 1909.1.1
+		}
+		NOT = {
+			has_global_variable = curtiss_ferdinand_von_zeppelin_happened
+		}
+		OR = {
+			country_has_primary_culture = cu:south_german
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:swiss
+		}
+		any_scope_state = {
+			state_region = s:STATE_WURTTEMBERG #Friedrichshafen
+		}
+		has_technology_researched = curtiss_reconnaissance_balloon_tech
+	}
+
+	immediate = {
+		set_global_variable = curtiss_ferdinand_von_zeppelin_happened
+	}
+
+	option = { #A misjudged genius.
+		name = curtiss.52.g
+		default_option = yes
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = curtiss_early_aviation_tech
+				}
+			} 
+			add_technology_researched = curtiss_early_aviation_tech
+		}
+		if = {
+			limit = {
+				has_technology_researched = curtiss_early_aviation_tech
+				NOT = {
+					has_technology_researched = zeppelins
+				}
+			} 
+			add_technology_researched = zeppelins
+		}
+		if = {
+			limit = {
+				has_technology_researched = zeppelins
+				NOT = {
+					has_technology_researched = curtiss_modern_aviation_tech
+				}
+			} 
+			add_technology_progress = { 
+				progress = 8000 technology = curtiss_modern_aviation_tech }
+		}
+	}
+}
+
+#Curtiss 100: Schneider Trophy founded
+
+curtiss.100 = {
+	type = country_event
+
+    title = curtiss.100.t
+		
+    desc = curtiss.100.d
+
+	flavor = curtiss.100.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_foundation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_port
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 15
+				}
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+
+	option = { #Invite everyone to $STATE$
+		name = curtiss.100.g
+		set_variable = curtiss_schneider_trophy_host
+		scope:curtiss_schneider_trophy_state = {
+			add_modifier = {
+				name = curtiss_schneider_trophy_state_modifier
+			}
+		}
+		every_country = {
+			limit = {
+				curtiss_schneider_trophy_possible = yes
+			}
+			trigger_event = {
+				id = curtiss.101
+				popup = yes
+				days = 3
+			}
+		}
+	}
+}
+
+#Curtiss 101: Invitation to first Schneider Trophy
+
+curtiss.101 = {
+	type = country_event
+
+    title = curtiss.100.t
+		
+    desc = curtiss.101.d
+
+	flavor = curtiss.100.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_foundation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+		random_country = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_host
+			}
+			save_scope_as = curtiss_schneider_trophy_host
+		}
+	}
+
+	option = { #Thrilling!
+		name = curtiss.101.g
+		default_option = yes
+		set_variable = curtiss_schneider_trophy_member
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_treasury = -10000
+		}
+	}
+
+	option = { #Only when red pigs learn to fly
+		name = curtiss.101.h
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Curtiss 201: Airline invests in airport
+
+curtiss.201 = {
+	type = country_event
+
+	title = curtiss.201.t
+
+	desc = curtiss.201.d
+
+	flavor = curtiss.201.f
+	
+	duration = 3
+
+	placement = scope:curtiss_new_airport_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_klm_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 15
+			}
+			NOT = {
+				has_building = building_airport
+			}
+		}
+	}
+
+	immediate = {
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 15
+				}
+				NOT = {
+					has_building = building_airport
+				}
+			}
+			save_scope_as = curtiss_new_airport_state
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Build a new airport.
+		name = curtiss.201.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		scope:curtiss_new_airport_state = {
+			create_building = {
+				building = "building_airport"
+			}
+			add_modifier = {
+				name = curtiss_thriving_aviation_modifier
+			}
+		}
+	}
+
+	option = {	#Expand the airline, but invest the capital elsewhere.
+		name = curtiss.201.h
+		curtiss_add_1_flight_route = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_expanded_airline_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_expanded_airline_modifier
+				years = 10
+			}
+		}
+	}
+}
+
+#Curtiss 202: Airline expands
+
+curtiss.202 = {
+	type = country_event
+
+	title = curtiss.202.t
+
+	desc = curtiss.202.d
+
+	flavor = curtiss.202.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_klm_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Excellent.
+		name = curtiss.202.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_expanded_airline_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_expanded_airline_modifier
+				years = 10
+			}
+		}
+	}
+}
+
+#Curtiss 203: Airline stagnates
+
+curtiss.203 = {
+	type = country_event
+
+	title = curtiss.203.t
+
+	desc = curtiss.203.d
+
+	flavor = curtiss.203.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_POL.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Disappointing.
+		name = curtiss.203.g
+		default_option = yes
+	}
+
+	option = {	#Send one of our pilots to advertise the airline.
+		name = curtiss.203.h
+		trigger = {
+			curtiss_has_active_pilot = yes 
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+			}
+			set_character_busy = yes
+			add_modifier = {
+				name = curtiss_airline_advertising_modifier
+				days = 550
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_expanded_airline_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_expanded_airline_modifier
+				years = 10
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.204
+				days = 551
+			}
+		}
+	}
+}
+
+#Curtiss 204: Pilot active again
+
+curtiss.204 = {
+	type = country_event
+
+	title = curtiss.204.t
+
+	desc = curtiss.204.d
+
+	flavor = curtiss.204.f
+	
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_pilot
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_advertising_modifier
+			}
+			save_scope_as = curtiss_pilot
+		}
+	}
+
+	option = {	#Good job.
+		name = curtiss.204.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		scope:curtiss_pilot = {
+			set_character_busy = no
+		}
+	}
+}
+
+#Curtiss 211: New Flight Route to foreign Airport
+
+curtiss.211 = {
+	type = country_event
+
+	title = curtiss.211.t
+
+	desc = curtiss.211.d
+
+	flavor = curtiss.211.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_FRA.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+		any_country = {
+			has_diplomatic_pact = {
+				who = ROOT
+				type = airspace_convention
+			}
+			any_scope_state = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_foreign_airline_modifier
+				}
+			}
+		}
+		NOT = {
+			has_modifier = curtiss_new_frontiers_modifier
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}
+			}
+			save_scope_as = curtiss_airline_country
+		}
+	}
+
+	option = {	#Hopefully this investment is worth it.
+		name = curtiss.211.g
+		default_option = yes
+		add_modifier = {
+			name = curtiss_new_frontiers_modifier
+			years = 3
+		}
+		scope:curtiss_airline_country = {
+			trigger_event = {
+				id = curtiss.212
+			}
+		}
+	}
+}
+
+#Curtiss 212: Foreign Airline establishes new Flight Route
+
+curtiss.212 = {
+	type = country_event
+
+	title = curtiss.212.t
+
+	desc = curtiss.212.d
+
+	flavor = curtiss.211.f
+	
+	duration = 3
+
+	placement = scope:curtiss_foreign_airline_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_usa_4.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_foreign_airline_modifier
+				}
+			}
+			save_scope_as = curtiss_foreign_airline_state
+		}
+	}
+
+	option = {	#Hopefully this investment is worth it.
+		name = curtiss.211.g
+		default_option = yes
+		scope:curtiss_foreign_airline_state = {
+			add_modifier = {
+				name = curtiss_foreign_airline_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+#Curtiss 213: Zeppelin Flight route between Skyscrapers
+
+curtiss.213 = {
+	type = country_event
+
+	title = curtiss.213.t
+
+	desc = curtiss.213.d
+
+	flavor = curtiss.213.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_lufthansa_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+		any_scope_state = {
+			has_building = building_skyscraper
+		}
+		any_country = {
+			has_diplomatic_pact = {
+				who = ROOT
+				type = airspace_convention
+			}
+			any_scope_state = {
+				has_building = building_skyscraper
+			}
+		}
+		NOT = {
+			has_variable = curtiss_airline_zeppelin
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}
+				any_scope_state = {
+					has_building = building_skyscraper
+				}
+			}
+			save_scope_as = curtiss_airline_country
+		}
+	}
+
+	option = {	#Zeppelins are the most extravagant art of travel.
+		name = curtiss.213.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		set_variable = curtiss_airline_zeppelin
+	}
+}
+
+#Curtiss 214: Scenic Flights
+
+curtiss.214 = {
+	type = country_event
+
+	title = curtiss.214.t
+
+	desc = curtiss.214.d
+
+	flavor = curtiss.214.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_tour.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_private_airline
+		NOT = {
+			has_variable = curtiss_scenic_flight
+		}
+	}
+
+	immediate = {
+		set_variable = curtiss_scenic_flight
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Excellent.
+		name = curtiss.202.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+			}
+			add_modifier = {
+				name = curtiss_scenic_flights_modifier
+				years = 3
+			}
+		}
+	}
+}
+
+#Curtiss 215: Colonial Goods
+
+curtiss.215 = {
+	type = country_event
+
+	title = curtiss.215.t
+
+	desc = curtiss.215.d
+
+	flavor = curtiss.215.f
+	
+	duration = 3
+
+	placement = scope:curtiss_airport_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_usa_5.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+		any_scope_state = {
+			is_incorporated = no
+			state_in_africa = yes
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 3
+			}
+			NOT = {
+				has_modifier = curtiss_colonial_airport_modifier
+			}
+		}
+		any_scope_state = {
+			is_incorporated = yes
+			state_in_africa = no
+			any_scope_building = {
+				is_building_type = building_airport
+				level >= 3
+			}
+			NOT = {
+				has_modifier = curtiss_colonial_goods_modifier
+			}
+		}
+		NOT = {
+			has_variable = curtiss_colonial_airport_cooldown
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = no
+				state_in_africa = yes
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 3
+				}
+				NOT = {
+					has_modifier = curtiss_colonial_airport_modifier
+				}
+			}
+			save_scope_as = curtiss_airport_state
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				state_in_africa = no
+				any_scope_building = {
+					is_building_type = building_airport
+					level >= 3
+				}
+				NOT = {
+					has_modifier = curtiss_colonial_goods_modifier
+				}
+			}
+			save_scope_as = curtiss_colonial_goods_state
+		}
+	}
+
+	option = {	#Even the most remote areas of the world are linked by aviation to the heartland.
+		name = curtiss.215.g
+		default_option = yes
+		scope:curtiss_airport_state = {
+			add_modifier = {
+				name = curtiss_colonial_airport_modifier
+			}
+		}
+		scope:curtiss_colonial_goods_state = {
+			add_modifier = {
+				name = curtiss_colonial_goods_modifier
+			}
+		}
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_colonial_airport_cooldown
+			years = 5
+		}
+	}
+}
+
+#Curtiss 216: Tourism
+
+curtiss.216 = {
+	type = country_event
+
+	title = curtiss.216.t
+
+	desc = curtiss.216.d
+
+	flavor = curtiss.216.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_bea_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+		any_country = {
+			has_diplomatic_pact = {
+				who = ROOT
+				type = airspace_convention
+			}				
+			curtiss_has_monument = yes
+		}
+		NOT = {
+			has_variable = curtiss_airline_tourism
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}				
+				curtiss_has_monument = yes
+			}
+			save_scope_as = curtiss_tourist_country
+		}
+	}
+
+	option = {	#Ah, $COUNTRY$
+		name = curtiss.216.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		add_modifier = {
+			name = curtiss_tourist_tax_modifier
+			years = 3
+		}
+		set_variable = curtiss_airline_tourism
+	}
+}
+
+#Curtiss 217: Electoral Campaign
+
+curtiss.217 = {
+	type = country_event
+
+	title = curtiss.217.t
+
+	desc = curtiss.217.d
+
+	flavor = curtiss.217.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_usa_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+		in_election_campaign = yes
+		any_interest_group = {
+			has_party = yes
+			is_in_government = yes
+		}
+	}
+
+	immediate = {
+		random_interest_group = {
+			limit = {
+				has_party = yes
+				is_in_government = yes	
+			}
+			party = { 
+				save_scope_as = government_party 
+			}
+		}
+	}
+
+	option = {	#We are happy to take advantage of this offer.
+		name = curtiss.217.g
+		default_option = yes
+		scope:government_party = { 
+			add_momentum = momentum_small
+		}
+	}
+
+	option = {	#What if someone crashes the plane?
+		name = curtiss.217.h
+	}
+}
+
+#Curtiss 218: A Pilot for advertising?
+
+curtiss.218 = {
+	type = country_event
+
+	title = curtiss.218.t
+
+	desc = curtiss.218.d
+
+	flavor = curtiss.218.f
+	
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_usa_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_active_pilot = yes
+		curtiss_has_airline = yes
+		NOT = {
+			has_variable = curtiss_pilot_advertising_cooldown
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+			}
+			save_scope_as = curtiss_pilot
+		}
+	}
+
+	option = {	#Sure!
+		name = curtiss.218.g
+		default_option = yes
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+			}
+			set_character_busy = yes
+			add_modifier = {
+				name = curtiss_airline_advertising_modifier
+				days = 550
+			}
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					has_building = building_airport
+					NOT = {
+						has_modifier = curtiss_expanded_airline_modifier
+					}
+				}
+			}
+			add_modifier = {
+				name = curtiss_expanded_airline_modifier
+				years = 5
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.204
+				days = 551
+			}
+		}
+	}
+
+	option = {	#We cannot do without him, but we help in other ways.
+		name = curtiss.218.h
+		add_modifier = {
+			name = curtiss_spent_additional_money_on_airline_company_modifier
+			multiplier = money_amount_multiplier_very_small
+			days = 550
+		}
+	}
+
+	option = {	#Unfortunately, our hands are tied.
+		name = curtiss.218.i
+		curtiss_sub_1_flight_route = yes
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_pilot_advertising_cooldown
+			days = 1000
+		}
+	}
+}
+
+#Curtiss 219: New Airport connected
+
+curtiss.219 = {
+	type = country_event
+
+	title = curtiss.219.t
+
+	desc = curtiss.219.d
+
+	flavor = curtiss.219.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_klm_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+		any_scope_state = {
+			has_building = building_airport
+			NOT = {
+				has_modifier = curtiss_expanded_airline_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Excellent.
+		name = curtiss.219.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_expanded_airline_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_expanded_airline_modifier
+				years = 5
+			}
+		}
+		if = {
+			limit = {
+				has_variable = curtiss_state_airline
+			}
+			add_treasury = -25000
+		}
+	}
+	option = {	#We can't afford that.
+		name = curtiss.219.g
+		trigger = {
+			has_variable = curtiss_state_airline
+		}
+	}
+}
+
+#Curtiss 220: Airport grows
+
+curtiss.220 = {
+	type = country_event
+
+	title = curtiss.220.t
+
+	desc = curtiss.220.d
+
+	flavor = curtiss.220.f
+	
+	duration = 3
+
+	placement = scope:curtiss_airport_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_klm_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_private_airline
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_airport
+				level >= 5
+			}
+			NOT = {
+				has_modifier = curtiss_thriving_aviation_modifier
+			}
+		}
+	}
+
+	immediate = {
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_airport
+					level >= 5
+				}
+				NOT = {
+					has_modifier = curtiss_thriving_aviation_modifier
+				}
+			}
+			save_scope_as = curtiss_airport_state
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#$STATE$ will be the center of the world!
+		name = curtiss.220.g
+		default_option = yes
+		scope:curtiss_airport_state = {
+			add_modifier = {
+				name = curtiss_thriving_aviation_modifier
+			}
+		}
+	}
+}
+
+#Curtiss 221: New aircraft
+
+curtiss.221 = {
+	type = country_event
+
+	title = curtiss.221.t
+
+	desc = curtiss.221.d
+
+	flavor = curtiss.221.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_lufthansa_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Excellent.
+		name = curtiss.219.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		if = {
+			limit = {
+				has_variable = curtiss_state_airline
+			}
+			add_modifier = {
+				name = curtiss_investment_new_aircraft_modifier
+				multiplier = money_amount_multiplier_very_small
+				years = 2
+			}
+		}
+	}
+	option = {	#We can't afford that.
+		name = curtiss.219.g
+		trigger = {
+			has_variable = curtiss_state_airline
+		}
+	}
+}
+
+#Curtiss 222: Plane crash
+
+curtiss.222 = {
+	type = country_event
+
+	title = curtiss.222.t
+
+	desc = curtiss.222.d
+
+	flavor = curtiss.222.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_brazil.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+		NOT = {
+			has_variable = curtiss_plane_crash_cooldown
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#It's called free market for reasons.
+		name = curtiss.222.g
+		default_option = yes
+		curtiss_sub_1_flight_route = yes
+	}
+	option = {	#We help
+		name = curtiss.222.g
+		trigger = {
+			curtiss_subsidizes_airline = yes
+		}
+		add_treasury = -25000
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_plane_crash_cooldown
+			years = 3
+		}
+	}
+}
+
+#Curtiss 223: Airline in financial difficulties
+
+curtiss.223 = {
+	type = country_event
+
+	title = curtiss.223.t
+
+	desc = curtiss.223.d
+
+	flavor = curtiss.223.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:howard_hughes
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_private_airline
+		curtiss_subsidizes_airline = no
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = ig_trade_unions
+		}
+	}
+
+	option = {	#It's called free market for reasons.
+		name = curtiss.222.g
+		default_option = yes
+		curtiss_sub_1_flight_route = yes
+		every_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = curtiss_thriving_aviation_modifier
+					has_modifier = curtiss_expanded_airline_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_airline_in_crisis_modifier
+				years = 3
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = curtiss_not_saved_airline_from_crisis_modifier
+				years = 3
+			}
+		}
+		scope:howard_hughes = {
+			add_modifier = {
+				name = curtiss_airline_tycoon_in_trouble_modifier
+				years = 3
+			}
+		}
+	}
+
+	option = {	#This company is of national importance!
+		name = curtiss.223.g
+		add_modifier = {
+			name = curtiss_adverting_aviation_crisis_modifier
+			years = 3
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = curtiss_saved_airline_from_crisis_modifier
+				years = 3
+			}
+		}
+	}
+}
+
+#Curtiss 224: Corrupting Aviation
+
+curtiss.224 = {
+	type = country_event
+
+	title = curtiss.224.t
+
+	desc = curtiss.224.d
+
+	flavor = curtiss.224.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:howard_hughes
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_private_airline
+		var:curtiss_flight_route >= 9
+		NOT = {
+			any_scope_character = {
+				has_modifier = curtiss_airline_tycoon_powerful_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = ig_trade_unions
+		}
+	}
+
+	option = {	#What is the problem? You know each other and you help each other.
+		name = curtiss.224.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		scope:howard_hughes = {
+			add_modifier = {
+				name = curtiss_airline_tycoon_powerful_modifier
+				years = 5
+			}
+		}
+		add_modifier = {
+			name = curtiss_corrupting_influences_in_politics_modifier
+			years = 5
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = curtiss_approves_airline_tycoon_modifier
+				years = 5
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = curtiss_disapproves_airline_tycoon_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {	#Corruption is an evil that should be eradicated everywhere.
+		name = curtiss.224.g
+		add_modifier = {
+			name = curtiss_corruption_prevention_modifier
+			years = 2
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_airline_in_crisis_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_airline_in_crisis_modifier
+				years = 2
+			}
+		}
+	}
+}
+
+#Curtiss 225: Unprofitable air transport
+
+curtiss.225 = {
+	type = country_event
+
+	title = curtiss.225.t
+
+	desc = curtiss.225.d
+
+	flavor = curtiss.225.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:howard_hughes
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_private_airline
+		curtiss_subsidizes_airline = no
+		any_scope_state = {
+			has_building = building_airport
+			NOT = {
+				has_modifier = curtiss_airline_in_crisis_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = ig_trade_unions
+		}
+	}
+
+	option = {	#It's called free market for reasons.
+		name = curtiss.222.g
+		default_option = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_airline_in_crisis_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_airline_in_crisis_modifier
+				years = 5
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = curtiss_not_saved_airline_from_crisis_modifier
+				years = 3
+			}
+		}
+	}
+
+	option = {	#This airport is of national importance!
+		name = curtiss.225.g
+		add_modifier = {
+			name = curtiss_adverting_small_aviation_crisis_modifier
+			years = 3
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = curtiss_saved_airline_from_crisis_modifier
+				years = 3
+			}
+		}
+	}
+}
+
+#Curtiss 226: Competing airline
+
+curtiss.226 = {
+	type = country_event
+
+	title = curtiss.226.t
+
+	desc = curtiss.226.d
+
+	flavor = curtiss.226.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_imperial_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+		any_country = {
+			has_diplomatic_pact = {
+				who = ROOT
+				type = rivalry
+			}
+			curtiss_has_airline = yes
+		}
+		any_country = {
+			has_diplomatic_pact = {
+				who = ROOT
+				type = airspace_convention
+			}
+		}
+		NOT = {
+			has_modifier = curtiss_rival_airline_modifier
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = rivalry
+				}
+				curtiss_has_airline = yes
+			}
+			save_scope_as = curtiss_rival_airline_country
+		}
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}
+			}
+			save_scope_as = curtiss_third_country
+		}
+	}
+
+	option = {	#We don't interfere
+		name = curtiss.226.g
+		default_option = yes
+		add_modifier = {
+			name = curtiss_rival_airline_modifier
+			years = 2
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_airline_in_crisis_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_airline_in_crisis_modifier
+				years = 2
+			}
+		}
+	}
+
+	option = {	#Attempt diplomatic intervention in THIRD COUNTRY.
+		name = curtiss.226.h
+		add_modifier = {
+			name = curtiss_diplomatic_airline_intervention_modifier
+			years = 2
+		}
+	}
+}
+
+#Curtiss 227: Airline Tycoon in trouble
+
+curtiss.227 = {
+	type = country_event
+
+	title = curtiss.227.t
+
+	desc = curtiss.227.d
+
+	flavor = curtiss.227.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:howard_hughes
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_private_airline
+		any_scope_character = {
+			has_modifier = curtiss_airline_tycoon_modifier
+			is_ruler = no
+		}
+		NOT = {
+			has_variable = curtiss_building_spruce_goose
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+	}
+
+	option = {	#He should step back.
+		name = curtiss.224.g
+		default_option = yes
+		scope:howard_hughes = {
+			remove_modifier = curtiss_airline_tycoon_modifier
+		}
+		hidden_effect = {
+			scope:howard_hughes = {
+				kill_character = yes
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = curtiss_disapproves_airline_tycoon_modifier
+				years = 5
+			}
+		}
+		create_character = {
+			interest_group = ig_industrialists
+			ideology = ideology_market_liberal
+			ig_leader = yes
+		}
+	}
+
+	option = {	#$HOWARD HUGHES$ will master this minor crisis.
+		name = curtiss.224.g
+		every_scope_state = {
+			limit = {
+				has_modifier = curtiss_thriving_aviation_modifier
+			}
+			add_modifier = {
+				name = curtiss_airline_in_crisis_modifier
+				years = 1
+			}
+		}
+	}
+
+	after = {
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_industrialists
+			}
+			leader = {
+				add_modifier = {
+					name = curtiss_airline_tycoon_modifier
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 228: Thriving aircraft factories
+
+curtiss.228 = {
+	type = country_event
+
+	title = curtiss.228.t
+
+	desc = curtiss.228.d
+
+	flavor = curtiss.228.f
+	
+	duration = 3
+
+	placement = scope:curtiss_factory_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_usa_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		curtiss_has_airline = yes
+		any_scope_state = {
+			has_building = building_airport
+			has_building = building_war_machine_industry
+			NOT = {
+				has_modifier = curtiss_thriving_aeroplane_factory_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				has_building = building_war_machine_industry
+				NOT = {
+					has_modifier = curtiss_thriving_aeroplane_factory_modifier
+				}
+			}
+			save_scope_as = curtiss_factory_state
+		}
+	}
+
+	option = {	#A great day for aviation!
+		name = curtiss.228.g
+		default_option = yes
+		scope:curtiss_factory_state = {
+			add_modifier = {
+				name = curtiss_thriving_aeroplane_factory_modifier
+			}
+		}
+	}
+}
+
+#Curtiss 229: A new airplane factory
+
+curtiss.229 = {
+	type = country_event
+
+	title = curtiss.229.t
+
+	desc = curtiss.229.d
+
+	flavor = curtiss.229.f
+	
+	duration = 3
+
+	placement = scope:curtiss_factory_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:howard_hughes
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_private_airline
+		var:curtiss_flight_route >= 9
+		any_scope_state = {
+			OR = {
+				has_modifier = curtiss_thriving_aviation_modifier
+				has_modifier = curtiss_expanded_airline_modifier
+			}
+			NOT = {
+				has_building = building_war_machine_industry
+			}
+		}
+		NOT = {
+			has_variable = curtiss_hughes_offered_industry
+		}
+	}
+
+	immediate = {
+		set_variable = curtiss_hughes_offered_industry
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = curtiss_thriving_aviation_modifier
+					has_modifier = curtiss_expanded_airline_modifier
+				}
+				NOT = {
+					has_building = building_war_machine_industry
+				}
+			}
+			save_scope_as = curtiss_factory_state
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+	}
+
+	option = {	#A great day for aviation!
+		name = curtiss.228.g
+		default_option = yes
+		scope:curtiss_factory_state = {
+			create_building = {
+				building = "building_war_machine_industry"
+				level=2
+ 				reserves=2
+			}
+		}
+		scope:ig_industrialists = {
+			add_modifier = {
+				name = curtiss_approved_new_airplane_industry_modifier 
+				years = 5
+			}
+		}
+		scope:howard_hughes = {
+			add_modifier = {
+				name = curtiss_airplane_constructor_modifier
+			}
+		}
+	}
+
+	option = {	#This is obviously a trap.
+		name = curtiss.229.g
+		default_option = yes
+		scope:ig_industrialists = {
+			add_modifier = {
+				name = curtiss_disapproved_new_airplane_industry_modifier 
+				years = 5
+			}
+		}
+	}
+}
+
+#Curtiss 230: $HOWARD$, the Patron of Arts
+
+curtiss.230 = {
+	type = country_event
+
+	title = curtiss.230.t
+
+	desc = curtiss.230.d
+
+	flavor = curtiss.230.f
+	
+	duration = 3
+
+	placement = scope:curtiss_opera_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:howard_hughes
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		has_variable = curtiss_private_airline
+		var:curtiss_flight_route >= 9
+		any_scope_state = {
+			OR = {
+				has_modifier = curtiss_thriving_aviation_modifier
+				has_modifier = curtiss_expanded_airline_modifier
+			}
+			NOT = {
+				has_building = building_elgar_opera
+			}
+		}
+		NOT = {
+			has_variable = curtiss_hughes_offered_opera
+		}
+	}
+
+	immediate = {
+		set_variable = curtiss_hughes_offered_opera
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = curtiss_thriving_aviation_modifier
+					has_modifier = curtiss_expanded_airline_modifier
+				}
+				NOT = {
+					has_building = building_elgar_opera
+				}
+			}
+			save_scope_as = curtiss_opera_state
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+		ig:ig_intelligentsia = {
+			save_scope_as = ig_intelligentsia
+		}
+	}
+
+	option = {	#A great day for opera!
+		name = curtiss.230.g
+		default_option = yes
+		elgar_add_15_music_tradition = yes
+		scope:curtiss_factory_state = {
+			create_building = {
+				building = "building_elgar_opera"
+				level=3
+ 				reserves=3
+			}
+		}
+		scope:ig_intelligentsia = {
+			add_modifier = {
+				name = curtiss_approved_new_opera_modifier 
+				years = 5
+			}
+		}
+		scope:howard_hughes = {
+			add_modifier = {
+				name = curtiss_airplane_constructor_modifier
+			}
+		}
+	}
+
+	option = {	#This is obviously a trap.
+		name = curtiss.229.g
+		default_option = yes
+		scope:ig_intelligentsia = {
+			add_modifier = {
+				name = curtiss_disapproved_new_opera_modifier 
+				years = 5
+			}
+		}
+	}
+}
+
+#Curtiss 231: Air pirates?
+
+
+#######################################################################################################
+
+#Curtiss 311: A new pilot
+
+curtiss.311 = {
+	type = country_event
+	
+	title = curtiss.311.t
+	desc = curtiss.311.d
+	flavor = curtiss.311.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_pilot_cooldown
+		}
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_character = {
+					owner = ROOT
+					commander_pm_usage = {
+						target = ROOT
+						production_method = pm_aerial_recon
+						value > 0.5
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		create_character = {
+			interest_group = ig_armed_forces
+			ideology = ideology_ethno_nationalist
+			traits = {
+				curtiss_pilot
+				charismatic
+				brave
+			}
+			save_scope_as = curtiss_new_pilot
+		}
+		random_scope_war = {
+			limit = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						commander_pm_usage = {
+							target = ROOT
+							production_method = pm_aerial_recon
+							value > 0.5
+						}
+					}
+				}
+			}
+			save_scope_as = flying_circus_war
+		}
+	}
+
+	option = { #This will be the beginning of a unique career.
+		name = curtiss.311.g
+		default_option = yes
+		scope:curtiss_new_pilot = {
+			add_character_role = general
+		}
+		set_variable = {
+			name = curtiss_pilot_cooldown
+			days = 1000
+		}
+	}
+	option = { #We need him for domestic propaganda.
+		name = curtiss.311.h
+		scope:flying_circus_war = {
+			add_war_war_support = {
+				target = scope:flying_circus_home
+				value = 10
+			}
+		}
+	}
+}
+
+#Curtiss 312: Flying Ace
+
+curtiss.312 = {
+	type = country_event
+	
+	title = curtiss.312.t
+	desc = curtiss.312.d
+	flavor = curtiss.312.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_ace_cooldown
+		}
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_general = {
+					owner = ROOT
+					commander_pm_usage = {
+						target = ROOT
+						production_method = pm_aerial_recon
+						value > 0.5
+					}
+					has_trait = curtiss_pilot
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_war = {
+			limit = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						commander_pm_usage = {
+							target = ROOT
+							production_method = pm_aerial_recon
+							value > 0.5
+						}
+					}
+				}
+			}
+			random_scope_front = {
+				limit = {
+					any_scope_general = {
+						owner = ROOT
+						commander_pm_usage = {
+							target = ROOT
+							production_method = pm_aerial_recon
+							value > 0.5
+						}
+					}
+				}
+				random_scope_general = {
+					limit = {
+						owner = ROOT
+						commander_pm_usage = {
+							target = ROOT
+							production_method = pm_aerial_recon
+							value > 0.5
+						}
+					}
+					save_scope_as = curtiss_ace
+				}
+			}
+		}
+	}
+
+	option = { #A new national hero!
+		name = curtiss.312.g
+		default_option = yes
+		scope:curtiss_ace = {
+			remove_trait = curtiss_pilot
+			add_trait = curtiss_pilot_ace
+		}
+		set_variable = {
+			name = curtiss_ace_cooldown
+			days = 1000
+		}
+	}
+}
+
+#Curtiss 313: Enemy airfield captured!
+
+#Curtiss 314: Pilot wounded
+
+
+#######################################################################################################
+
+######SPRUCE GOOSE######
+
+#Curtiss 500: The Dream of $HOWARD$
+
+curtiss.500 = {
+	type = country_event
+
+	title = curtiss.500.t
+
+	desc = curtiss.500.d
+
+	flavor = curtiss.500.f
+	
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:howard_hughes
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+		ig:ig_intelligentsia = {
+			save_scope_as = ig_intelligentsia
+		}
+	}
+
+	option = {	#A great vision!
+		name = curtiss.500.g
+		default_option = yes
+		add_journal_entry = {
+        	type = je_curtiss_spruce_goose_build
+        }
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.501
+				days = { 80 120 }
+			}
+		}
+	}
+
+	option = {	#This is madness.
+		name = curtiss.500.h
+	}
+}
+
+#Curtiss 501: Type of Airplane
+
+curtiss.501 = {
+	type = country_event
+
+	title = curtiss.501.t
+
+	desc = curtiss.501.d
+
+	flavor = curtiss.501.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_hercules_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#It's going to be a classic plane.
+		name = curtiss.501.g
+		default_option = yes
+		curtiss_add_spruce_goose_errors = yes
+		add_treasury = -30000
+	}
+
+	option = {	#It will be a flying boat.
+		name = curtiss.501.h
+		add_treasury = -50000
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.502
+				days = { 80 120 }
+			}
+		}
+	}
+}
+
+#Curtiss 502: Construction materials
+
+curtiss.502 = {
+	type = country_event
+
+	title = curtiss.502.t
+
+	desc = curtiss.502.d
+
+	flavor = curtiss.502.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_hercules_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Only use metal if necessary. This aircraft will be primarily made of wood.
+		name = curtiss.502.g
+		default_option = yes
+		add_treasury = -25000
+	}
+
+	option = {	#Clad it all in metall.
+		name = curtiss.502.h
+		curtiss_add_spruce_goose_errors = yes
+		add_treasury = -50000
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.503
+				days = { 80 120 }
+			}
+		}
+	}
+}
+
+#Curtiss 503: Engine issues
+
+curtiss.503 = {
+	type = country_event
+
+	title = curtiss.503.t
+
+	desc = curtiss.503.d
+
+	flavor = curtiss.503.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_hercules_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Ten 18-cylinder engines are perfect.
+		name = curtiss.503.g
+		default_option = yes
+		curtiss_add_spruce_goose_errors = yes
+		add_treasury = -20000
+	}
+
+	option = {	#We are in need of eight 28-cylinder engines.
+		name = curtiss.503.h
+		add_treasury = -30000
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.504
+				days = { 80 120 }
+			}
+		}
+	}
+}
+
+#Curtiss 504: Propellers
+
+curtiss.504 = {
+	type = country_event
+
+	title = curtiss.504.t
+
+	desc = curtiss.504.d
+
+	flavor = curtiss.504.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_hercules_4.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#4-bladed propellers will fit.
+		name = curtiss.504.g
+		default_option = yes
+		add_treasury = -20000
+	}
+
+	option = {	#We'll need 5-bladed propellers.
+		name = curtiss.504.h
+		curtiss_add_spruce_goose_errors = yes
+		add_treasury = -30000
+	}
+}
+
+#Curtiss 505: The Greatest Day in History
+
+curtiss.505 = {
+	type = country_event
+
+	title = curtiss.505.t
+
+	desc = curtiss.505.d
+
+	flavor = curtiss.505.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_hercules_5.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Mr. Hughes will fly it
+		name = curtiss.505.g
+		default_option = yes
+		set_variable = curtiss_sc_hughes
+	}
+
+	option = {	#A known pilot will fly it
+		name = curtiss.505.h
+		set_variable = curtiss_sc_pilot
+	}
+
+	option = {	#Only test pilot
+		name = curtiss.505.i
+		set_variable = curtiss_sc_test
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:curtiss_spruce_goose_errors = 0
+			}
+			trigger_event = {
+				id = curtiss.506
+				days = 3
+				popup = yes 
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_spruce_goose_errors >= 1
+				NOT = {
+					var:curtiss_spruce_goose_errors >= 3
+				}
+			}
+			trigger_event = {
+				id = curtiss.507
+				days = 3
+				popup = yes 
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_spruce_goose_errors >= 3
+			}
+			trigger_event = {
+				id = curtiss.508
+				days = 3
+				popup = yes 
+			}
+		}
+	}
+}
+
+#Curtiss 506: It flies! It really flies!
+
+curtiss.506 = {
+	type = country_event
+
+	title = curtiss.506.t
+
+	desc = curtiss.506.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_sc_hughes
+			}
+			desc = curtiss.506.f_hughes
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_sc_pilot
+			}
+			desc = curtiss.506.f_pilot
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_sc_test
+			}
+			desc = curtiss.506.f_test
+		}
+	}
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_hercules_6.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = curtiss_aviator_achievement
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#This is surprising...in a very positive way!
+		name = curtiss.506.g
+		default_option = yes
+		if = {
+			limit = {
+				has_variable = curtiss_sc_hughes
+			}
+			scope:howard_hughes = {
+				add_modifier = {
+					name = curtiss_the_aviator_modifier
+				}
+			}
+			every_scope_state = {
+				limit = {
+					OR = {
+						has_building = building_airport
+						has_building = building_war_machine_industry
+					}
+				}
+				add_modifier = {
+					name = curtiss_airplane_revolution_modifier
+					years = 10
+				}
+			}
+			add_modifier = {
+				name = curtiss_spruce_goose_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_variable = curtiss_sc_pilot
+			}
+			every_scope_state = {
+				limit = {
+					OR = {
+						has_building = building_airport
+						has_building = building_war_machine_industry
+					}
+				}
+				add_modifier = {
+					name = curtiss_airplane_revolution_modifier
+					years = 5
+				}
+			}
+			add_modifier = {
+				name = curtiss_spruce_goose_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_variable = curtiss_sc_test
+			}
+			random_scope_state = {
+				limit = {
+					OR = {
+						has_building = building_airport
+						has_building = building_war_machine_industry
+					}
+				}
+				add_modifier = {
+					name = curtiss_airplane_revolution_modifier
+					years = 5
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 507: Like a rock
+
+curtiss.507 = {
+	type = country_event
+
+	title = curtiss.507.t
+
+	desc = curtiss.507.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_sc_hughes
+			}
+			desc = curtiss.507.f_hughes
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_sc_pilot
+			}
+			desc = curtiss.507.f_pilot
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_sc_test
+			}
+			desc = curtiss.507.f_test
+		}
+	}
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_hercules_7.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#This is bad.
+		name = curtiss.507.g
+		default_option = yes
+		if = {
+			limit = {
+				has_variable = curtiss_sc_hughes
+			}
+			scope:howard_hughes = {
+				remove_modifier = curtiss_airline_tycoon_modifier
+			}
+			hidden_effect = {
+				scope:howard_hughes = {
+					kill_character = yes
+				}
+			}
+			create_character = {
+				interest_group = ig_industrialists
+				ideology = ideology_market_liberal
+				ig_leader = yes
+			}
+			every_scope_state = {
+				limit = {
+					has_modifier = curtiss_thriving_aviation_modifier
+				}
+				add_modifier = {
+					name = curtiss_airline_in_crisis_modifier
+					years = 5
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_variable = curtiss_sc_pilot
+			}
+			scope:howard_hughes = {
+				remove_modifier = curtiss_airline_tycoon_modifier
+			}
+			hidden_effect = {
+				scope:howard_hughes = {
+					kill_character = yes
+				}
+			}
+			create_character = {
+				interest_group = ig_industrialists
+				ideology = ideology_market_liberal
+				ig_leader = yes
+			}
+		}
+		if = {
+			limit = {
+				has_variable = curtiss_sc_test
+			}
+			scope:howard_hughes = {
+				add_modifier = {
+					name = curtiss_awkwardly_silent_tycoon_modifier
+				}
+			}
+		}
+	}
+
+	after = {
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_industrialists
+			}
+			leader = {
+				add_modifier = {
+					name = curtiss_airline_tycoon_modifier
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 508: A Nightmare
+
+curtiss.508 = {
+	type = country_event
+
+	title = curtiss.508.t
+
+	desc = curtiss.508.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_sc_hughes
+			}
+			desc = curtiss.508.f_hughes
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_sc_pilot
+			}
+			desc = curtiss.508.f_pilot
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_sc_test
+			}
+			desc = curtiss.508.f_test
+		}
+	}
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_hercules_8.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#This is the blackest day in aviation history.
+		name = curtiss.508.g
+		default_option = yes
+		if = {
+			limit = {
+				has_variable = curtiss_sc_hughes
+			}
+			scope:howard_hughes = {
+				kill_character = yes
+			}
+			remove_variable = curtiss_private_airline
+			remove_modifier = curtiss_airline_level_6_modifier
+			add_modifier = {
+				name = curtiss_spruce_goose_desaster_modifier
+			}
+			set_variable = {
+            	name = curtiss_flight_route
+            	value = 0
+			}
+			every_scope_state = {
+				limit = {
+					has_building = building_airport
+				}
+				add_modifier = {
+					name = curtiss_airline_in_crisis_modifier
+					years = 10
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_variable = curtiss_sc_pilot
+			}
+			add_modifier = {
+				name = curtiss_spruce_goose_desaster_modifier
+			}
+			scope:howard_hughes = {
+				remove_modifier = curtiss_airline_tycoon_modifier
+			}
+			hidden_effect = {
+				scope:howard_hughes = {
+					kill_character = yes
+				}
+			}
+			create_character = {
+				interest_group = ig_industrialists
+				ideology = ideology_market_liberal
+				ig_leader = yes
+			}
+			every_scope_state = {
+				limit = {
+					OR = {
+						has_modifier = curtiss_thriving_aviation_modifier
+						has_modifier = curtiss_expanded_airline_modifier
+					}
+				}
+				add_modifier = {
+					name = curtiss_airline_in_crisis_modifier
+					years = 5
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_variable = curtiss_sc_test
+			}
+			scope:howard_hughes = {
+				remove_modifier = curtiss_airline_tycoon_modifier
+			}
+			hidden_effect = {
+				scope:howard_hughes = {
+					kill_character = yes
+				}
+			}
+			create_character = {
+				interest_group = ig_industrialists
+				ideology = ideology_market_liberal
+				ig_leader = yes
+			}
+			random_scope_state = {
+				limit = {
+					has_modifier = curtiss_thriving_aviation_modifier
+				}
+				add_modifier = {
+					name = curtiss_airline_in_crisis_modifier
+					years = 5
+				}
+			}
+		}
+	}
+
+	after = {
+		random_interest_group = {
+			limit = {
+				is_interest_group_type = ig_industrialists
+			}
+			leader = {
+				add_modifier = {
+					name = curtiss_airline_tycoon_modifier
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 509: Building progress
+
+curtiss.509 = {
+	type = country_event
+	
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		curtiss_add_spruce_goose_progress = yes
+	}
+}
+
+####################################################################################################################################
+
+######HINDENBURG######
+
+#Curtiss 510: The $COUNTRY$
+
+curtiss.510 = {
+	type = country_event
+
+	title = curtiss.510.t
+
+	desc = curtiss.510.d
+
+	flavor = curtiss.510.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#A great vision!
+		name = curtiss.510.g
+		default_option = yes
+		add_journal_entry = {
+        	type = je_curtiss_hindenburg_build
+        }
+		add_modifier = {
+			name = curtiss_hindenburg_build_modifier
+			years = 2
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_war_machine_industry
+					level >= 10
+				}
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_wharf_modifier
+			}
+		}
+	}
+}
+
+#Curtiss 511: $COUNTRY$'s Maiden Voyage
+
+curtiss.511 = {
+	type = country_event
+
+	title = curtiss.511.t
+
+	desc = curtiss.511.d
+
+	flavor = curtiss.511.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_city.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_modifier = curtiss_hindenburg_build_modifier
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}
+			}
+			save_scope_as = curtiss_zeppelin_destination
+		}
+	}
+
+	option = {	#A national tour
+		name = curtiss.511.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		add_modifier = {
+			name = curtiss_hindenburg_national_modifier
+			days = 365
+		}
+	}
+
+	option = {	#An international tour
+		name = curtiss.511.h
+		trigger = {
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}
+			}
+		}
+		curtiss_add_1_flight_route = yes
+		add_modifier = {
+			name = curtiss_hindenburg_international_modifier
+			days = 365
+		}
+		scope:curtiss_zeppelin_destination = {
+			change_relations = {
+				country = ROOT 
+				value = 5
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					curtiss_has_helium = no
+				}
+				random_list = { #First voyage should be safer
+					85 = {
+						trigger_event = {
+							id = curtiss.512
+							days = 365
+						}
+					}
+					15 = {
+						trigger_event = {
+							id = curtiss.513
+							days = { 100 200 }
+							popup = yes
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					curtiss_has_helium = yes
+				}
+				random_list = {
+					98 = {
+						trigger_event = {
+							id = curtiss.512
+							days = 365
+						}
+					}
+					2 = {
+						trigger_event = {
+							id = curtiss.513
+							days = { 100 200 }
+							popup = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 512: $COUNTRY$'s next voyage
+
+curtiss.512 = {
+	type = country_event
+
+	title = curtiss.512.t
+
+	desc = curtiss.512.d
+
+	flavor = curtiss.511.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_city.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}
+			}
+			save_scope_as = curtiss_zeppelin_destination
+		}
+	}
+
+	option = {	#A national tour
+		name = curtiss.511.g
+		default_option = yes
+		add_modifier = {
+			name = curtiss_hindenburg_national_modifier
+			days = 365
+		}
+	}
+
+	option = {	#An international tour
+		name = curtiss.511.h
+		trigger = {
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}
+			}
+		}
+		add_modifier = {
+			name = curtiss_hindenburg_international_modifier
+			days = 365
+		}
+		scope:curtiss_zeppelin_destination = {
+			change_relations = {
+				country = ROOT 
+				value = 5
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					curtiss_has_helium = no
+				}
+				random_list = {
+					75 = {
+						trigger_event = {
+							id = curtiss.512
+							days = 365
+						}
+					}
+					25 = {
+						trigger_event = {
+							id = curtiss.513
+							days = { 100 200 }
+							popup = yes
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					curtiss_has_helium = yes
+				}
+				random_list = {
+					98 = {
+						trigger_event = {
+							id = curtiss.512
+							days = 365
+						}
+					}
+					2 = {
+						trigger_event = {
+							id = curtiss.513
+							days = { 100 200 }
+							popup = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 513: $COUNTRY$' disaster
+
+curtiss.513 = {
+	type = country_event
+
+	title = curtiss.513.t
+
+	desc = curtiss.513.d
+
+	flavor = curtiss.513.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_disaster.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_modifier = curtiss_hindenburg_national_modifier
+		remove_modifier = curtiss_hindenburg_international_modifier
+	}
+
+	option = {	#A hard blow for the zeppelin industry.
+		name = curtiss.513.g
+		default_option = yes
+		add_modifier = {
+			name = curtiss_hindenburg_disaster_modifier
+			years = 5
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_war_machine_industry
+					level >= 10
+				}
+			}
+			remove_modifier = curtiss_zeppelin_wharf_modifier
+		}
+	}
+}
+
+#Curtiss 514: Helium instead of Hydrogen
+
+curtiss.514 = {
+	type = country_event
+
+	title = curtiss.514.t
+
+	desc = curtiss.514.d
+
+	flavor = curtiss.514.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		has_modifier = curtiss_hindenburg_build_modifier
+		curtiss_has_helium = yes 
+		NOT = {
+			has_variable = curtiss_zeppelin_helium_var
+		}
+	}
+
+	immediate = {
+		set_variable = curtiss_zeppelin_helium_var
+	}
+
+	option = {	#Perfect
+		name = curtiss.514.g
+		default_option = yes
+	}
+}
+
+#Curtiss 519: Building progress
+
+curtiss.519 = {
+	type = country_event
+	
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		curtiss_add_hindenburg_progress = yes
+	}
+}
+
+####################################################################################################################################
+
+######ZEPPELIN EXPEDITION######
+
+#Curtiss 520: Choose Zeppelin Expedition Leader
+
+curtiss.520 = {
+	type = country_event
+
+    title = curtiss.520.t
+    desc = curtiss.520.d
+    flavor = curtiss.520.f
+
+    event_image = {
+		video = "gfx/event_pictures/unspecififc_airship.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+    duration = 3
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_expedition_leader_1
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				NOT = {
+					this = scope:curtiss_expedition_leader_1
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_expedition_leader_2
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				NOT = {
+					this = scope:curtiss_expedition_leader_1
+				}
+				NOT = {
+					this = scope:curtiss_expedition_leader_2
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_expedition_leader_3
+		}
+	}
+
+	option = {
+		name = curtiss.520.g
+		default_option = yes
+		trigger = {
+			exists = scope:curtiss_expedition_leader_1
+		}
+		scope:curtiss_expedition_leader_1 = {
+			set_variable = curtiss_expedition_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = curtiss.520.h
+		trigger = {
+			exists = scope:curtiss_expedition_leader_2
+		}
+		scope:curtiss_expedition_leader_2 = {
+			set_variable = curtiss_expedition_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = curtiss.520.i
+		trigger = {
+			exists = scope:curtiss_expedition_leader_3
+		}
+		scope:curtiss_expedition_leader_3 = {
+			set_variable = curtiss_expedition_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = curtiss.521
+			days = { 3 7 }
+		}
+	}
+}
+
+#Curtiss 521: Expedition background
+
+curtiss.521 = {
+	type = country_event
+
+	title = curtiss.521.t
+
+	desc = curtiss.521.d
+
+	flavor = curtiss.521.f
+	
+	duration = 2
+
+	event_image = {
+		video = "gfx/event_pictures/unspecififc_airship.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Geography/Military
+		name = curtiss.521.g
+		default_option = yes
+		set_variable = curtiss_zeppelin_geography_var
+	}
+
+	option = {	#Meteorology/Production
+		name = curtiss.521.h
+		set_variable = curtiss_zeppelin_meteorology_var
+	}
+
+	option = {	#Biology/Society
+		name = curtiss.521.i
+		set_variable = curtiss_zeppelin_biology_var
+	}
+
+	after = {
+		trigger_event = {
+			id = curtiss.522
+			days = { 3 7 }
+		}
+	}
+}
+
+#Curtiss 522: Expedition begins
+
+curtiss.522 = {
+	type = country_event
+
+	title = curtiss.522.t
+
+	desc = curtiss.522.d
+
+	flavor = curtiss.522.f
+	
+	duration = 2
+
+	event_image = {
+		video = "gfx/event_pictures/unspecififc_airship.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Let's go
+		name = curtiss.522.g
+		default_option = yes
+		add_journal_entry = {
+        	type = je_curtiss_zeppelin_expedition
+        }
+	}
+}
+
+#Curtiss 523: Expedition returns with success
+
+curtiss.523 = {
+	type = country_event
+
+	title = curtiss.523.t
+
+	desc = curtiss.523.d
+
+	flavor = curtiss.523.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_modifier = curtiss_zeppelin_expedition_cost_modifier
+		remove_modifier = curtiss_arctica_expedition_modifier
+		curtiss_add_1_zeppelin_science = yes
+	}
+
+	option = {	#Welcome back
+		name = curtiss.523.g
+		default_option = yes
+		add_modifier = {
+			name = curtiss_had_arctica_expedition_modifier
+			years = 3
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_science <= 1
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_geography_small_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_science <= 1
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_meteorology_small_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_science <= 1
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_biology_small_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_science >= 2
+				var:curtiss_zeppelin_science <= 4
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_geography_medium_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_science >= 2
+				var:curtiss_zeppelin_science <= 4
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_meteorology_medium_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_science >= 2
+				var:curtiss_zeppelin_science <= 4
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_biology_medium_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_science >= 5
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_geography_large_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_science >= 5
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_meteorology_large_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_science >= 5
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			add_modifier = {
+				name = curtiss_zeppelin_biology_large_modifier
+				years = 3
+			}
+		}
+	}
+
+	after = {
+		remove_variable = curtiss_zeppelin_geography_var
+		remove_variable = curtiss_zeppelin_meteorology_var
+		remove_variable = curtiss_zeppelin_biology_var
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_expedition_leader_var
+			}
+			remove_variable = curtiss_expedition_leader_var
+			set_character_busy = no 
+		}
+	}
+}
+
+#Curtiss 524: Expedition disaster
+
+curtiss.524 = {
+	type = country_event
+
+	title = curtiss.524.t
+
+	desc = curtiss.524.d
+
+	flavor = curtiss.524.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_modifier = curtiss_zeppelin_expedition_cost_modifier
+		remove_modifier = curtiss_arctica_expedition_modifier
+	}
+
+	option = {	#This is a tragedy
+		name = curtiss.524.g
+		add_modifier = {
+			name = curtiss_had_arctica_expedition_modifier
+			years = 3
+		}
+		add_modifier = {
+			name = curtiss_arctica_expedition_disaster_modifier
+			years = 3
+		}
+		random_list = {
+			75 = {
+				trigger_event = {
+					id = curtiss.524
+					days = { 14 21 }
+				}
+			}
+			25 = {
+				trigger_event = {
+					id = curtiss.525
+					days = { 14 21 }
+				}
+			}
+		}
+	}
+
+	option = {	#We need a rescue mission!
+		name = curtiss.524.h
+		default_option = yes
+		add_modifier = {
+			name = curtiss_had_arctica_expedition_modifier
+			years = 3
+		}
+		add_modifier = {
+			name = curtiss_arctica_expedition_disaster_modifier
+			years = 3
+		}
+		add_modifier = {
+			name = curtiss_arctica_rescue_mission_modifier
+			years = 3
+		}
+		add_treasury = -25000
+		random_list = {
+			35 = {
+				trigger_event = {
+					id = curtiss.524
+					days = { 14 21 }
+				}
+			}
+			65 = {
+				trigger_event = {
+					id = curtiss.525
+					days = { 14 21 }
+				}
+			}
+		}
+	}
+
+	after = {
+		remove_variable = curtiss_zeppelin_geography_var
+		remove_variable = curtiss_zeppelin_meteorology_var
+		remove_variable = curtiss_zeppelin_biology_var
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_expedition_leader_var
+			}
+			remove_variable = curtiss_expedition_leader_var
+			set_character_busy = no 
+		}
+	}
+}
+
+#Curtiss 525: Expedition members dead
+
+curtiss.525 = {
+	type = country_event
+
+	title = curtiss.525.t
+
+	desc = curtiss.525.d
+
+	flavor = curtiss.525.f
+	
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_expedition_leader
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_expedition_leader_var
+			}
+			save_scope_as = curtiss_expedition_leader
+		}
+	}
+
+	option = {	#A cold grave.
+		name = curtiss.525.g
+		scope:curtiss_expedition_leader = {
+			remove_variable = curtiss_expedition_leader_var
+			set_character_busy = no
+			kill_character = yes 
+		}
+	}
+}
+
+#Curtiss 526: Expedition leader alive!
+
+curtiss.526 = {
+	type = country_event
+
+	title = curtiss.526.t
+
+	desc = curtiss.526.d
+
+	flavor = curtiss.526.f
+	
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_expedition_leader
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_expedition_leader_var
+			}
+			save_scope_as = curtiss_expedition_leader
+		}
+	}
+
+	option = {	#What a relief
+		name = curtiss.526.g
+		scope:curtiss_expedition_leader = {
+			remove_variable = curtiss_expedition_leader_var
+			set_character_busy = no
+		}
+	}
+}
+
+#Curtiss 527: North Pole Passage
+
+curtiss.527 = {
+	type = country_event
+
+	title = curtiss.527.t
+
+	desc = curtiss.527.d
+
+	flavor = curtiss.527.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		NOT = {
+			has_global_variable = curtiss_north_pole_passage
+		}
+		has_variable = curtiss_zeppelin_geography_var
+		var:curtiss_zeppelin_progress >= 10
+	}
+
+	immediate = {
+		set_global_variable = curtiss_north_pole_passage
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_expedition_leader_var
+			}
+			save_scope_as = curtiss_expedition_leader
+		}
+	}
+
+	option = {	#Great!
+		name = curtiss.527.g
+		curtiss_add_1_zeppelin_science = yes
+		add_modifier = {
+			name = curtiss_zeppelin_north_pole_modifier
+		}
+		scope:curtiss_expedition_leader = {
+			add_trait = explorer
+		}
+	}
+}
+
+#Curtiss 528: Rendez-Vous with $COUNTRY$
+
+curtiss.528 = {
+	type = country_event
+
+	title = curtiss.528.t
+
+	desc = curtiss.528.d
+
+	flavor = curtiss.528.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_zeppelin_rendezvous_cooldown
+		}
+		has_modifier = curtiss_hindenburg_international_modifier
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_expedition_leader_var
+			}
+			save_scope_as = curtiss_expedition_leader
+		}
+	}
+
+	option = {	#Hello, beautiful lady
+		name = curtiss.528.g
+		curtiss_add_1_zeppelin_science = yes
+		set_variable = {
+			name = curtiss_zeppelin_rendezvous_cooldown
+			days = 160
+		}
+	}
+}
+
+#Curtiss 529: Zeppelin progress
+
+curtiss.529 = {
+	type = country_event
+	
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		curtiss_add_1_zeppelin_progress = yes
+	}
+}
+
+#Curtiss 531: Discovery of ice free passage/Aurora Borealis/Icebears
+
+curtiss.531 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			desc = curtiss.531.t_geo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			desc = curtiss.531.t_meo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			desc = curtiss.531.t_bio
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			desc = curtiss.531.d_geo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			desc = curtiss.531.d_meo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			desc = curtiss.531.d_bio
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			desc = curtiss.531.f_geo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			desc = curtiss.531.f_meo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			desc = curtiss.531.f_bio
+		}
+	}
+	
+	duration = 2
+
+	event_image = { 
+		trigger = {
+			has_variable = curtiss_zeppelin_geography_var
+		}
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_icebergs.dds"
+	}
+
+	event_image = { 
+		trigger = {
+			has_variable = curtiss_zeppelin_meteorology_var
+		}
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_aurora.dds"
+	}
+
+	event_image = { 
+		trigger = {
+			has_variable = curtiss_zeppelin_biology_var
+		}
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_icebear.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_zeppelin_generic_1_cooldown
+		}
+	}
+
+	immediate = {
+		curtiss_add_1_zeppelin_progress = yes
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_expedition_leader_var
+			}
+			save_scope_as = curtiss_expedition_leader
+		}
+	}
+
+	option = {	#Wonderful!
+		name = curtiss.531.g
+		curtiss_add_1_zeppelin_science = yes
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_zeppelin_generic_1_cooldown
+			days = 30
+		}
+	}
+}
+
+#Curtiss 532: New maps/Magnetic studies/Narwhal (storm may come)
+
+curtiss.532 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			desc = curtiss.532.t_geo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			desc = curtiss.532.t_meo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			desc = curtiss.532.t_bio
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			desc = curtiss.532.d_geo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			desc = curtiss.532.d_meo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			desc = curtiss.532.d_bio
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			desc = curtiss.532.f_geo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			desc = curtiss.532.f_meo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			desc = curtiss.532.f_bio
+		}
+	}
+	
+	duration = 2
+
+	event_image = { 
+		trigger = {
+			has_variable = curtiss_zeppelin_geography_var
+		}
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_map.dds"
+	}
+
+	event_image = { 
+		trigger = {
+			has_variable = curtiss_zeppelin_meteorology_var
+		}
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_icebergs.dds"
+	}
+
+	event_image = { 
+		trigger = {
+			has_variable = curtiss_zeppelin_biology_var
+		}
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_narwhal.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_zeppelin_generic_2_cooldown
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_expedition_leader_var
+			}
+			save_scope_as = curtiss_expedition_leader
+		}
+	}
+
+	option = {	#We should stay longer 
+		name = curtiss.532.g
+		curtiss_add_1_zeppelin_science = yes
+		random_list = {
+			55 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_expedition_leader = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_zeppelin_focus_modifier
+						}
+					}
+					add = 10
+				}
+			}
+			45 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_expedition_leader = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = -10
+				}
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_zeppelin_focus_modifier
+						}
+					}
+					add = -10
+				}
+				trigger_event = { 
+					id = curtiss.535
+					days = 2
+					popup = yes
+				}
+			}
+		}
+	}
+
+	option = {	#This is too risky 
+		name = curtiss.532.h
+		default_option = yes
+		curtiss_add_1_zeppelin_progress = yes
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_zeppelin_generic_2_cooldown
+			days = 30
+		}
+	}
+}
+
+#Curtiss 533: Surveying Arctica/Meteorological station/Searching fossiles (land)
+
+curtiss.533 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			desc = curtiss.533.t_geo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			desc = curtiss.533.t_meo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			desc = curtiss.533.t_bio
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			desc = curtiss.533.d_geo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			desc = curtiss.533.d_meo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			desc = curtiss.533.d_bio
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_geography_var
+			}
+			desc = curtiss.533.f_geo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_meteorology_var
+			}
+			desc = curtiss.533.f_meo
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_zeppelin_biology_var
+			}
+			desc = curtiss.533.f_bio
+		}
+	}
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_zeppelin_generic_3_cooldown
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_expedition_leader_var
+			}
+			save_scope_as = curtiss_expedition_leader
+		}
+	}
+
+	option = {	#Try to land 
+		name = curtiss.533.g
+		random_list = {
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_expedition_leader = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_zeppelin_focus_modifier
+						}
+					}
+					add = 10
+				}
+				curtiss_add_1_zeppelin_science = yes
+			}
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_expedition_leader = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = -10
+				}
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_zeppelin_focus_modifier
+						}
+					}
+					add = -10
+				}
+				curtiss_add_1_zeppelin_danger = yes
+			}
+		}
+	}
+
+	option = {	#This is too risky 
+		name = curtiss.533.h
+		default_option = yes
+		curtiss_add_1_zeppelin_progress = yes
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_zeppelin_generic_2_cooldown
+			days = 30
+		}
+	}
+}
+
+#Curtiss 534: Strong winds
+
+curtiss.534 = {
+	type = country_event
+
+	title = curtiss.534.t
+
+	desc = curtiss.534.d
+
+	flavor = curtiss.534.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		var:curtiss_zeppelin_progress >= 4
+		NOT = {
+			has_variable = curtiss_zeppelin_wind_cooldown
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {	#This is risky, but it will help us
+		name = curtiss.534.g
+		curtiss_add_1_zeppelin_science = yes
+		curtiss_add_1_zeppelin_danger = yes
+		curtiss_add_1_zeppelin_progress = yes
+	}
+
+	option = {	#This is madness! Change course!
+		name = curtiss.534.h
+		curtiss_sub_3_zeppelin_progress = yes
+	}
+
+	option = {	#We have superior zeppelin capabilities
+		name = curtiss.534.i
+		trigger = {
+			has_modifier = curtiss_zeppelin_focus_modifier
+		}
+		default_option = yes
+		curtiss_add_1_zeppelin_science = yes
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_zeppelin_wind_cooldown
+			days = 60
+		}
+	}
+}
+
+#Curtiss 535: Storm
+
+curtiss.535 = {
+	type = country_event
+
+	title = curtiss.535.t
+
+	desc = curtiss.535.d
+
+	flavor = curtiss.535.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#We have to take the risk.
+		name = curtiss.535.g
+		curtiss_add_1_zeppelin_danger = yes
+		random_list = {
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_zeppelin_focus_modifier
+						}
+					}
+					add = 10
+				}
+				curtiss_add_1_zeppelin_science = yes
+			}
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_zeppelin_focus_modifier
+						}
+					}
+					add = -10
+				}
+				curtiss_add_1_zeppelin_danger = yes
+			}
+		}
+	}
+
+	option = {	#Try to get us out of harm's way, whatever the cost!
+		name = curtiss.535.h
+		curtiss_add_1_zeppelin_danger = yes
+		curtiss_sub_3_zeppelin_progress = yes
+	}
+
+	option = {	#$PILOT$ will save the day
+		name = curtiss.535.i
+		trigger = {
+			scope:curtiss_expedition_leader = {
+				has_trait = curtiss_pilot_ace
+			}
+		}
+		default_option = yes
+		curtiss_sub_1_zeppelin_progress = yes
+	}
+}
+
+#Curtiss 536: Clear Weather
+
+curtiss.536 = {
+	type = country_event
+
+	title = curtiss.536.t
+
+	desc = curtiss.536.d
+
+	flavor = curtiss.536.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		curtiss_add_1_zeppelin_progress = yes
+	}
+
+	option = {	#Try an experiment
+		name = curtiss.536.g
+		random_list = {
+			65 = {
+				curtiss_add_1_zeppelin_science = yes
+			}
+			35 = {
+			}
+		}
+	}
+
+	option = {	#Try to repair the ship
+		name = curtiss.536.h
+		default_option = yes
+		trigger = {
+			var:curtiss_zeppelin_danger >= 1
+		}
+		random_list = {
+			65 = {
+				curtiss_sub_1_zeppelin_danger = yes
+			}
+			35 = {
+			}
+		}
+	}
+}
+
+#Curtiss 537: Icy propellers
+
+curtiss.537 = {
+	type = country_event
+
+	title = curtiss.537.t
+
+	desc = curtiss.537.d
+
+	flavor = curtiss.537.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		var:curtiss_zeppelin_science >= 2
+	}
+
+	immediate = {
+	}
+
+	option = {	#Keep calm and carry on.
+		name = curtiss.537.g
+		curtiss_add_1_zeppelin_danger = yes
+	}
+
+	option = {	#Drop ballast!
+		name = curtiss.537.h
+		default_option = yes
+		curtiss_sub_1_zeppelin_science = yes
+	}
+}
+
+#Curtiss 538: Zeppelin Anchorage
+
+curtiss.538 = {
+	type = country_event
+
+	title = curtiss.538.t
+
+	desc = curtiss.538.d
+
+	flavor = curtiss.538.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		curtiss_add_1_zeppelin_progress = yes
+	}
+
+	option = {	#A good place for a rest.
+		name = curtiss.538.g
+		default_option = yes
+		if = {
+			limit = {
+				var:curtiss_zeppelin_danger >= 1
+			}
+			curtiss_sub_1_zeppelin_danger = yes
+		}
+		if = {
+			limit = {
+				var:curtiss_zeppelin_danger = 0
+			}
+			curtiss_add_1_zeppelin_science = yes
+		}
+	}
+
+	option = {	#We should establish a permanent research station.
+		name = curtiss.538.h
+		trigger = {
+			NOT = {
+				has_modifier = curtiss_polar_station_modifier
+			}
+		}
+		add_modifier = {
+			name = curtiss_polar_station_modifier
+		}
+	}
+}
+
+#Curtiss 539: Engine failure!
+
+curtiss.539 = {
+	type = country_event
+
+	title = curtiss.539.t
+
+	desc = curtiss.539.d
+
+	flavor = curtiss.539.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_arctic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		var:curtiss_zeppelin_progress >= 6
+		NOT = {
+			has_modifier = curtiss_zeppelin_focus_modifier
+		}
+		NOT = {
+			has_variable = curtiss_zeppelin_engine_cooldown
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {	#This trip is ill-fated.
+		name = curtiss.539.g
+		default_option = yes
+		curtiss_add_1_zeppelin_danger = yes
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_zeppelin_engine_cooldown
+			days = 70
+		}
+	}
+}
+
+#######################################################################################################
+
+######BALLOONEERING######
+
+#Curtiss 600: Balloon flight from Vauxhall Gardens to Weilburg
+curtiss.600 = {
+	type = country_event
+
+	title = curtiss.600.t
+
+	desc = curtiss.600.d
+
+	flavor = curtiss.600.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_royal_vauxhall.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:GBR
+		c:GBR = root
+		NOT = {
+			has_global_variable = curtiss_royal_fauxhall_global_var
+		}
+		game_date > 1835.11.1
+	}
+
+	immediate = {
+		set_global_variable = curtiss_royal_fauxhall_global_var
+	}
+
+	option = {	#Another record for Great Britain!
+		name = curtiss.600.g
+		default_option = yes
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 601: Invention of the Rip Panel
+curtiss.601 = {
+	type = country_event
+
+	title = curtiss.601.t
+
+	desc = curtiss.601.d
+
+	flavor = curtiss.601.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_john_wise.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:USA
+		c:USA = root
+		NOT = {
+			has_global_variable = curtiss_rip_panel_invented_global_var
+		}
+		game_date > 1839.04.27
+	}
+
+	immediate = {
+		set_global_variable = curtiss_rip_panel_invented_global_var
+	}
+
+	option = {	#Great work! Hopefully we will hear of this guy again!
+		name = curtiss.601.g
+		default_option = yes
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 60x: First crossing of the Alps in a balloon by Francisque Arban
+curtiss.602 = {
+	type = country_event
+
+	title = curtiss.602.t
+
+	desc = curtiss.602.d
+
+	flavor = curtiss.602.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_francisque_arban.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:FRA
+		c:FRA = root
+		NOT = {
+			has_global_variable = curtiss_arban_alps_global_var
+		}
+		game_date > 1849.10.07
+	}
+
+	immediate = {
+		set_global_variable = curtiss_arban_alps_global_var
+	}
+
+	option = {	#Magnifique! A true Hero of France!
+		name = curtiss.602.g
+		default_option = yes
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 60x: Francisque Arban disappeared during a balloon flight over the Mediterranean Sea
+curtiss.603 = {
+	type = country_event
+
+	title = curtiss.603.t
+
+	desc = curtiss.603.d
+
+	flavor = curtiss.603.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_francisque_arban.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:FRA
+		c:FRA = root
+		has_global_variable = curtiss_arban_alps_global_var
+		NOT = {
+			has_global_variable = curtiss_arban_mediterranean_lost_global_var
+		}
+		game_date > 1849.09.02
+	}
+
+	immediate = {
+		set_global_variable = curtiss_arban_mediterranean_lost_global_var
+	}
+
+	option = {	#Horrible! Send out ships to search him!
+		name = curtiss.603.g
+		default_option = yes
+
+		add_treasury = -20000
+
+		add_modifier = {
+			name = curtiss_arban_lost_modifier
+			months = 24
+		}
+
+		hidden_effect = {
+			random_list = {
+				3 = {
+					trigger_event = {
+						id = curtiss.604
+						days = { 2 21 }
+					}
+					set_variable = curtiss_searching_arban_mediterranean
+				}
+				2 = {
+					trigger_event = {
+						id = curtiss.605
+						years = 4
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#It was a risk he was willing to take...
+		name = curtiss.603.h
+
+		add_modifier = {
+			name = curtiss_arban_lost_modifier
+			months = 24
+		}
+
+		hidden_effect = {
+			random_list = {
+				1 = {
+					trigger_event = {
+						id = curtiss.604
+						days = { 2 21 }
+					}
+				}
+				9 = {
+					trigger_event = {
+						id = curtiss.605
+						years = 4
+					}
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 60x: Francisque Arban saved
+curtiss.604 = {
+	type = country_event
+
+	title = curtiss.604.t
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_searching_arban_mediterranean
+			}
+			desc = curtiss.604.d1
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_variable = curtiss_searching_arban_mediterranean
+				}
+			}
+			desc = curtiss.604.d2
+		}
+	}
+
+	flavor = curtiss.604.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_arban_rescue.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#What luck! Welcome back Arban!
+		name = curtiss.604.g
+		default_option = yes
+
+		remove_modifier = curtiss_arban_lost_modifier
+		remove_variable = curtiss_searching_arban_mediterranean
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 605: Extra: Arban enslaved in Africa!
+curtiss.605 = {
+	type = country_event
+
+	title = curtiss.605.t
+
+	desc = curtiss.605.d
+
+	flavor = curtiss.605.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_arban_slave.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		any_country = {
+			AND = {
+				OR = {
+					has_law = law_type:law_debt_slavery
+					has_law = law_type:law_slave_trade
+					has_law = law_type:law_legacy_slavery
+				}
+				OR = {
+					has_state_in_state_region = STATE_ALGIERS
+					has_state_in_state_region = STATE_CONSTANTINE
+					has_state_in_state_region = STATE_EAST_SAHARA
+					has_state_in_state_region = STATE_FEZ
+					has_state_in_state_region = STATE_INNER_MOROCCO
+					has_state_in_state_region = STATE_LIBYA
+					has_state_in_state_region = STATE_LIBYAN_DESERT
+					has_state_in_state_region = STATE_MARRAKECH
+					has_state_in_state_region = STATE_SAHARA
+					has_state_in_state_region = STATE_TLEMCEN
+					has_state_in_state_region = STATE_TRIPOLI
+					has_state_in_state_region = STATE_TUNISIA
+					has_state_in_state_region = STATE_WEST_SAHARA
+					has_state_in_state_region = STATE_AL_RIF
+				}
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {	#We have to find Arban!
+		name = curtiss.605.g
+		default_option = yes
+
+		add_modifier = {
+			name = curtiss_searching_arban_modifier
+			months = 12
+		}
+
+		hidden_effect = {
+			random_list = {
+				3 = {
+					trigger_event = {
+						id = curtiss.606
+						days = { 30 180 }
+					}
+				}
+				2 = {
+					trigger_event = {
+						id = curtiss.608
+						months = { 6 11 }
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#Those are stories no one should believe.
+		name = curtiss.605.h
+
+		add_radicals = {
+			value = 0.01
+			strata = rich
+		} 
+	}
+}
+
+#Curtiss 606: Arban was enslaved in SCOPE
+curtiss.606 = {
+	type = country_event
+
+	title = curtiss.606.t
+
+	desc = curtiss.606.d
+
+	flavor = curtiss.606.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_arban_slave.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		any_country = {
+			AND = {
+				OR = {
+					has_law = law_type:law_debt_slavery
+					has_law = law_type:law_slave_trade
+					has_law = law_type:law_legacy_slavery
+				}
+				OR = {
+					has_state_in_state_region = STATE_ALGIERS
+					has_state_in_state_region = STATE_CONSTANTINE
+					has_state_in_state_region = STATE_EAST_SAHARA
+					has_state_in_state_region = STATE_FEZ
+					has_state_in_state_region = STATE_INNER_MOROCCO
+					has_state_in_state_region = STATE_LIBYA
+					has_state_in_state_region = STATE_LIBYAN_DESERT
+					has_state_in_state_region = STATE_MARRAKECH
+					has_state_in_state_region = STATE_SAHARA
+					has_state_in_state_region = STATE_TLEMCEN
+					has_state_in_state_region = STATE_TRIPOLI
+					has_state_in_state_region = STATE_TUNISIA
+					has_state_in_state_region = STATE_WEST_SAHARA
+					has_state_in_state_region = STATE_AL_RIF
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				AND = {
+					OR = {
+						has_law = law_type:law_debt_slavery
+						has_law = law_type:law_slave_trade
+						has_law = law_type:law_legacy_slavery
+					}
+					OR = {
+						has_state_in_state_region = STATE_ALGIERS
+						has_state_in_state_region = STATE_CONSTANTINE
+						has_state_in_state_region = STATE_EAST_SAHARA
+						has_state_in_state_region = STATE_FEZ
+						has_state_in_state_region = STATE_INNER_MOROCCO
+						has_state_in_state_region = STATE_LIBYA
+						has_state_in_state_region = STATE_LIBYAN_DESERT
+						has_state_in_state_region = STATE_MARRAKECH
+						has_state_in_state_region = STATE_SAHARA
+						has_state_in_state_region = STATE_TLEMCEN
+						has_state_in_state_region = STATE_TRIPOLI
+						has_state_in_state_region = STATE_TUNISIA
+						has_state_in_state_region = STATE_WEST_SAHARA
+						has_state_in_state_region = STATE_AL_RIF
+					}
+				}
+			}
+			save_scope_as = curtiss_arban_slaver_scope
+		}
+	}
+
+	option = {	#We will free him from his captors!
+		name = curtiss.606.g
+		default_option = yes
+
+		scope:curtiss_arban_slaver_scope = {
+			change_relations = {
+				country = root
+				value = -20
+			}
+		}
+
+		set_variable = curtiss_force_freed_arban_var
+
+		trigger_event = {
+			id = curtiss.607
+			days = 7
+		}
+	}
+
+	option = {	#Let us just pay and get this over with...
+		name = curtiss.606.h
+
+		add_treasury = -50000
+		
+		add_radicals = {
+			value = 0.02
+			pop_type = academics
+		}
+
+		trigger_event = {
+			id = curtiss.607
+			days = 7
+		}
+	}
+}
+
+#Curtiss 607: Arban freed from slavery
+curtiss.607 = {
+	type = country_event
+
+	title = curtiss.607.t
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_force_freed_arban_var
+			}
+			desc = curtiss.607.d1
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_variable = curtiss_force_freed_arban_var
+				}
+			}
+			desc = curtiss.607.d2
+		}
+	}
+
+	flavor = curtiss.607.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_francisque_arban.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#A succesful rescue!
+		name = curtiss.607.g
+		default_option = yes
+
+		trigger = {
+			has_variable = curtiss_force_freed_arban_var
+		}
+
+		remove_modifier = curtiss_searching_arban_modifier
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+
+	option = {	#Welcome back Arban!
+		name = curtiss.607.h
+
+		trigger = {
+			NOT = {
+				has_variable = curtiss_force_freed_arban_var
+			}
+		}
+
+		remove_modifier = curtiss_searching_arban_modifier
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 608: No traces of Arban
+curtiss.608 = {
+	type = country_event
+
+	title = curtiss.608.t
+
+	desc = curtiss.608.d
+
+	flavor = curtiss.608.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_arban_slave.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Cancel the search.
+		name = curtiss.608.g
+		default_option = yes
+
+		remove_modifier = curtiss_searching_arban_modifier
+	}
+}
+
+#Curtiss 609: Nadar takes first aerial photos from a balloon
+curtiss.609 = {
+	type = country_event
+
+	title = curtiss.609.t
+
+	desc = curtiss.609.d
+
+	flavor = curtiss.609.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_nadar_photography.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:FRA
+		c:FRA = root
+		NOT = {
+			has_global_variable = curtiss_nadar_photos_global_var
+		}
+		has_technology_researched = curtiss_montgolfier_balloon_tech
+		has_technology_researched = camera
+	}
+
+	immediate = {
+		set_global_variable = curtiss_nadar_photos_global_var
+	}
+
+	option = {	#Those photos look great!
+		name = curtiss.609.g
+		default_option = yes
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 610: Nadar's "Le Géant" crashes in Hannover
+curtiss.610 = {
+	type = country_event
+	placement = scope:hannover_state_scope
+
+	title = curtiss.610.t
+
+	desc = curtiss.610.d
+
+	flavor = curtiss.610.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_nadar_crash.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:FRA
+		c:FRA = root
+		NOT = {
+			has_global_variable = curtiss_nadar_crashed_global_var
+		}
+		game_date = 1863.01.01
+	}
+
+	immediate = {
+		set_global_variable = curtiss_nadar_crashed_global_var
+		random_state = {
+			limit = {
+				state_region = s:STATE_HANNOVER
+			}
+			save_scope_as = hannover_state_scope
+		} 
+	}
+
+	option = {	#What a horrible accident!
+		name = curtiss.610.g
+		default_option = yes
+
+		small_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 611: Glaisher and Coxwell set record for highest balloon flight
+curtiss.611 = {
+	type = country_event
+
+	title = curtiss.611.t
+
+	desc = curtiss.611.d
+
+	flavor = curtiss.611.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_glaisher_coxwell.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:GBR
+		c:GBR = root
+		NOT = {
+			has_global_variable = curtiss_glaisher_coxwell_global_var
+		}
+		game_date = 1862.01.01
+	}
+
+	immediate = {
+		set_global_variable = curtiss_glaisher_coxwell_global_var
+	}
+
+	option = {	#They are lucky to have survived!
+		name = curtiss.611.g
+		default_option = yes
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 612: Eduard Spelterini transports passengers across the Alps
+curtiss.612 = {
+	type = country_event
+
+	title = curtiss.612.t
+
+	desc = curtiss.612.d
+
+	flavor = curtiss.612.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_spelterini.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:SWI
+		c:SWI = root
+		NOT = {
+			has_global_variable = curtiss_spelterini_global_var
+		}
+		game_date = 1898.10.03
+	}
+
+	immediate = {
+		set_global_variable = curtiss_spelterini_global_var
+	}
+
+	option = {	#An unbelieveable view!
+		name = curtiss.612.g
+		default_option = yes
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 613: First flight of a steerable airship built by Giffard
+curtiss.613 = {
+	type = country_event
+
+	title = curtiss.613.t
+
+	desc = curtiss.613.d
+
+	flavor = curtiss.613.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_giffard_dirigible.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:FRA
+		c:FRA = root
+		NOT = {
+			has_global_variable = curtiss_giffard_dirigible_global_var
+		}
+		game_date = 1852.09.24
+	}
+
+	immediate = {
+		set_global_variable = curtiss_giffard_dirigible_global_var
+	}
+
+	option = {	#Maybe soon those steerable balloons will conquer the skies!
+		name = curtiss.613.g
+		default_option = yes
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+#Curtiss 650: Introducing our new balloonist
+curtiss.650 = {
+	type = character_event
+
+	title = curtiss.650.t
+
+	desc = curtiss.650.d
+
+	flavor = curtiss.650.f
+	
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#triggered by decision
+	}
+
+	immediate = {
+		root = {
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+
+	option = {	#Hopefully supporting him will be worth it!
+		name = curtiss.650.g
+		default_option = yes
+	}
+}
+
+#Curtiss 690: Record test event
+curtiss.690 = {
+	type = country_event
+
+	title = curtiss.690.t
+
+	desc = curtiss.690.d
+
+	flavor = curtiss.690.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_giffard_dirigible.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		curtiss_new_balloon_altitude_effect = yes
+		curtiss_new_balloon_distance_effect = yes
+		curtiss_new_balloon_time_effect = yes
+
+		set_variable = {
+			name = record_holder_var
+			value = root
+		}
+	}
+
+	option = {	#Maybe soon those steerable balloons will conquer the skies!
+		name = curtiss.690.g
+		default_option = yes
+
+		curtiss_balloon_country_altitude_record_effect = yes
+		curtiss_balloon_country_distance_record_effect = yes
+		curtiss_balloon_country_time_record_effect = yes
+	}
+}

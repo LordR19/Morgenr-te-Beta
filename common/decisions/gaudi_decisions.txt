@@ -1,0 +1,566 @@
+﻿####################
+# GAUDÍ DECISIONS  #
+####################
+
+#by Marco Dandolo
+
+######################
+
+######COLOGNE CATHEDRAL######
+
+gaudi_dombau_phase_1_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		OR = {
+			country_has_primary_culture = cu:south_german
+			country_has_primary_culture = cu:north_german
+		}
+		NOT = {
+			has_global_variable = gaudi_dombau_building_phase_1
+		}
+		NOT = {
+			has_global_variable = gaudi_dombau_finished_phase_1
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}	
+		has_technology_researched = romanticism
+		has_technology_researched = nationalism
+		gold_reserves > 10000
+	}
+	
+	when_taken = {
+		add_treasury = -10000
+		set_global_variable = {
+			name = gaudi_dombau_progress
+			value = 0
+		}
+		set_global_variable = gaudi_dombau_building_phase_1
+		trigger_event = {
+			id = gaudi.101
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+gaudi_dombau_phase_2_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		OR = {
+			country_has_primary_culture = cu:south_german
+			country_has_primary_culture = cu:north_german
+		}
+		has_global_variable = gaudi_dombau_finished_phase_1
+		NOT = {
+			has_global_variable = gaudi_dombau_building_phase_2
+		}
+		NOT = {
+			has_global_variable = gaudi_dombau_finished_phase_2
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}	
+		has_technology_researched = elgar_irrationalism_tech
+		gold_reserves > 20000
+	}
+	
+	when_taken = {
+		add_treasury = -20000
+		set_global_variable = gaudi_dombau_building_phase_2
+		trigger_event = {
+			id = gaudi.103
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+gaudi_dombau_phase_3_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		OR = {
+			country_has_primary_culture = cu:south_german
+			country_has_primary_culture = cu:north_german
+		}
+		has_global_variable = gaudi_dombau_finished_phase_2
+		NOT = {
+			has_global_variable = gaudi_dombau_building_phase_3
+		}
+		NOT = {
+			has_global_variable = gaudi_dombau_finished_phase_3
+		}
+	}
+
+	possible = {	
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		has_technology_researched = steel_frame_buildings
+		gold_reserves > 40000
+	}
+	
+	when_taken = {
+		add_treasury = -40000
+		set_global_variable = gaudi_dombau_building_phase_3
+		trigger_event = {
+			id = gaudi.105
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+gaudi_dombau_phase_4_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		OR = {
+			country_has_primary_culture = cu:south_german
+			country_has_primary_culture = cu:north_german
+		}
+		has_global_variable = gaudi_dombau_finished_phase_3
+		NOT = {
+			has_global_variable = gaudi_dombau_building_phase_4
+		}
+		NOT = {
+			has_global_variable = gaudi_dombau_finished_phase_4
+		}
+	}
+
+	possible = {	
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		has_technology_researched = elevator
+		gold_reserves > 80000
+	}
+	
+	when_taken = {
+		add_treasury = -80000
+		set_global_variable = gaudi_dombau_building_phase_4
+		trigger_event = {
+			id = gaudi.107
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+##################################################
+
+######GOTTHARD RAILWAY######
+
+gaudi_gotthard_survey_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_EAST_SWITZERLAND
+		}
+		NOT = {
+			has_global_variable = gaudi_gotthard_survey
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_EAST_SWITZERLAND
+		}	
+		has_technology_researched = steel_railway_cars
+		any_scope_state = {
+			state_region = s:STATE_EAST_SWITZERLAND
+			has_building = building_railway
+		}
+		any_scope_character = {
+			has_role = general	
+			is_busy = no
+			count >= 1
+		}
+		gold_reserves > 10000
+	}
+	
+	when_taken = {
+		add_treasury = -10000
+		set_global_variable = {
+			name = gaudi_gotthard_progress
+			value = 0
+		}
+		set_global_variable = gaudi_gotthard_survey
+		trigger_event = {
+			id = gaudi.211
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+gaudi_gotthard_construction_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_EAST_SWITZERLAND
+		}
+		has_global_variable = gaudi_gotthard_survey_finished
+		NOT = {
+			has_global_variable = gaudi_gotthard_construction
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_EAST_SWITZERLAND
+		}	
+		has_technology_researched = dynamite
+		
+		gold_reserves > 100000
+	}
+	
+	when_taken = {
+		add_treasury = -100000
+		set_global_variable = {
+			name = gaudi_gotthard_progress
+			value = 0
+		}
+		set_global_variable = {
+			name = gaudi_gotthard_discontent
+			value = 0
+		}
+		set_global_variable = gaudi_gotthard_construction
+		trigger_event = {
+			id = gaudi.213
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+##################################################
+
+######CRISTO REDENTOR######
+
+gaudi_cristo_construction_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_RIO_DE_JANEIRO
+		}
+		country_has_primary_culture = cu:brazilian
+		NOT = {
+			has_global_variable = gaudi_cristo_building
+		}
+		NOT = {
+			has_global_variable = gaudi_cristo_finished
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_RIO_DE_JANEIRO
+		}	
+		has_technology_researched = reinforced_concrete
+		has_technology_researched = steel_frame_buildings
+		has_technology_researched = elgar_art_deco_tech
+		gold_reserves > 25000
+	}
+	
+	when_taken = {
+		add_treasury = -25000
+		set_global_variable = {
+			name = gaudi_cristo_progress
+			value = 0
+		}
+		set_global_variable = gaudi_cristo_building
+		trigger_event = {
+			id = gaudi.301
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+##################################################
+
+######MOLE ANTONELLIANA######
+
+gaudi_mole_phase_1_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_PIEDMONT
+		}
+		OR = {
+			country_has_primary_culture = cu:south_italian
+			country_has_primary_culture = cu:north_italian
+		}
+		NOT = {
+			has_global_variable = gaudi_mole_building_phase_1
+		}
+		NOT = {
+			has_global_variable = gaudi_mole_finished
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_PIEDMONT
+		}	
+		exists = c:ITA
+		ROOT = c:ITA
+		has_technology_researched = nationalism
+		gold_reserves > 20000
+	}
+	
+	when_taken = {
+		add_treasury = -20000
+		set_global_variable = {
+			name = gaudi_mole_progress
+			value = 0
+		}
+		set_global_variable = gaudi_mole_building_phase_1
+		trigger_event = {
+			id = gaudi.401
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+gaudi_mole_phase_2_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_PIEDMONT
+		}
+		OR = {
+			country_has_primary_culture = cu:south_italian
+			country_has_primary_culture = cu:north_italian
+		}
+		has_global_variable = gaudi_mole_finished_phase_1
+		NOT = {
+			has_global_variable = gaudi_mole_building_phase_2
+		}
+		NOT = {
+			has_global_variable = gaudi_mole_finished
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_PIEDMONT
+		}	
+		exists = c:ITA
+		ROOT = c:ITA
+		has_technology_researched = elevator
+		gold_reserves > 40000
+	}
+	
+	when_taken = {
+		add_treasury = -40000
+		set_global_variable = {
+			name = gaudi_mole_progress
+			value = 0
+		}
+		set_global_variable = gaudi_mole_building_phase_2
+		trigger_event = {
+			id = gaudi.403
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+##################################################
+
+######VIENNA RINGSTRASSE######
+
+gaudi_ringstrasse_phase_1_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_AUSTRIA
+		}
+		exists = c:AUS
+		ROOT = c:AUS
+		NOT = {
+			has_global_variable = gaudi_ringstrasse_building_phase_1
+		}
+		NOT = {
+			has_global_variable = gaudi_ringstrasse_finished
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_AUSTRIA
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 10
+			}
+		}	
+		exists = c:AUS
+		ROOT = c:AUS
+		has_technology_researched = modern_sewerage
+		has_technology_researched = elgar_irrationalism_tech
+		gold_reserves > 25000
+	}
+	
+	when_taken = {
+		add_treasury = -25000
+		set_global_variable = {
+			name = gaudi_ringstrasse_progress
+			value = 0
+		}
+		set_global_variable = gaudi_ringstrasse_building_phase_1
+		trigger_event = {
+			id = gaudi.501
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+gaudi_ringstrasse_phase_2_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_AUSTRIA
+		}
+		exists = c:AUS
+		ROOT = c:AUS
+		has_global_variable = gaudi_ringstrasse_finished_phase_1
+		NOT = {
+			has_global_variable = gaudi_ringstrasse_building_phase_2
+		}
+		NOT = {
+			has_global_variable = gaudi_ringstrasse_finished
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_AUSTRIA
+			any_scope_building = {
+				is_building_type = building_government_administration
+				level >= 15
+			}
+			any_scope_building = {
+				is_building_type = building_elgar_opera
+				level >= 10
+			}
+		}	
+		exists = c:AUS
+		ROOT = c:AUS
+		gold_reserves > 35000
+	}
+	
+	when_taken = {
+		add_treasury = -35000
+		set_global_variable = {
+			name = gaudi_ringstrasse_progress
+			value = 0
+		}
+		set_global_variable = gaudi_ringstrasse_building_phase_2
+		trigger_event = {
+			id = gaudi.503
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+gaudi_ringstrasse_phase_3_decision = {
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_AUSTRIA
+		}
+		exists = c:AUS
+		ROOT = c:AUS
+		has_global_variable = gaudi_ringstrasse_finished_phase_2
+		NOT = {
+			has_global_variable = gaudi_ringstrasse_building_phase_3
+		}
+		NOT = {
+			has_global_variable = gaudi_ringstrasse_finished
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_AUSTRIA
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 15
+			}
+			any_scope_building = {
+				is_building_type = building_university
+				level >= 10
+			}
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				level >= 5
+			}
+			any_scope_building = {
+				is_building_type = building_lepsius_archaeological_museum
+			}
+		}	
+		exists = c:AUS
+		ROOT = c:AUS
+		gold_reserves > 50000
+	}
+	
+	when_taken = {
+		add_treasury = -50000
+		set_global_variable = {
+			name = gaudi_ringstrasse_progress
+			value = 0
+		}
+		set_global_variable = gaudi_ringstrasse_building_phase_3
+		trigger_event = {
+			id = gaudi.505
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}

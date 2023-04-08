@@ -1,0 +1,393 @@
+﻿######################
+# VERRIER DECISIONS  #
+######################
+
+#by Marco Dandolo
+
+######################
+
+#########SHOW AND HODE ASTRONOMICAL DECISIONS#####################################
+
+
+verrier_hide_astronomical_decisions = {
+	is_shown = {		
+		has_technology_researched = verrier_physics_tech
+		NOT = {
+			has_variable = verrier_astronomical_decisions_hide
+		}
+		is_player = yes
+	}
+
+	possible = {
+	}
+
+	when_taken = {
+		custom_tooltip = {
+			text = verrier_hide_astronomical_decisions_tt
+			set_variable = verrier_astronomical_decisions_hide
+		} 
+	}
+	
+	ai_chance = {
+		base = 0 #AI should never do this
+	}
+}
+
+verrier_show_astronomical_decisions = {
+	is_shown = {		
+		has_technology_researched = verrier_physics_tech
+		has_variable = verrier_astronomical_decisions_hide
+	}
+
+	possible = {
+	}
+
+	when_taken = {
+		custom_tooltip = {
+			text = verrier_show_astronomical_decisions_tt
+			remove_variable = verrier_astronomical_decisions_hide
+		} 
+	}
+	
+	ai_chance = {
+		base = 10000 #AI should do this only one time
+	}
+}
+
+#########OBSERVATORY##############################################################
+
+#Found Observatory
+
+verrier_found_observatory_decision = {
+	is_shown = {
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+			}
+		}
+		NOT = {
+			any_scope_state = {
+				has_modifier = verrier_observatory_foundation_modifier
+			}
+		}
+		NOT = {
+			has_variable = verrier_astronomical_decisions_hide
+		}
+	}
+
+	possible = {
+		has_technology_researched = verrier_physics_tech
+		OR = {
+			has_technology_researched = verrier_astronomy_tech
+			any_scope_character = {
+				OR = {
+					has_trait = verrier_astronomer
+					has_trait = innovative
+				}
+			}
+		}
+		OR = {
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 5
+			}
+			any_scope_building = {
+				is_building_type = building_university
+				level >= 2
+			}
+		}
+		gold_reserves > 30000
+	}
+
+	when_taken = {
+		trigger_event = {
+			id = verrier.5
+			popup = yes 
+		}
+		add_treasury = -15000
+		set_variable = {
+            name = verrier_astronomical_objects
+            value = 0
+		}
+		set_variable = {
+            name = verrier_moon_photo
+            value = 0
+		}
+		set_variable = {
+            name = verrier_great_comet
+            value = 0
+		}
+	}
+	
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+			}
+			add = 100
+		}
+	}
+}
+
+#Visit the Observatory
+
+verrier_visit_observatory_decision = {
+	is_shown = {
+		has_technology_researched = verrier_physics_tech
+		NOT = {
+			has_variable = verrier_visiting_observatory_var
+		}
+		NOT = {
+			has_variable = verrier_astronomical_decisions_hide
+		}
+	}
+
+	possible = {
+		NOT = {
+			has_variable = verrier_visiting_observatory_var
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+	}
+
+	when_taken = {
+		trigger_event = { 
+			id = verrier.100 
+			popup = yes 
+		}
+		set_variable = verrier_visiting_observatory_var
+	}
+	
+	ai_chance = {
+		base = 0 #You stay out	
+	}
+}
+
+#######CHARTER THE MOON###########################################################
+
+#Charter the Moon
+
+verrier_charter_moon_decision = {
+	is_shown = {		
+		has_technology_researched = verrier_astronomy_tech
+		NOT = {
+			has_variable = verrier_charter_moon_decision_var
+		}
+		NOT = {
+			has_variable = verrier_astronomical_decisions_hide
+		}
+	}
+
+	possible = {
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 10
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+		has_technology_researched = camera
+	}
+
+	when_taken = {
+		add_journal_entry = {
+			type = je_verrier_charter_moon
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_modifier = {
+				name = verrier_charter_moon_modifier
+				multiplier = money_amount_multiplier_small
+			}
+		}
+		if = {
+			limit = {
+				is_player = no
+			}
+			add_modifier = {
+				name = verrier_charter_moon_modifier
+			}
+		}
+		set_variable = {
+            name = verrier_moon_photo
+            value = 0
+		}
+		set_variable = verrier_charter_moon_decision_var
+	}
+	
+	ai_chance = {
+		base = 1000
+	}
+}
+
+######ASTRONOMICAL CONGRESS#######################################################
+
+#Asteroids
+
+verrier_asteroid_congress_decision = {
+	
+	is_shown = {
+		has_global_variable = verrier_neptune_discovered_var
+		NOT = {
+			has_global_variable = verrier_asteroid_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = verrier_congress_host_modifier
+			}
+		}
+		NOT = {
+			has_variable = verrier_astronomical_decisions_hide
+		}
+	}
+
+	possible = {
+		country_rank >= rank_value:major_power
+		has_technology_researched = verrier_astronomy_tech
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 5
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+		any_scope_character = {
+			has_trait = verrier_astronomer
+		}
+		custom_tooltip = {
+			text = verrier_asteroid_congress_decision_tt
+			global_var:verrier_total_astronomical_objects >= 1500
+		}
+	}
+
+	when_taken = {
+		trigger_event = { 
+			id = verrier.30
+			popup = yes 
+		}
+		set_global_variable = verrier_asteroid_congress_hosted_var
+		add_modifier = {
+			name = verrier_congress_host_modifier
+			years = 5
+		}
+	}
+	
+	ai_chance = {
+		base = 1000
+	}
+}
+
+#Carte du Ciel
+
+verrier_carte_congress_decision = {
+	
+	is_shown = {
+		has_global_variable = verrier_asteroid_congress_hosted_var
+		NOT = {
+			has_global_variable = verrier_carte_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = verrier_congress_host_modifier
+			}
+		}
+		NOT = {
+			has_variable = verrier_astronomical_decisions_hide
+		}
+	}
+
+	possible = {
+		country_rank >= rank_value:major_power
+		has_technology_researched = verrier_electromagnetism_tech
+		has_technology_researched = camera
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 10
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+		any_scope_character = {
+			has_trait = verrier_astronomer
+		}
+		custom_tooltip = {
+			text = verrier_carte_congress_decision_tt
+			global_var:verrier_total_astronomical_objects >= 7000
+		}
+	}
+
+	when_taken = {
+		trigger_event = { 
+			id = verrier.80
+			popup = yes 
+		}
+		set_global_variable = verrier_carte_congress_hosted_var
+		add_modifier = {
+			name = verrier_congress_host_modifier
+			years = 5
+		}
+	}
+	
+	ai_chance = {
+		base = 100
+	}
+}
+
+#Great Debate
+
+verrier_great_debate_decision = {
+	
+	is_shown = {
+		has_global_variable = verrier_carte_congress_hosted_var
+		NOT = {
+			has_global_variable = verrier_debate_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = verrier_congress_host_modifier
+			}
+		}
+		NOT = {
+			has_variable = verrier_astronomical_decisions_hide
+		}
+	}
+
+	possible = {
+		country_rank >= rank_value:major_power
+		has_technology_researched = verrier_astro_physics_tech
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 15
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+		any_scope_character = {
+			has_trait = verrier_astronomer
+		}
+		custom_tooltip = {
+			text = verrier_debate_congress_decision_tt
+			global_var:verrier_total_astronomical_objects >= 12000
+		}
+	}
+
+	when_taken = {
+		trigger_event = { 
+			id = verrier.86
+			popup = yes 
+		}
+		set_global_variable = verrier_debate_congress_hosted_var
+		add_modifier = {
+			name = verrier_congress_host_modifier
+			years = 5
+		}
+	}
+	
+	ai_chance = {
+		base = 100
+	}
+}

@@ -1,0 +1,121 @@
+﻿####################
+# ELGAR BUILDINGS  #
+####################
+
+#by Marco Dandolo
+
+##########################
+
+#Opera House
+
+building_elgar_opera = {
+
+	building_group = bg_opera
+
+	city_type = city
+	levels_per_mesh = 1
+
+	expandable = yes
+
+	unlocking_technologies = {
+		elgar_classicism_tech
+	}
+
+	production_method_groups = {
+		pmg_elgar_ownership_opera
+		pmg_elgar_orchestra
+		pmg_elgar_ballet_school
+	}
+
+	can_build_government = {
+		error_check = {
+			severity = invalid
+			custom_tooltip = {
+				text = elgar_opera_can_construct_tt
+				OR = {
+					AND = {
+						is_capital = yes
+						any_scope_building = {
+							is_building_type = building_urban_center
+							level >= 3
+						}
+					}
+					has_variable = elgar_opera_state_1
+					has_variable = elgar_opera_state_2
+				}
+			}
+		}
+	}
+
+	can_build_private = {
+		error_check = {
+			severity = invalid
+			custom_tooltip = {
+				text = elgar_opera_can_construct_tt
+				OR = {
+					AND = {
+						is_capital = yes
+						any_scope_building = {
+							is_building_type = building_urban_center
+							level >= 3
+						}
+					}
+					has_variable = elgar_opera_state_1
+					has_variable = elgar_opera_state_2
+				}
+			}
+		}
+	}
+
+	texture = "gfx/interface/icons/building_icons/building_elgar_opera.dds"
+
+	required_construction = construction_cost_medium
+}
+
+building_tooling_workshops = {
+	building_group = bg_light_industry
+	texture = "gfx/interface/icons/building_icons/tooling_workshops.dds"
+	
+	unlocking_technologies = {
+		manufacturies
+	}
+
+	city_type = city
+	levels_per_mesh = 5
+
+	production_method_groups = {
+		pmg_base_building_tooling_workshops
+		pmg_automation_building_tooling_workshops
+		pmg_ownership_capital_building_tooling_workshops
+		pmg_elgar_instruments
+	}
+
+	required_construction = construction_cost_high
+	
+	ai_value = 2000 # Tools are very important
+}
+
+building_urban_center = {
+	building_group = bg_service
+	texture = "gfx/interface/icons/building_icons/urban_center.dds"
+	city_type = city
+	residence_points_per_level = 0
+	
+	unlocking_technologies = { 
+		urbanization
+	}
+	
+	production_method_groups = {
+		pmg_amenities
+		pmg_street_lighting
+		pmg_public_transport
+		pmg_urban_clergy
+		pmg_radio_stations
+	}
+	
+	buildable = no
+	expandable = no
+	downsizeable = no	
+	
+	terrain_manipulator = urban_city
+}

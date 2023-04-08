@@ -1,0 +1,3856 @@
+﻿###################
+# VERRIER EVENTS  #
+###################
+
+#by Marco Dandolo
+
+###################
+
+namespace = verrier
+
+###################
+
+#Events
+
+#Verrier 1: Yearly astronomical report
+#Verrier 5: Found an Observatory
+
+#Neptun
+
+#Verrier 10: Neptune discovered
+#Verrier 11: Neptune notification for player
+
+#Pluto
+
+#Verrier 20: Pluto discovered
+#Verrier 21: Pluto notification for player
+
+#Ceres
+
+#Verrier 30: Congress on Asteroids
+#Verrier 31: Should Ceres remain a planet?
+#Verrier 32: Ceres is not a planet anymore/Ceres remains a planet
+#Verrier 33: Ceres demoted notification for player
+#Verrier 34: Ceres saved notification for player
+
+#Astronomical Observations
+
+#Verrier 40: Comet sighted!
+#Verrier 41: A new Asteroid
+#Verrier 42: Meteor shower
+#Verrier 43: Nebula
+#Verrier 44: Naming a star
+#Verrier 45: Astronomer
+#Verrier 46: Star maps wrong
+#Verrier 47: New Moon
+
+#Mapping the Moon
+
+#Verrier 50: Map of the Moon
+#Verrier 51: Lunar channel
+#Verrier 52: Lunar crater
+#Verrier 53: Lunar maria
+#Verrier 54: Lunar mountains
+
+#Comets
+
+#Verrier 60: Comet of 1843
+#Verrier 61: Comet of 1843
+#Verrier 62: Comet of 1843
+#Verrier 63: Donati's Comet (1858)
+#Verrier 64: Donati's Comet (1858)
+#Verrier 65: Donati's Comet (1858)
+#Verrier 66: Tebutt's Comet (1861)
+#Verrier 67: Tebutt's Comet (1861)
+#Verrier 68: Tebutt's Comet (1861)
+#Verrier 69: Coggia's Comet (1874)
+#Verrier 70: Coggia's Comet (1874)
+#Verrier 71: Coggia's Comet (1874)
+#Verrier 72: Comet of 1882
+#Verrier 73: Comet of 1882
+#Verrier 74: Comet of 1882
+
+#Carte du Ciel and Great Debate
+
+#Verrier 80 Carte du Ciel - Invitations
+#Verrier 81 Carte du Ciel - An Invitation
+#Verrier 82 Carte du Ciel - Lauded, respected, laughed
+#Verrier 83 Carte du Ciel - Exchange
+#Verrier 84 Carte du Ciel - Exchange notification
+#Verrier 85 Carte du Ciel - Congress ends
+#Verrier 86 Great Debate - Invitation
+#Verrier 87 Great Debate - An Invitation
+#Verrier 88 Great Debate - Is the Milky Way the Universe?
+#Verrier 89 Great Debate - Ist the Universe expanding?
+#Verrier 90 Great Debate - Congress ends
+
+#Einstein
+
+#Verrier 91: Einstein's annus mirabilis (1905, Switzerland)
+#Verrier 92: Einstein moves
+#Verrier 93: Einstein General Theory of Relativity (1915)
+#Verrier 94: Einstein moves again (if country is not democratic enough)
+#Verrier 95: Einstein, a politician?
+
+#Marie Curie
+
+#Verrier 96: Skłodowska emigrates 1890 (if Russia opressive to France or a free polish state)
+#Verrier 97: Skłodowska in Russia (if Poland is Russian and the state progressive)
+#Verrier 98: Skłodowska in Poland (if Poland is independent)
+#Verrier 99: Curie in France (if none of above is true)
+
+#Observatory
+
+#Verrier 100: Observatory
+
+#Historical Events
+
+#Verrier 111: Miracles of the Sky (1836, Austria)
+#Verrier 112: Bonner Durchmusterung (1846-1863, Prussia)
+#Verrier 113: Martian canals (1877, Sardinia/Italy)
+#Verrier 114: Halley's Comet (1910)
+#Verrier 115: Lemaître's expanding universe (1927, Belgium)
+
+#Verrier 116: Max Planck (Germany)
+#Verrier 117: Edwin Hubble (USA)
+#Verrier 118: Ernest Rutherford (Great Britain)
+#Verrier 119: Dmitri Mendeleev (Russia)
+#Verrier 120: Le Verrier (France)
+
+#################################################################################
+
+#Yearly astronomical report
+
+verrier.1 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		NOT = {
+			has_variable = verrier_astronomical_objects_cooldown_var
+		}
+		verrier_astronomical_observation = yes
+	}
+
+	immediate = {
+		set_variable = {
+			name = verrier_astronomical_objects_cooldown_var
+			days = 365
+		}
+		verrier_add_1_astronomical_object = yes #base objects
+
+		if = {
+			limit = {
+				has_technology_researched = camera
+			}
+			verrier_add_2_astronomical_object = yes
+		}
+		if = {
+			limit = {
+				has_technology_researched = verrier_electromagnetism_tech
+			}
+			verrier_add_3_astronomical_object = yes
+		}
+		if = {
+			limit = {
+				has_technology_researched = verrier_astronomy_tech
+			}
+			verrier_add_2_astronomical_object = yes
+			verrier_add_2_astronomical_object = yes
+		}
+		if = {
+			limit = {
+				has_technology_researched = verrier_astro_physics_tech
+			}
+			verrier_add_10_astronomical_object = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = verrier_astronomer
+				}
+			}
+			verrier_add_5_astronomical_object = yes
+		}
+		if = {
+			limit = {
+				verrier_astronomical_observation = yes #Notification
+			}
+			post_notification = verrier_astronomical_observation_notification
+		}
+	}
+}
+
+#Verrier 5: Found an Observatory
+
+verrier.5 = {
+	type = country_event
+
+	title = verrier.5.t
+	desc = verrier.5.d
+	flavor = verrier.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/europenorthamerica_london_center.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = verrier_observatory_foundation_modifier
+			}
+		}
+	}
+	option = {
+		name = verrier.5.g
+	}
+
+	after = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			start_building_construction = building_verrier_observatory
+		}
+	}
+}
+
+#################################################################################
+
+######NEPTUNE######
+
+#Verrier 10: Neptune discovered
+
+verrier.10 = {
+	type = country_event
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_neptune.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_neptune_discovered_var
+		set_variable = verrier_neptun_achievement
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = verrier_astronomer
+					has_trait = innovative
+					has_trait = meticulous
+					has_trait = ambitious
+					has_trait = persistent
+				}
+			}
+			save_scope_as = verrier_neptune_discoverer
+		}
+	}
+
+	title = verrier.10.t
+	desc = verrier.10.d
+	flavor = verrier.10.f
+
+	duration = 3
+
+	option = {
+		name = verrier.10.g
+		add_modifier = {
+			name = verrier_discovered_neptune_modifier
+		}
+		scope:verrier_neptune_discoverer = {
+			add_modifier = {
+				name = verrier_neptune_discoverer_modifier
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_trait = verrier_astronomer
+					}
+				}
+				add_trait = verrier_astronomer
+			}
+		}
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = 1
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { this = ROOT }
+					is_player = yes
+				}
+				trigger_event = {
+					id = verrier.11
+					days = 3
+				}
+			}
+		}
+	}
+}
+
+#Verrier 11: Neptune notification for player
+
+verrier.11 = {
+	type = country_event
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_neptune.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_neptune_modifier
+			}
+			save_scope_as = verrier_neptune_discoverer_country
+		}
+	}
+
+	title = verrier.10.t
+	desc = verrier.11.d
+	flavor = verrier.10.f
+
+	duration = 3
+
+	option = {
+		name = verrier.11.g #Congratulations ...
+	}
+}
+
+##################################################################################
+
+######PLUTO######
+
+#Verrier 20: Pluto discovered
+
+verrier.20 = {
+	type = country_event
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_pluto.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_pluto_discovered_var
+		set_variable = verrier_pluto_achievement
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = verrier_astronomer
+					has_trait = innovative
+				}
+			}
+			save_scope_as = verrier_pluto_discoverer
+		}
+	}
+
+	title = verrier.20.t
+	desc = verrier.20.d
+	flavor = verrier.20.f
+
+	duration = 3
+
+	option = {
+		name = verrier.20.g
+		add_modifier = {
+			name = verrier_discovered_pluto_modifier
+		}
+		scope:verrier_pluto_discoverer = {
+			add_modifier = {
+				name = verrier_pluto_discoverer_modifier
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_trait = verrier_astronomer
+					}
+				}
+				add_trait = verrier_astronomer
+			}
+		}
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = 1
+		}
+	}
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { this = ROOT }
+					is_player = yes
+				}
+				trigger_event = {
+					id = verrier.21
+					days = 3
+				}
+			}
+		}
+	}
+}
+
+#Verrier 21: Pluto notification for player
+
+verrier.21 = {
+	type = country_event
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_pluto.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	title = verrier.20.t
+	desc = verrier.21.d
+	flavor = verrier.20.f
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_pluto_modifier
+			}
+			save_scope_as = verrier_pluto_discoverer_country
+		}
+	}
+
+	duration = 3
+
+	option = {
+		name = verrier.21.g #Congratulations ...
+	}
+}
+
+###################################################################################
+
+######CERES######
+
+#Verrier 30: Congress on Asteroids
+
+verrier.30 = {
+	type = country_event
+
+	title = verrier.30.t
+	desc = verrier.30.d
+	flavor = verrier.30.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_vesta_demoted_var
+		set_global_variable = verrier_pallas_demoted_var
+		set_global_variable = verrier_juno_demoted_var
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = -3
+		}
+	}
+
+	option = {
+		name = verrier.30.g
+		default_option = yes
+		custom_tooltip = verrier.30a.tt
+		every_country = {
+			limit = {
+				has_technology_researched = verrier_astronomy_tech
+				verrier_astronomical_observation = yes
+				OR = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+					}
+					var:verrier_astronomical_objects >= 50
+				}
+			}
+			trigger_event = {
+				id = verrier.31
+				days = 7
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = verrier.32
+				popup = yes 
+				days = 50
+			}
+		}
+		ai_chance = {
+			base = 70
+		}
+	}
+
+	option = { #There is no need for another meeting
+		name = verrier.30.h
+		custom_tooltip = verrier.30b.tt
+		set_global_variable = verrier_ceres_demoted_var
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = -1
+		}
+		every_country = {
+			limit = {
+				OR = {
+					has_modifier = verrier_discovered_ceres_modifier
+					has_modifier = verrier_discovered_pallas_modifier
+					has_modifier = verrier_discovered_vesta_modifier
+					has_modifier = verrier_discovered_juno_modifier
+				}
+			}
+			trigger_event = {
+				id = verrier.35
+				days = 7
+			}
+		}
+		hidden_effect = {
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				trigger_event = {
+					id = verrier.33
+					days = 3
+				}
+			}
+		}
+		ai_chance = {
+			base = 30
+		}
+	}
+}
+
+#Verrier 31: Should Ceres remain a planet?
+
+verrier.31 = {
+	type = country_event
+
+	title = verrier.31.t
+	desc = verrier.31.d
+	flavor = verrier.31.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_congress_host_modifier
+			}
+			save_scope_as = verrier_congress_host_country
+		}
+	}
+
+	option = {
+		name = verrier.31.g #Ceres is a planet
+		change_global_variable = {
+			name = verrier_ceres_yes
+			add = 1
+		}
+		ai_chance = {
+			base = 40
+			modifier = { #Want to defend prestige
+				trigger = {
+					OR = {
+						has_modifier = verrier_discovered_ceres_modifier
+						has_modifier = verrier_discovered_pallas_modifier
+						has_modifier = verrier_discovered_juno_modifier
+						has_modifier = verrier_discovered_vesta_modifier
+					}
+				}
+				add = 100
+			}
+			modifier = { #No reason to reform if lesser objects
+				trigger = {
+					global_var:verrier_total_verrier_great_comet <= 2000
+				}
+				add = 25
+			}	
+			modifier = { #No reason to reform if lesser objects
+				trigger = {
+					global_var:verrier_total_verrier_great_comet <= 2500
+				}
+				add = 20
+			}	
+			modifier = { #If the player is the host and wants to preserve Ceres, it'll be 50:50 instead 60:40 against Ceres
+				trigger = {
+					any_country = {
+						is_player = yes 
+						has_modifier = verrier_congress_host_modifier
+					}
+				}
+				add = 20
+			}							
+		}
+	}
+
+	option = { #Ceres is not a planet
+		name = verrier.31.h
+		default_option = yes
+		change_global_variable = {
+			name = verrier_ceres_no
+			add = 1
+		}
+		ai_chance = {
+			base = 60
+			modifier = { #Want to defend prestige and hurt others
+				trigger = {
+					OR = {
+						has_modifier = verrier_discovered_uranus_modifier
+						has_modifier = verrier_discovered_neptune_modifier
+					}
+				}
+				add = 100
+			}	
+			modifier = { #Reason to reform if more objects
+				trigger = {
+					global_var:verrier_total_verrier_great_comet >= 3500
+				}
+				add = 10
+			}	
+			modifier = { #No reason to reform if lesser objects
+				trigger = {
+					global_var:verrier_total_verrier_great_comet >= 4000
+				}
+				add = 20
+			}	
+			modifier = { #Historically, Prussian academics lead the reform to introduce asteroids and demote Ceres, Vesta, Pallas and Juno
+				trigger = {
+					ROOT = c:PRU
+				}
+				add = 100
+			}								
+		}
+	}
+}
+
+#Verrier 32: Ceres is not a planet anymore/Ceres remains a planet
+
+verrier.32 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_ceres_demoted_var
+			}
+			desc = verrier.32.t_demoted
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_ceres_saved_var
+			}
+			desc = verrier.32.t_saved
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_ceres_demoted_var
+			}
+			desc = verrier.32.d_demoted
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_ceres_saved_var
+			}
+			desc = verrier.32.d_saved
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_ceres_demoted_var
+			}
+			desc = verrier.32.f_demoted
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_ceres_saved_var
+			}
+			desc = verrier.32.f_saved
+		}
+	}
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_congress_host_modifier
+			}
+			save_scope_as = verrier_congress_host_country
+		}
+		if = {
+			limit = {
+				global_var:verrier_ceres_yes < global_var:verrier_ceres_no
+			}
+			set_global_variable = verrier_ceres_demoted_var
+		}
+		if = {
+			limit = {
+				global_var:verrier_ceres_yes > global_var:verrier_ceres_no
+			}
+			set_global_variable = verrier_ceres_saved_var
+		}
+		if = {
+			limit = {
+				global_var:verrier_ceres_yes = global_var:verrier_ceres_no
+			}
+			set_global_variable = verrier_ceres_saved_var
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = verrier_ceres_demoted_var
+		}
+		name = verrier.32.g #Ceres has been only a dwarf of a planet
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = -1
+		}
+		every_country = {
+			limit = {
+				OR = {
+					has_modifier = verrier_discovered_ceres_modifier
+					has_modifier = verrier_discovered_pallas_modifier
+					has_modifier = verrier_discovered_vesta_modifier
+					has_modifier = verrier_discovered_juno_modifier
+				}
+			}
+			trigger_event = {
+				id = verrier.35
+				days = 7
+			}
+		}
+		hidden_effect = {
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				trigger_event = {
+					id = verrier.33
+					days = 3
+				}
+			}
+		}
+	}
+	option = {
+		trigger = {
+			has_global_variable = verrier_ceres_saved_var
+		}
+		name = verrier.32.h #Ceres is saved!
+		default_option = yes
+		every_country = {
+			limit = {
+				OR = {
+					has_modifier = verrier_discovered_pallas_modifier
+					has_modifier = verrier_discovered_vesta_modifier
+					has_modifier = verrier_discovered_juno_modifier
+				}
+			}
+			trigger_event = {
+				id = verrier.35
+				days = 7
+			}
+		}
+		hidden_effect = {
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				trigger_event = {
+					id = verrier.34
+					days = 3
+				}
+			}
+		}
+	}
+}
+
+#Verrier 33: Notification: All four planets cancelled
+
+verrier.33 = {
+	type = country_event
+
+	title = verrier.33.t
+	desc = verrier.33.d
+	flavor = verrier.33.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_congress_host_modifier
+			}
+			save_scope_as = verrier_congress_host_country
+		}
+	}
+
+	option = {
+		name = verrier.33.g #The solar system has 8 planets
+	}
+}
+
+#Verrier 34: Notification: Three planets cancelled, Ceres saved
+
+verrier.34 = {
+	type = country_event
+
+	title = verrier.34.t
+	desc = verrier.34.d
+	flavor = verrier.34.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_congress_host_modifier
+			}
+			save_scope_as = verrier_congress_host_country
+		}
+	}
+
+	option = {
+		name = verrier.34.g #The solar system has 9 planets
+	}
+}
+
+#Verrier 35: Planets demoted, modifier lost
+
+verrier.35 = {
+	type = country_event
+
+	title = verrier.35.t
+	desc = verrier.35.d
+	flavor = verrier.35.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_congress_host_modifier
+			}
+			save_scope_as = verrier_congress_host_country
+		}
+	}
+
+	option = {
+		name = verrier.35.g #Oh well
+		if = {
+			limit = {
+				has_modifier = verrier_discovered_ceres_modifier
+			}
+			remove_modifier = verrier_discovered_ceres_modifier
+		}
+		if = {
+			limit = {
+				has_modifier = verrier_discovered_vesta_modifier
+			}
+			remove_modifier = verrier_discovered_vesta_modifier
+		}
+		if = {
+			limit = {
+				has_modifier = verrier_discovered_pallas_modifier
+			}
+			remove_modifier = verrier_discovered_pallas_modifier
+		}
+		if = {
+			limit = {
+				has_modifier = verrier_discovered_juno_modifier
+			}
+			remove_modifier = verrier_discovered_juno_modifier
+		}
+	}
+}
+
+####################################################################################
+
+######Astronomical Observations######
+
+#Verrier 40: Comet sighted!
+
+verrier.40 = {
+	type = country_event
+
+	title = verrier.40.t
+	desc = verrier.40.d
+	flavor = verrier.40.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1881.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.40.g #It is good to live in such elightened times
+		verrier_add_1_astronomical_object = yes
+		verrier_medium_add_technology = yes
+	}
+}
+
+#Verrier 41: A new Asteroid
+
+verrier.41 = {
+	type = country_event
+
+	title = verrier.41.t
+	desc = verrier.41.d
+	flavor = verrier.41.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1881.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.41.g #It is good to live in such elightened times
+		verrier_add_1_astronomical_object = yes
+		verrier_small_add_technology = yes
+	}
+}
+
+#Verrier 42: Meteor shower
+
+verrier.42 = {
+	type = country_event
+
+	title = verrier.42.t
+	desc = verrier.42.d
+	flavor = verrier.42.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.42.g #Hopefully the sky is clear and visibility is good!
+		verrier_add_5_astronomical_object = yes
+		verrier_small_add_technology = yes
+	}
+}
+
+#Verrier 43: Nebula
+
+verrier.43 = {
+	type = country_event
+
+	title = verrier.43.t
+	desc = verrier.43.d
+	flavor = verrier.43.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_nebula.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.43.g #Wonderful!
+		verrier_add_3_astronomical_object = yes
+		verrier_large_add_technology = yes
+	}
+}
+
+#Verrier 44: Naming a star
+
+verrier.44 = {
+	type = country_event
+
+	title = verrier.44.t
+	desc = verrier.44.d
+	flavor = verrier.44.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_milky_way.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				is_ruler = yes 
+			}
+			save_scope_as = verrier_ruler
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+			}
+			save_scope_as = verrier_star_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.44.g #Name it after our country
+		default_option = yes
+		verrier_add_1_astronomical_object = yes
+		add_modifier = {
+			name = verrier_new_star_named_country_modifier
+			years = 10
+		}
+	}
+
+	option = {
+		name = verrier.44.h #Name it after our ruler
+		verrier_add_1_astronomical_object = yes
+		scope:verrier_ruler = {
+			add_modifier = {
+				name = verrier_new_star_named_ruler_modifier
+			}
+		}
+	}
+
+	option = {
+		name = verrier.44.i #He may name it after himself
+		verrier_add_1_astronomical_object = yes
+		scope:verrier_star_discoverer = {
+			add_modifier = {
+				name = verrier_new_star_named_character_modifier
+			}
+		}
+	}
+}
+
+#Verrier 45: Astronomer
+
+verrier.45 = {
+	type = country_event
+
+	title = verrier.45.t
+	desc = verrier.45.d
+	flavor = verrier.45.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		any_scope_character = {
+			OR = {
+				has_role = admiral
+				has_trait = innovative
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_role = admiral
+					has_trait = innovative
+				}
+			}
+			save_scope_as = verrier_astronomer
+		}
+	}
+
+	option = {
+		name = verrier.45.g #He should become a professional astronomer
+		default_option = yes
+		scope:verrier_astronomer = {
+			add_trait = verrier_astronomer
+		}
+	}
+
+	option = {
+		name = verrier.45.h #His studies are interesting, but he should stick to what he has done so far.
+		verrier_large_add_technology = yes
+	}
+}
+
+#Verrier 46: Star maps wrong
+
+verrier.46 = {
+	type = country_event
+
+	title = verrier.46.t
+	desc = verrier.46.d
+	flavor = verrier.46.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_milky_way.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.46.g #Are you saying it was just dirt on the telescope?
+		verrier_sub_3_astronomical_object = yes
+	}
+}
+
+#Verrier 47: New Moons
+
+verrier.47 = {
+	type = country_event
+
+	title = verrier.47.t
+	desc = verrier.47.d
+	flavor = verrier.47.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_saturn.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.47.g #Excellent
+		verrier_add_2_astronomical_object = yes
+		verrier_medium_add_technology = yes
+	}
+}
+
+
+#####################################################################################
+
+######MAPPING THE MOON######
+
+#Verrier 50: Map of the Moon
+
+verrier.50 = {
+	type = country_event
+
+	title = verrier.50.t
+	desc = verrier.50.d
+	flavor = verrier.50.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_moon_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.50.g #Superb
+		add_modifier = {
+			name = verrier_moon_chartered_modifier
+		}
+		verrier_large_add_technology = yes
+	}
+}
+
+#Verrier 51: Lunar channel
+
+verrier.51 = {
+	type = country_event
+
+	title = verrier.51.t
+	desc = verrier.51.d
+	flavor = verrier.51.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_crater.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.51.g #Fascinating
+		verrier_add_1_moon_photo = yes
+		verrier_medium_add_technology = yes
+	}
+}
+
+#Verrier 52: Lunar crater
+
+verrier.52 = {
+	type = country_event
+
+	title = verrier.52.t
+	desc = verrier.51.d
+	flavor = verrier.52.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_crater.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.51.g #Fascinating
+		verrier_add_1_moon_photo = yes
+	}
+}
+
+#Verrier 53: Lunar maria
+
+verrier.53 = {
+	type = country_event
+
+	title = verrier.53.t
+	desc = verrier.51.d
+	flavor = verrier.53.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_crater.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.51.g #Fascinating
+		verrier_add_2_moon_photo = yes
+		verrier_small_add_technology = yes
+	}
+}
+
+#Verrier 54: Lunar mountains
+
+verrier.54 = {
+	type = country_event
+
+	title = verrier.54.t
+	desc = verrier.51.d
+	flavor = verrier.54.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_crater.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.51.g #Fascinating
+		verrier_add_3_moon_photo = yes
+	}
+}
+
+
+#####################################################################################
+
+###GREAT COMETS######
+
+#Verrier 60: First sight Comet of 1843 (hidden)
+
+verrier.60 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		set_global_variable = verrier_1843_comet_sighted_var
+		if = {
+			limit = {
+				any_character = {
+					has_trait = verrier_astronomer
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+						NOT = {
+							has_variable = verrier_discovered_great_comet
+						}
+					}
+				}
+				set_global_variable = verrier_1843_comet_name_var
+				trigger_event = {
+					id = verrier.61
+				}
+			}
+		}
+		else = {
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1843_comet_year_var
+				trigger_event = {
+					id = verrier.62
+				}
+			}
+		}
+	}
+}
+
+#Verrier 61: Comet of 1843 gets name
+
+verrier.61 = {
+	type = country_event
+
+	title = verrier.61.t
+	desc = verrier.61.d
+	flavor = verrier.61.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1843.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_trait = verrier_astronomer
+			}
+			set_variable = verrier_discovered_great_comet
+			set_variable = verrier_discovered_1843_comet
+			save_scope_as = verrier_1843_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.61.g #For the Glory of Country!
+		verrier_add_great_comet_object = yes
+		verrier_add_1_astronomical_object = yes
+		verrier_large_add_technology = yes
+		add_modifier = {
+			name = verrier_discovered_great_comet_modifier
+			years = 5
+		}
+		scope:verrier_1843_discoverer = {
+			add_modifier = {
+				name = verrier_comet_discoverer_modifier
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+					NOT = { this = ROOT }
+				}
+				trigger_event = {
+					id = verrier.62
+					days = { 7 14 }
+				}
+			}
+		}
+	}
+}
+
+#Verrier 62: Comet of 1843
+
+verrier.62 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1843_comet_name_var
+			}
+			desc = verrier.62.t_name
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1843_comet_year_var
+			}
+			desc = verrier.62.t_year
+		}
+	}
+	desc = verrier.62.d
+	flavor = verrier.61.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1843.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = verrier_discovered_1843_comet
+			}
+			save_scope_as = verrier_1843_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.62.g #Keep looking at the sky!
+	}
+}
+
+#Verrier 63: First sight Comet of 1858 (hidden)
+
+verrier.63 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		set_global_variable = verrier_1858_comet_sighted_var
+		if = {
+			limit = {
+				any_character = {
+					has_trait = verrier_astronomer
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+						NOT = {
+							has_variable = verrier_discovered_great_comet
+						}
+					}
+				}
+				set_global_variable = verrier_1858_comet_name_var
+				trigger_event = {
+					id = verrier.64
+				}
+			}
+		}
+		else = {
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1858_comet_year_var
+				trigger_event = {
+					id = verrier.65
+				}
+			}
+		}
+	}
+}
+
+#Verrier 64: Comet of 1858 gets name
+
+verrier.64 = {
+	type = country_event
+
+	title = verrier.64.t
+	desc = verrier.64.d
+	flavor = verrier.64.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1858.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_trait = verrier_astronomer
+			}
+			save_scope_as = verrier_1858_discoverer
+			set_variable = verrier_discovered_great_comet
+			set_variable = verrier_discovered_1858_comet
+		}
+	}
+
+	option = {
+		name = verrier.61.g #For the Glory of Country!
+		verrier_add_great_comet_object = yes
+		verrier_add_1_astronomical_object = yes
+		verrier_large_add_technology = yes
+		add_modifier = {
+			name = verrier_discovered_great_comet_modifier
+			years = 5
+		}
+		scope:verrier_1858_discoverer = {
+			add_modifier = {
+				name = verrier_comet_discoverer_modifier
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+					NOT = { this = ROOT }
+				}
+				trigger_event = {
+					id = verrier.65
+					days = { 7 14 }
+				}
+			}
+		}
+	}
+}
+
+#Verrier 65: Comet of 1858
+
+verrier.65 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1858_comet_name_var
+			}
+			desc = verrier.65.t_name
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1858_comet_year_var
+			}
+			desc = verrier.65.t_year
+		}
+	}
+	desc = verrier.62.d
+	flavor = verrier.64.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1858.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = verrier_discovered_1858_comet
+			}
+			save_scope_as = verrier_1858_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.62.g #Keep looking at the sky!
+	}
+}
+
+#Verrier 66: First sight Comet of 1861 (hidden)
+
+verrier.66 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		set_global_variable = verrier_1861_comet_sighted_var
+		if = {
+			limit = {
+				any_character = {
+					has_trait = verrier_astronomer
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+						NOT = {
+							has_variable = verrier_discovered_great_comet
+						}
+					}
+				}
+				set_global_variable = verrier_1861_comet_name_var
+				trigger_event = {
+					id = verrier.67
+				}
+			}
+		}
+		else = {
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1861_comet_year_var
+				trigger_event = {
+					id = verrier.68
+				}
+			}
+		}
+	}
+}
+
+#Verrier 67: Comet of 1861 gets name
+
+verrier.67 = {
+	type = country_event
+
+	title = verrier.61.t
+	desc = verrier.67.d
+	flavor = verrier.67.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1861.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_trait = verrier_astronomer
+			}
+			set_variable = verrier_discovered_great_comet
+			set_variable = verrier_discovered_1861_comet
+			save_scope_as = verrier_1861_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.61.g #For the Glory of Country!
+		verrier_add_great_comet_object = yes
+		verrier_add_1_astronomical_object = yes
+		verrier_large_add_technology = yes
+		add_modifier = {
+			name = verrier_discovered_great_comet_modifier
+			years = 5
+		}
+		scope:verrier_1861_discoverer = {
+			add_modifier = {
+				name = verrier_comet_discoverer_modifier
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+					NOT = { this = ROOT }
+				}
+				trigger_event = {
+					id = verrier.68
+					days = { 7 14 }
+				}
+			}
+		}
+	}
+}
+
+#Verrier 68: Comet of 1861
+
+verrier.68 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1861_comet_name_var
+			}
+			desc = verrier.68.t_name
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1861_comet_year_var
+			}
+			desc = verrier.68.t_year
+		}
+	}
+	desc = verrier.62.d
+	flavor = verrier.67.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1861.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = verrier_discovered_1861_comet
+			}
+			save_scope_as = verrier_1861_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.62.g #Keep looking at the sky!
+	}
+}
+
+#Verrier 69: First sight Comet of 1874 (hidden)
+
+verrier.69 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		set_global_variable = verrier_1874_comet_sighted_var
+		if = {
+			limit = {
+				any_character = {
+					has_trait = verrier_astronomer
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+						NOT = {
+							has_variable = verrier_discovered_great_comet
+						}
+					}
+				}
+				set_global_variable = verrier_1874_comet_name_var
+				trigger_event = {
+					id = verrier.70
+				}
+			}
+		}
+		else = {
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1874_comet_year_var
+				trigger_event = {
+					id = verrier.71
+				}
+			}
+		}
+	}
+}
+
+#Verrier 70: Comet of 1874 gets name
+
+verrier.70 = {
+	type = country_event
+
+	title = verrier.61.t
+	desc = verrier.70.d
+	flavor = verrier.70.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1874.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_trait = verrier_astronomer
+			}
+			set_variable = verrier_discovered_great_comet
+			set_variable = verrier_discovered_1874_comet
+			save_scope_as = verrier_1874_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.61.g #For the Glory of Country!
+		verrier_add_great_comet_object = yes
+		verrier_add_1_astronomical_object = yes
+		verrier_large_add_technology = yes
+		add_modifier = {
+			name = verrier_discovered_great_comet_modifier
+			years = 5
+		}
+		scope:verrier_1874_discoverer = {
+			add_modifier = {
+				name = verrier_comet_discoverer_modifier
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+					NOT = { this = ROOT }
+				}
+				trigger_event = {
+					id = verrier.71
+					days = { 7 14 }
+				}
+			}
+		}
+	}
+}
+
+#Verrier 71: Comet of 1874
+
+verrier.71 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1874_comet_name_var
+			}
+			desc = verrier.71.t_name
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1874_comet_year_var
+			}
+			desc = verrier.71.t_year
+		}
+	}
+	desc = verrier.62.d
+	flavor = verrier.70.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1874.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = verrier_discovered_1874_comet
+			}
+			save_scope_as = verrier_1874_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.62.g #Keep looking at the sky!
+	}
+}
+
+#Verrier 72: First sight Comet of 1882 (hidden)
+
+verrier.72 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		set_global_variable = verrier_1882_comet_sighted_var
+		if = {
+			limit = {
+				any_character = {
+					has_trait = verrier_astronomer
+					NOT = {
+						has_variable = verrier_discovered_great_comet
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+						NOT = {
+							has_variable = verrier_discovered_great_comet
+						}
+					}
+				}
+				set_global_variable = verrier_1882_comet_name_var
+				trigger_event = {
+					id = verrier.73
+				}
+			}
+		}
+		else = {
+			random_country = {
+				limit = {
+					is_player = yes 
+				}
+				set_global_variable = verrier_1882_comet_year_var
+				trigger_event = {
+					id = verrier.74
+				}
+			}
+		}
+	}
+}
+
+#Verrier 73: Comet of 1882 gets name
+
+verrier.73 = {
+	type = country_event
+
+	title = verrier.61.t
+	desc = verrier.73.d
+	flavor = verrier.73.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1882.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_trait = verrier_astronomer
+			}
+			set_variable = verrier_discovered_great_comet
+			set_variable = verrier_discovered_1882_comet
+			save_scope_as = verrier_1882_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.61.g #For the Glory of Country!
+		verrier_add_great_comet_object = yes
+		verrier_add_1_astronomical_object = yes
+		verrier_large_add_technology = yes
+		add_modifier = {
+			name = verrier_discovered_great_comet_modifier
+			years = 5
+		}
+		scope:verrier_1882_discoverer = {
+			add_modifier = {
+				name = verrier_comet_discoverer_modifier
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+					NOT = { this = ROOT }
+				}
+				trigger_event = {
+					id = verrier.74
+					days = { 7 14 }
+				}
+			}
+		}
+	}
+}
+
+#Verrier 74: Comet of 1882
+
+verrier.74 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1882_comet_name_var
+			}
+			desc = verrier.74.t_name
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_1882_comet_year_var
+			}
+			desc = verrier.74.t_year
+		}
+	}
+	desc = verrier.62.d
+	flavor = verrier.73.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1882.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = verrier_discovered_1882_comet
+			}
+			save_scope_as = verrier_1882_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.62.g #Keep looking at the sky!
+	}
+}
+
+#####################################################################################
+
+#Carte du Ciel and Great Debate
+
+#Verrier 80 Carte du Ciel - Invitations
+
+verrier.80 = {
+	type = country_event
+
+	title = verrier.80.t
+	desc = verrier.80.d
+	flavor = verrier.80.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_carte.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	option = { 
+		name = verrier.80.g # Invite the leading astronomic nations
+		every_country = {
+			limit = {
+				has_technology_researched = verrier_astronomy_tech
+				verrier_astronomical_observation = yes
+				OR = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+					}
+					var:verrier_astronomical_objects >= 250
+				}
+			}
+			trigger_event = {
+				id = verrier.81
+				days = 7
+			}
+		}
+	}
+}
+
+#Verrier 81 Carte du Ciel - An Invitation
+
+verrier.81 = {
+	type = country_event
+
+	title = verrier.81.t
+	desc = verrier.81.d
+	flavor = verrier.81.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_carte.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	option = { 
+		name = verrier.81.g #We'll come
+		add_modifier = {
+			name = verrier_congress_attend_modifier
+			years = 5
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = verrier.82
+				days = { 14 28 }
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:verrier_astronomical_objects < 300
+			}
+			set_variable = verrier_carte_congress_laughed_var
+		}
+		if = {
+			limit = {
+				var:verrier_astronomical_objects >= 300
+				var:verrier_astronomical_objects < 500
+			}
+			set_variable = verrier_carte_congress_respected_var
+		}
+		if = {
+			limit = {
+				var:verrier_astronomical_objects >= 500
+			}
+			set_variable = verrier_carte_congress_lauded_var
+		}
+	}
+}
+
+#Verrier 82 Carte du Ciel - Lauded, respected, laughed
+
+verrier.82 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = verrier_carte_congress_laughed_var
+			}
+			desc = verrier.82.t_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = verrier_carte_congress_respected_var
+			}
+			desc = verrier.82.t_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = verrier_carte_congress_lauded_var
+			}
+			desc = verrier.82.t_lauded
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = verrier_carte_congress_laughed_var
+			}
+			desc = verrier.82.d_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = verrier_carte_congress_respected_var
+			}
+			desc = verrier.82.d_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = verrier_carte_congress_lauded_var
+			}
+			desc = verrier.82.d_lauded
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = verrier_carte_congress_laughed_var
+			}
+			desc = verrier.82.f_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = verrier_carte_congress_respected_var
+			}
+			desc = verrier.82.f_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = verrier_carte_congress_lauded_var
+			}
+			desc = verrier.82.f_lauded
+		}
+	}
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_carte.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	option = { 
+		name = verrier.82.g #
+		trigger = {
+			has_variable = verrier_carte_congress_laughed_var
+		}
+		add_modifier = {
+			name = verrier_laughed_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = verrier.82.h #
+		trigger = {
+			has_variable = verrier_carte_congress_respected_var
+		}
+		change_variable = {
+ 			name = verrier_astronomical_objects
+ 			add = 10
+		}
+		custom_tooltip = verrier_add_10_astronomical_object_tt
+		add_modifier = {
+			name = verrier_respected_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = verrier.82.i #
+		trigger = {
+			has_variable = verrier_carte_congress_lauded_var
+		}
+		default_option = yes
+		change_variable = {
+ 			name = verrier_astronomical_objects
+ 			add = 20
+		}
+		add_modifier = {
+			name = verrier_lauded_congress_modifier
+			years = 5
+		}
+		custom_tooltip = verrier_add_20_astronomical_object_tt
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = verrier.83
+				days = { 14 28 }
+			}
+		}
+	}
+}
+
+#Verrier 83 Carte du Ciel - Exchange
+
+verrier.83 = {
+	type = country_event
+
+	title = verrier.83.t
+	desc = verrier.83.d
+	flavor = verrier.83.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_carte.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_congress_attend_modifier
+				NOT = { this = ROOT }
+			}
+			save_scope_as = verrier_exchange_country
+		}
+	}
+
+	option = { 
+		name = verrier.83.g #We want to share our maps
+		change_variable = {
+ 			name = verrier_astronomical_objects
+ 			add = 30
+		}
+		custom_tooltip = verrier_add_30_astronomical_object_tt
+		scope:verrier_exchange_country = {
+			change_variable = {
+ 				name = verrier_astronomical_objects
+ 				add = 30
+			}
+		}
+		change_relations = {
+			country = scope:verrier_exchange_country 
+			value = 10
+		}
+		scope:verrier_exchange_country = {
+			change_relations = {
+				country = ROOT 
+				value = 10
+			}
+		}
+		if = {
+			limit = {
+				scope:verrier_exchange_country = {
+					is_player = yes 
+				}
+			}
+			trigger_event = {
+				id = verrier.84
+				days = { 3 5 }				
+			}
+		}
+	}
+
+	option = { 
+		name = verrier.83.h #These are our star maps
+		default_option = yes
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = verrier.85
+				days = { 14 28 }
+			}
+		}
+	}
+}
+
+#Verrier 84 Carte du Ciel - Exchange notification
+
+verrier.84 = {
+	type = country_event
+
+	title = verrier.84.t
+	desc = verrier.84.d
+	flavor = verrier.84.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_carte.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	option = { 
+		name = verrier.84.g #They should have asked me first
+		custom_tooltip = verrier_add_30_astronomical_object_tt
+	}
+}
+
+#Verrier 85 Carte du Ciel - Congress ends
+
+verrier.85 = {
+	type = country_event
+
+	title = verrier.85.t
+	desc = verrier.85.d
+	flavor = verrier.85.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_carte.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	option = { 
+		name = verrier.85.g #It was pretty educational.
+		custom_tooltip = verrier_add_50_astronomical_object_tt
+		change_variable = {
+ 			name = verrier_astronomical_objects
+ 			add = 50
+		}
+		if = {
+			limit = {
+				has_modifier = verrier_congress_attend_modifier
+			}
+			remove_modifier = verrier_congress_attend_modifier
+		}
+	}
+}
+
+#Verrier 86 Great Debate - Invitations
+
+verrier.86 = {
+	type = country_event
+
+	title = verrier.86.t
+	desc = verrier.86.d
+	flavor = verrier.86.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_andromeda.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	option = { 
+		name = verrier.80.g # Invite the leading astronomic nations
+		every_country = {
+			limit = {
+				has_technology_researched = verrier_astronomy_tech
+				verrier_astronomical_observation = yes
+				OR = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+					}
+					var:verrier_astronomical_objects >= 500
+				}
+			}
+			trigger_event = {
+				id = verrier.87
+				days = 7
+			}
+		}
+	}
+}
+
+#Verrier 87 Great Debate - An Invitation
+
+verrier.87 = {
+	type = country_event
+
+	title = verrier.87.t
+	desc = verrier.87.d
+	flavor = verrier.87.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_andromeda.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	option = { 
+		name = verrier.81.g #We'll come
+		add_modifier = {
+			name = verrier_congress_attend_modifier
+			years = 5
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = verrier.88
+				days = { 14 28 }
+			}
+		}
+	}
+}
+
+#Verrier 88 Great Debate - One universe or different galaxies
+
+verrier.88 = {
+	type = country_event
+
+	title = verrier.88.t
+	desc = verrier.88.d
+	flavor = verrier.88.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_andromeda.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	option = { 
+		name = verrier.88.g #The Universe is made up of different galaxies
+		change_global_variable = {
+			name = verrier_galaxies_yes
+			add = 1
+		}
+		ai_chance = {
+			base = 50
+			modifier = { #Advanced knowledge
+				trigger = {
+					has_technology_researched = verrier_astro_physics_tech
+				}
+				add = 100
+			}		
+			modifier = { #Advanced knowledge
+				trigger = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+					}
+				}
+				add = 100
+			}				
+		}
+	}
+
+	option = { 
+		name = verrier.88.h #There is only one Milky Way, the rest are clouds of gas
+		default_option = yes
+		change_global_variable = {
+			name = verrier_galaxies_no
+			add = 1
+		}
+		ai_chance = {
+			base = 50					
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = verrier.89
+				days = { 14 28 }
+			}
+		}
+	}
+}
+
+#Verrier 89 Great Debate - The position of the Sun
+
+verrier.89 = {
+	type = country_event
+
+	title = verrier.89.t
+	desc = verrier.89.d
+	flavor = verrier.89.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_andromeda.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	option = { 
+		name = verrier.89.g #The Universe is expanding
+		default_option = yes
+		change_global_variable = {
+			name = verrier_sun_center_yes
+			add = 1
+		}
+		ai_chance = {
+			base = 50				
+		}
+	}
+
+	option = { 
+		name = verrier.88.h #The Universe is static
+		change_global_variable = {
+			name = verrier_sun_center_no
+			add = 1
+		}
+		ai_chance = {
+			base = 50
+			modifier = { #Advanced knowledge
+				trigger = {
+					has_technology_researched = verrier_astro_physics_tech
+				}
+				add = 100
+			}		
+			modifier = { #Advanced knowledge
+				trigger = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+					}
+				}
+				add = 100
+			}				
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = verrier.90
+				days = { 14 28 }
+			}
+		}
+	}
+}
+
+#Verrier 90 Great Debate - Congress ends
+
+verrier.90 = {
+	type = country_event
+
+	title = verrier.90.t
+	desc = verrier.90.d
+
+	flavor = verrier.90.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_andromeda.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_congress_host_modifier
+			}
+			save_scope_as = verrier_congress_host_country
+		}
+		if = {
+			limit = {
+				global_var:verrier_galaxies_yes < global_var:verrier_galaxies_no
+			}
+			set_global_variable = verrier_one_universe_var
+		}
+		if = {
+			limit = {
+				global_var:verrier_galaxies_yes > global_var:verrier_galaxies_no
+			}
+			set_global_variable = verrier_many_galaxies_var
+		}
+		if = {
+			limit = {
+				global_var:verrier_galaxies_yes = global_var:verrier_galaxies_no
+			}
+			set_global_variable = verrier_one_universe_var
+		}
+
+		if = {
+			limit = {
+				global_var:verrier_sun_center_yes < global_var:verrier_sun_center_no
+			}
+			set_global_variable = verrier_sun_outer_var
+		}
+		if = {
+			limit = {
+				global_var:verrier_sun_center_yes > global_var:verrier_sun_center_no
+			}
+			set_global_variable = verrier_sun_center_var
+		}
+		if = {
+			limit = {
+				global_var:verrier_sun_center_yes = global_var:verrier_sun_center_no
+			}
+			set_global_variable = verrier_sun_center_var
+		}
+	}
+
+	option = { 
+		name = verrier.90.g #Yeah, Science!
+		change_variable = {
+ 			name = verrier_astronomical_objects
+ 			add = 30
+			}
+		custom_tooltip = verrier_add_30_astronomical_object_tt
+		if = {
+			limit = {
+				has_global_variable = verrier_many_galaxies_var
+			}
+			change_variable = {
+ 				name = verrier_astronomical_objects
+ 				add = 30
+			}
+			custom_tooltip = verrier_add_30_astronomical_object_tt
+		}
+		if = {
+			limit = {
+				has_global_variable = verrier_sun_outer_var
+			}
+			change_variable = {
+ 				name = verrier_astronomical_objects
+ 				add = 30
+			}
+			custom_tooltip = verrier_add_30_astronomical_object_tt
+		}
+		if = {
+			limit = {
+				has_modifier = verrier_congress_attend_modifier
+			}
+			remove_modifier = verrier_congress_attend_modifier
+		}
+	}
+	
+}
+
+#####################################################################################
+
+######EINSTEIN######
+
+#Annus mirabilis 
+
+#Verrier 91: Einstein's annus mirabilis (1905, Switzerland)
+
+verrier.91 = {
+	type = country_event
+
+	title = verrier.91.t
+	desc = verrier.91.d
+	flavor = verrier.91.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_einstein.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = verrier_einstein_first_breakthrough_var
+		}
+		c:SWI = root
+		game_date >= 1905.1.1
+	}
+
+	immediate = {
+		set_global_variable = verrier_einstein_first_breakthrough_var
+	}
+
+	option = { #E=mc2
+		name = verrier.91.g
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = verrier_astro_physics_tech
+				}
+			}
+			add_technology_researched = verrier_astro_physics_tech
+		}
+		add_modifier = {
+			name = verrier_breakthrough_modifier
+			years = 5
+		}
+	}
+}
+
+#Verrier 92: Einstein moves
+
+verrier.92 = {
+	type = country_event
+
+	title = verrier.92.t
+	desc = verrier.92.d
+	flavor = verrier.92.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_einstein.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		game_date >= 1910.1.1
+		has_law = law_type:law_protected_speech
+		has_law = law_type:law_total_separation
+		has_law = law_type:law_womens_suffrage
+		has_law = law_type:law_public_schools
+		has_law = law_type:law_slavery_banned
+		has_law = law_type:law_universal_suffrage
+		OR = {
+			has_law = law_type:law_multicultural
+			has_law = law_type:law_cultural_exclusion
+		}
+		OR = {
+			has_law = law_type:law_freedom_of_conscience
+			has_law = law_type:law_total_separation
+		}
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 15
+		}
+		NOT = {
+			any_country = {
+				has_variable = verrier_einstein_var
+			}
+		}
+		NOT = {
+			c:SWI = root
+		}
+	}
+
+	immediate = {
+		set_variable = verrier_einstein_var
+	}
+
+	option = { #Welcome!
+		name = verrier.91.g
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = verrier_astro_physics_tech
+				}
+			}
+			add_technology_researched = verrier_astro_physics_tech
+		}
+	}
+}
+
+#Verrier 93: Einstein General Theory of Relativity (1915)
+
+verrier.93 = {
+	type = country_event
+
+	title = verrier.93.t
+	desc = verrier.93.d
+	flavor = verrier.93.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_einstein.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		has_variable = verrier_einstein_var
+		NOT = {
+			has_global_variable = verrier_einstein_second_breakthrough_var
+		}
+		game_date >= 1915.1.1
+		NOT = {
+			has_modifier = verrier_breakthrough_modifier
+		}
+	}
+
+	immediate = {
+		set_global_variable = verrier_einstein_second_breakthrough_var
+	}
+
+	option = { #E=mc2
+		name = verrier.91.g
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = verrier_astro_physics_tech
+				}
+			}
+			add_technology_researched = verrier_astro_physics_tech
+		}
+		add_modifier = {
+			name = verrier_breakthrough_modifier
+			years = 5
+		}
+	}
+}
+
+#Verrier 94: Einstein moves again (if country is not democratic enough)
+
+verrier.94 = {
+	type = country_event
+
+	title = verrier.94.t
+	desc = verrier.94.d
+	flavor = verrier.94.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_einstein.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 1
+
+	trigger = {
+		has_variable = verrier_einstein_var
+		NOT = {
+			OR = {
+				has_law = law_type:law_protected_speech
+				has_law = law_type:law_total_separation
+				has_law = law_type:law_womens_suffrage
+				has_law = law_type:law_public_schools
+				has_law = law_type:law_slavery_banned
+				has_law = law_type:law_universal_suffrage
+			}
+		}
+		NOT = {
+			OR = {
+				has_law = law_type:law_multicultural
+				has_law = law_type:law_cultural_exclusion
+			}
+		}
+		NOT = {
+			OR = {
+				has_law = law_type:law_freedom_of_conscience
+				has_law = law_type:law_total_separation
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #We don't need him anyway
+		name = verrier.94.g
+		remove_variable = verrier_einstein_var
+	}
+}
+
+#Verrier 95: Einstein, a politician?
+
+verrier.95 = {
+	type = country_event
+
+	title = verrier.95.t
+	desc = verrier.95.d
+	flavor = verrier.95.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_einstein.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/europenorthamerica/russian_serfs"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		has_variable = verrier_einstein_var
+		NOT = { 
+			has_global_variable = verrier_einstein_politician_var
+		}
+		game_date >= 1925.1.1
+		NOT = {
+			has_modifier = verrier_breakthrough_modifier
+		}
+	}
+
+	immediate = {
+		set_global_variable = verrier_einstein_politician_var
+	}
+
+	option = { #He should enter politics
+		name = verrier.95.g
+		create_character = {
+			first_name = verrier_albert
+	  		last_name = verrier_einstein
+	   		culture = cu:south_german
+    		female = no
+    		religion = rel:jewish
+    		ideology = ideology_pacifist
+			ig_leader = yes
+    		interest_group = ig_intelligentsia
+			dna = ecchi_dna_albert_einstein
+    		birth_date = 1879.3.14
+    		traits = { 
+				meticulous 
+				reserved 
+				innovative
+				verrier_astronomer
+			}
+		}
+	}
+
+	option = { #He's a scientist, not a politician
+		name = verrier.95.h
+		default_option = yes
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = verrier_astro_physics_tech
+				}
+			}
+			add_technology_researched = verrier_astro_physics_tech
+		}
+		add_modifier = {
+			name = verrier_breakthrough_modifier
+			years = 5
+		}
+	}
+}
+
+#####################################################################################
+
+#Verrier 100: Observatory
+
+verrier.100 = {
+	type = country_event
+
+	title = verrier.100.t
+	desc = verrier.100.d
+
+	flavor = {
+		desc = verrier.100.planets
+		desc = verrier.100.mercury
+		desc = verrier.100.venus
+		desc = verrier.100.earth
+		desc = verrier.100.mars
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_vesta_demoted_var
+				}
+			}
+			desc = verrier.100.vesta
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_juno_demoted_var
+				}
+			}
+			desc = verrier.100.juno
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_ceres_demoted_var
+				}
+			}
+			desc = verrier.100.ceres
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_pallas_demoted_var
+				}
+			}
+			desc = verrier.100.pallas
+		}
+		desc = verrier.100.jupiter
+		desc = verrier.100.saturn
+		desc = verrier.100.uranus
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_neptune_discovered_var
+			}
+			desc = verrier.100.neptune
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_pluto_discovered_var
+			}
+			desc = verrier.100.pluto
+		}
+		desc = verrier.100.moon
+		desc = verrier.100.comets
+		desc = verrier.100.objects
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_one_universe_var
+			}
+			desc = verrier.100.no_galaxies
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_many_galaxies_var
+			}
+			desc = verrier.100.galaxies
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_sun_center_var
+			}
+			desc = verrier.100.sun_center
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_sun_outer_var
+			}
+			desc = verrier.100.sun_outer
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1881.dds"
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_uranus_modifier
+			}
+			save_scope_as = verrier_uranus_discoverer_country
+		}
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_ceres_modifier
+			}
+			save_scope_as = verrier_ceres_discoverer_country
+		}
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_pallas_modifier
+			}
+			save_scope_as = verrier_pallas_discoverer_country
+		}
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_juno_modifier
+			}
+			save_scope_as = verrier_juno_discoverer_country
+		}
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_vesta_modifier
+			}
+			save_scope_as = verrier_vesta_discoverer_country
+		}
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_neptune_modifier
+			}
+			save_scope_as = verrier_neptune_discoverer_country
+		}
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_pluto_modifier
+			}
+			save_scope_as = verrier_pluto_discoverer_country
+		}
+	}
+
+	#Bye
+	option = {
+		name = verrier.100.g
+		remove_variable = verrier_visiting_observatory_var
+	}
+}
+
+#####################################################################################
+
+######HISTORICAL EVENTS######
+
+#Verrier 111: Miracles of the Sky (1836, Austria)
+
+verrier.111 = {
+	type = country_event
+
+	title = verrier.111.t
+	desc = verrier.111.d
+	flavor = verrier.111.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_milky_way.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		c:AUS = root
+		is_researching_technology = verrier_astronomy_tech
+		game_date < 1840.11.30 #Death of Littrow
+		NOT = {
+			has_variable = verrier_littrow_var
+		}
+	}
+
+	immediate = {
+		set_variable = verrier_littrow_var
+	}
+
+	option = {
+		name = verrier.111.g #This book has a practical utility
+		default_option = yes
+		verrier_add_10_astronomical_object = yes
+	}
+
+	option = {
+		name = verrier.111.h #This book has a theoretical utility
+		add_technology_progress = { progress = 4000 technology = verrier_astronomy_tech }
+	}
+
+	option = {
+		name = verrier.111.i #This book has an educational utility
+		random_scope_character = {
+			add_trait = verrier_astronomer
+		}
+	}
+}
+
+#Verrier 112: Bonner Durchmusterung (1846-1863, Prussia)
+
+verrier.112 = {
+	type = country_event
+
+	title = verrier.112.t
+	desc = verrier.112.d
+	flavor = verrier.112.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_milky_way.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		AND = { 
+			exists = c:PRU
+			c:PRU = root
+		}
+		has_technology_researched = verrier_electromagnetism_tech
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+		game_date < 1863.1.1 #Durchmusterung finished
+		NOT = {
+			has_variable = verrier_bonner_durchmusterung_var
+		}
+	}
+
+	immediate = {
+		set_variable = verrier_bonner_durchmusterung_var
+	}
+
+	option = {
+		name = verrier.112.g #Fine!
+		default_option = yes
+		verrier_add_10_astronomical_object = yes
+	}
+}
+
+#Verrier 113: Martian canals (1877, Sardinia/Italy)
+
+verrier.113 = {
+	type = country_event
+
+	title = verrier.113.t
+	desc = verrier.113.d
+	flavor = verrier.113.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_milky_way.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		OR = {
+			AND = { 
+				exists = c:SAR
+				c:SAR = root
+			}
+			AND = {
+				exists = c:ITA
+				c:ITA = root
+			}
+		}
+		has_technology_researched = verrier_electromagnetism_tech
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+		game_date >= 1864.1.1 #Schiaparelli's time at the Brera
+		game_date < 1900.1.1 #Schiaparelli's time at the Brera
+		NOT = {
+			has_global_variable = verrier_schiaparelli_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = verrier_schiaparelli_var
+	}
+
+	option = {
+		name = verrier.113.g #Fine!
+		default_option = yes
+		verrier_add_10_astronomical_object = yes
+	}
+	option = {
+		name = verrier.113.h #We must train a general against the future Martian threat!
+		random_scope_character = {
+			limit = {
+				has_role = general
+			}
+			add_trait = verrier_astronomer
+		}
+		set_variable = verrier_prepaired_against_martian_thread_var
+	}
+}
+
+#Verrier 114: Halley's Comet (1910)
+
+verrier.114 = {
+	type = country_event
+
+	title = verrier.114.t
+	desc = verrier.114.d
+	flavor = verrier.114.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_halley.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	trigger = {
+		is_player = yes
+		game_date >= 1910.1.1
+		game_date < 1911.1.1
+		NOT = {
+			has_variable = verrier_halley_var
+		}
+	}
+
+	immediate = {
+		set_variable = verrier_halley_var
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	option = {
+		name = verrier.114.g #See you again in 75 years!
+		verrier_add_1_astronomical_object = yes
+	}
+}
+
+#Verrier 115: Lemaître's expanding universe (1927, Belgium)
+
+verrier.115 = {
+	type = country_event
+
+	title = verrier.115.t
+	desc = verrier.115.d
+	flavor = verrier.115.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_einstein.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		AND = { 
+			exists = c:BEL
+			c:BEL = root
+		}
+		NOT = {
+			has_variable = verrier_lemaitre_var
+		}
+		game_date >= 1927.1.1
+	}
+
+	immediate = {
+		set_variable = verrier_lemaitre_var
+	}
+
+	option = { #So, this whole 'big bang' stuff was made up by a jesuit? I know it!
+		name = verrier.115.g
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = verrier_astro_physics_tech
+				}
+			}
+			add_technology_researched = verrier_astro_physics_tech
+		}
+		add_modifier = {
+			name = verrier_breakthrough_modifier
+			years = 5
+		}
+	}
+}
+
+#Verrier 116: Max Planck (Germany)
+
+verrier.116 = {
+	type = country_event
+
+	title = verrier.116.t
+	desc = verrier.116.d
+	flavor = verrier.116.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_solvay.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = verrier_planck_var
+		}
+		exists = c:GER
+		c:GER = root
+		game_date >= 1900.1.1
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 15
+		}
+		has_technology_researched = verrier_electromagnetism_tech
+	}
+
+	immediate = {
+		set_variable = verrier_planck_var
+	}
+
+	option = {
+		name = verrier.116.g
+		if = {
+			limit = {
+				is_player = no
+			}
+			add_technology_researched = verrier_astro_physics_tech
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_modifier = {
+				name = verrier_breakthrough_modifier
+				days = 900
+			}
+		}
+	}
+}
+
+#Verrier 117: Edwin Hubble (USA)
+
+verrier.117 = {
+	type = country_event
+
+	title = verrier.117.t
+	desc = verrier.117.d
+	flavor = verrier.117.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_andromeda.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = verrier_hubble_var
+		}
+		exists = c:USA
+		c:USA = root
+		game_date >= 1925.1.1
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 20
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+		has_technology_researched = verrier_astro_physics_tech
+	}
+
+	immediate = {
+		set_variable = verrier_hubble_var
+	}
+
+	option = {
+		name = verrier.116.g
+		custom_tooltip = verrier_add_50_astronomical_object_tt
+		change_variable = {
+ 			name = verrier_astronomical_objects
+ 			add = 50
+		}
+	}
+}
+
+#Verrier 118: Ernest Rutherford (Great Britain)
+
+verrier.118 = {
+	type = country_event
+
+	title = verrier.118.t
+	desc = verrier.118.d
+	flavor = verrier.118.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_solvay.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = verrier_rutherford_var
+		}
+		exists = c:GBR
+		c:GBR = root
+		game_date >= 1900.1.1
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 15
+		}
+		has_technology_researched = electrical_generation
+	}
+
+	immediate = {
+		set_variable = verrier_rutherford_var
+	}
+
+	option = {
+		name = verrier.116.g
+		if = {
+			limit = {
+				is_player = no
+			}
+			add_technology_researched = verrier_astro_physics_tech
+		}
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_modifier = {
+				name = verrier_breakthrough_modifier
+				days = 900
+			}
+		}
+	}
+}
+
+#Verrier 119: Dmitri Mendeleev (Russia)
+
+verrier.119 = {
+	type = country_event
+
+	title = verrier.119.t
+	desc = verrier.119.d
+	flavor = verrier.119.f
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_scientist.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = verrier_mendeleev_var
+		}
+		exists = c:RUS
+		c:RUS = root
+		game_date >= 1871.1.1
+		game_date < 1891.1.1
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 10
+		}
+		has_technology_researched = nitrogen_fixation
+	}
+
+	immediate = {
+		set_variable = verrier_mendeleev_var
+	}
+
+	option = {
+		name = verrier.116.g
+		verrier_large_add_technology = yes
+		add_modifier = {
+			name = verrier_periodic_system_modifier
+			years = 5
+		}
+	}
+}
+
+#Verrier 120: Le Verrier (France)
+
+verrier.120 = {
+	type = country_event
+
+	title = verrier.120.t
+	desc = verrier.120.d
+	flavor = verrier.120.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = verrier_leverrier_var
+		}
+		exists = c:FRA
+		c:FRA = root
+		game_date >= 1849.1.1
+		has_technology_researched = mechanical_tools
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+	}
+
+	immediate = {
+		set_variable = verrier_leverrier_var
+	}
+
+	option = {
+		name = verrier.116.g
+		verrier_add_10_astronomical_object = yes
+		verrier_medium_add_technology = yes
+		random_scope_character = {
+			add_trait = verrier_astronomer
+		}
+	}
+}

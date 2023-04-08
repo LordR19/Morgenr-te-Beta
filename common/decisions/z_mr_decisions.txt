@@ -1,0 +1,609 @@
+﻿########################
+# MORGENRÖTE DECISIONS #
+########################
+
+#by Marco Dandolo
+
+#Added a variable to every existing expedition to hide/show them
+
+###################
+
+mr_hide_geography_decisions = {
+	is_shown = {
+		NOT = {
+			has_variable = mr_geography_decisions_hide
+		}
+		is_player = yes
+	}
+
+	possible = {
+	}
+
+	when_taken = {
+		custom_tooltip = {
+			text = mr_hide_geography_decisions_tt
+			set_variable = mr_geography_decisions_hide
+		} 
+	}
+	
+	ai_chance = {
+		base = 0 #AI should never do this
+	}
+}
+
+mr_show_geography_decisions = {
+	is_shown = {
+		has_variable = mr_geography_decisions_hide
+	}
+
+	possible = {
+	}
+
+	when_taken = {
+		custom_tooltip = {
+			text = mr_show_geography_decisions_tt
+			remove_variable = mr_geography_decisions_hide
+		} 
+	}
+	
+	ai_chance = {
+		base = 10000 #AI should do this only one time
+	}
+}
+
+##########################################################################
+
+#Arctica Expedition
+
+curtiss_arctica_expedition_decision = {
+	is_shown = {	
+		NOT = {
+			has_modifier = curtiss_had_arctica_expedition_modifier
+		}
+		NOT = {
+			has_modifier = curtiss_arctica_expedition_modifier
+		}
+		has_technology_researched = sea_lane_strategies
+		NOT = {
+			has_variable = mr_geography_decisions_hide
+		}
+	}
+	possible = {
+		is_at_war = no
+		has_technology_researched = zeppelins
+		any_scope_character = {
+			OR = {
+				has_trait = curtiss_pilot
+				has_trait = curtiss_pilot_ace
+			}
+			is_busy = no
+		}
+		OR = {
+
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_GREENLAND
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_GREENLAND
+					}
+				}		
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_NORTHERN_NORWAY
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_NORTHERN_NORWAY
+					}
+				}		
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_ALASKA
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_ALASKA
+					}
+				}		
+			}
+			OR = {
+				any_scope_state = {
+				state_region = s:STATE_NUNAVUT
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_NUNAVUT
+					}
+				}		
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_NENETSIA
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_NENETSIA
+					}
+				}		
+			}
+		}
+	}
+	when_taken = {
+		set_variable = {
+			name = curtiss_zeppelin_progress
+			value = 0
+		}
+		set_variable = {
+			name = curtiss_zeppelin_science
+			value = 0
+		}
+		set_variable = {
+			name = curtiss_zeppelin_danger
+			value = 0
+		}
+		add_modifier = {
+			name = curtiss_arctica_expedition_modifier
+		}
+		add_modifier = {
+			name = curtiss_zeppelin_expedition_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		trigger_event = { 
+			id = curtiss.520
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_small
+				gold_reserves > 0
+
+			}
+			add = 1
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -1000
+		}		
+		modifier = {
+			OR = {
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			add = -1000
+		}		
+	}
+}
+
+##########################################################################
+
+#Antarctica Expedition
+
+antarctica_expedition = {
+	is_shown = {
+		NOT = { has_global_variable = south_pole_reached }		
+		NOT = { has_variable = on_expedition }		
+		OR = {
+			is_ai = no
+			NOT = { has_variable = ai_expedition_cooldown }
+		}
+		has_technology_researched = sea_lane_strategies
+		NOT = {
+			has_variable = mr_geography_decisions_hide
+		}
+	}
+	possible = {
+		is_at_war = no
+		any_scope_character = {
+			has_role = admiral
+			count >= 3
+		}
+	}
+	when_taken = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { id = cold.101 popup = yes }
+			set_variable = {
+				name = on_expedition
+				value = yes
+			}
+		}
+		else = {
+			set_variable = AI_EXPEDITION_ANTARCTICA
+			ai_expedition_simulator_start = yes
+		}
+		hidden_effect = {
+			set_variable = {
+				name = ai_expedition_cooldown
+				value = yes
+				days = 1825
+			}		
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+
+			}
+			add = 1
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -1000
+		}		
+		modifier = {
+			OR = {
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			add = -1000
+		}		
+	}
+}
+
+##########################################################################
+
+#Nile Expedition
+
+central_africa_expedition = { #Nile expedition
+	is_shown = {
+		NOT = { has_global_variable = central_africa_explored }		
+		NOT = { has_variable = on_expedition }	
+		OR = {
+			is_ai = no
+			NOT = { has_variable = ai_expedition_cooldown }
+		}		
+		has_technology_researched = colonization
+		NOT = {
+			has_variable = mr_geography_decisions_hide
+		}
+	}
+
+	possible = {
+		is_at_war = no		
+		has_interest_marker_in_region = region_zanj
+		has_technology_researched = quinine
+		any_scope_character = {
+			OR = {
+				has_role = general
+				has_role = admiral
+			}	
+			count >= 3
+		}
+	}
+
+	when_taken = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { id = expedition_events.501 popup = yes }
+			set_variable = {
+				name = on_expedition
+				value = yes
+			}
+		}
+		else = {
+			set_variable = AI_EXPEDITION_NILE
+			ai_expedition_simulator_start = yes
+		}
+		hidden_effect = {
+			set_variable = {
+				name = ai_expedition_cooldown
+				value = yes
+				days = 1825
+			}		
+		}		
+	}
+	
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			}
+			add = 1
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -1000
+		}		
+		modifier = {
+			OR = {
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			add = -1000
+		}		
+	}
+}
+
+##########################################################################
+
+#Congo Expedition
+
+congo_river_expedition = {
+	is_shown = {		
+		NOT = { has_variable = on_expedition }		
+		has_technology_researched = colonization
+		NOT = { has_global_variable = congo_river_explored }
+		OR = {
+			is_ai = no
+			NOT = { has_variable = ai_expedition_cooldown }
+		}		
+		NOT = {
+			has_variable = mr_geography_decisions_hide
+		}
+	}
+	
+	possible = {
+		is_at_war = no		
+		has_interest_marker_in_region = region_congo
+		any_scope_character = {
+			OR = {
+				has_role = general
+				has_role = admiral
+			}	
+			count >= 3
+		}
+		has_technology_researched = quinine
+	}
+	
+	when_taken = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { id = expedition_events.601 popup = yes }
+			set_variable = {
+				name = on_expedition
+				value = yes
+			}
+		}
+		else = {
+			set_variable = AI_EXPEDITION_CONGO
+			ai_expedition_simulator_start = yes
+		}
+		hidden_effect = {
+			set_variable = {
+				name = ai_expedition_cooldown
+				value = yes
+				days = 1825
+			}		
+		}		
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0		
+			}
+			add = 1
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -1000
+		}		
+		modifier = {
+			OR = {
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			add = -1000
+		}
+	}
+}
+
+##########################################################################
+
+#Niger Expedition
+
+niger_river_expedition = {
+	is_shown = {
+		NOT = {  has_variable = on_expedition }	
+		has_technology_researched = colonization
+		NOT = { has_global_variable = niger_river_explored }
+		OR = {
+			is_ai = no
+			NOT = { has_variable = ai_expedition_cooldown }
+		}	
+		NOT = {
+			has_variable = mr_geography_decisions_hide
+		}
+	}
+
+	possible = {
+		is_at_war = no
+		has_interest_marker_in_region = region_niger
+		has_technology_researched = quinine
+		any_scope_character = {
+			OR = {
+				has_role = general
+				has_role = admiral
+			}
+			count >= 3
+		}
+	}
+
+	when_taken = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { id = expedition_events.1 popup = yes }
+			set_variable = {
+				name = on_expedition
+				value = yes
+			}
+		}
+		else = {
+			set_variable = AI_EXPEDITION_NIGER
+			ai_expedition_simulator_start = yes
+		}
+		hidden_effect = {
+			set_variable = {
+				name = ai_expedition_cooldown
+				value = yes
+				days = 1825
+			}		
+		}			
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			}
+			add = 1
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -1000
+		}		
+		modifier = {
+			OR = {
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			add = -1000
+		}		
+	}
+}
+
+##########################################################################
+
+#West America Expedition
+
+west_america_expedition = {
+	is_shown = {
+		NAND = { 
+			has_global_variable = buenaventura_river_disproven
+			has_global_variable = oregon_trail_mapped
+			has_global_variable = great_salt_lake_mapped
+	    }	
+		has_technology_researched = colonization
+		NOT = {  has_variable = on_expedition }
+		OR = {
+			is_ai = no
+			NOT = { has_variable = ai_expedition_cooldown }
+		}	
+		NOT = {
+			has_variable = mr_geography_decisions_hide
+		}			
+	}
+
+	possible = {
+		has_interest_marker_in_region = region_pacific_coast	
+		is_at_war = no
+		has_technology_researched = quinine
+		any_scope_character = {
+			OR = {
+				has_role = general
+				has_role = admiral
+			}
+			count >= 3
+		}
+	}
+
+	when_taken = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { id = expedition_events.200 popup = yes }
+			set_variable = {
+				name = on_expedition
+				value = yes
+			}
+		}
+		else = {
+			set_variable = AI_EXPEDITION_WAMERICA
+			ai_expedition_simulator_start = yes
+		}
+		hidden_effect = {
+			set_variable = {
+				name = ai_expedition_cooldown
+				value = yes
+				days = 1825
+			}		
+		}			
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			}
+			add = 10
+		}
+		modifier = { #new
+			trigger = { 
+				has_journal_entry = je_oregon
+			}
+			add = 500
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -1000
+		}		
+		modifier = {
+			OR = {
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			add = -1000
+		}		
+	}
+}
