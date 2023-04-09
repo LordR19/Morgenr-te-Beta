@@ -6852,7 +6852,7 @@ curtiss.613 = {
 
 #Curtiss 650: Introducing our new balloonist
 curtiss.650 = {
-	type = character_event
+	type = country_event
 
 	title = curtiss.650.t
 
@@ -6875,13 +6875,85 @@ curtiss.650 = {
 	}
 
 	immediate = {
-		root = {
+		create_balloonist_effect = yes
+
+		var:curtiss_balloonist_var = {
 			save_scope_as = curtiss_balloonist_scope
 		}
 	}
 
 	option = {	#Hopefully supporting him will be worth it!
 		name = curtiss.650.g
+		default_option = yes
+	}
+}
+
+#Curtiss 651: Ballooning in our country
+curtiss.651 = {
+	type = country_event
+
+	title = curtiss.651.t
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = curtiss_balloonist_var
+			}
+			desc = curtiss.651.balloonist
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_variable = curtiss_balloonist_var
+				}
+			}
+			desc = curtiss.651.noballoonist
+		}
+	}
+
+	flavor = curtiss.651.f
+	
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_balloonist_var = {
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+
+	option = {	#Sponsor a balloonist!
+		name = curtiss.651.g
+		
+		trigger = {
+			NOT = {
+				has_variable = curtiss_balloonist_var
+			}
+		}
+
+		add_modifier = {
+			name = curtiss_sponsoring_balloonist_modifier
+		}
+
+		trigger_event = {
+			id = curtiss.650
+			popup = yes
+		}
+	}
+
+	option = {	#Let me get back to my business!
+		name = curtiss.651.l
 		default_option = yes
 	}
 }
