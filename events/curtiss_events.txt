@@ -6956,6 +6956,18 @@ curtiss.651 = {
 		remove_variable = curtiss_ballooning_window_open_var
 	}
 
+	option = {	#Stop sponsoring your balloonist
+		name = curtiss.651.h
+		
+		trigger = {
+			has_variable = curtiss_balloonist_var
+		}
+
+		kill_balloonist_effect = yes
+
+		remove_variable = curtiss_ballooning_window_open_var
+	}
+
 	option = {	#Let me get back to my business!
 		name = curtiss.651.l
 		default_option = yes
@@ -6997,11 +7009,21 @@ curtiss.652 = {
 		var:curtiss_balloonist_var = {
 			save_scope_as = curtiss_balloonist_scope
 		}
+
+		curtiss_new_balloon_altitude_effect = yes
+		curtiss_new_balloon_distance_effect = yes
+		curtiss_new_balloon_time_effect = yes
 	}
 
-	option = {	#Sponsor a balloonist!
+	option = {	#That's a good start!
 		name = curtiss.652.g
-		
+		default_option = yes
+
+		curtiss_balloon_country_altitude_record_effect = yes
+		curtiss_balloon_country_distance_record_effect = yes
+		curtiss_balloon_country_time_record_effect = yes
+
+		curtiss_ballooning_research_if_record_all_effect = yes
 	}
 }
 
@@ -7091,7 +7113,6 @@ curtiss.653 = {
 
 	immediate = {
 		curtiss_new_balloon_altitude_effect = yes
-		curtiss_balloon_country_altitude_record_effect = yes
 
 		var:curtiss_balloonist_var = {
 			save_scope_as = curtiss_balloonist_scope
@@ -7107,6 +7128,7 @@ curtiss.653 = {
 		}
 
 		small_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_altitude_record_effect = yes
 	}
 
 	option = {	#Good job!
@@ -7118,6 +7140,7 @@ curtiss.653 = {
 		}
 
 		medium_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_altitude_record_effect = yes
 	}
 
 	option = {	#Wonderful! Congratulations!
@@ -7130,6 +7153,138 @@ curtiss.653 = {
 		big_curtiss_ballooning_research_effect = yes
 	}
 }
+
+#Curtiss 654: Balloonist tries to set new Altitude record
+curtiss.654 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				curtiss_altitude_record_country_broken_trigger = no
+			}
+			desc = curtiss.654.t1
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_altitude_record_country_broken_trigger = yes
+				curtiss_altitude_record_global_broken_trigger = no
+			}
+			desc = curtiss.654.t2
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_altitude_record_global_broken_trigger = yes
+			}
+			desc = curtiss.654.t3
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				curtiss_altitude_record_country_broken_trigger = no
+			}
+			desc = curtiss.654.d1
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_altitude_record_country_broken_trigger = yes
+				curtiss_altitude_record_global_broken_trigger = no
+			}
+			desc = curtiss.654.d2
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_altitude_record_global_broken_trigger = yes
+			}
+			desc = curtiss.654.d3
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				curtiss_altitude_record_country_broken_trigger = no
+			}
+			desc = curtiss.654.f1
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_altitude_record_country_broken_trigger = yes
+				curtiss_altitude_record_global_broken_trigger = no
+			}
+			desc = curtiss.654.f2
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_altitude_record_global_broken_trigger = yes
+			}
+			desc = curtiss.654.f3
+		}
+	}
+	
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#triggered by on_action in journal entry
+	}
+
+	immediate = {
+		curtiss_new_balloon_altitude_effect = yes
+
+		var:curtiss_balloonist_var = {
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+
+	option = {	#Good luck for next time!
+		name = curtiss.654.g
+		default_option = yes
+
+		trigger = {
+			curtiss_altitude_record_country_broken_trigger = no
+		}
+
+		small_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_altitude_record_effect = yes
+	}
+
+	option = {	#Good job!
+		name = curtiss.654.h
+
+		trigger = {
+			curtiss_altitude_record_country_broken_trigger = yes
+			curtiss_altitude_record_global_broken_trigger = no
+		}
+
+		medium_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_altitude_record_effect = yes
+	}
+
+	option = {	#Wonderful! Congratulations!
+		name = curtiss.654.i
+
+		trigger = {
+			curtiss_altitude_record_global_broken_trigger = yes
+		}
+
+		big_curtiss_ballooning_research_effect = yes
+	}
+}
+
+
+
+
+
 
 
 
@@ -7161,11 +7316,6 @@ curtiss.690 = {
 		curtiss_new_balloon_altitude_effect = yes
 		curtiss_new_balloon_distance_effect = yes
 		curtiss_new_balloon_time_effect = yes
-
-		set_variable = {
-			name = record_holder_var
-			value = root
-		}
 	}
 
 	option = {	#Maybe soon those steerable balloons will conquer the skies!
