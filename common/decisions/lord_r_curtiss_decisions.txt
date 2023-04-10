@@ -20,6 +20,9 @@ curtiss_sponsor_balloonist_decisions = {
 	}
 
 	possible = {
+		NOT = {
+			has_variable = curtiss_balloonist_fired_var
+		}
 	}
 
 	when_taken = {
@@ -94,6 +97,81 @@ curtiss_sponsor_balloonist_decisions = {
 				}
 			}
 			subtract = 7
+		}
+	}
+}
+
+######Get rid of Balloonist######
+
+curtiss_stop_sponsoring_balloonist_decisions = {
+	is_shown = {	
+		has_technology_researched = curtiss_montgolfier_balloon_tech
+		has_variable = curtiss_balloonist_var
+		is_player = no
+	}
+
+	possible = {
+	}
+
+	when_taken = {
+		kill_balloonist_effect = yes
+
+		set_variable = {
+			name = curtiss_balloonist_fired_var
+			months = 12
+		}
+	}
+	
+	ai_chance = {
+		base = 0 #Usually AI shouldn't do this
+		modifier = {
+			trigger = {
+				weekly_net_fixed_income < 1000
+			}
+			add = 100
+		}
+		modifier = {
+			trigger = {
+				ig:ig_devout = {
+					is_powerful = yes
+				}
+			}
+			add = 50
+		}
+		modifier = {
+			trigger = {
+				ig:ig_landowners = {
+					is_powerful = yes
+				}
+			}
+			add = 50
+		}
+		modifier = {
+			trigger = {
+				ig:ig_intelligentsia = {
+					is_powerful = yes
+				}
+			}
+			subtract = 50
+		}
+		modifier = {
+			trigger = {
+				ig:ig_industrialists = {
+					is_powerful = yes
+				}
+			}
+			subtract = 50
+		}
+		modifier = {
+			trigger = {
+				AND = {
+					has_technology_researched = curtiss_messenger_pidgeons_tech
+					has_technology_researched = curtiss_reconnaissance_balloon_tech
+					has_technology_researched = curtiss_early_aviation_tech
+					has_technology_researched = zeppelins
+				}
+			}
+			multiply = 10
 		}
 	}
 }
