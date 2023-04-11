@@ -6898,9 +6898,6 @@ curtiss.650 = {
 			save_scope_as = curtiss_balloonist_scope
 		}
 
-		add_journal_entry = {
-			type = je_curtiss_balloonist
-		}
 	}
 
 	option = {	#Hopefully supporting him will be worth it!
@@ -7457,6 +7454,9 @@ curtiss.670 = {
 	}
 
 	immediate = {
+		var:curtiss_balloonist_var = {
+			save_scope_as = curtiss_balloonist_scope
+		}
 	}
 
 	option = {	#How horrible!
@@ -7481,6 +7481,102 @@ curtiss.670 = {
 
 		ai_chance = {
 			base = 0
+		}
+	}
+}
+
+#Curtiss 671: Experienced Balloonist
+curtiss.671 = {
+	type = country_event
+
+	title = curtiss.671.t
+
+	desc = curtiss.671.d
+
+	flavor = curtiss.671.f
+	
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
+
+	trigger = {
+		var:curtiss_balloonist_var = {
+			var:curtiss_balloonist_experience_var >= 100
+			NOR = {
+				has_trait = curtiss_balloonist_experienced
+				has_trait = curtiss_balloonist_famous
+			}
+		}
+	}
+
+	immediate = {
+		var:curtiss_balloonist_var = {
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+
+	option = {	#Good to hear
+		name = curtiss.671.g
+		default_option = yes
+
+		var:curtiss_balloonist_var = {
+			remove_trait = curtiss_balloonist
+			add_trait = curtiss_balloonist_experienced
+		}
+	}
+}
+
+#Curtiss 672: Famous Balloonist
+curtiss.672 = {
+	type = country_event
+
+	title = curtiss.672.t
+
+	desc = curtiss.672.d
+
+	flavor = curtiss.672.f
+	
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
+
+	trigger = {
+		var:curtiss_balloonist_var = {
+			var:curtiss_balloonist_experience_var >= 300
+			NOT = {
+				has_trait = curtiss_balloonist_famous
+			}
+		}
+	}
+
+	immediate = {
+		var:curtiss_balloonist_var = {
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+
+	option = {	#Wonderful
+		name = curtiss.672.g
+		default_option = yes
+
+		var:curtiss_balloonist_var = {
+			remove_trait = curtiss_balloonist
+			remove_trait = curtiss_balloonist_experienced
+			add_trait = curtiss_balloonist_famous
 		}
 	}
 }
