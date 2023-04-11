@@ -14,6 +14,7 @@ namespace = verrier
 
 #Verrier 1: Yearly astronomical report
 #Verrier 5: Found an Observatory
+#Verrier 6: Remove Observatory
 
 #Neptun
 
@@ -221,6 +222,50 @@ verrier.5 = {
 			}
 			start_building_construction = building_verrier_observatory
 		}
+	}
+}
+
+#Verrier 6: Dissolve Observatory
+
+verrier.6 = {
+	type = country_event
+
+	title = verrier.6.t
+	desc = verrier.6.d
+	flavor = verrier.6.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1881.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_capital = no
+			has_building = building_verrier_observatory
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = verrier.6.g
+		verrier_add_3_astronomical_object = yes
+		verrier_small_add_technology = yes
+		every_scope_state = {
+    		limit = { 
+				has_building = building_verrier_observatory
+				is_capital = no
+			}
+    		remove_building = building_verrier_observatory
+  		}
 	}
 }
 
