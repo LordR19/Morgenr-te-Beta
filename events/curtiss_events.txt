@@ -45,7 +45,7 @@ curtiss.1 = {
 				var:curtiss_flight_route >= 3
 				NOT = {
 					has_modifier = curtiss_airline_level_2_modifier
-					var:lepsius_egyptian_artifact_minor >= 6
+					var:curtiss_flight_route >= 6
 				}
 			}
 			add_modifier = curtiss_airline_level_2_modifier
@@ -113,6 +113,186 @@ curtiss.1 = {
 			remove_modifier = curtiss_airline_level_3_modifier
 			remove_modifier = curtiss_airline_level_4_modifier
 			remove_modifier = curtiss_airline_level_5_modifier
+		}
+	}
+}
+
+#Curtiss 2: Schneider Trophy Points
+
+curtiss.2 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		###AVIATION TECH&FOCUS###
+		if = {
+			limit = {
+				has_technology_researched = curtiss_modern_aviation_tech
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airplane_focus_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_pilot_school_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_support_modifier
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		###PILOTS###
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = curtiss_pilot
+					count = 1
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = curtiss_pilot
+					count = 2
+				}
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = curtiss_pilot
+					count >= 3
+				}
+			}
+			curtiss_add_3_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = curtiss_pilot_ace
+				}
+			}
+			curtiss_add_3_schneider_trophy_point = yes
+		}
+		###FACTORIES###
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_war_machine_industry
+						level >= 5
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_war_machine_industry
+						level >= 10
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_war_machine_industry
+						level >= 25
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		###AIRPORTS###
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_airport
+						level >= 5
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_airport
+						level >= 10
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_airport
+						level >= 25
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		###AIRLINES###
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_1_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_2_modifier
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_3_modifier
+			}
+			curtiss_add_3_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_4_modifier
+			}
+			curtiss_add_4_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_5_modifier
+			}
+			curtiss_add_5_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_6_modifier
+			}
+			curtiss_add_6_schneider_trophy_point = yes
 		}
 	}
 }
@@ -192,6 +372,85 @@ curtiss.11 = {
 			change_global_variable = {
 				name = curtiss_seaplane_nations
 				add = 1
+			}
+		}
+	}
+}
+
+#Curtiss 12: Henri Fabre
+
+curtiss.12 = {
+	type = country_event
+
+    title = curtiss.12.t
+		
+    desc = curtiss.12.d
+
+	flavor = curtiss.12.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_fabre.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		game_date >= 1909.1.1
+		NOT = {
+			game_date >= 1914.1.1
+		}
+		NOT = {
+			has_global_variable = curtiss_henri_fabre_happened
+		}
+		OR = {
+			country_has_primary_culture = cu:french
+			country_has_primary_culture = cu:occitan
+			country_has_primary_culture = cu:north_italian
+		}
+		any_scope_state = {
+			state_region = s:STATE_PROVENCE #Marseille
+		}
+		has_technology_researched = curtiss_early_aviation_tech
+	}
+
+	immediate = {
+		set_global_variable = curtiss_henri_fabre_happened
+	}
+
+	option = { #I love this flying boat!
+		name = curtiss.12.g
+		default_option = yes
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = military_aviation
+				}
+			} 
+			add_technology_researched = military_aviation
+		}
+		if = {
+			limit = {
+				has_technology_researched = military_aviation
+				NOT = {
+					has_technology_researched = curtiss_seaplanes_tech
+				}
+			} 
+			add_technology_researched = curtiss_seaplanes_tech
+		}
+		if = {
+			limit = {
+				has_technology_researched = curtiss_seaplanes_tech
+				NOT = {
+					has_technology_researched = curtiss_modern_aviation_tech
+				}
+			} 
+			add_technology_progress = { 
+				progress = 8000 technology = curtiss_modern_aviation_tech
 			}
 		}
 	}
@@ -1286,7 +1545,8 @@ curtiss.53 = {
 				}
 			} 
 			add_technology_progress = { 
-				progress = 8000 technology = curtiss_modern_aviation_tech }
+				progress = 8000 technology = curtiss_modern_aviation_tech
+			}
 		}
 	}
 }
@@ -1319,6 +1579,7 @@ curtiss.100 = {
 	}
 
 	immediate = {
+		set_variable = curtiss_schneider_trophy_host
 		random_scope_state = {
 			limit = {
 				is_incorporated = yes
@@ -1332,11 +1593,36 @@ curtiss.100 = {
 			}
 			save_scope_as = curtiss_schneider_trophy_state
 		}
+		set_variable = {
+            name = schneider_trophy_point
+            value = 0
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.103
+				popup = yes
+				days = 30
+			}
+			trigger_event = {
+				id = curtiss.104
+				popup = yes
+				days = 60
+			}
+			trigger_event = {
+				id = curtiss.104
+				popup = yes
+				days = 90
+			}
+			trigger_event = {
+				id = curtiss.110
+				popup = yes
+				days = 120
+			}
+		}
 	}
 
 	option = { #Invite everyone to $STATE$
 		name = curtiss.100.g
-		set_variable = curtiss_schneider_trophy_host
 		scope:curtiss_schneider_trophy_state = {
 			add_modifier = {
 				name = curtiss_schneider_trophy_state_modifier
@@ -1345,6 +1631,9 @@ curtiss.100 = {
 		every_country = {
 			limit = {
 				curtiss_schneider_trophy_possible = yes
+				NOT = {
+					this = ROOT
+				}
 			}
 			trigger_event = {
 				id = curtiss.101
@@ -1355,7 +1644,7 @@ curtiss.100 = {
 	}
 }
 
-#Curtiss 101: Invitation to first Schneider Trophy
+#Curtiss 101: Invitation to Schneider Trophy
 
 curtiss.101 = {
 	type = country_event
@@ -1401,11 +1690,37 @@ curtiss.101 = {
 		name = curtiss.101.g
 		default_option = yes
 		set_variable = curtiss_schneider_trophy_member
+		set_variable = {
+            name = schneider_trophy_point
+            value = 0
+		}
 		if = {
 			limit = {
 				is_player = yes
 			}
 			add_treasury = -10000
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.103
+				popup = yes
+				days = 30
+			}
+			trigger_event = {
+				id = curtiss.104
+				popup = yes
+				days = 60
+			}
+			trigger_event = {
+				id = curtiss.104
+				popup = yes
+				days = 90
+			}
+			trigger_event = {
+				id = curtiss.110
+				popup = yes
+				days = 120
+			}
 		}
 	}
 
@@ -1416,6 +1731,2482 @@ curtiss.101 = {
 		}
 	}
 }
+
+#Curtiss 102: Regular Schneider Trophy
+
+curtiss.102 = {
+	type = country_event
+
+    title = curtiss.100.t
+		
+    desc = curtiss.102.d
+
+	flavor = curtiss.100.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_foundation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = curtiss_schneider_trophy_host
+		if = {
+			limit = {
+				NOT = {
+					exists = c:SWI
+					c:SWI = ROOT
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_port
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 10
+					}
+				}
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+		if = {
+			limit = {
+				exists = c:SWI
+				c:SWI = ROOT
+			}
+			random_scope_state = {
+				limit = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 10
+					}
+				}
+				save_scope_as = curtiss_schneider_trophy_state
+			}
+		}
+		set_variable = {
+            name = schneider_trophy_point
+            value = 0
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.103
+				popup = yes
+				days = 30
+			}
+			trigger_event = {
+				id = curtiss.104
+				popup = yes
+				days = 60
+			}
+			trigger_event = {
+				id = curtiss.104
+				popup = yes
+				days = 90
+			}
+			trigger_event = {
+				id = curtiss.110
+				popup = yes
+				days = 120
+			}
+		}
+	}
+
+	option = { #Invite everyone to $STATE$
+		name = curtiss.100.g
+		scope:curtiss_schneider_trophy_state = {
+			add_modifier = {
+				name = curtiss_schneider_trophy_state_modifier
+			}
+		}
+		every_country = {
+			limit = {
+				curtiss_schneider_trophy_possible = yes
+				NOT = {
+					this = ROOT
+				}
+			}
+			trigger_event = {
+				id = curtiss.101
+				popup = yes
+				days = 3
+			}
+		}
+	}
+}
+
+#Curtiss 103: State Support
+
+curtiss.103 = {
+	type = country_event
+
+    title = curtiss.103.t
+		
+    desc = curtiss.103.d
+
+	flavor = curtiss.103.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_support.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #We will support our team
+		name = curtiss.103.g
+		default_option = yes
+		add_modifier = {
+			name = curtiss_schneider_trophy_support_modifier
+			multiplier = money_amount_multiplier_medium
+		}
+	}
+
+	option = { #This is not necessary
+		name = curtiss.103.h
+	}
+}
+
+#Curtiss 104: Training
+
+curtiss.104 = {
+	type = country_event
+
+    title = curtiss.104.t
+		
+    desc = curtiss.104.d
+
+	flavor = curtiss.104.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_test.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		curtiss_has_active_pilot = yes
+	}
+
+	immediate = {
+	}
+
+	option = { #Yes
+		name = curtiss.103.g
+		random_list = {
+			25 = {
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_pilot_school_modifier
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							any_scope_character = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = 15
+				}
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_airplane_focus_modifier
+						}
+					}
+					add = 5
+				}
+				trigger_event = {
+					id = curtiss.105
+					popup = yes
+					days = { 7 14 }
+				}
+			}
+			40 = {
+				modifier = {
+					if = {
+						limit = {
+							any_scope_character = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_airplane_focus_modifier
+						}
+					}
+					add = 5
+				}
+				trigger_event = {
+					id = curtiss.106
+					popup = yes
+					days = { 7 14 }
+				}
+			}
+			35 = {
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_pilot_school_modifier
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							any_scope_character = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = -10
+				}
+				modifier = {
+					if = {
+						limit = {
+							has_modifier = curtiss_airplane_focus_modifier
+						}
+					}
+					add = -5
+				}
+				trigger_event = {
+					id = curtiss.107
+					popup = yes
+					days = { 7 14 }
+				}
+			}
+		}
+	}
+
+	option = { #Too risky
+		name = curtiss.104.h
+		default_option = yes
+	}
+}
+
+#Curtiss 105: Good Training (New record)
+
+curtiss.105 = {
+	type = country_event
+
+    title = curtiss.105.t
+		
+    desc = curtiss.105.d
+
+	flavor = curtiss.105.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_good.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Great!
+		name = curtiss.105.g
+		default_option = yes
+		set_variable = curtiss_schneider_trophy_training_good
+	}
+}
+
+#Curtiss 106: Normal Training (Routine)
+
+curtiss.106 = {
+	type = country_event
+
+    title = curtiss.106.t
+		
+    desc = curtiss.106.d
+
+	flavor = curtiss.106.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_foundation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Good
+		name = curtiss.106.g
+		default_option = yes
+		set_variable = curtiss_schneider_trophy_training_normal
+	}
+}
+
+#Curtiss 107: Bad Training (Training incident)
+
+curtiss.107 = {
+	type = country_event
+
+    title = curtiss.107.t
+		
+    desc = curtiss.107.d
+
+	flavor = curtiss.107.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_bad.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Bad!
+		name = curtiss.107.g
+		default_option = yes
+		random_list = {
+			70 = {
+				random_scope_character = {
+					limit = {
+						OR = {
+							has_trait = curtiss_pilot
+							has_trait = curtiss_pilot_ace
+						}
+					}
+					add_trait = wounded
+				}
+			}
+			30 = {
+				random_scope_character = {
+					limit = {
+						OR = {
+							has_trait = curtiss_pilot
+							has_trait = curtiss_pilot_ace
+						}
+					}
+					kill_character = yes
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 108: Leading pilot
+
+curtiss.108 = {
+	type = country_event
+
+    title = curtiss.108.t
+    desc = curtiss.108.d
+    flavor = curtiss.108.f
+
+	duration = 1
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_pilot.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_schneider_veteran_modifier
+				is_busy = no
+			}
+			save_scope_as = curtiss_schneider_pilot_1
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				NOT = {
+					this = scope:curtiss_schneider_pilot_1
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_schneider_pilot_2
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				NOT = {
+					this = scope:curtiss_schneider_pilot_1
+				}
+				NOT = {
+					this = scope:curtiss_schneider_pilot_2
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_schneider_pilot_3
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				NOT = {
+					this = scope:curtiss_schneider_pilot_1
+				}
+				NOT = {
+					this = scope:curtiss_schneider_pilot_2
+				}
+				NOT = {
+					this = scope:curtiss_schneider_pilot_3
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_schneider_pilot_4
+		}
+	}
+
+	option = {
+		name = curtiss.108.g
+		default_option = yes
+		trigger = {
+			exists = scope:curtiss_schneider_pilot_1
+		}
+		scope:curtiss_schneider_pilot_1 = {
+			add_modifier = {
+				name = curtiss_schneider_pilot_modifier
+			}
+			set_character_busy = yes
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = curtiss.108.h
+		trigger = {
+			exists = scope:curtiss_schneider_pilot_2
+		}
+		scope:curtiss_schneider_pilot_2 = {
+			add_modifier = {
+				name = curtiss_schneider_pilot_modifier
+			}
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = curtiss.108.i
+		trigger = {
+			exists = scope:curtiss_schneider_pilot_3
+		}
+		scope:curtiss_schneider_pilot_3 = {
+			add_modifier = {
+				name = curtiss_schneider_pilot_modifier
+			}
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = curtiss.108.j
+		trigger = {
+			exists = scope:curtiss_schneider_pilot_4
+		}
+		scope:curtiss_schneider_pilot_4 = {
+			add_modifier = {
+				name = curtiss_schneider_pilot_modifier
+			}
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = curtiss.108.k #A Newcomer
+		trigger = {
+			NOT = {
+				exists = scope:curtiss_schneider_pilot_1
+			}
+			NOT = {
+				exists = scope:curtiss_schneider_pilot_2
+			}
+			NOT = {
+				exists = scope:curtiss_schneider_pilot_3
+			}
+			NOT = {
+				exists = scope:curtiss_schneider_pilot_4
+			}
+		}
+		create_character = {
+			traits = {
+				curtiss_pilot
+			}
+			is_general = yes
+			age = { 17 24 }
+			save_scope_as = curtiss_new_pilot
+			on_created = {
+				add_modifier = {
+					name = curtiss_schneider_pilot_modifier
+				}
+			}
+		}
+	}
+}
+
+#Curtiss 110: Schneider Trophy in $STATE$
+
+curtiss.110 = {
+	type = country_event
+
+    title = curtiss.110.t
+		
+    desc = curtiss.110.d
+
+	flavor = curtiss.110.f
+
+	placement = scope:curtiss_schneider_trophy_state
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_race.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		add_journal_entry = {
+        	type = je_curtiss_schneider_trophy_race
+        }
+		###TRAINING###
+		if = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_training_good
+			}
+			curtiss_add_5_schneider_trophy_point = yes 
+		}
+		if = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_training_normal
+			}
+			curtiss_add_3_schneider_trophy_point = yes 
+		}
+		###AVIATION TECH&FOCUS###
+		if = {
+			limit = {
+				has_technology_researched = curtiss_modern_aviation_tech
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airplane_focus_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_pilot_school_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_support_modifier
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		###PILOTS###
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = curtiss_pilot
+					count = 1
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = curtiss_pilot
+					count = 2
+				}
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = curtiss_pilot
+					count >= 3
+				}
+			}
+			curtiss_add_3_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = curtiss_pilot_ace
+				}
+			}
+			curtiss_add_3_schneider_trophy_point = yes
+		}
+		###FACTORIES###
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_war_machine_industry
+						level >= 5
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_war_machine_industry
+						level >= 10
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_war_machine_industry
+						level >= 25
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		###AIRPORTS###
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_airport
+						level >= 5
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_airport
+						level >= 10
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_airport
+						level >= 25
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		###AIRLINES###
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_1_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_2_modifier
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_3_modifier
+			}
+			curtiss_add_3_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_4_modifier
+			}
+			curtiss_add_4_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_5_modifier
+			}
+			curtiss_add_5_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airline_level_6_modifier
+			}
+			curtiss_add_6_schneider_trophy_point = yes
+		}
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+		random_country = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_host
+			}
+			save_scope_as = curtiss_schneider_trophy_host
+		}
+	}
+
+	option = { #Let's have fun
+		name = curtiss.110.g
+		default_option = yes
+		remove_variable = curtiss_schneider_trophy_training_good
+		remove_variable = curtiss_schneider_trophy_training_normal
+	}
+}
+
+#Curtiss 111: Schneider Trophy Victory
+
+curtiss.111 = {
+	type = country_event
+
+    title = curtiss.111.t
+		
+    desc = curtiss.111.d
+
+	flavor = curtiss.111.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_victory.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = curtiss_schneider_trophy_race_end
+		set_variable = {
+			name = curtiss_schneider_trophy_recent_winner
+			days = 60
+		}
+		add_modifier = {
+			name = curtiss_schneider_trophy_break_modifier
+			days = 365
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_schneider_pilot_modifier
+				NOT = {
+					has_modifier = curtiss_schneider_veteran_modifier
+				}
+			}
+			add_modifier = curtiss_schneider_veteran_modifier
+		}
+	}
+
+	option = { #Victory!
+		name = curtiss.111.g
+		default_option = yes
+		if = {
+			limit = {
+				NOT = {
+					has_modifier = curtiss_schneider_trophy_1_win_modifier
+				}
+				NOT = {
+					has_modifier = curtiss_schneider_trophy_2_win_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_schneider_trophy_1_win_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_1_win_modifier
+			}
+			remove_modifier = curtiss_schneider_trophy_1_win_modifier
+			add_modifier = {
+				name = curtiss_schneider_trophy_2_win_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_2_win_modifier
+			}
+			remove_modifier = curtiss_schneider_trophy_2_win_modifier
+			add_modifier = {
+				name = curtiss_the_schneider_trophy_modifier
+			}
+			random_scope_character = {
+				limit = {
+					has_modifier = curtiss_schneider_pilot_modifier
+				}
+				add_modifier = curtiss_schneider_winner_modifier
+			}
+			hidden_effect = {
+				trigger_event = {
+					id = curtiss.112
+					popup = yes
+					days = 3
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_member
+				NOT = {
+					this = ROOT
+				}
+			}
+			trigger_event = {
+				id = curtiss.111
+				popup = yes
+				days = 3
+			}
+		}
+	}
+
+	after = {
+		remove_variable = curtiss_schneider_trophy_member
+		remove_variable = curtiss_schneider_trophy_host
+		remove_modifier = curtiss_schneider_trophy_support_modifier
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_schneider_pilot_modifier
+			}
+			set_character_busy = no
+			remove_modifier = curtiss_schneider_pilot_modifier
+		}
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier
+			}
+			remove_modifier = curtiss_schneider_trophy_state_modifier
+		}
+	}
+}
+
+#Curtiss 112: Schneider Trophy Lost
+
+curtiss.112 = {
+	type = country_event
+
+    title = curtiss.112.t
+		
+    desc = curtiss.112.d
+
+	flavor = curtiss.112.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_lost.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_recent_winner
+			}
+			save_scope_as = curtiss_schneider_trophy_recent_winner
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_schneider_pilot_modifier
+				NOT = {
+					has_modifier = curtiss_schneider_veteran_modifier
+				}
+			}
+			add_modifier = curtiss_schneider_veteran_modifier
+		}
+	}
+
+	option = { #Disappointing
+		name = curtiss.112.g
+		default_option = yes
+		if = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_1_win_modifier
+			}
+			remove_modifier = curtiss_schneider_trophy_1_win_modifier
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_2_win_modifier
+			}
+			remove_modifier = curtiss_schneider_trophy_2_win_modifier
+		}
+	}
+
+	after = {
+		remove_variable = curtiss_schneider_trophy_member
+		remove_variable = curtiss_schneider_trophy_host
+		remove_modifier = curtiss_schneider_trophy_support_modifier
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_schneider_pilot_modifier
+			}
+			set_character_busy = no
+			remove_modifier = curtiss_schneider_pilot_modifier
+		}
+	}
+}
+
+#Curtiss 113: The Schneider Trophy
+
+curtiss.113 = {
+	type = country_event
+
+    title = curtiss.113.t
+		
+    desc = curtiss.113.d
+
+	flavor = curtiss.113.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_trophy.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #We deserve it
+		name = curtiss.113.g
+		default_option = yes
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				is_player = yes
+				NOT = {
+					this = ROOT
+				}
+			}
+			trigger_event = {
+				id = curtiss.114
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 114: The Schneider Trophy lost forever
+
+curtiss.114 = {
+	type = country_event
+
+    title = curtiss.114.t
+		
+    desc = curtiss.114.d
+
+	flavor = curtiss.114.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_bad.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = curtiss_the_schneider_trophy_modifier
+			}
+			save_scope_as = curtiss_schneider_trophy_winner
+		}
+	}
+
+	option = { #They don't deserve it
+		name = curtiss.114.g
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Curtiss 121: Mechanical problems
+
+curtiss.121 = {
+	type = country_event
+
+    title = curtiss.121.t
+		
+    desc = curtiss.121.d
+
+	flavor = curtiss.121.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_engine.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+
+	option = { #Bunglers!
+		name = curtiss.121.g
+		curtiss_sub_2_schneider_trophy_point = yes
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Curtiss 122: Crash
+
+curtiss.122 = {
+	type = country_event
+
+    title = curtiss.122.t
+		
+    desc = curtiss.122.d
+
+	flavor = curtiss.122.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_bad.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		NOT = {
+			has_modifier = curtiss_airplane_focus_modifier
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+
+	option = { #Yikes
+		name = curtiss.122.g
+		curtiss_sub_3_schneider_trophy_point = yes
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Curtiss 123: Buoy overlooked
+
+curtiss.123 = {
+	type = country_event
+
+    title = curtiss.123.t
+		
+    desc = curtiss.123.d
+
+	flavor = curtiss.123.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_plane_bernard.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+
+	option = { #Yikes
+		name = curtiss.123.g
+		curtiss_sub_1_schneider_trophy_point = yes
+	}
+
+	option = { #Try to bribe a referee
+		name = curtiss.123.h
+		default_option = yes
+		add_treasury = -10000
+		random_list = {
+			65 = { }
+			35 = {
+				curtiss_sub_1_schneider_trophy_point = yes
+				change_infamy = 3
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Curtiss 124: Maximum Speed
+
+curtiss.124 = {
+	type = country_event
+
+    title = curtiss.124.t
+		
+    desc = curtiss.124.d
+
+	flavor = curtiss.124.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_plane_curtiss.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_schneider_speed_cooldown
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+
+	option = { #Full Power!
+		name = curtiss.124.g
+		curtiss_add_2_schneider_trophy_point = yes
+		if = {
+			limit = {
+				has_technology_researched = curtiss_modern_aviation_tech
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_modifier = curtiss_schneider_pilot_modifier
+					has_trait = curtiss_pilot_ace
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_modifier = curtiss_schneider_pilot_modifier
+					has_modifier = curtiss_schneider_veteran_modifier
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_modifier = curtiss_schneider_pilot_modifier
+					OR = {
+						has_trait = brave
+						has_trait = reckless
+						has_trait = innovative
+						has_trait = ambitious
+						has_trait = direct
+					}
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_airplane_focus_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_support_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_schneider_speed_cooldown
+			days = 35
+		}
+	}
+}
+
+#Curtiss 125: Slalom maneuvers
+
+curtiss.125 = {
+	type = country_event
+
+    title = curtiss.125.t
+		
+    desc = curtiss.125.d
+
+	flavor = curtiss.125.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_plane_sopwith.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_schneider_slalom_cooldown
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+
+	option = { #Fly with elegance
+		name = curtiss.126.g
+		curtiss_add_1_schneider_trophy_point = yes
+		if = {
+			limit = {
+				any_scope_character = {
+					has_modifier = curtiss_schneider_pilot_modifier
+					has_trait = curtiss_pilot_ace
+				}
+			}
+			curtiss_add_3_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_modifier = curtiss_schneider_pilot_modifier
+					has_modifier = curtiss_schneider_veteran_modifier
+				}
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_modifier = curtiss_schneider_pilot_modifier
+					OR = {
+						has_trait = tactful
+						has_trait = meticulous
+						has_trait = cautious
+					}
+				}
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_pilot_school_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+	}
+
+	after = {
+		set_variable = {
+			name = curtiss_schneider_slalom_cooldown
+			days = 35
+		}
+	}
+}
+
+#Curtiss 126: Fog
+
+curtiss.126 = {
+	type = country_event
+
+    title = curtiss.126.t
+		
+    desc = curtiss.126.d
+
+	flavor = curtiss.126.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_plane_gloster.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+
+	option = { #Our pilot will find his way
+		name = curtiss.126.g
+		if = {
+			limit = {
+				any_scope_character = {
+					has_modifier = curtiss_schneider_pilot_modifier
+					has_trait = curtiss_pilot_ace
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_modifier = curtiss_schneider_pilot_modifier
+					has_modifier = curtiss_schneider_veteran_modifier
+				}
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_modifier = curtiss_schneider_pilot_modifier
+					OR = {
+						has_trait = innovative
+						has_trait = persistent
+						has_trait = tactful
+						has_trait = meticulous
+						has_trait = cautious
+						has_trait = brave
+					}
+				}
+			}
+			curtiss_add_2_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_modifier = curtiss_pilot_school_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+	}
+
+	after = {
+	}
+}
+
+#Curtiss 127: Superior flight performance
+
+curtiss.127 = {
+	type = country_event
+
+    title = curtiss.127.t
+		
+    desc = curtiss.127.d
+
+	flavor = curtiss.127.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_plane_supermarine.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		OR = {
+			any_scope_character = {
+				has_modifier = curtiss_schneider_pilot_modifier
+				has_trait = curtiss_pilot_ace
+			}
+			any_scope_character = {
+				has_modifier = curtiss_schneider_pilot_modifier
+				has_modifier = curtiss_schneider_veteran_modifier
+			}
+		}
+		any_scope_character = {
+			has_modifier = curtiss_schneider_pilot_modifier
+			OR = {
+				has_trait = innovative
+				has_trait = persistent
+				has_trait = ambitious
+				has_trait = brave
+			}
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+	}
+
+	option = { #Excellent!
+		name = curtiss.127.g
+		curtiss_add_4_schneider_trophy_point = yes
+	}
+
+	after = {
+	}
+}
+
+#Curtiss 128: Duel
+
+curtiss.128 = {
+	type = country_event
+
+    title = curtiss.128.t
+		
+    desc = curtiss.128.d
+
+	flavor = curtiss.128.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	gui_window = event_window_2char
+
+	left_icon = scope:duel_participant_1
+	right_icon = scope:duel_participant_2
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = curtiss_schneider_duel_cooldown
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_schneider_pilot_modifier
+			}
+			save_scope_as = duel_participant_1
+		}
+
+		random_character = {
+			limit = {
+				NOT = { this = scope:duel_participant_1 }
+				has_modifier = curtiss_schneider_pilot_modifier
+			}
+			save_scope_as = duel_participant_2
+		}
+	}
+
+	option = { #Dog Fight!
+		name = curtiss.127.g
+		default_option = yes
+		random_list = {
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = 20
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_modifier = curtiss_schneider_veteran_modifier
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = brave
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = ambitious
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = reckless
+							}
+						}
+					}
+					add = 8
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = persistent
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = arrogant
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = cruel
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = cautious
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = tactful
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								OR = {
+									has_trait = wounded
+									has_trait = opium_addiction
+									has_trait = psychological_affliction
+								}
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								OR = {
+									has_trait = shellshocked
+									has_trait = senile
+									has_trait = alcoholic
+								}
+							}
+						}
+					}
+					add = -10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = romantic
+							}
+						}
+					}
+					add = -10
+				}
+				curtiss_add_5_schneider_trophy_point = yes
+			}
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = 20
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_modifier = curtiss_schneider_veteran_modifier
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = brave
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = ambitious
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = reckless
+							}
+						}
+					}
+					add = 8
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = persistent
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = arrogant
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = cruel
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = cautious
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = tactful
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								OR = {
+									has_trait = wounded
+									has_trait = opium_addiction
+									has_trait = psychological_affliction
+								}
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								OR = {
+									has_trait = shellshocked
+									has_trait = senile
+									has_trait = alcoholic
+								}
+							}
+						}
+					}
+					add = -10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = romantic
+							}
+						}
+					}
+					add = -10
+				}
+				curtiss_sub_1_schneider_trophy_point = yes
+				scope:duel_participant_2 = {
+					owner = {
+						trigger_event = {
+							id = curtiss.129
+						}
+					}
+				}
+			}
+		}
+			
+	}
+
+	option = { #Fly ahead
+		name = curtiss.128.g
+		curtiss_add_2_schneider_trophy_point = yes
+	}
+
+	after = {
+		set_global_variable = {
+			name = curtiss_schneider_duel_cooldown
+			days = 10
+		}
+	}
+}
+
+#Curtiss 129: Duel won
+
+curtiss.129 = {
+	type = country_event
+
+    title = curtiss.129.t
+		
+    desc = curtiss.129.d
+
+	flavor = curtiss.129.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_schneider_pilot
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_schneider_pilot_modifier
+			}
+			save_scope_as = curtiss_schneider_pilot
+		}
+	}
+
+	option = { #Excellent!
+		name = curtiss.127.g
+		curtiss_add_3_schneider_trophy_point = yes
+	}
+
+	after = {
+	}
+}
+
+#Curtiss 130: Rivalry
+
+curtiss.130 = {
+	type = country_event
+
+    title = curtiss.130.t
+		
+    desc = curtiss.130.d
+
+	flavor = curtiss.130.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	gui_window = event_window_2char
+
+	left_icon = scope:duel_participant_1
+	right_icon = scope:duel_participant_2
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		any_country = {
+			has_diplomatic_pact = {
+				who = ROOT
+				type = rivalry
+			}
+			any_scope_character = {
+				has_modifier = curtiss_schneider_pilot_modifier
+			}
+		}
+		NOT = {
+			has_global_variable = curtiss_schneider_rival_cooldown
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_schneider_pilot_modifier
+			}
+			save_scope_as = duel_participant_1
+		}
+
+		random_character = {
+			limit = {
+				NOT = { this = scope:duel_participant_1 }
+				has_modifier = curtiss_schneider_pilot_modifier
+				owner = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = rivalry
+					}
+				}
+			}
+			save_scope_as = duel_participant_2
+		}
+	}
+
+	option = { #Dog Fight!
+		name = curtiss.130.g
+		default_option = yes
+		random_list = {
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = 20
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_modifier = curtiss_schneider_veteran_modifier
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = brave
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = ambitious
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = reckless
+							}
+						}
+					}
+					add = 8
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = persistent
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = arrogant
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = cruel
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = cautious
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = tactful
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								OR = {
+									has_trait = wounded
+									has_trait = opium_addiction
+									has_trait = psychological_affliction
+								}
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								OR = {
+									has_trait = shellshocked
+									has_trait = senile
+									has_trait = alcoholic
+								}
+							}
+						}
+					}
+					add = -10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = romantic
+							}
+						}
+					}
+					add = -10
+				}
+				curtiss_add_6_schneider_trophy_point = yes
+				add_modifier = {
+					name = curtiss_schneider_disgraced_rival_modifier
+					years = 2
+				}
+			}
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = curtiss_pilot_ace
+							}
+						}
+					}
+					add = 20
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_modifier = curtiss_schneider_veteran_modifier
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = brave
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = ambitious
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = reckless
+							}
+						}
+					}
+					add = 8
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = persistent
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = arrogant
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = cruel
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = cautious
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = tactful
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								OR = {
+									has_trait = wounded
+									has_trait = opium_addiction
+									has_trait = psychological_affliction
+								}
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								OR = {
+									has_trait = shellshocked
+									has_trait = senile
+									has_trait = alcoholic
+								}
+							}
+						}
+					}
+					add = -10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = romantic
+							}
+						}
+					}
+					add = -10
+				}
+				curtiss_sub_2_schneider_trophy_point = yes
+				set_variable = {
+					name = curtiss_schneider_failed_rival
+					days = 35
+				}
+				add_modifier = {
+					name = curtiss_schneider_disgraced_by_rival_modifier
+					years = 2
+				}
+				scope:duel_participant_2 = {
+					owner = {
+						trigger_event = {
+							id = curtiss.131
+						}
+					}
+				}
+			}
+		}
+			
+	}
+
+	option = { #Fly ahead
+		name = curtiss.128.g
+		curtiss_add_1_schneider_trophy_point = yes
+	}
+
+	after = {
+		set_global_variable = {
+			name = curtiss_schneider_duel_cooldown
+			days = 25
+		}
+	}
+}
+
+#Curtiss 131: Rivalry won
+
+curtiss.131 = {
+	type = country_event
+
+    title = curtiss.131.t
+		
+    desc = curtiss.131.d
+
+	flavor = curtiss.131.f
+
+	duration = 1
+
+	placement = scope:curtiss_schneider_trophy_state
+		
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_schneider_pilot
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_modifier = curtiss_schneider_trophy_state_modifier 
+			}
+			save_scope_as = curtiss_schneider_trophy_state
+		}
+		random_country = {
+			limit = {
+				has_variable = curtiss_schneider_failed_rival 
+			}
+			save_scope_as = curtiss_schneider_failed_rival
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_schneider_pilot_modifier
+			}
+			save_scope_as = curtiss_schneider_pilot
+		}
+	}
+
+	option = { #Excellent!
+		name = curtiss.127.g
+		curtiss_add_5_schneider_trophy_point = yes
+		add_modifier = {
+			name = curtiss_schneider_disgraced_rival_modifier
+			years = 2
+		}
+	}
+
+	after = {
+	}
+}
+
+###################################################################################
+
+######AIRLINES######
 
 #Curtiss 201: Airline invests in airport
 
@@ -6046,6 +8837,10 @@ curtiss.539 = {
 		}
 	}
 }
+
+############################################################
+
+#by Lord R
 
 #######################################################################################################
 
