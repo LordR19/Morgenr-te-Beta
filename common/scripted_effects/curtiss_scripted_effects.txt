@@ -177,7 +177,9 @@ curtiss_sub_3_schneider_trophy_point = {
 	custom_tooltip = curtiss_sub_3_schneider_trophy_point_tt
 }
 
-##########################################################################
+############################
+# CURTISS SCRIPTED EFFECTS #
+############################
 
 #by Lord R
 
@@ -330,6 +332,8 @@ curtiss_ballooning_research_if_record_all_effect = {
 			}
 		}
 		big_curtiss_ballooning_research_effect = yes
+		var:curtiss_balloonist_var = {
+		}
 	}
 	else_if = {
 		limit = {
@@ -487,6 +491,9 @@ curtiss_balloon_country_altitude_record_effect = {
 			value = var:new_balloon_altitude_var
 		}
 	}
+	balloonist_experience_gain_effect = { #if no record is broken, a total of 50 experience is added
+		AMOUNT = "10"
+	}
 	if = {
 		limit = {
 			var:new_balloon_altitude_var > var:curtiss_balloon_altitude_record_var
@@ -494,6 +501,9 @@ curtiss_balloon_country_altitude_record_effect = {
 		set_variable = {
 			name = curtiss_balloon_altitude_record_var
 			value = var:new_balloon_altitude_var
+		}
+		balloonist_experience_gain_effect = { #if country record is broken, a total of 25 experience is added
+			AMOUNT = "15"
 		}
 	}
 	if = {
@@ -517,6 +527,10 @@ curtiss_balloon_country_altitude_record_effect = {
 				has_modifier = curtiss_balloon_altitude_record_modifier
 			}
 			remove_modifier = curtiss_balloon_altitude_record_modifier
+		}
+
+		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
+			AMOUNT = "25"
 		}
 	}
 }
@@ -660,6 +674,9 @@ curtiss_balloon_country_distance_record_effect = {
 			value = var:new_balloon_distance_var
 		}
 	}
+	balloonist_experience_gain_effect = { #if no record is broken, a total of 50 experience is added
+		AMOUNT = "10"
+	}
 	if = {
 		limit = {
 			var:new_balloon_distance_var > var:curtiss_balloon_distance_record_var
@@ -667,6 +684,9 @@ curtiss_balloon_country_distance_record_effect = {
 		set_variable = {
 			name = curtiss_balloon_distance_record_var
 			value = var:new_balloon_distance_var
+		}
+		balloonist_experience_gain_effect = { #if country record is broken, a total of 25 experience is added
+			AMOUNT = "15"
 		}
 	}
 	if = {
@@ -681,7 +701,7 @@ curtiss_balloon_country_distance_record_effect = {
 			name = curtiss_balloon_distance_record_holder_global_var
 			value = root
 		}
-
+	
 		add_modifier = { #adds modifier to new country
 			name = curtiss_balloon_distance_record_modifier
 		}
@@ -690,6 +710,9 @@ curtiss_balloon_country_distance_record_effect = {
 				has_modifier = curtiss_balloon_distance_record_modifier
 			}
 			remove_modifier = curtiss_balloon_distance_record_modifier
+		}
+		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
+			AMOUNT = "25"
 		}
 	}
 }
@@ -833,6 +856,9 @@ curtiss_balloon_country_time_record_effect = {
 			value = var:new_balloon_time_var
 		}
 	}
+	balloonist_experience_gain_effect = { #if no record is broken, a total of 50 experience is added
+		AMOUNT = "10"
+	}
 	if = {
 		limit = {
 			var:new_balloon_time_var > var:curtiss_balloon_time_record_var
@@ -840,6 +866,9 @@ curtiss_balloon_country_time_record_effect = {
 		set_variable = {
 			name = curtiss_balloon_time_record_var
 			value = var:new_balloon_time_var
+		}
+		balloonist_experience_gain_effect = { #if country record is broken, a total of 25 experience is added
+			AMOUNT = "15"
 		}
 	}
 	if = {
@@ -855,14 +884,17 @@ curtiss_balloon_country_time_record_effect = {
 			value = root
 		}
 
-		add_modifier = { #adds modifier to new country
-			name = curtiss_balloon_time_record_modifier
-		}
 		every_country = { #removes modifier from old country
 			limit = {
 				has_modifier = curtiss_balloon_time_record_modifier
 			}
 			remove_modifier = curtiss_balloon_time_record_modifier
+		}
+		add_modifier = { #adds modifier to new country
+			name = curtiss_balloon_time_record_modifier
+		}
+		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
+			AMOUNT = "25"
 		}
 	}
 }
@@ -875,7 +907,15 @@ create_balloonist_effect = {
 		
 	scope:curtiss_balloonist_scope = {
 		add_trait = curtiss_balloonist
-		place_character_in_void = 1200	
+		place_character_in_void = 1200
+		set_variable = {
+			name = curtiss_balloonist_experience_var
+			value = 0
+		}
+	}
+
+	add_journal_entry = {
+		type = je_curtiss_balloonist
 	}
 		
 	set_variable = {
@@ -895,10 +935,10 @@ balloonist_cost_effect = {
 		}
 	}
 	else = {
-			add_modifier = {
-				name = curtiss_sponsoring_balloonist_ai_modifier
-			}
+		add_modifier = {
+			name = curtiss_sponsoring_balloonist_ai_modifier
 		}
+	}
 }
 
 ###Kill balloonist###
@@ -917,6 +957,17 @@ kill_balloonist_effect = {
 	}
 	else = {
 		remove_modifier = curtiss_sponsoring_balloonist_ai_modifier
+	}
+}
+
+#Balloonist Experience gain
+balloonist_experience_gain_effect = { #adds XP to the balloonist
+	# Amount = amountof XP to add
+	var:curtiss_balloonist_var = {
+		change_variable = {
+			name = curtiss_balloonist_experience_var
+			add = $AMOUNT$
+		}
 	}
 }
 
