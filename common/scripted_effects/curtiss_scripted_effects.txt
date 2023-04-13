@@ -535,6 +535,56 @@ curtiss_balloon_country_altitude_record_effect = {
 	}
 }
 
+curtiss_balloon_country_altitude_experience_only_world_record_effect = { #only used for the first flight event, as otherwise balloonists would get 75 experience just from setting the first values
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curtiss_balloon_altitude_record_var
+			}
+		}
+		set_variable = {
+			name = curtiss_balloon_altitude_record_var
+			value = var:new_balloon_altitude_var
+		}
+	}
+	if = {
+		limit = {
+			var:new_balloon_altitude_var > var:curtiss_balloon_altitude_record_var
+		}
+		set_variable = {
+			name = curtiss_balloon_altitude_record_var
+			value = var:new_balloon_altitude_var
+		}
+	}
+	if = {
+		limit = {
+			var:new_balloon_altitude_var > global_var:curtiss_balloon_altitude_record_global_var
+		}
+		set_global_variable = {
+			name = curtiss_balloon_altitude_record_global_var
+			value = var:new_balloon_altitude_var
+		}
+		set_global_variable = {
+			name = curtiss_balloon_altitude_record_holder_global_var
+			value = root
+		}
+		add_modifier = { #adds modifier to new country
+			name = curtiss_balloon_altitude_record_modifier
+		}
+
+		every_country = { #removes modifier from old country
+			limit = {
+				has_modifier = curtiss_balloon_altitude_record_modifier
+			}
+			remove_modifier = curtiss_balloon_altitude_record_modifier
+		}
+
+		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
+			AMOUNT = "25"
+		}
+	}
+}
+
 #Distance
 curtiss_new_balloon_distance_effect = {
 	if = {
@@ -659,6 +709,55 @@ curtiss_new_balloon_distance_effect = {
 	round_variable = {
 		name = new_balloon_distance_var
 		nearest = 1
+	}
+}
+
+curtiss_balloon_country_distance_record_experience_only_world_record_effect = { #only used for the first flight event, as otherwise balloonists would get 75 experience just from setting the first values
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curtiss_balloon_distance_record_var
+			}
+		}
+		set_variable = {
+			name = curtiss_balloon_distance_record_var
+			value = var:new_balloon_distance_var
+		}
+	}
+	if = {
+		limit = {
+			var:new_balloon_distance_var > var:curtiss_balloon_distance_record_var
+		}
+		set_variable = {
+			name = curtiss_balloon_distance_record_var
+			value = var:new_balloon_distance_var
+		}
+	}
+	if = {
+		limit = {
+			var:new_balloon_distance_var > global_var:curtiss_balloon_distance_record_global_var
+		}
+		set_global_variable = {
+			name = curtiss_balloon_distance_record_global_var
+			value = var:new_balloon_distance_var
+		}
+		set_global_variable = {
+			name = curtiss_balloon_distance_record_holder_global_var
+			value = root
+		}
+	
+		add_modifier = { #adds modifier to new country
+			name = curtiss_balloon_distance_record_modifier
+		}
+		every_country = { #removes modifier from old country
+			limit = {
+				has_modifier = curtiss_balloon_distance_record_modifier
+			}
+			remove_modifier = curtiss_balloon_distance_record_modifier
+		}
+		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
+			AMOUNT = "25"
+		}
 	}
 }
 
@@ -869,6 +968,55 @@ curtiss_balloon_country_time_record_effect = {
 		}
 		balloonist_experience_gain_effect = { #if country record is broken, a total of 25 experience is added
 			AMOUNT = "15"
+		}
+	}
+	if = {
+		limit = {
+			var:new_balloon_time_var > global_var:curtiss_balloon_time_record_global_var
+		}
+		set_global_variable = {
+			name = curtiss_balloon_time_record_global_var
+			value = var:new_balloon_time_var
+		}
+		set_global_variable = {
+			name = curtiss_balloon_time_record_holder_global_var
+			value = root
+		}
+
+		every_country = { #removes modifier from old country
+			limit = {
+				has_modifier = curtiss_balloon_time_record_modifier
+			}
+			remove_modifier = curtiss_balloon_time_record_modifier
+		}
+		add_modifier = { #adds modifier to new country
+			name = curtiss_balloon_time_record_modifier
+		}
+		balloonist_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
+			AMOUNT = "25"
+		}
+	}
+}
+
+curtiss_balloon_country_time_record_experience_only_world_record_effect = { #only used for the first flight event, as otherwise balloonists would get 75 experience just from setting the first values
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curtiss_balloon_time_record_var
+			}
+		}
+		set_variable = {
+			name = curtiss_balloon_time_record_var
+			value = var:new_balloon_time_var
+		}
+	}
+	if = {
+		limit = {
+			var:new_balloon_time_var > var:curtiss_balloon_time_record_var
+		}
+		set_variable = {
+			name = curtiss_balloon_time_record_var
+			value = var:new_balloon_time_var
 		}
 	}
 	if = {
