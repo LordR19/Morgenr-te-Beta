@@ -1049,9 +1049,66 @@ curtiss_balloon_country_time_record_experience_only_world_record_effect = { #onl
 
 ###Create Balloonist###
 create_balloonist_effect = {
-	create_character = {
-		save_scope_as = curtiss_balloonist_scope
+	
+	if = {
+		limit = {
+			has_law = law_type:law_womens_suffrage
+		}
+		random_list = {
+			60 = {
+				set_variable = curtiss_male_balloonist_variable
+			}
+			40 = {}
+		}
 	}
+	else_if = {
+		limit = {
+			has_law = law_type:law_women_in_the_workplace
+		}
+		random_list = {
+			75 = {	
+				set_variable = curtiss_male_balloonist_variable
+			}
+			25 = {}
+		}
+	}
+	else_if = {
+		limit = {
+			has_law = law_type:law_women_own_property
+		}
+		
+		random_list = {
+			90 = {	
+				set_variable = curtiss_male_balloonist_variable
+			}
+			10 = {}
+		}
+	}
+	else = {
+		random_list = {
+			99 = {
+				set_variable = curtiss_male_balloonist_variable
+			}
+			1 = {}
+		}
+	}
+
+	if = {
+		limit = {
+			has_variable = curtiss_male_balloonist_variable
+		}
+		create_character = {
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+	else = {
+		create_character = {
+			female = yes
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+
+	remove_variable = curtiss_male_balloonist_variable
 		
 	scope:curtiss_balloonist_scope = {
 		add_trait = curtiss_balloonist
