@@ -10129,7 +10129,7 @@ curtiss.654 = {
 }
 
 #Curtiss 655: Balloonist tries to set new Time record
-curtiss.655 = {
+curtiss.655 = { #This event was removed from the journal because I changed the way the time is calculated. It will remain here for now though.
 	type = country_event
 
 	title = {
@@ -10516,49 +10516,126 @@ curtiss.672 = {
 	}
 }
 
-
-
-
-
-
-
-
-#Curtiss 690: Record test event
-curtiss.690 = {
+#Curtiss 673: Balloonist killed by comet
+curtiss.673 = {
 	type = country_event
 
-	title = curtiss.690.t
+	title = curtiss.673.t
 
-	desc = curtiss.690.d
+	desc = curtiss.673.d
 
-	flavor = curtiss.690.f
+	flavor = curtiss.673.f
 	
-	duration = 2
+	duration = 1
 
-	event_image = { 
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_giffard_dirigible.dds"
-	}
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_balloonist_scope
 
 	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
 
 	trigger = {
 	}
 
-	immediate = {
-		curtiss_new_balloon_altitude_effect = yes
-		curtiss_new_balloon_distance_effect = yes
-		curtiss_new_balloon_time_effect = yes
+	weight_multiplier = {
+		base = 0.1
 	}
 
-	option = {	#Maybe soon those steerable balloons will conquer the skies!
-		name = curtiss.690.g
+	immediate = {
+		var:curtiss_balloonist_var = {
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+
+	option = {	#If he only had comet sense!
+		name = curtiss.673.g
 		default_option = yes
 
-		curtiss_balloon_country_altitude_record_effect = yes
-		curtiss_balloon_country_distance_record_effect = yes
-		curtiss_balloon_country_time_record_effect = yes
+		kill_balloonist_effect = yes
+
+		verrier_add_5_astronomical_object = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Oh Comet, devil's kith and kin... Is there another balloonist we could sponsor?
+		name = curtiss.673.h
+
+		kill_balloonist_effect = yes
+
+		balloonist_cost_effect = yes
+
+		create_balloonist_effect = yes
+
+		verrier_add_5_astronomical_object = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Curtiss 674: Death by Whale
+curtiss.674 = {
+	type = country_event
+
+	title = curtiss.674.t
+
+	desc = curtiss.674.d
+
+	flavor = curtiss.674.f
+	
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
+
+	trigger = {
+	}
+
+	weight_multiplier = {
+		base = 0.01
+	}
+
+	immediate = {
+		var:curtiss_balloonist_var = {
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+
+	option = {	#How horrible!
+		name = curtiss.674.g
+		default_option = yes
+
+		kill_balloonist_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {	#Terrible! Is there another balloonist we could sponsor?
+		name = curtiss.674.h
+
+		kill_balloonist_effect = yes
+
+		balloonist_cost_effect = yes
+
+		create_balloonist_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
 	}
 }
