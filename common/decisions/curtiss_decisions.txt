@@ -343,9 +343,6 @@ curtiss_sponsor_balloonist_decisions = {
 	}
 
 	possible = {
-		NOT = {
-			has_variable = curtiss_balloonist_fired_var
-		}
 	}
 
 	when_taken = {
@@ -355,15 +352,10 @@ curtiss_sponsor_balloonist_decisions = {
 		}
 
 		balloonist_cost_effect = yes
-
-		set_variable = {
-			name = curtiss_balloonist_sponsored_var
-			months = 12
-		}
 	}
 	
 	ai_chance = {
-		base = 1 #Hopefully mostly progressive countries should do this
+		base = 6 #Hopefully mostly progressive countries should do this
 		modifier = {
 			trigger = {
 				ig:ig_devout = {
@@ -435,23 +427,27 @@ curtiss_sponsor_balloonist_decisions = {
 		}
 		modifier = {
 			trigger = {
-				OR = {
-					average_sol >= 15
-					any_scope_pop = {
-						standard_of_living > 52
+				NOT = {
+					OR = {
+						average_sol >= 15
+						any_scope_pop = {
+							standard_of_living > 52
+						}
 					}
 				}
 			}
-			add = 5
+			add = -5
 		}
 		modifier = {
 			trigger = {
-				any_scope_building = {
-					is_building_type = building_university
-					level >= 5
-				}
+				NOT = {
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 5
+					}
+				}			
 			}
-			add = 5
+			add = -5
 		}
 	}
 }
