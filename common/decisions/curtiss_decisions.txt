@@ -325,6 +325,114 @@ curtiss_found_pilot_school_decision = {
 	}
 }
 
+#Lost Horizon
+
+curtiss_lost_horizon_decision = {
+	is_shown = {
+		has_variable = curtiss_search_for_conway
+		NOT = {
+			has_modifier = curtiss_search_conway_modifier
+		}
+		NOT = {
+			has_variable = curtiss_shangrila_mission_canceled
+		}
+		NOT = {
+			has_variable = curtiss_aviation_decisions_hide
+		}
+	}
+	possible = {
+		any_scope_character = {
+			OR = {
+				has_trait = curtiss_pilot
+				has_trait = curtiss_pilot_ace
+			}
+			is_busy = no
+		}
+	}
+	when_taken = {
+		add_modifier = {
+			name = curtiss_search_conway_modifier
+		}
+		trigger_event = { 
+			id = curtiss.252
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+curtiss_lost_horizon_continue_decision = {
+	is_shown = {
+		has_variable = curtiss_search_for_conway
+		NOT = {
+			has_modifier = curtiss_search_conway_modifier
+		}
+		has_variable = curtiss_shangrila_mission_canceled
+		NOT = {
+			has_variable = curtiss_aviation_decisions_hide
+		}
+	}
+	possible = {
+		any_scope_character = {
+			OR = {
+				has_trait = curtiss_pilot
+				has_trait = curtiss_pilot_ace
+			}
+			is_busy = no
+		}
+	}
+	when_taken = {
+		add_modifier = {
+			name = curtiss_search_conway_modifier
+		}
+		remove_variable = curtiss_shangrila_mission_canceled
+		trigger_event = { 
+			id = curtiss.252
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+curtiss_lost_horizon_archaeologist_decision = {
+	is_shown = {
+		has_variable = curtiss_road_to_shangrila
+		NOT = {
+			has_variable = curtiss_road_to_shangrila_found
+		}
+		NOT = {
+			has_variable = curtiss_aviation_decisions_hide
+		}
+	}
+	possible = {
+		any_scope_character = {
+			OR = {
+				has_trait = lepsius_archaeologist_experienced
+				has_trait = lepsius_archaeologist_famous
+			}
+			is_busy = no
+		}
+	}
+	when_taken = {
+		set_variable = curtiss_road_to_shangrila_found
+		trigger_event = { 
+			id = curtiss.291
+			popup = yes
+			days = 7
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
 ######################################################################################
 
 #by Lord R
@@ -451,8 +559,6 @@ curtiss_sponsor_balloonist_decisions = {
 		}
 	}
 }
-
-
 
 ######Ballooning Window######
 

@@ -6028,8 +6028,3233 @@ curtiss.230 = {
 	}
 }
 
-#Curtiss 231: Air pirates?
+################################################################################################
 
+################
+# LOST HORIZON #
+################
+
+######SEARCH FOR SHANGRI-LA######
+
+#Curtiss 251: Lost Pilot [Shangri-La Opening]
+
+curtiss.251 = {
+	type = country_event
+
+	title = curtiss.251.t
+
+	desc = curtiss.251.d
+
+	flavor = curtiss.251.f
+	
+	duration = 3
+
+	placement = scope:curtiss_himalaya
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_conway_scope
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		is_player = yes
+		curtiss_has_airline = yes
+		curtiss_has_pilot = yes
+		NOT = {
+			has_variable = curtiss_shangri_la_opening
+		}
+	}
+
+	immediate = {
+		set_variable = curtiss_shangri_la_opening
+		random_state = {
+			limit = {
+				state_region = s:STATE_HIMALAYAS
+			}
+			save_scope_as = curtiss_himalaya
+		}
+		create_conway_effect = yes
+		set_variable = {
+            name = curtiss_shangrila_progress
+            value = 0
+		}
+	}
+
+	option = {	#We should outfit an expedition
+		name = curtiss.251.g
+		default_option = yes
+		set_variable = curtiss_search_for_conway
+	}
+
+	option = {	#No
+		name = curtiss.251.h
+	}
+}
+
+#Curtiss 252: Conway expedition leader
+
+curtiss.252 = {
+	type = country_event
+
+    title = curtiss.252.t
+    desc = curtiss.252.d
+    flavor = curtiss.252.f
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_legend.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_expedition_leader_1
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				NOT = {
+					this = scope:curtiss_expedition_leader_1
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_expedition_leader_2
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				NOT = {
+					this = scope:curtiss_expedition_leader_1
+				}
+				NOT = {
+					this = scope:curtiss_expedition_leader_2
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_expedition_leader_3
+		}
+	}
+
+	option = {
+		name = curtiss.252.g
+		default_option = yes
+		trigger = {
+			exists = scope:curtiss_expedition_leader_1
+		}
+		scope:curtiss_expedition_leader_1 = {
+			set_variable = curtiss_shangrila_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = curtiss.252.h
+		trigger = {
+			exists = scope:curtiss_expedition_leader_2
+		}
+		scope:curtiss_expedition_leader_2 = {
+			set_variable = curtiss_shangrila_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = curtiss.252.i
+		trigger = {
+			exists = scope:curtiss_expedition_leader_3
+		}
+		scope:curtiss_expedition_leader_3 = {
+			set_variable = curtiss_shangrila_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = curtiss.253
+			days = { 3 7 }
+		}
+	}
+}
+
+#Curtiss 253: The Search begins
+
+curtiss.253 = {
+	type = country_event
+
+    title = curtiss.253.t
+    desc = curtiss.253.d
+    flavor = curtiss.253.f
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_legend.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_road_to_shangrila
+		}
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+	}
+
+	option = {
+		name = curtiss.253.g #Ladakh
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.253.h #Lhasa
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.253.i #Ngara
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.281
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		add_journal_entry = {
+        	type = je_curtiss_lost_horizon
+        }
+	}
+}
+
+#Curtiss 254: The Search continues
+
+curtiss.254 = {
+	type = country_event
+
+    title = curtiss.254.t
+    desc = curtiss.254.d
+    flavor = curtiss.253.f
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_legend.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_road_to_shangrila
+		}
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+	}
+
+	option = {
+		name = curtiss.253.g #Ladakh
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.253.h #Lhasa
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.253.i #Ngari
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.281
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.253.j #End this pointless search
+		custom_tooltip = curtiss_shangrila_end_search_tt
+		set_variable = curtiss_shangrila_mission_canceled
+		remove_modifier = curtiss_search_conway_modifier
+		scope:curtiss_shangrila_leader = {
+			set_character_busy = no
+			remove_variable = curtiss_shangrila_leader_var
+		}
+	}
+}
+
+#Curtiss 255: Secret of the Artifacts
+
+curtiss.255 = {
+	type = country_event
+
+	title = curtiss.255.t
+
+	desc = curtiss.255.d
+
+	flavor = curtiss.255.f
+	
+	duration = 3
+
+	placement = scope:curtiss_himalaya
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_shangrila_leader
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HIMALAYAS
+			}
+			save_scope_as = curtiss_himalaya
+		}
+
+	}
+
+	option = {	#We need the right man to do it
+		name = curtiss.255.g
+		default_option = yes
+		scope:curtiss_shangrila_leader = {
+			set_character_busy = no
+		}
+	}
+}
+
+######LADAKH######
+
+#Curtiss 260: Elder silent
+
+curtiss.260 = {
+	type = country_event
+
+    title = curtiss.260.t
+    desc = curtiss.260.d
+    flavor = curtiss.260.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_elder.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.260.g #Is he offended?
+		set_variable = {
+			name = curtiss_shangrila_elder_grumpy
+			days = 30
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 261: Ladakh
+
+curtiss.261 = {
+	type = country_event
+
+    title = curtiss.261.t
+    desc = curtiss.261.d
+    flavor = curtiss.261.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_ladakh.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_road_to_shangrila
+		}
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.261.g #Visit the soldiers
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_first_artifact
+			}
+		}
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.262
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.261.h #Visit the market
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_wool
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.266
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.261.i #Have a talk with the elder
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_elder_grumpy
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.267
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.261.j #Fly back to civivlization
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.254
+				days = { 30 60 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 262: Mercenaries?
+
+curtiss.262 = {
+	type = country_event
+
+    title = curtiss.262.t
+    desc = curtiss.262.d
+    flavor = curtiss.262.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_ladakh.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.262.g #Talk to them
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.263
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.262.h #Bribe them
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.263
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.262.i #Show the kora
+		trigger = {
+			has_variable = curtiss_shangrila_kora
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.264
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.262.k #Show the weapon
+		trigger = {
+			has_variable = curtiss_shangrila_weapon
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.265
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.262.j #Back to the village
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 263: Mercenaries not impressed
+
+curtiss.263 = {
+	type = country_event
+
+    title = curtiss.263.t
+    desc = curtiss.263.d
+    flavor = curtiss.263.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_ladakh.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.263.g #Strange fellows
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 264: Guardians of Shangri-La
+
+curtiss.264 = {
+	type = country_event
+
+    title = curtiss.264.t
+    desc = curtiss.264.d
+    flavor = curtiss.264.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_ladakh.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.264.g #The Elder tested us ...
+		set_variable = curtiss_shangrila_first_artifact
+		lepsius_add_1_major_fareastern_artifact = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		curtiss_add_shangrila_progress = yes
+	}
+}
+
+#Curtiss 265: The Weapon
+
+curtiss.265 = {
+	type = country_event
+
+    title = curtiss.265.t
+    desc = curtiss.265.d
+    flavor = curtiss.265.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_ladakh.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.266.g #That was ... brutal
+		remove_variable = curtiss_shangrila_weapon
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 266: Wool market
+
+curtiss.266 = {
+	type = country_event
+
+    title = curtiss.266.t
+    desc = curtiss.266.d
+    flavor = curtiss.266.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_ladakh.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.266.g #The wool looks good
+		set_variable = curtiss_shangrila_wool
+		add_treasury = -1000
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.262.j #Back to the village
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 267: The Elder
+
+curtiss.267 = {
+	type = country_event
+
+    title = curtiss.267.t
+    desc = curtiss.267.d
+    flavor = curtiss.267.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_elder.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.267.g #Who are the mercenaries?
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.268
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.267.h #What do you know about Shangri-La?
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_advice
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.269
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.262.j #Back to the village
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 268: Story of the mercenaries
+
+curtiss.268 = {
+	type = country_event
+
+    title = curtiss.268.t
+    desc = curtiss.268.d
+    flavor = curtiss.268.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_elder.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.268.g #Back to the village
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 269: About Shangri-La
+
+curtiss.269 = {
+	type = country_event
+
+    title = curtiss.269.t
+    desc = curtiss.269.d
+    flavor = curtiss.269.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_elder.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.269.g #I'm looking for peace
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.260
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.269.h #I'm looking for truth
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.270
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.269.i #I'm looking for CHARACTER
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.260
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.269.j #I'm looking for enlightenment
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.260
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 270: The advice
+
+curtiss.270 = {
+	type = country_event
+
+    title = curtiss.270.t
+    desc = curtiss.270.d
+    flavor = curtiss.270.f
+
+	placement = scope:curtiss_ladakh
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_elder.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_KASHMIR
+			}
+			save_scope_as = curtiss_ladakh
+		}
+	}
+
+	option = {
+		name = curtiss.270.g #A Kora ...
+		set_variable = curtiss_shangrila_advice
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.261
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+######LHASA######
+
+#Curtiss 271: Lhasa
+
+curtiss.271 = {
+	type = country_event
+
+    title = curtiss.271.t
+    desc = curtiss.271.d
+    flavor = curtiss.271.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lhasa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_road_to_shangrila
+		}
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.271.g #Visit the Lama
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_second_artifact
+			}
+		}
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.272
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.271.h #Visit the weapon smith
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_kora
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.274
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.271.i #Have a drink in the tavern
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_shrine_secret
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.280
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.271.k #Take a walk in the streets
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_helped_beggar
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.278
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.261.j #Fly back to civivlization
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.254
+				days = { 30 60 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 272: Potala Palace
+
+curtiss.272 = {
+	type = country_event
+
+    title = curtiss.272.t
+    desc = curtiss.272.d
+    flavor = curtiss.272.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lhasa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.272.g #Show Talisman
+		trigger = {
+			has_variable = curtiss_shangrila_talisman
+		}
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.273
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.272.h #Back to Lhasa
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 273: The Dalai Lama
+
+curtiss.273 = {
+	type = country_event
+
+    title = curtiss.273.t
+    desc = curtiss.273.d
+    flavor = curtiss.273.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lama.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.273.g #This will guide us to the secret valley.
+		set_variable = curtiss_shangrila_second_artifact
+		lepsius_add_1_major_fareastern_artifact = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		curtiss_add_shangrila_progress = yes
+	}
+}
+
+#Curtiss 274: Weapon Smith
+
+curtiss.274 = {
+	type = country_event
+
+    title = curtiss.274.t
+    desc = curtiss.274.d
+    flavor = curtiss.274.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lhasa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.274.g #Coincidentally, I have iron with me.
+		trigger = {
+			has_variable = curtiss_shangrila_iron
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.275
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.272.h #Back to Lhasa
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 275: A new Weapon
+
+curtiss.275 = {
+	type = country_event
+
+    title = curtiss.275.t
+    desc = curtiss.275.d
+    flavor = curtiss.275.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lhasa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.275.g #A dpa'dam
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.276
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.275.h #A ke-tri
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.276
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.275.i #A tsep-tsa
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.276
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.275.j #A kora
+		trigger = {
+			has_variable = curtiss_shangrila_advice
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.277
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 276: Normal Weapon
+
+curtiss.276 = {
+	type = country_event
+
+    title = curtiss.276.t
+    desc = curtiss.276.d
+    flavor = curtiss.276.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lhasa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.276.g #Good
+		set_variable = curtiss_shangrila_weapon
+		remove_variable = curtiss_shangrila_iron
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 277: Kora
+
+curtiss.277 = {
+	type = country_event
+
+    title = curtiss.277.t
+    desc = curtiss.277.d
+    flavor = curtiss.277.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lhasa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.276.g #Good
+		set_variable = curtiss_shangrila_kora
+		remove_variable = curtiss_shangrila_iron
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 278: The beggar
+
+curtiss.278 = {
+	type = country_event
+
+    title = curtiss.278.t
+    desc = curtiss.278.d
+    flavor = curtiss.278.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lhasa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.278.g #Go ahead
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.278.h #Give Alms
+		add_treasury = -100
+		scope:curtiss_shangrila_leader = {
+			add_trait = tactful
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.275.j #Give wool
+		trigger = {
+			has_variable = curtiss_shangrila_wool
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.279
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 279: The secret of the monk
+
+curtiss.279 = {
+	type = country_event
+
+    title = curtiss.279.t
+    desc = curtiss.279.d
+    flavor = curtiss.279.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lhasa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.279.g #I'll find him.
+		set_variable = curtiss_shangrila_helped_beggar
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 280: Tavern
+
+curtiss.280 = {
+	type = country_event
+
+    title = curtiss.280.t
+    desc = curtiss.280.d
+    flavor = curtiss.280.f
+
+	placement = scope:curtiss_lhasa
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lhasa.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_Lhasa
+			}
+			save_scope_as = curtiss_lhasa
+		}
+	}
+
+	option = {
+		name = curtiss.280.g #A secret, you say?
+		set_variable = curtiss_shangrila_shrine_secret
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.271
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+######NGARI######
+
+#Curtiss 281: Ngari
+
+curtiss.281 = {
+	type = country_event
+
+    title = curtiss.281.t
+    desc = curtiss.281.d
+    flavor = curtiss.281.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_ngari.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_road_to_shangrila
+		}
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.281.g #Go into the Wilderness
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_talisman
+			}
+		}
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.282
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.281.h #Visit the Iron trader
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_iron
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.274
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.281.i #Visit the Shrine
+		trigger = {
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.289
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.261.j #Fly back to civilization
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.254
+				days = { 30 60 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 282: Wilderness
+
+curtiss.282 = {
+	type = country_event
+
+    title = curtiss.282.t
+    desc = curtiss.282.d
+    flavor = curtiss.282.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_himalaya.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.282.g #Go lost in Wilderness
+		trigger = {
+			NOT = {
+				has_variable = curtiss_shangrila_helped_beggar
+			}
+		}
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.282.h #Search the Monk
+		trigger = {
+			has_variable = curtiss_shangrila_helped_beggar
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.284
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.282.j #Return to the Village
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.281
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 283: Lost in the Wilderness
+
+curtiss.283 = {
+	type = country_event
+
+    title = curtiss.283.t
+    desc = curtiss.283.d
+    flavor = curtiss.283.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_lost.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.283.g #Just narrowly escaped death.
+		default_option = yes
+		scope:curtiss_shangrila_leader = {
+			add_trait = wounded
+			add_modifier = {
+				name = curtiss_shangrila_near_death_modifier
+				days = 90
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.254
+				days = 90
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 284: The Monk #1
+
+curtiss.284 = {
+	type = country_event
+
+    title = curtiss.284.t
+    desc = curtiss.284.d
+    flavor = curtiss.284.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_monk.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.284.g #Wrong
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.284.h #Wrong
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.284.i #Right
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.285
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.284.j #Wrong
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 285: The Monk #2
+
+curtiss.285 = {
+	type = country_event
+
+    title = curtiss.285.t
+    desc = curtiss.285.d
+    flavor = curtiss.285.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_monk.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.285.g #Right
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.286
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.285.h #Wrong
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.285.i #Wrong
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.285.j #Wrong
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 286: The Monk #3
+
+curtiss.286 = {
+	type = country_event
+
+    title = curtiss.286.t
+    desc = curtiss.286.d
+    flavor = curtiss.286.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_monk.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.286.g #Wrong
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.286.h #Wrong
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.286.i #Wrong
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.283
+				days = { 21 28 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.286.j #Right
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.287
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 287: Talisman
+
+curtiss.287 = {
+	type = country_event
+
+    title = curtiss.287.t
+    desc = curtiss.287.d
+    flavor = curtiss.287.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_talisman.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.287.g #Fascinating
+		set_variable = curtiss_shangrila_talisman
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.281
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 288: Iron trader
+
+curtiss.288 = {
+	type = country_event
+
+    title = curtiss.288.t
+    desc = curtiss.288.d
+    flavor = curtiss.288.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_ngari.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.288.g #Buy iron
+		add_treasury = -5000
+		set_variable = curtiss_shangrila_iron
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.281
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.282.j #Return to the Village
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.281
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 289: The Shrine
+
+curtiss.289 = {
+	type = country_event
+
+    title = curtiss.289.t
+    desc = curtiss.289.d
+    flavor = curtiss.289.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_chorten.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.282.g #Something is hidden in there
+		trigger = {
+			has_variable = curtiss_shangrila_shrine_secret
+			NOT = {
+				has_variable = curtiss_shangrila_third_artifact
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.290
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = curtiss.282.j #Return to the Village
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.281
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+}
+
+#Curtiss 290: The Shrine Secret
+
+curtiss.290 = {
+	type = country_event
+
+    title = curtiss.290.t
+    desc = curtiss.290.d
+    flavor = curtiss.290.f
+
+	placement = scope:curtiss_ngari
+
+    event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_chorten.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_NGARI
+			}
+			save_scope_as = curtiss_ngari
+		}
+	}
+
+	option = {
+		name = curtiss.290.g #A hidden artifact!
+		set_variable = curtiss_shangrila_third_artifact
+		lepsius_add_1_major_fareastern_artifact = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.281
+				days = { 7 14 }
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		curtiss_add_shangrila_progress = yes
+	}
+}
+
+######SHANGRI-LA######
+
+#Curtiss 291: The Road to Shangri-La
+
+curtiss.291 = {
+	type = country_event
+
+	title = curtiss.291.t
+
+	desc = curtiss.291.d
+
+	flavor = curtiss.291.f
+
+	placement = scope:curtiss_himalaya
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_shangrila_archaeologist
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = lepsius_archaeologist_experienced
+					has_trait = lepsius_archaeologist_famous
+				}
+				is_busy = no
+			}
+			save_scope_as = curtiss_shangrila_archaeologist
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HIMALAYAS
+			}
+			save_scope_as = curtiss_himalaya
+		}
+
+	}
+
+	option = {	#The Road to Shangri-La, indeed
+		name = curtiss.291.g
+		default_option = yes
+		scope:curtiss_shangrila_leader = {
+			set_character_busy = yes
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.292
+				days = { 7 14 }
+				popup = yes 
+			}
+		}
+	}
+}
+
+#Curtiss 292: The Storm
+
+curtiss.292 = {
+	type = country_event
+
+	title = curtiss.292.t
+
+	desc = curtiss.292.d
+
+	flavor = curtiss.292.f
+
+	placement = scope:curtiss_himalaya
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_himalaya.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HIMALAYAS
+			}
+			save_scope_as = curtiss_himalaya
+		}
+
+	}
+
+	option = {	#...
+		name = curtiss.292.g
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.293
+				days = { 7 14 }
+				popup = yes 
+			}
+		}
+	}
+}
+
+#Curtiss 293: Crash landing
+
+curtiss.293 = {
+	type = country_event
+
+	title = curtiss.293.t
+
+	desc = curtiss.293.d
+
+	flavor = curtiss.293.f
+
+	placement = scope:curtiss_himalaya
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_himalaya.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HIMALAYAS
+			}
+			save_scope_as = curtiss_himalaya
+		}
+
+	}
+
+	option = {	#Is this ... the valley?
+		name = curtiss.293.g
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.294
+				days = 7
+				popup = yes 
+			}
+		}
+	}
+}
+
+#Curtiss 294: The Valley of the Blue Moon
+
+curtiss.294 = {
+	type = country_event
+
+	title = curtiss.294.t
+
+	desc = curtiss.294.d
+
+	flavor = curtiss.294.f
+
+	placement = scope:curtiss_himalaya
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila_legend.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HIMALAYAS
+			}
+			save_scope_as = curtiss_himalaya
+		}
+
+	}
+
+	option = {	#Shangri-La!
+		name = curtiss.294.g
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.295
+				days = 3
+				popup = yes 
+			}
+		}
+	}
+}
+
+#Curtiss 295: Shangri-La
+
+curtiss.295 = {
+	type = country_event
+
+	title = curtiss.295.t
+
+	desc = curtiss.295.d
+
+	flavor = curtiss.295.f
+
+	placement = scope:curtiss_himalaya
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HIMALAYAS
+			}
+			save_scope_as = curtiss_himalaya
+		}
+
+	}
+
+	option = {	#Shangri-La!
+		name = curtiss.295.g
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.296
+				days = 3
+				popup = yes 
+			}
+		}
+	}
+}
+
+#Curtiss 296: Conway
+
+curtiss.296 = {
+	type = country_event
+
+	title = curtiss.296.t
+
+	desc = curtiss.296.d
+
+	flavor = curtiss.296.f
+
+	placement = scope:curtiss_himalaya
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_shangrila.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HIMALAYAS
+			}
+			save_scope_as = curtiss_himalaya
+		}
+
+	}
+
+	option = {	#He is the prieur?
+		name = curtiss.296.g
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.297
+				days = 3
+				popup = yes 
+			}
+		}
+	}
+}
+
+#Curtiss 297: Decision
+
+curtiss.297 = {
+	type = country_event
+
+	title = curtiss.297.t
+
+	desc = curtiss.297.d
+
+	flavor = curtiss.297.f
+
+	placement = scope:curtiss_himalaya
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_conway_scope
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_conway_var = {
+			save_scope_as = curtiss_conway_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			save_scope_as = curtiss_shangrila_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HIMALAYAS
+			}
+			save_scope_as = curtiss_himalaya
+		}
+		set_variable = curtiss_lost_horizon_achievement
+	}
+
+	option = {	#This place should remain secret. I just want to learn
+		name = curtiss.297.g
+		default_option = yes
+		scope:curtiss_shangrila_leader = {
+			set_character_busy = no
+			add_trait = persistent
+			add_trait = tactful
+			add_trait = meticulous
+			add_trait = charismatic
+			add_trait = brave
+			add_trait = pious
+			add_trait = explorer
+			add_trait = elgar_composer
+			add_trait = lepsius_archaeologist
+			add_trait = verrier_astronomer
+			remove_trait = arrogant
+			remove_trait = bigoted
+			remove_trait = reckless
+			remove_trait = ambitious
+			remove_trait = imperious
+			remove_trait = wrathful
+			remove_trait = cruel
+			remove_trait = hedonist
+			remove_trait = alcoholic
+			remove_trait = opium_addiction
+			remove_trait = cocaine_addiction
+			remove_trait = wounded
+			remove_trait = psychological_affliction
+			remove_trait = expensive_tastes
+		}
+	}
+
+	option = {	#This place should be protected. I will stay.
+		name = curtiss.297.h
+		create_country = {
+			tag = SLA
+			province = p:x2D753F
+			origin = ROOT
+		}
+		hidden_effect = {
+			scope:curtiss_shangrila_leader = {
+				set_character_busy = no
+				add_trait = persistent
+				add_trait = tactful
+				add_trait = meticulous
+				add_trait = charismatic
+				add_trait = brave
+				add_trait = pious
+				add_trait = explorer
+				add_trait = elgar_composer
+				add_trait = lepsius_archaeologist
+				add_trait = verrier_astronomer
+				remove_trait = arrogant
+				remove_trait = bigoted
+				remove_trait = reckless
+				remove_trait = ambitious
+				remove_trait = imperious
+				remove_trait = wrathful
+				remove_trait = cruel
+				remove_trait = hedonist
+				remove_trait = alcoholic
+				remove_trait = opium_addiction
+				remove_trait = cocaine_addiction
+				remove_trait = cancer
+				remove_trait = grifter
+				remove_trait = scarred
+				remove_trait = senile
+				remove_trait = syphilis
+				remove_trait = shellshocked
+				remove_trait = wounded
+				remove_trait = psychological_affliction
+				remove_trait = expensive_tastes
+				remove_trait = kidney_stones
+				remove_trait = beetle_ear
+			}
+		}
+		scope:curtiss_shangrila_leader = {
+			transfer_character = c:SLA
+		}
+		set_variable = curtiss_shangrila_padron
+		hidden_effect = {
+			c:SLA = {
+				trigger_event = {
+					id = curtiss.298
+				}
+			}
+		}
+	}
+
+	option = {	#This place will be ours. In the name of COUNTRY!
+		name = curtiss.297.i
+		change_infamy = 10
+		scope:curtiss_shangrila_leader = {
+			set_character_busy = no
+			remove_trait = persistent
+			remove_trait = tactful
+			remove_trait = meticulous
+			remove_trait = charismatic
+			remove_trait = brave
+			remove_trait = pious
+			add_trait = arrogant
+			add_trait = bigoted
+			add_trait = reckless
+			add_trait = wrathful
+			add_trait = cruel
+			add_trait = psychological_affliction
+			add_trait = war_criminal
+			add_trait = bandit
+		}
+		add_artifacts_of_shangrila = yes
+		add_modifier = {
+			name = curtiss_shangrila_secrets_modifier
+			years = 10
+		}
+	}
+}
+
+#Curtiss 298: Founding Shangri-La
+
+curtiss.298 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		add_modifier = {
+			name = curtiss_shangrila_modifier 
+		}
+
+		activate_law = law_type:law_professional_army
+		activate_law = law_type:law_appointed_bureaucrats
+		activate_law = law_type:law_compulsory_primary_school
+		activate_law = law_type:law_freedom_of_conscience
+		activate_law = law_type:law_multicultural
+		activate_law = law_type:law_no_colonial_affairs
+		activate_law = law_type:law_autocracy
+		activate_law = law_type:law_agrarianism
+		activate_law = law_type:law_religious_schools
+		activate_law = law_type:law_protected_speech
+		activate_law = law_type:law_theocracy
+		activate_law = law_type:law_charitable_health_system
+		activate_law = law_type:law_guaranteed_liberties
+		activate_law = law_type:law_worker_protections
+		activate_law = law_type:law_closed_borders
+		activate_law = law_type:law_local_police
+		activate_law = law_type:law_womens_suffrage
+		activate_law = law_type:law_slavery_banned
+		activate_law = law_type:law_land_based_taxation
+		activate_law = law_type:law_isolationism
+		activate_law = law_type:law_right_of_assembly
+		activate_law = law_type:law_poor_laws
+
+		random_country = {
+			limit = {
+				has_variable = curtiss_shangrila_padron
+			}
+			create_diplomatic_pact = {
+				country = c:SLA
+				type = puppet
+			}
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = curtiss_shangrila_leader_var
+			}
+			set_as_interest_group_leader = yes
+		}
+	}
+}
 
 #######################################################################################################
 
