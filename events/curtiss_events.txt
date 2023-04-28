@@ -12961,7 +12961,7 @@ curtiss.614 = {
 	duration = 2
 
 	event_image = { 
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_giffard_dirigible.dds"
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_auguste_piccard.dds"
 	}
 
 	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
@@ -12980,31 +12980,40 @@ curtiss.614 = {
 
 	immediate = {
 		set_global_variable = curtiss_auguste_piccard_global_var
+
+		create_character = {
+			dna = mr_swi_piccard
+			first_name = curtiss_auguste
+			last_name = curtiss_piccard
+			culture = cu:swiss
+			interest_group = ig_intelligentsia
+			female = no
+			traits = { 
+				meticulous
+				innovative
+				curtiss_balloonist_experienced
+			}
+
+			save_scope_as = curtiss_balloonist_scope
+		}
 	}
 
-	option = {	#Sponsor Auguste Piccard!
+	option = {	#We can't lose Piccard offer to sponsor him!
 		name = curtiss.614.g
 		default_option = yes
 
+		add_treasury = -100000
+
 		custom_tooltip = {
 			text = curtiss.614.g.tt
-
-			create_character = {
-				dna = mr_swi_piccard
-				first_name = curtiss_auguste
-				last_name = curtiss_piccard
-				culture = cu:swiss
-				interest_group = ig_intelligentsia
-				female = no
-				traits = { 
-					meticulous
-					innovative
-					curtiss_balloonist_experienced
+	
+			if = {
+				limit = {
+					has_variable = curtiss_balloonist_var
 				}
-	
-				save_scope_as = curtiss_balloonist_scope
+				kill_balloonist_effect = yes
 			}
-	
+
 			scope:curtiss_balloonist_scope = {
 				place_character_in_void = 1200
 				set_variable = {
