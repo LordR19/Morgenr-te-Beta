@@ -12944,6 +12944,92 @@ curtiss.613 = {
 	}
 }
 
+#Curtiss 614: Auguste Piccard considers moving to Brussels
+curtiss.614 = {
+	type = country_event
+
+	title = curtiss.614.t
+
+	desc = curtiss.614.d
+
+	flavor = curtiss.614.f
+	
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_giffard_dirigible.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+		exists = c:SWI
+		c:SWI = root
+		NOT = {
+			has_global_variable = curtiss_auguste_piccard_global_var
+		}
+		game_date = 1822.05.07
+	}
+
+	immediate = {
+		set_global_variable = curtiss_auguste_piccard_global_var
+	}
+
+	option = {	#Sponsor Auguste Piccard!
+		name = curtiss.614.g
+		default_option = yes
+
+		create_character = {
+			dna = mr_swi_piccard
+			first_name = curtiss_auguste
+			last_name = curtiss_piccard
+			culture = cu:swiss
+			interest_group = ig_intelligentsia
+			female = no
+			traits = { 
+				meticulous
+				innovative
+				curtiss_balloonist_experienced
+			}
+
+			save_scope_as = curtiss_balloonist_scope
+		}
+
+		scope:curtiss_balloonist_scope = {
+			add_trait = curtiss_balloonist
+			place_character_in_void = 1200
+			set_variable = {
+				name = curtiss_balloonist_experience_var
+				value = 150
+			}
+			set_variable = curtiss_auguste_piccard_var
+		}
+			
+		set_variable = {
+			name = curtiss_balloonist_var
+			value = scope:curtiss_balloonist_scope
+		}
+	
+		set_variable = {
+			name = curtiss_balloon_name_randomizer_var
+			value = { 1 25 }
+		}
+	
+		round_variable = {
+			name = curtiss_balloon_name_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#We already have a great balloonist!
+		name = curtiss.614.h
+		default_option = yes
+	}
+}
+
 #Curtiss 650: Introducing our new balloonist
 curtiss.650 = {
 	type = country_event
