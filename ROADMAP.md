@@ -7,3 +7,14 @@ Marco:
 - 2-3 new Schneider Trophy events
 - 2 events for the Mole regaridng the "Italia" balloon
 - Add some events to the giant zeppelin flying route for more glamourous flair
+
+Lord R:
+
+- Add the posibility to sponsor historical balloonists
+- Add more historical balloonists
+- Ballooning experiencene?
+- expeditions to cross geographical features (Atlantic, Himalayas, Rockies, etc.)
+- GUI (?)
+- Possibility for politicians, generals and admirals to gain the balloonist trait.
+- experiment and invention events for the balloonists
+- More cultural Balloon names
