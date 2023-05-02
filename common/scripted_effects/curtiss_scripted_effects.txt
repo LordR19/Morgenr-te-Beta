@@ -1465,6 +1465,40 @@ balloonist_experience_gain_effect = { #adds XP to the balloonist
 	}
 }
 
+#level up for balloonist
+balloonist_level_up_effect = {
+	if = {
+		limit = {
+			var:curtiss_balloonist_var = {
+				NOT = {
+					has_trait = curtiss_balloonist_famous
+				}
+				var:curtiss_balloonist_experience_var >= 300
+			}
+		}
+		var:curtiss_balloonist_var = {
+			remove_trait = curtiss_balloonist
+			remove_trait = curtiss_balloonist_experienced
+			add_trait = curtiss_balloonist_famous
+		}
+	}
+	else_if = {
+		limit = {
+			var:curtiss_balloonist_var = {
+				NOR = {
+					has_trait = curtiss_balloonist_experienced
+					has_trait = curtiss_balloonist_famous
+				}
+				var:curtiss_balloonist_experience_var >= 100
+			}
+		}
+		var:curtiss_balloonist_var = {
+			remove_trait = curtiss_balloonist
+			add_trait = curtiss_balloonist_experienced
+		}
+	}
+}
+
 ###Set up records for journal entry###
 set_up_records_je_effect = {
 	if = {
