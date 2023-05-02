@@ -13147,7 +13147,7 @@ curtiss.650 = {
 			}
 
 			random_list = { #random afraid of heights event
-				199 = { }
+				999 = { }
 				1 = {
 					trigger_event = {
 						id = curtiss.656
@@ -13276,6 +13276,82 @@ curtiss.651 = {
 		custom_tooltip = curtiss.651.htt
 	}
 
+	option = {	#I don't want to hear about the flights of my balloonist anymore!
+		name = curtiss.651.w
+
+		trigger = {
+			NOT = {
+				has_variable = curtiss_no_balloonist_flight_events
+			}
+		}
+
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.651
+				popup = yes
+			}
+		}
+		custom_tooltip = curtiss.651.w.tt
+
+		set_variable = curtiss_no_balloonist_flight_events
+	}
+
+	option = {	#Actually... Tell me about the flights of my balloonist again!
+		name = curtiss.651.x
+
+		trigger = {
+			has_variable = curtiss_no_balloonist_flight_events
+		}
+
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.651
+				popup = yes
+			}
+		}
+		custom_tooltip = curtiss.651.x.tt
+
+		remove_variable = curtiss_no_balloonist_flight_events
+	}
+
+	option = {	#If my balloonist dies just sponsor a new one without asking me.
+		name = curtiss.651.y
+
+		trigger = {
+			NOT = {
+				has_variable = curtiss_no_balloonist_death_events
+			}
+		}
+
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.651
+				popup = yes
+			}
+		}
+		custom_tooltip = curtiss.651.y.tt
+
+		set_variable = curtiss_no_balloonist_death_events
+	}
+
+	option = {	#Tell me about the balloonist's deaths again and let me decide whether to sponsor a new one.
+		name = curtiss.651.z
+
+		trigger = {
+			has_variable = curtiss_no_balloonist_death_events
+		}
+
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.651
+				popup = yes
+			}
+		}
+		custom_tooltip = curtiss.651.z.tt
+
+		remove_variable = curtiss_no_balloonist_death_events
+	}
+
 	option = {	#Let me get back to my business!
 		name = curtiss.651.l
 		default_option = yes
@@ -13311,6 +13387,9 @@ curtiss.652 = {
 			var:curtiss_balloon_distance_record_var = 0
 			var:curtiss_balloon_time_record_var = 0
 		}
+		NOT = { #only happens if player wants to see results.
+			has_variable = curtiss_no_balloonist_flight_events
+		}
 	}
 
 	immediate = {
@@ -13326,6 +13405,24 @@ curtiss.652 = {
 	option = {	#That's a good start!
 		name = curtiss.652.g
 		default_option = yes
+
+		curtiss_balloon_country_altitude_experience_only_world_record_effect = yes
+		curtiss_balloon_country_distance_record_experience_only_world_record_effect = yes
+		curtiss_balloon_country_time_record_experience_only_world_record_effect = yes
+
+		curtiss_ballooning_research_if_record_all_effect = yes
+	}
+
+	option = {	#I don't want to hear about the flights of my balloonist anymore!
+		name = curtiss.651.w
+
+		trigger = {
+			is_player = yes
+		}
+
+		custom_tooltip = curtiss.651.w.tt
+
+		set_variable = curtiss_no_balloonist_flight_events
 
 		curtiss_balloon_country_altitude_experience_only_world_record_effect = yes
 		curtiss_balloon_country_distance_record_experience_only_world_record_effect = yes
@@ -13417,6 +13514,9 @@ curtiss.653 = {
 
 	trigger = {
 		#triggered by on_action in journal entry
+		NOT = { #only happens if player wants to see results.
+			has_variable = curtiss_no_balloonist_flight_events
+		}
 	}
 
 	immediate = {
@@ -13439,6 +13539,22 @@ curtiss.653 = {
 		curtiss_balloon_country_altitude_record_effect = yes
 	}
 
+	option = {	#I don't want to hear about the flights of my balloonist anymore!
+		name = curtiss.651.w
+
+		trigger = {
+			is_player = yes
+			curtiss_altitude_record_country_broken_trigger = no
+		}
+
+		custom_tooltip = curtiss.651.w.tt
+
+		set_variable = curtiss_no_balloonist_flight_events
+
+		small_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_altitude_record_effect = yes
+	}
+
 	option = {	#Good job!
 		name = curtiss.653.h
 
@@ -13451,12 +13567,45 @@ curtiss.653 = {
 		curtiss_balloon_country_altitude_record_effect = yes
 	}
 
+	option = {	#I don't want to hear about the flights of my balloonist anymore!
+		name = curtiss.651.w
+
+		trigger = {
+			is_player = yes
+			curtiss_altitude_record_country_broken_trigger = yes
+			curtiss_altitude_record_global_broken_trigger = no
+		}
+
+		custom_tooltip = curtiss.651.w.tt
+
+		set_variable = curtiss_no_balloonist_flight_events
+
+		medium_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_altitude_record_effect = yes
+	}
+
 	option = {	#Wonderful! Congratulations!
 		name = curtiss.653.i
 
 		trigger = {
 			curtiss_altitude_record_global_broken_trigger = yes
 		}
+
+		big_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_altitude_record_effect = yes
+	}
+
+	option = {	#I don't want to hear about the flights of my balloonist anymore!
+		name = curtiss.651.w
+
+		trigger = {
+			is_player = yes
+			curtiss_altitude_record_global_broken_trigger = yes
+		}
+
+		custom_tooltip = curtiss.651.w.tt
+
+		set_variable = curtiss_no_balloonist_flight_events
 
 		big_curtiss_ballooning_research_effect = yes
 		curtiss_balloon_country_altitude_record_effect = yes
@@ -13513,6 +13662,9 @@ curtiss.654 = {
 
 	trigger = {
 		#triggered by on_action in journal entry
+		NOT = { #only happens if player wants to see results.
+			has_variable = curtiss_no_balloonist_flight_events
+		}
 	}
 
 	immediate = {
@@ -13538,6 +13690,24 @@ curtiss.654 = {
 		curtiss_balloon_country_time_record_effect = yes
 	}
 
+	option = {	#I don't want to hear about the flights of my balloonist anymore!
+		name = curtiss.651.w
+
+		trigger = {
+			is_player = yes
+			curtiss_distance_record_country_broken_trigger = no
+			curtiss_time_record_country_broken_trigger = no
+		}
+
+		custom_tooltip = curtiss.651.w.tt
+
+		set_variable = curtiss_no_balloonist_flight_events
+
+		small_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_distance_record_effect = yes
+		curtiss_balloon_country_time_record_effect = yes
+	}
+
 	option = {	#Good job!
 		name = curtiss.654.h
 
@@ -13555,6 +13725,28 @@ curtiss.654 = {
 		curtiss_balloon_country_time_record_effect = yes
 	}
 
+	option = {	#I don't want to hear about the flights of my balloonist anymore!
+		name = curtiss.651.w
+
+		trigger = {
+			is_player = yes
+			curtiss_distance_record_global_broken_trigger = no
+			curtiss_time_record_global_broken_trigger = no
+			OR = {
+				curtiss_distance_record_country_broken_trigger = yes
+				curtiss_time_record_country_broken_trigger = yes
+			}
+		}
+
+		custom_tooltip = curtiss.651.w.tt
+
+		set_variable = curtiss_no_balloonist_flight_events
+
+		medium_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_distance_record_effect = yes
+		curtiss_balloon_country_time_record_effect = yes
+	}
+
 	option = {	#Wonderful! Congratulations!
 		name = curtiss.654.i
 
@@ -13564,6 +13756,26 @@ curtiss.654 = {
 				curtiss_time_record_global_broken_trigger = yes
 			}
 		}
+
+		big_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_distance_record_effect = yes
+		curtiss_balloon_country_time_record_effect = yes
+	}
+
+	option = {	#I don't want to hear about the flights of my balloonist anymore!
+		name = curtiss.651.w
+
+		trigger = {
+			is_player = yes
+			OR = {
+				curtiss_distance_record_global_broken_trigger = yes
+				curtiss_time_record_global_broken_trigger = yes
+			}
+		}
+
+		custom_tooltip = curtiss.651.w.tt
+
+		set_variable = curtiss_no_balloonist_flight_events
 
 		big_curtiss_ballooning_research_effect = yes
 		curtiss_balloon_country_distance_record_effect = yes
@@ -13755,6 +13967,115 @@ curtiss.656 = {
 	}
 }
 
+#Curtiss 657: Balloonist's first flight (hidden)
+curtiss.657 = {
+	type = country_event
+	hidden = yes
+
+	trigger = {
+		OR = {
+			var:curtiss_balloon_altitude_record_var = 0
+			var:curtiss_balloon_distance_record_var = 0
+			var:curtiss_balloon_time_record_var = 0
+		}
+		has_variable = curtiss_no_balloonist_flight_events
+	}
+
+	immediate = {
+		curtiss_new_balloon_altitude_effect = yes
+		curtiss_new_balloon_distance_effect = yes
+		curtiss_new_balloon_time_effect = yes
+
+		curtiss_balloon_country_altitude_experience_only_world_record_effect = yes
+		curtiss_balloon_country_distance_record_experience_only_world_record_effect = yes
+		curtiss_balloon_country_time_record_experience_only_world_record_effect = yes
+
+		curtiss_ballooning_research_if_record_all_effect = yes
+	}
+}
+
+#Curtiss 658: Balloonist tries to set new Altitude record (hidden)
+curtiss.658 = {
+	type = country_event
+	hidden = yes
+	
+	trigger = {
+		#triggered by on_action in journal entry
+		has_variable = curtiss_no_balloonist_flight_events #only happens if player does not want to see events
+	}
+
+	immediate = {
+		curtiss_new_balloon_altitude_effect = yes
+
+		if = {
+			limit = {
+				curtiss_altitude_record_global_broken_trigger = yes
+			}
+			big_curtiss_ballooning_research_effect = yes
+			curtiss_balloon_country_altitude_record_effect = yes
+		}
+		else_if = {
+			limit = {
+				curtiss_altitude_record_country_broken_trigger = yes
+				curtiss_altitude_record_global_broken_trigger = no
+			}
+
+			medium_curtiss_ballooning_research_effect = yes
+			curtiss_balloon_country_altitude_record_effect = yes
+		}
+		else = {
+			small_curtiss_ballooning_research_effect = yes
+			curtiss_balloon_country_altitude_record_effect = yes
+		}
+	}
+}
+
+#Curtiss 659: Balloonist tries to set new Distance record (hidden)
+curtiss.659 = {
+	type = country_event
+	hidden = yes
+
+	trigger = {
+		#triggered by on_action in journal entry
+		has_variable = curtiss_no_balloonist_flight_events #only happens if player does not want to see events
+	}
+
+	immediate = {
+		curtiss_new_balloon_distance_effect = yes
+		curtiss_new_balloon_time_effect = yes
+
+		if = {
+			limit = {
+				OR = {
+					curtiss_distance_record_global_broken_trigger = yes
+					curtiss_time_record_global_broken_trigger = yes
+				}
+			}
+			big_curtiss_ballooning_research_effect = yes
+			curtiss_balloon_country_distance_record_effect = yes
+			curtiss_balloon_country_time_record_effect = yes
+		}
+		else_if = {
+			limit = {
+				curtiss_distance_record_global_broken_trigger = no
+				curtiss_time_record_global_broken_trigger = no
+				OR = {
+					curtiss_distance_record_country_broken_trigger = yes
+					curtiss_time_record_country_broken_trigger = yes
+				}
+			}
+			medium_curtiss_ballooning_research_effect = yes
+			curtiss_balloon_country_distance_record_effect = yes
+			curtiss_balloon_country_time_record_effect = yes
+		}
+		else = {
+			small_curtiss_ballooning_research_effect = yes
+		curtiss_balloon_country_distance_record_effect = yes
+		curtiss_balloon_country_time_record_effect = yes
+		}
+	}
+}
+
 #Curtiss 670: Balloonist died in accident
 curtiss.670 = {
 	type = country_event
@@ -13776,7 +14097,10 @@ curtiss.670 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
 
-	trigger = {
+	trigger = { #triggered by journal entry
+		NOT = { #prevents event from firing when player doesn't want to see it
+			has_variable = curtiss_no_balloonist_death_events
+		}
 	}
 
 	weight_multiplier = {
@@ -13980,7 +14304,10 @@ curtiss.673 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
 
-	trigger = {
+	trigger = { #triggered by journal entry
+		NOT = { #prevents event from firing when player doesn't want to see it
+			has_variable = curtiss_no_balloonist_death_events
+		}
 	}
 
 	weight_multiplier = {
@@ -14044,7 +14371,10 @@ curtiss.674 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/destruction"
 
-	trigger = {
+	trigger = { #triggered by journal entry
+		NOT = { #prevents event from firing when player doesn't want to see it
+			has_variable = curtiss_no_balloonist_death_events
+		}
 	}
 
 	weight_multiplier = {
@@ -14080,5 +14410,75 @@ curtiss.674 = {
 		ai_chance = {
 			base = 0
 		}
+	}
+}
+
+#Curtiss 675: Balloonist died in accident (hidden)
+curtiss.675 = {
+	type = country_event
+	hidden = yes
+
+	trigger = {
+		has_variable = curtiss_no_balloonist_death_events
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:curtiss_balloonist_var = {
+				has_trait = curtiss_balloonist_experienced
+			}
+			factor = 0.85
+		}
+		modifier = {
+			var:curtiss_balloonist_var = {
+				has_trait = curtiss_balloonist_famous
+			}
+			factor = 0.75
+		}
+		modifier = {
+			var:curtiss_balloonist_var = {
+				has_trait = meticulous
+			}
+			factor = 0.9
+		}
+		modifier = {
+			var:curtiss_balloonist_var = {
+				has_trait = innovative
+			}
+			factor = 0.9
+		}
+		modifier = {
+			var:curtiss_balloonist_var = {
+				has_trait = opium_addiction
+			}
+			factor = 2
+		}
+		modifier = {
+			var:curtiss_balloonist_var = {
+				has_trait = alcoholic
+			}
+			factor = 2
+		}
+		modifier = {
+			var:curtiss_balloonist_var = {
+				has_trait = cocaine_addiction
+			}
+			factor = 2
+		}
+		modifier = {
+			var:curtiss_balloonist_var = {
+				has_trait = senile
+			}
+			factor = 4
+		}
+	}
+
+	immediate = {
+		kill_balloonist_effect = yes
+
+		balloonist_cost_effect = yes
+
+		create_balloonist_effect = yes
 	}
 }
