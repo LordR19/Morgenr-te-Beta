@@ -5608,6 +5608,113 @@ gaudi.423 = {
 
 #Gaudí 424: Mongolfiera Italo (needs Reconnaissance Balloons)
 
+gaudi.424 = {
+	type = country_event
+
+	title = gaudi.424.t
+	desc = gaudi.424.d
+	flavor = gaudi.424.f
+
+	placement = scope:gaudi_mole_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_mole_dome.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	trigger = {
+		has_technology_researched = curtiss_reconnaissance_balloon_tech
+		NOT = {
+			has_modifier = gaudi_italo_ballon_modifier
+		}
+		NOT = {
+			has_variable = gaudi_no_italo_balloon
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_PIEDMONT
+			}
+			save_scope_as = gaudi_mole_state
+		}
+	}
+
+	option = {
+		name = gaudi.424.g #A tourist balloon sounds like a good idea
+		default_option = yes
+		add_treasury = -7500
+		gaudi_add_3_mole_progress = yes
+		add_modifier = {
+			name = gaudi_italo_balloon_modifier
+		}
+	}
+	option = {
+		name = gaudi.424.h #A tourist balloon sounds like a good idea
+		gaudi_add_1_mole_progress = yes
+		set_variable = gaudi_no_italo_balloon
+	}
+}
+
+#Gaudí 425: Mongolfiera Italo Accident
+
+gaudi.425 = {
+	type = country_event
+
+	title = gaudi.425.t
+	desc = gaudi.425.d
+	flavor = gaudi.425.f
+
+	placement = scope:gaudi_mole_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_mole_destroyed.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	trigger = {
+		any_scope_state = {
+			has_modifier = gaudi_italo_ballon_modifier
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_PIEDMONT
+			}
+			save_scope_as = gaudi_mole_state
+		}
+	}
+
+	option = {
+		name = gaudi.425.g #A new balloon
+		default_option = yes
+		add_treasury = -5000
+		gaudi_sub_1_mole_progress = yes
+	}
+	option = {
+		name = gaudi.425.h #No new balloon
+		set_variable = gaudi_no_italo_balloon
+		scope:gaudi_mole_state = {
+			remove_modifier = gaudi_italo_ballon_modifier
+		}
+	}
+}
+
 ###################################################################
 
 ######VIENNA RINGSTRASSE######
