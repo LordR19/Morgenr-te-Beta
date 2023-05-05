@@ -460,6 +460,79 @@ curtiss.12 = {
 	}
 }
 
+#Curtiss 13: Water Airport
+
+curtiss.13 = {
+	type = country_event
+
+    title = curtiss.13.t
+		
+    desc = curtiss.13.d
+
+	flavor = curtiss.13.f
+
+	placement = scope:curtiss_water_airport_state
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_plane_savoia.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		has_technology_researched = curtiss_seaplanes_tech
+		any_scope_state = {
+			NOT = { 
+				has_modifier = curtiss_water_airport_modifier
+			}
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_port
+				level >= 10
+			}
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 25
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				NOT = { 
+					has_modifier = curtiss_water_airport_modifier
+				}
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_port
+					level >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 25
+				}
+			}
+			save_scope_as = curtiss_water_airport_state
+		}
+	}
+
+	option = { #Seaplanes are the future.
+		name = curtiss.13.g
+		default_option = yes
+		scope:curtiss_water_airport_state = {
+			add_modifier = {
+				name = curtiss_water_airport_modifier
+			}
+		}
+	}
+}
+
 #Curtiss 20: Private Airline Company
 
 curtiss.20 = {
