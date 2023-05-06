@@ -4325,101 +4325,52 @@ curtiss.131 = {
 	}
 }
 
-###################################################################################
+#Curtiss 132: Favorable Conditions
 
-######AIRLINES######
-
-#Curtiss 201: Airline invests in airport
-
-curtiss.201 = {
+curtiss.132 = {
 	type = country_event
 
-	title = curtiss.201.t
+    title = curtiss.132.t
+		
+    desc = curtiss.132.d
 
-	desc = curtiss.201.d
+	flavor = curtiss.132.f
 
-	flavor = curtiss.201.f
-	
-	duration = 3
+	duration = 1
 
-	placement = scope:curtiss_new_airport_state
-
+	placement = scope:curtiss_schneider_trophy_state
+		
 	event_image = { 
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_klm_1.dds"
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_schneider_team_2.dds"
 	}
-
-	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
 
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	cooldown = { 
+		months = 3
+	}
+
 	trigger = {
-		any_scope_state = {
-			is_incorporated = yes
-			any_scope_building = {
-				is_building_type = building_urban_center
-				level >= 15
-			}
-			NOT = {
-				has_building = building_airport
-			}
-		}
 	}
 
 	immediate = {
-		ig:ig_industrialists = {
-			save_scope_as = ig_industrialists
-		}
-		random_scope_state = {
+		random_state = {
 			limit = {
-				is_incorporated = yes
-				any_scope_building = {
-					is_building_type = building_urban_center
-					level >= 15
-				}
-				NOT = {
-					has_building = building_airport
-				}
+				has_modifier = curtiss_schneider_trophy_state_modifier 
 			}
-			save_scope_as = curtiss_new_airport_state
-		}
-		random_scope_character = {
-			limit = {
-				has_modifier = curtiss_airline_tycoon_modifier
-			}
-			save_scope_as = howard_hughes
+			save_scope_as = curtiss_schneider_trophy_state
 		}
 	}
 
-	option = {	#Build a new airport.
-		name = curtiss.201.g
-		default_option = yes
-		curtiss_add_1_flight_route = yes
-		scope:curtiss_new_airport_state = {
-			create_building = {
-				building = "building_airport"
-			}
-			add_modifier = {
-				name = curtiss_thriving_aviation_modifier
-			}
-		}
+	option = { #The Weather is on our side
+		name = curtiss.132.g
+		curtiss_add_3_schneider_trophy_point = yes
 	}
 
-	option = {	#Expand the airline, but invest the capital elsewhere.
-		name = curtiss.201.h
-		curtiss_add_1_flight_route = yes
-		random_scope_state = {
-			limit = {
-				has_building = building_airport
-				NOT = {
-					has_modifier = curtiss_expanded_airline_modifier
-				}
-			}
-			add_modifier = {
-				name = curtiss_expanded_airline_modifier
-				years = 10
-			}
-		}
+	after = {
 	}
 }
 
@@ -5120,6 +5071,157 @@ curtiss.139 = {
 	}
 
 	after = {
+	}
+}
+
+#Curtiss 202: Airline expands
+
+curtiss.202 = {
+	type = country_event
+
+	title = curtiss.202.t
+
+	desc = curtiss.202.d
+
+	flavor = curtiss.202.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_klm_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Excellent.
+		name = curtiss.202.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_expanded_airline_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_expanded_airline_modifier
+				years = 10
+			}
+		}
+	}
+}
+
+###################################################################################
+
+######AIRLINES######
+
+#Curtiss 201: Airline invests in airport
+
+curtiss.201 = {
+	type = country_event
+
+	title = curtiss.201.t
+
+	desc = curtiss.201.d
+
+	flavor = curtiss.201.f
+	
+	duration = 3
+
+	placement = scope:curtiss_new_airport_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_airline_klm_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 15
+			}
+			NOT = {
+				has_building = building_airport
+			}
+		}
+	}
+
+	immediate = {
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 15
+				}
+				NOT = {
+					has_building = building_airport
+				}
+			}
+			save_scope_as = curtiss_new_airport_state
+		}
+		random_scope_character = {
+			limit = {
+				has_modifier = curtiss_airline_tycoon_modifier
+			}
+			save_scope_as = howard_hughes
+		}
+	}
+
+	option = {	#Build a new airport.
+		name = curtiss.201.g
+		default_option = yes
+		curtiss_add_1_flight_route = yes
+		scope:curtiss_new_airport_state = {
+			create_building = {
+				building = "building_airport"
+			}
+			add_modifier = {
+				name = curtiss_thriving_aviation_modifier
+			}
+		}
+	}
+
+	option = {	#Expand the airline, but invest the capital elsewhere.
+		name = curtiss.201.h
+		curtiss_add_1_flight_route = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_airport
+				NOT = {
+					has_modifier = curtiss_expanded_airline_modifier
+				}
+			}
+			add_modifier = {
+				name = curtiss_expanded_airline_modifier
+				years = 10
+			}
+		}
 	}
 }
 
