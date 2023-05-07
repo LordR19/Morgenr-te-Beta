@@ -4,7 +4,7 @@ Marco:
 
 - Add narrative event chain "Airpirates"
 [x] - Add event for nations with urbanized states which have high port level, giving them a seaplane water-airport
-- 2-3 new Schneider Trophy events
+[x] - 2-3 new Schneider Trophy events
 [x] - 2 events for the Mole regarding the "Italia" balloon
 - Add some events to the giant zeppelin flying route for more glamourous flair
 
