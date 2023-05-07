@@ -10,6 +10,8 @@ Marco:
 - 2-3 new Schneider Trophy events
 - 2 events for the Mole regarding the "Italia" balloon
 
+###################################################################
+
 Lord R:
 
 - Add the posibility to sponsor historical balloonists
