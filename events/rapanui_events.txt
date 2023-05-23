@@ -1,0 +1,1431 @@
+﻿###################
+# RAPANUI EVENTS  #
+###################
+
+#by Marco Dandolo
+
+###################
+
+namespace = rapanui
+
+###################################################################################################################
+
+#################
+# EASTER ISLAND #
+#################
+
+#Rapanui 1001: Secrets of Easter Island
+
+rapanui.1001 = {
+	type = country_event
+
+	title = rapanui.1001.t
+	desc = rapanui.1001.d
+	flavor = rapanui.1001.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_adventurer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = rapanui_moai_search
+		}
+		NAND = {
+			has_global_variable = rapanui_hava_found
+			has_global_variable = rapanui_hoa_found
+		}
+		exists = c:RAP
+		lepsius_has_archaeological_museum = yes
+		has_technology_researched = lepsius_early_archaeology_tech
+		has_interest_marker_in_region = region_oceania
+	}
+
+	immediate = {
+		create_adventurer_effect = yes
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1001.g #What a mysterious place...
+	}
+
+	after = {
+		set_variable = {
+			name = rapanui_moai_search
+			years = 20
+		}
+		trigger_event = {
+			id = rapanui.1002
+			days = { 3 12 }
+		}
+	}
+}
+
+#Rapanui 1002: Rapa Nui
+
+rapanui.1002 = {
+	type = country_event
+
+	title = rapanui.1002.t
+	desc = rapanui.1002.d
+	flavor = rapanui.1002.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_boat.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1002.g #We accept their kind invitation.
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1011
+				days = { 3 12 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.1002.h #These savages are not to be trusted.
+		trigger = {
+			NOT = {
+				has_global_variable = rapanui_hava_found
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1041
+				days = { 3 12 }
+			}
+		}
+	}
+}
+
+#Rapanui 1011: Ceremonial Dances
+
+rapanui.1011 = {
+	type = country_event
+
+	title = rapanui.1011.t
+	desc = rapanui.1011.d
+	flavor = rapanui.1011.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_friendly.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1011.g #Who is this birdman that is so much talked about?
+		hidden_effect = {
+			random_list = {
+				35 = {
+					modifier = {
+						if = {
+							limit = {
+								has_global_variable = rapanui_hava_found
+							}
+							subtract = 35
+						}
+					}
+					trigger_event = {
+						id = rapanui.1021
+						days = { 3 12 }
+					}
+				}
+				65 = {
+					modifier = {
+						if = {
+							limit = {
+								has_global_variable = rapanui_hoa_found
+							}
+							subtract = 65
+						}
+					}
+					trigger_event = {
+						id = rapanui.1031
+						days = { 3 12 }
+					}
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 1021: Moai Hava
+
+rapanui.1021 = {
+	type = country_event
+
+	title = rapanui.1021.t
+	desc = rapanui.1021.d
+	flavor = rapanui.1021.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_moai.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1021.g #Smuggle the artifact out of the country before the natives find out...
+		default_option = yes
+		set_global_variable = rapanui_hava_found
+		set_variable = rapanui_moai_hava
+		hidden_effect = {
+			random_list = {
+				45 = {
+					trigger_event = {
+						id = rapanui.1022
+						days = { 3 12 }
+					}
+				}
+				55 = {
+					trigger_event = {
+						id = rapanui.1023
+						days = { 3 12 }
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = rapanui.1021.h #Convince the Rapa Nui that we can take the artifact with us.
+		set_global_variable = rapanui_hava_found
+		set_variable = rapanui_moai_hava
+		set_variable = {
+			name = rapanui_natives_help
+			years = 5
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1024
+				days = { 3 12 }
+			}
+		}
+	}
+	option = {
+		name = rapanui.1021.i #We should respect the heritage of other peoples instead of stealing it.
+		trigger = {
+			NOT = {
+				has_global_variable = rapanui_hoa_found
+			}
+		}
+		set_variable = {
+			name = rapanui_left_hava_alone
+			years = 5
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1026
+				days = { 3 12 }
+			}
+		}
+	}
+}
+
+#Rapanui 1022: Theft of the Moai Hava
+
+rapanui.1022 = {
+	type = country_event
+
+	title = rapanui.1022.t
+	desc = rapanui.1022.d
+	flavor = rapanui.1022.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_hostile.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1022.g #Quick, get back home!
+		default_option = yes
+		change_infamy = 3
+		add_modifier = {
+			name = lepsius_internationally_outlawed_grave_robber_modifier
+			years = 5
+		}
+		c:RAP = {
+			owner = {
+				change_relations = {
+					country = ROOT 
+					value = -25
+				}
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = rapanui.1051
+			days = { 3 12 }
+		}
+	}
+}
+
+#Rapanui 1023: Moai Hava secured
+
+rapanui.1023 = {
+	type = country_event
+
+	title = rapanui.1023.t
+	desc = rapanui.1023.d
+	flavor = rapanui.1023.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1023.g #Excellent.
+		default_option = yes
+	}
+
+	after = {
+		if = {
+			limit = {
+				has_global_variable = rapanui_hoa_found
+			}
+			trigger_event = {
+				id = rapanui.1051
+				days = { 3 12 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = rapanui.1026
+				days = { 3 12 }
+			}
+		}
+	}
+}
+
+#Rapanui 1024: Moai Hava secured
+
+rapanui.1024 = {
+	type = country_event
+
+	title = rapanui.1024.t
+	desc = rapanui.1024.d
+	flavor = rapanui.1024.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_natives.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1023.g #Excellent.
+		default_option = yes
+	}
+
+	after = {
+		if = {
+			limit = {
+				has_global_variable = rapanui_hoa_found
+			}
+			trigger_event = {
+				id = rapanui.1051
+				days = { 3 12 }
+			}
+		}
+		else = {
+			random_list = {
+				45 = {
+					trigger_event = {
+						id = rapanui.1025
+						days = { 3 12 }
+					}
+				}
+				55 = {
+					trigger_event = {
+						id = rapanui.1026
+						days = { 3 12 }
+					}
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 1025: A waste of time
+
+rapanui.1025 = {
+	type = country_event
+
+	title = rapanui.1025.t
+	desc = rapanui.1025.d
+	flavor = rapanui.1025.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_natives.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1025.g #And there really aren't more special features on this island?
+		default_option = yes
+	}
+
+	after = {
+		trigger_event = {
+			id = rapanui.1051
+			days = { 3 12 }
+		}
+	}
+}
+
+#Rapanui 1026: Moai Hoa Hakananai'a
+
+rapanui.1026 = {
+	type = country_event
+
+	title = rapanui.1026.t
+	desc = rapanui.1026.d
+	flavor = rapanui.1026.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_moai.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1026.g #The crew should excavate the Moai.
+		default_option = yes
+		set_global_variable = rapanui_hoa_found
+		hidden_effect = {
+			random_list = {
+				50 = {
+					trigger_event = {
+						id = rapanui.1028
+						days = { 3 12 }
+					}
+				}
+				50 = {
+					trigger_event = {
+						id = rapanui.1055
+						days = { 3 12 }
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.1026.h #Ask the locals to excavate the statue.
+		default_option = yes
+		hidden_effect = {
+			random_list = {
+				30 = {
+					modifier = {
+						if = {
+							limit = {
+								has_variable = rapanui_natives_help
+							}
+						}
+						add = 30
+					}
+					trigger_event = {
+						id = rapanui.1027
+						days = { 3 12 }
+					}
+				}
+				70 = {
+					modifier = {
+						if = {
+							limit = {
+								has_variable = rapanui_natives_help
+							}
+						}
+						add = -30
+					}
+					trigger_event = {
+						id = rapanui.1029
+						days = { 3 12 }
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.1026.i #Leave the artifact alone.
+		default_option = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					has_variable = rapanui_left_hava_alone
+				}
+				trigger_event = {
+					id = rapanui.1052
+					days = { 3 12 }
+				}
+			}
+			else = {
+				trigger_event = {
+					id = rapanui.1051
+					days = { 3 12 }
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 1027: Dispute with the Rapa Nui
+
+rapanui.1027 = {
+	type = country_event
+
+	title = rapanui.1027.t
+	desc = rapanui.1027.d
+	flavor = rapanui.1027.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_hostile.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1027.g #We're only interested in their culture...why so grumpy?
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1051
+				days = { 3 12 }
+			}
+		}
+	}
+}
+
+#Rapanui 1028: Moai damaged!
+
+rapanui.1028 = {
+	type = country_event
+
+	title = rapanui.1028.t
+	desc = rapanui.1028.d
+	flavor = rapanui.1028.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_hostile.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1028.g #A loss for archaeology and for the art world.
+		default_option = yes
+		add_modifier = {
+			name = lepsius_archaeological_vandalism_modifier
+			years = 5
+		}
+		c:RAP = {
+			owner = {
+				change_relations = {
+					country = ROOT 
+					value = -25
+				}
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					has_variable = rapanui_moai_hava
+				}
+				trigger_event = {
+					id = rapanui.1054
+					days = { 3 12 }
+				}
+			}
+			else = {
+				trigger_event = {
+					id = rapanui.1053
+					days = { 3 12 }
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 1029: Locals help!
+
+rapanui.1029 = {
+	type = country_event
+
+	title = rapanui.1029.t
+	desc = rapanui.1029.d
+	flavor = rapanui.1029.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_natives.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1029.g #A surprise that was not expected.
+		default_option = yes
+		set_global_variable = rapanui_hoa_found
+		set_variable = rapanui_moai_hoa
+	}
+
+	after = {
+		trigger_event = {
+			id = rapanui.1050
+			days = { 3 12 }
+		}
+	}
+}
+
+#Rapanui 1031: Moai Hoa Hakananai'a
+
+rapanui.1031 = {
+	type = country_event
+
+	title = rapanui.1026.t
+	desc = rapanui.1026.d
+	flavor = rapanui.1026.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_moai.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1026.g #The crew should excavate the Moai.
+		default_option = yes
+		set_global_variable = rapanui_hoa_found
+		set_variable = rapanui_moai_hoa
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1056
+				days = { 3 12 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.1026.h #Ask the locals to excavate the statue.
+		set_global_variable = rapanui_hoa_found
+		set_variable = rapanui_moai_hoa
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1057
+				days = { 3 12 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.1026.i #Leave the artifact alone.
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1052
+				days = { 3 12 }
+			}
+		}
+	}
+}
+
+#Rapanui 1041: The island of the birdman
+
+rapanui.1041 = {
+	type = country_event
+
+	title = rapanui.1041.t
+	desc = rapanui.1041.d
+	flavor = rapanui.1041.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1041.g #This will definitely ensure the success of the expedition.
+		default_option = yes
+		hidden_effect = {
+			random_list = {
+				40 = {
+					trigger_event = {
+						id = rapanui.1058
+						days = { 3 12 }
+					}
+				}
+				60 = {
+					trigger_event = {
+						id = rapanui.1042
+						days = { 3 12 }
+					}
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 1042: Moai Hava
+
+rapanui.1042 = {
+	type = country_event
+
+	title = rapanui.1042.t
+	desc = rapanui.1042.d
+	flavor = rapanui.1042.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_moai.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+		set_global_variable = rapanui_hava_found
+		set_variable = rapanui_moai_hava
+	}
+
+	option = {
+		name = rapanui.1042.g #Bring the statue on board and leave the island.
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1051
+				days = { 3 12 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.1042.h #Keep exploring the island.
+		trigger = {
+			NOT = {
+				has_global_variable = rapanui_hoa_found
+			}
+		}
+		hidden_effect = {
+			random_list = {
+				30 = {
+					trigger_event = {
+						id = rapanui.1025
+						days = { 3 12 }
+					}
+				}
+				30 = {
+					trigger_event = {
+						id = rapanui.1043
+						days = { 3 12 }
+					}
+				}
+				40 = {
+					trigger_event = {
+						id = rapanui.1042
+						days = { 3 12 }
+					}
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 1043: The Death of [SCOPE.sCharacter('rapanui_adventurer_scope').GetFullName]
+
+rapanui.1043 = {
+	type = country_event
+
+	title = rapanui.1043.t
+	desc = rapanui.1043.d
+	flavor = rapanui.1043.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_hostile.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1043.g #There is nothing left but to call off this pointless expedition.
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.1059
+				days = { 3 12 }
+			}
+		}
+	}
+}
+
+#Rapanui 1044: Moai Hoa Hakananai'a
+
+rapanui.1044 = {
+	type = country_event
+
+	title = rapanui.1026.t
+	desc = rapanui.1026.d
+	flavor = rapanui.1026.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_moai.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+		set_global_variable = rapanui_hoa_found
+		set_variable = rapanui_moai_hoa
+	}
+
+	option = {
+		name = rapanui.1026.h #The crew should excavate the Moai.
+		hidden_effect = {
+			random_list = {
+				50 = {
+					trigger_event = {
+						id = rapanui.1050
+						days = { 3 12 }
+					}
+				}
+				50 = {
+					trigger_event = {
+						id = rapanui.1055
+						days = { 3 12 }
+					}
+				}
+			}
+		}
+	}
+}
+
+######Ending events######
+
+#Rapanui 1050: Both Moais and archaeologist
+
+rapanui.1050 = {
+	type = country_event
+
+	title = rapanui.1050.t
+	desc = rapanui.1050.d
+	flavor = rapanui.1050.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_moai.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1050.g #Good
+		promote_adventurer_to_archaeologist_effect = yes
+		lepsius_add_oceanic_artifact = yes
+		lepsius_add_1_major_oceanic_artifact = yes
+		set_variable = lepsius_major_artifact_hoa_found_var
+	}
+}
+
+#Rapanui 1051: Only Moai Hava and explorer
+
+rapanui.1051 = {
+	type = country_event
+
+	title = rapanui.1051.t
+	desc = rapanui.1051.d
+	flavor = rapanui.1051.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1051.g #Good
+		promote_adventurer_to_explorer_effect = yes
+		lepsius_add_oceanic_artifact = yes
+	}
+}
+
+#Rapanui 1052: Archaeologist and big tech bonus
+
+rapanui.1052 = {
+	type = country_event
+
+	title = rapanui.1052.t
+	desc = rapanui.1052.d
+	flavor = rapanui.1052.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_friendly.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1052.g #Good
+		promote_adventurer_to_archaeologist_effect = yes
+		lepsius_large_add_technology = yes
+	}
+}
+
+#Rapanui 1053: Explorer and small tech bonus
+
+rapanui.1053 = {
+	type = country_event
+
+	title = rapanui.1053.t
+	desc = rapanui.1053.d
+	flavor = rapanui.1053.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1053.g #Good
+		promote_adventurer_to_explorer_effect = yes
+		lepsius_small_add_technology = yes
+	}
+}
+
+#Rapanui 1054: Moai Hava, Explorer, and small tech bonus
+
+rapanui.1054 = {
+	type = country_event
+
+	title = rapanui.1054.t
+	desc = rapanui.1054.d
+	flavor = rapanui.1054.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1054.g #Good
+		promote_adventurer_to_explorer_effect = yes
+		lepsius_small_add_technology = yes
+		lepsius_add_oceanic_artifact = yes
+	}
+}
+
+#Rapanui 1055: Both Moais but no character
+
+rapanui.1055 = {
+	type = country_event
+
+	title = rapanui.1055.t
+	desc = rapanui.1055.d
+	flavor = rapanui.1055.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_moai.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1055.g #Good
+		kill_adventurer_effect = yes
+		lepsius_add_oceanic_artifact = yes
+		lepsius_add_1_major_oceanic_artifact = yes
+		set_variable = lepsius_major_artifact_hoa_found_var
+	}
+}
+
+#Rapanui 1056: Moai Hoa but no character
+
+rapanui.1056 = {
+	type = country_event
+
+	title = rapanui.1056.t
+	desc = rapanui.1056.d
+	flavor = rapanui.1056.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1056.g #Good
+		kill_adventurer_effect = yes
+		lepsius_add_1_major_oceanic_artifact = yes
+		set_variable = lepsius_major_artifact_hoa_found_var
+	}
+}
+
+#Rapanui 1057: Moai Hoa and explorer
+
+rapanui.1057 = {
+	type = country_event
+
+	title = rapanui.1057.t
+	desc = rapanui.1057.d
+	flavor = rapanui.1057.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1057.g #Good
+		promote_adventurer_to_explorer_effect = yes
+		lepsius_add_1_major_oceanic_artifact = yes
+		set_variable = lepsius_major_artifact_hoa_found_var
+	}
+}
+
+#Rapanui 1058: No bonus at all
+
+rapanui.1058 = {
+	type = country_event
+
+	title = rapanui.1058.t
+	desc = rapanui.1058.d
+	flavor = rapanui.1058.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1058.g #Bad
+		kill_adventurer_effect = yes
+	}
+}
+
+#Rapanui 1059: Moai Hava but no character
+
+rapanui.1059 = {
+	type = country_event
+
+	title = rapanui.1059.t
+	desc = rapanui.1059.d
+	flavor = rapanui.1059.f
+
+	placement = c:RAP
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_map.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_adventurer_var = {
+			save_scope_as = rapanui_adventurer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.1059.g #Good
+		kill_adventurer_effect = yes
+		lepsius_add_oceanic_artifact = yes
+	}
+}
