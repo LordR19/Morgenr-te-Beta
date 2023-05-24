@@ -1,0 +1,558 @@
+music_player = {
+	name = "JominiMusicPlayerView"
+	visible = no
+
+	blockoverride "window_header_name" {
+		text = "MUSIC_PLAYER_HEADER"
+	}
+
+	blockoverride "header_close_button" {
+		onclick = "[ToggleMusicPlayer]"
+	}
+}
+
+types music_player_types
+{
+	type music_player = default_popup
+	{
+		layer = top
+
+		blockoverride "header_close_button_visibility" {
+			visible = yes
+		}
+
+		blockoverride "entire_scrollarea" {
+			flowcontainer = {
+				direction = vertical
+				#spacing = 20
+
+				flowcontainer = {
+					name = "playback_controller"
+					parentanchor = hcenter
+					direction = vertical
+
+					background = {
+						using = dark_area
+					}
+
+					flowcontainer = {
+						spacing = 5
+						minimumsize = { -1 70 }
+						margin = { 10 0 }
+
+						button_icon_square_action = {
+							name = "toggle_play_pause_button_not_paused"
+							visible = "[MusicPlayer.IsPlaying]"
+							size = { 55 55 }
+							parentanchor = vcenter
+							tooltip = "MUSIC_PLAYER_PAUSE"
+							onclick = "[MusicPlayer.OnTogglePlayPause]"
+							using = tooltip_above
+							input_action = "music_play_pause"
+
+							icon = {
+								parentanchor = center
+								texture = "gfx/interface/icons/generic_icons/paused.dds"
+								size = { 75% 75% }
+							}
+						}
+
+						button_icon_square_action = {
+							name = "toggle_play_pause_button_paused"
+							visible = "[Not(MusicPlayer.IsPlaying)]"
+							size = { 55 55 }
+							tooltip = "MUSIC_PLAYER_PLAY"
+							onclick = "[MusicPlayer.OnTogglePlayPause]"
+							parentanchor = vcenter
+							using = tooltip_above
+							input_action = "music_play_pause"
+
+							icon = {
+								parentanchor = center
+								texture = "gfx/interface/icons/generic_icons/play.dds"
+								size = { 75% 75% }
+							}
+						}
+
+						button_icon_square_action = {
+							name = "next_track_button"
+							size = { 55 55 }
+							tooltip = "MUSIC_PLAYER_SKIP_TO_NEXT_TRACK"
+							onclick = "[MusicPlayer.OnNextTrack]"
+							parentanchor = vcenter
+							using = tooltip_above
+							input_action = "music_next_track"
+
+							blockoverride "icon" {
+								texture = "gfx/interface/icons/generic_icons/play_next.dds"
+							}
+
+							blockoverride "icon_size" {
+								size = { 75% 75% }
+							}
+						}
+
+						widget = {
+							size = { 10 0 }
+						}
+
+						flowcontainer = {
+							spacing = 30
+							parentanchor = vcenter
+
+							flowcontainer = {
+								name = "music_player_volume_slider"
+								direction = vertical
+
+								flowcontainer = {
+									spacing = 5
+									parentanchor = hcenter
+
+									textbox = {
+										name = "music_player_volume_textbox"
+										align = left|nobaseline
+										parentanchor = vcenter
+										text = "MUSIC_PLAYER_VOLUME_LABEL_V3"
+										autoresize = yes
+									}
+
+									textbox = {
+										name = "music_player_volume_value"
+										align = left|nobaseline
+										parentanchor = vcenter
+										raw_text = "#v [MusicPlayer.GetVolumeString]#!"
+										autoresize = yes
+									}
+								}
+
+								container = {
+									name = "music_player_volume_slider"
+
+									scrollbar = {
+										name = "music_player_volume_slider_scrollbar"
+										direction = horizontal
+										size = { 225 20 }
+										value = "[MusicPlayer.GetVolume]"
+
+										min = 0.0
+										max = 1.0
+										step = 0.1
+										wheelstep = 0.1
+
+										onvaluechanged = "[MusicPlayer.SetVolume]"
+
+										track = {
+											using = SettingsValueTrack
+										}
+
+										slider = {
+											using = SettingsValueSlider
+										}
+
+										dec_button = {
+											using = SettingsValueDecButton
+										}
+
+										inc_button = {
+											using = SettingsValueIncButton
+										}
+									}
+								}
+							}
+
+							flowcontainer = {
+								name = "music_player_density"
+								direction = vertical
+
+								flowcontainer = {
+									spacing = 5
+									parentanchor = hcenter
+									tooltip = "MUSIC_PLAYER_DENSITY"
+									
+									textbox = {
+										name = "music_player_density_textbox"
+										align = left|nobaseline
+										parentanchor = vcenter
+										text = "SETTING_MUSIC_DENSITY_V3"
+										autoresize = yes
+									}
+
+									textbox = {
+										name = "music_player_density_value"
+										align = left|nobaseline
+										parentanchor = vcenter
+										raw_text = "#v [MusicPlayer.GetMusicDensityString]#!"
+										autoresize = yes
+									}
+								}
+
+								container = {
+									name = "music_player_volume_slider"
+
+									scrollbar = {
+										name = "music_player_density_slider_scrollbar"
+										direction = horizontal
+										size = { 225 20 }
+										value = "[MusicPlayer.GetMusicDensity]"
+
+										min = 0.0
+										max = 1.0
+										step = 0.5
+										wheelstep = 0.5
+
+										onvaluechanged = "[MusicPlayer.SetMusicDensity]"
+
+										track = {
+											using = SettingsValueTrack
+										}
+
+										slider = {
+											using = SettingsValueSlider
+										}
+
+										dec_button = {
+											using = SettingsValueDecButton
+										}
+
+										inc_button = {
+											using = SettingsValueIncButton
+										}
+									}
+								}
+							}
+						}
+					}
+
+					widget = {
+						size = { 100% 45 }
+						parentanchor = hcenter
+
+						background = {
+							using = dark_area
+						}
+
+						textbox = {
+							name = "track_name"
+							autoresize = yes
+							raw_text = "#v [MusicPlayer.GetPlayingTrackName]#!"
+							align = left|nobaseline
+							parentanchor = vcenter
+							elide = right
+							using = fontsize_large
+							position = { 15 0 }
+							alpha = "[TransparentIfFalse(MusicPlayer.IsPlaying)]"
+						}
+
+						textbox = {
+							name = "elapsed_time"
+							autoresize = yes
+							text = "[MusicPlayer.GetPlayingTrackElapsedTime]"
+							align = left|nobaseline
+							parentanchor = right|vcenter
+							elide = right
+							using = fontsize_large
+							position = { -15 0 }
+							alpha = "[TransparentIfFalse(MusicPlayer.IsPlaying)]"
+						}
+					}
+				}
+
+				widget = {
+					size = { 10 10 }
+				}
+
+				flowcontainer = {
+					spacing = 20
+					parentanchor = hcenter
+
+					### CATEGORIES
+					scrollarea = {
+						layoutpolicy_horizontal = preferred
+						layoutpolicy_vertical = preferred
+						scrollbaralign_vertical = left
+						size = { 330 500 }
+
+						scrollwidget = {
+							dynamicgridbox = {
+								datamodel = "[MusicPlayer.AccessCategories]"
+
+								item = {
+									music_player_category = {}
+								}
+							}
+						}
+
+						scrollbar_vertical = {
+							using = vertical_scrollbar
+						}
+
+						scrollbar_horizontal = {
+							using = horizontal_scrollbar
+						}
+					}
+
+					### TRACKS
+					scrollarea = {
+						layoutpolicy_horizontal = preferred
+						layoutpolicy_vertical = preferred
+						scrollbaralign_vertical = right
+						size = { 300 500 }
+
+						scrollwidget = {
+
+							flowcontainer = {
+								direction = vertical
+								spacing = 5
+
+								dynamicgridbox = {
+									datamodel = "[MusicPlayer.AccessTracksFromSelectedCategory]"
+
+									item = {
+										music_player_track = {}
+									}
+								}
+							}
+						}
+
+						scrollbar_vertical = {
+							using = vertical_scrollbar
+						}
+
+						scrollbar_horizontal = {
+							using = horizontal_scrollbar
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type music_player_category = widget {
+
+		block "size" {
+			size = { 330 240 }
+		}
+		# Selected
+		widget = {
+			visible = "[MusicPlayer.IsSelectedCategory( MusicPlayerCategory.Self )]"
+			size = { 320 180 }
+			parentanchor = right
+
+			### Morgenroete
+			music_category_button = {
+				visible = "[ObjectsEqual('Morgenroete_Soundtrack_mp_categories', MusicPlayer.GetCategoryNameLocKey( MusicPlayerCategory.Self ))]"
+
+				blockoverride "button_texture" {
+					texture = "gfx/music_player/morgenrote.dds"
+				}
+			}
+
+			### Victoria_3_Soundtrack
+			music_category_button = {
+				visible = "[ObjectsEqual('Victoria_3_Soundtrack', MusicPlayer.GetCategoryNameLocKey( MusicPlayerCategory.Self ))]"
+
+				blockoverride "button_texture" {
+					texture = "gfx/interface/illustrations/music_player/victoria_3_soundtrack.dds"
+				}
+			}
+
+			### MELODIES FOR THE MASSES
+			music_category_button = {
+				visible = "[ObjectsEqual('Melodies_for_the_Masses', MusicPlayer.GetCategoryNameLocKey( MusicPlayerCategory.Self ))]"
+
+				blockoverride "button_texture" {
+					texture = "gfx/interface/illustrations/music_player/melodies_for_the_masses.dds"
+				}
+			}
+
+			### Victoria_3_Preorder
+			music_category_button = {
+				visible = "[ObjectsEqual('Victoria_3_Preorder', MusicPlayer.GetCategoryNameLocKey( MusicPlayerCategory.Self ))]"
+
+				blockoverride "button_texture" {
+					texture = "gfx/interface/illustrations/music_player/victoria_3_preorder.dds"
+				}
+			}
+
+			icon = {
+				visible = "[MusicPlayer.IsSelectedCategory( MusicPlayerCategory.Self )]"
+				using = highlighted_square_selection
+			}
+		}
+		# Not selected
+		widget = {
+			visible = "[Not(MusicPlayer.IsSelectedCategory( MusicPlayerCategory.Self ))]"
+			size = { 320 180 }
+			parentanchor = right
+
+			# For some reason the ordering here does not matter at all.
+			# The actual order of the categories is entirely decided by what file (alphebetically)the category is defined in 
+
+			### Morgenroete
+			music_category_button = {
+				visible = "[ObjectsEqual('Morgenroete_Soundtrack_mp_categories', MusicPlayer.GetCategoryNameLocKey( MusicPlayerCategory.Self ))]"
+
+				blockoverride "button_texture" {
+					texture = "gfx/music_player/morgenrote.dds"
+				}
+			}
+
+			### Victoria_3_Soundtrack
+			music_category_button = {
+				visible = "[ObjectsEqual('Victoria_3_Soundtrack', MusicPlayer.GetCategoryNameLocKey( MusicPlayerCategory.Self ))]"
+
+				blockoverride "button_texture" {
+					texture = "gfx/interface/illustrations/music_player/victoria_3_soundtrack.dds"
+				}
+			}
+
+			### MELODIES FOR THE MASSES
+			music_category_button = {
+				visible = "[ObjectsEqual('Melodies_for_the_Masses', MusicPlayer.GetCategoryNameLocKey( MusicPlayerCategory.Self ))]"
+
+				blockoverride "button_texture" {
+					texture = "gfx/interface/illustrations/music_player/melodies_for_the_masses.dds"
+				}
+			}
+
+			### Victoria_3_Preorder
+			music_category_button = {
+				visible = "[ObjectsEqual('Victoria_3_Preorder', MusicPlayer.GetCategoryNameLocKey( MusicPlayerCategory.Self ))]"
+
+				blockoverride "button_texture" {
+					texture = "gfx/interface/illustrations/music_player/victoria_2_soundtrack.dds"
+				}
+			}
+
+			icon = {
+				visible = "[MusicPlayer.IsSelectedCategory( MusicPlayerCategory.Self )]"
+				using = highlighted_square_selection
+			}
+		}
+		button = {
+			using = default_button
+			parentanchor = right|bottom
+			position = { 0 -10 }
+			size = { 320 50 }
+			onclick = "[MusicPlayer.OnToggleCategoryEnabled( MusicPlayerCategory.AccessSelf )]"
+			tooltip = "MUSIC_PLAYER_ENABLE_CATEGORY"
+			using = tooltip_below
+			using = check_button_sound
+
+			textbox = {
+				parentanchor = vcenter
+				position = { 50 0 }
+				max_width = 250
+				autoresize = yes
+				align = nobaseline
+				elide = right
+				fontsize_min = 14
+				text = "MUSIC_PLAYER_CATEGORY_ENABLED_DISABLED_TEXT"
+			}
+
+			button_checkbox = {
+				size = { 35 35 }
+				parentanchor = vcenter
+				position = { 10 0 }
+				name = "category_checkbox"
+				checked = "[ObjectsEqual('Enabled', MusicPlayer.GetCategoryEnabledText( MusicPlayerCategory.Self ))]"
+				onclick = "[MusicPlayer.OnToggleCategoryEnabled( MusicPlayerCategory.AccessSelf )]"
+				using = tooltip_above
+			}
+		}
+	}
+
+	type music_category_button = button {
+		size = { 100% 100% }
+		onclick = "[MusicPlayer.OnSelectCategory( MusicPlayerCategory.AccessSelf )]"
+		using = check_button_sound
+		tooltip = "MUSIC_PLAYER_SELECT_CATEGORY"
+		using = tooltip_above
+		alpha = "[TransparentIfFalse(ObjectsEqual('Enabled', MusicPlayer.GetCategoryEnabledText( MusicPlayerCategory.Self )))]"
+		block "button_texture" {
+			#using = default_button
+			#text = "[MusicPlayer.GetCategoryNameLocKey( MusicPlayerCategory.Self )]"
+			#using = fontsize_xl
+		}
+		modify_texture = {
+			texture = "gfx/interface/masks/fade_top_illus.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 0 0 }
+			texture_density = 2
+			blend_mode = alphamultiply
+		}
+	}
+
+	type music_player_track = widget {
+
+		block "size" {
+			size = { 290 55 }
+		}
+
+		background = {
+			using = entry_bg_simple
+		}
+
+		background = {
+			visible = "[ObjectsEqual(MusicPlayer.GetTrackName( MusicTrack.Self ), MusicPlayer.GetPlayingTrackName)]"
+			using = paper_bg
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = preferred
+			margin = { 10 0 }
+			spacing = 5
+
+			button_checkbox = {
+				size = { 30 30 }
+				name = "track_checkbox"
+				checked = "[ObjectsEqual('Enabled', MusicPlayer.GetTrackEnabledText( MusicTrack.Self ))]"
+				using = check_button_sound
+				onclick = "[MusicPlayer.OnToggleTrackEnabled( MusicTrack.AccessSelf )]"
+				tooltip = "MUSIC_PLAYER_ENABLE_TRACK"
+				using = tooltip_above
+			}
+
+			button = {
+				name = "track_toggle_play_pause_button"
+				layoutpolicy_horizontal = expanding
+				using = default_button_action
+				size = { 0 35 }
+				tooltip = "MUSIC_PLAYER_PLAY_TRACK"
+				onclick = "[MusicPlayer.OnSelectAndPlayTrack( MusicTrack.Self )]"
+				alpha = "[TransparentIfFalse(ObjectsEqual('Enabled', MusicPlayer.GetTrackEnabledText( MusicTrack.Self )))]"
+
+				textbox = {
+					visible = "[ObjectsEqual(MusicPlayer.GetTrackName( MusicTrack.Self ), MusicPlayer.GetPlayingTrackName)]"
+					parentanchor = vcenter
+					size = { 100% 100% }
+					align = left|nobaseline
+					fontcolor = "[MusicPlayer.GetTrackTextColor( MusicTrack.Self )]"
+					text = "[MusicPlayer.GetTrackName( MusicTrack.Self )]"
+					elide = right
+					fontsize_min = 14
+					margin = { 10 0 }
+					using = look_at_me_text_animation
+				}
+
+				textbox = {
+					visible = "[Not(ObjectsEqual(MusicPlayer.GetTrackName( MusicTrack.Self ), MusicPlayer.GetPlayingTrackName))]"
+					parentanchor = vcenter
+					size = { 100% 100% }
+					align = left|nobaseline
+					fontcolor = "[MusicPlayer.GetTrackTextColor( MusicTrack.Self )]"
+					text = "[MusicPlayer.GetTrackName( MusicTrack.Self )]"
+					elide = right
+					fontsize_min = 14
+					margin = { 10 0 }
+				}
+			}
+		}
+
+		icon = {
+			visible = "[ObjectsEqual(MusicPlayer.GetTrackName( MusicTrack.Self ), MusicPlayer.GetPlayingTrackName)]"
+			using = highlighted_square_selection
+		}
+	}
+}
