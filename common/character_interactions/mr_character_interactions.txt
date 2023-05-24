@@ -1,0 +1,72 @@
+﻿#icon					Path to icon for both right click menu and character panel buttons
+#clicksound				Clicksound for both right click menu and character panel buttons
+
+#						All scopes are character scopes with the interacting country stored as the actor
+#potential				Trigger to check if the interaction should be shown
+#possible 				Trigger to check if the interaction is available
+#effect					The effects of the interaction
+#cooldown				Scriptable duration that this interaction will be unavailable for the interacting country
+
+#show_requirements		Whether to always show requirements, similar to highlighted options in events
+#show_confirmation_box	Whether to require confirmation
+
+#ai_chance				Scriptable value for the chance (0-100) that the AI will use this interaction when available, default 0
+
+mr_appoint_chief_engineer = {
+	icon = "gfx/interface/icons/generic_icons/legitimacy.dds"
+	clicksound = "event:/SFX/UI/Military/command_grant"
+
+	potential = {
+		has_trait = engineer
+		NOT = {
+			has_modifier = gaudi_chief_engineer_modifier
+		}
+		owner = scope:actor
+	}
+
+	possible = {
+		NOT = {
+			owner = {
+				any_scope_character = {
+					has_modifier = gaudi_chief_engineer_modifier
+				}
+			}
+		}
+		owner = {
+			gaudi_builds_monument = yes
+		}
+	}
+
+	effect = {
+		add_modifier = {
+			name = gaudi_chief_engineer_modifier
+		}
+		set_character_busy = yes
+	}
+
+	ai_chance = {
+		value = 50
+	}
+}
+
+mr_dismiss_chief_engineer = {
+	icon = "gfx/interface/icons/generic_icons/legitimacy.dds"
+	clicksound = "event:/SFX/UI/Military/command_remove"
+
+	potential = {
+		has_modifier = gaudi_chief_engineer_modifier
+		owner = scope:actor
+	}
+
+	possible = {
+	}
+
+	effect = {
+		remove_modifier = gaudi_chief_engineer_modifier
+		set_character_busy = no
+	}
+
+	ai_chance = {
+		value = 0 #AI should keep chief engineer as long as possible		
+	}
+}
