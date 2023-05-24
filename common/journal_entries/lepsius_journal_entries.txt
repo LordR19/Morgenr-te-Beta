@@ -1,0 +1,1787 @@
+﻿############################
+# LEPSIUS JOURNAL ENTRIES  #
+############################
+
+#by Marco Dandolo
+
+############################
+
+###### DISCOVERIES ######
+
+#Lepsius' letter to Rosellini, access to Upper Egypt and Lower Egypt
+
+je_lepsius_letter_to_rosellini = { 
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	is_shown_when_inactive = {
+		exists = c:PRU
+		c:PRU = root
+	}
+
+	possible = {
+		has_technology_researched = lepsius_antiquarianism_tech
+	}
+
+	complete = {
+		game_date >= 1837.6.1
+	}
+
+	on_complete = {
+		trigger_event = { id = lepsius.2 popup = yes }
+	}
+
+	invalid = {
+		NOT = { exists = c:PRU }
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+#Stephens & Catherwood Expedition, access to Guatemala (you need something against malaria, however)
+
+je_lepsius_stephens_catherwood_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	is_shown_when_inactive = {
+		exists = c:USA
+		c:USA = root
+	}
+
+	possible = {
+		game_date >= 1836.1.1
+	}
+
+	complete = {
+		is_at_war = no
+		has_interest_marker_in_region = region_central_america
+		has_technology_researched = lepsius_antiquarianism_tech
+	}
+
+	on_complete = {
+		trigger_event = { id = lepsius.3 popup = yes }
+	}
+
+	invalid = {
+		NOT = { exists = c:USA }
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+#Decipherment of the Akkadian language, access to Babylonia and Assyria (early archaeology is needed)
+
+je_lepsius_decipherment_akkadian = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = lepsius_antiquarianism_tech
+		game_date >= 1850.1.1
+		NOT = {
+			has_global_variable = lepsius_decipherment_akkadian_var
+		}
+	}
+
+	possible = {
+		has_technology_researched = lepsius_early_archaeology_tech
+	}
+
+	complete = {
+		any_scope_building = {
+			is_building_type = building_lepsius_archaeological_museum
+		}
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 10
+		}
+		any_scope_character = {
+			OR = {
+				has_trait = lepsius_archaeologist
+				has_trait = lepsius_archaeologist_experienced
+				has_trait = lepsius_archaeologist_famous
+			}
+		}
+		hidden_trigger = {
+			has_variable = lepsius_akkadian_activator_var
+		}
+	}
+
+	immediate = {
+		set_variable = lepsius_akkadian_activator_var
+	}
+
+	fail = {
+		has_global_variable = lepsius_decipherment_akkadian_var
+    }
+
+	on_complete = {
+		add_modifier = {
+			name = lepsius_decipherment_akkadian_modifier
+		}
+		trigger_event = { id = lepsius.4 popup = yes }
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+#Schliemann discovers Troy, access to Argolis and Crete (early archaeology for Argolis and modern archaeology for Crete is needed)
+
+je_lepsius_support_schliemann = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = lepsius_early_archaeology_tech
+		game_date >= 1870.1.1
+		NOT = {
+			has_global_variable = lepsius_support_schliemann_var
+		}
+	}
+
+	possible = {
+		any_scope_building = {
+			is_building_type = building_lepsius_archaeological_museum
+		}
+	}
+
+	complete = {
+		literacy_rate >= 0.75
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 15
+		}
+	}
+
+	fail = {
+		has_global_variable = lepsius_support_schliemann_var
+    }
+
+	on_complete = {
+		add_modifier = {
+			name = lepsius_support_schliemann_modifier
+		}
+		trigger_event = { 
+			id = lepsius.5 
+			popup = yes 
+		}
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+#Bingham discovers Machu Picchu, access to Peru (modern archaeology is needed)
+
+je_lepsius_machu_picchu = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = lepsius_modern_archaeology_tech
+		game_date >= 1900.1.1
+		NOT = {
+			has_global_variable = lepsius_machu_picchu_var
+		}
+	}
+
+	possible = {
+		has_technology_researched = military_aviation
+	}
+
+	complete = {
+		any_scope_character = {
+			has_trait = lepsius_archaeologist_experienced
+		}
+	}
+
+	fail = {
+		has_global_variable = lepsius_machu_picchu_var
+    }
+
+	on_complete = {
+		add_modifier = {
+			name = lepsius_machu_picchu_modifier
+		}
+		trigger_event = { id = lepsius.6 popup = yes }
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+##################################################################
+
+######EXPEDITIONS######
+
+#Egypt
+
+je_lepsius_archaeological_expedition_egypt = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			66 = 0
+			
+			10 = lepsius.401 #Lepsius 401: Bedouin Raid/Kurdish Raid (Egypt, Mesopotamia)
+			10 = lepsius.402 #Lepsius 402: Desert Storm/Tropical Storm (Egypt, Yucatán)
+			10 = lepsius.407 #Lepsius 407: Oasis (Egypt)
+
+			10 = lepsius.411 #Lepsius 411: Exhausted pack animals
+			10 = lepsius.412 #Lepsius 412: Lost
+			10 = lepsius.413 #Lepsius 413: Malaria
+			10 = lepsius.414 #Lepsius 414: Corruption
+			10 = lepsius.415 #Lepsius 415: Flooding
+			10 = lepsius.416 #Lepsius 416: Good weather
+			10 = lepsius.417 #Lepsius 417: Hospitable locals
+			10 = lepsius.418 #Lepsius 418: Local guide
+			10 = lepsius.419 #Lepsius 419: Shortcut
+			10 = lepsius.420 #Lepsius 420: Motivated men
+
+			10 = lepsius.421 #Lepsius 421: The Scarab (Egypt)
+			2 = lepsius.422 #Lepsius 422: A Temple in the Sand (Egypt)
+
+			10 = lepsius.431 #Lepsius 431: Local knows Ruin
+			10 = lepsius.432 #Lepsius 432: Locals trade artifact
+			10 = lepsius.433 #Lepsius 433: Fake or authentic?
+			10 = lepsius.434 #Lepsius 434: Grave robbers caught
+			10 = lepsius.435 #Lepsius 435: Auction
+			10 = lepsius.436 #Lepsius 436: Hidden chamber
+			10 = lepsius.437 #Lepsius 437: Abandoned camp
+			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.439 #Lepsius 439: Dynamite
+			10 = lepsius.440 #Lepsius 440: A broken piece 
+
+			10 = lepsius.441 #Lepsius 441: Forgotten Obelisk (Egypt)
+			10 = lepsius.442 #Lepsius 442: Mummified animals (Egypt)
+			10 = lepsius.443 #Lepsius 443: Crocodile (Egypt, with scientists)
+			10 = lepsius.444 #Lepsius 444: Curse of the Pharaoh (Egypt)
+
+			10 = lepsius.451 #Lepsius 451: A statue
+			10 = lepsius.452 #Lepsius 452: A transcript
+			10 = lepsius.453 #Lepsius 453: Artists
+			10 = lepsius.454 #Lepsius 454: Scientists
+			10 = lepsius.455 #Lepsius 455: Rival Expedition
+
+			10 = lepsius.461 #Lepsius 461: Sphinx whispers in the night (Lower Egypt) [for leader]
+			10 = lepsius.462 #Lepsius 461: Sphinx whispers in the night (Lower Egypt) [for attaché]
+			10 = lepsius.463 #Lepsius 463: Bastet, the Cat Goddess (Egypt) [leader gets pet cat]
+
+			10 = lepsius.465 #Lepsius 465: Bigotet/Arrogant leader insults local customs
+			10 = lepsius.466 #Lepsius 466: A cartographer (Attaché becomes surveyor)
+			10 = lepsius.467 #Lepsius 467: A forgotten Relic (is christian; becomes pious and gets Relic)
+			10 = lepsius.468 #Lepsius 468: Attaché robbed artifact (if bandit)
+
+			2 = lepsius.471 #Lepsius 471: Karnak (Upper Egypt) / Memphis (Lower Egypt)
+
+			5 = lepsius.501 #Lepsius 501: Tomb of the Unknown Pharaoh (Upper Egypt)
+			5 = lepsius.511 #Lepsius 511: Raise the Flag (Lower Egypt)
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				has_variable = lepsius_archaeological_expedition_leader_var 
+			}
+			save_scope_as = lepsius_archaeological_expedition_leader
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_archaeological_expedition_egypt_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.310
+			days = 1
+		}
+	}
+	
+	current_value = {
+		value = var:lepsius_archaeological_expedition_progress
+	}
+
+	goal_add_value = {
+		if = {
+			limit = {	
+				has_variable = lepsius_short_expedition_var
+			}
+			add = 5
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_medium_expedition_var
+			}
+			add = 7
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_long_expedition_var
+			}
+			add = 9
+		}
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+je_lepsius_archaeological_expedition_egypt_fast = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			50 = 0
+			
+			10 = lepsius.401 #Lepsius 401: Bedouin Raid/Kurdish Raid (Egypt, Mesopotamia)
+			10 = lepsius.402 #Lepsius 402: Desert Storm/Tropical Storm (Egypt, Yucatán)
+			10 = lepsius.407 #Lepsius 407: Oasis (Egypt)
+
+			10 = lepsius.411 #Lepsius 411: Exhausted pack animals
+			10 = lepsius.412 #Lepsius 412: Lost
+			10 = lepsius.413 #Lepsius 413: Malaria
+			10 = lepsius.414 #Lepsius 414: Corruption
+			10 = lepsius.415 #Lepsius 415: Flooding
+			10 = lepsius.416 #Lepsius 416: Good weather
+			10 = lepsius.417 #Lepsius 417: Hospitable locals
+			10 = lepsius.418 #Lepsius 418: Local guide
+			10 = lepsius.419 #Lepsius 419: Shortcut
+			10 = lepsius.420 #Lepsius 420: Motivated men
+
+			10 = lepsius.421 #Lepsius 421: The Scarab (Egypt)
+			2 = lepsius.422 #Lepsius 422: A Temple in the Sand (Egypt)
+
+			10 = lepsius.431 #Lepsius 431: Local knows Ruin
+			10 = lepsius.432 #Lepsius 432: Locals trade artifact
+			10 = lepsius.433 #Lepsius 433: Fake or authentic?
+			10 = lepsius.434 #Lepsius 434: Grave robbers caught
+			10 = lepsius.435 #Lepsius 435: Auction
+			10 = lepsius.436 #Lepsius 436: Hidden chamber
+			10 = lepsius.437 #Lepsius 437: Abandoned camp
+			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.439 #Lepsius 439: Dynamite
+			10 = lepsius.440 #Lepsius 440: A broken piece 
+
+			10 = lepsius.441 #Lepsius 441: Forgotten Obelisk (Egypt)
+			10 = lepsius.442 #Lepsius 442: Mummified animals (Egypt)
+			10 = lepsius.443 #Lepsius 443: Crocodile (Egypt, with scientists)
+			10 = lepsius.444 #Lepsius 444: Curse of the Pharaoh (Egypt)
+
+			10 = lepsius.451 #Lepsius 451: A statue
+			10 = lepsius.452 #Lepsius 452: A transcript
+			10 = lepsius.453 #Lepsius 453: Artists
+			10 = lepsius.454 #Lepsius 454: Scientists
+			10 = lepsius.455 #Lepsius 455: Rival Expedition
+
+			10 = lepsius.461 #Lepsius 461: Sphinx whispers in the night (Lower Egypt) [for leader]
+			10 = lepsius.462 #Lepsius 461: Sphinx whispers in the night (Lower Egypt) [for attaché]
+			10 = lepsius.463 #Lepsius 463: Bastet, the Cat Goddess (Egypt) [leader gets pet cat]
+
+			10 = lepsius.465 #Lepsius 465: Bigotet/Arrogant leader insults local customs
+			10 = lepsius.466 #Lepsius 466: A cartographer (Attaché becomes surveyor)
+			10 = lepsius.467 #Lepsius 467: A forgotten Relic (is christian; becomes pious and gets Relic)
+			10 = lepsius.468 #Lepsius 468: Attaché robbed artifact (if bandit)
+
+			2 = lepsius.471 #Lepsius 471: Karnak (Upper Egypt) / Memphis (Lower Egypt)
+
+			5 = lepsius.501 #Lepsius 501: Tomb of the Unknown Pharaoh (Upper Egypt)
+			5 = lepsius.511 #Lepsius 511: Raise the Flag (Lower Egypt)
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				has_variable = lepsius_archaeological_expedition_leader_var 
+			}
+			save_scope_as = lepsius_archaeological_expedition_leader
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_archaeological_expedition_egypt_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.310
+			days = 1
+		}
+	}
+	
+	current_value = {
+		value = var:lepsius_archaeological_expedition_progress
+	}
+
+	goal_add_value = {
+		if = {
+			limit = {	
+				has_variable = lepsius_short_expedition_var
+			}
+			add = 5
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_medium_expedition_var
+			}
+			add = 7
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_long_expedition_var
+			}
+			add = 9
+		}
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+#Mesopotamia
+
+je_lepsius_archaeological_expedition_mesopotamia = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			66 = 0
+			
+			10 = lepsius.401 #Lepsius 401: Bedouin Raid/Kurdish Raid (Egypt, Mesopotamia)
+			10 = lepsius.405 #Lepsius 405: Bad roads (Mesopotamia, Yucatan)
+			10 = lepsius.408 #Lepsius 408: Nazar (Mesopotamia)
+
+			10 = lepsius.411 #Lepsius 411: Exhausted pack animals
+			10 = lepsius.412 #Lepsius 412: Lost
+			10 = lepsius.413 #Lepsius 413: Malaria
+			10 = lepsius.414 #Lepsius 414: Corruption
+			10 = lepsius.415 #Lepsius 415: Flooding
+			10 = lepsius.416 #Lepsius 416: Good weather
+			10 = lepsius.417 #Lepsius 417: Hospitable locals
+			10 = lepsius.418 #Lepsius 418: Local guide
+			10 = lepsius.419 #Lepsius 419: Shortcut
+			10 = lepsius.420 #Lepsius 420: Motivated men
+
+			2 = lepsius.423 #Lepsius 423: A Winged Lion (Mesopotamia)
+			10 = lepsius.424 #Lepsius 424: Cuneiform depot (Mesopotamia)
+
+			10 = lepsius.431 #Lepsius 431: Local knows Ruin
+			10 = lepsius.432 #Lepsius 432: Locals trade artifact
+			10 = lepsius.433 #Lepsius 433: Fake or authentic?
+			10 = lepsius.434 #Lepsius 434: Grave robbers caught
+			10 = lepsius.435 #Lepsius 435: Auction
+			10 = lepsius.436 #Lepsius 436: Hidden chamber
+			10 = lepsius.437 #Lepsius 437: Abandoned camp
+			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.439 #Lepsius 439: Dynamite
+			10 = lepsius.440 #Lepsius 440: A broken piece 
+
+			10 = lepsius.445 #Lepsius 445: Piece of the Epic of Gilgamesh (Mesopotamia)
+
+			10 = lepsius.451 #Lepsius 451: A statue
+			10 = lepsius.452 #Lepsius 452: A transcript
+			10 = lepsius.453 #Lepsius 453: Artists
+			10 = lepsius.454 #Lepsius 454: Scientists
+			10 = lepsius.455 #Lepsius 455: Rival Expedition
+
+			10 = lepsius.464 #Lepsius 464: Hunting with a Saluki (Mesopotamia) [attaché gets hunting dog]
+
+			10 = lepsius.465 #Lepsius 465: Bigotet/Arrogant leader insults local customs
+			10 = lepsius.466 #Lepsius 466: A cartographer (Attaché becomes surveyor)
+			10 = lepsius.467 #Lepsius 467: A forgotten Relic (is christian; becomes pious and gets Relic)
+			10 = lepsius.468 #Lepsius 468: Attaché robbed artifact (if bandit)
+
+			2 = lepsius.471 #Lepsius 471: Uruk (Babylonia) / Niniveh (Assyria)
+
+			5 = lepsius.521 #Lepsius 521: The Ishtar Gate found
+			5 = lepsius.531 #Lepsius 531: The Legend of the Lamassu
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				has_variable = lepsius_archaeological_expedition_leader_var 
+			}
+			save_scope_as = lepsius_archaeological_expedition_leader
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_expedition_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.310
+			days = 1
+		}
+	}
+	
+	current_value = {
+		value = var:lepsius_archaeological_expedition_progress
+	}
+
+	goal_add_value = {
+		if = {
+			limit = {	
+				has_variable = lepsius_short_expedition_var
+			}
+			add = 5
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_medium_expedition_var
+			}
+			add = 7
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_long_expedition_var
+			}
+			add = 9
+		}
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+je_lepsius_archaeological_expedition_mesopotamia_fast = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			50 = 0
+			
+			10 = lepsius.401 #Lepsius 401: Bedouin Raid/Kurdish Raid (Egypt, Mesopotamia)
+			10 = lepsius.405 #Lepsius 405: Bad roads (Mesopotamia, Yucatan)
+			10 = lepsius.408 #Lepsius 408: Nazar (Mesopotamia)
+
+			10 = lepsius.411 #Lepsius 411: Exhausted pack animals
+			10 = lepsius.412 #Lepsius 412: Lost
+			10 = lepsius.413 #Lepsius 413: Malaria
+			10 = lepsius.414 #Lepsius 414: Corruption
+			10 = lepsius.415 #Lepsius 415: Flooding
+			10 = lepsius.416 #Lepsius 416: Good weather
+			10 = lepsius.417 #Lepsius 417: Hospitable locals
+			10 = lepsius.418 #Lepsius 418: Local guide
+			10 = lepsius.419 #Lepsius 419: Shortcut
+			10 = lepsius.420 #Lepsius 420: Motivated men
+
+			2 = lepsius.423 #Lepsius 423: A Winged Lion (Mesopotamia)
+			10 = lepsius.424 #Lepsius 424: Cuneiform depot (Mesopotamia)
+
+			10 = lepsius.431 #Lepsius 431: Local knows Ruin
+			10 = lepsius.432 #Lepsius 432: Locals trade artifact
+			10 = lepsius.433 #Lepsius 433: Fake or authentic?
+			10 = lepsius.434 #Lepsius 434: Grave robbers caught
+			10 = lepsius.435 #Lepsius 435: Auction
+			10 = lepsius.436 #Lepsius 436: Hidden chamber
+			10 = lepsius.437 #Lepsius 437: Abandoned camp
+			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.439 #Lepsius 439: Dynamite
+			10 = lepsius.440 #Lepsius 440: A broken piece 
+
+			10 = lepsius.445 #Lepsius 445: Piece of the Epic of Gilgamesh (Mesopotamia)
+
+			10 = lepsius.451 #Lepsius 451: A statue
+			10 = lepsius.452 #Lepsius 452: A transcript
+			10 = lepsius.453 #Lepsius 453: Artists
+			10 = lepsius.454 #Lepsius 454: Scientists
+			10 = lepsius.455 #Lepsius 455: Rival Expedition
+
+			10 = lepsius.464 #Lepsius 464: Hunting with a Saluki (Mesopotamia) [attaché gets hunting dog]
+
+			10 = lepsius.465 #Lepsius 465: Bigotet/Arrogant leader insults local customs
+			10 = lepsius.466 #Lepsius 466: A cartographer (Attaché becomes surveyor)
+			10 = lepsius.467 #Lepsius 467: A forgotten Relic (is christian; becomes pious and gets Relic)
+			10 = lepsius.468 #Lepsius 468: Attaché robbed artifact (if bandit)
+
+			2 = lepsius.471 #Lepsius 471: Uruk (Babylonia) / Niniveh (Assyria)
+
+			5 = lepsius.521 #Lepsius 521: The Ishtar Gate found
+			5 = lepsius.531 #Lepsius 531: The Legend of the Lamassu
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				has_variable = lepsius_archaeological_expedition_leader_var 
+			}
+			save_scope_as = lepsius_archaeological_expedition_leader
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_expedition_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.310
+			days = 1
+		}
+	}
+	
+	current_value = {
+		value = var:lepsius_archaeological_expedition_progress
+	}
+
+	goal_add_value = {
+		if = {
+			limit = {	
+				has_variable = lepsius_short_expedition_var
+			}
+			add = 5
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_medium_expedition_var
+			}
+			add = 7
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_long_expedition_var
+			}
+			add = 9
+		}
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+#Greece
+
+je_lepsius_archaeological_expedition_greece = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			66 = 0
+			
+			10 = lepsius.404 #Lepsius 404: Broken bridge (Greece, Peru)
+			10 = lepsius.406 #Lepsius 406: Shipwreck (Greece)
+			10 = lepsius.409 #Lepsius 409: Friendly fishers (Greece)
+
+			10 = lepsius.411 #Lepsius 411: Exhausted pack animals
+			10 = lepsius.412 #Lepsius 412: Lost
+			10 = lepsius.413 #Lepsius 413: Malaria
+			10 = lepsius.414 #Lepsius 414: Corruption
+			10 = lepsius.415 #Lepsius 415: Flooding
+			10 = lepsius.416 #Lepsius 416: Good weather
+			10 = lepsius.417 #Lepsius 417: Hospitable locals
+			10 = lepsius.418 #Lepsius 418: Local guide
+			10 = lepsius.419 #Lepsius 419: Shortcut
+			10 = lepsius.420 #Lepsius 420: Motivated men
+
+			2 = lepsius.425 #Lepsius 425: Orichalcum (Crete)
+			10 = lepsius.426 #Lepsius 426: Ceramic hoard (Argolis)
+
+			10 = lepsius.431 #Lepsius 431: Local knows Ruin
+			10 = lepsius.432 #Lepsius 432: Locals trade artifact
+			10 = lepsius.433 #Lepsius 433: Fake or authentic?
+			10 = lepsius.434 #Lepsius 434: Grave robbers caught
+			10 = lepsius.435 #Lepsius 435: Auction
+			10 = lepsius.436 #Lepsius 436: Hidden chamber
+			10 = lepsius.437 #Lepsius 437: Abandoned camp
+			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.439 #Lepsius 439: Dynamite
+			10 = lepsius.440 #Lepsius 440: A broken piece 
+
+			10 = lepsius.446 #Lepsius 446: Minoan Fresco (Crete)
+			10 = lepsius.447 #Lepsius 447: Cyclopean Walls (Argolis)
+
+			10 = lepsius.451 #Lepsius 451: A statue
+			10 = lepsius.452 #Lepsius 452: A transcript
+			10 = lepsius.453 #Lepsius 453: Artists
+			10 = lepsius.454 #Lepsius 454: Scientists
+			10 = lepsius.455 #Lepsius 455: Rival Expedition
+
+			10 = lepsius.465 #Lepsius 465: Bigotet/Arrogant leader insults local customs
+			10 = lepsius.466 #Lepsius 466: A cartographer (Attaché becomes surveyor)
+			10 = lepsius.468 #Lepsius 468: Attaché robbed artifact (if bandit)
+
+			2 = lepsius.471 #Lepsius 471: Tiryns (Argolis) / Phaistos (Crete)
+			1 = lepsius.473 #Lepsius 473: The Diary of Prof. Lidenbrock (Argolis)
+
+			5 = lepsius.551 #Lepsius 551: The Labyrinth
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				has_variable = lepsius_archaeological_expedition_leader_var 
+			}
+			save_scope_as = lepsius_archaeological_expedition_leader
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_expedition_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.310
+			days = 1
+		}
+	}
+	
+	current_value = {
+		value = var:lepsius_archaeological_expedition_progress
+	}
+
+	goal_add_value = {
+		if = {
+			limit = {	
+				has_variable = lepsius_short_expedition_var
+			}
+			add = 5
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_medium_expedition_var
+			}
+			add = 7
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_long_expedition_var
+			}
+			add = 9
+		}
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+je_lepsius_archaeological_expedition_greece_fast = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			50 = 0
+			
+			10 = lepsius.404 #Lepsius 404: Broken bridge (Greece, Peru)
+			10 = lepsius.406 #Lepsius 406: Shipwreck (Greece)
+			10 = lepsius.409 #Lepsius 409: Friendly fishers (Greece)
+
+			10 = lepsius.411 #Lepsius 411: Exhausted pack animals
+			10 = lepsius.412 #Lepsius 412: Lost
+			10 = lepsius.413 #Lepsius 413: Malaria
+			10 = lepsius.414 #Lepsius 414: Corruption
+			10 = lepsius.415 #Lepsius 415: Flooding
+			10 = lepsius.416 #Lepsius 416: Good weather
+			10 = lepsius.417 #Lepsius 417: Hospitable locals
+			10 = lepsius.418 #Lepsius 418: Local guide
+			10 = lepsius.419 #Lepsius 419: Shortcut
+			10 = lepsius.420 #Lepsius 420: Motivated men
+
+			5 = lepsius.425 #Lepsius 425: Orichalcum (Crete)
+			10 = lepsius.426 #Lepsius 426: Ceramic hoard (Argolis)
+
+			10 = lepsius.431 #Lepsius 431: Local knows Ruin
+			10 = lepsius.432 #Lepsius 432: Locals trade artifact
+			10 = lepsius.433 #Lepsius 433: Fake or authentic?
+			10 = lepsius.434 #Lepsius 434: Grave robbers caught
+			10 = lepsius.435 #Lepsius 435: Auction
+			10 = lepsius.436 #Lepsius 436: Hidden chamber
+			10 = lepsius.437 #Lepsius 437: Abandoned camp
+			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.439 #Lepsius 439: Dynamite
+			10 = lepsius.440 #Lepsius 440: A broken piece 
+
+			10 = lepsius.446 #Lepsius 446: Minoan Fresco (Crete)
+			10 = lepsius.447 #Lepsius 447: Cyclopean Walls (Argolis)
+
+			10 = lepsius.451 #Lepsius 451: A statue
+			10 = lepsius.452 #Lepsius 452: A transcript
+			10 = lepsius.453 #Lepsius 453: Artists
+			10 = lepsius.454 #Lepsius 454: Scientists
+			10 = lepsius.455 #Lepsius 455: Rival Expedition
+
+			10 = lepsius.465 #Lepsius 465: Bigotet/Arrogant leader insults local customs
+			10 = lepsius.466 #Lepsius 466: A cartographer (Attaché becomes surveyor)
+			10 = lepsius.468 #Lepsius 468: Attaché robbed artifact (if bandit)
+
+			2 = lepsius.471 #Lepsius 471: Tiryns (Argolis) / Phaistos (Crete)
+			1 = lepsius.473 #Lepsius 473: The Diary of Prof. Lidenbrock (Argolis)
+
+			5 = lepsius.551 #Lepsius 551: The Labyrinth
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				has_variable = lepsius_archaeological_expedition_leader_var 
+			}
+			save_scope_as = lepsius_archaeological_expedition_leader
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_expedition_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.310
+			days = 1
+		}
+	}
+	
+	current_value = {
+		value = var:lepsius_archaeological_expedition_progress
+	}
+
+	goal_add_value = {
+		if = {
+			limit = {	
+				has_variable = lepsius_short_expedition_var
+			}
+			add = 5
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_medium_expedition_var
+			}
+			add = 7
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_long_expedition_var
+			}
+			add = 9
+		}
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+#South America
+
+je_lepsius_archaeological_expedition_south_america = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			66 = 0
+
+			10 = lepsius.402 #Lepsius 402: Desert Storm/Tropical Storm (Egypt, Yucatán)
+			10 = lepsius.403 #Lepsius 403: Fog (Peru)
+			10 = lepsius.404 #Lepsius 404: Broken bridge (Greece, Peru)
+			10 = lepsius.405 #Lepsius 405: Bad roads (Mesopotamia, Yucatan)
+			10 = lepsius.410 #Lepsius 410: Parrot/Condor mascot (South America)
+
+			10 = lepsius.411 #Lepsius 411: Exhausted pack animals
+			10 = lepsius.412 #Lepsius 412: Lost
+			10 = lepsius.413 #Lepsius 413: Malaria
+			10 = lepsius.414 #Lepsius 414: Corruption
+			10 = lepsius.415 #Lepsius 415: Flooding
+			10 = lepsius.416 #Lepsius 416: Good weather
+			10 = lepsius.417 #Lepsius 417: Hospitable locals
+			10 = lepsius.418 #Lepsius 418: Local guide
+			10 = lepsius.419 #Lepsius 419: Shortcut
+			10 = lepsius.420 #Lepsius 420: Motivated men
+
+			10 = lepsius.427 #Lepsius 427: Maya Jade (Yucatán)
+			2 = lepsius.428 #Lepsius 428: Inca Idol (Peru)
+			4 = lepsius.429 #Lepsius 429: Crystall skull (South America)
+
+			10 = lepsius.431 #Lepsius 431: Local knows Ruin
+			10 = lepsius.432 #Lepsius 432: Locals trade artifact
+			10 = lepsius.433 #Lepsius 433: Fake or authentic?
+			10 = lepsius.434 #Lepsius 434: Grave robbers caught
+			10 = lepsius.435 #Lepsius 435: Auction
+			10 = lepsius.436 #Lepsius 436: Hidden chamber
+			10 = lepsius.437 #Lepsius 437: Abandoned camp
+			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.439 #Lepsius 439: Dynamite
+			10 = lepsius.440 #Lepsius 440: A broken piece 
+
+			10 = lepsius.448 #Lepsius 448: Maya Stele (Yucatán)
+			10 = lepsius.449 #Lepsius 449: Mayan Cave (Yucatán)
+			10 = lepsius.450 #Lepsius 450: Andean mummy (Peru) 
+
+			10 = lepsius.451 #Lepsius 451: A statue
+			10 = lepsius.452 #Lepsius 452: A transcript
+			10 = lepsius.453 #Lepsius 453: Artists
+			10 = lepsius.454 #Lepsius 454: Scientists
+			10 = lepsius.455 #Lepsius 455: Rival Expedition
+
+			10 = lepsius.465 #Lepsius 465: Bigotet/Arrogant leader insults local customs
+			10 = lepsius.466 #Lepsius 466: A cartographer (Attaché becomes surveyor)
+			10 = lepsius.468 #Lepsius 468: Attaché robbed artifact (if bandit)
+
+			2 = lepsius.471 #Lepsius 471: Chichen Itza/Ollantaytambo (Yucatán/Peru)
+			1 = lepsius.472 #Lepsius 472: A Lost World?
+
+			5 = lepsius.561 #Lepsius 561: Pyramide Riddle (Yucatán)
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				has_variable = lepsius_archaeological_expedition_leader_var 
+			}
+			save_scope_as = lepsius_archaeological_expedition_leader
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_expedition_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.310
+			days = 1
+		}
+	}
+	
+	current_value = {
+		value = var:lepsius_archaeological_expedition_progress
+	}
+
+	goal_add_value = {
+		if = {
+			limit = {	
+				has_variable = lepsius_short_expedition_var
+			}
+			add = 5
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_medium_expedition_var
+			}
+			add = 7
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_long_expedition_var
+			}
+			add = 9
+		}
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+je_lepsius_archaeological_expedition_south_america_fast = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			50 = 0
+
+			10 = lepsius.402 #Lepsius 402: Desert Storm/Tropical Storm (Egypt, Yucatán)
+			10 = lepsius.403 #Lepsius 403: Fog (Peru)
+			10 = lepsius.404 #Lepsius 404: Broken bridge (Greece, Peru)
+			10 = lepsius.405 #Lepsius 405: Bad roads (Mesopotamia, Yucatan)
+			10 = lepsius.410 #Lepsius 410: Parrot/Condor mascot (South America)
+
+			10 = lepsius.411 #Lepsius 411: Exhausted pack animals
+			10 = lepsius.412 #Lepsius 412: Lost
+			10 = lepsius.413 #Lepsius 413: Malaria
+			10 = lepsius.414 #Lepsius 414: Corruption
+			10 = lepsius.415 #Lepsius 415: Flooding
+			10 = lepsius.416 #Lepsius 416: Good weather
+			10 = lepsius.417 #Lepsius 417: Hospitable locals
+			10 = lepsius.418 #Lepsius 418: Local guide
+			10 = lepsius.419 #Lepsius 419: Shortcut
+			10 = lepsius.420 #Lepsius 420: Motivated men
+
+			10 = lepsius.427 #Lepsius 427: Maya Jade (Yucatán)
+			2 = lepsius.428 #Lepsius 428: Inca Idol (Peru)
+			4 = lepsius.429 #Lepsius 429: Crystall skull (South America)
+
+			10 = lepsius.431 #Lepsius 431: Local knows Ruin
+			10 = lepsius.432 #Lepsius 432: Locals trade artifact
+			10 = lepsius.433 #Lepsius 433: Fake or authentic?
+			10 = lepsius.434 #Lepsius 434: Grave robbers caught
+			10 = lepsius.435 #Lepsius 435: Auction
+			10 = lepsius.436 #Lepsius 436: Hidden chamber
+			10 = lepsius.437 #Lepsius 437: Abandoned camp
+			10 = lepsius.438 #Lepsius 438: Eremite 
+			10 = lepsius.439 #Lepsius 439: Dynamite
+			10 = lepsius.440 #Lepsius 440: A broken piece 
+
+			10 = lepsius.448 #Lepsius 448: Maya Stele (Yucatán)
+			10 = lepsius.449 #Lepsius 449: Mayan Cave (Yucatán)
+			10 = lepsius.450 #Lepsius 450: Andean mummy (Peru) 
+
+			10 = lepsius.451 #Lepsius 451: A statue
+			10 = lepsius.452 #Lepsius 452: A transcript
+			10 = lepsius.453 #Lepsius 453: Artists
+			10 = lepsius.454 #Lepsius 454: Scientists
+			10 = lepsius.455 #Lepsius 455: Rival Expedition
+
+			10 = lepsius.465 #Lepsius 465: Bigotet/Arrogant leader insults local customs
+			10 = lepsius.466 #Lepsius 466: A cartographer (Attaché becomes surveyor)
+			10 = lepsius.468 #Lepsius 468: Attaché robbed artifact (if bandit)
+
+			2 = lepsius.471 #Lepsius 471: Chichen Itza/Ollantaytambo (Yucatán/Peru)
+			1 = lepsius.472 #Lepsius 472: A Lost World?
+
+			5 = lepsius.561 #Lepsius 471: Pyramide Riddle (Yucatán)
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = { 
+				has_variable = lepsius_archaeological_expedition_leader_var 
+			}
+			save_scope_as = lepsius_archaeological_expedition_leader
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_expedition_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.310
+			days = 1
+		}
+	}
+	
+	current_value = {
+		value = var:lepsius_archaeological_expedition_progress
+	}
+
+	goal_add_value = {
+		if = {
+			limit = {	
+				has_variable = lepsius_short_expedition_var
+			}
+			add = 5
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_medium_expedition_var
+			}
+			add = 7
+		}
+		if = {
+			limit = {	
+				has_variable = lepsius_long_expedition_var
+			}
+			add = 9
+		}
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+##################################################################
+
+#######TREASURE OF PRIAM######
+
+je_lepsius_priams_treasure = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	complete = {
+		OR = {
+			has_technology_researched = lepsius_modern_archaeology_tech
+			has_modifier = lepsius_archaeological_society_modifier
+		}
+		OR = {
+			has_modifier = lepsius_large_aegean_exhibition_modifier
+			has_modifier = lepsius_excellent_aegean_exhibition_modifier
+		}
+		OR = {
+			has_modifier = lepsius_argolis_excavation_modifier
+			has_modifier = lepsius_crete_excavation_modifier
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.743
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_priams_treasure_fail
+			any_country = {
+				NOT = { this = ROOT }
+				has_variable = lepsius_got_priams_treasure_var
+			}
+		}
+    }
+	
+	on_fail = {
+		trigger_event = { 
+			id = lepsius.744 #notification
+			popup = yes
+		}
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+##################################################################
+
+######DISCOVERIES######
+
+#Tomb of Tutankhamun
+
+je_lepsius_discovery_tut = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	possible = {
+		var:lepsius_tut_clue >= 1
+	}
+	
+	current_value = {
+		value = var:lepsius_tut_clue
+	}
+
+	goal_add_value = {
+		add = 10
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_tut_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			any_scope_character = {
+				has_modifier = lepsius_museum_lead_scientist_modifier
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.901
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_tut_fail
+			any_country = {
+				NOT = { this = ROOT }
+				has_modifier = lepsius_discovery_tut_modifier
+			}
+		}
+    }
+	
+	on_fail = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { 
+				id = lepsius.902 #notification
+				popup = yes
+			}
+		}
+	}
+	
+	progressbar = yes
+	
+    transferable = no
+    should_be_pinned_by_default = no
+}
+
+#Ship of Khufu
+
+je_lepsius_discovery_ship = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	possible = {
+		var:lepsius_ship_clue >= 1
+	}
+	
+	current_value = {
+		value = var:lepsius_ship_clue
+	}
+
+	goal_add_value = {
+		add = 10
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_ship_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			any_scope_character = {
+				has_modifier = lepsius_museum_lead_scientist_modifier
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.911
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_ship_fail
+			any_country = {
+				NOT = { this = ROOT }
+				has_modifier = lepsius_discovery_ship_modifier
+			}
+		}
+    }
+	
+	on_fail = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { 
+				id = lepsius.912 #notification
+				popup = yes
+			}
+		}
+	}
+	
+	progressbar = yes
+	
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+#Tower of Babylon
+
+je_lepsius_discovery_babylon = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	possible = {
+		var:lepsius_babylon_clue >= 1
+	}
+	
+	current_value = {
+		value = var:lepsius_babylon_clue
+	}
+
+	goal_add_value = {
+		add = 10
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_babylon_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			any_scope_character = {
+				has_modifier = lepsius_museum_lead_scientist_modifier
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.921
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_babylon_fail
+			any_country = {
+				NOT = { this = ROOT }
+				has_modifier = lepsius_discovery_babylon_modifier
+			}
+		}
+    }
+	
+	on_fail = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { 
+				id = lepsius.922 #notification
+				popup = yes
+			}
+		}
+	}
+	
+	progressbar = yes
+	
+    transferable = no
+    should_be_pinned_by_default = no
+}
+
+#Gardens of Sennacherib 
+
+je_lepsius_discovery_semiramis = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	possible = {
+		var:lepsius_semiramis_clue >= 1
+	}
+	
+	current_value = {
+		value = var:lepsius_semiramis_clue
+	}
+
+	goal_add_value = {
+		add = 10
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_semiramis_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			any_scope_character = {
+				has_modifier = lepsius_museum_lead_scientist_modifier
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.931
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_semiramis_fail
+			any_country = {
+				NOT = { this = ROOT }
+				has_modifier = lepsius_discovery_semiramis_modifier
+			}
+		}
+    }
+	
+	on_fail = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { 
+				id = lepsius.932 #notification
+				popup = yes
+			}
+		}
+	}
+	
+	progressbar = yes
+	
+    transferable = no
+    should_be_pinned_by_default = no
+}
+
+#Treasury of Atreus
+
+je_lepsius_discovery_mycenae = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	possible = {
+		var:lepsius_mycenae_clue >= 1
+	}
+	
+	current_value = {
+		value = var:lepsius_mycenae_clue
+	}
+
+	goal_add_value = {
+		add = 10
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_mycenae_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			any_scope_character = {
+				has_modifier = lepsius_museum_lead_scientist_modifier
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.941
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_mycenae_fail
+			any_country = {
+				NOT = { this = ROOT }
+				has_modifier = lepsius_discovery_mycenae_modifier
+			}
+		}
+    }
+	
+	on_fail = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { 
+				id = lepsius.942 #notification
+				popup = yes
+			}
+		}
+	}
+	
+	progressbar = yes
+	
+    transferable = no
+    should_be_pinned_by_default = no
+}
+
+#Tomb of Pakal
+
+je_lepsius_discovery_pakal = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	possible = {
+		var:lepsius_pakal_clue >= 1
+	}
+	
+	current_value = {
+		value = var:lepsius_pakal_clue
+	}
+
+	goal_add_value = {
+		add = 10
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_pakal_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			any_scope_character = {
+				has_modifier = lepsius_museum_lead_scientist_modifier
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.961
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_pakal_fail
+			any_country = {
+				NOT = { this = ROOT }
+				has_modifier = lepsius_discovery_pakal_modifier
+			}
+		}
+    }
+	
+	on_fail = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { 
+				id = lepsius.962 #notification
+				popup = yes
+			}
+		}
+	}
+	
+	progressbar = yes
+	
+    transferable = no
+    should_be_pinned_by_default = no
+}
+
+##################################################################
+
+######GILGAMESH######
+
+
+je_lepsius_epic_of_gilgamesh = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	possible = {
+		var:lepsius_gilgamesh_pieces >= 1
+	}
+	
+	current_value = {
+		value = var:lepsius_gilgamesh_pieces
+	}
+
+	goal_add_value = {
+		add = 5
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_epic_of_gilgamesh_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.721
+			popup = yes 
+		}
+	}
+	
+	progressbar = yes
+	
+    transferable = no
+    should_be_pinned_by_default = no
+}
+
+######ISHTAR GATE######
+
+je_ishtar_gate = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	on_yearly_pulse = {
+		random_events = {
+			50 = 0
+
+			20 = lepsius.522 #Lepsius 522: Normal transport
+			10 = lepsius.523 #Lepsius 523: Rival has fragments
+			10 = lepsius.524 #Lepsius 524: Enemy sabotages transport (war)
+			10 = lepsius.525 #Lepsius 525: A special fee
+			10 = lepsius.526 #Lepsius 526: Half parts
+			10 = lepsius.527 #Lepsius 527: More parts
+			5 = lepsius.528 #Lepsius 528: Bad fragments
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_ishtar_gate_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.530
+			days = 1
+		}
+	}
+	
+	current_value = {
+		value = var:lepsius_ishtar_fragments
+	}
+
+	goal_add_value = {
+		add = 200000
+	}
+	
+	progressbar = yes
+	
+    weight = 10
+    transferable = no
+    should_be_pinned_by_default = no
+}
+
+##################################################################
+
+######ADVENTURES#######
+
+#The Labyrinth
+
+je_lepsius_the_labyrinth = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	
+	current_value = {
+		value = var:lepsius_confusion
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_labyrinth_fail
+			var:lepsius_confusion >= 4
+		}
+    }
+	
+	on_fail = {
+		trigger_event = { 
+			id = lepsius.558
+			popup = yes
+		}
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_labyrinth_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			has_variable = lepsius_narrative_labyrinth_success_var
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.560
+			popup = yes 
+		}
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    transferable = no
+    should_be_pinned_by_default = yes
+}
+
+#Journey to the Center of the Earth
+
+je_lepsius_journey_coe = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	complete = {
+		any_scope_character = {
+			has_variable = lepsius_journey_coe_var
+			is_busy = no
+		}
+		has_interest_marker_in_region = region_north_sea_coast
+		has_technology_researched = dynamite
+		NOT = {
+			has_modifier = lepsius_journey_coe_preparation_modifier
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.593 
+			days = 7
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_journey_coe_fail
+			NOT = {
+				any_scope_character = {
+					has_variable = lepsius_journey_coe_var
+				}
+			}
+		}
+    }
+	
+	on_fail = {
+		trigger_event = { 
+			id = lepsius.590
+			popup = yes 
+		}
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
