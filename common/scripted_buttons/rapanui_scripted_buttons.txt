@@ -1,0 +1,151 @@
+﻿############################
+# RAPANUI SCRIPTED BUTTONS #
+############################
+
+#by Marco Dandolo
+
+######################
+
+rapanui_send_new_missionaries_button = {
+	name = "rapanui_send_new_missionaries_button"
+	desc = "rapanui_send_new_missionaries_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		hidden = {
+			NOT = {
+				has_variable = rapanui_je_button_action
+			}
+		}
+	}
+
+	effect = {
+		hidden_effect = {
+			random_list = {
+				35 = { trigger_event = { id = rapanui.131 } days = { 30 90 } }
+				40 = { trigger_event = { id = rapanui.132 } days = { 30 90 } }
+				35 = { trigger_event = { id = rapanui.133 } days = { 30 90 } }
+			}
+		}
+
+		set_variable = {
+			name = rapanui_je_button_action
+			years = 3
+		}
+	}
+}
+
+rapanui_trade_with_natives_button = {
+	name = "rapanui_trade_with_natives_button"
+	desc = "rapanui_trade_with_natives_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		hidden = {
+			NOT = {
+				has_variable = rapanui_je_button_action
+			}
+		}
+	}
+
+	effect = {
+		hidden_effect = {
+			if = {
+				limit = {
+					country_has_state_religion = rel:catholic
+				}
+				random_country = {
+					limit = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = catholic_mission_to_oceania
+						}
+					}
+					trigger_event = {
+						id = rapanui.134
+						days = { 30 90 }
+					}
+				}
+			}
+			if = {
+				limit = {
+					country_has_state_religion = rel:protestant
+				}
+				random_country = {
+					limit = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = protestant_mission_to_oceania
+						}
+					}
+					trigger_event = {
+						id = rapanui.135
+						days = { 30 90 }
+					}
+				}
+			}
+		}
+
+		set_variable = {
+			name = rapanui_je_button_action
+			years = 3
+		}
+	}
+}
+
+rapanui_sabotage_rival_missionaries_button = {
+	name = "rapanui_sabotage_rival_missionaries_button"
+	desc = "rapanui_sabotage_rival_missionaries_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		hidden = {
+			NOT = {
+				has_variable = rapanui_je_button_action
+			}
+			OR = {
+				AND = {
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = catholic_mission_to_oceania
+						}
+						OR = {
+							has_modifier = rapanui_protestant_mission_modifier
+							has_modifier = rapanui_established_protestant_mission_modifier
+						}
+					}
+				}
+				AND = {
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = protestant_mission_to_oceania
+						}
+						OR = {
+							has_modifier = rapanui_protestant_mission_modifier
+							has_modifier = rapanui_established_protestant_mission_modifier
+						}
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		hidden_effect = {
+			random_list = {
+				50 = { trigger_event = { id = rapanui.139 } days = { 30 90 } }
+				50 = { trigger_event = { id = rapanui.140 } days = { 30 90 } }
+			}
+		}
+
+		set_variable = {
+			name = rapanui_je_button_action
+			years = 3
+		}
+	}
+}
