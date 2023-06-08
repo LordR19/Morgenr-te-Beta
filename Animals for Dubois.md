@@ -25,7 +25,7 @@
 - Lion
 - Giraffe
 - Elephant
-- Zebra
+- Hippopotamus
 - African Pinguin
 
 ###Asia###
@@ -33,7 +33,7 @@
 - Panda
 - Orangutan
 - Cobra
-- Asian Black Bear
+- Eurasian Otter
 
 ###Australia&Oceania
 - Sea Turtle (South Pacific mission/expedition)
