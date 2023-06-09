@@ -15,7 +15,7 @@
 - Condor
 
 ###Europe###
-- Narwhal (Zeppelin Polar expedition)
+- Eurasian Otter
 - European Badger
 - Iberian lynx
 - Stoat
@@ -33,7 +33,7 @@
 - Panda
 - Orangutan
 - Cobra
-- Eurasian Otter
+- Malayan Tapir
 
 ###Australia&Oceania
 - Sea Turtle (South Pacific mission/expedition)
