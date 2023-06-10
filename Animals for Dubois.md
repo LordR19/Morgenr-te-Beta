@@ -1,7 +1,7 @@
 #Animals available for the Zoo in "Dubois"-Update
 
 ###North America###
-- Polar baer (Zeppelin Polar expedition)
+- Polar bear (Zeppelin Polar expedition)
 - Grizzly bear
 - Bald Eagle
 - Florida Panther
