@@ -32,7 +32,7 @@
 - Tiger
 - Panda
 - Orangutan
-- Cobra
+- Komodo dragon
 - Malayan Tapir
 
 ###Australia&Oceania
