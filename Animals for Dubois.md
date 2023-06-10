@@ -5,14 +5,14 @@
 - Grizzly bear
 - Bald Eagle
 - Florida Panther
-- Ruby-throated hummingbird
+- American Bison
 
 ###South America###
-- Sloth
+- Brown-throated sloth
 - Jaguar
-- Anteater
-- Armadillo
-- Condor
+- Giant Anteater
+- Nine-banded Armadillo
+- Andean Condor
 
 ###Europe###
 - Eurasian Otter
@@ -32,7 +32,7 @@
 - Tiger
 - Panda
 - Orangutan
-- Cobra
+- Komodo dragon
 - Malayan Tapir
 
 ###Australia&Oceania
