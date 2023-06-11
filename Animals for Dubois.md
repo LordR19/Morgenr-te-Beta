@@ -6,6 +6,8 @@
 - Bald Eagle
 - Florida Panther
 - American Bison
+- [Axolotl]
+- [Alligator]
 
 ###South America###
 - Brown-throated sloth
@@ -13,6 +15,8 @@
 - Giant Anteater
 - Nine-banded Armadillo
 - Andean Condor
+- [Capybara]
+- [Squirrel Monkey]
 
 ###Europe###
 - Eurasian Otter
@@ -20,6 +24,8 @@
 - Iberian lynx
 - Stoat
 - Eurasian wolf
+- [Moose]
+- [Alpine Ibex]
 
 ###Africa###
 - Lion
@@ -27,6 +33,12 @@
 - Elephant
 - Hippopotamus
 - African Pinguin
+- [Gorilla]
+- [Zebra]
+- [Cheetah]
+- [Lemur]
+- [Ostrich]
+- [Rhinoceros]
 
 ###Asia###
 - Tiger
@@ -34,6 +46,9 @@
 - Orangutan
 - Komodo dragon
 - Malayan Tapir
+- [Cobra]
+- [Red Panda]
+- [Snow Leopard]
 
 ###Australia&Oceania
 - Sea Turtle (South Pacific mission/expedition)
@@ -41,3 +56,5 @@
 - Koala
 - Kangaroo
 - Platypus
+- [Kiwi]
+- [New Zealand sea lion]
