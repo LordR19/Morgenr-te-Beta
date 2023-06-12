@@ -92,6 +92,7 @@ rapanui.101 = {
 
 	option = {
 		name = rapanui.101.g_cat
+		default_option = yes
 		trigger = {
 			country_has_state_religion = rel:catholic
 		}
@@ -651,6 +652,7 @@ rapanui.104 = {
 
 	option = {
 		name = rapanui.104.g_cat
+		default_option = yes
 		trigger = {
 			country_has_state_religion = rel:catholic
 		}
@@ -742,6 +744,7 @@ rapanui.105 = {
 
 	option = {
 		name = rapanui.105.g_cat
+		default_option = yes
 		trigger = {
 			country_has_state_religion = rel:catholic
 		}
@@ -825,6 +828,7 @@ rapanui.106 = {
 
 	option = {
 		name = rapanui.106.g_cat
+		default_option = yes
 		trigger = {
 			country_has_state_religion = rel:catholic
 		}
@@ -937,10 +941,12 @@ rapanui.111 = {
 			}
 		}
 		set_rapanui_native_aggressiveness = yes
+		set_rapanui_mission_tension = yes
 	}
 
 	option = {
 		name = rapanui.106.g_cat
+		default_option = yes
 		trigger = {
 			country_has_state_religion = rel:catholic
 		}
@@ -1245,10 +1251,12 @@ rapanui.114 = {
 			}
 			save_scope_as = rapanui_mission_country
 		}
+		set_rapanui_native_aggressiveness = yes
 	}
 
 	option = {
 		name = rapanui.104.g_cat
+		default_option = yes
 		trigger = {
 			country_has_state_religion = rel:catholic
 		}
@@ -1638,7 +1646,7 @@ rapanui.123 = {
 				is_country_type = decentralized
 			}
 			NOT = {
-				has_law = law:law_slavery_banned
+				has_law = law_type:law_slavery_banned
 			}
 		}
 		NOT = {
@@ -1690,7 +1698,7 @@ rapanui.123 = {
 					is_country_type = decentralized
 				}
 				NOT = {
-					has_law = law_slavery_banned
+					has_law = law_type:law_slavery_banned
 				}
 			}
 			save_scope_as = rapanui_slaver_country
@@ -2658,6 +2666,7 @@ rapanui.130 = {
 
 	option = {
 		name = rapanui.104.g_cat
+		default_option = yes
 		trigger = {
 			country_has_state_religion = rel:catholic
 		}
@@ -2672,6 +2681,2371 @@ rapanui.130 = {
 	}
 
 	after = {
+	}
+}
+
+#######################################
+
+######Second Journal Entry: Events######
+
+#Rapanui 131: Yearly conversion
+
+rapanui.131 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+				NOT = {
+					has_modifier = rapanui_missionaries_discredited_modifier
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.02
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+				has_modifier = rapanui_new_missionaries_modifier
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.02
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+				has_modifier = rapanui_efficient_missionaries_modifier
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.03
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+				NOT = {
+					has_modifier = rapanui_missionaries_discredited_modifier
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.02
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+				has_modifier = rapanui_new_missionaries_modifier
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.02
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+				has_modifier = rapanui_efficient_missionaries_modifier
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.03
+					}
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 132: Efficient Missionaries
+
+rapanui.132 = {
+	type = country_event
+
+	title = rapanui.132.t
+	desc = rapanui.132.d
+	flavor = rapanui.132.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_mission_arrival.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.132.g #You are doing the work of God
+		default_option = yes
+		add_modifier = {
+			name = rapanui_efficient_missionaries_modifier
+			years = 3
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.03
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.03
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 133: New Missionaries
+
+rapanui.133 = {
+	type = country_event
+
+	title = rapanui.133.t
+	desc = rapanui.133.d
+	flavor = rapanui.133.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_mission_arrival.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.133.g #You are doing good work.
+		default_option = yes
+		add_modifier = {
+			name = rapanui_new_missionaries_modifier
+			years = 3
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.02
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.02
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 134: Incompetent Missionaries
+
+rapanui.134 = {
+	type = country_event
+
+	title = rapanui.134.t
+	desc = rapanui.134.d
+	flavor = rapanui.134.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_mission_arrival.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.134.g #What are you doing?
+		default_option = yes
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.01
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.01
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 135: Trade with Natives
+
+rapanui.135 = {
+	type = country_event
+
+	title = rapanui.135.t
+	desc = rapanui.135.d
+	flavor = rapanui.135.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_natives.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.135.g #Artifact
+		default_option = yes
+		lepsius_add_oceanic_artifact = yes
+	}
+
+	option = {
+		name = rapanui.135.h #Animal
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_manta
+			}
+			NOT = {
+				has_variable = dubois_zoo_animal_turtle
+			}
+		}
+		custom_tooltip = rapanui.135.tt
+		hidden_effect = {
+			if = {
+				limit = {
+					NOR = {
+						has_variable = dubois_zoo_animal_manta
+						has_variable = dubois_zoo_animal_turtle
+					}
+				}
+				random_list = {
+					50 = { trigger_event = { id = rapanui.136 popup = yes } } #Manta
+					50 = { trigger_event = { id = rapanui.137 popup = yes } } #Turtle
+				}
+			}
+			if = {
+				limit = {
+					has_variable = dubois_zoo_animal_manta
+				}
+				trigger_event = { id = rapanui.137 popup = yes } #Turtle
+			}
+			if = {
+				limit = {
+					has_variable = dubois_zoo_animal_turtle
+				}
+				trigger_event = { id = rapanui.136 popup = yes } #Manta
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.135.i #Pearls
+		add_modifier = {
+			name = rapanui_exotic_pearls_modifier
+			years = 3
+		}
+	}
+
+	after = {
+		scope:rapanui_mission_country = {
+			trigger_event = {
+				id = rapanui.146
+			}
+		}
+	}
+}
+
+#Rapanui 136: Manta Ray
+
+rapanui.136 = {
+	type = country_event
+
+	title = rapanui.136.t
+	desc = rapanui.136.d
+	flavor = rapanui.136.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_manta.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.136.g #Wonderful
+		default_option = yes
+		set_variable = dubois_zoo_animal_manta
+		change_variable = {
+			name = dubois_zoo_animal_total
+			add = 1
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 137: Green Sea Turtle
+
+rapanui.137 = {
+	type = country_event
+
+	title = rapanui.137.t
+	desc = rapanui.137.d
+	flavor = rapanui.137.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_turtle.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.136.g #Wonderful
+		default_option = yes
+		set_variable = dubois_zoo_animal_turtle
+		change_variable = {
+			name = dubois_zoo_animal_total
+			add = 1
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 138: Discredition worked
+
+rapanui.138 = {
+	type = country_event
+
+	title = rapanui.138.t
+	desc = rapanui.138.d
+	flavor = rapanui.138.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_bible.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.136.g #Wonderful
+		default_option = yes
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = scope:rapanui_mission_country
+						type = protestant_mission_to_oceania
+					}
+				}
+				add_modifier = {
+					name = rapanui_missionaries_discredited_modifier
+					years = 3
+				}
+				trigger_event = {
+					id = rapanui.140
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = scope:rapanui_mission_country
+						type = catholic_mission_to_oceania
+					}
+				}
+				add_modifier = {
+					name = rapanui_missionaries_discredited_modifier
+					years = 3
+				}
+				trigger_event = {
+					id = rapanui.140
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 139: Discredition backfires
+
+rapanui.139 = {
+	type = country_event
+
+	title = rapanui.139.t
+	desc = rapanui.139.d
+	flavor = rapanui.139.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_hostile.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.139.g #Great Scott!
+		default_option = yes
+		add_modifier = {
+			name = rapanui_missionaries_discredited_modifier
+			years = 3
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 140: Framed! 
+
+rapanui.140 = {
+	type = country_event
+
+	title = rapanui.140.t
+	desc = rapanui.140.d
+	flavor = rapanui.140.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_hostile.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.139.g #Great Scott!
+		default_option = yes
+		add_1_rapanui_mission_tension = yes
+	}
+
+	after = {
+	}
+}
+
+#######################################
+
+######Second Journal Entry: Complete/Fail######
+
+#Rapanui 141: The Conversion of $COUNTRY$
+
+rapanui.141 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:catholic
+			}
+			desc = rapanui.141.t_cat
+		}
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:protestant
+			}
+			desc = rapanui.141.t_pro
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:catholic
+			}
+			desc = rapanui.141.d_cat
+		}
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:protestant
+			}
+			desc = rapanui.141.d_pro
+		}
+	}
+	flavor = rapanui.141.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_missionary_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				set_variable = rapanui_is_claimed
+				save_scope_as = rapanui_mission_country
+			}
+			every_state = {
+				limit = {
+					owner = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = catholic_mission_to_oceania
+						}
+					}
+				}
+				save_scope_as = rapanui_mission_state
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				set_variable = rapanui_is_claimed
+				save_scope_as = rapanui_mission_country
+			}
+			every_state = {
+				limit = {
+					owner = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = protestant_mission_to_oceania
+						}
+					}
+				}
+				save_scope_as = rapanui_mission_state
+			}
+		}
+		set_rapanui_mission_tension = yes
+	}
+
+	option = {
+		name = rapanui.141.g_cat #In Nomine Domini Nostri, Iesu Christi
+		default_option = yes
+		trigger = {
+			country_has_state_religion = rel:catholic
+		}
+		create_diplomatic_pact = {
+			country = scope:rapanui_mission_country
+			type = protectorate
+		}
+		scope:rapanui_mission_country = {
+			set_state_religion = rel:catholic
+		}
+		scope:rapanui_mission_state = {
+			state_region = {
+				add_claim = ROOT
+			}
+		}
+		hidden_effect = {
+			scope:rapanui_mission_country = {
+				trigger_event = {
+					id = rapanui.142
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.141.g_pro
+		trigger = {
+			country_has_state_religion = rel:protestant
+		}
+		create_diplomatic_pact = {
+			country = scope:rapanui_mission_country
+			type = protectorate
+		}
+		scope:rapanui_mission_country = {
+			set_state_religion = rel:protestant
+		}
+		scope:rapanui_mission_state = {
+			state_region = {
+				add_claim = ROOT
+			}
+		}
+		hidden_effect = {
+			scope:rapanui_mission_country = {
+				trigger_event = {
+					id = rapanui.143
+				}
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			kill_missionary_effect = yes
+		}
+	}
+}
+
+#Rapanui 142: Conversion to Catholicism
+
+rapanui.142 = {
+	type = country_event
+
+	title = rapanui.142.t
+	desc = rapanui.142.d
+	flavor = rapanui.142.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_mission_arrival.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = catholic_mission_to_oceania
+				}
+			}
+			save_scope_as = rapanui_catholic_mission_country
+		}
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = protestant_mission_to_oceania
+				}
+			}
+			save_scope_as = rapanui_protestant_mission_country
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = rapanui_ruler
+		}
+	}
+
+	option = {
+		name = rapanui.141.g_cat #In Nomine Domini Nostri, Iesu Christi
+		remove_modifier = rapanui_catholic_mission_modifier
+		remove_modifier = rapanui_protestant_mission_modifier
+		remove_modifier = rapanui_established_catholic_mission_modifier
+		remove_modifier = rapanui_established_protestant_mission_modifier
+		add_modifier = {
+			name = rapanui_embraced_catholicism_modifier
+		}
+		scope:rapanui_ruler = {
+			change_character_religion = rel:catholic
+		}
+		hidden_effect = {
+			scope:rapanui_protestant_mission_country = {
+				trigger_event = {
+					id = rapanui.144
+				}
+			}
+		}
+	}
+
+	after = {
+		scope:rapanui_catholic_mission_country = {
+			remove_diplomatic_pact = {
+				country = ROOT
+				type = catholic_mission_to_oceania
+			}
+		}
+		scope:rapanui_protestant_mission_country = {
+			remove_diplomatic_pact = {
+				country = ROOT
+				type = protestant_mission_to_oceania
+			}
+		}
+	}
+}
+
+#Rapanui 143: Conversion to Protestantism
+
+rapanui.143 = {
+	type = country_event
+
+	title = rapanui.142.t
+	desc = rapanui.143.d
+	flavor = rapanui.142.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_mission_arrival.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = catholic_mission_to_oceania
+				}
+			}
+			save_scope_as = rapanui_catholic_mission_country
+		}
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = protestant_mission_to_oceania
+				}
+			}
+			save_scope_as = rapanui_protestant_mission_country
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = rapanui_ruler
+		}
+	}
+
+	option = {
+		name = rapanui.141.pro #In the name of our Lord Jesus Christ
+		remove_modifier = rapanui_catholic_mission_modifier
+		remove_modifier = rapanui_protestant_mission_modifier
+		remove_modifier = rapanui_established_catholic_mission_modifier
+		remove_modifier = rapanui_established_protestant_mission_modifier
+		add_modifier = {
+			name = rapanui_embraced_protestantism_modifier
+		}
+		scope:rapanui_ruler = {
+			change_character_religion = rel:protestant
+		}
+		hidden_effect = {
+			scope:rapanui_catholic_mission_country = {
+				trigger_event = {
+					id = rapanui.144
+				}
+			}
+		}
+	}
+
+	after = {
+		scope:rapanui_catholic_mission_country = {
+			remove_diplomatic_pact = {
+				country = ROOT
+				type = catholic_mission_to_oceania
+			}
+		}
+		scope:rapanui_protestant_mission_country = {
+			remove_diplomatic_pact = {
+				country = ROOT
+				type = protestant_mission_to_oceania
+			}
+		}
+	}
+}
+
+#Rapanui 144: $COUNTRY$ ruler converted to false religion
+
+rapanui.144 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:catholic
+			}
+			desc = rapanui.144.t_cat
+		}
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:protestant
+			}
+			desc = rapanui.144.t_pro
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:catholic
+			}
+			desc = rapanui.144.d_cat
+		}
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:protestant
+			}
+			desc = rapanui.144.d_pro
+		}
+	}
+	flavor = rapanui.144.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_missionary_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		set_rapanui_mission_tension = yes
+	}
+
+	option = {
+		name = rapanui.144.g_cat
+		default_option = yes
+		trigger = {
+			country_has_state_religion = rel:catholic
+		}
+	}
+
+	option = {
+		name = rapanui.144.g_pro
+		trigger = {
+			country_has_state_religion = rel:protestant
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			kill_missionary_effect = yes
+		}
+	}
+}
+
+#Rapanui 145: Aftermath for Missionary
+
+#Missionary may become IG Leader
+
+#Rapanui 146: Trade with Natives
+
+rapanui.146 = {
+	type = country_event
+
+	title = rapanui.146.t
+	desc = rapanui.146.d
+	flavor = rapanui.146.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_mission_arrival.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.146.g #Production
+		default_option = yes
+		add_modifier = {
+			name = rapanui_western_influence_production_modifier
+			years = 10
+		}
+	}
+
+	option = {
+		name = rapanui.146.h #Military
+		add_modifier = {
+			name = rapanui_western_influence_military_modifier
+			years = 10
+		}
+	}
+
+	option = {
+		name = rapanui.146.i #Society
+		add_modifier = {
+			name = rapanui_western_influence_society_modifier
+			years = 10
+		}
+	}
+
+	after = {
+	}
+}
+
+#######################################
+
+######Second Journal Entry: Events######
+
+#Rapanui 151: Missionary collects folklore
+
+rapanui.151 = {
+	type = country_event
+
+	title = rapanui.151.t
+	desc = rapanui.151.d
+	flavor = rapanui.151.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_tahiti_cult.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.151.g #Use this knowledge to convert the population
+		default_option = yes
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.04
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.04
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.151.h #This collection belongs in a museum.
+		lepsius_add_oceanic_artifact = yes
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 152: Christian School
+
+rapanui.152 = {
+	type = country_event
+
+	title = rapanui.152.t
+	desc = rapanui.152.d
+	flavor = rapanui.152.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_bible.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+		NOT = {
+			country_has_state_religion = rel:catholic
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = catholic_mission_to_oceania
+				}
+				has_modifier = rapanui_christian_school_modifier
+			}
+		}
+		NOT = {
+			country_has_state_religion = rel:protestant
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = protestant_mission_to_oceania
+				}
+				has_modifier = rapanui_christian_school_modifier
+			}
+		}
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.152.g #Amen
+		default_option = yes
+		scope:rapanui_mission_country = {
+			add_modifier = {
+				name = rapanui_christian_school_modifier
+				years = 20
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.05
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.05
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 153: Conflict with heretical Missionary
+
+rapanui.153 = {
+	type = country_event
+
+	title = rapanui.153.t
+	desc = rapanui.153.d
+	flavor = rapanui.153.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_missionary.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		var:rapanui_mission_tension <= 4
+		OR = {
+			AND = {
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+					OR = {
+						has_modifier = rapanui_protestant_mission_modifier
+						has_modifier = rapanui_established_protestant_mission_modifier
+					}
+				}
+			}
+			AND = {
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+					OR = {
+						has_modifier = rapanui_protestant_mission_modifier
+						has_modifier = rapanui_established_protestant_mission_modifier
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.153.g #These are our catechists
+		default_option = yes
+		add_1_rapanui_mission_tension = yes
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.02
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.02
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.153.h #Turn the other cheek.
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 154: Trade Post
+
+rapanui.154 = {
+	type = country_event
+
+	title = rapanui.154.t
+	desc = rapanui.154.d
+	flavor = rapanui.154.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_mission_arrival.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		var:rapanui_mission_tension <= 4
+		OR = {
+			AND = {
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+					OR = {
+						has_modifier = rapanui_protestant_mission_modifier
+						has_modifier = rapanui_established_protestant_mission_modifier
+					}
+				}
+			}
+			AND = {
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+					OR = {
+						has_modifier = rapanui_protestant_mission_modifier
+						has_modifier = rapanui_established_protestant_mission_modifier
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.154.g #We'll build our own trade post!
+		default_option = yes
+		add_1_rapanui_mission_tension = yes
+		add_modifier = {
+			name = rapanui_trade_post_oceania_modifier
+			years = 3
+		}
+	}
+
+	option = {
+		name = rapanui.153.h #This is too risky
+		add_modifier = {
+			name = rapanui_imperialist_coward_modifier
+			years = 3
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 155: Privilege for Rival
+
+rapanui.155 = {
+	type = country_event
+
+	title = rapanui.155.t
+	desc = rapanui.155.d
+	flavor = rapanui.155.f
+
+	placement = scope:rapanui_mission_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_missionary.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		var:rapanui_mission_tension <= 4
+		OR = {
+			AND = {
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+					OR = {
+						has_modifier = rapanui_protestant_mission_modifier
+						has_modifier = rapanui_established_protestant_mission_modifier
+					}
+				}
+			}
+			AND = {
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+					OR = {
+						has_modifier = rapanui_protestant_mission_modifier
+						has_modifier = rapanui_established_protestant_mission_modifier
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = catholic_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = protestant_mission_to_oceania
+					}
+				}
+				save_scope_as = rapanui_mission_country
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.155.g #We insist on the same privileges.
+		default_option = yes
+		add_1_rapanui_mission_tension = yes
+	}
+
+	option = {
+		name = rapanui.153.h #Turn the other cheek.
+		if = {
+			limit = {
+				country_has_state_religion = rel:catholic
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:protestant
+						value = 0.03
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				country_has_state_religion = rel:protestant
+			}
+			scope:rapanui_mission_country = {
+				every_scope_state = {
+					convert_population = {
+						target = rel:catholic
+						value = 0.03
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#######################################
+
+######Embracing Catholicism/Protestantism######
+
+#Rapanui 161: Yearly conversion
+
+rapanui.161 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_modifier = rapanui_embraced_catholicism_modifier
+				religion_percent_country = {
+					target = rel:catholic
+					value <= 0.9
+				}
+			}
+			every_scope_state = {
+				convert_population = {
+					target = rel:catholic
+					value = 0.05
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_modifier = rapanui_embraced_protestantism_modifier
+				religion_percent_country = {
+					target = rel:protestant
+					value <= 0.9
+				}
+			}
+			every_scope_state = {
+				convert_population = {
+					target = rel:protestant
+					value = 0.05
+				}
+			}
+		}
+	}
+}
+
+#######################################
+
+######Crisis in Paradise######
+
+#Rapanui 171: Crisis in Paradise
+
+rapanui.171 = {
+	type = country_event
+
+	title = rapanui.171.t
+	desc = rapanui.171.d
+	flavor = rapanui.171.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_ruler
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = rapanui_crisis_in_paradise
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = rapanui_crisis_in_paradise
+			days = 365
+		}
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = catholic_mission_to_oceania
+				}
+			}
+			save_scope_as = rapanui_catholic_mission_country
+		}
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = protestant_mission_to_oceania
+				}
+			}
+			save_scope_as = rapanui_protestant_mission_country
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = rapanui_ruler
+		}
+	}
+
+	option = {
+		name = rapanui.171.g #Convert to Catholicism
+		default_option = yes
+		remove_modifier = rapanui_catholic_mission_modifier
+		remove_modifier = rapanui_protestant_mission_modifier
+		remove_modifier = rapanui_established_catholic_mission_modifier
+		remove_modifier = rapanui_established_protestant_mission_modifier
+		set_state_religion = rel:catholic
+		add_modifier = {
+			name = rapanui_embraced_catholicism_modifier
+		}
+		scope:rapanui_ruler = {
+			change_character_religion = rel:catholic
+		}
+		scope:rapanui_catholic_mission_country = {
+			create_diplomatic_pact = {
+				country = ROOT
+				type = protectorate
+			}
+		}
+		every_scope_state = {
+			state_region = {
+				add_claim = scope:rapanui_catholic_mission_country
+			}
+		}
+		scope:rapanui_protestant_mission_country = {
+			trigger_event = {
+				id = rapanui.172
+				popup = yes
+			}
+		}
+		ai_chance = {
+			base = 50
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:catholic
+						value >= 0.2
+					}
+				}
+				add = 5
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:catholic
+						value >= 0.3
+					}
+				}
+				add = 5
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:catholic
+						value >= 0.35
+					}
+				}
+				add = 10
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:catholic
+						value >= 0.4
+					}
+				}
+				add = 10
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:catholic
+						value >= 0.43
+					}
+				}
+				add = 10
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:catholic
+						value >= 0.46
+					}
+				}
+				add = 20
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:catholic
+						value >= 0.49
+					}
+				}
+				add = 30
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.171.h #Convert to Protestantism
+		remove_modifier = rapanui_catholic_mission_modifier
+		remove_modifier = rapanui_protestant_mission_modifier
+		remove_modifier = rapanui_established_catholic_mission_modifier
+		remove_modifier = rapanui_established_protestant_mission_modifier
+		set_state_religion = rel:protestantism
+		add_modifier = {
+			name = rapanui_embraced_protestantism_modifier
+		}
+		scope:rapanui_ruler = {
+			change_character_religion = rel:protestant
+		}
+		scope:rapanui_protestant_mission_country = {
+			create_diplomatic_pact = {
+				country = ROOT
+				type = protectorate
+			}
+		}
+		every_scope_state = {
+			state_region = {
+				add_claim = scope:rapanui_protestant_mission_country
+			}
+		}
+		scope:rapanui_catholic_mission_country = {
+			trigger_event = {
+				id = rapanui.172
+				popup = yes
+			}
+		}
+		ai_chance = {
+			base = 50
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:protestant
+						value >= 0.2
+					}
+				}
+				add = 5
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:protestant
+						value >= 0.3
+					}
+				}
+				add = 5
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:protestant
+						value >= 0.35
+					}
+				}
+				add = 10
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:protestant
+						value >= 0.4
+					}
+				}
+				add = 10
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:protestant
+						value >= 0.43
+					}
+				}
+				add = 10
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:protestant
+						value >= 0.46
+					}
+				}
+				add = 20
+			}
+			modifier = {
+				trigger = {
+					religion_percent_country = {
+						target = rel:protestant
+						value >= 0.49
+					}
+				}
+				add = 30
+			}
+		}
+	}
+
+	after = {
+		scope:rapanui_catholic_mission_country = {
+			remove_diplomatic_pact = {
+				country = ROOT
+				type = catholic_mission_to_oceania
+			}
+		}
+		scope:rapanui_protestant_mission_country = {
+			remove_diplomatic_pact = {
+				country = ROOT
+				type = protestant_mission_to_oceania
+			}
+		}
 	}
 }
 
