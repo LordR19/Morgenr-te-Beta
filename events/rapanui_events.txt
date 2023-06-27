@@ -4061,7 +4061,7 @@ rapanui.144 = {
 
 #Missionary may become IG Leader
 
-#Rapanui 146: Trade with Natives
+#Rapanui 146: Trade with Foreigners
 
 rapanui.146 = {
 	type = country_event
@@ -4867,11 +4867,6 @@ rapanui.171 = {
 				type = protectorate
 			}
 		}
-		every_scope_state = {
-			state_region = {
-				add_claim = scope:rapanui_catholic_mission_country
-			}
-		}
 		scope:rapanui_protestant_mission_country = {
 			trigger_event = {
 				id = rapanui.172
@@ -4952,7 +4947,7 @@ rapanui.171 = {
 		remove_modifier = rapanui_protestant_mission_modifier
 		remove_modifier = rapanui_established_catholic_mission_modifier
 		remove_modifier = rapanui_established_protestant_mission_modifier
-		set_state_religion = rel:protestantism
+		set_state_religion = rel:protestant
 		add_modifier = {
 			name = rapanui_embraced_protestantism_modifier
 		}
@@ -4963,11 +4958,6 @@ rapanui.171 = {
 			create_diplomatic_pact = {
 				country = ROOT
 				type = protectorate
-			}
-		}
-		every_scope_state = {
-			state_region = {
-				add_claim = scope:rapanui_protestant_mission_country
 			}
 		}
 		scope:rapanui_catholic_mission_country = {
@@ -5056,6 +5046,428 @@ rapanui.171 = {
 				country = ROOT
 				type = protestant_mission_to_oceania
 			}
+		}
+	}
+}
+
+#Rapanui 172: Crisis in Paradise for (potential) aggressive Country
+
+rapanui.172 = {
+	type = country_event
+
+	title = rapanui.172.t
+	desc = rapanui.172.d
+	flavor = rapanui.172.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_tahiti_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = rapanui_crisis_in_paradise
+			}
+			save_scope_as = rapanui_mission_country
+		}
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = scope:rapanui_mission_country
+					type = protectorate
+				}
+			}
+			save_scope_as = rapanui_protector_country
+		}
+	}
+
+	option = {
+		name = rapanui.172.g #These remote islands aren't worth it
+		default_option = yes
+		scope:rapanui_protector_country = {
+			trigger_event = {
+				id = rapanui.177
+			}
+		}
+		
+		ai_chance = {
+			base = 65
+		}
+	}
+
+	option = {
+		name = rapanui.172.h #The prestige of our nation is at stake!
+		change_infamy = 3
+		add_modifier = {
+			name = rapanui_invasion_in_paradise_modifier
+			days = 90
+		}
+		scope:rapanui_protector_country = {
+			trigger_event = {
+				id = rapanui.173
+			}
+		}
+		ai_chance = {
+			base = 35
+			modifier = {
+				trigger = {
+					is_at_war = yes
+				}
+				add = -100
+			}
+			modifier = {
+				trigger = {
+					navy_size > scope:rapanui_protector_country.navy_size
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					army_size > scope:rapanui_protector_country.army_size
+				}
+				add = 15
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 173: Crisis in Paradise for protective Country
+
+rapanui.173 = {
+	type = country_event
+
+	title = rapanui.173.t
+	desc = rapanui.173.d
+	flavor = rapanui.173.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_tahiti_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = rapanui_crisis_in_paradise
+			}
+			save_scope_as = rapanui_mission_country
+		}
+		random_country = {
+			limit = {
+				has_modifier = rapanui_invasion_in_paradise_modifier
+			}
+			save_scope_as = rapanui_aggressor_country
+		}
+	}
+
+	option = {
+		name = rapanui.173.g #These remote islands aren't worth it
+		default_option = yes
+		remove_diplomatic_pact = {
+			country = scope:rapanui_mission_country
+			type = protectorate
+		}
+		scope:rapanui_mission_country = {
+			trigger_event = {
+				id = rapanui.174
+			}
+		}
+		
+		ai_chance = {
+			base = 65
+		}
+	}
+
+	option = {
+		name = rapanui.173.h #The prestige of our nation is at stake!
+		scope:rapanui_aggressor_country = {
+			create_diplomatic_play = {
+				name = rapanui_war_in_paradise_warname
+			
+				target_country = scope:rapanui_mission_country
+				type = dp_transfer_subject
+				escalation = 75
+			}
+		}
+		ai_chance = {
+			base = 35
+			modifier = {
+				trigger = {
+					is_at_war = yes
+				}
+				add = -100
+			}
+			modifier = {
+				trigger = {
+					navy_size > scope:rapanui_aggressor_country.navy_size
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					army_size > scope:rapanui_aggressor_country.army_size
+				}
+				add = 15
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 174: The unprotective Protector
+
+rapanui.174 = {
+	type = country_event
+
+	title = rapanui.174.t
+	desc = rapanui.174.d
+	flavor = rapanui.174.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_ruler
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = rapanui_invasion_in_paradise_modifier
+			}
+			save_scope_as = rapanui_aggressor_country
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = rapanui_ruler
+		}
+	}
+
+	option = {
+		name = rapanui.174.g #We will still fight for our freedom!
+		default_option = yes
+		scope:rapanui_aggressor_country = {
+			create_diplomatic_play = {
+				name = rapanui_war_in_paradise_warname
+			
+				target_country = scope:rapanui_mission_country
+				type = dp_make_vassal
+				escalation = 75
+			}
+		}
+		add_modifier = {
+			name = rapanui_resistance_modifier
+			years = 5
+		}
+		scope:rapanui_aggressor_country = {
+			trigger_event = {
+				id = rapanui.176
+				popup = yes
+			}
+		}
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	option = {
+		name = rapanui.174.h #We submit before worse happens.
+		if = {
+			limit = {
+				has_state_religion = rel:catholic
+			}
+			set_state_religion = rel:protestant
+			add_modifier = {
+				name = rapanui_embraced_protestantism_modifier
+			}
+			remove_modifier = rapanui_embraced_catholicism_modifier
+			scope:rapanui_ruler = {
+				change_character_religion = rel:protestant
+			}
+		}
+		if = {
+			limit = {
+				has_state_religion = rel:protestant
+			}
+			set_state_religion = rel:catholic
+			add_modifier = {
+				name = rapanui_embraced_catholicism_modifier
+			}
+			remove_modifier = rapanui_embraced_protestantism_modifier
+			scope:rapanui_ruler = {
+				change_character_religion = rel:catholic
+			}
+		}
+		scope:rapanui_aggressor_country = {
+			create_diplomatic_pact = {
+				country = ROOT
+				type = protectorate
+			}
+		}
+		scope:rapanui_aggressor_country = {
+			trigger_event = {
+				id = rapanui.175
+				popup = yes
+			}
+		}
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 175: Diplomatic victory
+
+rapanui.175 = {
+	type = country_event
+
+	title = rapanui.175.t
+	desc = rapanui.175.d
+	flavor = rapanui.175.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_tahiti_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = rapanui_crisis_in_paradise
+			}
+			save_scope_as = rapanui_mission_country
+		}
+	}
+
+	option = {
+		name = rapanui.175.g #The best possible outcome
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 176: Natives prepare for war
+
+rapanui.176 = {
+	type = country_event
+
+	title = rapanui.176.t
+	desc = rapanui.176.d
+	flavor = rapanui.176.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_tahiti_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = rapanui_crisis_in_paradise
+			}
+			save_scope_as = rapanui_mission_country
+		}
+	}
+
+	option = {
+		name = rapanui.176.g #Then war it is.
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 177: Brother in Christ
+
+rapanui.177 = {
+	type = country_event
+
+	title = rapanui.177.t
+	desc = rapanui.177.d
+	flavor = rapanui.177.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_missionary_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = rapanui_crisis_in_paradise
+			}
+			save_scope_as = rapanui_mission_country
+		}
+	}
+
+	option = {
+		name = rapanui.177.g #A conversion is a conversion
+	}
+
+	after = {
+		hidden_effect = {
+			kill_missionary_effect = yes
 		}
 	}
 }
