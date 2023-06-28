@@ -759,7 +759,7 @@ rapanui.105 = {
 			country_has_state_religion = rel:protestant
 		}
 		add_journal_entry = {
-			type = je_rapanui_catholic_mission_oceania
+			type = je_rapanui_protestant_mission_oceania
 		}
 	}
 
@@ -3753,7 +3753,7 @@ rapanui.141 = {
 		}
 		create_diplomatic_pact = {
 			country = scope:rapanui_mission_country
-			type = protectorate
+			type = rapanui_protectorate
 		}
 		scope:rapanui_mission_country = {
 			set_state_religion = rel:catholic
@@ -3779,7 +3779,7 @@ rapanui.141 = {
 		}
 		create_diplomatic_pact = {
 			country = scope:rapanui_mission_country
-			type = protectorate
+			type = rapanui_protectorate
 		}
 		scope:rapanui_mission_country = {
 			set_state_religion = rel:protestant
@@ -4420,8 +4420,8 @@ rapanui.153 = {
 						type = protestant_mission_to_oceania
 					}
 					OR = {
-						has_modifier = rapanui_protestant_mission_modifier
-						has_modifier = rapanui_established_protestant_mission_modifier
+						has_modifier = rapanui_catholic_mission_modifier
+						has_modifier = rapanui_established_catholic_mission_modifier
 					}
 				}
 			}
@@ -4549,8 +4549,8 @@ rapanui.154 = {
 						type = protestant_mission_to_oceania
 					}
 					OR = {
-						has_modifier = rapanui_protestant_mission_modifier
-						has_modifier = rapanui_established_protestant_mission_modifier
+						has_modifier = rapanui_catholic_mission_modifier
+						has_modifier = rapanui_established_catholic_mission_modifier
 					}
 				}
 			}
@@ -4660,8 +4660,8 @@ rapanui.155 = {
 						type = protestant_mission_to_oceania
 					}
 					OR = {
-						has_modifier = rapanui_protestant_mission_modifier
-						has_modifier = rapanui_established_protestant_mission_modifier
+						has_modifier = rapanui_catholic_mission_modifier
+						has_modifier = rapanui_established_catholic_mission_modifier
 					}
 				}
 			}
@@ -4864,7 +4864,7 @@ rapanui.171 = {
 		scope:rapanui_catholic_mission_country = {
 			create_diplomatic_pact = {
 				country = ROOT
-				type = protectorate
+				type = rapanui_protectorate
 			}
 		}
 		scope:rapanui_protestant_mission_country = {
@@ -4957,7 +4957,7 @@ rapanui.171 = {
 		scope:rapanui_protestant_mission_country = {
 			create_diplomatic_pact = {
 				country = ROOT
-				type = protectorate
+				type = rapanui_protectorate
 			}
 		}
 		scope:rapanui_catholic_mission_country = {
@@ -5040,12 +5040,14 @@ rapanui.171 = {
 				country = ROOT
 				type = catholic_mission_to_oceania
 			}
+			remove_modifier = rapanui_mission_to_oceania_modifier
 		}
 		scope:rapanui_protestant_mission_country = {
 			remove_diplomatic_pact = {
 				country = ROOT
 				type = protestant_mission_to_oceania
 			}
+			remove_modifier = rapanui_mission_to_oceania_modifier
 		}
 	}
 }
@@ -5083,7 +5085,7 @@ rapanui.172 = {
 			limit = {
 				has_diplomatic_pact = {
 					who = scope:rapanui_mission_country
-					type = protectorate
+					type = rapanui_protectorate
 				}
 			}
 			save_scope_as = rapanui_protector_country
@@ -5106,10 +5108,9 @@ rapanui.172 = {
 
 	option = {
 		name = rapanui.172.h #The prestige of our nation is at stake!
-		change_infamy = 3
+		change_infamy = 5
 		add_modifier = {
 			name = rapanui_invasion_in_paradise_modifier
-			days = 90
 		}
 		scope:rapanui_protector_country = {
 			trigger_event = {
@@ -5128,18 +5129,21 @@ rapanui.172 = {
 				trigger = {
 					navy_size > scope:rapanui_protector_country.navy_size
 				}
-				add = 15
+				add = 20
 			}
 			modifier = {
 				trigger = {
 					army_size > scope:rapanui_protector_country.army_size
 				}
-				add = 15
+				add = 10
 			}
 		}
 	}
 
 	after = {
+		hidden_effect = {
+			kill_missionary_effect = yes
+		}
 	}
 }
 
@@ -5185,7 +5189,7 @@ rapanui.173 = {
 		default_option = yes
 		remove_diplomatic_pact = {
 			country = scope:rapanui_mission_country
-			type = protectorate
+			type = rapanui_protectorate
 		}
 		scope:rapanui_mission_country = {
 			trigger_event = {
@@ -5206,7 +5210,7 @@ rapanui.173 = {
 			
 				target_country = scope:rapanui_mission_country
 				type = dp_transfer_subject
-				escalation = 75
+				escalation = 50
 			}
 		}
 		ai_chance = {
@@ -5221,18 +5225,21 @@ rapanui.173 = {
 				trigger = {
 					navy_size > scope:rapanui_aggressor_country.navy_size
 				}
-				add = 15
+				add = 20
 			}
 			modifier = {
 				trigger = {
 					army_size > scope:rapanui_aggressor_country.army_size
 				}
-				add = 15
+				add = 10
 			}
 		}
 	}
 
 	after = {
+		hidden_effect = {
+			kill_missionary_effect = yes
+		}
 	}
 }
 
@@ -5282,12 +5289,11 @@ rapanui.174 = {
 			
 				target_country = scope:rapanui_mission_country
 				type = dp_make_vassal
-				escalation = 75
+				escalation = 80
 			}
 		}
 		add_modifier = {
 			name = rapanui_resistance_modifier
-			years = 5
 		}
 		scope:rapanui_aggressor_country = {
 			trigger_event = {
@@ -5302,36 +5308,51 @@ rapanui.174 = {
 
 	option = {
 		name = rapanui.174.h #We submit before worse happens.
-		if = {
-			limit = {
-				has_state_religion = rel:catholic
-			}
-			set_state_religion = rel:protestant
-			add_modifier = {
-				name = rapanui_embraced_protestantism_modifier
-			}
-			remove_modifier = rapanui_embraced_catholicism_modifier
-			scope:rapanui_ruler = {
-				change_character_religion = rel:protestant
-			}
+		trigger = {
+			country_has_state_religion = rel:catholic
 		}
-		if = {
-			limit = {
-				has_state_religion = rel:protestant
-			}
-			set_state_religion = rel:catholic
-			add_modifier = {
-				name = rapanui_embraced_catholicism_modifier
-			}
-			remove_modifier = rapanui_embraced_protestantism_modifier
-			scope:rapanui_ruler = {
-				change_character_religion = rel:catholic
-			}
+		set_state_religion = rel:protestant
+		add_modifier = {
+			name = rapanui_embraced_protestantism_modifier
+		}
+		remove_modifier = rapanui_embraced_catholicism_modifier
+		scope:rapanui_ruler = {
+			change_character_religion = rel:protestant
 		}
 		scope:rapanui_aggressor_country = {
 			create_diplomatic_pact = {
 				country = ROOT
-				type = protectorate
+				type = rapanui_protectorate
+			}
+		}
+		scope:rapanui_aggressor_country = {
+			trigger_event = {
+				id = rapanui.175
+				popup = yes
+			}
+		}
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	option = {
+		name = rapanui.174.h #We submit before worse happens.
+		trigger = {
+			country_has_state_religion = rel:catholic
+		}
+		set_state_religion = rel:protestant
+		add_modifier = {
+			name = rapanui_embraced_protestantism_modifier
+		}
+		remove_modifier = rapanui_embraced_catholicism_modifier
+		scope:rapanui_ruler = {
+			change_character_religion = rel:protestant
+		}
+		scope:rapanui_aggressor_country = {
+			create_diplomatic_pact = {
+				country = ROOT
+				type = rapanui_protectorate
 			}
 		}
 		scope:rapanui_aggressor_country = {
@@ -5382,6 +5403,7 @@ rapanui.175 = {
 
 	option = {
 		name = rapanui.175.g #The best possible outcome
+		remove_modifier = rapanui_invasion_in_paradise_modifier
 	}
 
 	after = {
@@ -5468,6 +5490,82 @@ rapanui.177 = {
 	after = {
 		hidden_effect = {
 			kill_missionary_effect = yes
+		}
+	}
+}
+
+#Rapanui 178: Victory
+
+rapanui.178 = {
+	type = country_event
+
+	title = rapanui.178.t
+	desc = rapanui.178.d
+	flavor = rapanui.178.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_tahiti_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = rapanui_resistance_modifier
+			}
+			save_scope_as = rapanui_mission_country
+		}
+	}
+
+	option = {
+		name = rapanui.141.g_cat #In Nomine Domini Nostri, Iesu Christi
+		default_option = yes
+		trigger = {
+			country_has_state_religion = rel:catholic
+		}
+		create_diplomatic_pact = {
+			country = scope:rapanui_mission_country
+			type = rapanui_protectorate
+		}
+		scope:rapanui_mission_country = {
+			set_state_religion = rel:catholic
+			add_modifier = {
+				name = rapanui_embraced_catholicism_modifier
+			}
+			remove_modifier = rapanui_embraced_protestantism_modifier
+		}
+	}
+
+	option = {
+		name = rapanui.141.g_pro
+		trigger = {
+			country_has_state_religion = rel:protestant
+		}
+		create_diplomatic_pact = {
+			country = scope:rapanui_mission_country
+			type = rapanui_protectorate
+		}
+		scope:rapanui_mission_country = {
+			set_state_religion = rel:protestant
+			add_modifier = {
+				name = rapanui_embraced_protestantism_modifier
+			}
+			remove_modifier = rapanui_embraced_catholicism_modifier
+		}
+	}
+
+	after = {
+		remove_modifier = rapanui_invasion_in_paradise_modifier
+		scope:rapanui_mission_country = {
+			remove_modifier = rapanui_resistance_modifier
 		}
 	}
 }
