@@ -5572,6 +5572,532 @@ rapanui.178 = {
 
 ###############################################################################################################
 
+######PACIFIC EXPEDITION######
+
+#Rapanui 201: Choose admiral 
+
+rapanui.201 = {
+	type = country_event
+
+    title = rapanui.201.t
+    desc = rapanui.201.d
+    flavor = rapanui.201.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role = admiral
+				is_busy = no
+			}
+			save_scope_as = rapanui_pacific_expedition_leader_1
+		}
+		random_scope_character = {
+			limit = {
+				has_role = admiral
+				NOT = {
+					this = scope:rapanui_pacific_expedition_leader_1
+				}
+				is_busy = no
+			}
+			save_scope_as = rapanui_pacific_expedition_leader_2
+		}
+		random_scope_character = {
+			limit = {
+				has_role = admiral
+				NOT = {
+					this = scope:rapanui_pacific_expedition_leader_1
+				}
+				NOT = {
+					this = scope:rapanui_pacific_expedition_leader_2
+				}
+				is_busy = no
+			}
+			save_scope_as = rapanui_pacific_expedition_leader_3
+		}
+	}
+
+	option = {
+		name = rapanui.201.g
+		default_option = yes
+		trigger = {
+			exists = scope:rapanui_pacific_expedition_leader_1
+		}
+		scope:rapanui_pacific_expedition_leader_1 = {
+			set_variable = rapanui_pacific_expedition_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = rapanui.201.h
+		trigger = {
+			exists = scope:rapanui_pacific_expedition_leader_2
+		}
+		scope:rapanui_pacific_expedition_leader_2 = {
+			set_variable = rapanui_pacific_expedition_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = rapanui.201.i
+		trigger = {
+			exists = scope:rapanui_pacific_expedition_leader_3
+		}
+		scope:rapanui_pacific_expedition_leader_3 = {
+			set_variable = rapanui_pacific_expedition_leader_var
+			set_character_busy = yes
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = rapanui.202
+			days = { 7 10 }
+		}
+	}
+}
+
+#Rapanui 202: Expedition focus
+
+rapanui.202 = {
+	type = country_event
+
+	title = rapanui.202.t
+
+	desc = rapanui.202.d
+
+	flavor = rapanui.202.f
+	
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#This is a general research trip.
+		name = rapanui.202.g
+		default_option = yes
+		set_variable = rapanui_pe_general_var
+	}
+
+	option = {	#We mainly carry out oceanographic studies.
+		name = rapanui.202.h
+		set_variable = rapanui_pe_oceanography_var
+	}
+
+	option = {	#We want to learn more about the wonders of nature.
+		name = rapanui.202.i
+		set_variable = rapanui_pe_nature_var
+	}
+
+	option = {	#Our nation's reputation is more important than bugs or experiments.
+		trigger = {
+			country_rank = rank_value:great_power
+		}
+		name = rapanui.202.j
+		set_variable = rapanui_pe_reputation_var
+	}
+
+	after = {
+		trigger_event = {
+			id = rapanui.203
+			days = { 7 10 }
+		}
+	}
+}
+
+#Rapanui 203: Associate Scientist
+
+rapanui.203 = {
+	type = country_event
+
+    title = rapanui.203.t
+    desc = rapanui.203.d
+    flavor = rapanui.203.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_trait = surveyor
+				is_busy = no
+			}
+			save_scope_as = rapanui_surveyor
+		}
+		random_scope_character = {
+			limit = {
+				has_trait = dubois_naturalist
+				NOT = {
+					this = scope:rapanui_surveyor
+				}
+				is_busy = no
+			}
+			save_scope_as = rapanui_naturalist
+		}
+		random_scope_character = {
+			limit = {
+				has_trait = dubois_paleontologist
+				NOT = {
+					this = scope:rapanui_surveyor
+				}
+				NOT = {
+					this = scope:rapanui_naturalist
+				}
+				is_busy = no
+			}
+			save_scope_as = rapanui_paleontologist
+		}
+		random_scope_character = {
+			limit = {
+				has_trait = verrier_astronomer
+				NOT = {
+					this = scope:rapanui_surveyor
+				}
+				NOT = {
+					this = scope:rapanui_naturalist
+				}
+				NOT = {
+					this = scope:rapanui_paleontologist
+				}
+				is_busy = no
+			}
+			save_scope_as = rapanui_astronomer
+		}
+	}
+
+	option = {
+		name = rapanui.203.g #There is no need for another scientist
+		default_option = yes
+	}
+
+	option = {
+		name = rapanui.203.h
+		trigger = {
+			exists = scope:rapanui_surveyor
+		}
+		scope:rapanui_surveyor = {
+			set_variable = rapanui_scientist_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = rapanui.203.i
+		trigger = {
+			exists = scope:rapanui_naturalist
+		}
+		scope:rapanui_naturalist = {
+			set_variable = rapanui_scientist_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = rapanui.203.j
+		trigger = {
+			exists = scope:rapanui_paleontologist
+		}
+		scope:rapanui_paleontologist = {
+			set_variable = rapanui_scientist_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = rapanui.203.k
+		trigger = {
+			exists = scope:rapanui_astronomer
+		}
+		scope:rapanui_astronomer = {
+			set_variable = rapanui_scientist_var
+			set_character_busy = yes
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = rapanui.204
+			days = { 7 10 }
+		}
+	}
+}
+
+#Rapanui 204: Expedition starts
+
+rapanui.204 = {
+	type = country_event
+
+    title = rapanui.204.t
+    desc = rapanui.204.d
+    flavor = rapanui.204.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+	}
+
+	option = {
+		name = rapanui.204.g #Cast off!
+		default_option = yes
+	}
+}
+
+#Rapanui 211: Expedition ends
+
+rapanui.211 = {
+	type = country_event
+
+    title = rapanui.211.t
+    desc = rapanui.211.d
+    flavor = rapanui.211.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		remove_variable = rapanui_pe_general_var
+		remove_variable = rapanui_pe_oceanography_var
+		remove_variable = rapanui_pe_nature_var
+		remove_variable = rapanui_pe_reputation_var
+	}
+
+	option = {
+		name = rapanui.211.g #Welcome home.
+		default_option = yes
+		remove_modifier = rapanui_pacific_expedition_modifier
+		add_modifier = {
+			name = rapanui_had_pacific_expedition_modifier
+			years = 10
+		}
+		if = {
+			limit = {
+				scope:rapanui_pacific_expedition_leader = {
+					has_trait = experienced_naval_commander
+				}
+				add_trait = expert_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_pacific_expedition_leader = {
+					has_trait = basic_naval_commander
+				}
+				add_trait = experienced_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_pacific_expedition_leader = {
+					NOT = {
+						has_trait = basic_naval_commander
+						has_trait = experienced_naval_commander
+						has_trait = expert_naval_commander
+					}
+				}
+				add_trait = basic_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_pacific_expedition_leader = {
+					has_trait = popular_commander
+				}
+				add_trait = celebrity_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_pacific_expedition_leader = {
+					NOT = {
+						has_trait = popular_commander
+						has_trait = celebrity_commander
+					}
+				}
+				add_trait = popular_commander
+			}
+		}
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			remove_variable = rapanui_pacific_expedition_leader_var
+			set_character_busy = no
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_variable = rapanui_scientist_var
+				}
+			}
+			trigger_event = {
+				id = rapanui.213
+				days = { 90 120 }
+			}
+		}
+	}
+}
+
+#Rapanui 213: Associate Scientists writes report
+
+rapanui.213 = {
+	type = country_event
+
+    title = rapanui.213.t
+    desc = rapanui.213.d
+    flavor = rapanui.213.f
+
+    gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+	}
+
+	option = {
+		name = rapanui.213.g #One more scientific article for the library.
+		default_option = yes
+		if = {
+			limit = {
+				any_scope_character = {
+					has_variable = rapanui_scientist_var
+					has_trait = surveyor
+				}
+			}
+			add_modifier = {
+				name = rapanui_science_report_geography_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_variable = rapanui_scientist_var
+					OR = {
+						has_trait = dubois_naturalist
+						has_trait = dubois_paleontologist
+					}
+				}
+			}
+			add_modifier = {
+				name = rapanui_science_report_biology_modifier
+				years = 3
+			}
+			dubois_add_5000_specimen = yes
+			dubois_medium_add_technology = yes
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_variable = rapanui_scientist_var
+					has_trait = verrier_astronomer
+				}
+			}
+			add_modifier = {
+				name = rapanui_science_report_astronomy_modifier
+				years = 3
+			}
+			verrier_add_5_astronomical_object = yes
+			verrier_medium_add_technology = yes
+		}
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			remove_variable = rapanui_scientist_var
+			set_character_busy = no
+		}
+	}
+}
+
+###############################################################################################################
+
 #Rapanui 1001: Secrets of Easter Island
 
 rapanui.1001 = {
