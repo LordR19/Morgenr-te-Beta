@@ -80,3 +80,51 @@ rapanui_easter_island_ai_decision = {
 		base = 1000
 	}
 }
+
+rapanui_pacific_expedition_decision = {
+	is_shown = {
+		has_technology_researched = empiricism
+		NOT = {
+			has_modifier = rapanui_had_pacific_expedition_modifier
+		}
+		NOT = {
+			has_modifier = rapanui_pacific_expedition_modifier
+		}
+		NOT = {
+			has_variable = mr_geography_decisions_hide
+		}
+	}
+
+	possible = {
+		country_rank >= rank_value:major_power
+		has_technology_researched = screw_frigate
+		navy_size >= 20
+		any_scope_character = {
+			has_role = admiral
+			is_busy = no
+			count >= 1
+		}
+	}
+
+	when_taken = {
+		add_treasury = -25000
+		add_modifier = {
+			name = rapanui_pacific_expedition_modifier
+		}
+		trigger_event = { 
+			id = rapanui.201
+			popup = yes 
+		}	
+	}
+	
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			}
+			add = 100
+		}
+	}
+}
