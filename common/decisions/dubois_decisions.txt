@@ -10,7 +10,9 @@
 
 dubois_hide_animal_decisions = {
 	is_shown = {		
-		NOT = { has_variable = dubois_hide_animal_decisions_var }
+		NOT = { 
+			has_variable = dubois_hide_animal_decisions_var 
+		}
 	}
 
 	possible = {
@@ -93,6 +95,41 @@ dubois_visit_zoo_decision = {
 
 	ai_chance = {
 		base = -1
+	}
+}
+
+#########Specimen Collection##############################################################
+
+dubois_collect_specimen_decision = {
+
+	is_shown = {
+		has_technology_researched = pharmaceuticals
+		NOT = {
+			has_variable = dubois_hide_animal_decisions_var
+		}
+		NOT = {
+			has_modifier = dubois_specimen_collection_modifier
+		}
+	}
+
+	possible = {
+		any_scope_building = {
+			is_building_type = building_dubois_zoo
+		}
+		any_scope_character = {
+			has_trait = dubois_naturalist
+		}
+		var:dubois_specimen >= 75000
+	}
+	
+	when_taken = {
+		add_modifier = {
+			name = dubois_specimen_collection_modifier
+		}
+	}
+
+	ai_chance = {
+		base = 1000
 	}
 }
 
