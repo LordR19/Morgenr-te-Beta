@@ -2288,6 +2288,12 @@ dubois.1013 = {
 			}
 			desc = dubois.1013.f3
 		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 4
+			}
+			desc = dubois.1013.f4
+		}
 	}
 
 	placement = root
@@ -2307,6 +2313,14 @@ dubois.1013 = {
 	}
 
 	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role = general
+				is_busy = no
+				age >= 70
+			}
+			save_scope_as = dubois_prinz_eugen
+		}
 		random_list = { #randomizes flavor text
 			10 = { 
 				set_variable = {
@@ -2326,11 +2340,50 @@ dubois.1013 = {
 					value = 3
 				}
 			}
+			0 = { 
+				modifier = {
+					if = {
+						limit = {
+							any_scope_character = {
+								has_role = general
+								is_busy = no
+								age >= 70
+							}
+							NOT = {
+								has_variable = dubois_prinz_eugen_var
+							}
+						}
+						add = 70
+					}
+				}
+				set_variable = dubois_prinz_eugen_var
+				set_variable = {
+					name = dubois_zoo_lion_flavor_randomizer_var
+					value = 4
+				}
+			}
 		}
 	}
 
 	option = {
 		name = dubois.1012.k #Return to the African Enclosures
+		if = {
+			limit = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 4
+			}
+			scope:dubois_prinz_eugen = {
+				kill_character = yes
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = dubois_eugen_and_the_lion_modifier
+					years = 3
+				}
+			}
+		}
 		custom_tooltip = {
 			text = zoo_african_enclosures_tt
 			trigger_event = {
@@ -2343,6 +2396,23 @@ dubois.1013 = {
 
 	option = {
 		name = dubois.1011.l #Return to the Main Entrance
+		if = {
+			limit = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 4
+			}
+			scope:dubois_prinz_eugen = {
+				kill_character = yes
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = dubois_eugen_and_the_lion_modifier
+					years = 3
+				}
+			}
+		}
 		custom_tooltip = {
 			text = zoo_main_entrance_tt
 			trigger_event = {
@@ -2355,6 +2425,23 @@ dubois.1013 = {
 
 	option = {
 		name = dubois.1001.m #Leave the Zoo
+		if = {
+			limit = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 4
+			}
+			scope:dubois_prinz_eugen = {
+				kill_character = yes
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = dubois_eugen_and_the_lion_modifier
+					years = 3
+				}
+			}
+		}
 		custom_tooltip = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
@@ -3080,7 +3167,6 @@ dubois.1024 = {
 	}
 }
 
-
 #Dubois 1025: Malayan Tapir Enclosure
 dubois.1025 = {
 	type = country_event
@@ -3180,7 +3266,6 @@ dubois.1025 = {
 		}
 	}
 }
-
 
 #Dubois 1026: Komodo Dragon
 dubois.1026 = {
