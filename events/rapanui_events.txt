@@ -5594,6 +5594,7 @@ rapanui.201 = {
     duration = 2
 
 	immediate = {
+		set_variable = rapanui_started_first_pacific_expedition_var
 		random_scope_character = {
 			limit = {
 				has_role = admiral
@@ -6329,6 +6330,59 @@ rapanui.211 = {
 				days = { 90 120 }
 			}
 		}
+		if = {
+			limit = {
+				NOT = {
+					any_scope_character = {
+						has_trait = dubois_naturalist
+					}
+				}
+			}
+			random_list = {
+				65 = {
+					trigger_event = {
+						id = rapanui.212
+						popup = yes
+					}
+				}
+				35 = {}
+			}
+		}
+	}
+}
+
+#Rapanui 212: New Naturalist
+
+rapanui.212 = {
+	type = country_event
+
+    title = rapanui.212.t
+    desc = rapanui.212.d
+    flavor = rapanui.212.f
+
+    gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		create_naturalist_effect = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = rapanui.212.g #Excellent
+		default_option = yes
+	}
+
+	after = {
 	}
 }
 
