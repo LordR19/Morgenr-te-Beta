@@ -5893,15 +5893,302 @@ rapanui.204 = {
 			name = rapanui_expedition_ship_name_randomizer_var
 			nearest = 1
 		}
+		#Expedition Progress
+		set_rapanui_pacific_expedition_progress = yes
+		#Expedition Reputation
+		set_rapanui_pacific_expedition_reputation = yes
 	}
 
 	option = {
-		name = rapanui.204.g #Cast off!
+		name = rapanui.204.g #Cast off - to Oceania!
 		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.205
+				days = { 60 120 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.204.h #Set sail for Australia and New Zealand.
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.206
+				days = { 60 120 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.204.i #Course towards Indonesia and Melanesia.
+		hidden_effect = {
+			trigger_event = {
+				id = rapanui.207
+				days = { 60 120 }
+			}
+		}
+	}
+
+	after = {
 	}
 }
 
-#Rapanui 211: Expedition ends
+#Rapanui 205: Expedition arrives in Oceania
+
+rapanui.205 = {
+	type = country_event
+
+    title = rapanui.205.t
+    desc = rapanui.205.d
+    flavor = rapanui.205.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_tahiti_panorama.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		set_variable = rapanui_pacific_expedition_location_polynesia
+		random_state = {
+			limit = {
+				state_region = s:STATE_TAHITI
+			}
+			save_scope_as = rapanui_pacific_expedition_location
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+	}
+
+	option = {
+		name = rapanui.205.g #Ah, Tahiti!
+		default_option = yes
+	}
+
+	after = {
+		add_journal_entry = {
+			type = je_rapanui_pacific_expedition
+		}
+	}
+}
+
+#Rapanui 206: Expedition arrives in Australia
+
+rapanui.206 = {
+	type = country_event
+
+    title = rapanui.206.t
+    desc = rapanui.206.d
+    flavor = rapanui.205.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_australia_panorama.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		set_variable = rapanui_pacific_expedition_location_australia
+		random_state = {
+			limit = {
+				state_region = s:STATE_VICTORIA
+			}
+			save_scope_as = rapanui_pacific_expedition_location
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+	}
+
+	option = {
+		name = rapanui.206.g #Ah, Australia
+		default_option = yes
+	}
+
+	after = {
+		add_journal_entry = {
+			type = je_rapanui_pacific_expedition
+		}
+	}
+}
+
+#Rapanui 207: Expedition arrives in Indonesia
+
+rapanui.207 = {
+	type = country_event
+
+    title = rapanui.207.t
+    desc = rapanui.207.d
+    flavor = rapanui.205.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_indonesia_panorama.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	immediate = {
+		set_variable = rapanui_pacific_expedition_location_indonesia
+		random_state = {
+			limit = {
+				state_region = s:STATE_CENTRAL_JAVA
+			}
+			save_scope_as = rapanui_pacific_expedition_location
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+	}
+
+	option = {
+		name = rapanui.207.g #Ah, Indonesia
+		default_option = yes
+	}
+
+	after = {
+		add_journal_entry = {
+			type = je_rapanui_pacific_expedition
+		}
+	}
+}
+
+#Rapanui 210: Change course
+
+rapanui.210 = {
+	type = country_event
+
+	title = rapanui.210.t
+	desc = rapanui.210.d
+	flavor = rapanui.210.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_rough.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	trigger = {
+		rapanui_has_oceanographic_expedition = yes
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.210.g #Polynesia
+		trigger = {
+			NOT = {
+				has_variable = rapanui_pacific_expedition_location_polynesia
+			}
+		}
+		rapanui_pacific_expedition_changes_location_tt = yes
+		remove_rapanui_pacific_expedition_location = yes
+		set_variable = rapanui_pacific_expedition_location_polynesia
+	}
+
+	option = {
+		name = rapanui.210.h #Australia
+		trigger = {
+			NOT = {
+				has_variable = rapanui_pacific_expedition_location_australia
+			}
+		}
+		rapanui_pacific_expedition_changes_location_tt = yes
+		remove_rapanui_pacific_expedition_location = yes
+		set_variable = rapanui_pacific_expedition_location_australia
+	}
+
+	option = {
+		name = rapanui.225.i #Indonesia
+		trigger = {
+			NOT = {
+				has_variable = rapanui_pacific_expedition_location_indonesia
+			}
+		}
+		rapanui_pacific_expedition_changes_location_tt = yes
+		remove_rapanui_pacific_expedition_location = yes
+		set_variable = rapanui_pacific_expedition_location_indonesia
+	}
+
+	option = {
+		name = rapanui.225.j #Stay the course
+		remove_variable = rapanui_change_course_action
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_reputation = yes
+	}
+}
+
+######Expedition returns######
+
+#Rapanui 211: Expedition returns
 
 rapanui.211 = {
 	type = country_event
@@ -5933,10 +6220,8 @@ rapanui.211 = {
 			}
 			save_scope_as = rapanui_scientist
 		}
-		remove_variable = rapanui_pe_general_var
-		remove_variable = rapanui_pe_oceanography_var
-		remove_variable = rapanui_pe_nature_var
-		remove_variable = rapanui_pe_reputation_var
+		remove_rapanui_pacific_expedition_location = yes
+		remove_rapanui_pacific_expedition_focus = yes
 	}
 
 	option = {
@@ -6114,6 +6399,2408 @@ rapanui.213 = {
 		}
 	}
 }
+
+######Expedition Events######
+
+###Oceanographie
+
+#Rapanui 221: Ocean currents
+
+rapanui.221 = {
+	type = country_event
+
+	title = rapanui.221.t
+	desc = rapanui.221.d
+	flavor = rapanui.221.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_right.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_oceanographic_expedition = yes
+		OR = {
+			has_variable = rapanui_pacific_expedition_location_polynesia
+			has_variable = rapanui_pacific_expedition_location_australia
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.221.g #Do the necessary experiments
+		default_option = yes
+		if = {
+			limit = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					has_trait = surveyor
+				}
+			}
+			add_3_rapanui_oceanographic_understanding = yes
+		}
+		else = {
+			add_1_rapanui_oceanographic_understanding = yes
+		}
+	}
+
+	option = {
+		name = rapanui.221.h #We follow the current
+		default_option = yes
+		custom_tooltip = rapanui_pacific_expedition_possible_change_tt
+		if = {
+			limit = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					has_trait = surveyor
+				}
+			}
+			add_5_rapanui_oceanographic_understanding = yes
+		}
+		else = {
+			add_3_rapanui_oceanographic_understanding = yes
+		}
+		hidden_effect = {
+			add_rapanui_pacific_expedition_progress = yes
+			if = {
+				limit = {
+					has_variable = rapanui_pacific_expedition_location_australia
+				}
+			}
+			random_list = {
+				50 = {}
+				50 = {
+					trigger_event = {
+						id = rapanui.225
+						days = { 30 90 }
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_variable = rapanui_pacific_expedition_location_polynesia
+				}
+			}
+			random_list = {
+				50 = {}
+				50 = {
+					trigger_event = {
+						id = rapanui.229
+						days = { 30 90 }
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 222: Water temperature
+
+rapanui.222 = {
+	type = country_event
+
+	title = rapanui.222.t
+	desc = rapanui.222.d
+	flavor = rapanui.222.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_right.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_oceanographic_expedition = yes
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.221.g #Do the necessary experiments
+		default_option = yes
+		random_list = {
+			25 = { add_1_rapanui_oceanographic_understanding = yes }
+			50 = { add_3_rapanui_oceanographic_understanding = yes }
+			25 = { add_5_rapanui_oceanographic_understanding = yes }
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 223: Magnetism
+
+rapanui.223 = {
+	type = country_event
+
+	title = rapanui.223.t
+	desc = rapanui.223.d
+	flavor = rapanui.223.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_left.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_oceanographic_expedition = yes
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.223.g #This will improve our physical knowledge
+		verrier_medium_add_technology = yes
+	}
+
+	option = {
+		name = rapanui.223.h #Scientist should do a special experiment
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = verrier_astronomer
+			}
+		}
+		default_option = yes
+		verrier_medium_add_technology = yes
+		add_3_rapanui_oceanographic_understanding = yes
+	}
+
+	option = {
+		name = rapanui.223.i #This will improve our oceanographic knowledge
+		add_3_rapanui_oceanographic_understanding = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 224: Deap Sea Measurement
+
+rapanui.224 = {
+	type = country_event
+
+	title = rapanui.224.t
+	desc = rapanui.224.d
+	flavor = rapanui.224.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_left.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_oceanographic_expedition = yes
+		var:rapanui_pacific_expedition_progress <= 6
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.224.g #Concentrate on the measurement
+		default_option = yes
+		verrier_small_add_technology = yes
+		random_list = {
+			50 = { add_1_rapanui_oceanographic_understanding = yes }
+			50 = { add_3_rapanui_oceanographic_understanding = yes }
+		}
+	}
+
+	option = {
+		name = rapanui.224.h #Concentrate on catching deap sea specimen
+		dubois_small_add_technology = yes
+		random_list = {
+			33 = { dubois_add_1000_specimen = yes }
+			33 = { dubois_add_3000_specimen = yes }
+			33 = { dubois_add_5000_specimen = yes }
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_global_variable = rapanui_challenger_deep_found
+					}
+					var:rapanui_oceanographic_understanding >= 15
+					exists = scope:rapanui_scientist
+					scope:rapanui_scientist = {
+						has_trait = surveyor
+					}
+				}
+				trigger_event = {
+					id = rapanui.230
+					popup = yes
+					days = { 30 60 }
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 225: Antarctica
+
+rapanui.225 = {
+	type = country_event
+
+	title = rapanui.225.t
+	desc = rapanui.225.d
+	flavor = rapanui.225.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_antarctica.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_oceanographic_expedition = yes
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		remove_rapanui_pacific_expedition_location = yes
+		set_variable = rapanui_pacific_expedition_location_antarctica
+	}
+
+	option = {
+		name = rapanui.225.g #Perfect for oceanographic studies
+		default_option = yes
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = surveyor
+			}
+		}
+		verrier_medium_add_technology = yes
+		add_5_rapanui_oceanographic_understanding = yes
+	}
+
+	option = {
+		name = rapanui.225.h #Perfect for meteorological studies
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = verrier_astronomer
+			}
+		}
+		verrier_large_add_technology = yes
+		verrier_add_5_astronomical_object = yes
+	}
+
+	option = {
+		name = rapanui.225.i #Perfect for zoological studies
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = dubois_naturalist
+			}
+		}
+		dubois_medium_add_technology = yes
+		dubois_add_5000_specimen = yes
+	}
+
+	option = {
+		name = rapanui.225.j #Perfect for general studies
+		verrier_small_add_technology = yes
+		dubois_small_add_technology = yes
+		add_3_rapanui_oceanographic_understanding = yes
+		verrier_add_1_astronomical_object = yes
+		dubois_add_1000_specimen = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		add_rapanui_pacific_expedition_reputation = yes
+		random_list = {
+			65 = {
+				remove_rapanui_pacific_expedition_location = yes
+				set_variable = rapanui_pacific_expedition_location_australia
+			}
+			35 = {
+				trigger_event = {
+					id = rapanui.226
+					popup = yes
+					days = { 20 30 }
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 226: Ice
+
+rapanui.226 = {
+	type = country_event
+
+	title = rapanui.226.t
+	desc = rapanui.226.d
+	flavor = rapanui.226.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_antarctica.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_oceanographic_expedition = yes
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		remove_rapanui_pacific_expedition_location = yes
+		set_variable = rapanui_pacific_expedition_location_antarctica
+	}
+
+	option = {
+		name = rapanui.226.g #They lose precious time
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		remove_rapanui_pacific_expedition_location = yes
+		set_variable = rapanui_pacific_expedition_location_australia
+	}
+}
+
+#Rapanui 227: Unknown Island
+
+rapanui.227 = {
+	type = country_event
+
+	title = rapanui.227.t
+	desc = rapanui.227.d
+	flavor = rapanui.227.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_indonesia_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_oceanographic_expedition = yes
+		OR = {
+			has_variable = rapanui_pacific_expedition_location_polynesia
+			has_variable = rapanui_pacific_expedition_location_indonesia
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.227.g #Send our scientist to explore the Island
+		trigger = {
+			exists = scope:rapanui_scientist
+		}
+		default_option = yes
+		if = {
+			limit = {
+				scope:rapanui_scientist = {
+					has_trait = surveyor
+				}
+				verrier_small_add_technology = yes
+				add_5_rapanui_oceanographic_understanding = yes
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_scientist = {
+					has_trait = verrier_astronomer
+				}
+				verrier_medium_add_technology = yes
+				verrier_add_1_astronomical_object = yes
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_scientist = {
+					has_trait = dubois_naturalist
+				}
+				dubois_medium_add_technology = yes
+				dubois_add_5000_specimen = yes
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.227.g #Send a small land expedition
+		random_list = {
+			25 = { add_3_rapanui_oceanographic_understanding = yes }
+			20 = { add_1_rapanui_oceanographic_understanding = yes }
+			15 = { dubois_add_3000_specimen = yes }
+			15 = { dubois_add_1000_specimen = yes }
+			10 = { verrier_add_1_astronomical_object = yes }
+			15 = {}
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		add_rapanui_pacific_expedition_reputation = yes
+	}
+}
+
+#Rapanui 229: Sea current drives ship away
+
+rapanui.229 = {
+	type = country_event
+
+	title = rapanui.229.t
+	desc = rapanui.229.d
+	flavor = rapanui.229.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_rough.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_oceanographic_expedition = yes
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.229.g #Sounds like we're losing sight of our expedition goal.
+		custom_tooltip = rapanui_pacific_expedition_changes_location_tt
+	}
+
+	after = {
+		remove_rapanui_pacific_expedition_location = yes
+		random_list = {
+			50 = { set_variable = rapanui_pacific_expedition_location_indonesia }
+			50 = { set_variable = rapanui_pacific_expedition_location_australia }
+		}
+	}
+}
+
+#Rapanui 230: Challenger Deep
+
+rapanui.230 = {
+	type = country_event
+
+	title = rapanui.230.t
+	desc = rapanui.230.d
+	flavor = rapanui.230.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = rapanui_challenger_deep_found
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_WEST_MICRONESIA
+			}
+			save_scope_as = rapanui_pacific_expedition_location
+		}
+	}
+
+	option = {
+		name = rapanui.230.g #A historical day
+		default_option = yes
+		add_10_rapanui_oceanographic_understanding = yes
+		verrier_large_add_technology = yes
+		post_notification = rapanui_challenger_notification
+	}
+
+	after = {
+	}
+}
+
+
+###Nature - Animals
+
+#Rapanui 231: Turtle Island
+
+rapanui.231 = {
+	type = country_event
+
+	title = rapanui.231.t
+	desc = rapanui.231.d
+	flavor = rapanui.231.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_turtle.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 1
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_polynesia
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.231.g #Catch a turtle for the zoo.
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_turtle
+			}
+		}
+		default_option = yes
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.151
+				days = { 30 60 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.231.h #Study the turtles and collect some samples
+		if = {
+			limit = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					has_trait = dubois_naturalist
+				}
+			}
+			dubois_add_5000_specimen = yes
+		}
+		else = {
+			dubois_add_3000_specimen = yes
+		}
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 232: The amazing Manta
+
+rapanui.232 = {
+	type = country_event
+
+	title = rapanui.232.t
+	desc = rapanui.232.d
+	flavor = rapanui.232.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_manta.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 2
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_polynesia
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		random_scope_character = {
+			limit = { 
+				is_ruler = yes 
+			}
+			save_scope_as = rapanui_ruler
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.232.g #Catch a Manta for the Zoo
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_manta
+			}
+		}
+		default_option = yes
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.152
+				days = { 30 60 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.232.h #This would be a great trophy for our ruler
+		trigger = {
+			NOT = {
+				scope:rapanui_ruler = {
+					has_modifier = rapanui_manta_trophy_modifier
+				}
+			}
+		}
+		scope:rapanui_ruler = {
+			add_modifier = rapanui_manta_trophy_modifier
+		}
+	}
+
+	option = {
+		name = rapanui.232.i #Scientist should study it
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = dubois_naturalist
+			}
+		}
+		dubois_medium_add_technology = yes
+	}
+
+	option = {
+		name = rapanui.232.j #Just enjoy nature and collect some fish
+		dubois_add_1000_specimen = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 233: Catch the Kangaroo
+
+rapanui.233 = {
+	type = country_event
+
+	title = rapanui.233.t
+	desc = rapanui.233.d
+	flavor = rapanui.233.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_kangaroo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 2
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_australia
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.233.g #Catch the Kangaroo for the Zoo
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_kangaroo
+			}
+		}
+		default_option = yes
+		random_list = {
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							exists = scope:rapanui_scientist
+							scope:rapanui_scientist = {
+								has_trait = dubois_naturalist
+							}
+						}
+						add = 25
+					}
+				}
+				trigger_event = {
+					id = rapanui.238
+					popup = yes
+				}
+			}
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							exists = scope:rapanui_scientist
+							scope:rapanui_scientist = {
+								has_trait = dubois_naturalist
+							}
+						}
+						add = -25
+					}
+				}
+				trigger_event = {
+					id = rapanui.239
+					popup = no
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.232.i #Scientist should study it
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = dubois_naturalist
+			}
+		}
+		dubois_small_add_technology = yes
+		dubois_add_3000_specimen = yes
+	}
+
+	option = {
+		name = rapanui.232.j #Just enjoy nature and collect some specimen
+		dubois_add_1000_specimen = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 234: Koala Stoat Deal
+
+rapanui.234 = {
+	type = country_event
+
+	title = rapanui.234.t
+	desc = rapanui.234.d
+	flavor = rapanui.234.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_koala.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 2
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_australia
+		NOT = {
+			has_modifier = rapanui_savior_of_australia_modifier
+		}
+		NOT = {
+			has_variable = dubois_zoo_animal_koala
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.234.g #Deal!
+		trigger = {
+			has_variable = dubois_zoo_animal_stoat
+		}
+		default_option = yes
+		custom_tooltip = dubois_sub_zoo_animal_stoat_tt
+		remove_variable = dubois_zoo_animal_stoat
+		remove_variable = dubois_transport_stoat
+		change_variable = {
+			name = dubois_zoo_animal_total
+			add = -1
+		}
+		change_variable = {
+			name = dubois_zoo_animal_europe
+			add = -1
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.154
+				days = { 30 60 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.234.h #The harm such a stoat could do in Australia would be horrible!
+		trigger = {
+			has_variable = dubois_zoo_animal_stoat
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = dubois_naturalist
+			}
+		}
+		add_modifier = {
+			name = rapanui_savior_of_australia_modifier 
+			years = 10
+		}
+	}
+
+	option = {
+		name = rapanui.234.i #What a strange proposal! We are more interested in specimen
+		dubois_add_1000_specimen = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 235: The strangest animal ever seen
+
+rapanui.235 = {
+	type = country_event
+
+	title = rapanui.235.t
+	desc = rapanui.235.d
+	flavor = rapanui.235.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_platypus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 2
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_australia
+		NOT = {
+			has_variable = dubois_zoo_animal_platypus
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.235.g #BUY IT!
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_treasury = -250000
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.155
+				days = { 30 60 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.235.h #This animal is clearly fake.
+		add_modifier = {
+			name = rapanui_no_trust_in_paradox_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 236: The Secrets of Borneo
+
+rapanui.236 = {
+	type = country_event
+
+	title = rapanui.236.t
+	desc = rapanui.236.d
+	flavor = rapanui.236.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_orangutan.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 2
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_indonesia
+		var:rapanui_pacific_expedition_progress <= 6
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_EAST_BORNEO
+			}
+			save_scope_as = rapanui_pacific_expedition_location
+		}
+	}
+
+	option = {
+		name = rapanui.236.g #A perfect Zoo animal
+		default_option = yes
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_orangutan
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.142
+				days = { 30 60 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.236.h #Study this wonderful creature
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = dubois_naturalist
+			}
+		}
+		dubois_medium_add_technology = yes
+	}
+
+	option = {
+		name = rapanui.232.j #Just enjoy nature and collect some specimen
+		dubois_add_1000_specimen = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_global_variable = rapanui_wallace_line_found
+					}
+					var:dubois_specimen >= 30000
+					exists = scope:rapanui_scientist
+					scope:rapanui_scientist = {
+						has_trait = dubois_naturalist
+					}
+				}
+				trigger_event = {
+					id = rapanui.240
+					popup = yes
+					days = { 30 60 }
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 237: The Dragon
+
+rapanui.237 = {
+	type = country_event
+
+	title = rapanui.237.t
+	desc = rapanui.237.d
+	flavor = rapanui.237.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_dragon.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 2
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_indonesia
+		var:rapanui_pacific_expedition_progress <= 6
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_SUNDA_ISLANDS
+			}
+			save_scope_as = rapanui_pacific_expedition_location
+		}
+	}
+
+	option = {
+		name = rapanui.237.g #A perfect Zoo animal
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_dragon
+			}
+		}
+		default_option = yes
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.145
+				days = { 30 60 }
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.236.h #Study this wonderful creature
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = dubois_naturalist
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					has_trait = dubois_naturalist
+				}
+			}
+			dubois_medium_add_technology = yes
+		}
+		else = {
+			dubois_small_add_technology = yes
+		}
+	}
+
+	option = {
+		name = rapanui.232.j #Just enjoy nature and collect some specimen
+		dubois_add_3000_specimen = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_global_variable = rapanui_wallace_line_found
+					}
+					var:dubois_specimen >= 30000
+					exists = scope:rapanui_scientist
+					scope:rapanui_scientist = {
+						has_trait = dubois_naturalist
+					}
+				}
+				trigger_event = {
+					id = rapanui.240
+					popup = yes
+					days = { 30 60 }
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 238: Kangaroo caught!
+
+rapanui.238 = {
+	type = country_event
+
+	title = rapanui.238.t
+	desc = rapanui.238.d
+	flavor = rapanui.238.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_kangaroo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.238.g #Send it home
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.153
+				days = { 30 60 }
+			}
+		}
+	}
+}
+
+#Rapanui 239: Kangaroo not caught ...
+
+rapanui.239 = {
+	type = country_event
+
+	title = rapanui.239.t
+	desc = rapanui.239.d
+	flavor = rapanui.238.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_kangaroo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.239.g #Damn
+	}
+}
+
+#Rapanui 240: Wallace Line
+
+rapanui.240 = {
+	type = country_event
+
+	title = rapanui.240.t
+	desc = rapanui.240.d
+	flavor = rapanui.240.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = rapanui_wallace_line_found
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_WEST_MICRONESIA
+			}
+			save_scope_as = rapanui_pacific_expedition_location
+		}
+	}
+
+	option = {
+		name = rapanui.240.g #A historical day
+		default_option = yes
+		dubois_add_10000_specimen = yes
+		dubois_large_add_technology = yes
+		post_notification = rapanui_wallace_notification
+		scope:rapanui_scientist = {
+			add_modifier = {
+				name = rapanui_russel_wallace_modifier
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+
+###Nature - Specimen & Fossils
+
+#Rapanui 241: Exotic seeds
+
+#Rapanui 242: New beetle species
+
+
+###Imperialism
+
+#Rapanui 251: A valuable Artifact
+
+rapanui.251 = {
+	type = country_event
+
+	title = rapanui.251.t
+	desc = rapanui.251.d
+	flavor = rapanui.251.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_tahiti_cult.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_imperialist_expedition = yes
+		country_rank = rank_value:great_power
+		OR = {
+			has_variable = rapanui_pacific_expedition_location_polynesia
+			has_variable = rapanui_pacific_expedition_location_australia
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.251.g #This belongs in a museum
+		default_option = yes
+		lepsius_add_oceanic_artifact = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		add_rapanui_pacific_expedition_reputation = yes
+	}
+}
+
+#Rapanui 252: Strategic anchor point
+
+rapanui.252 = {
+	type = country_event
+
+	title = rapanui.252.t
+	desc = rapanui.252.d
+	flavor = rapanui.252.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_anchor.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		rapanui_has_imperialist_expedition = yes
+		country_rank = rank_value:great_power
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		random_scope_character = {
+			limit = { 
+				is_ruler = yes 
+			}
+			save_scope_as = rapanui_ruler
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.252.g #Name the bay after the Scientist
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = surveyor
+			}
+			scope:rapanui_ruler = {
+				NOT = {
+					has_modifier = rapanui_namesake_of_a_bay_modifier
+				}
+			}
+		}
+		scope:rapanui_scientist = {
+			add_modifier = {
+				name = rapanui_namesake_of_a_bay_modifier
+				years = 10
+			}
+		}
+		add_3_rapanui_oceanographic_understanding = yes
+	}
+
+	option = {
+		name = rapanui.252.h #Name the bay after the Ruler
+		trigger = {
+			scope:rapanui_ruler = {
+				NOT = {
+					has_modifier = rapanui_namesake_of_a_bay_modifier
+				}
+			}
+		}
+		scope:rapanui_ruler = {
+			add_modifier = {
+				name = rapanui_namesake_of_a_bay_modifier
+				years = 10
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.252.i #Name the bay after the Commander
+		trigger = {
+			scope:rapanui_pacific_expedition_leader = {
+				NOT = {
+					has_modifier = rapanui_namesake_of_a_bay_modifier
+				}
+			}
+		}
+		scope:rapanui_pacific_expedition_leader = {
+			add_modifier = {
+				name = rapanui_namesake_of_a_bay_modifier
+				years = 10
+			}
+			add_trait = explorer
+		}
+	}
+
+	option = {
+		name = rapanui.252.j #Name the bay after the ship
+		add_1_rapanui_oceanographic_understanding = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		add_rapanui_pacific_expedition_reputation = yes
+	}
+}
+
+#Rapanui 253: Trade Post
+
+rapanui.253 = {
+	type = country_event
+
+	title = rapanui.253.t
+	desc = rapanui.253.d
+	flavor = rapanui.253.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_anchor.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 1
+	}
+
+	trigger = {
+		rapanui_has_imperialist_expedition = yes
+		country_rank = rank_value:great_power
+		OR = {
+			has_variable = rapanui_pacific_expedition_location_polynesia
+			has_variable = rapanui_pacific_expedition_location_indonesia
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		random_scope_character = {
+			limit = { 
+				is_ruler = yes 
+			}
+			save_scope_as = rapanui_ruler
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.253.g #Build a Trade Post
+		trigger = {
+			NOT = {
+				has_modifier = rapanui_trade_post_oceania_modifier
+			}
+		}
+		default_option = yes
+		add_modifier = {
+			name = rapanui_trade_post_oceania_modifier
+			years = 5
+		}
+	}
+
+	option = {
+		name = rapanui.253.h #Just map this place
+		add_3_rapanui_oceanographic_understanding = yes
+		if = {
+			limit = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					has_trait = surveyor
+				}
+			}
+			add_3_rapanui_oceanographic_understanding = yes
+		}
+		else = {
+			add_1_rapanui_oceanographic_understanding = yes
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		add_rapanui_pacific_expedition_reputation = yes
+	}
+}
+
+#Rapanui 254: Mission to COUNTRY
+
+rapanui.254 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:catholic
+			}
+			desc = rapanui.254.t_cat
+		}
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:protestant
+			}
+			desc = rapanui.254.t_pro
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:catholic
+			}
+			desc = rapanui.254.d_cat
+		}
+		triggered_desc = {
+			trigger = {
+				country_has_state_religion = rel:protestant
+			}
+			desc = rapanui.254.d_pro
+		}
+	}
+
+	flavor = rapanui.254.f
+
+	duration = 2
+
+	placement = rapanui_mission_country
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_missionary_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mission.dds"
+
+	trigger = {
+		NOT = {
+			has_modifier = rapanui_mission_to_oceania_modifier 
+		}
+		any_country = {
+			rapanui_country_can_be_converted = yes
+			NOR = {
+				has_modifier = rapanui_catholic_mission_modifier
+				has_modifier = rapanui_protestant_mission_modifier
+			}
+		}
+		rapanui_has_imperialist_expedition = yes
+		country_rank = rank_value:great_power
+		has_variable = rapanui_pacific_expedition_location_polynesia
+		OR = {
+			country_has_state_religion = rel:catholic
+			country_has_state_religion = rel:protestant
+		}
+		OR = {
+			has_law = law_type:law_state_religion
+			has_law = law_type:law_freedom_of_conscience
+		}
+	}
+
+	immediate = {
+		create_missionary_effect = yes
+		var:rapanui_missionary_var = {
+			save_scope_as = rapanui_missionary_scope
+		}
+		random_country = {
+			limit = {
+				rapanui_country_can_be_converted = yes
+				NOR = {
+					has_modifier = rapanui_catholic_mission_modifier
+					has_modifier = rapanui_protestant_mission_modifier
+				}
+			}
+			save_scope_as = rapanui_mission_country
+		}
+	}
+
+	option = {
+		name = rapanui.254.g_cat
+		trigger = {
+			country_has_state_religion = rel:catholic
+		}
+		default_option = yes
+		add_rapanui_pacific_expedition_reputation = yes
+		add_modifier = {
+			name = rapanui_mission_to_oceania_modifier
+		}
+		create_diplomatic_pact = {
+			country = rapanui_mission_country
+			type = catholic_mission_to_oceania
+		}
+		hidden_effect = {
+			scope:rapanui_mission_country = {
+				trigger_event = {
+					id = rapanui.102
+					days = { 3 9 }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.254.g_pro
+		trigger = {
+			country_has_state_religion = rel:protestant
+		}
+		add_rapanui_pacific_expedition_reputation = yes
+		add_modifier = {
+			name = rapanui_mission_to_oceania_modifier
+		}
+		create_diplomatic_pact = {
+			country = rapanui_mission_country
+			type = protestant_mission_to_oceania
+		}
+		hidden_effect = {
+			scope:rapanui_mission_country = {
+				trigger_event = {
+					id = rapanui.103
+					days = { 3 9 }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.254.h #Not interested
+		add_modifier = {
+			name = rapanui_imperialist_coward_modifier
+			years = 5
+		}
+		hidden_effect = {
+			kill_missionary_effect = yes
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 255: Hostile Reaction
+
+rapanui.255 = {
+	type = country_event
+
+	title = rapanui.255.t
+	desc = rapanui.255.d
+	flavor = rapanui.255.f
+
+	placement = scope:rapanui_hostile_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_mission_failure.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 1
+	}
+
+	trigger = {
+		rapanui_has_imperialist_expedition = yes
+		country_rank = rank_value:great_power
+		has_variable = rapanui_pacific_expedition_location_indonesia
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		random_country = {
+			limit = { 
+				region = sr:region_indonesia
+			}
+			save_scope_as = rapanui_hostile_country
+		}
+		ig:ig_armed_forces = {
+			save_scope_as = army_ig
+		}
+	}
+
+	option = {
+		name = rapanui.255.g #A serious faux pas we should fix
+		default_option = yes
+		add_modifier = {
+			name = lepsius_diplomatic_prostration_modifier
+			years = 5
+		}
+	}
+
+	option = {
+		name = rapanui.255.h #Blame the commander
+		scope:rapanui_hostile_country = {
+			change_relations = {
+				country = ROOT 
+				value = -10
+			}
+		}
+		scope:army_ig = {
+			add_modifier = {
+				name = lepsius_insulted_military_modifier
+				years = 3
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.255.h #We don't apologize for anything
+		change_infamy = 3
+		scope:rapanui_hostile_country = {
+			change_relations = {
+				country = ROOT 
+				value = -25
+			}
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		sub_rapanui_pacific_expedition_reputation = yes
+	}
+}
+
+#Rapanui 256: Pearl divers
+
+rapanui.256 = {
+	type = country_event
+
+	title = rapanui.256.t
+	desc = rapanui.256.d
+	flavor = rapanui.256.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_pe_anchor.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 2
+	}
+
+	trigger = {
+		rapanui_has_imperialist_expedition = yes
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.256.g #Establish a small trade connection
+		add_modifier = {
+			name = rapanui_exotic_pearls_modifier
+			years = 5
+		}
+		default_option = yes
+		add_treasury = -25000
+	}
+
+	option = {
+		name = rapanui.256.h #A Naturalist should examine this place
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = dubois_naturalist
+			}
+		}
+		dubois_add_3000_specimen = yes
+		dubois_small_add_technology = yes
+	}
+
+	option = {
+		name = rapanui.256.i #These are our pearls
+		trigger = {
+			has_variable = rapanui_pe_reputation_var
+		}
+		change_infamy = 3
+		add_treasury = 100000
+		lepsius_add_oceanic_artifact = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+}
+
+#Rapanui 257: Diplomatic Delegation
+
+rapanui.257 = {
+	type = country_event
+
+	title = rapanui.257.t
+	desc = rapanui.257.d
+	flavor = rapanui.257.f
+
+	placement = scope:rapanui_hostile_country
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_mission_failure.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 1
+	}
+
+	trigger = {
+		rapanui_has_imperialist_expedition = yes
+		country_rank = rank_value:great_power
+		has_variable = rapanui_pacific_expedition_location_indonesia
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		random_country = {
+			limit = { 
+				region = sr:region_indonesia
+			}
+			save_scope_as = rapanui_friendly_country
+		}
+		ig:ig_armed_forces = {
+			save_scope_as = army_ig
+		}
+	}
+
+	option = {
+		name = rapanui.257.g #Emphasize our peaceful intentions
+		change_infamy = -3
+		scope:rapanui_friendly_country = {
+			change_relations = {
+				country = ROOT 
+				value = 25
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.257.h #Praise the commander
+		scope:rapanui_friendly_country = {
+			change_relations = {
+				country = ROOT 
+				value = 10
+			}
+		}
+		scope:army_ig = {
+			add_modifier = {
+				name = lepsius_praised_military_modifier
+				years = 3
+			}
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		sub_rapanui_pacific_expedition_reputation = yes
+	}
+}
+
+#Rapanui 260: Circumnavigation
+
+rapanui.260 = {
+	type = country_event
+
+	title = rapanui.260.t
+	desc = rapanui.260.d
+	flavor = rapanui.260.f
+
+	placement = ROOT
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_pacific_expedition_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+	}
+
+	option = {
+		name = rapanui.260.g #A historical day
+		default_option = yes
+		add_modifier = {
+			name = rapanui_circumnavigation_modifier
+			years = 10
+		}
+		scope:rapanui_pacific_expedition_leader = {
+			add_trait = rapanui_circumnavigator
+		}
+	}
+
+	after = {
+	}
+}
+
+###Generic
+
+#Rapanui 261
+
+
+###Scientist
+
+#Rapanui 271
+
 
 ###############################################################################################################
 
