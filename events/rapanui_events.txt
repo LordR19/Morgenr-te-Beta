@@ -6221,7 +6221,6 @@ rapanui.211 = {
 			save_scope_as = rapanui_scientist
 		}
 		remove_rapanui_pacific_expedition_location = yes
-		remove_rapanui_pacific_expedition_focus = yes
 	}
 
 	option = {
@@ -6230,7 +6229,38 @@ rapanui.211 = {
 		remove_modifier = rapanui_pacific_expedition_modifier
 		add_modifier = {
 			name = rapanui_had_pacific_expedition_modifier
-			years = 10
+			years = 5
+		}
+		if = {
+			limit = {
+				set_variable = rapanui_pe_general_var
+			}
+			rapanui_add_3_oceanographic_understanding = yes
+			dubois_add_3000_specimen = yes
+			dubois_small_add_technology = yes
+			verrier_add_1_astronomical_object = yes
+			verrier_small_add_technology = yes
+		}
+		if = {
+			limit = {
+				set_variable = rapanui_pe_oceanography_var
+			}
+			rapanui_add_5_oceanographic_understanding = yes
+			verrier_medium_add_technology = yes
+		}
+		if = {
+			limit = {
+				set_variable = rapanui_pe_nature_var
+			}
+			dubois_add_5000_specimen = yes
+			dubois_medium_add_technology = yes
+		}
+		if = {
+			limit = {
+				set_variable = rapanui_pe_reputation_var
+			}
+			lepsius_add_oceanic_artifact = yes
+			verrier_add_3_astronomical_object = yes
 		}
 		if = {
 			limit = {
@@ -6239,6 +6269,7 @@ rapanui.211 = {
 				}
 			}
 			scope:rapanui_pacific_expedition_leader = {
+				remove_trait = experienced_naval_commander
 				add_trait = expert_naval_commander
 			}
 		}
@@ -6249,6 +6280,7 @@ rapanui.211 = {
 				}
 			}
 			scope:rapanui_pacific_expedition_leader = {
+				remove_trait = basic_naval_commander
 				add_trait = experienced_naval_commander
 			}
 		}
@@ -6266,32 +6298,10 @@ rapanui.211 = {
 				add_trait = basic_naval_commander
 			}
 		}
-		if = {
-			limit = {
-				scope:rapanui_pacific_expedition_leader = {
-					has_trait = popular_commander
-				}
-			}
-			scope:rapanui_pacific_expedition_leader = {
-				add_trait = celebrity_commander
-			}
-		}
-		if = {
-			limit = {
-				scope:rapanui_pacific_expedition_leader = {
-					NOT = {
-						has_trait = popular_commander
-						has_trait = celebrity_commander
-					}
-				}
-			}
-			scope:rapanui_pacific_expedition_leader = {
-				add_trait = popular_commander
-			}
-		}
 	}
 
 	after = {
+		remove_rapanui_pacific_expedition_focus = yes
 		random_scope_character = {
 			limit = {
 				has_variable = rapanui_pacific_expedition_leader_var
@@ -6353,8 +6363,9 @@ rapanui.213 = {
 			}
 			add_modifier = {
 				name = rapanui_science_report_geography_modifier
-				years = 3
+				years = 5
 			}
+			rapanui_add_5_oceanographic_understanding = yes
 		}
 		if = {
 			limit = {
@@ -6368,7 +6379,7 @@ rapanui.213 = {
 			}
 			add_modifier = {
 				name = rapanui_science_report_biology_modifier
-				years = 3
+				years = 5
 			}
 			dubois_add_5000_specimen = yes
 			dubois_medium_add_technology = yes
@@ -6382,7 +6393,7 @@ rapanui.213 = {
 			}
 			add_modifier = {
 				name = rapanui_science_report_astronomy_modifier
-				years = 3
+				years = 5
 			}
 			verrier_add_5_astronomical_object = yes
 			verrier_medium_add_technology = yes
@@ -7135,7 +7146,7 @@ rapanui.230 = {
 }
 
 
-###Nature - Animals
+###Animals
 
 #Rapanui 231: Turtle Island
 
@@ -8033,11 +8044,7 @@ rapanui.240 = {
 }
 
 
-###Nature - Specimen & Fossils
-
-#Rapanui 241: Exotic seeds
-
-#Rapanui 242: New beetle species
+###Fossils
 
 
 ###Imperialism
@@ -8296,7 +8303,6 @@ rapanui.253 = {
 
 	option = {
 		name = rapanui.253.h #Just map this place
-		add_3_rapanui_oceanographic_understanding = yes
 		if = {
 			limit = {
 				exists = scope:rapanui_scientist
@@ -8792,12 +8798,531 @@ rapanui.260 = {
 	}
 }
 
+###Scientists
+
+#Rapanui 261: Better Maps
+
+rapanui.261 = {
+	type = country_event
+
+	title = rapanui.261.t
+	desc = rapanui.261.d
+	flavor = rapanui.261.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			has_trait = surveyor
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.261.g #Good work
+		add_3_rapanui_oceanographic_understanding = yes
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 262: Measure corrected
+
+rapanui.262 = {
+	type = country_event
+
+	title = rapanui.262.t
+	desc = rapanui.262.d
+	flavor = rapanui.262.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			has_trait = surveyor
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.261.g #Good work
+		verrier_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 263: Exotic seeds
+
+rapanui.263 = {
+	type = country_event
+
+	title = rapanui.263.t
+	desc = rapanui.263.d
+	flavor = rapanui.263.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			has_trait = dubois_naturalist
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.261.g #Good work
+		dubois_add_3000_specimen = yes
+	}
+
+	option = {
+		name = rapanui.261.h #Use them for agriculture
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_farm_building = yes
+				}
+			}
+			add_modifier = {
+				name = rapanui_new_seeds_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 264: New beetle species
+
+rapanui.264 = {
+	type = country_event
+
+	title = rapanui.264.t
+	desc = rapanui.264.d
+	flavor = rapanui.264.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			has_trait = dubois_naturalist
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.261.g #Good work
+		dubois_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 265: Paleontology
+
+#Rapanui 266: Paleontology
+
+#Rapanui 267: Southern celestial hemisphere
+
+rapanui.267 = {
+	type = country_event
+
+	title = rapanui.267.t
+	desc = rapanui.267.d
+	flavor = rapanui.267.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			has_trait = verrier_astronomer
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.261.g #Good work
+		verrier_add_3_astronomical_object = yes
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 268: Solar Eclipse of 1845 (Australia), 1857 (Polynesia), 1868 (Indonesia/Australia), 1871 (All), 1875 (Indonesia), 1883 (Polynesia), 1885 (Polynesia)
+
+rapanui.268 = {
+	type = country_event
+
+	title = rapanui.268.t
+	desc = rapanui.268.d
+	flavor = rapanui.268.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_solar_eclipse.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 1
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			has_trait = verrier_astronomer
+		}
+		OR = {
+			AND = {
+				game_date > 1845.1.1
+				NOT = {
+					game_date >= 1846.1.1
+				}
+				has_variable = rapanui_pacific_expedition_location_australia
+
+			}
+			AND = {
+				game_date > 1857.1.1
+				NOT = {
+					game_date >= 1858.1.1
+				}
+				has_variable = rapanui_pacific_expedition_location_polynesia
+			}
+			AND = {
+				game_date > 1868.1.1
+				NOT = {
+					game_date >= 1869.1.1
+				}
+				OR = {
+					has_variable = rapanui_pacific_expedition_location_australia
+					has_variable = rapanui_pacific_expedition_location_indonesia
+				}
+			}
+			AND = {
+				game_date > 1871.1.1
+				NOT = {
+					game_date >= 1872.1.1
+				}
+			}
+			AND = {
+				game_date > 1875.1.1
+				NOT = {
+					game_date >= 1876.1.1
+				}
+				has_variable = rapanui_pacific_expedition_location_indonesia
+			}
+			AND = {
+				game_date > 1883.1.1
+				NOT = {
+					game_date >= 1884.1.1
+				}
+				has_variable = rapanui_pacific_expedition_location_polynesia
+			}
+			AND = {
+				game_date > 1885.1.1
+				NOT = {
+					game_date >= 1886.1.1
+				}
+				has_variable = rapanui_pacific_expedition_location_polynesia
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.268.g #Excellent
+		verrier_add_3_astronomical_object = yes
+		verrier_medium_add_technology = yes
+		add_modifier = {
+			name = rapanui_solar_eclipse_modifier
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 269: Notification for Venus Transit in 1872
+
+rapanui.269 = {
+	type = country_event
+
+	title = rapanui.269.t
+	desc = rapanui.269.d
+	flavor = rapanui.269.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		is_player = yes
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = rapanui.269.g #We should outfit an expedition
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 270: Venus Transit 1874
+
+rapanui.270 = {
+	type = country_event
+
+	title = rapanui.270.t
+	desc = rapanui.270.d
+	flavor = rapanui.270.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			has_trait = verrier_astronomer
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_pacific_expedition_leader_var
+			}
+			save_scope_as = rapanui_pacific_expedition_leader
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_scientist_var
+			}
+			save_scope_as = rapanui_scientist
+		}
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.270.g #Excellent
+		verrier_add_5_astronomical_object = yes
+		verrier_large_add_technology = yes
+		add_modifier = {
+			name = rapanui_venus_transit_modifier
+			years = 10
+		}
+	}
+
+	after = {
+	}
+}
+
+
 ###Generic
-
-#Rapanui 261
-
-
-###Scientist
 
 #Rapanui 271
 
