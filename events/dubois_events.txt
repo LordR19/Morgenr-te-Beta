@@ -1157,6 +1157,191 @@ dubois.21 = {
 	}
 }
 
+######Safari######
+
+#Dubois 31: Safari starts
+
+dubois.31 = {
+	type = country_event
+
+	title = dubois.31.t
+
+	desc = dubois.31.d
+
+	flavor = dubois.31.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+		dubois_set_safari_progress = yes
+		dubois_set_safari_trap = yes
+		dubois_set_safari_follow = yes
+	}
+
+	option = {
+		name = dubois.31.g #Hippopotamus
+		default_option = yes
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_hippopotamus
+			}
+		}
+		set_variable = dubois_safari_hippopotamus
+	}
+
+	option = {
+		name = dubois.31.h #Lion
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_lion
+			}
+		}
+		set_variable = dubois_safari_lion
+	}
+
+	option = {
+		name = dubois.31.i #Elephant
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_elephant
+			}
+		}
+		set_variable = dubois_safari_elephant
+	}
+
+	option = {
+		name = dubois.31.j #Giraffe
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_giraffe
+			}
+		}
+		set_variable = dubois_safari_giraffe
+	}
+
+	after = {
+
+	}
+}
+
+#Dubois 39: Safari Success
+
+dubois.39 = {
+	type = country_event
+
+	title = dubois.39.t
+
+	desc = dubois.39.d
+
+	flavor = dubois.39.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		var:dubois_safari_progress = 5
+		OR = {
+			AND = {
+				has_variable = dubois_safari_hippopotamus
+				var:dubois_safari_trap >= 3
+			}
+			AND = {
+				has_variable = dubois_safari_lion
+				var:dubois_safari_trap >= 2
+				var:dubois_safari_follow >= 2
+			}
+			AND = {
+				has_variable = dubois_safari_elephant
+				var:dubois_safari_trap >= 4
+			}
+			AND = {
+				has_variable = dubois_safari_giraffe
+				var:dubois_safari_trap >= 2
+			}
+		}
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.39.g #
+		default_option = yes
+		set_variable = {
+			name = dubois_safari_successful
+			years = 1
+		}
+		dubois_transport_safari_animal = yes
+	}
+
+	after = {
+		dubois_add_safari_progress = yes
+	}
+}
+
+#Dubois 40: Safari back home
+
+dubois.40 = {
+	type = country_event
+
+	title = dubois.40.t
+
+	desc = dubois.40.d
+
+	flavor = dubois.40.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.40.g #
+		default_option = yes
+		remove_modifier = dubois_on_safari_modifier
+		add_modifier = {
+			name = dubois_had_safari_modifier
+			years = 3
+		}
+	}
+
+	after = {
+		dubois_remove_safari_effect = yes
+	}
+}
+
 #################################################################################
 
 ######101-200: Animals arrive######
