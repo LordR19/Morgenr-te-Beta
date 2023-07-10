@@ -140,7 +140,7 @@ dubois_extend_zoo_small_decision = {
 	}
 
 	ai_chance = {
-		base = -1
+		base = 1000
 	}
 }
 
@@ -197,7 +197,7 @@ dubois_extend_zoo_medium_decision = {
 	}
 
 	ai_chance = {
-		base = -1
+		base = 1000
 	}
 }
 
@@ -236,7 +236,7 @@ dubois_extend_zoo_large_decision = {
 	}
 
 	ai_chance = {
-		base = -1
+		base = 1000
 	}
 }
 
@@ -275,7 +275,60 @@ dubois_extend_zoo_famous_decision = {
 	}
 
 	ai_chance = {
-		base = -1
+		base = 1000
+	}
+}
+
+#########Zoo: Catch local animals##############################################################
+
+dubois_catch_local_animal_decision = {
+
+	is_shown = {
+		has_technology_researched = dubois_theory_of_evolution_tech
+		NOT = {
+			has_variable = dubois_hide_animal_decisions_var
+		}
+	}
+
+	possible = {
+		any_scope_character = {
+			has_trait = dubois_naturalist
+			is_busy = no
+		}
+		custom_tooltip = {
+			text = dubois_has_local_animal_tt
+			dubois_has_local_animal = yes
+		}
+		NOT = {
+			has_modifier = dubois_search_local_animal_modifier
+		}
+	}
+	
+	when_taken = {
+		add_modifier = {
+			name = dubois_search_local_animal_modifier
+		}
+		hidden_effect = {
+			dubois_set_catch_animals = yes
+			random_scope_character = {
+				limit = {
+					has_trait = dubois_naturalist
+					is_busy = no
+				}
+				add_modifier = {
+					name = dubois_animal_hunter_modifier
+				}
+				set_character_busy = yes
+			}
+			trigger_event = {
+				id = dubois.21
+				days = 365
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
 	}
 }
 
