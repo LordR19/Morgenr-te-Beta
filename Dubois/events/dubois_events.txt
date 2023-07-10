@@ -1,0 +1,4212 @@
+﻿##################
+# Dubois EVENTS  #
+##################
+
+#by Marco Dandolo & Lord R
+
+###################
+
+namespace = dubois
+
+###################
+
+
+#################################################################################
+
+#Dubois 1: Zoo inauguration
+
+dubois.1 = {
+	type = country_event
+
+	title = dubois.1.t
+
+	desc = dubois.1.d
+
+	flavor = dubois.1.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_diplomatic_action.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		owner = {
+			set_variable = dubois_zoo_inauguration_happened
+		}
+	}
+
+	option = {
+		name = dubois.1.g
+		default_option = yes
+		owner = {
+			add_modifier = {
+				name = dubois_zoo_level_1_modifier
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 2: Origin of Species
+
+dubois.2 = {
+	type = country_event
+
+	title = dubois.2.t
+
+	desc = dubois.2.d
+
+	flavor = dubois.2.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = dubois_theory_of_evolution
+		}
+	}
+
+	immediate = {
+		set_global_variable = dubois_theory_of_evolution
+		if = {
+			limit ={
+				NOT = {
+					has_variable = dubois_naturalist_var
+				}
+			}
+			create_naturalist_effect = yes
+		}
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.2.g
+		default_option = yes
+		add_modifier = {
+			name = dubois_theory_of_evolution_invented_modifier
+			years = 5
+		}
+		dubois_large_add_technology = yes
+
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	option = {
+		name = dubois.2.h
+		add_modifier = {
+			name = dubois_theory_of_evolution_invented_modifier
+			years = 5
+		}
+		custom_tooltip = {
+			text = state_atheism_conversion_tt
+			every_scope_state = {
+				limit = {
+					is_incorporated = yes
+				}
+				convert_population = {
+					target = rel:atheist
+					value = 0.05
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 3: Return of the Beagle
+
+dubois.3 = {
+	type = country_event
+
+	title = dubois.3.t
+
+	desc = dubois.3.d
+
+	flavor = dubois.3.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		NOT = {
+			game_date >= 1837.1.1
+		}
+		ROOT = c:GBR
+		NOT = {
+			has_variable = dubois_beagle_returned
+		}
+	}
+
+	immediate = {
+		set_variable = dubois_beagle_returned
+		create_darwin_effect = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.3.g
+		default_option = yes
+		dubois_add_5000_specimen = yes
+		dubois_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+######Diplomatic action######
+
+#Dubois 11: Diplomatic Action, Animal selection
+
+dubois.11 = {
+	type = country_event
+
+	title = dubois.11.t
+
+	desc = dubois.11.d
+
+	flavor = dubois.11.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_diplomatic_action.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+
+	}
+
+	immediate = {
+		scope:target_country = {
+			save_scope_as = dubois_animal_country
+		}
+	}
+	######NORTH AMERICA######
+
+	#Grizzly Bear
+	option = {
+		name = dubois.11.grizzly
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_grizzly
+					has_variable = dubois_transport_grizzly
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_grizzly_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_grizzly
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.102
+				days = { 30 60 }
+			}
+		}
+	}
+	#Bald Eagle
+	option = {
+		name = dubois.11.eagle
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_eagle
+					has_variable = dubois_transport_eagle
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_eagle_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_eagle
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.103
+				days = { 30 60 }
+			}
+		}
+	}
+	#Bison
+	option = {
+		name = dubois.11.bison
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_bison
+					has_variable = dubois_transport_bison
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_bison_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_bison
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.104
+				days = { 30 60 }
+			}
+		}
+	}
+	#Florda Panther
+	option = {
+		name = dubois.11.panther
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_panther
+					has_variable = dubois_transport_panther
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_panther_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_panther
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.105
+				days = { 30 60 }
+			}
+		}
+	}
+	######SOUTH AMERICA######
+
+	#Brown-throated Sloth
+	option = {
+		name = dubois.11.sloth
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_sloth
+					has_variable = dubois_transport_sloth
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_sloth_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_sloth
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.111
+				days = { 30 60 }
+			}
+		}
+	}
+	#Jaguar
+	option = {
+		name = dubois.11.jaguar
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_jaguar
+					has_variable = dubois_transport_jaguar
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_jaguar_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_jaguar
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.112
+				days = { 30 60 }
+			}
+		}
+	}
+	#Giant Anteater
+	option = {
+		name = dubois.11.anteater
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_anteater
+					has_variable = dubois_transport_anteater
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_anteater_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_anteater
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.113
+				days = { 30 60 }
+			}
+		}
+	}
+	#Nine-Banded Armadillo
+	option = {
+		name = dubois.11.armadillo
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_armadillo
+					has_variable = dubois_transport_armadillo
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_armadillo_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_armadillo
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.114
+				days = { 30 60 }
+			}
+		}
+	}
+	#Andean Condor
+	option = {
+		name = dubois.11.condor
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_condor
+					has_variable = dubois_transport_condor
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_condor_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_condor
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.115
+				days = { 30 60 }
+			}
+		}
+	}
+	######EUROPE######
+
+	#Iberian Lynx
+	option = {
+		name = dubois.11.lynx
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_lynx
+					has_variable = dubois_transport_lynx
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_lynx_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_lynx
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.121
+				days = { 30 60 }
+			}
+		}
+	}
+	#Eurasian Wolf
+	option = {
+		name = dubois.11.wolf
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_wolf
+					has_variable = dubois_transport_wolf
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_wolf_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_wolf
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.122
+				days = { 30 60 }
+			}
+		}
+	}
+	#Eurasian Badger
+	option = {
+		name = dubois.11.badger
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_badger
+					has_variable = dubois_transport_badger
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_badger_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_badger
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.123
+				days = { 30 60 }
+			}
+		}
+	}
+	#Stoat
+	option = {
+		name = dubois.11.stoat
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_stoat
+					has_variable = dubois_transport_stoat
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_stoat_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_stoat
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.124
+				days = { 30 60 }
+			}
+		}
+	}
+	#Eurasian Otter
+	option = {
+		name = dubois.11.otter
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_otter
+					has_variable = dubois_transport_otter
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_otter_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_otter
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.125
+				days = { 30 60 }
+			}
+		}
+	}
+	######AFRICA######
+
+	#Hippopotamus
+	option = {
+		name = dubois.11.hippopotamus
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_hippopotamus
+					has_variable = dubois_transport_hippopotamus
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_hippopotamus_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_hippopotamus
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.131
+				days = { 30 60 }
+			}
+		}
+	}
+	#Lion
+	option = {
+		name = dubois.11.lion
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_lion
+					has_variable = dubois_transport_lion
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_lion_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_lion
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.132
+				days = { 30 60 }
+			}
+		}
+	}
+	#Elephant
+	option = {
+		name = dubois.11.elephant
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_elephant
+					has_variable = dubois_transport_elephant
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_elephant_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_elephant
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.133
+				days = { 30 60 }
+			}
+		}
+	}
+	#Giraffe
+	option = {
+		name = dubois.11.giraffe
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_giraffe
+					has_variable = dubois_transport_giraffe
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_giraffe_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_giraffe
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.134
+				days = { 30 60 }
+			}
+		}
+	}
+	#African Penguin
+	option = {
+		name = dubois.11.penguin
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_penguin
+					has_variable = dubois_transport_penguin
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_penguin_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_penguin
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.135
+				days = { 30 60 }
+			}
+		}
+	}
+	######ASIA######
+
+	#Giant Panda
+	option = {
+		name = dubois.11.panda
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_panda
+					has_variable = dubois_transport_panda
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_panda_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_panda
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.141
+				days = { 30 60 }
+			}
+		}
+	}
+	#Orangutan
+	option = {
+		name = dubois.11.orangutan
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_orangutan
+					has_variable = dubois_transport_orangutan
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_orangutan_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_orangutan
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.142
+				days = { 30 60 }
+			}
+		}
+	}
+	#Bengal Tiger
+	option = {
+		name = dubois.11.tiger
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_tiger
+					has_variable = dubois_transport_tiger
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_tiger_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_tiger
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.143
+				days = { 30 60 }
+			}
+		}
+	}
+	#Malayan Tapir
+	option = {
+		name = dubois.11.tapir
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_tapir
+					has_variable = dubois_transport_tapir
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_tapir_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_tapir
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.144
+				days = { 30 60 }
+			}
+		}
+	}
+	#Komodo Dragon
+	option = {
+		name = dubois.11.dragon
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_dragon
+					has_variable = dubois_transport_dragon
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_dragon_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_dragon
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.145
+				days = { 30 60 }
+			}
+		}
+	}
+	######AUSTRALIA & OCEANIA######
+
+	#Green Sea Turtle
+	option = {
+		name = dubois.11.turtle
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_turtle
+					has_variable = dubois_transport_turtle
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_turtle_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_turtle
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.151
+				days = { 30 60 }
+			}
+		}
+	}
+	#Manta Ray
+	option = {
+		name = dubois.11.manta
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_manta
+					has_variable = dubois_transport_manta
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_manta_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_manta
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.152
+				days = { 30 60 }
+			}
+		}
+	}
+	#Red Kangaroo
+	option = {
+		name = dubois.11.kangaroo
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_kangaroo
+					has_variable = dubois_transport_kangaroo
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_kangaroo_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_kangaroo
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.153
+				days = { 30 60 }
+			}
+		}
+	}
+	#Koala
+	option = {
+		name = dubois.11.koala
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_koala
+					has_variable = dubois_transport_koala
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_koala_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_koala
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.154
+				days = { 30 60 }
+			}
+		}
+	}
+	#Platypus
+	option = {
+		name = dubois.11.platypus
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_platypus
+					has_variable = dubois_transport_platypus
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_modifier = dubois_platypus_habitat_modifier
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_platypus
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.155
+				days = { 30 60 }
+			}
+		}
+	}
+
+	#No animal
+	option = {
+		name = dubois.11.no
+		default_option = yes
+		trigger = {
+			is_player = yes
+		}
+		remove_modifier = dubois_zoo_transport_modifier
+		add_treasury = 50000
+		scope:target_country = {
+			add_treasury = -50000
+		}
+	}
+
+	after = {
+	}
+}
+
+######Catch local animals######
+
+#Dubois 21: Collect animals
+
+dubois.21 = {
+	type = country_event
+
+	title = dubois.21.t
+
+	desc = dubois.21.d
+
+	flavor = dubois.21.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		dubois_calculate_catch_animals = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.21.g
+		default_option = yes
+		remove_modifier = dubois_search_local_animal_modifier
+		dubois_add_total_catch_animals = yes
+	}
+
+	after = {
+		dubois_remove_catch_animals = yes
+		scope:dubois_naturalist_scope = {
+			remove_modifier = dubois_animal_hunter_modifier
+			set_character_busy = no
+		}
+	}
+}
+
+#################################################################################
+
+######101-200: Animals arrive######
+
+######101-110: North American Animals######
+
+#Dubois 101: Polar Bear
+
+dubois.101 = {
+	type = country_event
+
+	title = dubois.101.t
+	desc = dubois.101.d
+	flavor = dubois.101.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_icebear.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.101.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_polar = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 102: Grizzly Bear
+
+dubois.102 = {
+	type = country_event
+
+	title = dubois.102.t
+	desc = dubois.102.d
+	flavor = dubois.102.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_grizzly.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.102.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_grizzly = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 103: Bald Eagle
+
+dubois.103 = {
+	type = country_event
+
+	title = dubois.103.t
+	desc = dubois.103.d
+	flavor = dubois.103.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_eagle.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.103.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_eagle = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 104: American Bison
+
+dubois.104 = {
+	type = country_event
+
+	title = dubois.104.t
+	desc = dubois.104.d
+	flavor = dubois.104.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_bison.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.104.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_bison = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 105: Florida Panther
+
+dubois.105 = {
+	type = country_event
+
+	title = dubois.105.t
+	desc = dubois.105.d
+	flavor = dubois.105.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_panther.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.105.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_panther = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+######111-120: South American Animals######
+
+#Dubois 111: Brown-throated Sloth
+
+dubois.111 = {
+	type = country_event
+
+	title = dubois.111.t
+	desc = dubois.111.d
+	flavor = dubois.111.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_sloth.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.111.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_sloth = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 112: Jaguar
+
+dubois.112 = {
+	type = country_event
+
+	title = dubois.112.t
+	desc = dubois.112.d
+	flavor = dubois.112.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_jaguar.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.112.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_jaguar = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 113: Giant Anteater
+
+dubois.113 = {
+	type = country_event
+
+	title = dubois.113.t
+	desc = dubois.113.d
+	flavor = dubois.113.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_anteater.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.113.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_anteater = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 114: Nine-banded Armadillo
+
+dubois.114 = {
+	type = country_event
+
+	title = dubois.114.t
+	desc = dubois.114.d
+	flavor = dubois.114.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_armadillo.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.114.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_armadillo = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 115: Andean Condor
+
+dubois.115 = {
+	type = country_event
+
+	title = dubois.115.t
+	desc = dubois.115.d
+	flavor = dubois.115.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_condor.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.115.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_condor = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+######121-130: European Animals######
+
+#Dubois 121: Iberian Lynx
+
+dubois.121 = {
+	type = country_event
+
+	title = dubois.121.t
+	desc = dubois.121.d
+	flavor = dubois.121.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_lynx.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.121.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_lynx = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 122: Eurasian Wolf
+
+dubois.122 = {
+	type = country_event
+
+	title = dubois.122.t
+	desc = dubois.122.d
+	flavor = dubois.122.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_wolf.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.122.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_wolf = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 123: Eurasian Badger
+
+dubois.123 = {
+	type = country_event
+
+	title = dubois.123.t
+	desc = dubois.123.d
+	flavor = dubois.123.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_badger.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.123.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_badger = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 124: Stoat
+
+dubois.124 = {
+	type = country_event
+
+	title = dubois.124.t
+	desc = dubois.124.d
+	flavor = dubois.124.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_stoat.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.124.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_stoat = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 125: Eurasian Otter
+
+dubois.125 = {
+	type = country_event
+
+	title = dubois.125.t
+	desc = dubois.125.d
+	flavor = dubois.125.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_otter.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.125.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_otter = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+######131-140: African Animals######
+
+#Dubois 131: Hippopotamus
+
+dubois.131 = {
+	type = country_event
+
+	title = dubois.131.t
+	desc = dubois.131.d
+	flavor = dubois.131.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_hippopotamus.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.131.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_hippopotamus = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 132: Lion
+
+dubois.132 = {
+	type = country_event
+
+	title = dubois.132.t
+	desc = dubois.132.d
+	flavor = dubois.132.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_lion.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.132.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_lion = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 133: Elephant
+
+dubois.133 = {
+	type = country_event
+
+	title = dubois.133.t
+	desc = dubois.133.d
+	flavor = dubois.133.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elephant.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.133.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_elephant = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 134: Giraffe
+
+dubois.134 = {
+	type = country_event
+
+	title = dubois.134.t
+	desc = dubois.134.d
+	flavor = dubois.134.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_giraffe.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.134.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_giraffe = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 135: African Penguin
+
+dubois.135 = {
+	type = country_event
+
+	title = dubois.135.t
+	desc = dubois.135.d
+	flavor = dubois.135.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_penguin.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.135.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_penguin = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+######141-150: Asian Animals######
+
+#Dubois 141: Giant Panda
+
+dubois.141 = {
+	type = country_event
+
+	title = dubois.141.t
+	desc = dubois.141.d
+	flavor = dubois.141.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_panda.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.141.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_panda = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 142: Orangutan
+
+dubois.142 = {
+	type = country_event
+
+	title = dubois.142.t
+	desc = dubois.142.d
+	flavor = dubois.142.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_orangutan.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.142.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_orangutan = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 143: Bengal Tiger
+
+dubois.143 = {
+	type = country_event
+
+	title = dubois.143.t
+	desc = dubois.143.d
+	flavor = dubois.143.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_tiger.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.143.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_tiger = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 144: Malayan Tapir
+
+dubois.144 = {
+	type = country_event
+
+	title = dubois.144.t
+	desc = dubois.144.d
+	flavor = dubois.144.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_tapir.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.144.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_tapir = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 145: Komodo Dragon
+
+dubois.145 = {
+	type = country_event
+
+	title = dubois.145.t
+	desc = dubois.145.d
+	flavor = dubois.145.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_dragon.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.145.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_dragon = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+######151-160: Australian/Oceanian Animals######
+
+#Dubois 151: Green Sea Turtle
+
+dubois.151 = {
+	type = country_event
+
+	title = dubois.151.t
+	desc = dubois.151.d
+	flavor = dubois.151.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_turtle.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.151.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_turtle = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 152: Manta Ray
+
+dubois.152 = {
+	type = country_event
+
+	title = dubois.152.t
+	desc = dubois.152.d
+	flavor = dubois.152.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_manta.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.152.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_manta = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 153: Red Kangaroo
+
+dubois.153 = {
+	type = country_event
+
+	title = dubois.153.t
+	desc = dubois.153.d
+	flavor = dubois.153.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_kangaroo.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.153.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_kangaroo = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 154: Koala
+
+dubois.154 = {
+	type = country_event
+
+	title = dubois.154.t
+	desc = dubois.154.d
+	flavor = dubois.154.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_koala.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.154.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_koala = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 155: Platypus
+
+dubois.155 = {
+	type = country_event
+
+	title = dubois.155.t
+	desc = dubois.155.d
+	flavor = dubois.155.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_platypus.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.155.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_platypus = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#####################################################################
+
+######ZOO######
+
+#Dubois 1001: Zoo Main Entrance
+dubois.1001 = {
+	type = country_event
+
+    title = dubois.1001.t
+    desc = dubois.1001.d
+    flavor = dubois.1001.f
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.1001.g #Visit African Animals
+		custom_tooltip = {
+			trigger_event = {
+				id = dubois.1011
+				popup = yes
+			}
+			text = visit_animals_africa_tt
+		}
+	}
+
+	option = {
+		name = dubois.1001.h #Visit Asian Animals
+		custom_tooltip = {
+			trigger_event = {
+				id = dubois.1021
+				popup = yes
+			}
+			text = visit_animals_asia_tt
+		}
+	}
+
+	option = {
+		name = dubois.1001.i #Visit Australian Animals
+		custom_tooltip = {
+			trigger_event = {
+				id = dubois.1031
+				popup = yes
+			}
+			text = visit_animals_australia_tt
+		}
+	}
+
+	option = {
+		name = dubois.1001.j #Visit European Animals
+		custom_tooltip = {
+			text = visit_animals_europe_tt
+		}
+	}
+
+	option = {
+		name = dubois.1001.k #Visit North American Animals
+		custom_tooltip = {
+			text = visit_animals_north_america_tt
+		}
+	}
+
+	option = {
+		name = dubois.1001.l #Visit South American Animals
+		custom_tooltip = {
+			text = visit_animals_south_america_tt
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+		}
+	}
+}
+
+#Dubois 1011: African Enclosures
+dubois.1011 = {
+	type = country_event
+
+    title = dubois.1011.t
+    desc = dubois.1011.d
+    flavor = dubois.1011.f
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.1011.g #Visit the Hippopotami
+		trigger = {
+			has_variable = dubois_zoo_animal_hippopotamus
+		}
+		custom_tooltip = {
+			text = visit_hippopotami_tt
+			trigger_event = {
+				id = dubois.1012
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.h #Visit the Lions
+		trigger = {
+			has_variable = dubois_zoo_animal_lion
+		}
+		custom_tooltip = {
+			text = visit_lions_tt
+			trigger_event = {
+				id = dubois.1013
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.i #Visit the Elephants
+		trigger = {
+			has_variable = dubois_zoo_animal_elephant
+		}
+		custom_tooltip = {
+			text = visit_elephants_tt
+			trigger_event = {
+				id = dubois.1014
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.j #Visit the Giraffes
+		trigger = {
+			has_variable = dubois_zoo_animal_giraffe
+		}
+		custom_tooltip = {
+			text = visit_giraffes_tt
+			trigger_event = {
+				id = dubois.1015
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.k #Visit the African Penguins
+		trigger = {
+			has_variable = dubois_zoo_animal_penguin
+		}
+		custom_tooltip = {
+			text = visit_african_penguins_tt
+			trigger_event = {
+				id = dubois.1016
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+		}
+	}
+}
+
+#Dubois 1012: Hippopotamus Enclosure
+dubois.1012 = {
+	type = country_event
+
+    title = dubois.1012.t
+    desc = dubois.1012.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_hippopotamus_flavor_randomizer_var = 1
+			}
+			desc = dubois.1012.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_hippopotamus_flavor_randomizer_var = 2
+			}
+			desc = dubois.1012.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_hippopotamus_flavor_randomizer_var = 3
+			}
+			desc = dubois.1012.f3
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_afr_hippos.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_hippopotamus_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_hippopotamus_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_hippopotamus_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1012.k #Return to the African Enclosures
+		custom_tooltip = {
+			text = zoo_african_enclosures_tt
+			trigger_event = {
+				id = dubois.1011
+				popup = yes
+			}
+			remove_variable = dubois_zoo_hippopotamus_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_hippopotamus_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_hippopotamus_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1013: Lion Enclosure
+dubois.1013 = {
+	type = country_event
+
+    title = dubois.1013.t
+    desc = dubois.1013.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 1
+			}
+			desc = dubois.1013.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 2
+			}
+			desc = dubois.1013.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 3
+			}
+			desc = dubois.1013.f3
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 4
+			}
+			desc = dubois.1013.f4
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_afr_lions.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role = general
+				is_busy = no
+				age >= 70
+			}
+			save_scope_as = dubois_prinz_eugen
+		}
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_lion_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_lion_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_lion_flavor_randomizer_var
+					value = 3
+				}
+			}
+			0 = { 
+				modifier = {
+					if = {
+						limit = {
+							any_scope_character = {
+								has_role = general
+								is_busy = no
+								age >= 70
+							}
+							NOT = {
+								has_variable = dubois_prinz_eugen_var
+							}
+						}
+						add = 70
+					}
+				}
+				set_variable = dubois_prinz_eugen_var
+				set_variable = {
+					name = dubois_zoo_lion_flavor_randomizer_var
+					value = 4
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1012.k #Return to the African Enclosures
+		if = {
+			limit = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 4
+			}
+			scope:dubois_prinz_eugen = {
+				kill_character = yes
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = dubois_eugen_and_the_lion_modifier
+					years = 3
+				}
+			}
+		}
+		custom_tooltip = {
+			text = zoo_african_enclosures_tt
+			trigger_event = {
+				id = dubois.1011
+				popup = yes
+			}
+			remove_variable = dubois_zoo_lion_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		if = {
+			limit = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 4
+			}
+			scope:dubois_prinz_eugen = {
+				kill_character = yes
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = dubois_eugen_and_the_lion_modifier
+					years = 3
+				}
+			}
+		}
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_lion_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		if = {
+			limit = {
+				var:dubois_zoo_lion_flavor_randomizer_var = 4
+			}
+			scope:dubois_prinz_eugen = {
+				kill_character = yes
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = dubois_eugen_and_the_lion_modifier
+					years = 3
+				}
+			}
+		}
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_lion_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1014: Elephant Enclosure
+dubois.1014 = {
+	type = country_event
+
+    title = dubois.1014.t
+    desc = dubois.1014.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_elephant_flavor_randomizer_var = 1
+			}
+			desc = dubois.1014.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_elephant_flavor_randomizer_var = 2
+			}
+			desc = dubois.1014.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_elephant_flavor_randomizer_var = 3
+			}
+			desc = dubois.1014.f3
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_afr_elephant.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_elephant_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_elephant_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_elephant_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1012.k #Return to the African Enclosures
+		custom_tooltip = {
+			text = zoo_african_enclosures_tt
+			trigger_event = {
+				id = dubois.1011
+				popup = yes
+			}
+			remove_variable = dubois_zoo_elephant_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_elephant_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_elephant_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1015: Giraffe Enclosure
+dubois.1015 = {
+	type = country_event
+
+    title = dubois.1015.t
+    desc = dubois.1015.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_giraffe_flavor_randomizer_var = 1
+			}
+			desc = dubois.1015.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_giraffe_flavor_randomizer_var = 2
+			}
+			desc = dubois.1015.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_giraffe_flavor_randomizer_var = 3
+			}
+			desc = dubois.1015.f3
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_afr_giraffe.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_giraffe_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_giraffe_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_giraffe_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1012.k #Return to the African Enclosures
+		custom_tooltip = {
+			text = zoo_african_enclosures_tt
+			trigger_event = {
+				id = dubois.1011
+				popup = yes
+			}
+			remove_variable = dubois_zoo_giraffe_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_giraffe_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_giraffe_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1016: African Penguin Enclosure
+dubois.1016 = {
+	type = country_event
+
+    title = dubois.1016.t
+    desc = dubois.1016.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_penguin_flavor_randomizer_var = 1
+			}
+			desc = dubois.1016.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_penguin_flavor_randomizer_var = 2
+			}
+			desc = dubois.1016.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_penguin_flavor_randomizer_var = 3
+			}
+			desc = dubois.1016.f3
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_penguin.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_penguin_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_penguin_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_penguin_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1012.k #Return to the African Enclosures
+		custom_tooltip = {
+			text = zoo_african_enclosures_tt
+			trigger_event = {
+				id = dubois.1011
+				popup = yes
+			}
+			remove_variable = dubois_zoo_penguin_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_penguin_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_penguin_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1021: Asian Enclosures
+dubois.1021 = {
+	type = country_event
+
+    title = dubois.1021.t
+    desc = dubois.1021.d
+    flavor = dubois.1021.f
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.1021.g #Visit the Panda
+		trigger = {
+			has_variable = dubois_zoo_animal_panda
+		}
+		custom_tooltip = {
+			text = visit_panda_tt
+			trigger_event = {
+				id = dubois.1022
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1021.h #Visit the Orangutan
+		trigger = {
+			has_variable = dubois_zoo_animal_orangutan
+		}
+		custom_tooltip = {
+			text = visit_orangutan_tt
+			trigger_event = {
+				id = dubois.1023
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1021.i #Visit the Tiger
+		trigger = {
+			has_variable = dubois_zoo_animal_tiger
+		}
+		custom_tooltip = {
+			text = visit_tiger_tt
+			trigger_event = {
+				id = dubois.1024
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1021.j #Visit the Malayan Tapir
+		trigger = {
+			has_variable = dubois_zoo_animal_tapir
+		}
+		custom_tooltip = {
+			text = visit_tapir_tt
+			trigger_event = {
+				id = dubois.1025
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1021.k #Visit the Komodo Dragon
+		trigger = {
+			has_variable = dubois_zoo_animal_dragon
+		}
+		custom_tooltip = {
+			text = visit_dragon_tt
+			trigger_event = {
+				id = dubois.1026
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+		}
+	}
+}
+
+#Dubois 1022: Panda Enclosure
+dubois.1022 = {
+	type = country_event
+
+    title = dubois.1022.t
+    desc = dubois.1022.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_panda_flavor_randomizer_var = 1
+			}
+			desc = dubois.1022.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_panda_flavor_randomizer_var = 2
+			}
+			desc = dubois.1022.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_panda_flavor_randomizer_var = 3
+			}
+			desc = dubois.1022.f3
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_panda.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_panda_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_panda_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_panda_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1022.k #Return to the Asian Enclosures
+		custom_tooltip = {
+			text = zoo_asian_enclosures_tt
+			trigger_event = {
+				id = dubois.1021
+				popup = yes
+			}
+			remove_variable = dubois_zoo_panda_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_panda_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_panda_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1023: Orangutan Enclosure
+dubois.1023 = {
+	type = country_event
+
+    title = dubois.1023.t
+    desc = dubois.1023.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_orangutan_flavor_randomizer_var = 1
+			}
+			desc = dubois.1023.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_orangutan_flavor_randomizer_var = 2
+			}
+			desc = dubois.1023.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_orangutan_flavor_randomizer_var = 3
+			}
+			desc = dubois.1023.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_orangutan.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_orangutan_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_orangutan_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_orangutan_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1022.k #Return to the Asian Enclosures
+		custom_tooltip = {
+			text = zoo_asian_enclosures_tt
+			trigger_event = {
+				id = dubois.1021
+				popup = yes
+			}
+			remove_variable = dubois_zoo_orangutan_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_orangutan_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_orangutan_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1024: Tiger Enclosure
+dubois.1024 = {
+	type = country_event
+
+    title = dubois.1024.t
+    desc = dubois.1024.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_tiger_flavor_randomizer_var = 1
+			}
+			desc = dubois.1024.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_tiger_flavor_randomizer_var = 2
+			}
+			desc = dubois.1024.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_tiger_flavor_randomizer_var = 3
+			}
+			desc = dubois.1024.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_tiger.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_tiger_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_tiger_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_tiger_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1022.k #Return to the Asian Enclosures
+		custom_tooltip = {
+			text = zoo_asian_enclosures_tt
+			trigger_event = {
+				id = dubois.1021
+				popup = yes
+			}
+			remove_variable = dubois_zoo_tiger_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_tiger_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_tiger_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1025: Malayan Tapir Enclosure
+dubois.1025 = {
+	type = country_event
+
+    title = dubois.1025.t
+    desc = dubois.1025.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_tapir_flavor_randomizer_var = 1
+			}
+			desc = dubois.1025.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_tapir_flavor_randomizer_var = 2
+			}
+			desc = dubois.1025.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_tapir_flavor_randomizer_var = 3
+			}
+			desc = dubois.1025.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_tapir.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_tapir_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_tapir_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_tapir_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1022.k #Return to the Asian Enclosures
+		custom_tooltip = {
+			text = zoo_asian_enclosures_tt
+			trigger_event = {
+				id = dubois.1021
+				popup = yes
+			}
+			remove_variable = dubois_zoo_tapir_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_tapir_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_tapir_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1026: Komodo Dragon
+dubois.1026 = {
+	type = country_event
+
+    title = dubois.1026.t
+    desc = dubois.1026.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_dragon_flavor_randomizer_var = 1
+			}
+			desc = dubois.1026.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_dragon_flavor_randomizer_var = 2
+			}
+			desc = dubois.1026.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_dragon_flavor_randomizer_var = 3
+			}
+			desc = dubois.1026.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_tiger.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_dragon_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_dragon_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_dragon_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1022.k #Return to the Asian Enclosures
+		custom_tooltip = {
+			text = zoo_asian_enclosures_tt
+			trigger_event = {
+				id = dubois.1021
+				popup = yes
+			}
+			remove_variable = dubois_zoo_dragon_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_dragon_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_dragon_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1031: Australian and Oceanian Enclosures
+dubois.1031 = {
+	type = country_event
+
+    title = dubois.1031.t
+    desc = dubois.1031.d
+    flavor = dubois.1031.f
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.1031.g #Visit the Sea Turtles
+		trigger = {
+			has_variable = dubois_zoo_animal_turtle
+		}
+		custom_tooltip = {
+			text = visit_turtle_tt
+			trigger_event = {
+				id = dubois.1032
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1031.h #Visit the Manta Ray
+		trigger = {
+			has_variable = dubois_zoo_animal_manta
+		}
+		custom_tooltip = {
+			text = visit_manta_tt
+			trigger_event = {
+				id = dubois.1033
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1031.i #Visit the Koala
+		trigger = {
+			has_variable = dubois_zoo_animal_koala
+		}
+		custom_tooltip = {
+			text = visit_koala_tt
+			trigger_event = {
+				id = dubois.1034
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1031.j #Visit the Kangaroo
+		trigger = {
+			has_variable = dubois_zoo_animal_kangaroo
+		}
+		custom_tooltip = {
+			text = visit_kangaroo_tt
+			trigger_event = {
+				id = dubois.1035
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1031.k #Visit the Platypus
+		trigger = {
+			has_variable = dubois_zoo_animal_platypus
+		}
+		custom_tooltip = {
+			text = visit_platypus_tt
+			trigger_event = {
+				id = dubois.1036
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+		}
+	}
+}
+
+#Dubois 1032: Sea Turtle Enclosure
+dubois.1032 = {
+	type = country_event
+
+    title = dubois.1032.t
+    desc = dubois.1032.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_sea_turtle_flavor_randomizer_var = 1
+			}
+			desc = dubois.1032.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_sea_turtle_flavor_randomizer_var = 2
+			}
+			desc = dubois.1032.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_sea_turtle_flavor_randomizer_var = 3
+			}
+			desc = dubois.1032.f3
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_turtle.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_sea_turtle_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_sea_turtle_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_sea_turtle_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1032.k #Return to the Australian and Oceanian Enclosures
+		custom_tooltip = {
+			text = zoo_australian_enclosures_tt
+			trigger_event = {
+				id = dubois.1031
+				popup = yes
+			}
+			remove_variable = dubois_zoo_sea_turtle_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_sea_turtle_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_sea_turtle_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1033: Manta Ray Enclosure
+dubois.1033 = {
+	type = country_event
+
+    title = dubois.1033.t
+    desc = dubois.1033.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_manta_flavor_randomizer_var = 1
+			}
+			desc = dubois.1033.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_manta_flavor_randomizer_var = 2
+			}
+			desc = dubois.1033.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_manta_flavor_randomizer_var = 3
+			}
+			desc = dubois.1033.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_manta.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_manta_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_manta_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_manta_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1032.k #Return to the Australian and Oceanian Enclosures
+		custom_tooltip = {
+			text = zoo_australian_enclosures_tt
+			trigger_event = {
+				id = dubois.1031
+				popup = yes
+			}
+			remove_variable = dubois_zoo_manta_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_manta_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_manta_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1034: Koala Enclosure
+dubois.1034 = {
+	type = country_event
+
+    title = dubois.1034.t
+    desc = dubois.1034.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_koala_flavor_randomizer_var = 1
+			}
+			desc = dubois.1034.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_koala_flavor_randomizer_var = 2
+			}
+			desc = dubois.1034.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_koala_flavor_randomizer_var = 3
+			}
+			desc = dubois.1034.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_koala.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_koala_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_koala_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_koala_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1031.k #Return to the Australian and Oceanian Enclosures
+		custom_tooltip = {
+			text = zoo_australian_enclosures_tt
+			trigger_event = {
+				id = dubois.1031
+				popup = yes
+			}
+			remove_variable = dubois_zoo_koala_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_koala_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_koala_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1035: Kangaroo Enclosure
+dubois.1035 = {
+	type = country_event
+
+    title = dubois.1035.t
+    desc = dubois.1035.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_kangaroo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1035.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_kangaroo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1035.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_kangaroo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1035.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_kangaroo.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_kangaroo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_kangaroo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_kangaroo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1031.k #Return to the Australian and Oceanian Enclosures
+		custom_tooltip = {
+			text = zoo_australian_enclosures_tt
+			trigger_event = {
+				id = dubois.1031
+				popup = yes
+			}
+			remove_variable = dubois_zoo_kangaroo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_kangaroo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_kangaroo_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1036: Platypus Enclosure
+dubois.1036 = {
+	type = country_event
+
+    title = dubois.1036.t
+    desc = dubois.1036.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_platypus_flavor_randomizer_var = 1
+			}
+			desc = dubois.1036.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_platypus_flavor_randomizer_var = 2
+			}
+			desc = dubois.1036.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_platypus_flavor_randomizer_var = 3
+			}
+			desc = dubois.1036.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_platypus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_platypus_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_platypus_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_platypus_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1031.k #Return to the Australian and Oceanian Enclosures
+		custom_tooltip = {
+			text = zoo_australian_enclosures_tt
+			trigger_event = {
+				id = dubois.1031
+				popup = yes
+			}
+			remove_variable = dubois_zoo_platypus_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_platypus_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_platypus_flavor_randomizer_var
+		}
+	}
+}
