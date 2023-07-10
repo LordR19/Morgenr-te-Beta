@@ -55,6 +55,140 @@ dubois.1 = {
 	}
 }
 
+#Dubois 2: Origin of Species
+
+dubois.2 = {
+	type = country_event
+
+	title = dubois.2.t
+
+	desc = dubois.2.d
+
+	flavor = dubois.2.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = dubois_theory_of_evolution
+		}
+	}
+
+	immediate = {
+		set_global_variable = dubois_theory_of_evolution
+		if = {
+			limit ={
+				NOT = {
+					has_variable = dubois_naturalist_var
+				}
+			}
+			create_naturalist_effect = yes
+		}
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.2.g
+		default_option = yes
+		add_modifier = {
+			name = dubois_theory_of_evolution_invented_modifier
+			years = 5
+		}
+		dubois_large_add_technology = yes
+
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	option = {
+		name = dubois.2.h
+		add_modifier = {
+			name = dubois_theory_of_evolution_invented_modifier
+			years = 5
+		}
+		custom_tooltip = {
+			text = state_atheism_conversion_tt
+			every_scope_state = {
+				limit = {
+					is_incorporated = yes
+				}
+				convert_population = {
+					target = rel:atheist
+					value = 0.05
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 3: Return of the Beagle
+
+dubois.3 = {
+	type = country_event
+
+	title = dubois.3.t
+
+	desc = dubois.3.d
+
+	flavor = dubois.3.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		NOT = {
+			game_date >= 1837.1.1
+		}
+		ROOT = c:GBR
+		NOT = {
+			has_variable = dubois_beagle_returned
+		}
+	}
+
+	immediate = {
+		set_variable = dubois_beagle_returned
+		create_darwin_effect = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.3.g
+		default_option = yes
+		dubois_add_5000_specimen = yes
+		dubois_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
 ######Diplomatic action######
 
 #Dubois 11: Diplomatic Action, Animal selection
@@ -289,7 +423,7 @@ dubois.11 = {
 			}
 		}
 		custom_tooltip = dubois_zoo_animal_transport_tt
-		set_variable = dubois_transport_anteater
+		set_variable = dubois_transport_armadillo
 		hidden_effect = {
 			trigger_event = {
 				id = dubois.114
@@ -475,7 +609,7 @@ dubois.11 = {
 			}
 		}
 		custom_tooltip = dubois_zoo_animal_transport_tt
-		set_variable = dubois_transport_hipopotamus
+		set_variable = dubois_transport_hippopotamus
 		hidden_effect = {
 			trigger_event = {
 				id = dubois.131
@@ -867,13 +1001,12 @@ dubois.11 = {
 	}
 
 	after = {
-		remove_variable = dubois_diplo_action_active
 	}
 }
 
 ######Catch local animals######
 
-#Dubois 21: Collect animals (hidden)
+#Dubois 21: Collect animals
 
 dubois.21 = {
 	type = country_event
@@ -913,7 +1046,7 @@ dubois.21 = {
 
 	after = {
 		dubois_remove_catch_animals = yes
-		scope:dubois_collector = {
+		scope:dubois_naturalist_scope = {
 			remove_modifier = dubois_animal_hunter_modifier
 			set_character_busy = no
 		}
