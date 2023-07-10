@@ -40,11 +40,9 @@ dubois.1 = {
 			set_variable = dubois_zoo_inauguration_happened
 		}
 	}
-	######NORTH AMERICA######
 
-	#Grizzly Bear
 	option = {
-		name = dubois.1
+		name = dubois.1.g
 		default_option = yes
 		owner = {
 			add_modifier = {
@@ -870,6 +868,56 @@ dubois.11 = {
 
 	after = {
 		remove_variable = dubois_diplo_action_active
+	}
+}
+
+######Catch local animals######
+
+#Dubois 21: Collect animals (hidden)
+
+dubois.21 = {
+	type = country_event
+
+	title = dubois.21.t
+
+	desc = dubois.21.d
+
+	flavor = dubois.21.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_collector
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		dubois_calculate_catch_animals = yes
+		random_scope_character = {
+			limit = {
+				has_modifier = dubois_animal_hunter_modifier
+			}
+			save_scope_as = dubois_collector
+		}
+	}
+
+	option = {
+		name = dubois.21.g
+		default_option = yes
+		remove_modifier = dubois_search_local_animal_modifier
+		dubois_add_total_catch_animals = yes
+	}
+
+	after = {
+		dubois_remove_catch_animals = yes
+		scope:dubois_collector = {
+			remove_modifier = dubois_animal_hunter_modifier
+			set_character_busy = no
+		}
 	}
 }
 
