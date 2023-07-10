@@ -332,6 +332,63 @@ dubois_catch_local_animal_decision = {
 	}
 }
 
+#########Zoo: Safari ##############################################################
+
+dubois_safari_decision = {
+
+	is_shown = {
+		has_technology_researched = dubois_theory_of_evolution_tech
+		NOT = {
+			has_modifier = dubois_had_safari_modifier
+		}
+		NOT = {
+			has_variable = dubois_hide_animal_decisions_var
+		}
+	}
+
+	possible = {
+		has_technology_researched = civilizing_mission
+		has_modifier = dubois_zoo_level_2_modifier
+		custom_tooltip = {
+			text = dubois_has_naturalist_tt
+			has_variable = dubois_naturalist_var
+		}
+		custom_tooltip = {
+			text = dubois_safari_possible_tt
+			dubois_safari_possible = yes
+		}
+		NOT = {
+			has_modifier = dubois_on_safari_modifier
+		}
+	}
+	
+	when_taken = {
+		add_modifier = {
+			name = dubois_on_safari_modifier
+		}
+		trigger_event = {
+			id = dubois.31
+			popup = yes
+		}
+		hidden_effect = {
+			random_scope_character = {
+				limit = {
+					has_trait = dubois_naturalist
+					is_busy = no
+				}
+				add_modifier = {
+					name = dubois_animal_hunter_modifier
+				}
+				set_character_busy = yes
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
 #########Specimen Collection##############################################################
 
 dubois_collect_specimen_decision = {
