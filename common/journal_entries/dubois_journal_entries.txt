@@ -1,0 +1,105 @@
+﻿############################
+# RAPANUI JOURNAL ENTRIES  #
+############################
+
+#by Marco Dandolo
+
+############################
+
+######SAFARI######
+
+je_rapanui_pacific_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_monthly_pulse = {
+		random_events = {
+			4 = dubois.32 #Standard event: Trap or Follow
+			2 = dubois.33 #Rare Flowers
+			2 = dubois.34 #Unknown Species
+			1 = dubois.35 #New vehicle: 2 follows possible
+			1 = dubois.36 #Extra traps: 2 traps possible
+			10 = dubois.38 #Hidden event
+			10 = dubois.39 #Succesful Safari
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+	
+    fail = {
+    }
+
+	on_fail = {
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+
+	invalid = {
+	}
+
+	current_value = {
+		value = var:dubois_safari_progress
+	}
+
+	goal_add_value = {
+		add = 6
+	}
+
+	progressbar = yes
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+}
+
+###################################################################################
+
+######OCEANOGRAPHIC STUDIES######
+
+je_rapanui_oceanographic_studies = { 
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	is_shown_when_inactive = {
+		has_variable = rapanui_oceanographic_understanding
+	}
+
+	possible = {
+		has_variable = rapanui_oceanographic_understanding
+		var:rapanui_oceanographic_understanding >= 1
+	}
+
+	complete = {
+		var:rapanui_oceanographic_understanding >= 25
+	}
+
+	on_complete = {
+		add_modifier = {
+			name = rapanui_oceanic_domination_modifier
+			years = 20
+		}
+	}
+
+	invalid = {
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
