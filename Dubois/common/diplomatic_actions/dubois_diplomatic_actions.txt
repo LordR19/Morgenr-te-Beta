@@ -1,0 +1,257 @@
+﻿###############################
+# DUBOIS DIPLOMATIC ACTIONS  #
+###############################
+
+#by Marco Dandolo
+
+############################
+
+#Ask for a zoo animal
+
+ask_for_zoo_animal = {
+	requires_approval = yes
+	show_effect_in_tooltip = yes
+
+	unlocking_technologies = {
+		dubois_theory_of_evolution_tech
+	}
+
+	potential = {
+		NOT = { is_country_type = decentralized }
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+		}
+		scope:target_country = {
+			NOT = { 
+				has_modifier = dubois_no_animal_export_modifier
+			}
+		}
+		NOT = { has_war_with = scope:target_country }
+		is_revolutionary = no
+		has_diplomatic_relevance = scope:target_country
+		hidden_trigger = {
+			OR = {
+				is_player = yes
+				AND = {
+					is_player = no
+					gold_reserves > 100000
+				}
+			}
+		}
+	}
+	
+	possible = {
+		NOT = {
+			has_modifier = dubois_zoo_transport_modifier
+		}
+		custom_tooltip = {
+			text = dubois_target_has_animal_tt
+			dubois_target_has_animal = yes
+		}
+	}
+
+	accept_effect = {
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		add_treasury = -50000
+		scope:target_country = {
+			add_treasury = 50000
+		}
+		ROOT = {
+			trigger_event = {
+				id = dubois.11
+				popup = yes
+			}
+		}
+	}
+	
+	ai = {
+
+		propose_score = {
+			value = 100
+		}
+	
+		will_propose = {					
+		}
+
+		accept_score = {
+			value = -20
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_BASE"
+				value = 5
+			}
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_RELATIONS"			
+				if = {
+					limit = {
+						"relations(scope:actor)" < relations_threshold:cordial
+					}
+					value = 0
+				}
+				if = {
+					limit = {
+						"relations(scope:actor)" >= relations_threshold:cordial
+						"relations(scope:actor)" < relations_threshold:amicable
+					}
+					value = 25
+				}	
+				if = {
+					limit = {
+						"relations(scope:actor)" >= relations_threshold:amicable
+						"relations(scope:actor)" < relations_threshold:friendly
+					}
+					value = 35
+				}	
+				if = {
+					limit = {
+						"relations(scope:actor)" >= relations_threshold:friendly
+					}
+					value = 50
+				}				
+			}
+			
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_INFAMY"
+				if = {
+					limit = {
+						"scope:actor.infamy" >= infamy_threshold:infamous
+						"scope:actor.infamy" < infamy_threshold:notorious
+					}
+					value = -10
+				}	
+				if = {
+					limit = {
+						"scope:actor.infamy" >= infamy_threshold:notorious
+						"scope:actor.infamy" < infamy_threshold:pariah
+					}
+					value = -25
+				}
+				if = {
+					limit = {
+						"scope:actor.infamy" >= infamy_threshold:pariah
+					}
+					value = -50
+				}					
+			}					
+
+			add = {
+				desc = "DIPLOMATIC_ACCEPTANCE_RANK"
+	
+				if = {
+					limit = { scope:actor = { country_rank > root.country_rank } }
+					value = 20
+				}
+				
+				if = {
+					limit = { scope:actor = { country_rank < root.country_rank } }
+					value = -10
+				}				
+			}
+			add = {
+				desc = "We have a Customs Union"
+
+				if = {
+					limit = {
+						has_diplomatic_pact = {
+							who = scope:actor
+							type = customs_union					
+						}
+					}
+					value = 20
+				}
+			}
+
+			add = {
+				desc = "We have a Defensive Pact"
+
+				if = {
+					limit = {
+						has_diplomatic_pact = {
+							who = scope:actor
+							type = defensive_pact
+						}				
+					}
+					value = 40
+				}	
+			}
+
+			add = {
+				desc = "We have an Alliance"
+
+				if = {
+					limit = {
+						has_diplomatic_pact = {
+							who = scope:actor
+							type = alliance	
+						}			
+					}
+					value = 60
+				}
+			}
+
+			add = {
+				desc = "They are our Subject"
+
+				if = {
+					limit = {
+						OR = {
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = puppet
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = vassal
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = dominion
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = personal_union
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = tributary
+							}
+							has_diplomatic_pact = {
+								who = scope:actor
+								type = protectorate
+							}
+						}			
+					}
+					value = 150
+				}
+			}
+
+			add = {
+				desc = "They are not our Subject"
+
+				if = {
+					limit = {
+						is_subject = yes
+						NOT = {
+							is_subject_of = scope:actor
+						}			
+					}
+					value = -75
+				}
+			}
+
+			add = {
+				desc = "They are in debt"
+
+				if = {
+					limit = {
+						scope:target_country = {
+							scaled_debt > 0
+						}
+					}
+					value = 300
+				}
+			}
+		}
+	}
+}

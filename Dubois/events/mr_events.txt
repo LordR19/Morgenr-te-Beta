@@ -1,0 +1,316 @@
+﻿#######################
+# MORGENROETE EVENTS  #
+#######################
+
+#by Marco Dandolo
+
+###################
+
+namespace = mr
+
+###################
+
+#Events
+
+#Verrier 1: Check AI
+
+#################################################################################
+
+#Check AI
+
+mr.1 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		OR = {
+			NOT = {
+				has_variable = lepsius_variables_var
+			}
+			NOT = {
+				has_variable = verrier_variables_var
+			}
+			NOT = {
+				has_variable = elgar_variables_var
+			}
+			NOT = {
+				has_variable = dubois_variables_var
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					has_variable = lepsius_variables_var
+				}
+			}
+			lepsius_add_variables = yes
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = verrier_variables_var
+				}
+			}
+			verrier_add_variables = yes
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = elgar_variables_var
+				}
+			}
+			elgar_add_variables = yes
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_variables_var
+				}
+			}
+			dubois_add_variables = yes
+		}
+	}
+}
+
+#Check Lepsius Exhibtions
+
+mr.2 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		is_player = no
+	}
+
+	immediate = {
+		#Egyptian Collection
+		if = {
+			limit = {
+				var:lepsius_egyptian_artifact_minor >= 10
+				NOT = {
+					has_modifier = lepsius_small_egyptian_exhibition_modifier
+					var:lepsius_egyptian_artifact_minor >= 25
+				}
+			}
+			add_modifier = lepsius_small_egyptian_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_egyptian_artifact_minor >= 25
+				NOT = {
+					has_modifier = lepsius_medium_egyptian_exhibition_modifier
+					var:lepsius_egyptian_artifact_minor >= 50
+				}
+			}
+			remove_modifier = lepsius_small_egyptian_exhibition_modifier
+			add_modifier = lepsius_medium_egyptian_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_egyptian_artifact_minor >= 50
+				NOT = {
+					has_modifier = lepsius_large_egyptian_exhibition_modifier
+					var:lepsius_egyptian_artifact_minor >= 100
+					var:lepsius_egyptian_artifact_major >= 1
+				}
+			}
+			remove_modifier = lepsius_small_egyptian_exhibition_modifier
+			remove_modifier = lepsius_medium_egyptian_exhibition_modifier
+			add_modifier = lepsius_large_egyptian_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_egyptian_artifact_minor >= 100
+				var:lepsius_egyptian_artifact_major >= 1
+				NOT = {
+					has_modifier = lepsius_excellent_egyptian_exhibition_modifier
+				}
+			}
+			remove_modifier = lepsius_small_egyptian_exhibition_modifier
+			remove_modifier = lepsius_medium_egyptian_exhibition_modifier
+			remove_modifier = lepsius_large_egyptian_exhibition_modifier
+			add_modifier = lepsius_excellent_egyptian_exhibition_modifier
+		}
+		#Mesopotamian Collection
+		if = {
+			limit = {
+				var:lepsius_mesopotamian_artifact_minor >= 10
+				NOT = {
+					has_modifier = lepsius_small_mesopotamian_exhibition_modifier
+					var:lepsius_mesopotamian_artifact_minor >= 25
+				}
+			}
+			add_modifier = lepsius_small_mesopotamian_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_mesopotamian_artifact_minor >= 25
+				NOT = {
+					has_modifier = lepsius_medium_mesopotamian_exhibition_modifier
+					var:lepsius_mesopotamian_artifact_minor >= 50
+				}
+			}
+			remove_modifier = lepsius_small_mesopotamian_exhibition_modifier
+			add_modifier = lepsius_medium_mesopotamian_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_mesopotamian_artifact_minor >= 50
+				NOT = {
+					has_modifier = lepsius_large_mesopotamian_exhibition_modifier
+					var:lepsius_mesopotamian_artifact_minor >= 100
+					var:lepsius_mesopotamian_artifact_major >= 1
+				}
+			}
+			remove_modifier = lepsius_small_mesopotamian_exhibition_modifier
+			remove_modifier = lepsius_medium_mesopotamian_exhibition_modifier
+			add_modifier = lepsius_large_mesopotamian_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_mesopotamian_artifact_minor >= 100
+				var:lepsius_mesopotamian_artifact_major >= 1
+				NOT = {
+					has_modifier = lepsius_excellent_mesopotamian_exhibition_modifier
+				}
+			}
+			remove_modifier = lepsius_small_mesopotamian_exhibition_modifier
+			remove_modifier = lepsius_medium_mesopotamian_exhibition_modifier
+			remove_modifier = lepsius_large_mesopotamian_exhibition_modifier
+			add_modifier = lepsius_excellent_mesopotamian_exhibition_modifier
+		}
+		#Aegean Collection
+		if = {
+			limit = {
+				var:lepsius_aegean_artifact_minor >= 10
+				NOT = {
+					has_modifier = lepsius_small_aegean_exhibition_modifier
+					var:lepsius_aegean_artifact_minor >= 25
+				}
+			}
+			add_modifier = lepsius_small_aegean_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_aegean_artifact_minor >= 25
+				NOT = {
+					has_modifier = lepsius_medium_aegean_exhibition_modifier
+					var:lepsius_aegean_artifact_minor >= 50
+				}
+			}
+			remove_modifier = lepsius_small_aegean_exhibition_modifier
+			add_modifier = lepsius_medium_aegean_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_aegean_artifact_minor >= 50
+				NOT = {
+					has_modifier = lepsius_large_aegean_exhibition_modifier
+					var:lepsius_aegean_artifact_minor >= 100
+					var:lepsius_aegean_artifact_major >= 1
+				}
+			}
+			remove_modifier = lepsius_small_aegean_exhibition_modifier
+			remove_modifier = lepsius_medium_aegean_exhibition_modifier
+			add_modifier = lepsius_large_aegean_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_aegean_artifact_minor >= 100
+				var:lepsius_aegean_artifact_major >= 1
+				NOT = {
+					has_modifier = lepsius_excellent_aegean_exhibition_modifier
+				}
+			}
+			remove_modifier = lepsius_small_aegean_exhibition_modifier
+			remove_modifier = lepsius_medium_aegean_exhibition_modifier
+			remove_modifier = lepsius_large_aegean_exhibition_modifier
+			add_modifier = lepsius_excellent_aegean_exhibition_modifier
+		}
+		#Precolumbian Collection
+		if = {
+			limit = {
+				var:lepsius_precolumbian_artifact_minor >= 10
+				NOT = {
+					has_modifier = lepsius_small_precolumbian_exhibition_modifier
+					var:lepsius_precolumbian_artifact_minor >= 25
+				}
+			}
+			add_modifier = lepsius_small_precolumbian_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_precolumbian_artifact_minor >= 25
+				NOT = {
+					has_modifier = lepsius_medium_precolumbian_exhibition_modifier
+					var:lepsius_precolumbian_artifact_minor >= 50
+				}
+			}
+			remove_modifier = lepsius_small_precolumbian_exhibition_modifier
+			add_modifier = lepsius_medium_precolumbian_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_precolumbian_artifact_minor >= 50
+				NOT = {
+					has_modifier = lepsius_large_precolumbian_exhibition_modifier
+					var:lepsius_precolumbian_artifact_minor >= 100
+					var:lepsius_precolumbian_artifact_major >= 1
+				}
+			}
+			remove_modifier = lepsius_small_precolumbian_exhibition_modifier
+			remove_modifier = lepsius_medium_precolumbian_exhibition_modifier
+			add_modifier = lepsius_large_precolumbian_exhibition_modifier
+		}
+		if = {
+			limit = {
+				var:lepsius_precolumbian_artifact_minor >= 100
+				var:lepsius_precolumbian_artifact_major >= 1
+				NOT = {
+					has_modifier = lepsius_excellent_precolumbian_exhibition_modifier
+				}
+			}
+			remove_modifier = lepsius_small_precolumbian_exhibition_modifier
+			remove_modifier = lepsius_medium_precolumbian_exhibition_modifier
+			remove_modifier = lepsius_large_precolumbian_exhibition_modifier
+			add_modifier = lepsius_excellent_precolumbian_exhibition_modifier
+		}
+	}
+}
+
+mr.3 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		copy_global_variables_to_local_effect = yes
+		trigger_event = {
+			id = mr.4
+			days = 1
+		}
+	}
+}
+
+mr.4 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		clean_global_variables_effect = yes
+		trigger_event = {
+			id = elgar.2
+			days = 1
+		}
+		trigger_event = {
+			id = mr.2
+			days = 1
+		}
+	}
+}
