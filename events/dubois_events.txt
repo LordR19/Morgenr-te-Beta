@@ -4476,7 +4476,10 @@ dubois.1036 = {
 		}
 		triggered_desc = {
 			trigger = {
-				var:dubois_zoo_platypus_flavor_randomizer_var = 4
+				has_variable = dubois_perry_the_platypus_var
+				NOT = {
+					has_variable = dubois_perry_left_var
+				}
 			}
 			desc = dubois.1036.f4
 		}
@@ -4500,19 +4503,19 @@ dubois.1036 = {
 
 	immediate = {
 		random_list = { #randomizes flavor text
-			50 = {
+			8 = {
 				set_variable = {
 					name = dubois_zoo_platypus_flavor_randomizer_var
 					value = 1
 				}
 			}
-			50 = {
+			8 = {
 				set_variable = {
 					name = dubois_zoo_platypus_flavor_randomizer_var
 					value = 2
 				}
 			}
-			50 = {
+			8 = {
 				set_variable = {
 					name = dubois_zoo_platypus_flavor_randomizer_var
 					value = 3
@@ -4520,15 +4523,25 @@ dubois.1036 = {
 			}
 			1 = {
 				set_variable = {
-					name = dubois_zoo_platypus_flavor_randomizer_var
-					value = 4
+					name = dubois_perry_the_platypus_var
 				}
 			}
 		}
 	}
 
 	option = {
-		name = dubois.1032.k #Return to the Australian and Oceanian Enclosures
+		name = dubois.1032.k #Return to the Australian and Oceanian 
+		trigger = {
+			OR = {
+				NOT = {
+					has_variable = dubois_perry_the_platypus_var
+				}
+				AND = {
+					has_variable = dubois_perry_the_platypus_var
+					has_variable = dubois_perry_left_var
+				}
+			}
+		}
 		custom_tooltip = {
 			text = zoo_australian_enclosures_tt
 			trigger_event = {
@@ -4541,6 +4554,17 @@ dubois.1036 = {
 
 	option = {
 		name = dubois.1011.l #Return to the Main Entrance
+		trigger = {
+			OR = {
+				NOT = {
+					has_variable = dubois_perry_the_platypus_var
+				}
+				AND = {
+					has_variable = dubois_perry_the_platypus_var
+					has_variable = dubois_perry_left_var
+				}
+			}
+		}
 		custom_tooltip = {
 			text = zoo_main_entrance_tt
 			trigger_event = {
@@ -4553,10 +4577,45 @@ dubois.1036 = {
 
 	option = {
 		name = dubois.1001.m #Leave the Zoo
+		trigger = {
+			OR = {
+				NOT = {
+					has_variable = dubois_perry_the_platypus_var
+				}
+				AND = {
+					has_variable = dubois_perry_the_platypus_var
+					has_variable = dubois_perry_left_var
+				}
+			}
+		}
 		custom_tooltip = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_platypus_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1032.g #A Platypus? Perry the Platypus!
+		trigger = {
+			has_variable = dubois_perry_the_platypus_var
+			NOT = {
+				has_variable = dubois_perry_left_var
+			}
+		}
+		trigger_event = {
+			id = dubois.1036
+			popup = yes
+		}
+		set_variable = dubois_perry_left_var
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+			}
+			add_modifier = {
+				name = dubois_unknown_hero_modifier
+				years = 2
+			}
 		}
 	}
 }
