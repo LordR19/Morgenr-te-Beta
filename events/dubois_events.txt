@@ -1170,11 +1170,14 @@ dubois.31 = {
 
 	flavor = dubois.31.f
 
+	duration = 3
+
 	event_image = { 
 		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
 
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
@@ -1187,7 +1190,7 @@ dubois.31 = {
 		}
 		dubois_set_safari_progress = yes
 		dubois_set_safari_trap = yes
-		dubois_set_safari_follow = yes
+		dubois_set_safari_track = yes
 	}
 
 	option = {
@@ -1196,6 +1199,15 @@ dubois.31 = {
 		trigger = {
 			NOT = {
 				has_variable = dubois_zoo_animal_hippopotamus
+			}
+			any_state = {
+				has_modifier = dubois_hippopotamus_habitat_modifier
+				OR = {
+					owner = {
+						is_country_type = decentralized
+					}
+					owner = ROOT
+				}
 			}
 		}
 		set_variable = dubois_safari_hippopotamus
@@ -1207,6 +1219,15 @@ dubois.31 = {
 			NOT = {
 				has_variable = dubois_zoo_animal_lion
 			}
+			any_state = {
+				has_modifier = dubois_lion_habitat_modifier
+				OR = {
+					owner = {
+						is_country_type = decentralized
+					}
+					owner = ROOT
+				}
+			}
 		}
 		set_variable = dubois_safari_lion
 	}
@@ -1216,6 +1237,15 @@ dubois.31 = {
 		trigger = {
 			NOT = {
 				has_variable = dubois_zoo_animal_elephant
+			}
+			any_state = {
+				has_modifier = dubois_elephant_habitat_modifier
+				OR = {
+					owner = {
+						is_country_type = decentralized
+					}
+					owner = ROOT
+				}
 			}
 		}
 		set_variable = dubois_safari_elephant
@@ -1227,6 +1257,15 @@ dubois.31 = {
 			NOT = {
 				has_variable = dubois_zoo_animal_giraffe
 			}
+			any_state = {
+				has_modifier = dubois_giraffe_habitat_modifier
+				OR = {
+					owner = {
+						is_country_type = decentralized
+					}
+					owner = ROOT
+				}
+			}
 		}
 		set_variable = dubois_safari_giraffe
 	}
@@ -1235,6 +1274,368 @@ dubois.31 = {
 		add_journal_entry = {
 			type = je_dubois_safari
 		}
+	}
+}
+
+#Dubois 32: Standard event: Trap or Follow
+
+dubois.32 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_hippopotamus
+			}
+			desc = dubois.32.t.hippopotamus
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_lion
+			}
+			desc = dubois.32.t.lion
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_elephant
+			}
+			desc = dubois.32.t.elephant
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_giraffe
+			}
+			desc = dubois.32.t.giraffe
+		}
+	}
+
+	desc = dubois.32.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_hippopotamus
+			}
+			desc = dubois.32.f.hippopotamus
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_lion
+			}
+			desc = dubois.32.f.lion
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_elephant
+			}
+			desc = dubois.32.f.elephant
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_giraffe
+			}
+			desc = dubois.32.f.giraffe
+		}
+	}
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		var:dubois_safari_progress <= 4
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.32.g #Trap
+		default_option = yes
+		dubois_add_safari_trap = yes
+	}
+
+	option = {
+		name = dubois.32.h #Track
+		dubois_set_safari_track = yes
+	}
+
+	after = {
+		dubois_add_safari_progress = yes
+	}
+}
+
+#Dubois 33: Rare Flowers
+
+dubois.33 = {
+	type = country_event
+
+	title = dubois.33.t
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_hippopotamus
+			}
+			desc = dubois.33.d.hippopotamus
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_lion
+			}
+			desc = dubois.33.d.lion
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_elephant
+			}
+			desc = dubois.33.d.elephant
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_giraffe
+			}
+			desc = dubois.33.d.giraffe
+		}
+	}
+
+	flavor = dubois.33.f
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		var:dubois_safari_progress <= 4
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.33.g #We need these flowers
+		default_option = yes
+		dubois_medium_add_technology = yes
+	}
+
+	option = {
+		name = dubois.32.g #Trap
+		dubois_add_safari_trap = yes
+	}
+
+	option = {
+		name = dubois.32.h #Track
+		dubois_set_safari_track = yes
+	}
+
+	after = {
+		dubois_add_safari_progress = yes
+	}
+}
+
+#Dubois 34: Unknown Species
+
+dubois.34 = {
+	type = country_event
+
+	title = dubois.34.t
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_hippopotamus
+			}
+			desc = dubois.34.d.hippopotamus
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_lion
+			}
+			desc = dubois.34.d.lion
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_elephant
+			}
+			desc = dubois.34.d.elephant
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_giraffe
+			}
+			desc = dubois.34.d.giraffe
+		}
+	}
+
+	flavor = dubois.34.f
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		var:dubois_safari_progress <= 4
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.34.g #We need these unknown species
+		default_option = yes
+		dubois_add_5000_specimen = yes
+	}
+
+	option = {
+		name = dubois.32.g #Trap
+		dubois_add_safari_trap = yes
+	}
+
+	option = {
+		name = dubois.32.h #Track
+		dubois_set_safari_track = yes
+	}
+
+	after = {
+		dubois_add_safari_progress = yes
+	}
+}
+
+#Dubois 35: New vehicle
+
+dubois.35 = {
+	type = country_event
+
+	title = dubois.35.t
+
+	desc = dubois.35.t
+
+	flavor = dubois.35.f
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		var:dubois_safari_progress <= 4
+		has_technology_researched = combustion_engine
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.35.g #This car will help us
+		default_option = yes
+		add_treasury = -10000
+		dubois_add_safari_2_track = yes
+	}
+
+	option = {
+		name = dubois.35.g #Trap
+		dubois_add_safari_trap = yes
+	}
+
+	after = {
+		dubois_add_safari_progress = yes
+	}
+}
+
+#Dubois 36: Extra traps
+
+dubois.36 = {
+	type = country_event
+
+	title = dubois.36.t
+
+	desc = dubois.36.t
+
+	flavor = dubois.36.f
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		var:dubois_safari_progress <= 4
+		has_technology_researched = automatic_machine_guns
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.36.g #Buy them
+		default_option = yes
+		add_treasury = -10000
+		dubois_add_safari_2_trap = yes
+	}
+
+	option = {
+		name = dubois.36.h #Track
+		dubois_set_safari_track = yes
+	}
+
+	after = {
+		dubois_add_safari_progress = yes
 	}
 }
 
@@ -1255,7 +1656,7 @@ dubois.38 = {
 			AND = {
 				has_variable = dubois_safari_lion
 				var:dubois_safari_trap >= 2
-				var:dubois_safari_follow >= 2
+				var:dubois_safari_track >= 2
 			}
 			AND = {
 				has_variable = dubois_safari_elephant
@@ -1264,6 +1665,7 @@ dubois.38 = {
 			AND = {
 				has_variable = dubois_safari_giraffe
 				var:dubois_safari_trap >= 2
+				var:dubois_safari_track >= 1
 			}
 		}
 	}
@@ -1289,6 +1691,7 @@ dubois.39 = {
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
 
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
@@ -1302,7 +1705,7 @@ dubois.39 = {
 			AND = {
 				has_variable = dubois_safari_lion
 				var:dubois_safari_trap >= 2
-				var:dubois_safari_follow >= 2
+				var:dubois_safari_track >= 2
 			}
 			AND = {
 				has_variable = dubois_safari_elephant
@@ -1311,6 +1714,7 @@ dubois.39 = {
 			AND = {
 				has_variable = dubois_safari_giraffe
 				var:dubois_safari_trap >= 2
+				var:dubois_safari_track >= 1
 			}
 		}
 	}
