@@ -168,8 +168,11 @@ verrier.1 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
-					has_trait = verrier_astronomer
+				OR = {
+					any_scope_character = {
+						has_trait = verrier_astronomer
+					}
+					has_variable = verrier_astronomer_var
 				}
 			}
 			verrier_add_5_astronomical_object = yes
@@ -328,17 +331,16 @@ verrier.10 = {
 	immediate = {
 		set_global_variable = verrier_neptune_discovered_var
 		set_variable = verrier_neptun_achievement
-		random_scope_character = {
+		if = {
 			limit = {
-				OR = {
-					has_trait = verrier_astronomer
-					has_trait = innovative
-					has_trait = meticulous
-					has_trait = ambitious
-					has_trait = persistent
-				}
+				has_variable = verrier_astronomer_var
 			}
-			save_scope_as = verrier_neptune_discoverer
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+		else = {
+			create_astronomer_effect = yes
 		}
 	}
 
@@ -353,17 +355,9 @@ verrier.10 = {
 		add_modifier = {
 			name = verrier_discovered_neptune_modifier
 		}
-		scope:verrier_neptune_discoverer = {
+		scope:verrier_astronomer_scope = {
 			add_modifier = {
 				name = verrier_neptune_discoverer_modifier
-			}
-			if = {
-				limit = {
-					NOT = {
-						has_trait = verrier_astronomer
-					}
-				}
-				add_trait = verrier_astronomer
 			}
 		}
 		change_global_variable = {
@@ -443,14 +437,16 @@ verrier.20 = {
 	immediate = {
 		set_global_variable = verrier_pluto_discovered_var
 		set_variable = verrier_pluto_achievement
-		random_scope_character = {
+		if = {
 			limit = {
-				OR = {
-					has_trait = verrier_astronomer
-					has_trait = innovative
-				}
+				has_variable = verrier_astronomer_var
 			}
-			save_scope_as = verrier_pluto_discoverer
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+		else = {
+			create_astronomer_effect = yes
 		}
 	}
 
@@ -465,17 +461,9 @@ verrier.20 = {
 		add_modifier = {
 			name = verrier_discovered_pluto_modifier
 		}
-		scope:verrier_pluto_discoverer = {
+		scope:verrier_astronomer_scope = {
 			add_modifier = {
 				name = verrier_pluto_discoverer_modifier
-			}
-			if = {
-				limit = {
-					NOT = {
-						has_trait = verrier_astronomer
-					}
-				}
-				add_trait = verrier_astronomer
 			}
 		}
 		change_global_variable = {
@@ -579,6 +567,7 @@ verrier.30 = {
 					any_scope_character = {
 						has_trait = verrier_astronomer
 					}
+					has_variable = verrier_astronomer_var
 					var:verrier_astronomical_objects >= 50
 				}
 			}
@@ -1056,6 +1045,10 @@ verrier.40 = {
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
+	trigger = {
+		verrier_astronomical_observation = yes
+	}
+
 	option = {
 		name = verrier.40.g #It is good to live in such elightened times
 		verrier_add_1_astronomical_object = yes
@@ -1082,6 +1075,10 @@ verrier.41 = {
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		verrier_astronomical_observation = yes
+	}
 
 	option = {
 		name = verrier.41.g #It is good to live in such elightened times
@@ -1110,6 +1107,10 @@ verrier.42 = {
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
+	trigger = {
+		verrier_astronomical_observation = yes
+	}
+
 	option = {
 		name = verrier.42.g #Hopefully the sky is clear and visibility is good!
 		verrier_add_5_astronomical_object = yes
@@ -1137,6 +1138,10 @@ verrier.43 = {
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
+	trigger = {
+		verrier_astronomical_observation = yes
+	}
+
 	option = {
 		name = verrier.43.g #Wonderful!
 		verrier_add_3_astronomical_object = yes
@@ -1163,6 +1168,10 @@ verrier.44 = {
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		verrier_astronomical_observation = yes
+	}
 
 	immediate = {
 		random_scope_character = {
@@ -1223,45 +1232,50 @@ verrier.45 = {
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:verrier_astronomer
+	left_icon = scope:verrier_astronomer_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
+	cooldown = {
+		years = 10
+	}
+
 	trigger = {
-		any_scope_character = {
-			OR = {
-				has_role = admiral
-				has_trait = innovative
-			}
+		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_astronomer_var
 		}
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_role = admiral
-					has_trait = innovative
-				}
-			}
-			save_scope_as = verrier_astronomer
+		create_character = {
+			has_role = admiral
+			save_scope_as = verrier_astronomer_scope
+		}
+			
+		scope:verrier_astronomer_scope = {
+			add_trait = verrier_astronomer
+			place_character_in_void = 1200	
+		}
+			
+		set_variable = {
+			name = verrier_astronomer_var
+			value = scope:verrier_astronomer_scope
 		}
 	}
 
 	option = {
 		name = verrier.45.g #He should become a professional astronomer
 		default_option = yes
-		scope:verrier_astronomer = {
-			add_trait = verrier_astronomer
-		}
 	}
 
 	option = {
 		name = verrier.45.h #His studies are interesting, but he should stick to what he has done so far.
 		verrier_large_add_technology = yes
+		kill_astronomer_effect = yes
 	}
 }
 
@@ -1284,6 +1298,10 @@ verrier.46 = {
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		verrier_astronomical_observation = yes
+	}
 
 	option = {
 		name = verrier.46.g #Are you saying it was just dirt on the telescope?
@@ -1310,6 +1328,10 @@ verrier.47 = {
 	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		verrier_astronomical_observation = yes
+	}
 
 	option = {
 		name = verrier.47.g #Excellent
@@ -1474,8 +1496,8 @@ verrier.60 = {
 		set_global_variable = verrier_1843_comet_sighted_var
 		if = {
 			limit = {
-				any_character = {
-					has_trait = verrier_astronomer
+				any_country = {
+					has_variable = verrier_astronomer_var
 					NOT = {
 						has_variable = verrier_discovered_great_comet
 					}
@@ -1483,11 +1505,9 @@ verrier.60 = {
 			}
 			random_country = {
 				limit = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-						NOT = {
-							has_variable = verrier_discovered_great_comet
-						}
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
 					}
 				}
 				set_global_variable = verrier_1843_comet_name_var
@@ -1531,14 +1551,11 @@ verrier.61 = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_trait = verrier_astronomer
-			}
-			set_variable = verrier_discovered_great_comet
+		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1843_comet
 			save_scope_as = verrier_1843_discoverer
 		}
+		set_variable = verrier_discovered_great_comet
 	}
 
 	option = {
@@ -1631,8 +1648,8 @@ verrier.63 = {
 		set_global_variable = verrier_1858_comet_sighted_var
 		if = {
 			limit = {
-				any_character = {
-					has_trait = verrier_astronomer
+				any_country = {
+					has_variable = verrier_astronomer_var
 					NOT = {
 						has_variable = verrier_discovered_great_comet
 					}
@@ -1640,11 +1657,9 @@ verrier.63 = {
 			}
 			random_country = {
 				limit = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-						NOT = {
-							has_variable = verrier_discovered_great_comet
-						}
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
 					}
 				}
 				set_global_variable = verrier_1858_comet_name_var
@@ -1688,14 +1703,11 @@ verrier.64 = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_trait = verrier_astronomer
-			}
-			save_scope_as = verrier_1858_discoverer
-			set_variable = verrier_discovered_great_comet
+		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1858_comet
+			save_scope_as = verrier_1858_discoverer
 		}
+		set_variable = verrier_discovered_great_comet
 	}
 
 	option = {
@@ -1788,8 +1800,8 @@ verrier.66 = {
 		set_global_variable = verrier_1861_comet_sighted_var
 		if = {
 			limit = {
-				any_character = {
-					has_trait = verrier_astronomer
+				any_country = {
+					has_variable = verrier_astronomer_var
 					NOT = {
 						has_variable = verrier_discovered_great_comet
 					}
@@ -1797,11 +1809,9 @@ verrier.66 = {
 			}
 			random_country = {
 				limit = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-						NOT = {
-							has_variable = verrier_discovered_great_comet
-						}
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
 					}
 				}
 				set_global_variable = verrier_1861_comet_name_var
@@ -1845,14 +1855,11 @@ verrier.67 = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_trait = verrier_astronomer
-			}
-			set_variable = verrier_discovered_great_comet
+		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1861_comet
 			save_scope_as = verrier_1861_discoverer
 		}
+		set_variable = verrier_discovered_great_comet
 	}
 
 	option = {
@@ -1945,8 +1952,8 @@ verrier.69 = {
 		set_global_variable = verrier_1874_comet_sighted_var
 		if = {
 			limit = {
-				any_character = {
-					has_trait = verrier_astronomer
+				any_country = {
+					has_variable = verrier_astronomer_var
 					NOT = {
 						has_variable = verrier_discovered_great_comet
 					}
@@ -1954,11 +1961,9 @@ verrier.69 = {
 			}
 			random_country = {
 				limit = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-						NOT = {
-							has_variable = verrier_discovered_great_comet
-						}
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
 					}
 				}
 				set_global_variable = verrier_1874_comet_name_var
@@ -2002,14 +2007,11 @@ verrier.70 = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_trait = verrier_astronomer
-			}
-			set_variable = verrier_discovered_great_comet
+		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1874_comet
 			save_scope_as = verrier_1874_discoverer
 		}
+		set_variable = verrier_discovered_great_comet
 	}
 
 	option = {
@@ -2102,8 +2104,8 @@ verrier.72 = {
 		set_global_variable = verrier_1882_comet_sighted_var
 		if = {
 			limit = {
-				any_character = {
-					has_trait = verrier_astronomer
+				any_country = {
+					has_variable = verrier_astronomer_var
 					NOT = {
 						has_variable = verrier_discovered_great_comet
 					}
@@ -2111,11 +2113,9 @@ verrier.72 = {
 			}
 			random_country = {
 				limit = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-						NOT = {
-							has_variable = verrier_discovered_great_comet
-						}
+					has_variable = verrier_astronomer_var
+					NOT = {
+						has_variable = verrier_discovered_great_comet
 					}
 				}
 				set_global_variable = verrier_1882_comet_name_var
@@ -2159,14 +2159,11 @@ verrier.73 = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_trait = verrier_astronomer
-			}
-			set_variable = verrier_discovered_great_comet
+		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1882_comet
 			save_scope_as = verrier_1882_discoverer
 		}
+		set_variable = verrier_discovered_great_comet
 	}
 
 	option = {
@@ -2282,9 +2279,7 @@ verrier.80 = {
 				has_technology_researched = verrier_astronomy_tech
 				verrier_astronomical_observation = yes
 				OR = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-					}
+					has_variable = verrier_astronomer_var
 					var:verrier_astronomical_objects >= 250
 				}
 			}
@@ -2669,9 +2664,7 @@ verrier.86 = {
 				has_technology_researched = verrier_astronomy_tech
 				verrier_astronomical_observation = yes
 				OR = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-					}
+					has_variable = verrier_astronomer_var
 					var:verrier_astronomical_objects >= 500
 				}
 			}
@@ -2760,9 +2753,7 @@ verrier.88 = {
 			}		
 			modifier = { #Advanced knowledge
 				trigger = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-					}
+					has_variable = verrier_astronomer_var
 				}
 				add = 100
 			}				
@@ -2842,9 +2833,7 @@ verrier.89 = {
 			}		
 			modifier = { #Advanced knowledge
 				trigger = {
-					any_scope_character = {
-						has_trait = verrier_astronomer
-					}
+					has_variable = verrier_astronomer_var
 				}
 				add = 100
 			}				
@@ -3469,9 +3458,7 @@ verrier.111 = {
 
 	option = {
 		name = verrier.111.i #This book has an educational utility
-		random_scope_character = {
-			add_trait = verrier_astronomer
-		}
+		create_astronomer_effect = yes
 	}
 }
 
@@ -3932,8 +3919,16 @@ verrier.120 = {
 		name = verrier.116.g
 		verrier_add_10_astronomical_object = yes
 		verrier_medium_add_technology = yes
-		random_scope_character = {
-			add_trait = verrier_astronomer
+	}
+
+	option = {
+		name = verrier.120.h
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			kill_astronomer_effect = yes
 		}
+		create_verrier_effect = yes
 	}
 }
