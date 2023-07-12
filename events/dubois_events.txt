@@ -1422,6 +1422,10 @@ dubois.33 = {
 
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
+	cooldown = {
+		years = 1
+	}
+
 	trigger = {
 		var:dubois_safari_progress <= 4
 	}
@@ -1500,6 +1504,10 @@ dubois.34 = {
 
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
+	cooldown = {
+		years = 1
+	}
+
 	trigger = {
 		var:dubois_safari_progress <= 4
 	}
@@ -1576,7 +1584,7 @@ dubois.35 = {
 	}
 
 	option = {
-		name = dubois.35.g #Trap
+		name = dubois.35.h #Trap
 		dubois_add_safari_trap = yes
 	}
 
@@ -1672,6 +1680,7 @@ dubois.38 = {
 
 	immediate = {
 		dubois_add_safari_progress = yes
+		set_variable = dubois_safari_fail
 	}
 }
 
@@ -1688,6 +1697,34 @@ dubois.39 = {
 
 	event_image = { 
 		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	event_image = { #Hippopotamus
+		trigger = {
+			has_variable = dubois_safari_hippopotamus
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_hippopotamus.dds"
+	}
+
+	event_image = { #Lion
+		trigger = {
+			has_variable = dubois_safari_lion
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_lion.dds"
+	}
+
+	event_image = { #Elephant
+		trigger = {
+			has_variable = dubois_safari_elephant
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elephant.dds"
+	}
+
+	event_image = { #Giraffe
+		trigger = {
+			has_variable = dubois_safari_giraffe
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_giraffe.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -1723,16 +1760,13 @@ dubois.39 = {
 		var:dubois_naturalist_var = {
 			save_scope_as = dubois_naturalist_scope
 		}
+		set_variable = dubois_safari_success
 	}
 
 	option = {
 		name = dubois.39.g #
 		default_option = yes
 		dubois_transport_safari_animal = yes
-		set_variable = {
-			name = dubois_safari_successful
-			years = 1
-		}
 	}
 
 	after = {
@@ -1745,7 +1779,20 @@ dubois.39 = {
 dubois.40 = {
 	type = country_event
 
-	title = dubois.40.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_success
+			}
+			desc = dubois.40.d.success
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_fail
+			}
+			desc = dubois.40.d.fail
+		}
+	}
 
 	desc = dubois.40.d
 
