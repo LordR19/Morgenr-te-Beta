@@ -251,3 +251,93 @@ je_verrier_astro_physics = {
 
 	weight = 35
 }
+
+###########################################################
+
+######Tara Wali Kothi######
+
+je_verrier_tara_wali_kothi = {
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	possible = {
+		c:AWA ?= this
+	}
+
+	current_value = {
+		value = var:verrier_tara_wali_kothi_progress
+	}
+
+	immediate = {
+		set_variable = {
+			name = verrier_tara_wali_kothi_progress
+			value = 0
+		}
+
+		#create Wilcox as astronomer
+		kill_astronomer_effect = yes
+		create_astronomer_effect = {
+			create_character = {
+				first_name = Richard
+				last_name = Wilcox
+				culture = english
+				save_scope_as = verrier_astronomer_scope
+			}
+				
+			scope:verrier_astronomer_scope = {
+				add_trait = verrier_astronomer
+				place_character_in_void = 1200	
+			}
+				
+			set_variable = {
+				name = verrier_astronomer_var
+				value = scope:verrier_astronomer_scope
+			}
+		}
+	}
+
+	on_monthly_pulse = {
+		change_variable = {
+			name = verrier_astronomer_var
+			add = 1
+		}
+	}
+
+	goal_add_value = {
+		value = 60 #value you want the variable to reach
+		subtract = var:verrier_tara_wali_kothi_progress #current value of the variable
+		if = { #prevents the value of the goal_add_value to be below one
+			limit = {
+				var:verrier_tara_wali_kothi_progress >= 60
+			}
+			value = 1
+		}
+	}
+
+	complete = {
+		is_goal_complete = yes
+	}
+
+	on_complete = {
+		capital = {
+			create_building = {
+				building = building_verrier_observatory
+			}
+			set_variable = {
+				name = verrier_astronomical_objects
+				value = 0
+			}
+			set_variable = {
+				name = verrier_moon_photo
+				value = 0
+			}
+			set_variable = {
+				name = verrier_great_comet
+				value = 0
+			}
+		}
+	}
+
+	progressbar = yes
+
+	weight = 15
+}
