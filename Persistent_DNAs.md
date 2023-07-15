@@ -238,7 +238,7 @@ TODO_choose_portait_key={
 #mr_spa_gaudi
 TODO_choose_portait_key={
 	type=male
-	id=30487419
+	id=0
 	age=0.255000
 	genes={
 		hair_color={ 255 186 34 248 }
@@ -279,7 +279,7 @@ TODO_choose_portait_key={
  		gene_forehead_height={ "forehead_height" 93 "forehead_height" 140 }
  		gene_forehead_roundness={ "forehead_roundness" 203 "forehead_roundness" 131 }
  		gene_forehead_width={ "forehead_width" 229 "forehead_width" 129 }
- 		gene_head_height={ "head_height" 177 "head_height" 199 }
+ 		gene_head_height={ "head_height" 192 "head_height" 199 }
  		gene_head_profile={ "head_profile" 115 "head_profile" 115 }
  		gene_head_top_height={ "head_top_height" 62 "head_top_height" 128 }
  		gene_head_top_width={ "head_top_width" 130 "head_top_width" 136 }
@@ -342,12 +342,12 @@ TODO_choose_portait_key={
  		gene_eyebrows_shape={ "avg_spacing_high_thickness" 172 "far_spacing_lower_thickness" 162 }
  		gene_eyebrows_fullness={ "layer_2_high_thickness" 140 "layer_2_low_thickness" 150 }
  		hairstyles={ "european_hairstyles" 87 "european_hairstyles" 249 }
- 		beards={ "european_beards" 118 "no_beard" 227 }
+ 		beards={ "full_beards" 84 "no_beard" 227 }
  		mustaches={ "european_mustaches" 209 "european_mustaches" 177 }
  		props={ "no_prop" 0 "no_prop" 0 }
  		eye_accessory={ "normal_eyes" 0 "normal_eyes" 0 }
  		eye_lashes_accessory={ "normal_eyelashes" 0 "normal_eyelashes" 0 }
  		teeth_accessory={ "normal_teeth" 0 "normal_teeth" 0 }
- }
+	}
 	entity={ 0 0 }
 }
