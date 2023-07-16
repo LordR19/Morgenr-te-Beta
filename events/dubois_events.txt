@@ -3473,6 +3473,44 @@ dubois.155 = {
 
 ######ZOO######
 
+#Dubois 1000: Le Carnaval des animaux
+
+dubois.1000 = {
+	type = country_event
+
+    title = dubois.1000.t
+    desc = dubois.1000.d
+    flavor = dubois.1000.f
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_carnival_animals.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = dubois_animal_carnival_var
+		}
+	}
+
+	immediate = {
+		set_variable = dubois_animal_carnival_var
+	}
+
+	option = {
+		name = dubois.1000.g #Is this a zoological composition?
+		elgar_add_25_music_tradition = yes
+	}
+}
+
 #Dubois 1001: Zoo Main Entrance
 dubois.1001 = {
 	type = country_event
@@ -5847,6 +5885,12 @@ dubois.1043 = {
 			}
 			desc = dubois.1043.f3
 		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_wolf_flavor_randomizer_var = 4
+			}
+			desc = dubois.1043.f4
+		}
 	}
 
 	placement = root
@@ -5885,6 +5929,29 @@ dubois.1043 = {
 					value = 3
 				}
 			}
+			0 = { 
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								has_modifier = elgar_prokofiev_great_composer_modifier
+								any_scope_state = {
+									has_modifier = elgar_prokofiev_performance_modifier
+								}
+							}
+							NOT = {
+								has_variable = dubois_prokofiev_and_the_wolf_var
+							}
+						}
+						add = 70
+					}
+				}
+				set_variable = dubois_prokofiev_and_the_wolf_var
+				set_variable = {
+					name = dubois_zoo_wolf_flavor_randomizer_var
+					value = 4
+				}
+			}
 		}
 	}
 
@@ -5896,7 +5963,13 @@ dubois.1043 = {
 				id = dubois.1041
 				popup = yes
 			}
-			remove_variable = dubois_zoo_lynx_flavor_randomizer_var
+			remove_variable = dubois_zoo_wolf_flavor_randomizer_var
+		}
+		if = {
+			limit = {
+				var:dubois_zoo_wolf_flavor_randomizer_var = 4
+			}
+			elgar_add_15_music_tradition = yes
 		}
 	}
 
@@ -5910,6 +5983,12 @@ dubois.1043 = {
 			}
 			remove_variable = dubois_zoo_wolf_flavor_randomizer_var
 		}
+		if = {
+			limit = {
+				var:dubois_zoo_wolf_flavor_randomizer_var = 4
+			}
+			elgar_add_15_music_tradition = yes
+		}
 	}
 
 	option = {
@@ -5919,6 +5998,12 @@ dubois.1043 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_wolf_flavor_randomizer_var
+		}
+		if = {
+			limit = {
+				var:dubois_zoo_wolf_flavor_randomizer_var = 4
+			}
+			elgar_add_15_music_tradition = yes
 		}
 	}
 }
@@ -6470,6 +6555,12 @@ dubois.1053 = {
 			}
 			desc = dubois.1053.f3
 		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_grizzly_flavor_randomizer_var = 4
+			}
+			desc = dubois.1053.f4
+		}
 	}
 
 	placement = root
@@ -6508,6 +6599,29 @@ dubois.1053 = {
 					value = 3
 				}
 			}
+			0 = { 
+				modifier = {
+					if = {
+						limit = {
+							any_scope_pop = {
+								has_pop_culture = greek
+							}
+							NOT = {
+								country_has_primary_culture = cu:greek
+							}
+							NOT = {
+								has_variable = dubois_new_hercules_var
+							}
+						}
+						add = 70
+					}
+				}
+				set_variable = dubois_new_hercules_var
+				set_variable = {
+					name = dubois_zoo_grizzly_flavor_randomizer_var
+					value = 4
+				}
+			}
 		}
 	}
 
@@ -6521,6 +6635,20 @@ dubois.1053 = {
 			}
 			remove_variable = dubois_zoo_grizzly_flavor_randomizer_var
 		}
+		if = {
+			limit = {
+				var:dubois_zoo_grizzly_flavor_randomizer_var = 4
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = dubois_new_hercules_modifier
+					years = 3
+				}
+			}
+		}
 	}
 
 	option = {
@@ -6533,6 +6661,20 @@ dubois.1053 = {
 			}
 			remove_variable = dubois_zoo_grizzly_flavor_randomizer_var
 		}
+		if = {
+			limit = {
+				var:dubois_zoo_grizzly_flavor_randomizer_var = 4
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = dubois_new_hercules_modifier
+					years = 3
+				}
+			}
+		}
 	}
 
 	option = {
@@ -6542,6 +6684,20 @@ dubois.1053 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_grizzly_flavor_randomizer_var
+		}
+		if = {
+			limit = {
+				var:dubois_zoo_grizzly_flavor_randomizer_var = 4
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				add_modifier = {
+					name = dubois_new_hercules_modifier
+					years = 3
+				}
+			}
 		}
 	}
 }
@@ -6672,6 +6828,12 @@ dubois.1055 = {
 			}
 			desc = dubois.1055.f3
 		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_panther_flavor_randomizer_var = 4
+			}
+			desc = dubois.1055.f4
+		}
 	}
 
 	placement = root
@@ -6691,6 +6853,12 @@ dubois.1055 = {
 	}
 
 	immediate = {
+		random_scope_character = {
+			limit = {
+				has_trait = literary
+			}
+			save_scope_as = manzoni_literary_scope
+		}
 		random_list = { #randomizes flavor text
 			10 = { 
 				set_variable = {
@@ -6710,6 +6878,26 @@ dubois.1055 = {
 					value = 3
 				}
 			}
+			0 = { 
+				modifier = {
+					if = {
+						limit = {
+							any_scope_character = {
+								has_trait = literary
+							}
+							NOT = {
+								has_variable = dubois_the_panther_var
+							}
+						}
+						add = 70
+					}
+				}
+				set_variable = dubois_the_panther_var
+				set_variable = {
+					name = dubois_zoo_panther_flavor_randomizer_var
+					value = 4
+				}
+			}
 		}
 	}
 
@@ -6723,6 +6911,15 @@ dubois.1055 = {
 			}
 			remove_variable = dubois_zoo_panther_flavor_randomizer_var
 		}
+		if = {
+			limit = {
+				var:dubois_zoo_panther_flavor_randomizer_var = 4
+			}
+			add_modifier = {
+				name = dubois_the_panther_modifier
+				years = 3
+			}
+		}
 	}
 
 	option = {
@@ -6735,6 +6932,15 @@ dubois.1055 = {
 			}
 			remove_variable = dubois_zoo_panther_flavor_randomizer_var
 		}
+		if = {
+			limit = {
+				var:dubois_zoo_panther_flavor_randomizer_var = 4
+			}
+			add_modifier = {
+				name = dubois_the_panther_modifier
+				years = 3
+			}
+		}
 	}
 
 	option = {
@@ -6744,6 +6950,15 @@ dubois.1055 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_panther_flavor_randomizer_var
+		}
+		if = {
+			limit = {
+				var:dubois_zoo_panther_flavor_randomizer_var = 4
+			}
+			add_modifier = {
+				name = dubois_the_panther_modifier
+				years = 3
+			}
 		}
 	}
 }
