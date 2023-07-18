@@ -259,46 +259,23 @@ je_verrier_astro_physics = {
 je_verrier_tara_wali_kothi = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
-	possible = {
-		c:AWA ?= this
-	}
-
 	current_value = {
 		value = var:verrier_tara_wali_kothi_progress
 	}
 
 	immediate = {
-		set_variable = {
+		set_variable = { #This variable tracks the progress of the construction
 			name = verrier_tara_wali_kothi_progress
 			value = 0
-		}
-
-		#create Wilcox as astronomer
-		kill_astronomer_effect = yes
-		create_astronomer_effect = {
-			create_character = {
-				first_name = Richard
-				last_name = Wilcox
-				culture = english
-				save_scope_as = verrier_astronomer_scope
-			}
-				
-			scope:verrier_astronomer_scope = {
-				add_trait = verrier_astronomer
-				place_character_in_void = 1200	
-			}
-				
-			set_variable = {
-				name = verrier_astronomer_var
-				value = scope:verrier_astronomer_scope
-			}
 		}
 	}
 
 	on_monthly_pulse = {
-		change_variable = {
-			name = verrier_astronomer_var
-			add = 1
+		effect = {
+			change_variable = {
+				name = verrier_tara_wali_kothi_progress
+				add = 1
+			}
 		}
 	}
 
@@ -318,22 +295,40 @@ je_verrier_tara_wali_kothi = {
 	}
 
 	on_complete = {
+		remove_variable = verrier_tara_wali_kothi_progress
+
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = verrier_physics_tech
+				}
+			}
+			add_technology_researched = verrier_physics_tech
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = verrier_astronomy_tech
+				}
+			}
+			add_technology_researched = verrier_astronomy_tech
+		}
 		capital = {
 			create_building = {
 				building = building_verrier_observatory
 			}
-			set_variable = {
-				name = verrier_astronomical_objects
-				value = 0
-			}
-			set_variable = {
-				name = verrier_moon_photo
-				value = 0
-			}
-			set_variable = {
-				name = verrier_great_comet
-				value = 0
-			}
+		}
+		set_variable = {
+			name = verrier_astronomical_objects
+			value = 0
+		}
+		set_variable = {
+			name = verrier_moon_photo
+			value = 0
+		}
+		set_variable = {
+			name = verrier_great_comet
+			value = 0
 		}
 	}
 

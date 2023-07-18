@@ -3940,3 +3940,92 @@ verrier.120 = {
 		}
 	}
 }
+
+#################################################################################
+
+# Historical Observatories
+
+#Verrier 1001: Construction of the Tara Wali Kothi (Awadh)
+
+verrier.1001 = {
+	type = country_event
+
+	title = verrier.1001.t
+	desc = verrier.1001.d
+	flavor = verrier.1001.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOR = {
+			has_variable = verrier_tara_wali_kothi_var
+			has_building = building_verrier_observatory
+		}
+		c:AWA ?= root
+		year > 1835
+		year < 1842
+	}
+
+	immediate = {
+		set_variable = verrier_tara_wali_kothi_var
+
+		#create Wilcox as astronomer
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			kill_astronomer_effect = yes
+		}
+		create_astronomer_effect = {
+			create_character = {
+				first_name = Richard
+				last_name = Wilcox
+				culture = english
+				interest_group = ig_armed_forces	
+				save_scope_as = verrier_astronomer_scope
+			}
+				
+			scope:verrier_astronomer_scope = {
+				add_trait = verrier_astronomer
+				place_character_in_void = 1200	
+			}
+				
+			set_variable = {
+				name = verrier_astronomer_var
+				value = scope:verrier_astronomer_scope
+			}
+		}
+	}
+
+	option = { #Under Wilcox we will see fast progress!
+		name = verrier.1001.g
+		default_option = yes
+		
+		capital = {
+			add_modifier = {
+				name = verrier_observatory_foundation_modifier
+			}
+		}
+		add_journal_entry = {
+			type = je_verrier_tara_wali_kothi
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { #This is a waste of money!
+		name = verrier.1001.h
+		custom_tooltip = stop_constructing_tara_wali_kothi_tt
+	}
+}
