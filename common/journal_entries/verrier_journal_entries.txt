@@ -259,6 +259,11 @@ je_verrier_astro_physics = {
 je_verrier_tara_wali_kothi = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
+	scripted_button = verrier_kothe_buy_additional_instruments_button
+	scripted_button = verrier_kothe_pay_workers_extra_button
+	scripted_button = verrier_kothe_employ_physics_teachers_button
+	scripted_button = verrier_kothe_employ_foreign_engineers_button
+
 	current_value = {
 		value = var:verrier_tara_wali_kothi_progress
 	}
@@ -280,11 +285,11 @@ je_verrier_tara_wali_kothi = {
 	}
 
 	goal_add_value = {
-		value = 60 #value you want the variable to reach
+		value = 100 #value you want the variable to reach
 		subtract = var:verrier_tara_wali_kothi_progress #current value of the variable
 		if = { #prevents the value of the goal_add_value to be below one
 			limit = {
-				var:verrier_tara_wali_kothi_progress >= 60
+				var:verrier_tara_wali_kothi_progress >= 100
 			}
 			value = 1
 		}
@@ -302,38 +307,9 @@ je_verrier_tara_wali_kothi = {
 	on_complete = {
 		remove_variable = verrier_tara_wali_kothi_progress
 
-		if = {
-			limit = {
-				NOT = {
-					has_technology_researched = verrier_physics_tech
-				}
-			}
-			add_technology_researched = verrier_physics_tech
-		}
-		if = {
-			limit = {
-				NOT = {
-					has_technology_researched = verrier_astronomy_tech
-				}
-			}
-			add_technology_researched = verrier_astronomy_tech
-		}
-		capital = {
-			create_building = {
-				building = building_verrier_observatory
-			}
-		}
-		set_variable = {
-			name = verrier_astronomical_objects
-			value = 0
-		}
-		set_variable = {
-			name = verrier_moon_photo
-			value = 0
-		}
-		set_variable = {
-			name = verrier_great_comet
-			value = 0
+		trigger_event = { 
+			id = verrier.1002
+			popup = yes 
 		}
 	}
 

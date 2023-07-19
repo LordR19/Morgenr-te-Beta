@@ -120,7 +120,12 @@ namespace = verrier
 
 #Historical Observatories
 
-#Verrier 1001: 
+#Verrier 1001: Construction of the Tara Wali Kothi (Awadh)
+#Verrier 1002: Tara Wali Kothi finished (Awadh)
+
+#verrier 1011: Construction of the Ethniko Asterosokopio Athinon started
+#verrier 1012: Construction of the Ethniko Asterosokopio Athinon finished
+#verrier 1013: Othóneion Panepistímion opened in Athens
 
 #################################################################################
 
@@ -3943,7 +3948,11 @@ verrier.120 = {
 
 #################################################################################
 
-# Historical Observatories
+############################
+# Historical Observatories #
+############################
+
+######Tara Wali Kothi######
 
 #Verrier 1001: Construction of the Tara Wali Kothi (Awadh)
 verrier.1001 = {
@@ -4013,6 +4022,7 @@ verrier.1001 = {
 		capital = {
 			add_modifier = {
 				name = verrier_observatory_foundation_modifier
+				years = 10
 			}
 		}
 		add_journal_entry = {
@@ -4028,5 +4038,237 @@ verrier.1001 = {
 	option = { 
 		name = verrier.1001.h
 		custom_tooltip = stop_constructing_tara_wali_kothi_tt
+	}
+}
+
+#Verrier 1002: Tara Wali Kothi finished (Awadh)
+verrier.1002 = {
+	type = country_event
+
+	title = verrier.1002.t
+	desc = verrier.1002.d
+	flavor = verrier.1002.f
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_tara_wali_kothi.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/1Character_Banner"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	#The Mansion of Stars will guide us to new discoveries!
+	option = {
+		name = verrier.1002.g
+		default_option = yes
+		if = {
+			limit = {
+				can_research = verrier_physics_tech
+			}
+			add_technology_researched = verrier_physics_tech
+		}
+		else_if = {
+			limit = {
+				can_research = verrier_astronomy_tech
+			}
+			add_technology_progress = {
+				progress = 3000
+				technology = verrier_astronomy_tech
+			}
+		}
+
+		random_scope_state = {
+			create_building={
+				building=building_verrier_observatory
+				level=1
+				reserves=1
+			}
+		}
+	}
+}
+
+######Ethniko Asterosokopio######
+
+verrier.1011 = { #verrier 1011: Construction of the Ethniko Asterosokopio Athinon started
+	type = country_event
+	placement = scope:asterosokopio_athinon_state
+
+	title = verrier.1011.t
+	desc = verrier.1011.d
+	desc = verrier.1011.1.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_observatory_athens_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = asterosokopio_athinon_construction_var
+		}
+		exists = c:GRE
+		c:GRE = ROOT
+		c:GRE = {
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					is_under_construction = yes				
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = asterosokopio_athinon_construction_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ATTICA
+			}
+			save_scope_as = asterosokopio_athinon_state
+		}
+	}
+
+	option = {
+		name = verrier.1011.a
+		default_option = yes
+	}
+}
+
+verrier.1012 = { #verrier 1012: Construction of the Ethniko Asterosokopio Athinon finished
+	type = country_event
+	placement = scope:asterosokopio_athinon_state
+
+	title = verrier.1012.t
+	desc = verrier.1012.d
+	flavor = verrier.1012.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_observatory_athens_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = asterosokopio_athinon_global_var
+		}
+		exists = c:GRE
+		c:GRE = ROOT
+		has_building  = building_verrier_observatory
+	}
+
+	immediate = {
+		set_global_variable = asterosokopio_athinon_global_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ATTICA
+			}
+			save_scope_as = asterosokopio_athinon_state
+		}
+	}
+
+	option = {
+		name = verrier.1012.g
+		default_option = yes
+		verrier_add_10_astronomical_object = yes
+		verrier_medium_add_technology = yes
+	}
+
+	option = {
+		name = verrier.1012.h
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			kill_astronomer_effect = yes
+		}
+		create_vouris_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+verrier.1013 = { #verrier 1013: Othóneion Panepistímion opened in Athens
+	type = country_event
+	placement = scope:othonian_university_state
+
+	title = verrier.1013.t
+	desc = verrier.1013.d
+	flavor = verrier.1013.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_othonian_university.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = othonian_university_opened_global_var
+		}
+		exists = c:GRE
+		c:GRE = ROOT
+		game_date >= 1837.5.15
+	}
+	
+
+	immediate = {
+		set_global_variable = othonian_university_opened_global_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ATTICA
+			}
+			save_scope_as = othonian_university_state
+		}
+	}
+
+	option = {
+		name = verrier.1013.g
+		default_option = yes
+		
+		add_technology_researched = academia
+		add_technology_researched = verrier_physics_tech
+		
+		scope:othonian_university_state = {
+			create_building={
+ 				building="building_university"
+ 				level=2
+ 				reserves=1
+ 			}
+		}
+	}
+
+	option = {
+		name = verrier.1013.h
+		trigger = {
+			is_player = yes
+		}
 	}
 }
