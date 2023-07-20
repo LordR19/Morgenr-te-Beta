@@ -1,0 +1,499 @@
+﻿######################
+# Cabinet of Wonders #
+# created by Lord R  #
+######################
+
+################
+# Swiss events #
+################
+
+#Sets East Switzerland as the scope
+east_switzerland_scope_effect = {
+	random_state  = {
+		limit = {
+			state_region = s:STATE_EAST_SWITZERLAND
+		}
+		save_scope_as = east_switzerland_state
+	}
+}
+
+#Sets West Switzerland as the scope
+west_switzerland_scope_effect = {
+	random_state  = {
+		limit = {
+			state_region = s:STATE_WEST_SWITZERLAND
+		}
+		save_scope_as = west_switzerland_state
+	}
+}
+
+#Sets Savoy as the scope
+savoy_scope_effect = {
+	random_state = {
+		limit = {
+			state_region = s:STATE_SAVOY
+		}
+		save_scope_as = savoy_state
+	}
+}
+
+#Sets owner of Savoy as scope
+savoy_owner_scope_effect = {
+	random_country = { 
+		limit = {
+			has_state_in_state_region = STATE_SAVOY
+			NOR = {
+				AND = {
+					exists = c:SWI
+					this = c:SWI
+				}
+				AND = {
+					exists = c:SAR
+					this = c:SAR
+				}
+				AND = {
+					exists = c:ITA
+					this = c:ITA
+				}
+				AND = {
+					exists = c:SAV
+					this = c:SAV
+				}
+				AND = {
+					exists = c:HSV
+					this = c:HSV
+				}
+				AND = {
+					exists = c:LSV
+					this = c:LSV
+				}
+			}
+		}
+		save_scope_as = owner_savoy_scope
+	} 
+}
+
+#Calculates the growth of the Ibex Population in the Swiss National Park
+cow_swiss_ibex_population_mult_effect = {
+	change_global_variable = {
+		name = cow_ibex_population_switzerland_global_var
+		multiply = 1.1
+	}
+	if = {
+		limit = {
+			has_variable = cow_ibex_incest_discovered_var
+		}
+		change_global_variable = {
+			name = cow_ibex_population_switzerland_global_var
+			multiply = 1.04
+		}
+	}
+	if = {
+		limit = {
+			has_variable = cow_ibex_germs_discovered_var
+		}
+		change_global_variable = {
+			name = cow_ibex_population_switzerland_global_var
+			multiply = 1.04
+		}
+	}
+	if = {
+		limit = {
+			has_variable = cow_ibex_treatment_discovered_var
+		}
+		change_global_variable = {
+			name = cow_ibex_population_switzerland_global_var
+			multiply = 1.04
+		}
+	}
+	if = {
+		limit = {
+			has_global_variable = cow_hardergrat_ibexes_global_var
+		}
+		change_global_variable = {
+			name = cow_ibex_population_switzerland_global_var
+			multiply = 1.04
+		}
+	}
+	if = {
+		limit = {
+			has_global_variable = swiss_pyrenean_ibex
+		}
+		change_global_variable = {
+			name = cow_ibex_population_switzerland_global_var
+			multiply = 0.95
+		}
+	}
+	round_global_variable = {
+		name = cow_ibex_population_switzerland_global_var
+		nearest = 1
+	}
+}
+
+##################
+# Italian events #
+##################
+
+#Sets Piedmont as the scope
+piedmont_scope_effect = {
+	random_state  = {
+		limit = {
+			state_region = s:STATE_PIEDMONT
+		}
+		save_scope_as = piedmont_state
+	}
+}
+
+gran_paradiso_succes_add = {
+	change_global_variable = {
+ 		name = ibex_population_gran_paradiso_var
+ 		multiply = 0.1
+	}
+}
+
+##########################
+# Zugewandter Ort Events #
+##########################
+
+#Effect used to trigger the right event to make Switzerland aware of the finished construction in the Zugewandter Ort.
+swiss_investment_constructed_fire_events_effect = {
+	random_scope_building = {
+		limit = {
+			has_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+		}
+
+		remove_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+
+		if = {
+			limit = {
+				is_building_type = building_railway
+				level = 1
+			}
+			
+			state = {
+				save_scope_as = railway_construction_state
+			}
+			owner = {
+				save_scope_as = zugewandter_ort_scope
+				trigger_event = zugewandter_ort_events.103
+			}
+			c:SWI = {
+				trigger_event = zugewandter_ort_events.104
+			}
+		}
+		else_if = {
+			limit = {
+				is_building_type = building_railway
+				level > 1
+			}
+			
+			state = {
+				save_scope_as = railway_construction_state
+			}
+			owner = {
+				save_scope_as = zugewandter_ort_scope
+				trigger_event = zugewandter_ort_events.113
+			}
+			c:SWI = {
+				trigger_event = zugewandter_ort_events.114
+			}
+		}
+		else_if = {
+			limit = {
+				is_building_type = building_coal_mine
+			}
+			
+			state = {
+				save_scope_as = extraction_construction_state_scope
+			}
+			owner = {
+				save_scope_as = zugewandter_ort_scope
+				trigger_event = zugewandter_ort_events.203
+			}
+			c:SWI = {
+				trigger_event = zugewandter_ort_events.203
+			}
+		}
+		else_if = {
+			limit = {
+				is_building_type = building_iron_mine
+			}
+			
+			state = {
+				save_scope_as = extraction_construction_state_scope
+			}
+			owner = {
+				save_scope_as = zugewandter_ort_scope
+				trigger_event = zugewandter_ort_events.204
+			}
+			c:SWI = {
+				trigger_event = zugewandter_ort_events.204
+			}
+		}
+		else_if = {
+			limit = {
+				is_building_type = building_lead_mine
+			}
+			
+			state = {
+				save_scope_as = extraction_construction_state_scope
+			}
+			owner = {
+				save_scope_as = zugewandter_ort_scope
+				trigger_event = zugewandter_ort_events.205
+			}
+			c:SWI = {
+				trigger_event = zugewandter_ort_events.205
+			}
+		}
+		else_if = {
+			limit = {
+				is_building_type = building_sulfur_mine
+			}
+			
+			state = {
+				save_scope_as = extraction_construction_state_scope
+			}
+			owner = {
+				save_scope_as = zugewandter_ort_scope
+				trigger_event = zugewandter_ort_events.206
+			}
+			c:SWI = {
+				trigger_event = zugewandter_ort_events.206
+			}
+		}
+		else_if = {
+			limit = {
+				is_building_type = building_logging_camp
+			}
+			
+			state = {
+				save_scope_as = extraction_construction_state_scope
+			}
+			owner = {
+				save_scope_as = zugewandter_ort_scope
+				trigger_event = zugewandter_ort_events.207
+			}
+			c:SWI = {
+				trigger_event = zugewandter_ort_events.207
+			}
+		}
+		else_if = {
+			limit = {
+				is_building_type = building_rubber_plantation
+			}
+			
+			state = {
+				save_scope_as = extraction_construction_state_scope
+			}
+			owner = {
+				save_scope_as = zugewandter_ort_scope
+				trigger_event = zugewandter_ort_events.208
+			}
+			c:SWI = {
+				trigger_event = zugewandter_ort_events.208
+			}
+		}
+		else_if = {
+			limit = {
+				is_building_type = building_oil_rig
+			}
+			
+			state = {
+				save_scope_as = extraction_construction_state_scope
+			}
+			owner = {
+				save_scope_as = zugewandter_ort_scope
+				trigger_event = zugewandter_ort_events.209
+			}
+			c:SWI = {
+				trigger_event = zugewandter_ort_events.209
+			}
+		}
+	}
+}
+
+swiss_investment_constructed_fire_events_effect_exp = {
+	random_scope_building = {
+		limit = {
+			has_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+			is_building_type = building_railway
+		}
+
+		
+		remove_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+
+		state = {
+			save_scope_as = railway_construction_state
+		}
+
+		owner = {
+			save_scope_as = zugewandter_ort_scope
+			trigger_event = zugewandter_ort_events.203
+		}
+		c:SWI = {
+			trigger_event = zugewandter_ort_events.203
+		}
+	}
+	
+	random_scope_building = {
+		limit = {
+			has_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+			is_building_type = building_coal_mine
+		}
+
+		remove_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+
+		state = {
+			save_scope_as = extraction_construction_state_scope
+		}
+
+		owner = {
+			save_scope_as = zugewandter_ort_scope
+			trigger_event = zugewandter_ort_events.203
+		}
+		c:SWI = {
+			trigger_event = zugewandter_ort_events.203
+		}
+	}
+	
+	random_scope_building = {
+		limit = {
+			has_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+			is_building_type = building_iron_mine
+		}
+
+		remove_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+
+		state = {
+			save_scope_as = extraction_construction_state_scope
+		}
+
+		owner = {
+			save_scope_as = zugewandter_ort_scope
+			trigger_event = zugewandter_ort_events.204
+		}
+		c:SWI = {
+			trigger_event = zugewandter_ort_events.204
+		}
+	}
+
+	random_scope_building = {
+		limit = {
+			has_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+			is_building_type = building_lead_mine
+		}
+
+		remove_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+
+		state = {
+			save_scope_as = extraction_construction_state_scope
+		}
+
+		owner = {
+			save_scope_as = zugewandter_ort_scope
+			trigger_event = zugewandter_ort_events.205
+		}
+		c:SWI = {
+			trigger_event = zugewandter_ort_events.205
+		}
+	}
+
+	random_scope_building = {
+		limit = {
+			has_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+			is_building_type = building_sulfur_mine
+		}
+
+		remove_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+
+		state = {
+			save_scope_as = extraction_construction_state_scope
+		}
+
+		owner = {
+			save_scope_as = zugewandter_ort_scope
+			trigger_event = zugewandter_ort_events.206
+		}
+		c:SWI = {
+			trigger_event = zugewandter_ort_events.206
+		}
+	}
+
+	random_scope_building = {
+		limit = {
+			has_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+			is_building_type = building_logging_camp
+		}
+
+		remove_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+
+		state = {
+			save_scope_as = extraction_construction_state_scope
+		}
+
+		owner = {
+			save_scope_as = zugewandter_ort_scope
+			trigger_event = zugewandter_ort_events.207
+		}
+		c:SWI = {
+			trigger_event = zugewandter_ort_events.207
+		}
+	}
+
+	random_scope_building = {
+		limit = {
+			has_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+			is_building_type = building_rubber_plantation
+		}
+
+		remove_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+
+		state = {
+			save_scope_as = extraction_construction_state_scope
+		}
+
+		owner = {
+			save_scope_as = zugewandter_ort_scope
+			trigger_event = zugewandter_ort_events.208
+		}
+		c:SWI = {
+			trigger_event = zugewandter_ort_events.208
+		}
+	}
+
+	random_scope_building = {
+		limit = {
+			has_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+			is_building_type = building_oil_rig
+		}
+
+		remove_modifier = cow_swi_zg_ort_swiss_construction_building_modifier
+
+		state = {
+			save_scope_as = extraction_construction_state_scope
+		}
+
+		owner = {
+			save_scope_as = zugewandter_ort_scope
+			trigger_event = zugewandter_ort_events.209
+		}
+		c:SWI = {
+			trigger_event = zugewandter_ort_events.209
+		}
+	}
+}
+
+#Sets New York or Ontario as scope
+niagara_falls_scope_effect = {
+	random_state  = {
+		limit = {
+			owner = root
+			OR = {
+				state_region = s:STATE_NEW_YORK
+				state_region = s:STATE_ONTARIO
+			}
+		}
+		save_scope_as = niagara_falls_state_scope
+	}
+}

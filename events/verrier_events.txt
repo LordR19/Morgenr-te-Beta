@@ -4210,7 +4210,7 @@ verrier.1012 = { #verrier 1012: Construction of the Ethniko Asterosokopio Athino
 	}
 }
 
-verrier.1013 = { #verrier 1013: Othóneion Panepistímion opened in Athens
+verrier.1013 = { #verrier 1013: Othóneion Panepistímion opened in Athens (Greece)
 	type = country_event
 	placement = scope:othonian_university_state
 
@@ -4233,8 +4233,13 @@ verrier.1013 = { #verrier 1013: Othóneion Panepistímion opened in Athens
 		NOT = {
 			has_global_variable = othonian_university_opened_global_var
 		}
-		exists = c:GRE
-		c:GRE = ROOT
+		OR = {
+			AND = {
+				exists = c:GRE
+				c:GRE = ROOT
+			}
+			was_formed_from = GRE
+		}
 		game_date >= 1837.5.15
 	}
 	
@@ -4269,6 +4274,69 @@ verrier.1013 = { #verrier 1013: Othóneion Panepistímion opened in Athens
 		name = verrier.1013.h
 		trigger = {
 			is_player = yes
+		}
+	}
+}
+
+verrier.1022 = { #verrier 1021: Eidgenössische Sternwarte (Switzerland)
+	type = country_event
+	placement = scope:east_switzerland_state
+
+	title = verrier.1022.t
+	desc = verrier.1022.d
+	flavor = verrier.1022.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_eidgenossische_sternwarte.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = eidgenossische_sternwarte_var
+		}
+		OR = {
+			AND = {
+				exists = c:SWI
+				c:SWI = ROOT
+			}
+			was_formed_from = SWI
+		}
+		has_building = building_verrier_observatory		
+	}
+
+	immediate = {
+		east_switzerland_scope_effect = yes #sets the scope to the state of East Switzerland
+		
+		set_global_variable = eidgenossische_sternwarte_var
+	}
+
+	option = {
+		name = verrier.1022.g
+		default_option = yes
+		verrier_add_10_astronomical_object = yes
+		verrier_medium_add_technology = yes
+	}
+
+	option = {
+		name = verrier.1022.h
+
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			kill_astronomer_effect = yes
+		}
+		create_wolf_rudolf_effect = yes
+
+		ai_chance = {
+			base = 0
 		}
 	}
 }
