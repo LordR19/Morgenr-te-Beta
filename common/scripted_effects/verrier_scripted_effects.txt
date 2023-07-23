@@ -6,6 +6,27 @@
 
 #############################
 
+### Set new Astronomer as official Astronomer ###
+
+verrier_set_new_astronomer_as_astronomer_effect = {
+	custom_tooltip = {
+		text = verrier_replace_astronomer_with_new_astronomer_tt
+	
+		set_variable = {
+			name = verrier_astronomer_var
+			value = scope:verrier_new_astronomer_scope
+		}
+	}
+}
+
+### Remove new Astronomer ###
+
+verrier_remove_new_astronomer_effect = {
+	scope:verrier_new_astronomer_scope = {
+		free_character_from_void = no
+	}
+}
+
 ###Create Le Verrier###
 
 create_verrier_effect = {
@@ -18,23 +39,192 @@ create_verrier_effect = {
 		interest_group = ig_intelligentsia
 		female = no
 		birth_date = 1811.3.11
+		historical = yes
 		traits = { 
-			verrier_astronomer
 			innovative
 			meticulous
 		}
 
-		save_scope_as = verrier_astronomer_scope
+		save_scope_as = verrier_new_astronomer_scope
 	}
 		
-	scope:verrier_astronomer_scope = {
+	scope:verrier_new_astronomer_scope = {
+		add_trait = verrier_astronomer
+		place_character_in_void = 1200
+		set_variable = verrier_verrier_character_var
+	}	
+}
+
+###Create Argelander###
+
+create_argelander_effect = {
+	create_character = {
+		first_name = mr_friedrich_wilhelm
+		last_name = mr_argelander
+		dna = mr_ger_argelander_friedrich
+		ruler = no
+		birth_date = 1799.3.22
+		historical = yes
+		ig_leader = no
+		interest_group = ig_intelligentsia
+		traits = {
+			meticulous
+			innovative
+		}
+
+		save_scope_as = verrier_new_astronomer_scope
+	}
+		
+	scope:verrier_new_astronomer_scope = {
+		add_trait = verrier_astronomer
+		place_character_in_void = 1200
+		set_variable = verrier_argelander_character_var
+	}
+}
+
+###Create Schiaparelli###
+
+create_schiaparelli_effect = {
+	create_character = {
+		first_name = mr_giovanni
+		last_name = mr_schiaparelli
+		dna = mr_ita_schiaparelli_giovanni
+		ruler = no
+		birth_date = 1835.3.14
+		historical = yes
+		culture = cu:north_italian
+		religion = rel:catholic
+		ig_leader = no
+		interest_group = ig_intelligentsia
+		traits = {
+			meticulous
+			innovative
+		}
+
+		save_scope_as = verrier_new_astronomer_scope
+	}
+		
+	scope:verrier_new_astronomer_scope = {
+		add_trait = verrier_astronomer
+		place_character_in_void = 1200
+		set_variable = verrier_schiaparelli_character_var
+	}
+}
+
+###Create Planck###
+
+create_planck_effect = {
+	create_character = {
+		first_name = mr_max
+		last_name = mr_planck
+		dna = mr_ger_planck_max
+		ruler = no
+		birth_date = 1858.23.4
+		historical = yes
+		ig_leader = no
+		culture = cu:north_german
+		religion = rel:protestant
+		interest_group = ig_intelligentsia
+		traits = {
+			meticulous
+			innovative
+		}
+
+		save_scope_as = verrier_new_astronomer_scope
+	}
+		
+	scope:verrier_new_astronomer_scope = {
 		add_trait = verrier_astronomer
 		place_character_in_void = 1200	
+		set_variable = verrier_planck_character_var
+	}
+}
+
+###Create Hubble###
+
+create_hubble_effect = {
+	create_character = {
+		first_name = mr_edwin
+		last_name = mr_hubble
+		dna = mr_usa_hubble_edwin
+		ruler = no
+		birth_date = 1889.20.11
+		historical = yes
+		ig_leader = no
+		culture = cu:yankee
+		religion = rel:protestant
+		interest_group = ig_intelligentsia
+		traits = {
+			meticulous
+			innovative
+		}
+
+		save_scope_as = verrier_new_astronomer_scope
 	}
 		
-	set_variable = {
-		name = verrier_astronomer_var
-		value = scope:verrier_astronomer_scope
+	scope:verrier_new_astronomer_scope = {
+		add_trait = verrier_astronomer
+		place_character_in_void = 1200	
+		set_variable = verrier_hubble_character_var
+	}
+}
+
+###Create Vouris###
+
+create_vouris_effect = {
+	create_character = {
+		first_name = cow_Georgios_Konstantinos
+		last_name = cow_Vouris
+		dna = mr_gre_vouris
+		ruler = no
+		birth_date = 1802.7.20
+		historical = yes
+		ig_leader = no
+		interest_group = ig_intelligentsia
+		culture = cu:greek
+		religion = rel:orthodox
+		ideology = ideology_royalist
+		traits = {
+			meticulous
+			innovative
+		}
+
+		save_scope_as = verrier_new_astronomer_scope
+	}
+		
+	scope:verrier_new_astronomer_scope = {
+		add_trait = verrier_astronomer
+		place_character_in_void = 1200
+		set_variable = verrier_vouris_character_var
+	}
+}
+
+###Create Wolf###
+
+create_wolf_rudolf_effect = {
+	create_character = {
+		first_name = cow_rudolf
+		last_name = cow_wolf
+		dna = mr_swi_wolf
+		ruler = no
+		birth_date = 1817.7.7
+		historical = yes
+		ig_leader = no
+		culture = cu:alemannic
+		religion = rel:protestant
+		interest_group = ig_intelligentsia
+		traits = {
+			meticulous
+			innovative
+		}
+
+		save_scope_as = verrier_new_astronomer_scope
+	}
+		
+	scope:verrier_new_astronomer_scope = {
+		add_trait = verrier_astronomer
+		place_character_in_void = 1200	
+		set_variable = verrier_wolf_character_var
 	}
 }
 
@@ -359,4 +549,28 @@ verrier_add_variables = {
         value = 0
 	}
 	set_variable = verrier_variables_var
+}
+
+##############################
+
+#Script to research astronomy technologies
+verrier_astronomy_research_boost = {
+	if = {
+		limit = {
+			can_research = verrier_physics_tech
+		}
+		add_technology_progress = {
+			progress = 2500
+			technology = verrier_physics_tech
+		}
+	}
+	else_if = {
+		limit = {
+			can_research = verrier_astronomy_tech
+		}
+		add_technology_progress = {
+			progress = 2000
+			technology = verrier_astronomy_tech
+		}
+	}
 }

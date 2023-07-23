@@ -251,3 +251,69 @@ je_verrier_astro_physics = {
 
 	weight = 35
 }
+
+###########################################################
+
+######Tara Wali Kothi######
+
+je_verrier_tara_wali_kothi = {
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	scripted_button = verrier_kothe_buy_additional_instruments_button
+	scripted_button = verrier_kothe_pay_workers_extra_button
+	scripted_button = verrier_kothe_employ_physics_teachers_button
+	scripted_button = verrier_kothe_employ_foreign_engineers_button
+
+	current_value = {
+		value = var:verrier_tara_wali_kothi_progress
+	}
+
+	immediate = {
+		set_variable = { #This variable tracks the progress of the construction
+			name = verrier_tara_wali_kothi_progress
+			value = 0
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = verrier_tara_wali_kothi_progress
+				add = 1
+			}
+		}
+	}
+
+	goal_add_value = {
+		value = 100 #value you want the variable to reach
+		subtract = var:verrier_tara_wali_kothi_progress #current value of the variable
+		if = { #prevents the value of the goal_add_value to be below one
+			limit = {
+				var:verrier_tara_wali_kothi_progress >= 100
+			}
+			value = 1
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_verrier_tara_wali_kothi_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = verrier_tara_wali_kothi_progress
+
+		trigger_event = { 
+			id = verrier.1002
+			popup = yes 
+		}
+	}
+
+	progressbar = yes
+
+	weight = 15
+}

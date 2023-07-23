@@ -103,6 +103,7 @@ namespace = verrier
 #Observatory
 
 #Verrier 100: Observatory
+#Verrier 101: Astronomer
 
 #Historical Events
 
@@ -117,6 +118,17 @@ namespace = verrier
 #Verrier 118: Ernest Rutherford (Great Britain)
 #Verrier 119: Dmitri Mendeleev (Russia)
 #Verrier 120: Le Verrier (France)
+
+#Historical Observatories
+
+#Verrier 1001: Construction of the Tara Wali Kothi (Awadh)
+#Verrier 1002: Tara Wali Kothi finished (Awadh)
+
+#verrier 1011: Construction of the Ethniko Asterosokopio Athinon started
+#verrier 1012: Construction of the Ethniko Asterosokopio Athinon finished
+#verrier 1013: Othóneion Panepistímion opened in Athens
+
+#verrier 1022: Eidgenössische Sternwarte (Switzerland)
 
 #################################################################################
 
@@ -3236,6 +3248,9 @@ verrier.95 = {
 				innovative
 				verrier_astronomer
 			}
+			on_created = {
+				set_variable = verrier_einstein_character_var
+			}
 		}
 	}
 
@@ -3400,10 +3415,71 @@ verrier.100 = {
 		}
 	}
 
+	option = { #Let us visit our astronomer!
+		name = verrier.100.h
+
+		trigger = {
+			has_variable = verrier_astronomer_var
+		}
+		trigger_event = {
+			id = verrier.101
+			popup = yes
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
 	#Bye
 	option = {
 		name = verrier.100.g
 		remove_variable = verrier_visiting_observatory_var
+		custom_tooltip = verrier_leave_observatory_tt
+	}
+}
+
+#Verrier 101: Astronomer
+
+verrier.101 = {
+	type = country_event
+
+	title = verrier.101.t
+	desc = verrier.101.d
+	flavor = verrier.101.f
+	
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = {	#Return to the Observatory
+		name = verrier.101.h
+		default_option = yes
+
+		trigger_event = {
+			id = verrier.100
+			popup = yes
+		}
+	}
+	option = {	#Leave the Observatory
+		name = verrier.101.g
+		remove_variable = verrier_visiting_observatory_var
+
+		custom_tooltip = verrier_leave_observatory_tt
 	}
 }
 
@@ -3498,12 +3574,29 @@ verrier.112 = {
 
 	immediate = {
 		set_variable = verrier_bonner_durchmusterung_var
+
+		create_argelander_effect = yes
 	}
 
 	option = {
 		name = verrier.112.g #Fine!
 		default_option = yes
 		verrier_add_10_astronomical_object = yes
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
+	}
+
+	option = {
+		name = verrier.112.h #Surely Argelander will discover even more wonders of the sky!
+		default_option = yes
+		
+		verrier_set_new_astronomer_as_astronomer_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
 	}
 }
 
@@ -3551,12 +3644,18 @@ verrier.113 = {
 
 	immediate = {
 		set_global_variable = verrier_schiaparelli_var
+
+		create_schiaparelli_effect = yes
 	}
 
 	option = {
 		name = verrier.113.g #Fine!
 		default_option = yes
 		verrier_add_10_astronomical_object = yes
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
 	}
 	option = {
 		name = verrier.113.h #We must train a general against the future Martian threat!
@@ -3567,6 +3666,19 @@ verrier.113 = {
 			add_trait = verrier_astronomer
 		}
 		set_variable = verrier_prepaired_against_martian_thread_var
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
+	}
+	option = {
+		name = verrier.113.i #Maybe we can name more things after Schiaparelli!
+
+		verrier_set_new_astronomer_as_astronomer_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
 	}
 }
 
@@ -3697,6 +3809,8 @@ verrier.116 = {
 
 	immediate = {
 		set_variable = verrier_planck_var
+
+		create_planck_effect = yes
 	}
 
 	option = {
@@ -3715,6 +3829,19 @@ verrier.116 = {
 				name = verrier_breakthrough_modifier
 				years = 5
 			}
+		}
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
+	}
+
+	option = {
+		name = verrier.116.h #This brilliant man should work for us!
+		verrier_set_new_astronomer_as_astronomer_effect = yes
+
+		ai_chance = {
+			base = 0
 		}
 	}
 }
@@ -3758,6 +3885,8 @@ verrier.117 = {
 
 	immediate = {
 		set_variable = verrier_hubble_var
+
+		create_hubble_effect = yes
 	}
 
 	option = {
@@ -3766,6 +3895,19 @@ verrier.117 = {
 		change_variable = {
  			name = verrier_astronomical_objects
  			add = 50
+		}
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
+	}
+
+	option = {
+		name = verrier.117.h #Hubble will be a fine addition to my collection!
+		verrier_set_new_astronomer_as_astronomer_effect = yes
+
+		ai_chance = {
+			base = 0
 		}
 	}
 }
@@ -3912,6 +4054,8 @@ verrier.120 = {
 
 	immediate = {
 		set_variable = verrier_leverrier_var
+
+		create_verrier_effect = yes
 	}
 
 	option = {
@@ -3919,17 +4063,415 @@ verrier.120 = {
 		default_option = yes
 		verrier_add_10_astronomical_object = yes
 		verrier_medium_add_technology = yes
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
 	}
 
 	option = {
 		name = verrier.120.h
+		verrier_set_new_astronomer_as_astronomer_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#################################################################################
+
+############################
+# Historical Observatories #
+############################
+
+######Tara Wali Kothi######
+
+#Verrier 1001: Construction of the Tara Wali Kothi (Awadh)
+verrier.1001 = {
+	type = country_event
+
+	title = verrier.1001.t
+	desc = verrier.1001.d
+	flavor = verrier.1001.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/1Character_Banner"
+
+	trigger = {
+		NOR = {
+			has_variable = verrier_tara_wali_kothi_var
+			has_building = building_verrier_observatory
+		}
+		exists = c:AWA
+		c:AWA = this
+		year >= 1835
+		year <= 1841
+	}
+
+	immediate = {
+		set_variable = verrier_tara_wali_kothi_var
+
+		#create Wilcox as astronomer
 		if = {
 			limit = {
 				has_variable = verrier_astronomer_var
 			}
 			kill_astronomer_effect = yes
 		}
-		create_verrier_effect = yes
+		create_character = {
+			first_name = Richard
+			last_name = Wilcox
+			culture = cu:british
+			interest_group = ig_armed_forces
+			historical = yes
+			save_scope_as = verrier_astronomer_scope
+		}
+			
+		scope:verrier_astronomer_scope = {
+			add_trait = verrier_astronomer
+			place_character_in_void = 1200
+		}
+			
+		set_variable = {
+			name = verrier_astronomer_var
+			value = scope:verrier_astronomer_scope
+		}
+	}
+
+	#Under Wilcox we will see fast progress!
+	option = {
+		name = verrier.1001.g
+		default_option = yes
+		
+		capital = {
+			add_modifier = {
+				name = verrier_observatory_foundation_modifier
+				years = 10
+			}
+		}
+		add_journal_entry = {
+			type = je_verrier_tara_wali_kothi
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	#This is a waste of money!
+	option = { 
+		name = verrier.1001.h
+		custom_tooltip = stop_constructing_tara_wali_kothi_tt
+
+		scope:verrier_astronomer_scope = {
+			free_character_from_void = no	
+		}
+	}
+}
+
+#Verrier 1002: Tara Wali Kothi finished (Awadh)
+verrier.1002 = {
+	type = country_event
+
+	title = verrier.1002.t
+	desc = verrier.1002.d
+	flavor = verrier.1002.f
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_tara_wali_kothi.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/1Character_Banner"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	#The Mansion of Stars will guide us to new discoveries!
+	option = {
+		name = verrier.1002.g
+		default_option = yes
+		if = {
+			limit = {
+				can_research = verrier_physics_tech
+			}
+			add_technology_researched = verrier_physics_tech
+		}
+		else_if = {
+			limit = {
+				can_research = verrier_astronomy_tech
+			}
+			add_technology_progress = {
+				progress = 3000
+				technology = verrier_astronomy_tech
+			}
+		}
+
+		random_scope_state = {
+			create_building={
+				building=building_verrier_observatory
+				level=1
+				reserves=1
+			}
+		}
+	}
+}
+
+######Ethniko Asterosokopio######
+
+verrier.1011 = { #verrier 1011: Construction of the Ethniko Asterosokopio Athinon started
+	type = country_event
+	placement = scope:asterosokopio_athinon_state
+
+	title = verrier.1011.t
+	desc = verrier.1011.d
+	desc = verrier.1011.1.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_observatory_athens_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = asterosokopio_athinon_construction_var
+		}
+		exists = c:GRE
+		c:GRE = ROOT
+		c:GRE = {
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					is_under_construction = yes				
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = asterosokopio_athinon_construction_var
+		random_state = {
+			limit = {
+				state_region = s:STATE_ATTICA
+			}
+			save_scope_as = asterosokopio_athinon_state
+		}
+	}
+
+	option = {
+		name = verrier.1011.a
+		default_option = yes
+	}
+}
+
+verrier.1012 = { #verrier 1012: Construction of the Ethniko Asterosokopio Athinon finished
+	type = country_event
+	placement = scope:asterosokopio_athinon_state
+
+	title = verrier.1012.t
+	desc = verrier.1012.d
+	flavor = verrier.1012.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_observatory_athens_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = asterosokopio_athinon_global_var
+		}
+		exists = c:GRE
+		c:GRE = ROOT
+		has_building  = building_verrier_observatory
+	}
+
+	immediate = {
+		set_global_variable = asterosokopio_athinon_global_var
+		random_state = {
+			limit = {
+				state_region = s:STATE_ATTICA
+			}
+			save_scope_as = asterosokopio_athinon_state
+		}
+
+		create_vouris_effect = yes
+	}
+
+	option = {
+		name = verrier.1012.g
+		default_option = yes
+		verrier_add_10_astronomical_object = yes
+		verrier_medium_add_technology = yes
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
+	}
+
+	option = {
+		name = verrier.1012.h
+		
+		verrier_set_new_astronomer_as_astronomer_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+verrier.1013 = { #verrier 1013: Othóneion Panepistímion opened in Athens (Greece)
+	type = country_event
+	placement = scope:othonian_university_state
+
+	title = verrier.1013.t
+	desc = verrier.1013.d
+	flavor = verrier.1013.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_othonian_university.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = othonian_university_opened_global_var
+		}
+		OR = {
+			AND = {
+				exists = c:GRE
+				c:GRE = ROOT
+			}
+			was_formed_from = GRE
+		}
+		game_date >= 1837.5.15
+	}
+	
+
+	immediate = {
+		set_global_variable = othonian_university_opened_global_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ATTICA
+			}
+			save_scope_as = othonian_university_state
+		}
+	}
+
+	option = {
+		name = verrier.1013.g
+		default_option = yes
+		
+		add_technology_researched = academia
+		add_technology_researched = verrier_physics_tech
+		
+		scope:othonian_university_state = {
+			create_building={
+ 				building="building_university"
+ 				level=2
+ 				reserves=1
+ 			}
+		}
+	}
+
+	option = {
+		name = verrier.1013.h
+		trigger = {
+			is_player = yes
+		}
+	}
+}
+
+verrier.1022 = { #verrier 1022: Eidgenössische Sternwarte (Switzerland)
+	type = country_event
+	placement = scope:east_switzerland_state
+
+	title = verrier.1022.t
+	desc = verrier.1022.d
+	flavor = verrier.1022.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_eidgenossische_sternwarte.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = eidgenossische_sternwarte_var
+		}
+		OR = {
+			AND = {
+				exists = c:SWI
+				c:SWI = ROOT
+			}
+			was_formed_from = SWI
+		}
+		has_building = building_verrier_observatory		
+	}
+
+	immediate = {
+		east_switzerland_scope_effect = yes #sets the scope to the state of East Switzerland
+		
+		set_global_variable = eidgenossische_sternwarte_var
+
+		create_wolf_rudolf_effect = yes
+	}
+
+	option = {
+		name = verrier.1022.g
+		default_option = yes
+		verrier_add_10_astronomical_object = yes
+		verrier_medium_add_technology = yes
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
+	}
+
+	option = {
+		name = verrier.1022.h
+
+		verrier_set_new_astronomer_as_astronomer_effect = yes
 
 		ai_chance = {
 			base = 0
