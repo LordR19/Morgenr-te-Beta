@@ -3428,6 +3428,7 @@ verrier.100 = {
 	option = {
 		name = verrier.100.g
 		remove_variable = verrier_visiting_observatory_var
+		custom_tooltip = verrier_leave_observatory_tt
 	}
 }
 
@@ -3472,6 +3473,8 @@ verrier.101 = {
 	option = {	#Leave the Observatory
 		name = verrier.101.g
 		remove_variable = verrier_visiting_observatory_var
+
+		custom_tooltip = verrier_leave_observatory_tt
 	}
 }
 
@@ -3619,12 +3622,18 @@ verrier.113 = {
 
 	immediate = {
 		set_global_variable = verrier_schiaparelli_var
+
+		create_schiaparelli_effect = yes
 	}
 
 	option = {
 		name = verrier.113.g #Fine!
 		default_option = yes
 		verrier_add_10_astronomical_object = yes
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
 	}
 	option = {
 		name = verrier.113.h #We must train a general against the future Martian threat!
@@ -3635,16 +3644,15 @@ verrier.113 = {
 			add_trait = verrier_astronomer
 		}
 		set_variable = verrier_prepaired_against_martian_thread_var
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
 	}
 	option = {
 		name = verrier.113.i #Maybe we can name more things after Schiaparelli!
-		if = {
-			limit = {
-				has_variable = verrier_astronomer_var
-			}
-			kill_astronomer_effect = yes
-		}
-		create_schiaparelli_effect = yes
+
+		verrier_set_new_astronomer_as_astronomer_effect = yes
 
 		ai_chance = {
 			base = 0
@@ -4078,7 +4086,7 @@ verrier.1001 = {
 			
 		scope:verrier_astronomer_scope = {
 			add_trait = verrier_astronomer
-			place_character_in_void = 1200	
+			place_character_in_void = 1200
 		}
 			
 		set_variable = {
@@ -4111,6 +4119,10 @@ verrier.1001 = {
 	option = { 
 		name = verrier.1001.h
 		custom_tooltip = stop_constructing_tara_wali_kothi_tt
+
+		scope:verrier_astronomer_scope = {
+			free_character_from_void = no	
+		}
 	}
 }
 
@@ -4208,7 +4220,7 @@ verrier.1011 = { #verrier 1011: Construction of the Ethniko Asterosokopio Athino
 
 	immediate = {
 		set_global_variable = asterosokopio_athinon_construction_var
-		random_scope_state = {
+		random_state = {
 			limit = {
 				state_region = s:STATE_ATTICA
 			}
@@ -4252,12 +4264,14 @@ verrier.1012 = { #verrier 1012: Construction of the Ethniko Asterosokopio Athino
 
 	immediate = {
 		set_global_variable = asterosokopio_athinon_global_var
-		random_scope_state = {
+		random_state = {
 			limit = {
 				state_region = s:STATE_ATTICA
 			}
 			save_scope_as = asterosokopio_athinon_state
 		}
+
+		create_vouris_effect = yes
 	}
 
 	option = {
@@ -4265,17 +4279,16 @@ verrier.1012 = { #verrier 1012: Construction of the Ethniko Asterosokopio Athino
 		default_option = yes
 		verrier_add_10_astronomical_object = yes
 		verrier_medium_add_technology = yes
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
 	}
 
 	option = {
 		name = verrier.1012.h
-		if = {
-			limit = {
-				has_variable = verrier_astronomer_var
-			}
-			kill_astronomer_effect = yes
-		}
-		create_vouris_effect = yes
+		
+		verrier_set_new_astronomer_as_astronomer_effect = yes
 
 		ai_chance = {
 			base = 0
