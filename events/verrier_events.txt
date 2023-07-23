@@ -103,6 +103,7 @@ namespace = verrier
 #Observatory
 
 #Verrier 100: Observatory
+#Verrier 101: Astronomer
 
 #Historical Events
 
@@ -3409,9 +3410,67 @@ verrier.100 = {
 		}
 	}
 
+	option = { #Let us visit our astronomer!
+		name = verrier.100.h
+
+		trigger = {
+			has_variable = verrier_astronomer_var
+		}
+		trigger_event = {
+			id = verrier.101
+			popup = yes
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
 	#Bye
 	option = {
 		name = verrier.100.g
+		remove_variable = verrier_visiting_observatory_var
+	}
+}
+
+#Verrier 101: Astronomer
+
+verrier.101 = {
+	type = country_event
+
+	title = verrier.101.t
+	desc = verrier.101.d
+	flavor = verrier.101.f
+	
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = {	#Return to the Observatory
+		name = verrier.101.h
+		default_option = yes
+
+		trigger_event = {
+			id = verrier.100
+			popup = yes
+		}
+	}
+	option = {	#Leave the Observatory
+		name = verrier.101.g
 		remove_variable = verrier_visiting_observatory_var
 	}
 }
@@ -3576,6 +3635,20 @@ verrier.113 = {
 			add_trait = verrier_astronomer
 		}
 		set_variable = verrier_prepaired_against_martian_thread_var
+	}
+	option = {
+		name = verrier.113.i #Maybe we can name more things after Schiaparelli!
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			kill_astronomer_effect = yes
+		}
+		create_schiaparelli_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
 	}
 }
 
@@ -3921,6 +3994,8 @@ verrier.120 = {
 
 	immediate = {
 		set_variable = verrier_leverrier_var
+
+		create_verrier_effect = yes
 	}
 
 	option = {
@@ -3928,17 +4003,15 @@ verrier.120 = {
 		default_option = yes
 		verrier_add_10_astronomical_object = yes
 		verrier_medium_add_technology = yes
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
 	}
 
 	option = {
 		name = verrier.120.h
-		if = {
-			limit = {
-				has_variable = verrier_astronomer_var
-			}
-			kill_astronomer_effect = yes
-		}
-		create_verrier_effect = yes
+		verrier_set_new_astronomer_as_astronomer_effect = yes
 
 		ai_chance = {
 			base = 0
@@ -4278,7 +4351,7 @@ verrier.1013 = { #verrier 1013: Othóneion Panepistímion opened in Athens (Gree
 	}
 }
 
-verrier.1022 = { #verrier 1021: Eidgenössische Sternwarte (Switzerland)
+verrier.1022 = { #verrier 1022: Eidgenössische Sternwarte (Switzerland)
 	type = country_event
 	placement = scope:east_switzerland_state
 
@@ -4315,6 +4388,8 @@ verrier.1022 = { #verrier 1021: Eidgenössische Sternwarte (Switzerland)
 		east_switzerland_scope_effect = yes #sets the scope to the state of East Switzerland
 		
 		set_global_variable = eidgenossische_sternwarte_var
+
+		create_wolf_rudolf_effect = yes
 	}
 
 	option = {
@@ -4322,18 +4397,16 @@ verrier.1022 = { #verrier 1021: Eidgenössische Sternwarte (Switzerland)
 		default_option = yes
 		verrier_add_10_astronomical_object = yes
 		verrier_medium_add_technology = yes
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
 	}
 
 	option = {
 		name = verrier.1022.h
 
-		if = {
-			limit = {
-				has_variable = verrier_astronomer_var
-			}
-			kill_astronomer_effect = yes
-		}
-		create_wolf_rudolf_effect = yes
+		verrier_set_new_astronomer_as_astronomer_effect = yes
 
 		ai_chance = {
 			base = 0
