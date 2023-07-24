@@ -471,7 +471,7 @@ je_rapanui_pacific_expedition = {
 
 	on_monthly_pulse = {
 		random_events = {
-			90 = 0
+			70 = 0
 
 			#Oceanography
 			1 = rapanui.221 #Rapanui 221: Ocean currents
@@ -479,7 +479,7 @@ je_rapanui_pacific_expedition = {
 			1 = rapanui.223 #Magnetism
 			1 = rapanui.224 #Deap sea measurement
 			1 = rapanui.225 #Antarctica
-			1 = rapanui.226 #Ice
+			#1 = rapanui.226 #Ice
 			1 = rapanui.227 #Unknown Island
 			
 			#Zoology
@@ -488,10 +488,12 @@ je_rapanui_pacific_expedition = {
 			1 = rapanui.233 #Catch the Kangaroo
 			1 = rapanui.234 #Koala Deal
 			1 = rapanui.235 #Strangest animal ever seen
-			1 = rapanui.236 #Secrets of Borne
+			1 = rapanui.236 #Secrets of Borneo
 			1 = rapanui.237 #The Dragon
 
 			#Natural history
+			1 = rapanui.241 #Bird watching
+			1 = rapanui.242 #Sea Specimen
 
 			#Imperialism
 			1 = rapanui.251 #Valuable Artifact
@@ -606,7 +608,15 @@ je_rapanui_pacific_expedition = {
 	}
 
 	goal_add_value = {
-		value = 7
+		if = {
+			limit = {
+				has_variable = rapanui_pe_general_var
+			}
+			value = 7
+		}
+		else = {
+			value = 5
+		}
 	}
 
 	progressbar = yes
@@ -652,11 +662,18 @@ je_rapanui_oceanographic_studies = {
 	}
 
 	current_value = {
-		value = var:rapanui_oceanographic_understanding >= 25
+		value = var:rapanui_oceanographic_understanding
 	}
 
 	goal_add_value = {
 		value = 25
+		subtract = var:rapanui_oceanographic_understanding #current value of the variable
+		if = { #prevents the value of the goal_add_value to be below one
+			limit = {
+				var:rapanui_oceanographic_understanding >= 25
+			}
+			value = 1
+		}
 	}
 
 	progressbar = yes
