@@ -119,6 +119,11 @@ namespace = verrier
 #Verrier 119: Dmitri Mendeleev (Russia)
 #Verrier 120: Le Verrier (France)
 
+#Astrea
+
+#Verrier 121: Astrea discovered
+#Verrier 121: Astrea notification
+
 #Historical Observatories
 
 #Verrier 1001: Construction of the Tara Wali Kothi (Awadh)
@@ -544,7 +549,22 @@ verrier.30 = {
 
 	title = verrier.30.t
 	desc = verrier.30.d
-	flavor = verrier.30.f
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_astraea_discovered_var
+			}
+			desc = verrier.30.f_astraea
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_astraea_discovered_var
+				}
+			}
+			desc = verrier.30.f
+		}
+	}
 
 	duration = 1
 
@@ -561,9 +581,21 @@ verrier.30 = {
 		set_global_variable = verrier_vesta_demoted_var
 		set_global_variable = verrier_pallas_demoted_var
 		set_global_variable = verrier_juno_demoted_var
-		change_global_variable = {
- 			name = verrier_planets_number
- 			add = -3
+		if = {
+			limit = {
+				has_global_variable = verrier_astraea_discovered_var
+			}
+			set_global_variable = verrier_astraea_demoted_var
+			change_global_variable = {
+				name = verrier_planets_number
+				add = -4
+		   }
+		}
+		else = {
+			change_global_variable = {
+				name = verrier_planets_number
+				add = -3
+		   }
 		}
 	}
 
@@ -615,6 +647,7 @@ verrier.30 = {
 					has_modifier = verrier_discovered_pallas_modifier
 					has_modifier = verrier_discovered_vesta_modifier
 					has_modifier = verrier_discovered_juno_modifier
+					has_modifier = verrier_discovered_astreaa_modifier
 				}
 			}
 			trigger_event = {
@@ -646,7 +679,22 @@ verrier.31 = {
 
 	title = verrier.31.t
 	desc = verrier.31.d
-	flavor = verrier.31.f
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_astraea_discovered_var
+			}
+			desc = verrier.31.f_astraea
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_astraea_discovered_var
+				}
+			}
+			desc = verrier.31.f
+		}
+	}
 
 	duration = 1
 
@@ -912,9 +960,39 @@ verrier.32 = {
 verrier.33 = {
 	type = country_event
 
-	title = verrier.33.t
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_astraea_discovered_var
+			}
+			desc = verrier.33.t_astraea
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_astraea_discovered_var
+				}
+			}
+			desc = verrier.33.t
+		}
+	}
 	desc = verrier.33.d
-	flavor = verrier.33.f
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_astraea_discovered_var
+			}
+			desc = verrier.33.f_astraea
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_astraea_discovered_var
+				}
+			}
+			desc = verrier.33.f
+		}
+	}
 
 	duration = 1
 
@@ -946,9 +1024,39 @@ verrier.33 = {
 verrier.34 = {
 	type = country_event
 
-	title = verrier.34.t
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_astraea_discovered_var
+			}
+			desc = verrier.34.t_astraea
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_astraea_discovered_var
+				}
+			}
+			desc = verrier.34.t
+		}
+	}
 	desc = verrier.34.d
-	flavor = verrier.34.f
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_astraea_discovered_var
+			}
+			desc = verrier.34.f_astraea
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_astraea_discovered_var
+				}
+			}
+			desc = verrier.34.f
+		}
+	}
 
 	duration = 1
 
@@ -1029,6 +1137,12 @@ verrier.35 = {
 				has_modifier = verrier_discovered_juno_modifier
 			}
 			remove_modifier = verrier_discovered_juno_modifier
+		}
+		if = {
+			limit = {
+				has_modifier = verrier_discovered_astraea_modifier
+			}
+			remove_modifier = verrier_discovered_astraea_modifier
 		}
 	}
 }
@@ -3320,6 +3434,14 @@ verrier.100 = {
 			}
 			desc = verrier.100.pallas
 		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = verrier_astraea_demoted_var
+				}
+			}
+			desc = verrier.100.astraea
+		}
 		desc = verrier.100.jupiter
 		desc = verrier.100.saturn
 		desc = verrier.100.uranus
@@ -3400,6 +3522,12 @@ verrier.100 = {
 				has_modifier = verrier_discovered_vesta_modifier
 			}
 			save_scope_as = verrier_vesta_discoverer_country
+		}
+		random_country = {
+			limit = {
+				has_modifier = verrier_discovered_astraea_modifier
+			}
+			save_scope_as = verrier_astraea_discoverer_country
 		}
 		random_country = {
 			limit = {
@@ -4076,6 +4204,104 @@ verrier.120 = {
 		ai_chance = {
 			base = 0
 		}
+	}
+}
+
+#################################################################################
+
+######ASTREA######
+
+#Verrier 121: Astraea discovered
+
+verrier.121 = {
+	type = country_event
+
+	title = verrier.121.t
+	desc = verrier.121.d
+	flavor = verrier.121.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = verrier_neptune_discovered_var
+		}
+		NOT = {
+			has_global_variable = verrier_astraea_discovered_var
+		}
+		exists = c:PRU
+		c:PRU = root
+		has_technology_researched = verrier_astronomy_tech
+		var:verrier_astronomical_objects >= 50
+	}
+
+	immediate = {
+		set_global_variable = verrier_astraea_discovered_var
+	}
+
+	option = { #A new planet!
+		name = verrier.121.g
+		verrier_add_1_astronomical_object = yes
+		verrier_small_add_technology = yes
+		add_modifier = {
+			name = verrier_discovered_astraea_modifier
+		}
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = 1
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { this = ROOT }
+					is_player = yes
+				}
+				trigger_event = {
+					id = verrier.121
+					days = 3
+				}
+			}
+		}
+	}
+}
+
+#Verrier 122: Astraea notification for player
+
+verrier.122 = {
+	type = country_event
+
+	title = verrier.121.t
+	desc = verrier.121.d
+	flavor = verrier.121.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_old_solar_system.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+	}
+
+	duration = 3
+
+	option = {
+		name = verrier.122.g #It seems like every rock that comes along these days is declared a planet.
 	}
 }
 
