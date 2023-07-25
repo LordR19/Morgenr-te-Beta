@@ -2344,6 +2344,219 @@ dubois.60 = {
 
 #################################################################################
 
+######FORMATIONS######
+
+#Dubois 71: Add Formations
+
+dubois.71 = {
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		NOT = {
+			has_global_variable = dubois_formations_set_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = dubois_formations_set_var
+
+		dubois_add_normal_formations = yes
+
+		if = {
+			limit = {
+				has_game_rule = dubois_historical_formations_rule
+			}
+			dubois_add_historical_great_formations = yes
+		}
+
+		if = {
+			limit = {
+				has_game_rule = dubois_random_formations_rule
+			}
+			dubois_add_random_great_formations = yes
+		}
+	}
+}
+
+#Dubois 72: Normal Formation discovered
+
+dubois.72 = {
+	type = country_event
+
+    title = dubois.72.t
+		
+    desc = dubois.72.d
+
+	flavor = dubois.72.f
+
+	placement = scope:dubois_formation_state
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_scaphognathus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	trigger = {
+		any_scope_state = {
+			has_variable = dubois_has_normal_formation_var
+			NOT = {
+				has_modifier = dubois_normal_formation_modifier
+			}
+		}
+		dubois_can_discover_formation = yes
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_variable = dubois_has_normal_formation_var
+				NOT = {
+					has_modifier = dubois_normal_formation_modifier
+				}
+			}
+			save_scope_as = dubois_formation_state
+		}
+	}
+
+	option = { #We should inspect that formation
+		name = dubois.72.g
+		default_option = yes
+		scope:dubois_formation_state = {
+			add_modifier = {
+				name = dubois_normal_formation_modifier
+			}
+		}
+	}
+}
+
+#Dubois 73: Great Formation discovered
+
+dubois.73 = {
+	type = country_event
+
+    title = dubois.73.t
+		
+    desc = dubois.73.d
+
+	flavor = dubois.72.f
+
+	placement = scope:dubois_formation_state
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_scaphognathus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	trigger = {
+		any_scope_state = {
+			has_variable = dubois_has_great_formation_var
+			NOR = {
+				has_modifier = dubois_great_north_american_formation_modifier
+				has_modifier = dubois_great_south_american_formation_modifier
+				has_modifier = dubois_great_european_formation_modifier
+				has_modifier = dubois_great_african_formation_modifier
+				has_modifier = dubois_great_asian_formation_modifier
+				has_modifier = dubois_great_australian_formation_modifier
+			}
+		}
+		dubois_can_discover_formation = yes
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_variable = dubois_has_great_formation_var
+				NOR = {
+					has_modifier = dubois_great_north_american_formation_modifier
+					has_modifier = dubois_great_south_american_formation_modifier
+					has_modifier = dubois_great_european_formation_modifier
+					has_modifier = dubois_great_african_formation_modifier
+					has_modifier = dubois_great_asian_formation_modifier
+					has_modifier = dubois_great_australian_formation_modifier
+				}
+			}
+			save_scope_as = dubois_formation_state
+		}
+	}
+
+	option = { #We should inspect that formation
+		name = dubois.72.g
+		default_option = yes
+		scope:dubois_formation_state = {
+			#NORTH AMERICA
+			if = {
+				limit = {
+					state_is_in_north_america = yes
+				}
+				add_modifier = {
+					name = dubois_great_north_american_formation_modifier
+				}
+			}
+			#SOUTH AMERICA
+			if = {
+				limit = {
+					state_is_in_south_america = yes
+				}
+				add_modifier = {
+					name = dubois_great_south_american_formation_modifier
+				}
+			}
+			#EUROPE
+			if = {
+				limit = {
+					state_is_in_europe = yes
+				}
+				add_modifier = {
+					name = dubois_great_european_formation_modifier
+				}
+			}
+			#AFRIA
+			if = {
+				limit = {
+					state_is_in_africa = yes
+				}
+				add_modifier = {
+					name = dubois_great_african_formation_modifier
+				}
+			}
+			#ASIA
+			if = {
+				limit = {
+					state_is_in_east_asia = yes
+				}
+				add_modifier = {
+					name = dubois_great_asian_formation_modifier
+				}
+			}
+			#AUSTRALIA
+			if = {
+				limit = {
+					region = sr:region_oceania
+				}
+				add_modifier = {
+					name = dubois_great_australian_formation_modifier
+				}
+			}
+		}
+	}
+}
+
+#################################################################################
+
 ######101-200: Animals arrive######
 
 ######101-110: North American Animals######
