@@ -14137,6 +14137,7 @@ curtiss.614 = {
 
 		scope:curtiss_balloonist_scope = {
 			place_character_in_void = 1200
+			set_variable = curtiss_auguste_piccard_character_var
 		}
 	}
 
@@ -14161,7 +14162,6 @@ curtiss.614 = {
 					name = curtiss_balloonist_experience_var
 					value = 150
 				}
-				set_variable = curtiss_auguste_piccard_character_var
 			}
 				
 			set_variable = {
@@ -14206,6 +14206,86 @@ curtiss.614 = {
 				}
 				add = -100
 			}	
+		}
+	}
+}
+
+#Curtiss 615: Auguste Piccard moves to Capital / Brussels
+curtiss.615 = {
+	type = country_event
+
+	title = curtiss.615.t
+	desc = curtiss.615.d
+	flavor = curtiss.615.f
+	
+	duration = 2
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_balloonist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#triggered by curtiss.614
+	}
+
+	immediate = {
+	}
+
+	option = {	#A balloonist of this renown should become our official Balloonist!
+		name = curtiss.615.g
+		default_option = yes
+
+		custom_tooltip = {
+			text = curtiss.615.g.tt
+	
+			if = {
+				limit = {
+					has_variable = curtiss_balloonist_var
+				}
+				kill_balloonist_effect = yes
+			}
+
+			scope:curtiss_balloonist_scope = {
+				set_variable = {
+					name = curtiss_balloonist_experience_var
+					value = 150
+				}
+			}
+				
+			set_variable = {
+				name = curtiss_balloonist_var
+				value = scope:curtiss_balloonist_scope
+			}
+		
+			set_variable = {
+				name = curtiss_balloon_name_randomizer_var
+				value = { 1 25 }
+			}
+		
+			round_variable = {
+				name = curtiss_balloon_name_randomizer_var
+				nearest = 1
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {	#We wish him luck with his career!
+		name = curtiss.615.h
+		default_option = yes
+
+		scope:curtiss_balloonist_scope = {
+			free_character_from_void = no
+		}
+
+		ai_chance = {
+			base = 0
 		}
 	}
 }
