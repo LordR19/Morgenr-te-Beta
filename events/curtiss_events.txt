@@ -14006,9 +14006,63 @@ curtiss.613 = {
 curtiss.614 = {
 	type = country_event
 
-	title = curtiss.614.t
+	title = {
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					any_country = {
+						country_is_in_europe = yes
+						any_scope_building = {
+							is_building_type = building_university
+							level >= 20
+						}
+					}
+				}
+			}
+			desc = curtiss.614.t_brussels
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					country_is_in_europe = yes
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 20
+					}
+				}
+			}
+			desc = curtiss.614.t_capital
+		}
+	}
 
-	desc = curtiss.614.d
+	desc = {
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					any_country = {
+						country_is_in_europe = yes
+						any_scope_building = {
+							is_building_type = building_university
+							level >= 20
+						}
+					}
+				}
+			}
+			desc = curtiss.614.d_brussels
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					country_is_in_europe = yes
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 20
+					}
+				}
+			}
+			desc = curtiss.614.d_capital
+		}
+	}
 
 	flavor = curtiss.614.f
 	
@@ -14033,6 +14087,35 @@ curtiss.614 = {
 	}
 
 	immediate = {
+		if = {
+			limit = {
+				any_country = {
+					country_is_in_europe = yes
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 20
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					country_is_in_europe = yes
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 20
+					}
+				}
+			}
+			save_scope_as = curtiss_august_piccard_destination
+		}
+		else = {
+			p:x018061 = {
+				owner = {
+					save_scope_as = curtiss_august_piccard_destination
+				}
+			}
+		}
+
 		set_global_variable = curtiss_auguste_piccard_global_var
 
 		create_character = {
@@ -14050,6 +14133,10 @@ curtiss.614 = {
 			}
 
 			save_scope_as = curtiss_balloonist_scope
+		}
+
+		scope:curtiss_balloonist_scope = {
+			place_character_in_void = 1200
 		}
 	}
 
@@ -14070,7 +14157,6 @@ curtiss.614 = {
 			}
 
 			scope:curtiss_balloonist_scope = {
-				place_character_in_void = 1200
 				set_variable = {
 					name = curtiss_balloonist_experience_var
 					value = 150
@@ -14093,11 +14179,34 @@ curtiss.614 = {
 				nearest = 1
 			}
 		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				trigger = {
+					gold_reserves >= 200000
+				}
+				add = 100
+			}	
+		}
 	}
 
 	option = {	#We already have a great balloonist!
 		name = curtiss.614.h
 		default_option = yes
+
+		scope:curtiss_august_piccard_destination = {
+			trigger_event = curtiss.615
+		}
+
+		ai_chance = {
+			base = 200
+			modifier = {
+				trigger = {
+					gold_reserves >= 200000
+				}
+				add = -100
+			}	
+		}
 	}
 }
 
