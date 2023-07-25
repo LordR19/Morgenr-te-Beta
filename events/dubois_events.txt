@@ -2555,6 +2555,61 @@ dubois.73 = {
 	}
 }
 
+######PALEONTOLOGY
+
+#Dubois 81: Yearly paleontological report
+
+dubois.81 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		NOT = {
+			has_variable = dubois_paleontological_report_cooldown_var
+		}
+		dubois_paleontological_research = yes
+	}
+
+	immediate = {
+		set_variable = {
+			name = dubois_paleontological_report_cooldown_var
+			days = 365
+		}
+		dubois_add_1_fossil = yes #base fossils
+
+		#Additional yearly fossils
+		if = {
+			limit = {
+				has_technology_researched = dubois_paleontology_tech
+			}
+			dubois_add_1_fossil = yes
+		}
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_university
+					has_active_production_method = pm_dubois_university_natural_history
+				}
+			}
+			dubois_add_1_fossil = yes
+		}
+
+		#Dinosaurs
+		if = {
+			limit = {
+			
+			}
+		}
+		if = {
+			limit = {
+				dubois_paleontological_research = yes #Notification
+			}
+			post_notification = verrier_astronomical_observation_notification
+		}
+	}
+}
+
 #################################################################################
 
 ######101-200: Animals arrive######
