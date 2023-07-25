@@ -6172,6 +6172,7 @@ rapanui.211 = {
 			}
 			add_3_rapanui_oceanographic_understanding = yes
 			dubois_add_3000_specimen = yes
+			dubois_add_2_fossil = yes
 			dubois_small_add_technology = yes
 			verrier_add_1_astronomical_object = yes
 			verrier_small_add_technology = yes
@@ -6188,6 +6189,7 @@ rapanui.211 = {
 				has_variable = rapanui_pe_nature_var
 			}
 			dubois_add_5000_specimen = yes
+			dubois_add_3_fossil = yes
 			dubois_medium_add_technology = yes
 		}
 		if = {
@@ -6346,7 +6348,6 @@ rapanui.213 = {
 				name = rapanui_science_report_geography_modifier
 				years = 5
 			}
-			add_5_rapanui_oceanographic_understanding = yes
 		}
 		if = {
 			limit = {
@@ -6358,8 +6359,6 @@ rapanui.213 = {
 				name = rapanui_science_report_biology_modifier
 				years = 5
 			}
-			dubois_add_5000_specimen = yes
-			dubois_medium_add_technology = yes
 		}
 		if = {
 			limit = {
@@ -6371,8 +6370,6 @@ rapanui.213 = {
 				name = rapanui_science_report_biology_modifier
 				years = 5
 			}
-			dubois_add_5000_specimen = yes
-			dubois_medium_add_technology = yes
 		}
 		if = {
 			limit = {
@@ -6384,8 +6381,6 @@ rapanui.213 = {
 				name = rapanui_science_report_astronomy_modifier
 				years = 5
 			}
-			verrier_add_5_astronomical_object = yes
-			verrier_medium_add_technology = yes
 		}
 	}
 
@@ -8018,6 +8013,7 @@ rapanui.241 = {
 					NOT = {
 						has_global_variable = rapanui_wallace_line_found
 					}
+					has_variable = rapanui_pacific_expedition_location_indonesia
 					var:dubois_specimen >= 30000
 					exists = scope:rapanui_scientist
 					scope:rapanui_scientist = {
@@ -8100,6 +8096,7 @@ rapanui.242 = {
 					NOT = {
 						has_global_variable = rapanui_wallace_line_found
 					}
+					has_variable = rapanui_pacific_expedition_location_indonesia
 					var:dubois_specimen >= 30000
 					exists = scope:rapanui_scientist
 					scope:rapanui_scientist = {
@@ -8121,6 +8118,504 @@ rapanui.242 = {
 		  has_variable = rapanui_pe_nature_var
 		  factor = 10
 		}
+	}
+}
+
+#Rapanui 243: Rare Fossils
+
+rapanui.243 = {
+	type = country_event
+
+	title = rapanui.243.t
+	desc = rapanui.243.d
+	flavor = rapanui.243.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_trilobite.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.243.g #Nature is wonderful
+		random_list = {
+			1 = {
+				dubois_add_3_fossil = yes
+			}
+			3 = {
+				dubois_add_2_fossil = yes
+			}
+			2 = {
+				dubois_add_1_fossil = yes
+			}
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_global_variable = dubois_java_man_found
+					}
+					has_variable = rapanui_pacific_expedition_location_indonesia
+					has_technology_researched = dubois_paleontology_tech
+					var:dubois_fossil >= 75
+					exists = scope:rapanui_scientist
+					scope:rapanui_scientist = {
+						has_trait = dubois_paleontologist
+					}
+				}
+				trigger_event = {
+					id = rapanui.250
+					popup = yes
+					days = { 30 60 }
+				}
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		  has_variable = rapanui_pe_nature_var
+		  factor = 10
+		}
+	}
+}
+
+#Rapanui 244: Stromatolites
+
+rapanui.244 = {
+	type = country_event
+
+	title = rapanui.244.t
+	desc = rapanui.244.d
+	flavor = rapanui.244.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_flora.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.244.g #These are specimen
+		if = {
+			limit = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					has_trait = dubois_naturalist
+				}
+			}
+			dubois_add_3000_specimen = yes
+		}
+		else = {
+			dubois_add_1000_specimen = yes
+		}
+	}
+
+	option = {
+		name = rapanui.244.h #These are fossiles
+		if = {
+			limit = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					has_trait = dubois_paleontologist
+				}
+			}
+			dubois_add_3_fossil = yes
+		}
+		else = {
+			dubois_add_2_fossil = yes
+		}
+	}
+
+	option = {
+		name = rapanui.244.i #Study, not collect
+		default_option = yes
+		if = {
+			limit = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					OR = {
+						has_trait = dubois_paleontologist
+						has_trait = dubois_naturalist
+					}
+				}
+			}
+			dubois_medium_add_technology = yes
+		}
+		else = {
+			dubois_small_add_technology = yes
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_global_variable = dubois_java_man_found
+					}
+					has_variable = rapanui_pacific_expedition_location_indonesia
+					has_technology_researched = dubois_paleontology_tech
+					var:dubois_fossil >= 75
+					exists = scope:rapanui_scientist
+					scope:rapanui_scientist = {
+						has_trait = dubois_paleontologist
+					}
+				}
+				trigger_event = {
+					id = rapanui.250
+					popup = yes
+					days = { 30 60 }
+				}
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		  has_variable = rapanui_pe_nature_var
+		  factor = 10
+		}
+	}
+}
+
+#Rapanui 245: Fossilized Flora
+
+rapanui.245 = {
+	type = country_event
+
+	title = rapanui.245.t
+	desc = rapanui.245.d
+	flavor = rapanui.245.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_flora.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.245.g #Fine
+		dubois_add_1_fossil = yes
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_global_variable = dubois_java_man_found
+					}
+					has_variable = rapanui_pacific_expedition_location_indonesia
+					has_technology_researched = dubois_paleontology_tech
+					var:dubois_fossil >= 75
+					exists = scope:rapanui_scientist
+					scope:rapanui_scientist = {
+						has_trait = dubois_paleontologist
+					}
+				}
+				trigger_event = {
+					id = rapanui.250
+					popup = yes
+					days = { 30 60 }
+				}
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		  has_variable = rapanui_pe_nature_var
+		  factor = 10
+		}
+	}
+}
+
+#Rapanui 246: The Amber Necklace (Indonesia)
+
+rapanui.246 = {
+	type = country_event
+
+	title = rapanui.246.t
+	desc = rapanui.246.d
+	flavor = rapanui.246.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_scaphognathus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_indonesia
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.246.g #This is of paleontological relevance
+		default_option = yes
+		trigger = {
+			NOT = {
+				has_variable = dubois_fossil_amber
+			}
+		}
+		dubois_add_fossil_amber = yes
+		add_treasury = -25000
+	}
+
+	option = {
+		name = rapanui.246.h #This is of archaeological relevance
+		lepsius_add_oceanic_artifact = yes
+		add_treasury = -25000
+	}
+
+	option = {
+		name = rapanui.246.i #Destroy the necklace and examine it
+		dubois_add_2_fossil = yes
+		dubois_small_add_technology = yes
+		add_treasury = -25000
+	}
+
+	option = {
+		name = rapanui.246.j #This has no relevance
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_global_variable = dubois_java_man_found
+					}
+					has_technology_researched = dubois_paleontology_tech
+					var:dubois_fossil >= 75
+					exists = scope:rapanui_scientist
+					scope:rapanui_scientist = {
+						has_trait = dubois_paleontologist
+					}
+				}
+				trigger_event = {
+					id = rapanui.250
+					popup = yes
+					days = { 30 60 }
+				}
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		  has_variable = rapanui_pe_nature_var
+		  factor = 10
+		}
+	}
+}
+
+#Rapanui 247: The Bone (Australia)
+
+rapanui.247 = {
+	type = country_event
+
+	title = rapanui.247.t
+	desc = rapanui.247.d
+	flavor = rapanui.247.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_scaphognathus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_australia
+		var:dubois_australian_dinosaur_bone <= 2
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.247.g #Prof. Scientist should excavate it
+		default_option = yes
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				has_trait = dubois_paleontologist
+			}
+		}
+		dubois_add_australian_dinosaur_bone = yes
+	}
+
+	option = {
+		name = rapanui.247.h #Collect as many fossils as possible
+		dubois_add_5_fossil = yes
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		  has_variable = rapanui_pe_nature_var
+		  factor = 10
+		}
+	}
+}
+
+#Rapanui 250: Java man
+
+rapanui.250 = {
+	type = country_event
+
+	title = rapanui.250.t
+	desc = rapanui.250.d
+	flavor = rapanui.250.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = dubois_java_man_found
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_CENTRAL_JAVA
+			}
+			save_scope_as = rapanui_pacific_expedition_location
+		}
+	}
+
+	option = {
+		name = rapanui.250.g #A historical day
+		default_option = yes
+		dubois_add_fossil_java = yes
+		dubois_large_add_technology = yes
+		post_notification = dubois_java_man_notification
+		scope:rapanui_scientist = {
+			add_modifier = {
+				name = dubois_java_man_found_modifier
+			}
+		}
+	}
+
+	after = {
 	}
 }
 
@@ -8616,7 +9111,7 @@ rapanui.255 = {
 	}
 
 	option = {
-		name = rapanui.255.h #We don't apologize for anything
+		name = rapanui.255.i #We don't apologize for anything
 		change_infamy = 3
 		scope:rapanui_hostile_country = {
 			change_relations = {
@@ -9060,9 +9555,102 @@ rapanui.264 = {
 	}
 }
 
-#Rapanui 265: Paleontology
+#Rapanui 265: A small formation
 
-#Rapanui 266: Paleontology
+rapanui.265 = {
+	type = country_event
+
+	title = rapanui.265.t
+	desc = rapanui.265.d
+	flavor = rapanui.265.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			has_trait = dubois_paleontologist
+		}
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.265.g #You can never have enough fossiles
+		dubois_add_5_fossil = yes
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 266: Composita
+
+rapanui.266 = {
+	type = country_event
+
+	title = rapanui.266.t
+	desc = rapanui.266.d
+	flavor = rapanui.266.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			has_trait = dubois_paleontologist
+		}
+		NOT = {
+			has_variable = dubois_fossil_composita
+		}
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.266.g #So exciting.
+		dubois_add_fossil_composita = yes
+	}
+
+	after = {
+	}
+}
 
 #Rapanui 267: Southern celestial hemisphere
 
