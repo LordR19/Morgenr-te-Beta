@@ -300,6 +300,59 @@ dubois.5 = {
 	}
 }
 
+#Dubois 6: Dubois finds the Java Man (alternative to Rapanui.250)
+
+dubois.6 = {
+	type = country_event
+
+	title = dubois.6.t
+	desc = dubois.6.d
+	flavor = dubois.6.f
+
+	placement = scope:dubois_java_man_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_java.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = dubois_java_man_found
+		}
+		game_date >= 1891.1.1
+		has_technology_researched = dubois_paleontology_tech
+		exists = c:NET
+		ROOT = c:NET
+	}
+
+	immediate = {
+		set_global_variable = dubois_java_man_found
+		random_state = {
+			limit = {
+				state_region = s:STATE_EAST_JAVA
+			}
+			save_scope_as = dubois_java_man_location
+		}
+	}
+
+	option = {
+		name = rapanui.250.g #A historical day
+		default_option = yes
+		dubois_add_fossil_java = yes
+		dubois_medium_add_technology = yes
+		post_notification = dubois_java_man_notification
+	}
+
+	after = {
+	}
+}
+
 ######Diplomatic action######
 
 #Dubois 11: Diplomatic Action, Animal selection
