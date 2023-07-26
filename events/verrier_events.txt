@@ -4313,6 +4313,86 @@ verrier.122 = {
 
 #################################################################################
 
+######Technologies######
+
+#Verrier 200: [SCOPE] determines the distance of 61 Cygni to be 11.4 light years
+
+verrier.200 = {
+	type = country_event
+
+	title = verrier.200.t
+
+	desc = verrier.200.d
+
+	flavor = verrier.200.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		has_technology_researched = verrier_astronomy_tech
+		NOT = {
+			has_global_variable = verrier_modern_astronomy_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = verrier_modern_astronomy_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = verrier_astronomer_var
+				}
+			}
+			create_astronomer_effect = yes
+		}
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = {
+		name = verrier.200.g
+		default_option = yes
+		add_modifier = {
+			name = verrier_modern_astronomy_invented_modifier
+			years = 5
+		}
+		verrier_large_add_technology = yes
+
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	option = {
+		name = verrier.200.h
+		add_modifier = {
+			name = verrier_modern_astronomy_invented_modifier
+			years = 5
+		}
+		verrier_add_10_astronomical_object = yes
+		verrier_medium_add_technology = yes
+
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	after = {
+	}
+}
+
+
+#################################################################################
+
 ############################
 # Historical Observatories #
 ############################
