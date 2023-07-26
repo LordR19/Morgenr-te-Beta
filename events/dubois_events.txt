@@ -3809,6 +3809,636 @@ dubois.155 = {
 
 #####################################################################
 
+######PALEONTOLOGY######
+
+###Random Events for Normal Formation
+
+#Dubois 201: Farns
+
+dubois.201 = {
+	type = country_event
+
+	title = dubois.201.t
+	desc = dubois.201.d
+	flavor = dubois.201.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_flora.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.201.g #So exciting.
+		dubois_add_1_fossil = yes
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 202: Shark Tooth
+
+dubois.202 = {
+	type = country_event
+
+	title = dubois.202.t
+	desc = dubois.202.d
+	flavor = dubois.202.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_trilobite.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.202.g #So exciting.
+		dubois_add_3_fossil = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 203: Dinosaur Footprints
+
+dubois.203 = {
+	type = country_event
+
+	title = dubois.203.t
+	desc = dubois.203.d
+	flavor = dubois.203.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:pb_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 15
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+	}
+
+	immediate = {
+		ig:ig_petty_bourgeoisie = {
+			save_scope_as = petty_bourgeoisie_ig 
+			leader = {
+				save_scope_as = pb_leader
+			}
+		}
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.203.g #These are Dinosaur Footprints.
+		dubois_add_2_fossil = yes
+		scope:petty_bourgeoisie_ig = {
+			add_modifier = {
+				name = ig_not_placated
+				years = 2
+			}
+		}
+	}
+
+	option = {
+		name = dubois.203.h #Nothing special
+		default_option = yes
+		scope:petty_bourgeoisie_ig  = {
+			add_modifier = {
+				name = ig_placated
+				years = 2
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 204: Palaeosinopa
+
+dubois.204 = {
+	type = country_event
+
+	title = dubois.204.t
+	desc = dubois.204.d
+	flavor = dubois.204.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_mixed.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 15
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.204.g #So exciting.
+		default_option = yes
+		dubois_add_1_fossil = yes
+		dubois_small_add_technology = yes
+	}
+
+	option = {
+		name = dubois.204.h #A perfect gift for a friend!
+		trigger = {
+			any_country = {
+				has_diplomatic_pact = {
+					who = root
+					type = alliance 
+				}
+			}
+		}
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = root
+					type = alliance 
+				}
+			}
+			change_relations = {
+				country = ROOT 
+				value = 25
+			}
+		}
+		add_modifier = {
+			name = lepsius_internationally_respected_philanthropist
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 205: Bones in the mineshaft
+
+dubois.205 = {
+	type = country_event
+
+	title = dubois.205.t
+	desc = dubois.205.d
+	flavor = dubois.205.f
+
+	placement = scope:dubois_excavation_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_mixed.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 15
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+		any_scope_state = {
+			OR = {
+				has_modifier = dubois_normal_formation_modifier
+				has_modifier = dubois_great_north_american_formation_modifier
+				has_modifier = dubois_great_south_american_formation_modifier
+				has_modifier = dubois_great_european_formation_modifier
+				has_modifier = dubois_great_african_formation_modifier
+				has_modifier = dubois_great_asian_formation_modifier
+				has_modifier = dubois_great_australian_formation_modifier
+			}
+			OR = {
+				has_building = building_coal_mine
+				has_building = building_iron_mine
+				has_building = building_lead_mine
+				has_building = building_sulfur_mine
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = dubois_normal_formation_modifier
+					has_modifier = dubois_great_north_american_formation_modifier
+					has_modifier = dubois_great_south_american_formation_modifier
+					has_modifier = dubois_great_european_formation_modifier
+					has_modifier = dubois_great_african_formation_modifier
+					has_modifier = dubois_great_asian_formation_modifier
+					has_modifier = dubois_great_australian_formation_modifier
+				}
+				OR = {
+					has_building = building_coal_mine
+					has_building = building_iron_mine
+					has_building = building_lead_mine
+					has_building = building_sulfur_mine
+				}
+			}
+			save_scope_as = dubois_excavation_state
+		}
+		ig:ig_industrialists = {
+			save_scope_as = industralists_ig
+		}
+		ig:ig_intelligentsia = {
+			save_scope_as = intelligentsia_ig
+		}
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.205.g #We must have these fossils at all costs.
+		dubois_add_5_fossil = yes
+		scope:dubois_excavation_state = {
+			add_radicals_in_state = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+		scope:industralists_ig = {
+			add_modifier = {
+				name = ig_not_placated
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = dubois.205.h #Our scientists may examine the place but should not excavate the mine.
+		default_option = yes
+		dubois_small_add_technology = yes
+	}
+
+	option = {
+		name = dubois.205.i #Don't disturb these gentlemen.
+		scope:intelligentsia_ig = {
+			add_modifier = {
+				name = ig_not_placated
+				years = 2
+			}
+		}
+		scope:industralists_ig = {
+			add_modifier = {
+				name = ig_placated
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 206: Composita
+
+dubois.206 = {
+	type = country_event
+
+	title = dubois.206.t
+	desc = dubois.206.d
+	flavor = dubois.206.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_specimen_mussels.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 20
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+		any_scope_state = {
+			OR = {
+				has_modifier = dubois_normal_formation_modifier
+				has_modifier = dubois_great_north_american_formation_modifier
+				has_modifier = dubois_great_south_american_formation_modifier
+				has_modifier = dubois_great_european_formation_modifier
+				has_modifier = dubois_great_african_formation_modifier
+				has_modifier = dubois_great_asian_formation_modifier
+				has_modifier = dubois_great_australian_formation_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = dubois_normal_formation_modifier
+					has_modifier = dubois_great_north_american_formation_modifier
+					has_modifier = dubois_great_south_american_formation_modifier
+					has_modifier = dubois_great_european_formation_modifier
+					has_modifier = dubois_great_african_formation_modifier
+					has_modifier = dubois_great_asian_formation_modifier
+					has_modifier = dubois_great_australian_formation_modifier
+				}
+			}
+			save_scope_as = dubois_excavation_state
+		}
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.206.g #So exciting.
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_fossil_composita
+				}
+			}
+			dubois_add_fossil_composita = yes
+		}
+		dubois_add_2_fossil = yes
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 207: Trilobite
+
+dubois.207 = {
+	type = country_event
+
+	title = dubois.207.t
+	desc = dubois.207.d
+	flavor = dubois.207.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_trilobite.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 20
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.207.g #So exciting.
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_fossil_trilobite
+				}
+			}
+			dubois_add_fossil_trilobite = yes
+		}
+		dubois_add_1_fossil = yes
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 208: Ammonites
+
+dubois.208 = {
+	type = country_event
+
+	title = dubois.208.t
+	desc = dubois.208.d
+	flavor = dubois.208.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_mixed.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 20
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+		any_scope_state = {
+			OR = {
+				has_modifier = dubois_normal_formation_modifier
+				has_modifier = dubois_great_north_american_formation_modifier
+				has_modifier = dubois_great_south_american_formation_modifier
+				has_modifier = dubois_great_european_formation_modifier
+				has_modifier = dubois_great_african_formation_modifier
+				has_modifier = dubois_great_asian_formation_modifier
+				has_modifier = dubois_great_australian_formation_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = dubois_normal_formation_modifier
+					has_modifier = dubois_great_north_american_formation_modifier
+					has_modifier = dubois_great_south_american_formation_modifier
+					has_modifier = dubois_great_european_formation_modifier
+					has_modifier = dubois_great_african_formation_modifier
+					has_modifier = dubois_great_asian_formation_modifier
+					has_modifier = dubois_great_australian_formation_modifier
+				}
+			}
+			save_scope_as = dubois_excavation_state
+		}
+	}
+
+	option = {
+		name = dubois.208.g #So exciting.
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_fossil_ammonite
+				}
+			}
+			dubois_add_fossil_ammonite = yes
+		}
+		dubois_add_3_fossil = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 209: Eusthenopteron
+
+dubois.209 = {
+	type = country_event
+
+	title = dubois.209.t
+	desc = dubois.209.d
+	flavor = dubois.209.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_eusthenopteron.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 25
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.209.g #So exciting.
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_fossil_eusthenopteron
+				}
+			}
+			dubois_add_fossil_eusthenopteron = yes
+		}
+		dubois_add_1_fossil = yes
+		dubois_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 210: Dinosauria eggs
+
+dubois.210 = {
+	type = country_event
+
+	title = dubois.210.t
+	desc = dubois.210.d
+	flavor = dubois.210.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_egg.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 30
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.210.g #So exciting.
+		dubois_add_1_fossil = yes
+		dubois_large_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#####################################################################
+
 ######ZOO######
 
 #Dubois 1000: Le Carnaval des animaux
