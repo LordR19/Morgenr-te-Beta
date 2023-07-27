@@ -10,12 +10,15 @@ namespace = academics
 
 ###################
 
-#Academics 1: Scientist retires (before 70)
-#Academics 2: Scientist retires (after 70)
+#Academics 1: Engineer retires
+#Academics 2: Astronomer retires
+#Academics 3: Naturalist retires
+#Academics 4: Paleontologist retires
+#Academics 5: Archaeologist retires
 
 #################################################################################
 
-#Academics 1: Scientist retires (before 70)
+#Academics 1: Engineer retires
 academics.1 = {
 	type = country_event
 
@@ -23,7 +26,7 @@ academics.1 = {
 
 	desc = academics.1.d
 
-	flavor = academics.1.f
+#	flavor = academics.1.f
 	
 	duration = 3
 
@@ -36,138 +39,236 @@ academics.1 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		OR = {
-			has_variable = gaudi_engineer_var
-			has_variable = verrier_astronomer_var
-			has_variable = dubois_naturalist_var
-			has_variable = dubois_paleontologist_var
-			has_variable = lepsius_archaeologist_var
-			has_variable = curtiss_balloonist_var
+		gaudi_has_engineer = yes
+		var:gaudi_engineer_var = {
+			age >= 65
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:gaudi_engineer_var = {
+				age >= 70
+			}
+			factor = 10000
 		}
 	}
 
 	immediate = {
-		random_list = {
-			1 = {
-				trigger = {
-					has_variable = gaudi_engineer_var
-				}
-				set_variable = kill_engineer_var
-				var:gaudi_engineer_var = {
-					save_scope_as = academics_retired_person_scope
-				}
-			}
-			1 = {
-				trigger = {
-					has_variable = verrier_astronomer_var
-				}
-				set_variable = kill_astronomer_var
-				var:verrier_astronomer_var = {
-					save_scope_as = academics_retired_person_scope
-				}
-			}
-			1 = {
-				trigger = {
-					has_variable = dubois_naturalist_var
-				}
-				set_variable = kill_naturalist_var
-				var:dubois_naturalist_var = {
-					save_scope_as = academics_retired_person_scope
-				}
-			}
-			1 = {
-				trigger = {
-					has_variable = dubois_paleontologist_var
-				}
-				set_variable = kill_palentologist_var
-				var:dubois_paleontologist_var = {
-					save_scope_as = academics_retired_person_scope
-				}
-			}
-			1 = {
-				trigger = {
-					has_variable = lepsius_archaeologist_var
-				}
-				set_variable = kill_archaeologist_var
-				var:lepsius_archaeologist_var = {
-					save_scope_as = academics_retired_person_scope
-				}
-			}
-			1 = {
-				trigger = {
-					has_variable = curtiss_balloonist_var
-				}
-				set_variable = kill_ballonist_var
-				var:curtiss_balloonist_var = {
-					save_scope_as = academics_retired_person_scope
-				}
-			}
+		var:gaudi_engineer_var = {
+			save_scope_as = academics_retired_person_scope
 		}
 	}
 
-	option = {	#He earned his retirement (non balloonist)
+	option = {	#He earned his retirement
 		name = academics.1.g
 		default_option = yes
 
-		trigger = {
-			NOT = {
-				has_variable = kill_ballonist_var
-			}
-		}
+		kill_engineer_effect = yes
+	}
+}
 
-		if = {
-			limit = {
-				has_variable = kill_engineer_var
-			}
-			kill_engineer_effect = yes
-		}
-		else_if = {
-			limit = {
-				has_variable = kill_astronomer_var
-			}
-			kill_astronomer_effect = yes
-		}
-		else_if = {
-			limit = {
-				has_variable = kill_naturalist_var
-			}
-			kill_naturalist_effect = yes
-		}
-		else_if = {
-			limit = {
-				has_variable = kill_palentologist_var
-			}
-			kill_paleontologist_effect = yes
-		}
-		else_if = {
-			limit = {
-				has_variable = kill_archaeologist_var
-			}
-			kill_archaeologist_effect = yes
+#Academics 2: Astronomer retires
+academics.2 = {
+	type = country_event
+
+	title = academics.2.t
+
+	desc = academics.2.d
+
+#	flavor = academics.2.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		verrier_has_astronomer = yes
+		var:verrier_astronomer_var = {
+			age >= 65
 		}
 	}
 
-	option = {	#He earned his retirement (balloonist)
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:verrier_astronomer_var = {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = academics_retired_person_scope
+		}
+	}
+
+	option = {	#He earned his retirement
 		name = academics.1.g
 		default_option = yes
 
-		trigger = {
-			has_variable = kill_ballonist_var
-		}
+		kill_astronomer_effect = yes
+	}
+}
 
-		kill_balloonist_effect = yes
+#Academics 3: Naturalist retires
+academics.3 = {
+	type = country_event
+
+	title = academics.3.t
+
+	desc = academics.3.d
+
+#	flavor = academics.3.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		dubois_has_naturalist = yes
+		var:dubois_naturalist_var = {
+			age >= 65
+		}
 	}
 
-	option = {	#Get a new Balloonist immediately! (balloonist)
-		name = academics.1.h
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:dubois_naturalist_var = {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = academics_retired_person_scope
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
 		default_option = yes
 
-		trigger = {
-			has_variable = kill_ballonist_var
-		}
+		kill_naturalist_effect = yes
+	}
+}
 
-		kill_balloonist_effect = yes
-		balloonist_cost_effect = yes
-		create_balloonist_effect = yes
+#Academics 4: Paleontologist retires
+academics.4 = {
+	type = country_event
+
+	title = academics.4.t
+
+	desc = academics.4.d
+
+#	flavor = academics.4.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		dubois_has_paleontologist = yes
+		var:dubois_paleontologist_var = {
+			age >= 65
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:dubois_paleontologist_var = {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = academics_retired_person_scope
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		kill_paleontologist_effect = yes
+	}
+}
+
+#Academics 5: Archaeologist retires
+academics.5 = {
+	type = country_event
+
+	title = academics.5.t
+
+	desc = academics.5.d
+
+#	flavor = academics.5.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		lepsius_has_archaeologist = yes
+		var:lepsius_archaeologist_var = {
+			age >= 65
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:lepsius_archaeologist_var = {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = academics_retired_person_scope
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		kill_archaeologist_effect = yes
 	}
 }
