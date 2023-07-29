@@ -202,17 +202,24 @@ verrier.1 = {
 		}
 		if = {
 			limit = {
-				verrier_astronomical_observation = yes #Notification
-			}
-			post_notification = verrier_astronomical_observation_notification
-		}
-		if = {
-			limit = {
 				has_variable = verrier_yearly_astronomical_objects_var
+			}
+			set_variable = {
+				name = verrier_astronomical_objects_notification_var
+				value = var:verrier_yearly_astronomical_objects_var
 			}
 			set_variable = {
 				name = verrier_yearly_astronomical_objects_var
 				value = 0
+			}
+		}
+		save_scope_as = notification_receiver
+		if = {
+			limit = {
+				verrier_astronomical_observation = yes #Notification
+			}
+			scope:notification_receiver = {
+				post_notification = verrier_astronomical_observation_notification
 			}
 		}
 	}
