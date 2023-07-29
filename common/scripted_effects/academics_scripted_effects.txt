@@ -33,8 +33,20 @@ kill_engineer_effect = {
 ######ASTRONOMER######
 
 create_astronomer_effect = {
-	create_character = {
-		save_scope_as = verrier_astronomer_scope
+	if = { #Quetelet Belgium
+		limit = {
+			c:BEL ?= this
+			game_date < 1851.2.22 #Age 55
+			year > 1828 #Prevents Earlier Start Dates to spawn character before he is ready
+			NOT = { has_global_variable = verrier_quetelet_created_global_var }
+		}
+		create_quetelet_adolphe_effect = yes
+		set_global_variable = verrier_quetelet_created_global_var
+	}
+	else = {
+		create_character = {
+			save_scope_as = verrier_astronomer_scope
+		}
 	}
 		
 	scope:verrier_astronomer_scope = {
@@ -72,6 +84,41 @@ verrier_set_new_astronomer_as_astronomer_effect = {
 verrier_remove_new_astronomer_effect = {
 	scope:verrier_new_astronomer_scope = {
 		free_character_from_void = no
+	}
+}
+
+###HISTORICAL ASTRONOMERS WITHOUT EVENT
+
+###Create Quetelet###
+create_quetelet_adolphe_effect = {
+	create_character = {
+		first_name = verrier_adolphe
+		last_name = verrier_quetelet
+		historical = yes
+		culture = cu:wallonian
+		religion = catholic
+		interest_group = ig_petty_bourgeoisie
+		ig_leader = no
+		female = no
+		birth_date = 1796.2.22
+		dna = mr_bel_quetelet_adolphe
+		traits = {
+			meticulous
+			innovative
+			verrier_mathematician
+		}
+
+		save_scope_as = verrier_astronomer_scope
+	}
+		
+	scope:verrier_astronomer_scope = {
+		place_character_in_void = 1200	
+		set_variable = verrier_quetelet_character_var
+	}
+
+	set_variable = {
+		name = verrier_astronomer_var
+		value = scope:verrier_astronomer_scope
 	}
 }
 
