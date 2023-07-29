@@ -2176,12 +2176,62 @@ dubois_add_random_great_formations = {
 
 ######FOSSILS######
 
+#Effect to add a specific amount of fossils to the paleontologist and the the yearly discovered fossils
+#NUMBER = How many fossils will be added
+dubois_set_fossils_paleontologist_yearly = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_yearly_fossils_var
+			}
+		}
+		set_variable = {
+			name = dubois_yearly_fossils_var
+			value = 0
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_paleontologist_var
+				var:dubois_paleontologist_var = {
+					has_variable = dubois_paleontologist_total_fossils_var
+				}
+			}
+		}
+		var:dubois_paleontologist_var = {
+			set_variable = {
+				name = dubois_paleontologist_total_fossils_var
+				value = 0
+			}
+		}
+	}
+	change_variable = {
+		name = dubois_yearly_fossils_var
+		add = $NUMBER$
+	}
+	if = {
+		limit = {
+			has_variable = dubois_paleontologist_var
+		}
+		var:dubois_paleontologist_var = {
+			change_variable = {
+				name = dubois_paleontologist_total_fossils_var
+				add = $NUMBER$
+			}
+		}
+	}
+}
+
 #Add 1 fossil
 
 dubois_add_1_fossil = {
 	change_variable = {
  		name = dubois_fossil
  		add = 1
+	}
+	dubois_set_fossils_paleontologist_yearly = {
+		NUMBER = 1
 	}
 	custom_tooltip = dubois_add_1_fossil_tt
 }
@@ -2193,6 +2243,9 @@ dubois_add_2_fossil = {
  		name = dubois_fossil
  		add = 2
 	}
+	dubois_set_fossils_paleontologist_yearly = {
+		NUMBER = 2
+	}
 	custom_tooltip = dubois_add_2_fossil_tt
 }
 
@@ -2203,6 +2256,9 @@ dubois_add_3_fossil = {
  		name = dubois_fossil
  		add = 3
 	}
+	dubois_set_fossils_paleontologist_yearly = {
+		NUMBER = 3
+	}
 	custom_tooltip = dubois_add_3_fossil_tt
 }
 
@@ -2212,6 +2268,9 @@ dubois_add_5_fossil = {
 	change_variable = {
  		name = dubois_fossil
  		add = 5
+	}
+	dubois_set_fossils_paleontologist_yearly = {
+		NUMBER = 5
 	}
 	custom_tooltip = dubois_add_5_fossil_tt
 }
