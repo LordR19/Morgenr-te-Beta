@@ -234,6 +234,10 @@ namespace = gaudi
 #Gaudí 649: Antonelli just had another idea ...
 #Gaudí 650: Antonelli does a good job
 
+###### Historical Engineers ######
+
+#Gaudí 1001: Invention of the Steel Frame (Eiffel)
+
 #################################################################################
 
 ###### ART NOUVEAU & ART DECO ######
@@ -9971,5 +9975,87 @@ gaudi.650 = {
 		name = gaudi.650.g #Great
         default_option = yes
 		gaudi_add_12_sagrada_progress = yes
+	}
+}
+
+###### Historical Engineers ######
+
+#Gaudí 1001: Invention of the Steel Frame (Eiffel)
+
+gaudi.1001 = {
+	type = country_event
+
+	title = gaudi.1001.t
+
+	desc = gaudi.1001.d
+
+	flavor = gaudi.1001.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+		has_technology_researched = steel_frame_buildings
+		NOT = {
+			has_global_variable = gaudi_steel_frame_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = gaudi_steel_frame_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = gaudi_engineer_var
+				}
+			}
+			if = {
+				limit = {
+					c:FRA ?= this
+					NOT = {
+						has_global_variable = gaudi_eiffel_created
+					}
+				}
+				create_eiffel_gustave_effect = yes
+			}
+			else_if = {
+				limit = {
+					country_is_in_europe = yes
+					NOT = {
+						has_global_variable = gaudi_eiffel_created
+					}
+				}
+				create_eiffel_gustave_generic_europe_effect = yes
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_global_variable = gaudi_eiffel_created
+					}
+				}
+				create_eiffel_gustave_generic_world_effect = yes
+			}
+			else = {
+				create_engineer_effect = yes
+			}
+		}
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1001.g #Our towers will finally reach the sky!
+		default_option = yes
+	}
+
+	after = {
 	}
 }

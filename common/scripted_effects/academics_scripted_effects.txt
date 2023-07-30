@@ -7,18 +7,30 @@
 ######ENGINEER######
 
 create_engineer_effect = {
-	create_character = {
-		save_scope_as = gaudi_engineer_scope
+	if = { #Gustave Eiffel, France
+		limit = {
+			c:FRA ?= this
+			game_date < 1887.12.15 #Age 55
+			year > 1857 #First Contract of Eiffel as an Engineer
+			NOT = { has_global_variable = gaudi_eiffel_created }
+		}
+		create_eiffel_gustave_effect = yes
+		set_global_variable = gaudi_eiffel_created
 	}
-		
-	scope:gaudi_engineer_scope = {
-		add_trait = engineer
-		place_character_in_void = 1200	
-	}
-		
-	set_variable = {
-		name = gaudi_engineer_var
-		value = scope:gaudi_engineer_scope
+	else = {
+		create_character = {
+			save_scope_as = gaudi_engineer_scope
+		}
+
+		scope:gaudi_engineer_scope = {
+			add_trait = engineer
+			place_character_in_void = 1200	
+		}
+			
+		set_variable = {
+			name = gaudi_engineer_var
+			value = scope:gaudi_engineer_scope
+		}
 	}
 }
 
