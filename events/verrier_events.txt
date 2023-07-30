@@ -141,6 +141,8 @@ namespace = verrier
 
 #verrier 1050: Möbius
 
+#verrier 1060: a comet grazing the sun flushes money into Harvard's coffers (William Cranch Bond USA)
+
 #################################################################################
 
 #Yearly astronomical report
@@ -4831,6 +4833,100 @@ verrier.1050 = { #verrier 1050: Möbius
 		name = verrier.1050.h
 
 		verrier_set_new_astronomer_as_astronomer_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#verrier 1060: a comet grazing the sun flushes money into Harvard's coffers (William Cranch Bond USA)
+verrier.1060 = {
+	type = country_event
+
+	title = verrier.1060.t
+	desc = verrier.1060.d
+	flavor = verrier.1060.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_new_astronomer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	duration = 3
+
+	trigger = {
+		#triggered by an effect in an on_action together with the comet of 1843
+	}
+
+	immediate = {
+		create_bond_william_cranch_effect = yes
+		set_global_variable = william_cranch_bond_created_global_var
+	}
+
+	option = { #We do not need the help of Bond!
+		name = verrier.1060.g
+		default_option = yes
+		add_treasury = 216000
+
+		set_variable = verrier_allowed_to_build_observatory
+
+		if = {
+			limit = {
+				NOT = {
+					has_building = building_verrier_observatory
+				}
+			}
+			capital = {
+				start_building_construction = "building_verrier_observatory"
+			}
+		}
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
+	}
+
+	option = { #Bond will bring us into a new age of astronomy!
+		name = verrier.1060.h
+		add_treasury = 216000
+
+		set_variable = verrier_allowed_to_build_observatory
+
+		if = {
+			limit = {
+				NOT = {
+					has_building = building_verrier_observatory
+				}
+			}
+			capital = {
+				start_building_construction = "building_verrier_observatory"
+			}
+		}
+
+		verrier_set_new_astronomer_as_astronomer_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	option = { #We don't need any donated money!
+		name = verrier.1060.i
+
+		trigger = {
+			NOT = {
+				has_building = building_verrier_observatory
+			}
+		}
+		
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
 
 		ai_chance = {
 			base = 0
