@@ -53,7 +53,6 @@ create_astronomer_effect = {
 			NOT = { has_global_variable = verrier_quetelet_created_global_var }
 		}
 		create_quetelet_adolphe_effect = yes
-		set_global_variable = verrier_quetelet_created_global_var
 	}
 	else = {
 		create_character = {
@@ -132,13 +131,29 @@ create_quetelet_adolphe_effect = {
 		name = verrier_astronomer_var
 		value = scope:verrier_astronomer_scope
 	}
+
+	set_global_variable = verrier_quetelet_created_global_var
 }
 
 ######NATURALIST######
 
 create_naturalist_effect = {
-	create_character = {
-		save_scope_as = dubois_naturalist_scope
+	if = { #Wallace, Great Britain or Wales
+		limit = {
+			OR = {
+				c:GBR ?= this
+				c:WLS ?= this
+			}
+			game_date < 1878.1.8 #Age 55
+			year > 1848 #First Expedition of Wallace to Brazil
+			NOT = { has_global_variable = dubois_wallace_created_global_var }
+		}
+		create_wallace_alfred_russel_effect = yes
+	}
+	else = {
+		create_character = {
+			save_scope_as = dubois_naturalist_scope
+		}
 	}
 		
 	scope:dubois_naturalist_scope = {
@@ -181,6 +196,43 @@ dubois_remove_new_naturalist_effect = {
 	scope:dubois_new_naturalist_scope = {
 		free_character_from_void = no
 	}
+}
+
+###HISTORICAL NATURALISTS WITHOUT EVENT
+
+###Create Wallace###
+create_wallace_alfred_russel_effect = {
+	create_character = {
+		dna = mr_gbr_wallace_alfred_russel
+		first_name = dubois_alfred_russel
+		last_name = dubois_wallace
+		culture = cu:welsh
+		religion = atheist
+		interest_group = ig_intelligentsia
+		female = no
+		birth_date = 1823.1.8
+		traits = { 
+			dubois_naturalist
+			innovative
+			persistent
+			meticulous
+			cautious
+		}
+
+		save_scope_as = dubois_naturalist_scope
+	}
+		
+	scope:dubois_naturalist_scope = {
+		place_character_in_void = 1200	
+		set_variable = dubois_wallace_character_var
+	}
+
+	set_variable = {
+		name = dubois_naturalist_var
+		value = scope:dubois_naturalist_scope
+	}
+
+	set_global_variable = dubois_wallace_created_global_var
 }
 
 ######PALEONTOLOGIST######
