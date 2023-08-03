@@ -170,6 +170,9 @@ namespace = dubois
 #Dubois 1065: Nine-Banded Armadillo
 #Dubois 1066: Andean Condor
 
+#Animal Babies
+
+#Dubois.1101: A Baby animal was born
 
 ######Paleontological Collection######
 
@@ -8916,6 +8919,198 @@ dubois.1066 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_anteater_flavor_randomizer_var
+		}
+	}
+}
+
+#Animal Babies
+
+#Dubois.1101: A Baby animal was born
+dubois.1101 = {
+	type = country_event
+
+	title = dubois.1101.t
+	desc = dubois.1101.d
+	flavor = dubois.1101.f
+
+	placement = root
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_baby_lion.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	cooldown = {
+		years = 25
+	}
+
+	trigger = {
+		is_player = yes
+		NOR = {
+			has_modifier = dubois_animal_baby_modifier
+			has_global_variable = dubois_no_more_baby_animals_global_var
+		}
+		any_scope_building = {
+			is_building_type = building_dubois_zoo
+			level > 0
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+			}
+			save_scope_as = zoo_state_scope
+		}
+
+	#	random_list = { #randomizes flavor text
+	#		1 = { 
+				set_variable = { #Lion
+					name = dubois_zoo_baby_type
+					value = 1
+				}
+			}
+	#	}
+	#}
+
+	#Baby names:
+	# dubois_baby_animal_name = 1 --> Bubbles
+	# dubois_baby_animal_name = 2 --> Simba (Lion)
+	# dubois_baby_animal_name = 3 --> Zuri (Lion)
+	# dubois_baby_animal_name = 4 --> Kya (Lion)
+	# dubois_baby_animal_name = 5 --> Lwazi (Lion)
+	# dubois_baby_animal_name = 6 --> Nala (Lion)
+
+	option = {
+		name = dubois.1101.bubbles #Bubbles
+
+		set_variable = {
+			name = dubois_baby_animal_name
+			value = 1
+		}
+		
+		scope:zoo_state_scope = {
+			add_modifier = {
+				name = dubois_animal_baby_modifier
+				months = 12
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.lion_name_1 #Simba (Lion)
+
+		trigger = {
+			var:dubois_zoo_baby_type = 1
+		}
+
+		set_variable = {
+			name = dubois_baby_animal_name
+			value = 2
+		}
+
+		scope:zoo_state_scope = {
+			add_modifier = {
+				name = dubois_animal_baby_modifier
+				months = 12
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.lion_name_2 #Zuri (Lion)
+
+		trigger = {
+			var:dubois_zoo_baby_type = 1
+		}
+
+		set_variable = {
+			name = dubois_baby_animal_name
+			value = 3
+		}
+
+		scope:zoo_state_scope = {
+			add_modifier = {
+				name = dubois_animal_baby_modifier
+				months = 12
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.lion_name_3 #Kya (Lion)
+
+		trigger = {
+			var:dubois_zoo_baby_type = 1
+		}
+
+		set_variable = {
+			name = dubois_baby_animal_name
+			value = 4
+		}
+		
+		scope:zoo_state_scope = {
+			add_modifier = {
+				name = dubois_animal_baby_modifier
+				months = 12
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.lion_name_4 #Lwazi (Lion)
+
+		trigger = {
+			var:dubois_zoo_baby_type = 1
+		}
+
+		set_variable = {
+			name = dubois_baby_animal_name
+			value = 5
+		}
+
+		scope:zoo_state_scope = {
+			add_modifier = {
+				name = dubois_animal_baby_modifier
+				months = 12
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.lion_name_5 #Nala (Lion)
+
+		trigger = {
+			var:dubois_zoo_baby_type = 1
+		}
+
+		set_variable = {
+			name = dubois_baby_animal_name
+			value = 6
+		}
+
+		scope:zoo_state_scope = {
+			add_modifier = {
+				name = dubois_animal_baby_modifier
+				months = 12
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1101.no_more_babies #No more animal babies!
+		default_option = yes
+
+		custom_tooltip = {
+			text = dubois_no_more_baby_animals_tt
+			set_global_variable = dubois_no_more_baby_animals_global_var
 		}
 	}
 }
