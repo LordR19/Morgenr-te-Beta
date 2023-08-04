@@ -237,6 +237,7 @@ namespace = gaudi
 ###### Historical Engineers ######
 
 #Gaudí 1001: Invention of the Steel Frame (Eiffel)
+#Gaudí 1002: Pavellons Güell (Gaudì)
 
 #################################################################################
 
@@ -10054,6 +10055,72 @@ gaudi.1001 = {
 	option = {
 		name = gaudi.1001.g #Our towers will finally reach the sky!
 		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1002: Pavellons Güell (Gaudì)
+
+gaudi.1002 = {
+	type = country_event
+
+	title = gaudi.1002.t
+	desc = gaudi.1002.d
+	flavor = gaudi.1002.f
+
+	placement = scope:barcelona_scope
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_new_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+		year >= 1878 #year Gaudi got to know Eusebi Güell
+		has_technology_researched = elgar_art_nouveau_tech
+		NOT = {
+			has_global_variable = gaudi_pavellons_güell_global_var
+		}
+		p:xE0C020 = { owner = root }
+	}
+
+	immediate = {
+		set_global_variable = gaudi_pavellons_güell_global_var
+
+		create_gaudi_antoni_effect = yes
+
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_CATALONIA
+			}
+			save_scope_as = barcelona_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1002.g #A truly remarkable Art Style!
+		default_option = yes
+		gaudi_add_1_splendid_architecture = yes
+
+		hidden_effect = {
+			gaudi_remove_new_engineer_effect = yes
+		}
+	}
+
+	option = {
+		name = gaudi.1002.h #Gaudì has a great future ahead of him!
+		default_option = yes
+		
+		gaudi_set_new_engineer_as_engineer_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
 	}
 
 	after = {
