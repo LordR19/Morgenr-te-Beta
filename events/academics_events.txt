@@ -15,6 +15,7 @@ namespace = academics
 #Academics 3: Naturalist retires
 #Academics 4: Paleontologist retires
 #Academics 5: Archaeologist retires
+#Academics 6: Anthropologist retires
 
 #################################################################################
 
@@ -394,6 +395,82 @@ academics.5 = {
 		}
 		set_variable = {
 			name = academics_archaeologist_emeritus_delayed_var
+			years = { 1 5 }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Academics 6: Anthropologist retires
+academics.6 = {
+	type = country_event
+
+	title = academics.6.t
+
+	desc = academics.6.d
+
+#	flavor = academics.6.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = academics_anthropologist_emeritus_delayed_modifier
+		}
+		lepsius_has_anthropologist = yes
+		var:lepsius_anthropologist_var = {
+			age >= 65
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = academics_retired_person_scope
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		kill_anthropologist_effect = yes
+	}
+	
+	option = {	#We need him! Pay him extra!
+		name = academics.1.h
+
+		trigger = {
+			NOT = {
+				has_modifier = academics_anthropologist_emeritus_delayed_modifier
+			}
+		}
+
+		add_modifier = {
+			name = academics_anthropologist_emeritus_delayed_modifier
+		}
+		set_variable = {
+			name = academics_anthropologist_emeritus_delayed_var
 			years = { 1 5 }
 		}
 
