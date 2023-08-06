@@ -427,3 +427,39 @@ kill_anthropologist_effect = {
 
 	remove_variable = lepsius_anthropologist_var
 }
+
+# Creates a new Anthropologist without losing the old one
+create_new_anthropologist_effect = {
+	create_character = {
+		save_scope_as = lepsius_new_anthropologist_scope
+	}
+		
+	scope:lepsius_new_anthropologist_scope = {
+		add_trait = lepsius_anthropologist
+		set_variable = mr_is_anthropologist_var
+		set_variable = {
+			name = lepsius_anthropologist_experience
+			value = 0
+		}
+		place_character_in_void = 1200	
+	}
+}
+
+# Set new Anthropologist as official Anthropologist
+lepsius_set_new_anthropologist_as_anthropologist_effect = {
+	custom_tooltip = {
+		text = lepsius_replace_anthropologist_with_new_anthropologist_tt
+	
+		set_variable = {
+			name = lepsius_anthropologist_var
+			value = scope:lepsius_new_anthropologist_scope
+		}
+	}
+}
+
+# Remove new Anthropologist
+lepsius_remove_new_anthropologist_effect = {
+	scope:lepsius_new_anthropologist_scope = {
+		free_character_from_void = no
+	}
+}
