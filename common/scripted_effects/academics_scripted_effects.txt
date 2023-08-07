@@ -574,6 +574,66 @@ lepsius_remove_new_archaeologist_effect = {
 	}
 }
 
+
+#Balloonist Experience gain
+archaeologist_experience_gain_effect = { #adds XP to the balloonist
+	# Amount = amount of XP to add
+	hidden_effect = {
+		if = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+			}
+			if = {
+				limit = {
+					NOT = {
+						var:lepsius_archaeologist_var = {
+							has_variable = lepsius_archaeologist_experience
+						}
+					}
+				}
+				var:lepsius_archaeologist_var = {
+					set_variable = {
+						name = lepsius_archaeologist_experience
+						value = 0
+					}
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			$AMOUNT$ < 20
+		}
+		custom_tooltip = lepsius_archaeologist_small_experience_gain_tt
+	}
+	if = {
+		limit = {
+			$AMOUNT$ >= 20
+			$AMOUNT$ < 50
+		}
+		custom_tooltip = lepsius_archaeologist_medium_experience_gain_tt
+	}
+	if = {
+		limit = {
+			$AMOUNT$ >= 50
+			$AMOUNT$ < 150
+		}
+		custom_tooltip = lepsius_archaeologist_big_experience_gain_tt
+	}
+	if = {
+		limit = {
+			$AMOUNT$ >= 150
+		}
+		custom_tooltip = lepsius_archaeologist_huge_experience_gain_tt
+	}
+}
+
 ######ANTHROPOLOGIST######
 
 create_anthropologist_effect = {
