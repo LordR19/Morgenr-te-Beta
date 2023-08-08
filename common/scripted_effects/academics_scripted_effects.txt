@@ -508,10 +508,7 @@ create_archaeologist_effect = {
 	scope:lepsius_archaeologist_scope = {
 		add_trait = lepsius_archaeologist
 		set_variable = mr_is_archaeologist_var
-		set_variable = {
-			name = lepsius_archaeologist_experience
-			value = 0
-		}
+		archaeologist_experience_set_up_effect = yes
 		place_character_in_void = 1200	
 	}
 		
@@ -538,10 +535,7 @@ create_new_archaeologist_effect = {
 	scope:lepsius_new_archaeologist_scope = {
 		add_trait = lepsius_archaeologist
 		set_variable = mr_is_archaeologist_var
-		set_variable = {
-			name = lepsius_archaeologist_experience
-			value = 0
-		}
+		archaeologist_experience_set_up_effect = yes
 		place_character_in_void = 1200	
 	}
 }
@@ -574,34 +568,79 @@ lepsius_remove_new_archaeologist_effect = {
 	}
 }
 
+# Used to set up the Experience of a character 
+archaeologist_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = lepsius_archaeologist_experience
+			}
+		}
+		if = {
+			limit = {
+				age < 35
+			}
+			set_variable = {
+				name = lepsius_archaeologist_experience
+				value = 0
+			}
+		}
+		if = {
+			limit = {
+				age < 40
+				age >= 35
+			}
+			set_variable = {
+				name = lepsius_archaeologist_experience
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				age < 50
+				age >= 40
+			}
+			set_variable = {
+				name = lepsius_archaeologist_experience
+				value = 2
+			}
+		}
+		if = {
+			limit = {
+				age >= 50
+			}
+			set_variable = {
+				name = lepsius_archaeologist_experience
+				value = 3
+			}
+		}
+	}
+}
 
-#Balloonist Experience gain
-archaeologist_experience_gain_effect = { #adds XP to the balloonist
+#Archaeologist Experience gain
+archaeologist_experience_gain_effect = { #adds XP to the Archaeologist
 	# Amount = amount of XP to add
-	save_temporary_scope_value_as = {
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
 		name = xp_amount
 		value = $AMOUNT$
 	}
 
 	if = {
 		limit = {
-			has_variable = lepsius_archaeologist_var
+			has_variable = lepsius_archaeologist_var #should only add experience if there actually is an archaeologist
 		}
 		custom_tooltip = {
 			text = lepsius_archaeologist_experience_gain_tt
 			if = {
 				limit = {
 					NOT = {
-						var:lepsius_archaeologist_var = {
+						var:lepsius_archaeologist_var = { #Fallback to make sure there are no errors if the archaeologist does not have the variable yet
 							has_variable = lepsius_archaeologist_experience
 						}
 					}
 				}
-				var:lepsius_archaeologist_var = {
-					set_variable = {
-						name = lepsius_archaeologist_experience
-						value = 0
-					}
+				var:lepsius_archaeologist_var = { #Sets the experience in case it was not set yet
+					archaeologist_experience_set_up_effect = yes
 				}
 			}
 			var:lepsius_archaeologist_var = {
