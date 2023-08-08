@@ -44,6 +44,12 @@ namespace = lepsius
 #Lepsius 30: Lead Scientist appointed
 #Lepsius 31: Lead Scientist becomes Director
 
+#Lepsius 50: Yearly excavation report
+
+###Technology Events###
+
+#Lepsius 80: A new Age of Archaeology! (if Early Archaeology is discovered)
+
 ###Expeditions###
 
 #Events 100-199: Preparation Events
@@ -2209,6 +2215,104 @@ lepsius.50 = {
 			}
 			post_notification = lepsius_excavation_artifacts_notification
 		}
+	}
+}
+
+#################################################################################
+
+#####################
+# TECHNOLOGY EVENTS #
+#####################
+
+#################################################################################
+
+#Lepsius 80: A new Age of Archaeology! (if Early Archaeology is discovered)
+lepsius.80 = {
+	type = country_event
+
+	title = lepsius.80.t
+
+	desc = lepsius.80.d
+
+	flavor = lepsius.80.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		has_technology_researched = lepsius_early_archaeology_tech
+		NOT = {
+			has_global_variable = lepsius_early_archaeology_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = lepsius_early_archaeology_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = lepsius_archaeologist_var
+				}
+			}
+			create_archaeologist_effect = yes
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+
+		random_list = {
+			1 = {
+				set_variable = lepsius_early_archaeology_focus_egypt
+			}
+			1 = {
+				set_variable = lepsius_early_archaeology_focus_mesopotamia
+			}
+			1 = {
+				set_variable = lepsius_early_archaeology_focus_aegean
+			}
+			1 = {
+				set_variable = lepsius_early_archaeology_focus_precolumbian
+			}
+		}
+	}
+
+	option = {
+		name = verrier.80.g
+		default_option = yes
+
+		var:lepsius_archaeologist_var = {
+			change_variable = {
+				name = lepsius_archaeologist_experience
+				add = 1
+			}
+		}
+
+		if = {
+			limit = { has_variable = lepsius_early_archaeology_focus_egypt }
+			lepsius_add_egyptian_artifact = yes
+			lepsius_add_egyptian_artifact = yes
+			lepsius_add_egyptian_artifact = yes
+			lepsius_add_egyptian_artifact = yes
+			lepsius_add_egyptian_artifact = yes
+		}
+		if = {
+			limit = { has_variable = lepsius_early_archaeology_focus_mesopotamia }
+			lepsius_add_mesopotamian_artifact = yes
+			lepsius_add_mesopotamian_artifact = yes
+			lepsius_add_mesopotamian_artifact = yes
+			lepsius_add_mesopotamian_artifact = yes
+			lepsius_add_mesopotamian_artifact = yes
+		}
+	}
+
+	after = {
 	}
 }
 
