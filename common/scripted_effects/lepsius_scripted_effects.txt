@@ -156,6 +156,74 @@ lepsius_archaeological_expedition_progress = {
 	}
 }
 
+###Determine the archaeological expedition leader###
+
+set_lepsius_archaeologist_scope_effect = {
+	var:lepsius_archaeologist_var = {
+		save_scope_as = lepsius_archaeologist_scope
+	}
+}
+
+###Set Expedition Leader###
+
+set_archaeological_expedition_leader_effect = {
+	var:lepsius_archaeologist_var = {
+		save_scope_as = lepsius_archaeological_expedition_leader
+	}
+}
+
+###Set Excavation Leader###
+
+set_archaeological_excavation_leader_effect = {
+	var:lepsius_archaeologist_var = {
+		save_scope_as = lepsius_archaeological_excavation_leader
+	}
+}
+
+###Set Military Attaché###
+
+set_military_attache_effect = {
+	random_scope_character = {
+		limit = { 
+			has_variable = lepsius_military_attache_var 
+		}
+		save_scope_as = lepsius_military_attache
+	}
+}
+
+###Check Archaeologist Rank###
+
+check_lepsius_archaeologist_rank = {
+	if = {
+		limit = {
+			var:lepsius_archaeologist_var = {
+				var:lepsius_archaeologist_experience >= 3
+				NOT = {
+					var:lepsius_archaeologist_experience >= 5
+				}
+				NOR = {
+					has_trait = lepsius_archaeologist_experienced
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+		}
+		remove_trait = lepsius_archaeologist
+		add_trait = lepsius_archaeologist_experienced
+	}
+	if = {
+		limit = {
+			var:lepsius_archaeologist_var = {
+				var:lepsius_archaeologist_experience >= 5
+				NOT = {
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+		}
+		remove_trait = lepsius_archaeologist_experienced
+		add_trait = lepsius_archaeologist_famous
+	}
+}
+
 ###Add total excavation teams###
 
 lepsius_total_excavation_teams_add = {
@@ -164,16 +232,6 @@ lepsius_total_excavation_teams_add = {
  		add = 1
 	}
 	custom_tooltip = lepsius_total_excavation_teams_add_tt
-}
-
-###Add Archaeologist Experience###
-
-lepsius_archaeologist_experience_add = {
-	change_variable = {
- 		name = lepsius_archaeologist_experience
- 		add = 1
-	}
-	custom_tooltip = lepsius_add_archaeological_experience_tt
 }
 
 ###Add Expedition###
