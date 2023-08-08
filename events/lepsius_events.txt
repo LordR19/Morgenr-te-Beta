@@ -299,15 +299,7 @@ lepsius.2 = {
 		}
 		every_country = {
 			limit = {
-				OR = { 
-					has_technology_researched = lepsius_antiquarianism_tech
-					any_scope_state = {
-						has_modifier = lepsius_upper_egypt_modifier
-					}
-					any_scope_state = {
-						has_modifier = lepsius_lower_egypt_modifier
-					}
-				}
+				is_player = yes
 			}
 			post_notification = lepsius_rosellini_notification
 		}
@@ -350,12 +342,7 @@ lepsius.3 = {
 		}
 		every_country = {
 			limit = {
-				OR = { 
-					has_technology_researched = lepsius_antiquarianism_tech
-					any_scope_state = {
-						has_modifier = lepsius_yucatan_modifier
-					}
-				}
+				is_player = yes
 			}
 			post_notification = lepsius_stephens_catherwood_expedition_notification
 		}
@@ -407,15 +394,7 @@ lepsius.4 = {
 		}
 		every_country = {
 			limit = {
-				OR = { 
-					has_technology_researched = lepsius_early_archaeology_tech
-					any_scope_state = {
-						has_modifier = lepsius_babylonia_modifier
-					}
-					any_scope_state = {
-						has_modifier = lepsius_assyria_modifier
-					}
-				}
+				is_player = yes
 			}
 			post_notification = lepsius_decipherment_akkadian_notification
 		}
@@ -467,15 +446,7 @@ lepsius.5 = {
 		}
 		every_country = {
 			limit = {
-				OR = { 
-					has_technology_researched = lepsius_early_archaeology_tech
-					any_scope_state = {
-						has_modifier = lepsius_argolis_modifier
-					}
-					any_scope_state = {
-						has_modifier = lepsius_crete_modifier
-					}
-				}
+				is_player = yes
 			}
 			post_notification = lepsius_support_schliemann_notification
 		}
@@ -528,12 +499,7 @@ lepsius.6 = {
 		}
 		every_country = {
 			limit = {
-				OR = { 
-					has_technology_researched = lepsius_modern_archaeology_tech
-					any_scope_state = {
-						has_modifier = lepsius_peru_modifier
-					}
-				}
+				is_player = yes
 			}
 			post_notification = lepsius_machu_picchu_notification
 		}
@@ -542,88 +508,7 @@ lepsius.6 = {
 
 #################################################################################
 
-#Lepsius 10: Found a Museum
-
-#lepsius.10 = {
-#	type = country_event
-#
-#	title = lepsius.10.t
-#	desc = lepsius.10.d
-#	flavor = lepsius.10.f
-#
-#	duration = 3
-#
-#	event_image = {
-#		video = "gfx/event_pictures/europenorthamerica_london_center.bk2"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-#
-#	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-#
-#	immediate = {
-#		random_scope_state = {
-#			limit = {
-#				is_capital = yes
-#			}
-#			add_modifier = {
-#				name = lepsius_museum_foundation_modifier
-#			}
-#		}
-#	}
-
-	#The Royal Museum
-	#option = {
-	#	name = lepsius.10.g
-	#	trigger = {
-	#		has_law = law_type:law_monarchy
-	#	}
-	#	set_variable = lepsius_royal_museum_var
-	#}
-
-	#The National Museum
-	#option = {
-	#	name = lepsius.10.h
-	#	default_option = yes
-	#	set_variable = lepsius_national_museum_var
-	#}
-
-	#The New Museum
-	#option = {
-	#	name = lepsius.10.i
-	#	set_variable = lepsius_new_museum_var
-	#}
-
-	#The ROOT Museum
-	#option = {
-	#	name = lepsius.10.j
-	#	set_variable = lepsius_root_museum_var
-	#}
-
-	#The People's Museum
-	#option = {
-	#	name = lepsius.10.k
-	#	trigger = {
-	#		has_law = law_type:law_council_republic
-	#	}
-	#	set_variable = lepsius_peoples_museum_var
-	#}
-
-	#The Archaeological Museum
-#	option = {
-#		name = lepsius.10.l
-#	}
-#
-#	after = {
-#		random_scope_state = {
-#			limit = {
-#				is_capital = yes
-#			}
-#			start_building_construction = building_lepsius_archaeological_museum
-#		}
-#	}
-#}
+#Lepsius 10: Found a Museum #REMOVED
 
 #Lepsius 11: Museum Main Hall
 
@@ -732,20 +617,11 @@ lepsius.11 = {
 	option = {
 		name = lepsius.11.l
 		trigger = {
-			any_scope_character = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
+			lepsius_has_archaeologist = yes
 		}
-		hidden_effect = {
-			random_scope_character = {
-				limit = { 
-					has_modifier = lepsius_museum_lead_scientist_modifier
-				}
-				trigger_event = { 
-					id = lepsius.16
-					popup = yes
-				}
-			}
+		trigger_event = { 
+			id = lepsius.16
+			popup = yes
 		}
 	}
 
@@ -1408,7 +1284,7 @@ lepsius.15 = {
 #Lepsius 16: Lead Scientist
 
 lepsius.16 = {
-	type = character_event
+	type = country_event
 
 	title = lepsius.16.t
 	desc = lepsius.16.d
@@ -1418,49 +1294,43 @@ lepsius.16 = {
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:lepsius_museum_lead_scientist
+	left_icon = scope:lepsius_archaeologist_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		ROOT = {
-			save_scope_as = lepsius_museum_lead_scientist
-		}
+		set_lepsius_archaeologist_scope_effect = yes
 	}
 
 	#Host a major archaeological congress
 	option = {
 		name = lepsius.16.g
 		trigger = {
-			NOT = {
-				has_modifier = lepsius_attends_archaeological_congress_modifier
-			}
-			owner = {
-				has_modifier = lepsius_archaeological_society_modifier
-			}
-			NOT = {
-				owner = {
-					has_modifier = lepsius_had_archaeological_congress
+			NOR = {
+				var:lepsius_archaeologist_var = {
+					has_modifier = lepsius_attends_archaeological_congress_modifier
 				}
+				has_modifier = lepsius_archaeological_society_modifier
+				has_modifier = lepsius_had_archaeological_congress
 			}
 		}
 		default_option = yes
-		add_modifier = {
-			name = lepsius_attends_archaeological_congress_modifier
-			days = 90
-		}
-		set_character_busy = yes
-		hidden_effect = {
-			owner = {
-				trigger_event = { 
-					id = lepsius.26
-					days = 90
-					popup = yes
-				}
-				remove_variable = lepsius_visiting_museum_var
+		var:lepsius_archaeologist_var = {
+			add_modifier = {
+				name = lepsius_attends_archaeological_congress_modifier
+				days = 90
 			}
+			set_character_busy = yes
+		}
+		hidden_effect = {
+			trigger_event = { 
+				id = lepsius.26
+				days = 90
+				popup = yes
+			}
+			remove_variable = lepsius_visiting_museum_var
 		}
 	}
 
@@ -1469,11 +1339,9 @@ lepsius.16 = {
 		name = lepsius.12.k
 		default_option = yes
 		hidden_effect = {
-			owner = {
-				trigger_event = { 
-					id = lepsius.11
-					popup = yes
-				}
+			trigger_event = { 
+				id = lepsius.11
+				popup = yes
 			}
 		}
 	}
@@ -1481,9 +1349,7 @@ lepsius.16 = {
 	#Bye
 	option = {
 		name = lepsius.12.l
-		owner = {
-			remove_variable = lepsius_visiting_museum_var
-		}
+		remove_variable = lepsius_visiting_museum_var
 	}
 }
 
@@ -2172,20 +2038,14 @@ lepsius.26 = {
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:lepsius_museum_lead_scientist
+	left_icon = scope:lepsius_archaeologist_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
-			save_scope_as = lepsius_museum_lead_scientist
-			lepsius_archaeologist_experience_add = yes
-		}
+		set_lepsius_archaeologist_scope_effect = yes
 	}
 
 	#Always this argument about who has the finest leather jackets...
@@ -2196,42 +2056,13 @@ lepsius.26 = {
 			name = lepsius_had_archaeological_congress
 			years = 10
 		}
-		scope:lepsius_museum_lead_scientist = {
-			set_character_busy = no
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		scope:lepsius_archaeologist_scope = {
+			set_character_busy = no
+		}
+		check_lepsius_archaeologist_rank = yes
 	}
 }
 
@@ -2301,102 +2132,9 @@ lepsius.27 = {
 	}
 }
 
-#Lepsius 30: Lead Scientist appointed
+#Lepsius 30: Lead Scientist appointed #REMOVED
 
-lepsius.30 = {
-	type = country_event
-
-	title = lepsius.30.t
-	desc = lepsius.30.d
-	flavor = lepsius.30.f
-
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:lepsius_museum_lead_scientist
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	immediate = {
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = lepsius_archaeologist
-					has_trait = lepsius_archaeologist_experienced
-					has_trait = lepsius_archaeologist_famous
-				}
-			}
-			save_scope_as = lepsius_museum_lead_scientist
-		}
-	}
-
-	#Congratulations!
-	option = {
-		name = lepsius.30.g
-		remove_variable = lepsius_appointing_lead_scientist_var
-		scope:lepsius_museum_lead_scientist = {
-			add_modifier = {
-				name = lepsius_museum_lead_scientist_modifier
-			}
-			set_variable = memento_mori_immunity
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.31
-				years = { 15 20 }
-				popup = yes
-			}
-		}
-	}
-}
-
-#Lepsius 31: Lead Scientist becomes director
-
-lepsius.31 = {
-	type = country_event
-
-	title = lepsius.31.t
-	desc = lepsius.31.d
-	flavor = lepsius.31.f
-
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:lepsius_museum_lead_scientist
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	immediate = {
-		random_scope_character = {
-			limit = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
-			save_scope_as = lepsius_museum_lead_scientist
-		}
-	}
-
-	#Farewell
-	option = {
-		name = lepsius.31.g
-		scope:lepsius_museum_lead_scientist = {
-			remove_modifier = lepsius_museum_lead_scientist_modifier
-			remove_variable = memento_mori_immunity
-		}
-		hidden_effect = {
-			scope:lepsius_museum_lead_scientist = {
-				kill_character = yes
-			}
-		}
-	}
-}
+#Lepsius 31: Lead Scientist becomes director #REMOVED
 
 #Lepsius 50: Yearly excavation report
 
@@ -2407,13 +2145,13 @@ lepsius.50 = {
 
 	trigger = {
 		NOT = {
-			has_variable = lepsius_excavation_artifacts_cooldwown_var
+			has_variable = lepsius_excavation_artifacts_cooldown_var
 		}
 	}
 
 	immediate = {
 		set_variable = {
-			name = lepsius_excavation_artifacts_cooldwown_var
+			name = lepsius_excavation_artifacts_cooldown_var
 			days = 365
 		}
 		if = {
@@ -2535,219 +2273,14 @@ lepsius.100 = {
 	after = {
 		hidden_effect = {
 			trigger_event = { 
-				id = lepsius.110
+				id = lepsius.120
 				days = { 7 14 }
-				popup = yes
 			}
 		}
 	}
 }
 
-#Lepsius 110: Choose a leader
-
-lepsius.110 = {
-	type = country_event
-    placement = ROOT
-
-    title = lepsius.110.t
-    desc = lepsius.110.d
-    flavor = lepsius.110.f
-
-    event_image = {
-		video = "gfx/event_pictures/unspecific_politicians_arguing.bk2"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-    duration = 3
-
-	immediate = {
-		ig:ig_intelligentsia = {
-			leader = {
-				save_scope_as = lepsius_archaeological_expedition_leader_1
-			}
-			ROOT = { 
-				set_variable = lepsius_first_archaeological_expedition_leader_possible_var
-			}
-		}
-		random_interest_group = {
-			limit = {
-    			is_in_government = yes
-				NOT = {
-					leader = scope:lepsius_archaeological_expedition_leader_1
-				}
-			}
-			leader = {
-				save_scope_as = lepsius_archaeological_expedition_leader_2
-			}
-			ROOT = { 
-				set_variable = lepsius_second_archaeological_expedition_leader_possible_var
-			}
-		}
-		random_interest_group = {
-			limit = {
-    			is_in_government = no
-				NOT = {
-					leader = scope:lepsius_archaeological_expedition_leader_1
-				}
-				NOT = {
-					leader = scope:lepsius_archaeological_expedition_leader_2
-				}
-			}
-			leader = {
-				save_scope_as = lepsius_archaeological_expedition_leader_3
-			}
-			ROOT = { 
-				set_variable = lepsius_third_archaeological_expedition_leader_possible_var
-			}
-		}
-		if = {
-			random_scope_character = {
-				limit = {
-					OR = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-					NOT = {
-						this = scope:lepsius_archaeological_expedition_leader_1
-					}
-					NOT = {
-						this = scope:lepsius_archaeological_expedition_leader_2
-					}
-					NOT = {
-						this = scope:lepsius_archaeological_expedition_leader_3
-					}
-					is_busy = no
-				}
-				save_scope_as = lepsius_archaeological_expedition_leader_4
-				ROOT = { 
-					set_variable = lepsius_fourth_archaeological_expedition_leader_possible_var
-				}
-			}
-		}
-		#if = {
-		#	random_scope_character = {
-		#		limit = {
-		#			is_heir = yes
-		#			age >= 18
-		#			NOT = {
-		#				this = scope:lepsius_archaeological_expedition_leader_1
-		#			}
-		#			NOT = {
-		#				this = scope:lepsius_archaeological_expedition_leader_2
-		#			}
-		#			NOT = {
-		#				this = scope:lepsius_archaeological_expedition_leader_3
-		#			}
-		#			NOT = {
-		#				this = scope:lepsius_archaeological_expedition_leader_4
-		#			}
-		#		}
-		#		save_scope_as = lepsius_archaeological_expedition_leader_5
-		#		ROOT = { 
-		#			set_variable = lepsius_fifth_archaeological_expedition_leader_possible_var
-		#		}
-		#	}
-		#}
-	}
-
-	option = {
-		name = lepsius.110.g
-		trigger = {
-			has_variable = lepsius_first_archaeological_expedition_leader_possible_var
-		}
-		scope:lepsius_archaeological_expedition_leader_1 = {
-			set_variable = lepsius_archaeological_expedition_leader_var
-			set_variable = memento_mori_immunity
-			set_character_busy = yes
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-	}
-
-	option = {
-		name = lepsius.110.h
-		trigger = {
-			has_variable = lepsius_second_archaeological_expedition_leader_possible_var
-		}
-		scope:lepsius_archaeological_expedition_leader_2 = {
-			set_variable = lepsius_archaeological_expedition_leader_var
-			set_variable = memento_mori_immunity
-			set_character_busy = yes
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-	}
-
-	option = {
-		name = lepsius.110.i
-		trigger = {
-			has_variable = lepsius_third_archaeological_expedition_leader_possible_var
-		}
-		scope:lepsius_archaeological_expedition_leader_3 = {
-			set_variable = lepsius_archaeological_expedition_leader_var
-			set_variable = memento_mori_immunity
-			set_character_busy = yes
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-	}
-
-	option = {
-		name = lepsius.110.j
-		default_option = yes
-		trigger = {
-			has_variable = lepsius_fourth_archaeological_expedition_leader_possible_var
-		}
-		scope:lepsius_archaeological_expedition_leader_4 = {
-			set_variable = lepsius_archaeological_expedition_leader_var
-			set_variable = memento_mori_immunity
-			set_character_busy = yes
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-	}
-
-	#option = {
-	#	name = lepsius.110.k
-	#	trigger = {
-	#		has_variable = lepsius_fifth_archaeological_expedition_leader_possible_var
-	#	}
-	#	scope:lepsius_archaeological_expedition_leader_5 = {
-	#		set_variable = lepsius_archaeological_expedition_leader_var
-	#		set_character_busy = yes
-	#		save_scope_as = lepsius_archaeological_expedition_leader
-	#	}
-	#}
-
-	after = {
-		remove_variable = lepsius_first_archaeological_expedition_leader_possible_var
-		remove_variable = lepsius_second_archaeological_expedition_leader_possible_var
-		remove_variable = lepsius_third_archaeological_expedition_leader_possible_var
-		remove_variable = lepsius_fourth_archaeological_expedition_leader_possible_var
-	#	remove_variable = lepsius_fifth_archaeological_expedition_leader_possible_var
-		scope:lepsius_archaeological_expedition_leader = {
-			if = {
-				limit = {
-					NOR = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				set_variable = {
-            		name = lepsius_archaeologist_experience
-            		value = 0
-				}
-			}
-		}
-		trigger_event = { 
-			id = lepsius.120 
-			days = { 7 14 }
-			popup = yes
-		}
-	}
-}
+#Lepsius 110: Choose a leader #REMOVED
 
 #Lepsius 120: Military Attaché
 
@@ -2783,23 +2316,75 @@ lepsius.120 = {
 	immediate = {
 		random_scope_character = {
 			limit = {
-				is_ruler = no
-				has_role = general
+				OR = {
+					has_role = general
+					has_role = admiral
+				}
 				is_busy = no
 			}
-			save_scope_as = lepsius_military_attache
+			save_scope_as = lepsius_military_attache_1
 		}
 		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
+			limit = {
+				OR = {
+					has_role = general
+					has_role = admiral
+				}
+				NOT = {
+					this = scope:lepsius_military_attache_1
+				}
+				is_busy = no
 			}
-			save_scope_as = lepsius_archaeological_expedition_leader
+			save_scope_as = lepsius_military_attache_2
+		}
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_role = general
+					has_role = admiral
+				}
+				NOT = {
+					this = scope:lepsius_military_attache_1
+				}
+				NOT = {
+					this = scope:lepsius_military_attache_2
+				}
+				is_busy = no
+			}
+			save_scope_as = lepsius_military_attache_3
+		}
+		set_archaeological_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = lepsius.120.g
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_military_attache_1
+		}
+		scope:lepsius_military_attache_1 = {
+			set_variable = lepsius_military_attache_var
+			set_character_busy = yes
 		}
 	}
 
 	option = {
-		name = lepsius.120.a
-		scope:lepsius_military_attache = {
+		name = lepsius.120.h
+		trigger = {
+			exists = scope:lepsius_military_attache_2
+		}
+		scope:lepsius_military_attache_2 = {
+			set_variable = lepsius_military_attache_var
+			set_character_busy = yes
+		}
+	}
+
+	option = {
+		name = lepsius.120.i
+		trigger = {
+			exists = scope:lepsius_military_attache_3
+		}
+		scope:lepsius_military_attache_3 = {
 			set_variable = lepsius_military_attache_var
 			set_character_busy = yes
 		}
@@ -2817,7 +2402,6 @@ lepsius.120 = {
 				trigger_event = { 
 					id = lepsius.130
 					days = { 7 14 }
-					popup = yes
 				}
 			}
 		}
@@ -2825,9 +2409,6 @@ lepsius.120 = {
 			if = {
 				limit = {
 					OR = {
-						scope:lepsius_archaeological_expedition_leader = {
-							has_trait = lepsius_archaeologist
-						}
 						scope:lepsius_archaeological_expedition_leader = {
 							has_trait = lepsius_archaeologist_experienced
 						}
@@ -2839,7 +2420,6 @@ lepsius.120 = {
 				trigger_event = { 
 					id = lepsius.140
 					days = { 21 28 }
-					popup = yes
 				}
 			}
 		}
@@ -2856,7 +2436,6 @@ lepsius.120 = {
 				trigger_event = { 
 					id = lepsius.150
 					days = { 35 42 }
-					popup = yes
 				}
 			}
 		}
@@ -3151,6 +2730,8 @@ lepsius.200 = {
     title = lepsius.200.t
 	desc = lepsius.200.d
 
+	duration = 3
+
 	flavor = {
 		triggered_desc = {
 			trigger = {
@@ -3304,7 +2885,6 @@ lepsius.200 = {
 			trigger_event = { 
 				id = lepsius.210 
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -3320,6 +2900,8 @@ lepsius.210 = {
 	desc = lepsius.210.d
 
 	flavor = lepsius.210.f
+
+	duration = 3
 		
 	event_image = { #Egypt/Mesopotamia
 		trigger = {
@@ -3352,18 +2934,8 @@ lepsius.210 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 		
 	option = { #We could use some interpreters (more artifacts in the end)
@@ -3388,21 +2960,13 @@ lepsius.210 = {
 			if = {
 				limit = {
 					OR = {
-						scope:lepsius_archaeological_expedition_leader = {
-							has_trait = lepsius_archaeologist
-						}
-						scope:lepsius_archaeological_expedition_leader = {
-							has_trait = lepsius_archaeologist_experienced
-						}
-						scope:lepsius_archaeological_expedition_leader = {
-							has_trait = lepsius_archaeologist_famous
-						}
+						lepsius_has_experienced_archaeologist = yes
+						lepsius_has_famous_archaeologist = yes
 					}
 				}
 				trigger_event = { #Archaeologist buys artifacts
 					id = lepsius.220
 					days = { 3 27 }
-					popup = yes
 				}
 			}
 		}
@@ -3421,7 +2985,6 @@ lepsius.210 = {
 				trigger_event = { #Romantic writes diary
 					id = lepsius.230
 					days = { 3 27 }
-					popup = yes
 				}
 			}
 		}
@@ -3440,7 +3003,6 @@ lepsius.210 = {
 				trigger_event = { #Innovative writes scientific paper
 					id = lepsius.240
 					days = { 3 27 }
-					popup = yes
 				}
 			}
 		}
@@ -3462,7 +3024,6 @@ lepsius.210 = {
 				trigger_event = { #Tavern fight
 					id = lepsius.250
 					days = { 8 12 }
-					popup = yes
 				}
 			}
 		}
@@ -3484,7 +3045,6 @@ lepsius.210 = {
 				trigger_event = { #Appreciation
 					id = lepsius.260
 					days = { 8 12 }
-					popup = yes
 				}
 			}
 		}
@@ -3500,7 +3060,6 @@ lepsius.210 = {
 				trigger_event = { #Ice cream and Lemonade
 					id = lepsius.270
 					days = 25
-					popup = yes
 				}
 			}
 		}
@@ -3522,7 +3081,6 @@ lepsius.210 = {
 				trigger_event = { #An audience
 					id = lepsius.280
 					days = { 10 20 }
-					popup = yes
 				}
 			}
 		}
@@ -3541,7 +3099,6 @@ lepsius.210 = {
 				trigger_event = { #Attaché 
 					id = lepsius.290
 					days = { 10 20 }
-					popup = yes
 				}
 			}
 		}
@@ -3590,12 +3147,7 @@ lepsius.220 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 		
 	option = { #What a nice surprise!
@@ -3669,12 +3221,7 @@ lepsius.230 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 		
 	option = { #A personal diary
@@ -3729,12 +3276,7 @@ lepsius.240 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 		
 	option = { #A scientific paper
@@ -3793,7 +3335,7 @@ lepsius.250 = {
 		
 	option = { #Embarassing
 		name = lepsius.250.g
-		change_infamy = 0.5
+		change_infamy = 2
 		scope:lepsius_arrival_state = {
 			owner = {
 				change_relations = {
@@ -3957,12 +3499,7 @@ lepsius.280 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 
 	option = { #What a nice surprise
@@ -4211,28 +3748,17 @@ lepsius.310 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		###Archaeologist Experience ###
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-			lepsius_archaeologist_experience_add = yes
-			set_variable = lepsius_relaxing_from_expedition_var
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 		lepsius_archaeological_expedition_add = yes
 	}
 
 	option = { #End expedition and come home
 		name = lepsius.310.g
 		###Archaeologist Experience ###
-		custom_tooltip = lepsius_add_archaeological_experience_tt
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
+		}
 		###Return Excavation Team###
 		custom_tooltip = {
 			text = lepsius_add_archaeological_team_tt
@@ -4316,6 +3842,7 @@ lepsius.310 = {
 
 	option = {
 		name = lepsius.310.h
+		default_option = yes
 		trigger = {
 			has_technology_researched = lepsius_early_archaeology_tech
 			OR = {
@@ -4369,9 +3896,6 @@ lepsius.310 = {
 				}
 			}
 		}
-		###Archaeologist Experience ###
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		default_option = yes
 		###Give excavation modifier, excavation team does not return
 		if = {
 			limit = {
@@ -4537,7 +4061,6 @@ lepsius.310 = {
 		remove_modifier = lepsius_peru_expedition_modifier
 		scope:lepsius_archaeological_expedition_leader = {
 			set_character_busy = no
-			remove_variable = lepsius_archaeological_expedition_leader_var 
 		}
 		scope:lepsius_military_attache = {
 			set_character_busy = no
@@ -4553,7 +4076,7 @@ lepsius.310 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
+				var:lepsius_archaeologist_var = {
 					has_modifier = lepsius_writing_a_diary_modifier
 				}
 			}
@@ -4564,7 +4087,7 @@ lepsius.310 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
+				var:lepsius_archaeologist_var = {
 					has_modifier = lepsius_writing_a_scientific_paper_modifier
 				}
 			}
@@ -4589,6 +4112,8 @@ lepsius.311 = {
 	desc = lepsius.311.d
 
 	flavor = lepsius.311.f
+
+	duration = 3
 		
 	event_image = {
 		texture = "gfx/event_pictures/lepsius_pictures/lepsius_writer.dds"
@@ -4599,10 +4124,7 @@ lepsius.311 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_modifier = lepsius_writing_a_diary_modifier
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_diary_writer
 		}
 	}
@@ -4628,6 +4150,8 @@ lepsius.312 = {
 	desc = lepsius.312.d
 
 	flavor = lepsius.312.f
+
+	duration = 3
 		
 	event_image = {
 		texture = "gfx/event_pictures/lepsius_pictures/lepsius_writer.dds"
@@ -4638,10 +4162,7 @@ lepsius.312 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_modifier = lepsius_writing_a_scientific_paper_modifier
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_scientific_writer
 		}
 	}
@@ -4667,6 +4188,8 @@ lepsius.313 = {
 	desc = lepsius.313.d
 
 	flavor = lepsius.313.f
+
+	duration = 3
 		
 	gui_window = event_window_1char_tabloid
 
@@ -4678,53 +4201,14 @@ lepsius.313 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_relaxing_from_expedition_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_relaxing_archaeologist
 		}
 	}
 		
 	option = { #Welcome back
 		name = lepsius.313.g
-		scope:lepsius_relaxing_archaeologist = {
-			remove_variable = lepsius_relaxing_from_expedition_var
-			remove_variable = memento_mori_immunity
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
-		}
+		check_lepsius_archaeologist_rank = yes
 	}
 }
 
@@ -4773,6 +4257,8 @@ lepsius.401 = {
 			desc = lepsius.401.f_kurdish
 		}
 	}
+
+	duration = 2
 		
 	event_image = { #Egypt/Babylonia
 		trigger = {
@@ -4880,6 +4366,8 @@ lepsius.402 = {
 			desc = lepsius.402.f_tropical
 		}
 	}
+
+	duration = 2
 		
 	event_image = { #Egypt
 		trigger = {
@@ -4935,6 +4423,8 @@ lepsius.403 = {
 
 	flavor = lepsius.403.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_andes.dds"
 	}
@@ -4949,12 +4439,7 @@ lepsius.403 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_military_attache_effect = yes
 		ig:ig_armed_forces = {
 			save_scope_as = army_ig
 		}
@@ -5025,6 +4510,8 @@ lepsius.404 = {
 			desc = lepsius.404.f_peru
 		}
 	}
+
+	duration = 2
 		
 	event_image = { #Greece
 		trigger = {
@@ -5113,6 +4600,8 @@ lepsius.405 = {
 			desc = lepsius.405.f_yucatan
 		}
 	}
+
+	duration = 2
 		
 	event_image = { #Mesopotamia
 		trigger = {
@@ -5177,6 +4666,8 @@ lepsius.406 = {
 
 	flavor = lepsius.406.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/greece/lepsius_greece_shipwreck.dds"
 	}
@@ -5193,12 +4684,7 @@ lepsius.406 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_military_attache_effect = yes
 		ig:ig_armed_forces = {
 			save_scope_as = army_ig
 		}
@@ -5242,6 +4728,8 @@ lepsius.407 = {
 	desc = lepsius.407.d
 
 	flavor = lepsius.407.f
+
+	duration = 2
 
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_oasis.dds"
@@ -5288,6 +4776,8 @@ lepsius.408 = {
 
 	flavor = lepsius.408.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/mesopotamia/lepsius_mesopotamia_evil_eye.dds"
 	}
@@ -5296,10 +4786,11 @@ lepsius.408 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_nazar_cooldown_var #only once in an expedition
-		}
 		scope:lepsius_archaeological_expedition_leader = {
 			NOT = {
 				has_modifier = lepsius_nazar_amulet_modifier
@@ -5309,12 +4800,7 @@ lepsius.408 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 		
 	option = { #Buy the amulet
@@ -5332,10 +4818,6 @@ lepsius.408 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_nazar_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -5352,6 +4834,8 @@ lepsius.409 = {
 
 	flavor = lepsius.409.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/greece/lepsius_greece_fishermen.dds"
 	}
@@ -5360,10 +4844,11 @@ lepsius.409 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_fishermen_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -5377,10 +4862,6 @@ lepsius.409 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_fishermen_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -5435,6 +4916,8 @@ lepsius.410 = {
 			desc = lepsius.410.f_peru
 		}
 	}
+
+	duration = 2
 		
 	event_image = { #Yucatán
 		trigger = {
@@ -5454,29 +4937,25 @@ lepsius.410 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_parrot_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 		
 	option = { #A good omen
 		name = lepsius.410.g
+		default_option = yes
 		trigger = {
 			has_modifier = lepsius_yucatan_expedition_modifier
 		}
 		lepsius_expedition_success_small_add = yes
-		default_option = yes
 	}
 	option = { #He should become a pet parrot
 		name = lepsius.410.h
@@ -5511,10 +4990,6 @@ lepsius.410 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_parrot_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -5534,6 +5009,8 @@ lepsius.411 = {
 	desc = lepsius.411.d
 
 	flavor = lepsius.411.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -5609,6 +5086,8 @@ lepsius.412 = {
 
 	flavor = lepsius.412.f
 
+	duration = 2
+
 	event_image = { #Egypt
 		trigger = {
 			lepsius_expedition_in_egypt = yes
@@ -5641,10 +5120,11 @@ lepsius.412 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_lost_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -5659,10 +5139,6 @@ lepsius.412 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_lost_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -5678,6 +5154,8 @@ lepsius.413 = {
 	desc = lepsius.413.d
 
 	flavor = lepsius.413.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -5754,6 +5232,8 @@ lepsius.414 = {
 	desc = lepsius.414.d
 
 	flavor = lepsius.414.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -5834,6 +5314,8 @@ lepsius.415 = {
 
 	flavor = lepsius.415.f
 
+	duration = 2
+
 	gui_window = event_window_1char_tabloid
 
 	left_icon = scope:lepsius_archaeological_expedition_leader
@@ -5843,20 +5325,16 @@ lepsius.415 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_flooding_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 		
 	option = { #Rescue her!
@@ -5875,10 +5353,6 @@ lepsius.415 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_flooding_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -5894,6 +5368,8 @@ lepsius.416 = {
 	desc = lepsius.416.d
 
 	flavor = lepsius.416.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -5927,10 +5403,11 @@ lepsius.416 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_weather_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -5945,10 +5422,6 @@ lepsius.416 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_weather_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -5964,6 +5437,8 @@ lepsius.417 = {
 	desc = lepsius.417.d
 
 	flavor = lepsius.417.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -6040,6 +5515,8 @@ lepsius.418 = {
 
 	flavor = lepsius.418.f
 
+	duration = 2
+
 	event_image = { #Egypt
 		trigger = {
 			lepsius_expedition_in_egypt = yes
@@ -6072,10 +5549,11 @@ lepsius.418 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_guide_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -6090,10 +5568,6 @@ lepsius.418 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_guide_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -6109,6 +5583,8 @@ lepsius.419 = {
 	desc = lepsius.419.d
 
 	flavor = lepsius.419.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -6142,10 +5618,11 @@ lepsius.419 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_shortcut_cooldown_var #only once in an expedition
-		}
 		any_scope_character = {
 			has_variable = lepsius_military_attache_var #military_attaché may be killed in assyria
 		}
@@ -6153,12 +5630,7 @@ lepsius.419 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_military_attache_effect = yes
 		ig:ig_armed_forces = {
 			save_scope_as = army_ig
 		}
@@ -6183,10 +5655,6 @@ lepsius.419 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_shortcut_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -6202,6 +5670,8 @@ lepsius.420 = {
 	desc = lepsius.420.d
 
 	flavor = lepsius.420.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -6235,10 +5705,11 @@ lepsius.420 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_motivated_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -6253,10 +5724,6 @@ lepsius.420 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_motivated_cooldown_var	#only once in an expedition
-				years = 4
-			}	
 		}
 	}
 }
@@ -6276,6 +5743,8 @@ lepsius.421 = {
     desc = lepsius.421.d
 
 	flavor = lepsius.421.f
+
+	duration = 2
 		
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_thebes_ruins.dds"
@@ -6285,20 +5754,16 @@ lepsius.421 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_scarab_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 
 	option = { #He may keep the artifact.
@@ -6316,10 +5781,6 @@ lepsius.421 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_scarab_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -6335,6 +5796,8 @@ lepsius.422 = {
     desc = lepsius.422.d
 
 	flavor = lepsius.422.f
+
+	duration = 2
 		
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_thebes_east.dds"
@@ -6386,6 +5849,8 @@ lepsius.423 = {
     desc = lepsius.423.d
 
 	flavor = lepsius.423.f
+
+	duration = 2
 		
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/mesopotamia/lepsius_mesopotamia_two_lions.dds"
@@ -6457,6 +5922,8 @@ lepsius.424 = {
     desc = lepsius.424.d
 
 	flavor = lepsius.424.f
+
+	duration = 2
 		
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/mesopotamia/lepsius_mesopotamian_worker.dds"
@@ -6492,6 +5959,8 @@ lepsius.425 = {
     desc = lepsius.425.d
 
 	flavor = lepsius.425.f
+
+	duration = 2
 		
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/greece/lepsius_greece_dolphins.dds"
@@ -6548,6 +6017,8 @@ lepsius.426 = {
 
 	flavor = lepsius.426.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/greece/lepsius_greece_mycenae_fresco.dds"
 	}
@@ -6590,6 +6061,8 @@ lepsius.427 = {
 
 	flavor = lepsius.427.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/yucatan/lepsius_yucatan_plate25_izamal.dds"
 	}
@@ -6631,6 +6104,8 @@ lepsius.428 = {
     desc = lepsius.428.d
 
 	flavor = lepsius.428.f
+
+	duration = 2
 		
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_inti.dds"
@@ -6786,6 +6261,8 @@ lepsius.431 = {
 
 	flavor = lepsius.431.f
 
+	duration = 2
+
 	event_image = { #Egypt
 		trigger = {
 			lepsius_expedition_in_egypt = yes
@@ -6844,6 +6321,8 @@ lepsius.432 = {
     desc = lepsius.432.d
 
 	flavor = lepsius.432.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -6908,6 +6387,8 @@ lepsius.433 = {
     desc = lepsius.433.d
 
 	flavor = lepsius.433.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -6976,6 +6457,8 @@ lepsius.434 = {
 
 	flavor = lepsius.434.f
 
+	duration = 2
+
 	event_image = { #Egypt
 		trigger = {
 			lepsius_expedition_in_egypt = yes
@@ -7023,7 +6506,7 @@ lepsius.434 = {
 	option = { #The artifact should be ours.
 		name = lepsius.434.g
 		lepsius_add_1_minor_artifact = yes
-		change_infamy = 1
+		change_infamy = 2
 
 	}
 	option = { #File a complaint and return the artifact to local authorities.
@@ -7057,6 +6540,8 @@ lepsius.435 = {
     desc = lepsius.435.d
 
 	flavor = lepsius.435.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -7123,6 +6608,8 @@ lepsius.436 = {
 
 	flavor = lepsius.436.f
 
+	duration = 2
+
 	event_image = { #Egypt
 		trigger = {
 			lepsius_expedition_in_egypt = yes
@@ -7182,6 +6669,8 @@ lepsius.437 = {
 
 	flavor = lepsius.437.f
 
+	duration = 2
+
 	event_image = { #Egypt
 		trigger = {
 			lepsius_expedition_in_egypt = yes
@@ -7214,20 +6703,16 @@ lepsius.437 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_camp_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 		random_country = {
 			limit = {
 				country_rank = rank_value:great_power
@@ -7261,20 +6746,6 @@ lepsius.437 = {
 			}
 		}
 	}
-	#option = { #We share our knowledge instead
-	#	name = lepsius.437.i
-	#	lepsius_add_2_minor_artifact = yes
-	#	add_technology_progress = { progress = -2000 }
-	#	random_country = {
-	#		limit = { 
-	#			country_rank = rank_value:great_power
-	#		}
-	#		change_relations = {
-	#			country = ROOT 
-	#			value = 5
-	#		}
-	#	}
-	#}
 	option = { #They are the rightful owners
 		name = lepsius.437.j
 		change_infamy = -1
@@ -7288,10 +6759,6 @@ lepsius.437 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_camp_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -7307,6 +6774,8 @@ lepsius.438 = {
     desc = lepsius.438.d
 
 	flavor = lepsius.438.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -7372,6 +6841,8 @@ lepsius.439 = {
     desc = lepsius.439.d
 
 	flavor = lepsius.439.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -7448,6 +6919,8 @@ lepsius.440 = {
 
 	flavor = lepsius.440.f
 
+	duration = 2
+
 	event_image = { #Egypt
 		trigger = {
 			lepsius_expedition_in_egypt = yes
@@ -7480,10 +6953,11 @@ lepsius.440 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_broken_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -7519,10 +6993,6 @@ lepsius.440 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_broken_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -7543,6 +7013,8 @@ lepsius.441 = {
 
 	flavor = lepsius.441.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_hills.dds"
 	}
@@ -7551,10 +7023,11 @@ lepsius.441 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_obelisk_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -7567,10 +7040,6 @@ lepsius.441 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_obelisk_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -7587,6 +7056,8 @@ lepsius.442 = {
 
 	flavor = lepsius.442.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_sesebi.dds"
 	}
@@ -7595,10 +7066,11 @@ lepsius.442 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_animals_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -7617,10 +7089,6 @@ lepsius.442 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_animals_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -7637,6 +7105,8 @@ lepsius.443 = {
 
 	flavor = lepsius.443.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_qurnah.dds"
 	}
@@ -7645,20 +7115,16 @@ lepsius.443 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_crocodile_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_military_attache_effect = yes
 		random_scope_character = {
 			limit = { 
 				is_ruler = yes 
@@ -7728,10 +7194,6 @@ lepsius.443 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_crocodile_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -7756,10 +7218,11 @@ lepsius.444 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_curse_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -7775,10 +7238,6 @@ lepsius.444 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_curse_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -7794,6 +7253,8 @@ lepsius.445 = {
     desc = lepsius.445.d
 
 	flavor = lepsius.445.f
+
+	duration = 3
 
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/mesopotamia/lepsius_mesopotamia_gilgamesh.dds"
@@ -7863,6 +7324,8 @@ lepsius.446 = {
 
 	flavor = lepsius.446.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/greece/lepsius_greece_minoan_bull.dds"
 	}
@@ -7903,6 +7366,8 @@ lepsius.447 = {
     desc = lepsius.447.d
 
 	flavor = lepsius.447.f
+
+	duration = 2
 
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/greece/lepsius_greece_cyclopean_wall.dds"
@@ -7945,6 +7410,8 @@ lepsius.448 = {
 
 	flavor = lepsius.448.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/yucatan/lepsius_yucatan_plate1_copan.dds"
 	}
@@ -7986,6 +7453,8 @@ lepsius.449 = {
 
 	flavor = lepsius.449.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/yucatan/lepsius_yucatan_plate17_kabah.dds"
 	}
@@ -7994,13 +7463,14 @@ lepsius.449 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
 		OR = {
 			has_modifier = lepsius_yucatan_expedition_modifier
 			has_modifier = lepsius_yucatan_excavation_modifier
-		}
-		NOT = {
-			has_variable = lepsius_cave_cooldown_var #only once in an expedition
 		}
 	}
 
@@ -8017,10 +7487,6 @@ lepsius.449 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_cave_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -8036,6 +7502,8 @@ lepsius.450 = {
     desc = lepsius.450.d
 
 	flavor = lepsius.450.f
+
+	duration = 2
 
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_antiquities.dds"
@@ -8082,6 +7550,8 @@ lepsius.451 = {
     desc = lepsius.451.d
 
 	flavor = lepsius.451.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -8159,6 +7629,8 @@ lepsius.452 = {
 
 	flavor = lepsius.452.f
 
+	duration = 2
+
 	event_image = { #Egypt
 		trigger = {
 			lepsius_expedition_in_egypt = yes
@@ -8218,15 +7690,18 @@ lepsius.453 = {
 
 	flavor = lepsius.453.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/oriental/lepsius_oriental_painters.dds"
 	}
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
 		has_variable = lepsius_expedition_artists_var
-		NOT = {
-			has_variable = lepsius_expedition_artists_cooldown #only once on every expedition
-		}
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -8244,10 +7719,6 @@ lepsius.453 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_expedition_artists_cooldown #only once on every expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -8264,15 +7735,18 @@ lepsius.454 = {
 
 	flavor = lepsius.454.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/lepsius_scientist.dds"
 	}
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
 		has_variable = lepsius_expedition_scientists_var
-		NOT = {
-			has_variable = lepsius_expedition_scientists_cooldown #only once on every expedition
-		}
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -8291,10 +7765,6 @@ lepsius.454 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_expedition_scientists_cooldown #only once on every expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -8310,6 +7780,8 @@ lepsius.455 = {
     desc = lepsius.455.d
 
 	flavor = lepsius.455.f
+
+	duration = 2
 
 	event_image = { #Egypt
 		trigger = {
@@ -8423,10 +7895,11 @@ lepsius.461 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_spinx_cooldown_var #only once in an expedition
-		}
 		has_modifier = lepsius_lower_egypt_expedition_modifier
 		scope:lepsius_archaeological_expedition_leader = {
 			OR = {
@@ -8440,12 +7913,7 @@ lepsius.461 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #This man really needs to rethink his lifestyle.
 		name = lepsius.461.g
@@ -8459,10 +7927,6 @@ lepsius.461 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_spinx_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -8479,6 +7943,8 @@ lepsius.462 = {
 
 	flavor = lepsius.462.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_sphinx.dds"
 	}
@@ -8487,10 +7953,11 @@ lepsius.462 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_spinx_cooldown_var #only once in an expedition
-		}
 		has_modifier = lepsius_lower_egypt_expedition_modifier
 		scope:lepsius_military_attache = {
 			OR = {
@@ -8504,12 +7971,7 @@ lepsius.462 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_military_attache_effect = yes
 	}
 	option = { #This man really needs to rethink his lifestyle.
 		name = lepsius.461.g
@@ -8523,10 +7985,6 @@ lepsius.462 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_spinx_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -8542,6 +8000,8 @@ lepsius.463 = {
     desc = lepsius.463.d
 
 	flavor = lepsius.463.f
+
+	duration = 2
 
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_cat.dds"
@@ -8561,12 +8021,7 @@ lepsius.463 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #There are cat people and dog people.
 		name = lepsius.463.g
@@ -8603,6 +8058,8 @@ lepsius.464 = {
 
 	flavor = lepsius.464.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/mesopotamia/lepsius_mesopotamia_saluki.dds"
 	}
@@ -8621,12 +8078,7 @@ lepsius.464 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_military_attache_effect = yes
 	}
 	option = { #There are dog people and cat people.
 		name = lepsius.464.g
@@ -8663,6 +8115,8 @@ lepsius.465 = {
 
 	flavor = lepsius.465.f
 
+	duration = 2
+
 	event_image = { #Egypt/Mesopotamia
 		trigger = {
 			OR = {
@@ -8691,10 +8145,11 @@ lepsius.465 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_arrogant_cooldown_var #only once in an expedition
-		}
 		scope:lepsius_archaeological_expedition_leader = {
 			OR = {
 				has_trait = bigoted
@@ -8705,12 +8160,7 @@ lepsius.465 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Why should we bother? After all, they are barbarians!
 		name = lepsius.465.g
@@ -8737,10 +8187,6 @@ lepsius.465 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_arrogant_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -8756,6 +8202,8 @@ lepsius.466 = {
     desc = lepsius.466.d
 
 	flavor = lepsius.466.f
+
+	duration = 2
 
 	event_image = { #Egypt/Mesopotamia
 		trigger = {
@@ -8785,10 +8233,11 @@ lepsius.466 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_surveyor_cooldown_var #only once in an expedition
-		}
 		any_scope_character = {
 			has_variable = lepsius_military_attache_var #military_attaché may be killed in assyria
 			NOT = {
@@ -8799,12 +8248,7 @@ lepsius.466 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_military_attache_effect = yes
 	}
 	option = { #He has a great career ahead of him!
 		name = lepsius.466.g
@@ -8820,10 +8264,6 @@ lepsius.466 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_surveyor_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -8840,6 +8280,8 @@ lepsius.467 = {
 
 	flavor = lepsius.467.f
 
+	duration = 2
+
 	event_image = { 
 		texture = "gfx/event_pictures/lepsius_pictures/oriental/lepsius_oriental_coptic.dds"
 	}
@@ -8848,10 +8290,11 @@ lepsius.467 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_relic_cooldown_var #only once in an expedition
-		}
 		scope:lepsius_archaeological_expedition_leader = {
 			OR = {
 				religion = rel:catholic
@@ -8866,12 +8309,7 @@ lepsius.467 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Did he have a beatific vision?
 		name = lepsius.467.g
@@ -8904,10 +8342,6 @@ lepsius.467 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_relic_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -8923,6 +8357,8 @@ lepsius.468 = {
     desc = lepsius.468.d
 
 	flavor = lepsius.468.f
+
+	duration = 2
 
 	event_image = { #Egypt/Mesopotamia
 		trigger = {
@@ -8961,12 +8397,7 @@ lepsius.468 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_military_attache_effect = yes
 		ig:ig_armed_forces = {
 			save_scope_as = army_ig
 		}
@@ -9186,27 +8617,24 @@ lepsius.471 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 4
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_famous_site_cooldown_var
-		}
 	}
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 		
 	option = { #He should take his time and find out as much as possible about the place.
 		name = lepsius.471.g
-		scope:lepsius_archaeological_expedition_leader = {
-			lepsius_archaeologist_experience_add = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 		lepsius_expedition_success_large_sub = yes
 	}
 
@@ -9232,10 +8660,6 @@ lepsius.471 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_famous_site_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -9274,12 +8698,7 @@ lepsius.472 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 
 	option = { #Is he saying dinosaurs ate our expedition?!
@@ -9348,12 +8767,7 @@ lepsius.473 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #A discovery that will benefit everyone.
 		name = lepsius.473.g
@@ -9441,14 +8855,9 @@ lepsius.501 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
-	option = { #We don't have time vor this.
+	option = { #We don't have time for this.
 		name = lepsius.501.g
 		default_option = yes
 		set_variable = {
@@ -9470,7 +8879,6 @@ lepsius.501 = {
 			trigger_event = {
 				id = lepsius.502
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -9509,12 +8917,7 @@ lepsius.502 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #We need more tools!
 		name = lepsius.502.g
@@ -9530,7 +8933,6 @@ lepsius.502 = {
 			trigger_event = {
 				id = lepsius.503
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -9559,12 +8961,7 @@ lepsius.503 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+			set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #We use sophisticated methods
 		name = lepsius.503.g
@@ -9578,7 +8975,6 @@ lepsius.503 = {
 			trigger_event = {
 				id = lepsius.505
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -9593,7 +8989,6 @@ lepsius.503 = {
 			trigger_event = {
 				id = lepsius.505
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -9607,7 +9002,6 @@ lepsius.503 = {
 			trigger_event = {
 				id = lepsius.504
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -9619,7 +9013,6 @@ lepsius.503 = {
 			trigger_event = {
 				id = lepsius.505
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -9648,12 +9041,7 @@ lepsius.504 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Maybe that was overkill?
 		name = lepsius.504.g
@@ -9744,12 +9132,7 @@ lepsius.505 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #The splendour of Ancient Egypt ...
 		name = lepsius.505.g
@@ -9777,7 +9160,6 @@ lepsius.505 = {
 			trigger_event = {
 				id = lepsius.506
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -9863,12 +9245,7 @@ lepsius.506 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #The splendour of Ancient Egypt ...
 		name = lepsius.506.g
@@ -9880,9 +9257,10 @@ lepsius.506 = {
 		lepsius_large_add_technology = yes
 		lepsius_add_1_major_egyptian_artifact = yes 
 		set_variable = lepsius_major_artifact_sarcophagus_found_var
-		scope:lepsius_archaeological_expedition_leader = {
-			lepsius_archaeologist_experience_add = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 	}
 	option = { #Move it quickly!
 		name = lepsius.506.h
@@ -9952,12 +9330,7 @@ lepsius.511 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+			set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #We don't have time vor this.
 		name = lepsius.511.g
@@ -9976,7 +9349,6 @@ lepsius.511 = {
 			trigger_event = {
 				id = lepsius.512
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -10038,12 +9410,7 @@ lepsius.512 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+			set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Wine
 		name = lepsius.512.g
@@ -10071,7 +9438,6 @@ lepsius.512 = {
 			trigger_event = {
 				id = lepsius.513
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -10100,18 +9466,8 @@ lepsius.513 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+			set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #The archaeological leader
 		name = lepsius.513.g
@@ -10125,8 +9481,8 @@ lepsius.513 = {
 								has_trait = alcoholic
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10135,8 +9491,8 @@ lepsius.513 = {
 								has_trait = opium_addiction
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10145,8 +9501,8 @@ lepsius.513 = {
 								has_trait = senile
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10155,13 +9511,12 @@ lepsius.513 = {
 								has_trait = wounded
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				trigger_event = { 
 					id = lepsius.516 #Fail
 					days = 3
-					popup = yes
 				}
 			}
 			60 = {
@@ -10172,8 +9527,8 @@ lepsius.513 = {
 								has_trait = cautious
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -10182,8 +9537,8 @@ lepsius.513 = {
 								has_trait = meticulous
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -10192,8 +9547,8 @@ lepsius.513 = {
 								has_trait = surveyor
 							}
 						}
+						add = 8
 					}
-					add = 8
 				}
 				modifier = {
 					if = {
@@ -10202,8 +9557,8 @@ lepsius.513 = {
 								has_trait = ambitious
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -10212,8 +9567,8 @@ lepsius.513 = {
 								has_trait = brave
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -10222,8 +9577,8 @@ lepsius.513 = {
 								has_trait = persistent
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10232,13 +9587,12 @@ lepsius.513 = {
 								has_trait = explorer
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				trigger_event = { 
 					id = lepsius.514 #Second step
 					days = 3
-					popup = yes
 				}
 			}
 		}
@@ -10254,8 +9608,8 @@ lepsius.513 = {
 								has_trait = alcoholic
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10264,8 +9618,8 @@ lepsius.513 = {
 								has_trait = opium_addiction
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10274,8 +9628,8 @@ lepsius.513 = {
 								has_trait = senile
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10284,8 +9638,8 @@ lepsius.513 = {
 								has_trait = wounded
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				trigger_event = { 
 					id = lepsius.516 #Fail
@@ -10301,8 +9655,8 @@ lepsius.513 = {
 								has_trait = cautious
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -10311,8 +9665,8 @@ lepsius.513 = {
 								has_trait = meticulous
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -10321,8 +9675,8 @@ lepsius.513 = {
 								has_trait = surveyor
 							}
 						}
+						add = 8
 					}
-					add = 8
 				}
 				modifier = {
 					if = {
@@ -10331,8 +9685,8 @@ lepsius.513 = {
 								has_trait = ambitious
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -10341,8 +9695,8 @@ lepsius.513 = {
 								has_trait = brave
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -10351,8 +9705,8 @@ lepsius.513 = {
 								has_trait = persistent
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10361,13 +9715,12 @@ lepsius.513 = {
 								has_trait = explorer
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				trigger_event = { 
 					id = lepsius.514 #Second step
 					days = 3
-					popup = yes
 				}
 			}
 		}
@@ -10397,18 +9750,8 @@ lepsius.514 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+			set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #The archaeological leader
 		name = lepsius.513.g
@@ -10422,8 +9765,8 @@ lepsius.514 = {
 								has_trait = alcoholic
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10432,8 +9775,8 @@ lepsius.514 = {
 								has_trait = opium_addiction
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10442,8 +9785,8 @@ lepsius.514 = {
 								has_trait = senile
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10452,13 +9795,12 @@ lepsius.514 = {
 								has_trait = wounded
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				trigger_event = { 
 					id = lepsius.516 #Fail
 					days = 3
-					popup = yes
 				}
 			}
 			50 = {
@@ -10469,8 +9811,8 @@ lepsius.514 = {
 								has_trait = cautious
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -10479,8 +9821,8 @@ lepsius.514 = {
 								has_trait = meticulous
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -10489,8 +9831,8 @@ lepsius.514 = {
 								has_trait = surveyor
 							}
 						}
+						add = 8
 					}
-					add = 8
 				}
 				modifier = {
 					if = {
@@ -10499,8 +9841,8 @@ lepsius.514 = {
 								has_trait = ambitious
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -10509,8 +9851,8 @@ lepsius.514 = {
 								has_trait = brave
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -10519,8 +9861,8 @@ lepsius.514 = {
 								has_trait = persistent
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10529,8 +9871,8 @@ lepsius.514 = {
 								has_trait = explorer
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				trigger_event = { 
 					id = lepsius.515 #Third step
@@ -10551,8 +9893,8 @@ lepsius.514 = {
 								has_trait = alcoholic
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10561,8 +9903,8 @@ lepsius.514 = {
 								has_trait = opium_addiction
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10571,8 +9913,8 @@ lepsius.514 = {
 								has_trait = senile
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10581,13 +9923,12 @@ lepsius.514 = {
 								has_trait = wounded
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				trigger_event = { 
 					id = lepsius.516 #Fail
 					days = 3
-					popup = yes
 				}
 			}
 			50 = {
@@ -10598,8 +9939,8 @@ lepsius.514 = {
 								has_trait = cautious
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -10608,8 +9949,8 @@ lepsius.514 = {
 								has_trait = meticulous
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -10618,8 +9959,8 @@ lepsius.514 = {
 								has_trait = surveyor
 							}
 						}
+						add = 8
 					}
-					add = 8
 				}
 				modifier = {
 					if = {
@@ -10628,8 +9969,8 @@ lepsius.514 = {
 								has_trait = ambitious
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -10638,8 +9979,8 @@ lepsius.514 = {
 								has_trait = brave
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -10648,8 +9989,8 @@ lepsius.514 = {
 								has_trait = persistent
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10658,13 +9999,12 @@ lepsius.514 = {
 								has_trait = explorer
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				trigger_event = { 
 					id = lepsius.515 #Third step
 					days = 3
-					popup = yes
 				}
 			}
 		}
@@ -10703,18 +10043,8 @@ lepsius.515 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+			set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 		ig:ig_armed_forces = {
 			save_scope_as = army_ig
 		}
@@ -10740,8 +10070,8 @@ lepsius.515 = {
 								has_trait = alcoholic
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10750,8 +10080,8 @@ lepsius.515 = {
 								has_trait = opium_addiction
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10760,8 +10090,8 @@ lepsius.515 = {
 								has_trait = senile
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10770,13 +10100,12 @@ lepsius.515 = {
 								has_trait = wounded
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				trigger_event = { 
 					id = lepsius.516 #Fail
 					days = 3
-					popup = yes
 				}
 			}
 			45 = {
@@ -10787,8 +10116,8 @@ lepsius.515 = {
 								has_trait = cautious
 							}
 						}
+						add = 10 #the last bit needs more caution
 					}
-					add = 10 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10797,8 +10126,8 @@ lepsius.515 = {
 								has_trait = meticulous
 							}
 						}
+						add = 10 #the last bit needs more caution
 					}
-					add = 10 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10807,8 +10136,8 @@ lepsius.515 = {
 								has_trait = surveyor
 							}
 						}
+						add = 10 #the last bit needs more caution
 					}
-					add = 10 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10817,8 +10146,8 @@ lepsius.515 = {
 								has_trait = ambitious
 							}
 						}
+						add = 5 #the last bit needs more caution
 					}
-					add = 5 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10827,8 +10156,8 @@ lepsius.515 = {
 								has_trait = brave
 							}
 						}
+						add = 5 #the last bit needs more caution
 					}
-					add = 5 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10837,8 +10166,8 @@ lepsius.515 = {
 								has_trait = persistent
 							}
 						}
+						add = 25 #persistance more important than ever
 					}
-					add = 25 #persistance more important than ever
 				}
 				modifier = {
 					if = {
@@ -10847,8 +10176,8 @@ lepsius.515 = {
 								has_trait = explorer
 							}
 						}
+						add = 20 #exploration skill more important
 					}
-					add = 20 #exploration skill more important
 				}
 				modifier = {
 					if = {
@@ -10857,8 +10186,8 @@ lepsius.515 = {
 								has_trait = lepsius_archaeologist_experienced
 							}
 						}
+						add = 10 #an experienced archaeologist will do better
 					}
-					add = 10 #an experienced archaeologist will do better
 				}
 				modifier = {
 					if = {
@@ -10867,8 +10196,8 @@ lepsius.515 = {
 								has_trait = lepsius_archaeologist_famous
 							}
 						}
+						add = 15 #an experienced archaeologist will do better
 					}
-					add = 15 #an experienced archaeologist will do better
 				}
 				trigger_event = { 
 					id = lepsius.517 #Raise the Flag!
@@ -10895,8 +10224,8 @@ lepsius.515 = {
 								has_trait = alcoholic
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10905,8 +10234,8 @@ lepsius.515 = {
 								has_trait = opium_addiction
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10915,8 +10244,8 @@ lepsius.515 = {
 								has_trait = senile
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -10925,13 +10254,12 @@ lepsius.515 = {
 								has_trait = wounded
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				trigger_event = { 
 					id = lepsius.516 #Fail
 					days = 3
-					popup = yes
 				}
 			}
 			45 = {
@@ -10942,8 +10270,8 @@ lepsius.515 = {
 								has_trait = cautious
 							}
 						}
+						add = 10 #the last bit needs more caution
 					}
-					add = 10 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10952,8 +10280,8 @@ lepsius.515 = {
 								has_trait = meticulous
 							}
 						}
+						add = 10 #the last bit needs more caution
 					}
-					add = 10 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10962,8 +10290,8 @@ lepsius.515 = {
 								has_trait = surveyor
 							}
 						}
+						add = 10 #the last bit needs more caution
 					}
-					add = 10 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10972,8 +10300,8 @@ lepsius.515 = {
 								has_trait = ambitious
 							}
 						}
+						add = 5 #the last bit needs more caution
 					}
-					add = 5 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10982,8 +10310,8 @@ lepsius.515 = {
 								has_trait = brave
 							}
 						}
+						add = 5 #the last bit needs more caution
 					}
-					add = 5 #the last bit needs more caution
 				}
 				modifier = {
 					if = {
@@ -10992,8 +10320,8 @@ lepsius.515 = {
 								has_trait = persistent
 							}
 						}
+						add = 25 #persistance more important than ever
 					}
-					add = 25 #persistance more important than ever
 				}
 				modifier = {
 					if = {
@@ -11002,8 +10330,8 @@ lepsius.515 = {
 								has_trait = explorer
 							}
 						}
+						add = 20 #exploration skill more important
 					}
-					add = 20 #exploration skill more important
 				}
 				modifier = {
 					if = {
@@ -11012,8 +10340,8 @@ lepsius.515 = {
 								has_trait = lepsius_archaeologist_experienced
 							}
 						}
+						add = 10 #an experienced archaeologist will do better
 					}
-					add = 10 #an experienced archaeologist will do better
 				}
 				modifier = {
 					if = {
@@ -11022,8 +10350,8 @@ lepsius.515 = {
 								has_trait = lepsius_archaeologist_famous
 							}
 						}
+						add = 15 #an experienced archaeologist will do better
 					}
-					add = 15 #an experienced archaeologist will do better
 				}
 				trigger_event = { 
 					id = lepsius.517 #Raise the flag!
@@ -11068,18 +10396,8 @@ lepsius.516 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #Embarrasing
 		name = lepsius.516.g
@@ -11123,19 +10441,8 @@ lepsius.517 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-			lepsius_archaeologist_experience_add = yes
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #Raise the flag of $COUNTRY$! [Wine]
 		name = lepsius.517.g
@@ -11144,7 +10451,10 @@ lepsius.517 = {
 			has_variable = lepsius_narrative_pyramids_wine_var
 		}
 		custom_tooltip = lepsius.514.tt
-		custom_tooltip = lepsius_add_archaeological_experience_tt
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
+		}
+		check_lepsius_archaeologist_rank = yes
 		set_variable = lepsius_narrative_pyramids_flag_var
 		lepsius_medium_add_technology = yes
 		add_modifier = {
@@ -11169,7 +10479,9 @@ lepsius.517 = {
 			has_variable = lepsius_narrative_pyramids_no_wine_var
 		}
 		custom_tooltip = lepsius.514.tt
-		custom_tooltip = lepsius_add_archaeological_experience_tt
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
+		}
 		set_variable = lepsius_narrative_pyramids_flag_var
 		lepsius_medium_add_technology = yes
 		add_modifier = {
@@ -11227,12 +10539,7 @@ lepsius.521 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Just take some parts. It should stay where it is
 		name = lepsius.521.g
@@ -11631,12 +10938,7 @@ lepsius.531 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #We don't have time vor this.
 		name = lepsius.531.g
@@ -11655,7 +10957,6 @@ lepsius.531 = {
 			trigger_event = {
 				id = lepsius.532
 				days = 3
-				popup = yes
 			}
 		}
 	}
@@ -11697,12 +10998,7 @@ lepsius.532 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #We shouldn't split
 		name = lepsius.532.g
@@ -11711,7 +11007,6 @@ lepsius.532 = {
 			trigger_event = {
 				id = lepsius.533
 				days = 3
-				popup = yes
 			}
 		}
 	}
@@ -11721,7 +11016,6 @@ lepsius.532 = {
 			trigger_event = {
 				id = lepsius.535
 				days = 3
-				popup = yes
 			}
 		}
 	}
@@ -11749,12 +11043,7 @@ lepsius.533 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+			set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Finest clothes
 		name = lepsius.533.g
@@ -11769,13 +11058,12 @@ lepsius.533 = {
 								has_trait = grifter
 							}
 						}
+						add = 30
 					}
-					add = 30
 				}
 				trigger_event = { 
 					id = lepsius.534 #Insulted
 					days = 3
-					popup = yes
 				}
 			}
 			40 = {
@@ -11786,14 +11074,13 @@ lepsius.533 = {
 								has_trait = expensive_tastes
 							}
 						}
+						add = 100
 					}
-					add = 100
 				}
 				set_variable = lepsius_kurds_persuaded_var
 				trigger_event = { 
 					id = lepsius.540 #Persuaded
 					days = 3
-					popup = yes
 				}
 			}
 		}
@@ -11809,8 +11096,8 @@ lepsius.533 = {
 								has_trait = direct
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -11819,8 +11106,8 @@ lepsius.533 = {
 								has_trait = imperious
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -11829,8 +11116,8 @@ lepsius.533 = {
 								has_trait = arrogant
 							}
 						}
+						add = 25
 					}
-					add = 25
 				}
 				modifier = {
 					if = {
@@ -11839,8 +11126,8 @@ lepsius.533 = {
 								has_trait = bigoted
 							}
 						}
+						add = 25
 					}
-					add = 25
 				}
 				modifier = {
 					if = {
@@ -11849,13 +11136,12 @@ lepsius.533 = {
 								has_trait = reckless
 							}
 						}
+						add = 25
 					}
-					add = 25
 				}
 				trigger_event = { 
 					id = lepsius.534 #Insulted
 					days = 3
-					popup = yes
 				}
 			}
 			45 = {
@@ -11866,8 +11152,8 @@ lepsius.533 = {
 								has_trait = cautious
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -11876,8 +11162,8 @@ lepsius.533 = {
 								has_trait = pious
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -11886,8 +11172,8 @@ lepsius.533 = {
 								has_trait = brave
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -11896,8 +11182,8 @@ lepsius.533 = {
 								has_trait = tactful
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -11906,8 +11192,8 @@ lepsius.533 = {
 								has_trait = charismatic
 							}
 						}
+						add = 20
 					}
-					add = 20
 				}
 				modifier = {
 					if = {
@@ -11916,8 +11202,8 @@ lepsius.533 = {
 								has_trait = basic_diplomat
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -11926,8 +11212,8 @@ lepsius.533 = {
 								has_trait = experienced_diplomat
 							}
 						}
+						add = 20
 					}
-					add = 20
 				}
 				modifier = {
 					if = {
@@ -11936,8 +11222,8 @@ lepsius.533 = {
 								has_trait = masterful_diplomat
 							}
 						}
+						add = 30
 					}
-					add = 30
 				}
 				modifier = {
 					if = {
@@ -11946,8 +11232,8 @@ lepsius.533 = {
 								has_trait = inspirational_orator
 							}
 						}
+						add = 50
 					}
-					add = 50
 				}
 				modifier = {
 					if = {
@@ -11956,8 +11242,8 @@ lepsius.533 = {
 								has_trait = demagogue
 							}
 						}
+						add = 100
 					}
-					add = 100
 				}
 				modifier = {
 					if = {
@@ -11966,14 +11252,13 @@ lepsius.533 = {
 								has_trait = firebrand
 							}
 						}
+						add = 150
 					}
-					add = 150
 				}
 				set_variable = lepsius_kurds_persuaded_var
 				trigger_event = { 
 					id = lepsius.540 #Persuaded
 					days = 3
-					popup = yes
 				}
 			}
 		}
@@ -12005,7 +11290,6 @@ lepsius.533 = {
 				trigger_event = { 
 					id = lepsius.534 #Insulted
 					days = 3
-					popup = yes
 				}
 			}
 			55 = {
@@ -12013,7 +11297,6 @@ lepsius.533 = {
 				trigger_event = { 
 					id = lepsius.540 #Persuaded
 					days = 3
-					popup = yes
 				}
 			}
 		}
@@ -12042,18 +11325,8 @@ lepsius.534 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #GUARDS!
 		name = lepsius.534.g
@@ -12076,7 +11349,6 @@ lepsius.534 = {
 				trigger_event = { 
 					id = lepsius.539 #A noble death
 					days = 3
-					popup = yes
 				}
 			}
 			35 = {
@@ -12087,8 +11359,8 @@ lepsius.534 = {
 								has_trait = brave
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -12097,8 +11369,8 @@ lepsius.534 = {
 								has_trait = charismatic
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -12107,8 +11379,8 @@ lepsius.534 = {
 								has_trait = experienced_artillery_commander
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -12117,8 +11389,8 @@ lepsius.534 = {
 								has_trait = expert_artillery_commander
 							}
 						}
+						add = 25
 					}
-					add = 25
 				}
 				modifier = {
 					if = {
@@ -12127,8 +11399,8 @@ lepsius.534 = {
 								has_trait = basic_defensive_strategist
 							}
 						}
+						add = 30
 					}
-					add = 30
 				}
 				modifier = {
 					if = {
@@ -12137,8 +11409,8 @@ lepsius.534 = {
 								has_trait = experienced_defensive_strategist
 							}
 						}
+						add = 40
 					}
-					add = 40
 				}
 				modifier = {
 					if = {
@@ -12147,8 +11419,8 @@ lepsius.534 = {
 								has_trait = expert_defensive_strategist
 							}
 						}
+						add = 50
 					}
-					add = 50
 				}
 				modifier = {
 					if = {
@@ -12157,8 +11429,8 @@ lepsius.534 = {
 								has_trait = stalwart_defender
 							}
 						}
+						add = 100
 					}
-					add = 100
 				}
 				set_variable = lepsius_kurds_defeated_var
 				trigger_event = { 
@@ -12174,7 +11446,6 @@ lepsius.534 = {
 		trigger_event = { 
 			id = lepsius.538 #Retreat
 			days = 3
-			popup = yes
 		}
 	}
 }
@@ -12201,18 +11472,8 @@ lepsius.535 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #Try to negotiate
 		name = lepsius.535.h
@@ -12226,8 +11487,8 @@ lepsius.535 = {
 								has_trait = direct
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -12236,8 +11497,8 @@ lepsius.535 = {
 								has_trait = imperious
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -12246,8 +11507,8 @@ lepsius.535 = {
 								has_trait = arrogant
 							}
 						}
+						add = 25
 					}
-					add = 25
 				}
 				modifier = {
 					if = {
@@ -12256,8 +11517,8 @@ lepsius.535 = {
 								has_trait = bigoted
 							}
 						}
+						add = 25
 					}
-					add = 25
 				}
 				modifier = {
 					if = {
@@ -12266,13 +11527,12 @@ lepsius.535 = {
 								has_trait = reckless
 							}
 						}
+						add = 25
 					}
-					add = 25
 				}
 				trigger_event = { 
 					id = lepsius.536 #Negotiation failed!
 					days = 3
-					popup = yes
 				}
 			}
 			45 = {
@@ -12283,8 +11543,8 @@ lepsius.535 = {
 								has_trait = cautious
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -12293,8 +11553,8 @@ lepsius.535 = {
 								has_trait = pious
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -12303,8 +11563,8 @@ lepsius.535 = {
 								has_trait = brave
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -12313,8 +11573,8 @@ lepsius.535 = {
 								has_trait = tactful
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -12323,8 +11583,8 @@ lepsius.535 = {
 								has_trait = charismatic
 							}
 						}
+						add = 20
 					}
-					add = 20
 				}
 				modifier = {
 					if = {
@@ -12333,8 +11593,8 @@ lepsius.535 = {
 								has_trait = basic_diplomat
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -12343,8 +11603,8 @@ lepsius.535 = {
 								has_trait = experienced_diplomat
 							}
 						}
+						add = 20
 					}
-					add = 20
 				}
 				modifier = {
 					if = {
@@ -12353,8 +11613,8 @@ lepsius.535 = {
 								has_trait = masterful_diplomat
 							}
 						}
+						add = 30
 					}
-					add = 30
 				}
 				modifier = {
 					if = {
@@ -12363,8 +11623,8 @@ lepsius.535 = {
 								has_trait = inspirational_orator
 							}
 						}
+						add = 50
 					}
-					add = 50
 				}
 				modifier = {
 					if = {
@@ -12373,8 +11633,8 @@ lepsius.535 = {
 								has_trait = demagogue
 							}
 						}
+						add = 100
 					}
-					add = 100
 				}
 				modifier = {
 					if = {
@@ -12383,14 +11643,13 @@ lepsius.535 = {
 								has_trait = firebrand
 							}
 						}
+						add = 150
 					}
-					add = 150
 				}
 				set_variable = lepsius_kurds_persuaded_var
 				trigger_event = { 
 					id = lepsius.540 #Persuaded
 					days = 3
-					popup = yes
 				}
 			}
 		}
@@ -12402,7 +11661,6 @@ lepsius.535 = {
 				trigger_event = { 
 					id = lepsius.539 #A noble death
 					days = 3
-					popup = yes
 				}
 			}
 			45 = {
@@ -12413,8 +11671,8 @@ lepsius.535 = {
 								has_trait = brave
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -12423,8 +11681,8 @@ lepsius.535 = {
 								has_trait = charismatic
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -12433,8 +11691,8 @@ lepsius.535 = {
 								has_trait = experienced_artillery_commander
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -12443,8 +11701,8 @@ lepsius.535 = {
 								has_trait = expert_artillery_commander
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -12453,8 +11711,8 @@ lepsius.535 = {
 								has_trait = pillager
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -12463,8 +11721,8 @@ lepsius.535 = {
 								has_trait = basic_offensive_planner
 							}
 						}
+						add = 20
 					}
-					add = 20
 				}
 				modifier = {
 					if = {
@@ -12473,8 +11731,8 @@ lepsius.535 = {
 								has_trait = experienced_offensive_planner
 							}
 						}
+						add = 25
 					}
-					add = 25
 				}
 				modifier = {
 					if = {
@@ -12483,8 +11741,8 @@ lepsius.535 = {
 								has_trait = expert_defensive_strategist
 							}
 						}
+						add = 30
 					}
-					add = 30
 				}
 				modifier = {
 					if = {
@@ -12493,8 +11751,8 @@ lepsius.535 = {
 								has_trait = expert_offensive_planner
 							}
 						}
+						add = 100
 					}
-					add = 100
 				}
 				set_variable = lepsius_kurds_defeated_var
 				trigger_event = { 
@@ -12529,18 +11787,8 @@ lepsius.536 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #GUARDS!
 		name = lepsius.534.g
@@ -12571,7 +11819,6 @@ lepsius.536 = {
 		trigger_event = { 
 			id = lepsius.538 #Retreat
 			days = 3
-			popup = yes
 		}
 	}
 }
@@ -12598,18 +11845,8 @@ lepsius.538 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #We will return ...
 		name = lepsius.538.g
@@ -12639,18 +11876,8 @@ lepsius.539 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #He gave his life for ours.
 		name = lepsius.539.g
@@ -12662,7 +11889,6 @@ lepsius.539 = {
 			trigger_event = { 
 				id = lepsius.538 #Retreat
 				days = 3
-				popup = yes
 			}
 		}
 	}
@@ -12716,24 +11942,16 @@ lepsius.540 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-			lepsius_archaeologist_experience_add = yes
-		}
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_military_attache_var 
-			}
-			save_scope_as = lepsius_military_attache
-		}
+		set_archaeological_expedition_leader_effect = yes
+		set_military_attache_effect = yes
 	}
 	option = { #It is wonderful!
 		name = lepsius.540.g
 		set_variable = lepsius_major_artifact_lamassu_found_var #only one Lamassu in a game
-		custom_tooltip = lepsius_add_archaeological_experience_tt
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
+		}
+		check_lepsius_archaeologist_rank = yes
 		lepsius_add_1_major_mesopotamian_artifact = yes 
 		scope:lepsius_military_attache = {
 			if = {
@@ -12786,12 +12004,7 @@ lepsius.551 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #What happened to him?
 		name = lepsius.551.g
@@ -12840,12 +12053,7 @@ lepsius.552 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+			set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #I hope we don't encounter any bull-like mythical creatures...
 		name = lepsius.552.g
@@ -12888,12 +12096,7 @@ lepsius.553 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #It's a heck of a deja vu!
 		name = lepsius.553.g
@@ -12932,12 +12135,7 @@ lepsius.554 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Left [TRAP]
 		name = lepsius.554.g
@@ -13002,12 +12200,7 @@ lepsius.555 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Westen Corridor [RETURN]
 		name = lepsius.555.g
@@ -13061,12 +12254,7 @@ lepsius.556 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Door I, Ariadne with her thread [RIGHT]
 		name = lepsius.556.g
@@ -13129,12 +12317,7 @@ lepsius.557 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Rhodes [RETURN]
 		name = lepsius.557.g
@@ -13197,12 +12380,7 @@ lepsius.558 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #What just happened down there?
 		name = lepsius.558.g
@@ -13248,20 +12426,21 @@ lepsius.559 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_minotaur_trauma_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_minotaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_minotaur_victim
 		}
 	}
 	option = { #But was it really suicide?
 		name = lepsius.559.g
-		scope:lepsius_minotaur_victim = {
-			remove_modifier = lepsius_museum_lead_scientist_modifier
-			kill_character = yes
-		}
+		kill_archaeologist_effect = yes
 	}
 }
 
@@ -13287,52 +12466,14 @@ lepsius.560 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-			lepsius_archaeologist_experience_add = yes
-		}
+		
 	}
 	option = { #Could this have been ... the legendary labyrinth of Daidalos?
 		name = lepsius.560.g
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		scope:lepsius_archaeological_expedition_leader = {
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 	}
 }
 
@@ -13374,12 +12515,7 @@ lepsius.561 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #We don't have time vor this.
 		name = lepsius.561.g
@@ -13403,7 +12539,6 @@ lepsius.561 = {
 			trigger_event = {
 				id = lepsius.562
 				days = { 2 5 }
-				popup = yes
 			}
 		}
 	}
@@ -13442,12 +12577,7 @@ lepsius.562 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+			set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #Water, the Snake of Kukulkan
 		name = lepsius.562.g
@@ -13472,7 +12602,6 @@ lepsius.562 = {
 			trigger_event = {
 				id = lepsius.563
 				days = 3
-				popup = yes
 			}
 		}
 	}
@@ -13514,12 +12643,7 @@ lepsius.563 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #That was easy
 		name = lepsius.563.g
@@ -13531,7 +12655,6 @@ lepsius.563 = {
 			trigger_event = {
 				id = lepsius.565
 				days = 3
-				popup = yes
 			}
 		}
 	}
@@ -13545,7 +12668,6 @@ lepsius.563 = {
 			trigger_event = {
 				id = lepsius.564
 				days = 3
-				popup = yes
 			}
 		}
 	}
@@ -13559,7 +12681,6 @@ lepsius.563 = {
 			trigger_event = {
 				id = lepsius.564
 				days = 3
-				popup = yes
 			}
 		}
 	}
@@ -13588,12 +12709,7 @@ lepsius.564 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #RUN
 		name = lepsius.564.g
@@ -13614,7 +12730,6 @@ lepsius.564 = {
 			trigger_event = {
 				id = lepsius.565
 				days = 3
-				popup = yes
 			}
 		}
 	}
@@ -13694,12 +12809,7 @@ lepsius.565 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_archaeological_expedition_leader_var 
-			}
-			save_scope_as = lepsius_archaeological_expedition_leader
-		}
+		set_archaeological_expedition_leader_effect = yes
 		random_rival_country = {
 			save_scope_as = lepsius_archaeological_rival
 		}
@@ -13756,7 +12866,6 @@ lepsius.565 = {
 			trigger_event = {
 				id = lepsius.566
 				days = 7
-				popup = yes
 			}
 		}
 	}
@@ -13826,16 +12935,14 @@ lepsius.581 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
-		any_scope_character = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
 			has_variable = lepsius_dinosaur_trauma_var
 		}
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_dinosaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_lostworld_leader
 		}
 	}
@@ -13857,7 +12964,6 @@ lepsius.581 = {
 			trigger_event = { 
 				id = lepsius.584
 				days = { 90 120 }
-				popup = yes
 			}
 		}
 	}
@@ -13875,14 +12981,12 @@ lepsius.581 = {
 				trigger_event = {
 					id = lepsius.582
 					days = { 90 120 }
-					popup = yes
 				}
 			}
 			else = {
 				trigger_event = { 
 				id = lepsius.583
 				days = { 90 120 }
-				popup = yes
 				}
 			}
 		}
@@ -13917,10 +13021,7 @@ lepsius.582 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_dinosaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_lostworld_leader
 		}
 	}
@@ -13960,10 +13061,7 @@ lepsius.583 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_dinosaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_lostworld_leader
 		}
 	}
@@ -13971,12 +13069,7 @@ lepsius.583 = {
 	option = { #He really wasn't a bad guy. A bad explorer yes, but noch a bad guy.
 		name = lepsius.583.g
 		custom_tooltip = lepsius.583.tt
-		hidden_effect = {
-			scope:lepsius_lostworld_leader = {
-				remove_modifier = lepsius_museum_lead_scientist_modifier
-				kill_character = yes
-			}
-		}
+		kill_archaeologist_effect = yes
 	}
 }
 
@@ -14002,16 +13095,14 @@ lepsius.584 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
-		any_scope_character = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
 			has_variable = lepsius_dinosaur_trauma_var
 		}
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_dinosaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_lostworld_leader
 		}
 	}
@@ -14026,13 +13117,11 @@ lepsius.584 = {
 				trigger_event = { 
 					id = lepsius.585
 					days = { 3 5 }
-					popup = yes
 				}
 			}
 			trigger_event = { 
 				id = lepsius.586
 				days = { 7 9 }
-				popup = yes
 			}
 		}
 	}
@@ -14059,16 +13148,14 @@ lepsius.585 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
-		any_scope_character = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
 			has_variable = lepsius_dinosaur_trauma_var
 		}
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_dinosaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_lostworld_leader
 		}
 	}
@@ -14100,16 +13187,14 @@ lepsius.586 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
-		any_scope_character = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
 			has_variable = lepsius_dinosaur_trauma_var
 		}
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_dinosaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_lostworld_leader
 		}
 	}
@@ -14125,8 +13210,8 @@ lepsius.586 = {
 								has_trait = alcoholic
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -14135,8 +13220,8 @@ lepsius.586 = {
 								has_trait = opium_addiction
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -14145,8 +13230,8 @@ lepsius.586 = {
 								has_trait = senile
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -14155,13 +13240,12 @@ lepsius.586 = {
 								has_trait = wounded
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				trigger_event = { 
 					id = lepsius.587 #Expedition ends in horrific desaster
 					days = 3
-					popup = yes
 				}
 			}
 			45 = {
@@ -14172,8 +13256,8 @@ lepsius.586 = {
 								has_trait = bandit
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -14182,8 +13266,8 @@ lepsius.586 = {
 								has_trait = cautious
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -14192,8 +13276,8 @@ lepsius.586 = {
 								has_trait = meticulous
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -14202,8 +13286,8 @@ lepsius.586 = {
 								has_trait = ambitious
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14212,8 +13296,8 @@ lepsius.586 = {
 								has_trait = brave
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14222,8 +13306,8 @@ lepsius.586 = {
 								has_trait = lepsius_archaeologist_experienced
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14232,8 +13316,8 @@ lepsius.586 = {
 								has_trait = lepsius_archaeologist_famous
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -14242,8 +13326,8 @@ lepsius.586 = {
 								has_trait = explorer
 							}
 						}
+						add = 10
 					}
-					add = 15
 				}
 				trigger_event = { 
 					id = lepsius.588 #Expedition finds legendary Maya treasure
@@ -14262,7 +13346,6 @@ lepsius.586 = {
 			trigger_event = { 
 				id = lepsius.589
 				days = { 10 14 }
-				popup = yes
 			}
 		}
 	}
@@ -14288,21 +13371,22 @@ lepsius.587 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_dinosaur_trauma_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_dinosaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_lostworld_leader
 		}
 	}
 
 	option = { #He chose ... poorly.
 		name = lepsius.587.g
-		scope:lepsius_lostworld_leader = {
-			remove_modifier = lepsius_museum_lead_scientist_modifier
-			kill_character = yes
-		}
+		kill_archaeologist_effect = yes
 		remove_modifier = modifier_small_expedition_cost
 		remove_modifier = lepsius_support_for_suicide_mission_modifier
 		add_modifier = {
@@ -14332,18 +13416,22 @@ lepsius.588 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_dinosaur_trauma_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_dinosaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_lostworld_leader
 		}
 	}
 
 	option = { #He chose ... wisely.
 		name = lepsius.588.g
-		lepsius_add_1_major_egyptian_artifact = yes 
+		lepsius_add_1_major_precolumbian_artifact = yes 
 		set_variable = lepsius_major_artifact_kukulkan_found_var
 		hidden_effect = {
 			trigger_event = { 
@@ -14375,57 +13463,25 @@ lepsius.589 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_dinosaur_trauma_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_dinosaur_trauma_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_lostworld_leader
-			lepsius_archaeologist_experience_add = yes
 		}
 	}
 
 	option = { #Glory to him!
 		name = lepsius.589.g
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		scope:lepsius_lostworld_leader = {
-			remove_modifier = lepsius_lost_honor_modifier
-			add_trait = explorer
-			set_character_busy = no
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 		remove_modifier = modifier_small_expedition_cost
 		remove_modifier = lepsius_support_for_suicide_mission_modifier
 		add_modifier = {
@@ -14457,11 +13513,15 @@ lepsius.590 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 	}
@@ -14470,11 +13530,6 @@ lepsius.590 = {
 		name = lepsius.590.g
 		custom_tooltip = lepsius.590.tt
 		remove_modifier = lepsius_support_for_suicide_mission_modifier
-		hidden_effect = {
-			scope:lepsius_journey_coe_leader = {
-				remove_modifier = lepsius_museum_lead_scientist_modifier
-			}
-		}
 	}
 }
 
@@ -14498,11 +13553,15 @@ lepsius.591 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 	}
@@ -14517,7 +13576,6 @@ lepsius.591 = {
 			trigger_event = {
 				id = lepsius.592
 				days = { 75 125 }
-				popup = yes
 			}
 		}
 	}
@@ -14543,14 +13601,19 @@ lepsius.592 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 	}
+
 	option = { #The man knows what he's doing. Support him!
 		name = lepsius.592.h
 		default_option = yes
@@ -14600,11 +13663,15 @@ lepsius.593 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 		random_state = {
@@ -14621,7 +13688,6 @@ lepsius.593 = {
 			trigger_event = {
 				id = lepsius.594
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -14648,11 +13714,15 @@ lepsius.594 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 		random_state = {
@@ -14669,7 +13739,6 @@ lepsius.594 = {
 			trigger_event = {
 				id = lepsius.595
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -14696,11 +13765,15 @@ lepsius.595 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 		random_state = {
@@ -14718,7 +13791,6 @@ lepsius.595 = {
 			trigger_event = {
 				id = lepsius.596 
 				days = { 3 10 }
-				popup = yes
 			}
 		}
 	}
@@ -14729,7 +13801,6 @@ lepsius.595 = {
 			trigger_event = {
 				id = lepsius.599 
 				days = { 3 10 }
-				popup = yes
 			}
 		}
 	}
@@ -14756,11 +13827,15 @@ lepsius.596 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 		random_state = {
@@ -14777,7 +13852,6 @@ lepsius.596 = {
 			trigger_event = {
 				id = lepsius.597 
 				days = { 7 14 }
-				popup = yes
 			}
 		}
 	}
@@ -14804,11 +13878,15 @@ lepsius.597 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 		random_state = {
@@ -14818,6 +13896,7 @@ lepsius.597 = {
 			save_scope_as = lepsius_coe_state
 		}
 	}
+
 	option = { #A unique opportunity!
 		name = lepsius.597.g
 		random_list = {
@@ -14829,8 +13908,8 @@ lepsius.597 = {
 								has_trait = alcoholic
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -14839,8 +13918,8 @@ lepsius.597 = {
 								has_trait = opium_addiction
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -14849,8 +13928,8 @@ lepsius.597 = {
 								has_trait = senile
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -14859,8 +13938,8 @@ lepsius.597 = {
 								has_trait = arrogant
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14869,8 +13948,8 @@ lepsius.597 = {
 								has_trait = bigoted
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14879,8 +13958,8 @@ lepsius.597 = {
 								has_trait = recktless
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14889,8 +13968,8 @@ lepsius.597 = {
 								has_trait = cruel
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				add_modifier = {
 					name = lepsius_tragic_subterranean_accident_modifier
@@ -14906,8 +13985,8 @@ lepsius.597 = {
 								has_trait = romantic
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -14916,8 +13995,8 @@ lepsius.597 = {
 								has_trait = persistent
 							}
 						}
+						add = 5
 					}
-					add = 5
 				}
 				modifier = {
 					if = {
@@ -14926,8 +14005,8 @@ lepsius.597 = {
 								has_trait = charismatic
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14936,8 +14015,8 @@ lepsius.597 = {
 								has_trait = cautious
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14946,8 +14025,8 @@ lepsius.597 = {
 								has_trait = meticulous
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14956,8 +14035,8 @@ lepsius.597 = {
 								has_trait = tactful
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14966,8 +14045,8 @@ lepsius.597 = {
 								has_trait = brave
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14976,8 +14055,8 @@ lepsius.597 = {
 								has_trait = lepsius_archaeologist_experienced
 							}
 						}
+						add = 10
 					}
-					add = 10
 				}
 				modifier = {
 					if = {
@@ -14986,8 +14065,8 @@ lepsius.597 = {
 								has_trait = lepsius_archaeologist_famous
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				modifier = {
 					if = {
@@ -14996,8 +14075,8 @@ lepsius.597 = {
 								has_trait = explorer
 							}
 						}
+						add = 15
 					}
-					add = 15
 				}
 				trigger_event = { 
 					id = lepsius.598 #Expedition finds legendary Manuscript
@@ -15015,7 +14094,6 @@ lepsius.597 = {
 			trigger_event = {
 				id = lepsius.600
 				days = { 7 14 }
-				popup = yes
 			}
 		}
 	}
@@ -15042,11 +14120,15 @@ lepsius.598 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 		random_state = {
@@ -15087,11 +14169,15 @@ lepsius.599 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
 		}
 		random_state = {
@@ -15110,12 +14196,7 @@ lepsius.599 = {
 			name = lepsius_tragic_subterranean_accident_modifier
 			years = 5
 		}
-		hidden_effect = {
-			scope:lepsius_journey_coe_leader = {
-				remove_modifier = lepsius_museum_lead_scientist_modifier
-				kill_character = yes
-			}
-		}
+		kill_archaeologist_effect = yes
 	}
 }
 
@@ -15140,13 +14221,16 @@ lepsius.600 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	trigger = {
+		has_variable = lepsius_archaeologist_var
+		var:lepsius_archaeologist_var = {
+			has_variable = lepsius_journey_coe_var
+		}
+	}
+
 	immediate = {
-		random_scope_character = {
-			limit = { 
-				has_variable = lepsius_journey_coe_var
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_journey_coe_leader
-			lepsius_archaeologist_experience_add = yes
 		}
 		random_state = {
 			limit = {
@@ -15158,50 +14242,15 @@ lepsius.600 = {
 
 	option = { #What an adventure!
 		name = lepsius.600.g
-		custom_tooltip = lepsius_add_archaeological_experience_tt
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
+		}
+		check_lepsius_archaeologist_rank = yes
 		lepsius_large_add_technology = yes
 		remove_modifier = lepsius_support_for_suicide_mission_modifier
 		add_modifier = {
 			name = lepsius_supported_a_hero_modifier
 			years = 5
-		}
-		scope:lepsius_journey_coe_leader = {
-			remove_trait = psychological_affliction
-			add_trait = explorer
-			set_character_busy = no
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
 		}
 	}
 }
@@ -15246,7 +14295,6 @@ lepsius.701 = {
 			trigger_event = {
 				id = lepsius.702
 				days = 2
-				popup = yes
 			}
 		}	
 	}
@@ -15302,7 +14350,6 @@ lepsius.702 = {
 		scope:lepsius_protest_country = {
 			trigger_event = {
 				id = lepsius.703
-				popup = yes
 			}
 		}	
 		scope:lepsius_protest_country = {
@@ -15324,7 +14371,6 @@ lepsius.702 = {
 			trigger_event = {
 				id = lepsius.706
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -15339,7 +14385,6 @@ lepsius.702 = {
 		scope:lepsius_protest_country = {
 			trigger_event = {
 				id = lepsius.704
-				popup = yes
 			}
 		}		
 		scope:lepsius_protest_country = {
@@ -15352,7 +14397,6 @@ lepsius.702 = {
 			trigger_event = {
 				id = lepsius.706
 				days = { 3 7 }
-				popup = yes
 			}
 		}
 	}
@@ -15366,7 +14410,6 @@ lepsius.702 = {
 		scope:lepsius_protest_country = {
 			trigger_event = {
 				id = lepsius.704
-				popup = yes
 			}
 		}	
 		scope:lepsius_protest_country = {
@@ -16511,55 +15554,16 @@ lepsius.802 = {
     duration = 3
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = lepsius_archaeologist_experienced
-					has_trait = lepsius_archaeologist_famous
-				}
-				is_busy = no
-			}
-			save_scope_as = lepsius_archaeological_excavation_leader_1
-		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = lepsius_archaeologist_experienced
-					has_trait = lepsius_archaeologist_famous
-				}
-				is_busy = no
-				exists = scope:lepsius_archaeological_excavation_leader_1 
-				NOT = {
-					this = scope:lepsius_archaeological_excavation_leader_1
-				}
-			}
-			save_scope_as = lepsius_archaeological_excavation_leader_2
-		}
+		set_archaeological_excavation_leader_effect = yes
 	}
 
 	option = {
 		name = lepsius.802.g
 		default_option = yes
-		trigger = {
-			exists = scope:lepsius_archaeological_excavation_leader_1
-		}
-		scope:lepsius_archaeological_excavation_leader_1  = {
-			set_variable = lepsius_archaeological_excavation_leader_var
+		scope:lepsius_archaeological_excavation_leader = {
 			set_character_busy = yes
 		}
 	}
-
-	option = {
-		name = lepsius.802.h
-		trigger = {
-			exists = scope:lepsius_archaeological_excavation_leader_2
-		}
-		scope:lepsius_archaeological_excavation_leader_2  = {
-			set_variable = lepsius_archaeological_excavation_leader_var
-			set_character_busy = yes
-		}
-	}
-
 
 	after = {
 		hidden_effect = {
@@ -16594,12 +15598,7 @@ lepsius.803 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_variable = lepsius_archaeological_excavation_leader_var
-			}
-			save_scope_as = lepsius_archaeological_excavation_leader
-		}
+		set_archaeological_excavation_leader_effect = yes
 	}
 
 	option = {
@@ -16678,8 +15677,8 @@ lepsius.803 = {
 									has_trait = imperious
 								}
 							}
+							add = 15
 						}
-						add = 15
 					}
 					trigger_event = { 
 						id = lepsius.811 #1 clue
@@ -16700,8 +15699,8 @@ lepsius.803 = {
 									var:lepsius_archaeologist_experience >= 4 
 								}
 							}
+							add = 15
 						}
-						add = 15
 					}
 					modifier = {
 						if = {
@@ -16710,8 +15709,8 @@ lepsius.803 = {
 									var:lepsius_archaeologist_experience >= 5
 								}
 							}
+							add = 15
 						}
-						add = 15
 					}
 					modifier = {
 						if = {
@@ -16720,24 +15719,24 @@ lepsius.803 = {
 									var:lepsius_archaeologist_experience >= 6
 								}
 							}
+							add = 15
 						}
-						add = 15
 					}
 					modifier = {
 						if = {
 							limit = {
 								has_modifier = lepsius_archaeological_society_modifier
 							}
+							add = 10
 						}
-						add = 10
 					}
 					modifier = {
 						if = {
 							limit = {
 								has_technology_researched = analytical_philosophy
 							}
+							add = 10
 						}
-						add = 10
 					}
 					trigger_event = { 
 						id = lepsius.813 #3 clues
@@ -16882,12 +15881,7 @@ lepsius.811 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_variable = lepsius_archaeological_excavation_leader_var
-			}
-			save_scope_as = lepsius_archaeological_excavation_leader
-		}
+		set_archaeological_excavation_leader_effect = yes
 	}
 		
 	option = { #A mediocre place, but it's ours...
@@ -16898,7 +15892,6 @@ lepsius.811 = {
 			years = 3
 		}
 		scope:lepsius_archaeological_excavation_leader  = {
-			remove_variable = lepsius_archaeological_excavation_leader_var
 			set_character_busy = no
 		}
 	}
@@ -17046,12 +16039,7 @@ lepsius.812 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_variable = lepsius_archaeological_excavation_leader_var
-			}
-			save_scope_as = lepsius_archaeological_excavation_leader
-		}
+		set_archaeological_excavation_leader_effect = yes
 	}
 		
 	option = { #A mediocre place, but it's ours...
@@ -17062,7 +16050,6 @@ lepsius.812 = {
 			years = 3
 		}
 		scope:lepsius_archaeological_excavation_leader  = {
-			remove_variable = lepsius_archaeological_excavation_leader_var
 			set_character_busy = no
 		}
 	}
@@ -17210,12 +16197,7 @@ lepsius.813 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_variable = lepsius_archaeological_excavation_leader_var
-			}
-			save_scope_as = lepsius_archaeological_excavation_leader
-		}
+		set_archaeological_excavation_leader_effect = yes
 	}
 		
 	option = { #A mediocre place, but it's ours...
@@ -17226,7 +16208,6 @@ lepsius.813 = {
 			years = 3
 		}
 		scope:lepsius_archaeological_excavation_leader  = {
-			remove_variable = lepsius_archaeological_excavation_leader_var
 			set_character_busy = no
 		}
 	}
@@ -17266,12 +16247,8 @@ lepsius.901 = {
 	immediate = {
 		set_global_variable = lepsius_discovery_tut_found_var
 		lepsius_archaeological_discovery_add = yes
-		random_scope_character = {
-			limit = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_museum_lead_scientist
-			lepsius_archaeologist_experience_add = yes
 		}
 	}
 
@@ -17289,43 +16266,10 @@ lepsius.901 = {
  			add = 10
 		}
 		custom_tooltip = lepsius_add_10_egyptian_artifact_tt
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		scope:lepsius_museum_lead_scientist = {
-			set_character_busy = no
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 	}
 	after = {
 		hidden_effect = {
@@ -17388,12 +16332,8 @@ lepsius.911 = {
 	immediate = {
 		set_global_variable = lepsius_discovery_ship_found_var
 		lepsius_archaeological_discovery_add = yes
-		random_scope_character = {
-			limit = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_museum_lead_scientist
-			lepsius_archaeologist_experience_add = yes
 		}
 	}
 
@@ -17411,43 +16351,10 @@ lepsius.911 = {
  			add = 10
 		}
 		custom_tooltip = lepsius_add_10_egyptian_artifact_tt
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		scope:lepsius_museum_lead_scientist = {
-			set_character_busy = no
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 	}
 }
 
@@ -17501,12 +16408,8 @@ lepsius.921 = {
 	immediate = {
 		set_global_variable = lepsius_discovery_babylon_found_var
 		lepsius_archaeological_discovery_add = yes
-		random_scope_character = {
-			limit = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_museum_lead_scientist
-			lepsius_archaeologist_experience_add = yes
 		}
 	}
 
@@ -17524,43 +16427,10 @@ lepsius.921 = {
  			add = 10
 		}
 		custom_tooltip = lepsius_add_10_mesopotamian_artifact_tt
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		scope:lepsius_museum_lead_scientist = {
-			set_character_busy = no
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 	}
 }
 
@@ -17614,12 +16484,8 @@ lepsius.931 = {
 	immediate = {
 		set_global_variable = lepsius_discovery_semiramis_found_var
 		lepsius_archaeological_discovery_add = yes
-		random_scope_character = {
-			limit = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_museum_lead_scientist
-			lepsius_archaeologist_experience_add = yes
 		}
 	}
 
@@ -17637,43 +16503,10 @@ lepsius.931 = {
  			add = 10
 		}
 		custom_tooltip = lepsius_add_10_mesopotamian_artifact_tt
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		scope:lepsius_museum_lead_scientist = {
-			set_character_busy = no
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 	}
 	after = {
 		hidden_effect = {
@@ -17736,12 +16569,8 @@ lepsius.941 = {
 	immediate = {
 		set_global_variable = lepsius_discovery_mycenae_found_var
 		lepsius_archaeological_discovery_add = yes
-		random_scope_character = {
-			limit = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_museum_lead_scientist
-			lepsius_archaeologist_experience_add = yes
 		}
 	}
 
@@ -17759,43 +16588,10 @@ lepsius.941 = {
  			add = 10
 		}
 		custom_tooltip = lepsius_add_10_aegean_artifact_tt
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		scope:lepsius_museum_lead_scientist = {
-			set_character_busy = no
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 	}
 	after = {
 		hidden_effect = {
@@ -17860,12 +16656,8 @@ lepsius.961 = {
 	immediate = {
 		set_global_variable = lepsius_discovery_pakal_found_var
 		lepsius_archaeological_discovery_add = yes
-		random_scope_character = {
-			limit = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
+		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_museum_lead_scientist
-			lepsius_archaeologist_experience_add = yes
 		}
 	}
 
@@ -17883,43 +16675,10 @@ lepsius.961 = {
  			add = 10
 		}
 		custom_tooltip = lepsius_add_10_precolumbian_artifact_tt
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		scope:lepsius_museum_lead_scientist = {
-			set_character_busy = no
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 1
-					NOT = {
-						has_trait = lepsius_archaeologist
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				add_trait = lepsius_archaeologist
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 3
-					NOT = {
-						var:lepsius_archaeologist_experience >= 5
-						has_trait = lepsius_archaeologist_experienced
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist
-				add_trait = lepsius_archaeologist_experienced
-			}
-			if = {
-				limit = {
-					var:lepsius_archaeologist_experience >= 5
-					NOT = {
-						has_trait = lepsius_archaeologist_famous
-					}
-				}
-				remove_trait = lepsius_archaeologist_experienced
-				add_trait = lepsius_archaeologist_famous
-			}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "1"
 		}
+		check_lepsius_archaeologist_rank = yes
 	}
 	after = {
 		hidden_effect = {
