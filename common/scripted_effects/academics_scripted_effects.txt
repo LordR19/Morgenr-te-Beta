@@ -307,10 +307,7 @@ create_paleontologist_effect = {
 	scope:dubois_paleontologist_scope = {
 		add_trait = dubois_paleontologist
 		set_variable = mr_is_paleontologist_var
-		set_variable = {
-			name = dubois_paleontologist_experience
-			value = 0
-		}
+		paleontologist_experience_set_up_effect = yes
 		place_character_in_void = 1200
 	}
 		
@@ -337,10 +334,7 @@ create_new_paleontologist_effect = {
 	scope:dubois_new_paleontologist_scope = {
 		add_trait = dubois_paleontologist
 		set_variable = mr_is_paleontologist_var
-		set_variable = {
-			name = dubois_paleontologist_experience
-			value = 0
-		}
+		paleontologist_experience_set_up_effect = yes
 		place_character_in_void = 1200	
 	}
 }
@@ -370,6 +364,91 @@ dubois_set_new_paleontologist_as_paleontologist_effect = {
 dubois_remove_new_paleontologist_effect = {
 	scope:dubois_new_paleontologist_scope = {
 		free_character_from_void = no
+	}
+}
+
+#Paleontologist Experience gain
+paleontologist_experience_gain_effect = { #adds XP to the Paleontologist
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = dubois_paleontologist_var #should only add experience if there actually is an Paleontologist
+		}
+		custom_tooltip = {
+			text = dubois_paleontologist_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:dubois_paleontologist_var = { #Fallback to make sure there are no errors if the Paleontologist does not have the variable yet
+							has_variable = dubois_paleontologist_experience
+						}
+					}
+				}
+				var:dubois_paleontologist_var = { #Sets the experience in case it was not set yet
+					paleontologist_experience_set_up_effect = yes
+				}
+			}
+			var:dubois_paleontologist_var = {
+				change_variable = {
+					name = dubois_paleontologist_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+	}
+}
+
+# Used to set up the Experience of a character 
+paleontologist_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_paleontologist_experience
+			}
+		}
+		if = {
+			limit = {
+				age < 35
+			}
+			set_variable = {
+				name = dubois_paleontologist_experience
+				value = 0
+			}
+		}
+		if = {
+			limit = {
+				age < 40
+				age >= 35
+			}
+			set_variable = {
+				name = dubois_paleontologist_experience
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				age < 50
+				age >= 40
+			}
+			set_variable = {
+				name = dubois_paleontologist_experience
+				value = 2
+			}
+		}
+		if = {
+			limit = {
+				age >= 50
+			}
+			set_variable = {
+				name = dubois_paleontologist_experience
+				value = 3
+			}
+		}
 	}
 }
 
