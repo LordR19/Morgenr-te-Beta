@@ -53,124 +53,6 @@ lepsius_show_archaeological_decisions = {
 
 #########MUSEUM##############################################################
 
-#Found an Archaeological Museum
-
-#lepsius_found_archaeological_museum_decision = {
-#	is_shown = {		
-#		has_technology_researched = lepsius_antiquarianism_tech
-#		NOT = {
-#			any_scope_state = {
-#				has_modifier = lepsius_museum_foundation_modifier
-#			}
-#		}
-#		NOT = {
-#			has_variable = lepsius_archaeological_decisions_hide
-#		}
-#	}
-#
-#	possible = {
-#		custom_tooltip = {
-#			text = lepsius_build_museum_tt
-#			lepsius_has_artifacts = yes
-#		}
-#		any_scope_character = {
-#			OR = {
-#				has_trait = lepsius_archaeologist
-#				has_trait = innovative
-#			}
-#		}
-#	}
-#
-#	when_taken = {
-#		trigger_event = { 
-#			id = lepsius.10 
-#			popup = yes 
-#		}
-#		add_treasury = -25000
-#	}
-#	
-#	ai_chance = {
-#		base = 100
-#		modifier = {
-#			trigger = {
-#				gold_reserves > 50000
-#			}
-#			add = -1000
-#		}
-#	}
-#}
-
-#Visit the Archaeological Museum
-
-#lepsius_visit_archaeological_museum_decision = {
-#	is_shown = {
-#		any_scope_building = {
-#			is_building_type = building_lepsius_archaeological_museum
-#		}
-#		NOT = {
-#			has_variable = lepsius_appointing_lead_scientist_var
-#		}
-#		NOT = {
-#			has_variable = lepsius_archaeological_decisions_hide
-#		}
-#	}
-#
-#	possible = {
-#		custom_tooltip = {
-#			text = lepsius_visiting_museum_tt
-#			NOT = {
-#				has_variable = lepsius_visiting_museum_var
-#			}
-#		}
-#	}
-#
-#	when_taken = {
-#		trigger_event = { id = lepsius.11 popup = yes }
-#		set_variable = lepsius_visiting_museum_var
-#	}
-#	
-#	ai_chance = {
-#		base = 0 #You stay out	
-#	}
-#}
-
-#Appoint a Lead Scientist
-
-lepsius_appoint_lead_scientist_decision = {
-	is_shown = {
-		NOT = {
-			any_scope_character = {
-				has_modifier = lepsius_museum_lead_scientist_modifier
-			}
-		}
-		NOT = {
-			has_variable = lepsius_archaeological_decisions_hide
-		}
-	}
-
-	possible = {
-		any_scope_character = {
-			OR = {
-				has_trait = lepsius_archaeologist
-				has_trait = lepsius_archaeologist_experienced
-				has_trait = lepsius_archaeologist_famous
-			}
-		}
-		any_scope_building = {
-			is_building_type = building_lepsius_archaeological_museum
-		}
-	}
-
-	when_taken = {
-		trigger_event = { id = lepsius.30 popup = yes }
-		set_variable = lepsius_appointing_lead_scientist_var
-	}
-	
-	ai_chance = {
-		base = 100 #Yes please	
-	}
-}
-
 #Found an Archaeological Society
 
 lepsius_found_archaeological_society_decision = {
@@ -189,9 +71,7 @@ lepsius_found_archaeological_society_decision = {
 
 	possible = {
 		has_technology_researched = lepsius_early_archaeology_tech
-		any_scope_character = {
-			has_trait = lepsius_archaeologist_famous
-		}
+		lepsius_has_famous_archaeologist = yes
 	}
 
 	when_taken = {
@@ -343,9 +223,7 @@ lepsius_gather_third_excavation_team_decision = {
 
 	possible = {
 		has_technology_researched = lepsius_antiquarianism_tech
-		any_scope_character = {
-			has_trait = lepsius_archaeologist_experienced
-		}
+		lepsius_has_experienced_archaeologist = yes
 	}
 
 	when_taken = {
@@ -444,12 +322,9 @@ lepsius_inspect_excavation_decision = {
 			lepsius_has_artifacts_for_discovery = yes
  		}
 		has_technology_researched = lepsius_modern_archaeology_tech
-		any_scope_character = {
-			OR = {
-				has_trait = lepsius_archaeologist_experienced
-				has_trait = lepsius_archaeologist_famous
-			}
-			is_busy = no
+		OR = {
+			lepsius_has_active_experienced_archaeologist = yes
+			lepsius_has_active_famous_archaeologist = yes
 		}
 	}
 
@@ -476,7 +351,7 @@ lepsius_upper_egypt_expedition_decision = {
 		lepsius_on_archaeological_expedition = no
 		any_country = {			
 			any_scope_state = {
-					has_modifier = lepsius_upper_egypt_modifier
+				has_modifier = lepsius_upper_egypt_modifier
 			}
 		}
 		NOT = {
@@ -496,11 +371,11 @@ lepsius_upper_egypt_expedition_decision = {
 			text = lepsius_excavation_team_needed_tt
 			var:lepsius_excavation_teams >= 1
  		}
-		 any_scope_character = {
+		any_scope_character = {
 			has_role = general	
 			count >= 1
 		}
-
+		lepsius_has_active_archaeologist = yes
 		OR = {
 			any_scope_state = {
 				has_modifier = lepsius_upper_egypt_modifier
@@ -589,11 +464,11 @@ lepsius_lower_egypt_expedition_decision = {
 			text = lepsius_excavation_team_needed_tt
 			var:lepsius_excavation_teams >= 1
  		}
-		 any_scope_character = {
+		any_scope_character = {
 			has_role = general	
 			count >= 1
 		}
-
+		lepsius_has_active_archaeologist = yes
 		OR = {
 			any_scope_state = {
 				has_modifier = lepsius_lower_egypt_modifier
@@ -683,11 +558,11 @@ lepsius_babylonia_expedition_decision = {
 			text = lepsius_excavation_team_needed_tt
 			var:lepsius_excavation_teams >= 1
  		}
-		 any_scope_character = {
+		any_scope_character = {
 			has_role = general	
 			count >= 1
 		}
-
+		lepsius_has_active_archaeologist = yes
 		OR = {
 			any_scope_state = {
 				has_modifier = lepsius_babylonia_modifier
@@ -777,11 +652,11 @@ lepsius_assyria_expedition_decision = {
 			text = lepsius_excavation_team_needed_tt
 			var:lepsius_excavation_teams >= 1
  		}
-		 any_scope_character = {
+		any_scope_character = {
 			has_role = general	
 			count >= 1
 		}
-
+		lepsius_has_active_archaeologist = yes
 		OR = {
 			any_scope_state = {
 				has_modifier = lepsius_assyria_modifier
@@ -871,11 +746,11 @@ lepsius_argolis_expedition_decision = {
 			text = lepsius_excavation_team_needed_tt
 			var:lepsius_excavation_teams >= 1
  		}
-		 any_scope_character = {
+		any_scope_character = {
 			has_role = general	
 			count >= 1
 		}
-
+		lepsius_has_active_archaeologist = yes
 		OR = {
 			any_scope_state = {
 				has_modifier = lepsius_argolis_modifier
@@ -965,11 +840,11 @@ lepsius_crete_expedition_decision = {
 			text = lepsius_excavation_team_needed_tt
 			var:lepsius_excavation_teams >= 1
  		}
-		 any_scope_character = {
+		any_scope_character = {
 			has_role = general	
 			count >= 1
 		}
-
+		lepsius_has_active_archaeologist = yes
 		OR = {
 			any_scope_state = {
 				has_modifier = lepsius_crete_modifier
@@ -1060,11 +935,11 @@ lepsius_yucatan_expedition_decision = {
 			text = lepsius_excavation_team_needed_tt
 			var:lepsius_excavation_teams >= 1
  		}
-		 any_scope_character = {
+		any_scope_character = {
 			has_role = general	
 			count >= 1
 		}
-
+		lepsius_has_active_archaeologist = yes
 		OR = {
 			any_scope_state = {
 				has_modifier = lepsius_yucatan_modifier
@@ -1155,11 +1030,11 @@ lepsius_peru_expedition_decision = {
 			text = lepsius_excavation_team_needed_tt
 			var:lepsius_excavation_teams >= 1
  		}
-		 any_scope_character = {
+		any_scope_character = {
 			has_role = general	
 			count >= 1
 		}
-
+		lepsius_has_active_archaeologist = yes
 		OR = {
 			any_scope_state = {
 				has_modifier = lepsius_peru_modifier
