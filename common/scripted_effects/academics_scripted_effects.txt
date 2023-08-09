@@ -617,10 +617,7 @@ create_anthropologist_effect = {
 	scope:lepsius_anthropologist_scope = {
 		add_trait = lepsius_anthropologist
 		set_variable = mr_is_anthropologist_var
-		set_variable = {
-			name = lepsius_anthropologist_experience
-			value = 0
-		}
+		anthropologist_experience_gain_effect = yes
 		place_character_in_void = 1200	
 	}
 		
@@ -647,10 +644,7 @@ create_new_anthropologist_effect = {
 	scope:lepsius_new_anthropologist_scope = {
 		add_trait = lepsius_anthropologist
 		set_variable = mr_is_anthropologist_var
-		set_variable = {
-			name = lepsius_anthropologist_experience
-			value = 0
-		}
+		anthropologist_experience_gain_effect = yes
 		place_character_in_void = 1200	
 	}
 }
@@ -683,6 +677,90 @@ lepsius_remove_new_anthropologist_effect = {
 	}
 }
 
+# Used to set up the Experience of a character 
+anthropologist_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = lepsius_anthropologist_experience
+			}
+		}
+		if = {
+			limit = {
+				age < 35
+			}
+			set_variable = {
+				name = lepsius_anthropologist_experience
+				value = 0
+			}
+		}
+		if = {
+			limit = {
+				age < 40
+				age >= 35
+			}
+			set_variable = {
+				name = lepsius_anthropologist_experience
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				age < 50
+				age >= 40
+			}
+			set_variable = {
+				name = lepsius_anthropologist_experience
+				value = 2
+			}
+		}
+		if = {
+			limit = {
+				age >= 50
+			}
+			set_variable = {
+				name = lepsius_anthropologist_experience
+				value = 3
+			}
+		}
+	}
+}
+
+#Anthropologist Experience gain
+anthropologist_experience_gain_effect = { #adds XP to the Anthropologist
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = lepsius_anthropologist_var #should only add experience if there actually is an Anthropologist
+		}
+		custom_tooltip = {
+			text = lepsius_anthropologist_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:lepsius_anthropologist_var = { #Fallback to make sure there are no errors if the Anthropologist does not have the variable yet
+							has_variable = lepsius_anthropologist_experience
+						}
+					}
+				}
+				var:lepsius_anthropologist_var = { #Sets the experience in case it was not set yet
+					anthropologist_experience_set_up_effect = yes
+				}
+			}
+			var:lepsius_anthropologist_var = {
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+	}
+}
 
 ##########################################################################
 
