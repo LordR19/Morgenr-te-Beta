@@ -227,10 +227,7 @@ create_naturalist_effect = {
 	scope:dubois_naturalist_scope = {
 		add_trait = dubois_naturalist
 		set_variable = mr_is_naturalist_var
-		set_variable = {
-			name = dubois_naturalist_experience
-			value = 0
-		}
+		naturalist_experience_set_up_effect = yes
 		place_character_in_void = 1200	
 	}
 		
@@ -261,10 +258,7 @@ create_new_naturalist_effect = {
 	scope:dubois_new_naturalist_scope = {
 		add_trait = dubois_naturalist
 		set_variable = mr_is_naturalist_var
-		set_variable = {
-			name = dubois_naturalist_experience
-			value = 0
-		}
+		naturalist_experience_set_up_effect = yes
 		place_character_in_void = 1200	
 	}
 }
@@ -294,6 +288,91 @@ dubois_set_new_naturalist_as_naturalist_effect = {
 dubois_remove_new_naturalist_effect = {
 	scope:dubois_new_naturalist_scope = {
 		free_character_from_void = no
+	}
+}
+
+#Naturalist Experience gain
+naturalist_experience_gain_effect = { #adds XP to the Naturalist
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = dubois_naturalist_var #should only add experience if there actually is an Naturalist
+		}
+		custom_tooltip = {
+			text = dubois_naturalist_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:dubois_naturalist_var = { #Fallback to make sure there are no errors if the Naturalist does not have the variable yet
+							has_variable = dubois_naturalist_experience
+						}
+					}
+				}
+				var:dubois_naturalist_var = { #Sets the experience in case it was not set yet
+					naturalist_experience_set_up_effect = yes
+				}
+			}
+			var:dubois_naturalist_var = {
+				change_variable = {
+					name = dubois_naturalist_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+	}
+}
+
+# Used to set up the Experience of a character 
+naturalist_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_naturalist_experience
+			}
+		}
+		if = {
+			limit = {
+				age < 35
+			}
+			set_variable = {
+				name = dubois_naturalist_experience
+				value = 0
+			}
+		}
+		if = {
+			limit = {
+				age < 40
+				age >= 35
+			}
+			set_variable = {
+				name = dubois_naturalist_experience
+				value = 1
+			}
+		}
+		if = {
+			limit = {
+				age < 50
+				age >= 40
+			}
+			set_variable = {
+				name = dubois_naturalist_experience
+				value = 2
+			}
+		}
+		if = {
+			limit = {
+				age >= 50
+			}
+			set_variable = {
+				name = dubois_naturalist_experience
+				value = 3
+			}
+		}
 	}
 }
 
