@@ -656,7 +656,7 @@ lepsius_remove_new_archaeologist_effect = {
 }
 
 # Used to set up the Experience of a character 
-archaeologist_experience_set_up_effect = {
+archaeologist_experience_set_up_effect = { #This effect needs to be placed in the scope of the new character!
 	if = {
 		limit = {
 			NOT = {
@@ -674,6 +674,31 @@ archaeologist_experience_set_up_effect = {
 		change_variable = {
 			name = lepsius_archaeologist_experience
 			multiply = 10
+		}
+		if = { #Adds the Experienced Archaeologist Trait if Experience is above 100
+			limit = {
+				var:lepsius_archaeologist_experience >= 100
+				NOT = {
+					var:lepsius_archaeologist_experience >= 300
+				}
+				NOR = {
+					has_trait = lepsius_archaeologist_experienced
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+			remove_trait = lepsius_archaeologist
+			add_trait = lepsius_archaeologist_experienced
+		}
+		if = { #Adds the Famous Archaeologist Trait if Experience is above 100
+			limit = {
+				var:lepsius_archaeologist_experience >= 300
+				NOT = {
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+			remove_trait = lepsius_archaeologist
+			remove_trait = lepsius_archaeologist_experienced
+			add_trait = lepsius_archaeologist_famous
 		}
 	}
 }
@@ -709,6 +734,36 @@ archaeologist_experience_gain_effect = { #adds XP to the Archaeologist
 					name = lepsius_archaeologist_experience
 					add = $AMOUNT$
 				}
+			}
+		}
+		var:lepsius_archaeologist_var = {
+			if = {
+				limit = {
+					var:lepsius_archaeologist_experience >= 100
+					NOT = {
+						var:lepsius_archaeologist_experience >= 300
+					}
+					NOR = {
+						has_trait = lepsius_archaeologist_experienced
+						has_trait = lepsius_archaeologist_famous
+					}
+				}
+				remove_trait = lepsius_archaeologist
+				add_trait = lepsius_archaeologist_experienced
+			}
+			if = {
+				limit = {
+					var:lepsius_archaeologist_experience >= 300
+					NOT = {
+						has_trait = lepsius_archaeologist_famous
+					}
+				}
+				if = {
+					limit = { has_trait = lepsius_archaeologist }
+					remove_trait = lepsius_archaeologist
+				}
+				remove_trait = lepsius_archaeologist_experienced
+				add_trait = lepsius_archaeologist_famous
 			}
 		}
 	}
