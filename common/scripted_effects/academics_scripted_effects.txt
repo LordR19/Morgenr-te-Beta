@@ -446,42 +446,6 @@ dubois_remove_new_paleontologist_effect = {
 	}
 }
 
-#Paleontologist Experience gain
-paleontologist_experience_gain_effect = { #adds XP to the Paleontologist
-	# Amount = amount of XP to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = xp_amount
-		value = $AMOUNT$
-	}
-
-	if = {
-		limit = {
-			has_variable = dubois_paleontologist_var #should only add experience if there actually is an Paleontologist
-		}
-		custom_tooltip = {
-			text = dubois_paleontologist_experience_gain_tt
-			if = {
-				limit = {
-					NOT = {
-						var:dubois_paleontologist_var = { #Fallback to make sure there are no errors if the Paleontologist does not have the variable yet
-							has_variable = dubois_paleontologist_experience
-						}
-					}
-				}
-				var:dubois_paleontologist_var = { #Sets the experience in case it was not set yet
-					paleontologist_experience_set_up_effect = yes
-				}
-			}
-			var:dubois_paleontologist_var = {
-				change_variable = {
-					name = dubois_paleontologist_experience
-					add = $AMOUNT$
-				}
-			}
-		}
-	}
-}
-
 # Used to set up the Experience of a character 
 paleontologist_experience_set_up_effect = {
 	if = {
@@ -526,6 +490,42 @@ paleontologist_experience_set_up_effect = {
 			set_variable = {
 				name = dubois_paleontologist_experience
 				value = 3
+			}
+		}
+	}
+}
+
+#Paleontologist Experience gain
+paleontologist_experience_gain_effect = { #adds XP to the Paleontologist
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = dubois_paleontologist_var #should only add experience if there actually is an Paleontologist
+		}
+		custom_tooltip = {
+			text = dubois_paleontologist_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:dubois_paleontologist_var = { #Fallback to make sure there are no errors if the Paleontologist does not have the variable yet
+							has_variable = dubois_paleontologist_experience
+						}
+					}
+				}
+				var:dubois_paleontologist_var = { #Sets the experience in case it was not set yet
+					paleontologist_experience_set_up_effect = yes
+				}
+			}
+			var:dubois_paleontologist_var = {
+				change_variable = {
+					name = dubois_paleontologist_experience
+					add = $AMOUNT$
+				}
 			}
 		}
 	}
