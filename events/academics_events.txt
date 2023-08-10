@@ -43,19 +43,21 @@ namespace = academics
 
 ###Level Up Events###
 
-#Lepsius 102: Scope is now an experienced Astronomer
-#Lepsius 103: Scope is now an famous Astronomer
-#Lepsius 106: Scope is now an experienced Paleontologist
-#Lepsius 107: Scope is now an famous Paleontologist
-#Lepsius 108: Scope is now an experienced Archaeologist
-#Lepsius 109: Scope is now an famous Archaeologist
+#Academics 102: Scope is now an experienced Astronomer
+#Academics 103: Scope is now an famous Astronomer
+#Academics 106: Scope is now an experienced Paleontologist
+#Academics 107: Scope is now an famous Paleontologist
+#Academics 108: Scope is now an experienced Archaeologist
+#Academics 109: Scope is now an famous Archaeologist
 
 ###Academic Interactions###
 
 # Academic unhappy with Promotion
 
-#Academics 1000: [Engineers] needs money for newest machinery
-#Academics 1001: [Astronomer] asks for money for a new telescope
+#Academics 1000: Dr. [Engineers] requests funding
+#Academics 1001: Dr. [Astronomer] requests funding
+#Academics 1002: Dr. [Naturalist] requests funding
+#Academics 1003: Dr. [Paleontologist] requests funding
 
 #################################################################################
 
@@ -1825,7 +1827,7 @@ academics.109 = {
 
 ######Academic Interactions######
 
-#Academics 1000: [Engineers] needs money for newest machinery
+#Academics 1000: Dr. [Engineers] requests funding
 academics.1000 = {
 	type = country_event
 
@@ -1935,7 +1937,7 @@ academics.1000 = {
 	}
 }
 
-#Academics 1001: [Astronomer] asks for money for a new telescope
+#Academics 1001: Dr. [Astronomer] requests funding
 academics.1001 = {
 	type = country_event
 
@@ -2035,6 +2037,116 @@ academics.1001 = {
 		}
 		modifier = {
 			var:verrier_astronomer_var = {
+				has_trait = cautious
+			}
+			factor = 0.5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 1002: Dr. [Naturalist] requests funding
+academics.1002 = {
+	type = country_event
+
+	title = academics.1002.t
+
+	desc = academics.1002.d
+
+	flavor = academics.1002.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	cooldown = {
+		years = { 3 5 }
+	}
+
+	trigger = {
+		OR = {
+			has_variable = dubois_promote_humanities_active
+			has_variable = dubois_promote_natural_history_active
+		}
+		has_variable = dubois_naturalist_var
+		NOT = {
+			has_modifier = academics_additional_funding_naturalist_modifier
+		}
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = academics.1002.g
+
+		add_modifier = {
+			name = academics_additional_funding_naturalist_modifier
+			years = 3
+		}
+	}
+
+	option = {
+		name = academics.1002.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_no_funding_naturalist_modifier
+			years = 3
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:dubois_naturalist_var = {
+				has_trait = direct
+			}
+			factor = 2
+		}
+		modifier = {
+			var:dubois_naturalist_var = {
+				has_trait = arrogant
+			}
+			factor = 2
+		}
+		modifier = {
+			var:dubois_naturalist_var = {
+				has_trait = reckless
+			}
+			factor = 2
+		}
+		modifier = {
+			var:dubois_naturalist_var = {
+				has_trait = ambitious
+			}
+			factor = 2
+		}
+		modifier = {
+			var:dubois_naturalist_var = {
+				has_trait = reserved
+			}
+			factor = 0.1
+		}
+		modifier = {
+			var:dubois_naturalist_var = {
+				has_trait = tactful
+			}
+			factor = 0.5
+		}
+		modifier = {
+			var:dubois_naturalist_var = {
 				has_trait = cautious
 			}
 			factor = 0.5
