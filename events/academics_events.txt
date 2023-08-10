@@ -41,6 +41,22 @@ namespace = academics
 
 #Academics 60: Random Scientist
 
+###Level Up Events###
+
+#Lepsius 102: Scope is now an experienced Astronomer
+#Lepsius 103: Scope is now an famous Astronomer
+#Lepsius 106: Scope is now an experienced Paleontologist
+#Lepsius 107: Scope is now an famous Paleontologist
+#Lepsius 108: Scope is now an experienced Archaeologist
+#Lepsius 109: Scope is now an famous Archaeologist
+
+###Academic Interactions###
+
+# Academic unhappy with Promotion
+
+#Academics 1000: [Engineers] needs money for newest machinery
+#Academics 1001: [Astronomer] asks for money for a new telescope
+
 #################################################################################
 
 #Academics 1: Engineer retires
@@ -1553,7 +1569,7 @@ academics.102 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	trigger = {
 	}
@@ -1596,7 +1612,7 @@ academics.103 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	trigger = {
 	}
@@ -1643,7 +1659,7 @@ academics.106 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	trigger = {
 	}
@@ -1686,7 +1702,7 @@ academics.107 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	trigger = {
 	}
@@ -1798,6 +1814,230 @@ academics.109 = {
 			}
 			remove_trait = lepsius_archaeologist_experienced
 			add_trait = lepsius_archaeologist_famous
+		}
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
+######Academic Interactions######
+
+#Academics 1000: [Engineers] needs money for newest machinery
+academics.1000 = {
+	type = country_event
+
+	title = academics.1000.t
+
+	desc = academics.1000.d
+
+	flavor = academics.1000.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	cooldown = {
+		years = { 3 5 }
+	}
+
+	trigger = {
+		OR = {
+			has_variable = dubois_promote_humanities_active
+			has_variable = dubois_promote_natural_history_active
+		}
+		has_variable = gaudi_engineer_var
+		NOT = {
+			has_modifier = academics_additional_funding_engineer_modifier
+		}
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = academics.1000.g
+
+		add_modifier = {
+			name = academics_additional_funding_engineer_modifier
+			years = 3
+		}
+	}
+
+	option = {
+		name = academics.1000.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_no_funding_engineer_modifier
+			years = 3
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:gaudi_engineer_var = {
+				has_trait = direct
+			}
+			factor = 2
+		}
+		modifier = {
+			var:gaudi_engineer_var = {
+				has_trait = arrogant
+			}
+			factor = 2
+		}
+		modifier = {
+			var:gaudi_engineer_var = {
+				has_trait = reckless
+			}
+			factor = 2
+		}
+		modifier = {
+			var:gaudi_engineer_var = {
+				has_trait = ambitious
+			}
+			factor = 2
+		}
+		modifier = {
+			var:gaudi_engineer_var = {
+				has_trait = reserved
+			}
+			factor = 0.1
+		}
+		modifier = {
+			var:gaudi_engineer_var = {
+				has_trait = tactful
+			}
+			factor = 0.5
+		}
+		modifier = {
+			var:gaudi_engineer_var = {
+				has_trait = cautious
+			}
+			factor = 0.5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 1001: [Astronomer] asks for money for a new telescope
+academics.1001 = {
+	type = country_event
+
+	title = academics.1001.t
+
+	desc = academics.1001.d
+
+	flavor = academics.1001.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	cooldown = {
+		years = { 3 5 }
+	}
+
+	trigger = {
+		OR = {
+			has_variable = dubois_promote_humanities_active
+			has_variable = dubois_promote_natural_history_active
+		}
+		has_variable = verrier_astronomer_var
+		NOT = {
+			has_modifier = academics_additional_funding_engineer_modifier
+		}
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = {
+		name = academics.1001.g
+
+		add_modifier = {
+			name = academics_additional_funding_astronomer_modifier
+			years = 3
+		}
+	}
+
+	option = {
+		name = academics.1001.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_no_funding_astronomer_modifier
+			years = 3
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:verrier_astronomer_var = {
+				has_trait = direct
+			}
+			factor = 2
+		}
+		modifier = {
+			var:verrier_astronomer_var = {
+				has_trait = arrogant
+			}
+			factor = 2
+		}
+		modifier = {
+			var:verrier_astronomer_var = {
+				has_trait = reckless
+			}
+			factor = 2
+		}
+		modifier = {
+			var:verrier_astronomer_var = {
+				has_trait = ambitious
+			}
+			factor = 2
+		}
+		modifier = {
+			var:verrier_astronomer_var = {
+				has_trait = reserved
+			}
+			factor = 0.1
+		}
+		modifier = {
+			var:verrier_astronomer_var = {
+				has_trait = tactful
+			}
+			factor = 0.5
+		}
+		modifier = {
+			var:verrier_astronomer_var = {
+				has_trait = cautious
+			}
+			factor = 0.5
 		}
 	}
 
