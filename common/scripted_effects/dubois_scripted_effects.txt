@@ -2380,6 +2380,950 @@ dubois_add_australian_dinosaur_bone = {
 	custom_tooltip = dubois_add_australian_dinosaur_bone_tt
 }
 
+######Transfor Fossils to Bone######
+
+dubois_fossils_for_transformation_effect = {
+	change_variable = {
+		name = dubois_fossil
+		add = -20
+	}
+	custom_tooltip = dubois_transform_fossils_to_bone_tt
+}
+
+dubois_transform_fossils_to_bone = {
+	random_list = {
+		0 = { #North America
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_north_american_dinosaur_bone >= 1
+					}
+					add = 1
+				}
+				dubois_add_north_american_dinosaur_bone = yes
+			}
+		}
+		0 = { #South America
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_south_american_dinosaur_bone >= 1
+					}
+					add = 1
+				}
+				dubois_add_south_american_dinosaur_bone = yes
+			}
+		}
+		0 = { #Europe
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_european_dinosaur_bone >= 1
+					}
+					add = 1
+				}
+				dubois_add_european_dinosaur_bone = yes
+			}
+		}
+		0 = { #Africa
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_african_dinosaur_bone >= 1
+					}
+					add = 1
+				}
+				dubois_add_african_dinosaur_bone = yes
+			}
+		}
+		0 = { #Asia
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_asian_dinosaur_bone >= 1
+					}
+					add = 1
+				}
+				dubois_add_asian_dinosaur_bone = yes
+			}
+		}
+		0 = { #Australia
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_australian_dinosaur_bone >= 1
+					}
+					add = 1
+				}
+				dubois_add_australian_dinosaur_bone = yes
+			}
+		}
+	}
+	custom_tooltip = dubois_add_dinosaur_bone_tt
+}
+
+######Construct Dinosaur######
+
+dubois_construct_north_american_dinosaur = {
+	change_variable = {
+		name = dubois_north_american_dinosaur_bone
+		add = -5
+	}
+	custom_tooltip = dubois_construct_dinosaur_cost_tt
+}
+
+dubois_construct_south_american_dinosaur = {
+	change_variable = {
+		name = dubois_south_american_dinosaur_bone
+		add = -5
+	}
+	custom_tooltip = dubois_construct_dinosaur_cost_tt
+}
+
+dubois_construct_european_dinosaur = {
+	change_variable = {
+		name = dubois_european_dinosaur_bone
+		add = -5
+	}
+	custom_tooltip = dubois_construct_dinosaur_cost_tt
+}
+
+dubois_construct_african_dinosaur = {
+	change_variable = {
+		name = dubois_african_dinosaur_bone
+		add = -5
+	}
+	custom_tooltip = dubois_construct_dinosaur_cost_tt
+}
+
+dubois_construct_asian_dinosaur = {
+	change_variable = {
+		name = dubois_asian_dinosaur_bone
+		add = -5
+	}
+	custom_tooltip = dubois_construct_dinosaur_cost_tt
+}
+
+dubois_construct_australian_dinosaur = {
+	change_variable = {
+		name = dubois_australian_dinosaur_bone
+		add = -5
+	}
+	custom_tooltip = dubois_construct_dinosaur_cost_tt
+}
+
+dubois_construct_dinosaur_effect = {
+	random_list = {
+		25 = {
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							var:dubois_paleontologist_experience >= 175
+						}
+					}
+					add = 25
+				}
+			}
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							var:dubois_paleontologist_experience >= 200
+						}
+					}
+					add = 25
+				}
+			}
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							var:dubois_paleontologist_experience >= 250
+						}
+					}
+					add = 50
+				}
+			}
+			#Perfect Skeleton
+			trigger_event = {
+				id = dubois.2044
+				days = { 300 400 }
+			}
+		}
+		40 = {
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							has_trait = dubois_paleontologist_famous
+						}
+					}
+					add = -100
+				}
+			}
+			#Imperfect Skeleton
+			trigger_event = {
+				id = dubois.2045
+				days = { 300 400 }
+			}
+		}
+		35 = {
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							var:dubois_paleontologist_experience <= 99
+						}
+					}
+					add = 50
+				}
+			}
+			modifier = {
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							has_trait = dubois_paleontologist_famous
+						}
+					}
+					add = -100
+				}
+			}
+			#Poor Skeleton
+			trigger_event = {
+				id = dubois.2045
+				days = { 300 400 }
+			}
+		}
+	}
+	custom_tooltip = dubois_construct_dinosaur_tt
+}
+
+######Dinosaur Rating######
+
+dubois_change_dinosaur_rating = {
+	custom_tooltip = {
+		text = dubois_change_dinosaur_rating_tt
+		change_variable = {
+			name = dubois_dinosaur_rating
+			add = $AMOUNT$
+		}
+	}
+}
+
+######Perfect Dinosaur Skeleton
+
+dubois_add_perfect_dinosaur_skeleton = {
+	dubois_change_dinosaur_rating = {
+		AMOUNT = "2"
+	}
+	if = {
+		######North American Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_north_american_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Ankylosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_ankylosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_ankylosaurus_var
+			}
+			0 = { #Diplodocus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_diplodocus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_diplodocus_var
+			}
+			0 = { #Triceratops
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_triceratops_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_triceratops_var
+			}
+			0 = { #Tyrannosaurus Rex
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_tyrannosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_tyrannosaurus_var
+			}
+		}
+	}
+	if = {
+		######South American Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_south_american_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Antarctosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_antarctosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_antarctosaurus_var
+				add_modifier = {
+					name = dubois_perfect_antarctosaurus_skeleton_modifier
+				}
+			}
+			0 = { #Argyrosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_argyrosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_argyrosaurus_var
+			}
+		}
+	}
+	if = {
+		######European Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_european_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Iguanodon
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_iguanodon_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_iguanodon_var
+				add_modifier = {
+					name = dubois_perfect_iguanodon_skeleton_modifier
+				}
+			}
+			0 = { #Plateosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_plateosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_plateosaurus_var
+			}
+		}
+	}
+	if = {
+		######African Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_african_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Giraffatitan
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_giraffatitan_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_giraffatitan_var
+				add_modifier = {
+					name = dubois_perfect_giraffatitan_skeleton_modifier
+				}
+			}
+			0 = { #Spinosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_spinosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_spinosaurus_var
+			}
+		}
+	}
+	if = {
+		######Asian Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_asian_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Psittacosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_psittacosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_psittacosaurus_var
+			}
+			0 = { #Velociraptor
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_velociraptor_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_velociraptor_var
+			}
+		}
+	}
+	if = {
+		######Australian Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_australian_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Muttaburasaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_muttaburrasaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_muttaburrasaurus_var
+			}
+		}
+	}
+}
+
+dubois_add_imperfect_dinosaur_skeleton = {
+	dubois_change_dinosaur_rating = {
+		AMOUNT = "1"
+	}
+	if = {
+		######North American Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_north_american_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Ankylosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_ankylosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_ankylosaurus_var
+			}
+			0 = { #Diplodocus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_diplodocus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_diplodocus_var
+			}
+			0 = { #Triceratops
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_triceratops_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_triceratops_var
+			}
+			0 = { #Tyrannosaurus Rex
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_tyrannosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_tyrannosaurus_var
+			}
+		}
+	}
+	if = {
+		######South American Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_south_american_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Antarctosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_antarctosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_antarctosaurus_var
+			}
+			0 = { #Argyrosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_argyrosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_argyrosaurus_var
+			}
+		}
+	}
+	if = {
+		######European Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_european_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Iguanodon
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_iguanodon_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_iguanodon_var
+				add_modifier = {
+					name = dubois_imperfect_iguanodon_skeleton_modifier
+				}
+			}
+			0 = { #Plateosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_plateosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_plateosaurus_var
+			}
+		}
+	}
+	if = {
+		######African Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_african_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Giraffatitan
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_giraffatitan_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_giraffatitan_var
+			}
+			0 = { #Spinosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_spinosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_spinosaurus_var
+			}
+		}
+	}
+	if = {
+		######Asian Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_asian_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Velociraptor
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_velociraptor_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_velociraptor_var
+			}
+			0 = { #Psittacosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_psittacosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_psittacosaurus_var
+			}
+		}
+	}
+	if = {
+		######Australian Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_australian_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Muttaburasaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_muttaburrasaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_muttaburrasaurus_var
+			}
+		}
+	}
+}
+
+dubois_add_poor_dinosaur_skeleton = {
+	dubois_change_dinosaur_rating = {
+		AMOUNT = "-2"
+	}
+	if = {
+		######North American Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_north_american_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Ankylosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_ankylosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_ankylosaurus_var
+				add_modifier = {
+					name = dubois_poor_ankylosaurus_skeleton_modifier
+				}
+			}
+			0 = { #Diplodocus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_diplodocus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_diplodocus_var
+			}
+			0 = { #Triceratops
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_triceratops_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_triceratops_var
+			}
+			0 = { #Tyrannosaurus Rex
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_tyrannosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_tyrannosaurus_var
+			}
+		}
+	}
+	if = {
+		######South American Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_south_american_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Antarctosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_antarctosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_antarctosaurus_var
+			}
+			0 = { #Argyrosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_argyrosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_argyrosaurus_var
+			}
+		}
+	}
+	if = {
+		######European Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_european_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Iguanodon
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_iguanodon_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_iguanodon_var
+			}
+			0 = { #Plateosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_plateosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_plateosaurus_var
+			}
+		}
+	}
+	if = {
+		######African Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_african_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Giraffatitan
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_giraffatitan_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_giraffatitan_var
+			}
+			0 = { #Spinosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_spinosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_spinosaurus_var
+			}
+		}
+	}
+	if = {
+		######Asian Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_asian_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Psittacosaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_psittacosaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_psittacosaurus_var
+			}
+			0 = { #Velociraptor
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_velociraptor_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_velociraptor_var
+			}
+		}
+	}
+	if = {
+		######Australian Dinosaurs######
+		limit = {
+			has_variable = dubois_construct_australian_dinosaur_var
+		}
+		#Randomize Dinosaur
+		random_list = { 
+			0 = { #Muttaburasaurus
+				modifier = {
+					if = {
+						limit = {
+							NOT = {
+								has_variable = dubois_muttaburrasaurus_var
+							}
+						}
+						add = 1
+					}
+				}
+				set_variable = dubois_muttaburrasaurus_var
+			}
+		}
+	}
+}
+
+remove_dubois_construct_dinosaur_effect = {
+	remove_variable = dubois_construct_north_american_dinosaur_var
+	remove_variable = dubois_construct_south_american_dinosaur_var
+	remove_variable = dubois_construct_european_american_dinosaur_var
+	remove_variable = dubois_construct_african_american_dinosaur_var
+	remove_variable = dubois_construct_asian_american_dinosaur_var
+	remove_variable = dubois_construct_australian_american_dinosaur_var
+}
+
 ######Special Fossils######
 
 dubois_add_fossil_amber = {
@@ -2447,6 +3391,47 @@ dubois_add_fossil_eusthenopteron = {
 	custom_tooltip = dubois_add_fossil_eusthenopteron_tt
 }
 
+dubois_add_fossil_ichthyosaurus = {
+	change_variable = {
+		name = dubois_fossil
+		add = 1
+	}
+	change_variable = {
+		name = dubois_special_fossil
+		add = 1
+	}
+	set_variable = dubois_fossil_ichthyosaurus
+	custom_tooltip = dubois_add_fossil_ichthyosaurus_tt
+}
+
+dubois_add_fossil_pterodactylus = {
+	change_variable = {
+		name = dubois_fossil
+		add = 1
+	}
+	change_variable = {
+		name = dubois_special_fossil
+		add = 1
+	}
+	set_variable = dubois_fossil_pterodactylus
+	custom_tooltip = dubois_add_fossil_pterodactylus_tt
+}
+
+dubois_add_fossil_trilobite = {
+	change_variable = {
+		name = dubois_fossil
+		add = 1
+	}
+	change_variable = {
+		name = dubois_special_fossil
+		add = 1
+	}
+	set_variable = dubois_fossil_trilobite
+	custom_tooltip = dubois_add_fossil_trilobite_tt
+}
+
+######Human Fossils######
+
 dubois_add_fossil_java = {
 	change_variable = {
 		name = dubois_fossil
@@ -2484,19 +3469,6 @@ dubois_add_fossil_taung = {
 	}
 	set_variable = dubois_fossil_taung
 	custom_tooltip = dubois_add_fossil_taung_tt
-}
-
-dubois_add_fossil_trilobite = {
-	change_variable = {
-		name = dubois_fossil
-		add = 1
-	}
-	change_variable = {
-		name = dubois_special_fossil
-		add = 1
-	}
-	set_variable = dubois_fossil_trilobite
-	custom_tooltip = dubois_add_fossil_trilobite_tt
 }
 
 ######Paleontologist Location######
@@ -2726,6 +3698,10 @@ dubois_add_variables = {
 	}
 	set_variable = {
         name = dubois_academy_progress
+        value = 0
+	}
+	set_variable = {
+        name = dubois_dinosaur_rating
         value = 0
 	}
 	set_variable = dubois_variables_var
