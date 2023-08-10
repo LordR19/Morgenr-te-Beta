@@ -2602,12 +2602,192 @@ dubois_construct_dinosaur_effect = {
 ######Dinosaur Rating######
 
 dubois_change_dinosaur_rating = {
-	custom_tooltip = {
-		text = dubois_change_dinosaur_rating_tt
-		change_variable = {
-			name = dubois_dinosaur_rating
-			add = $AMOUNT$
+	# Amount = amount of artifacts to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = add_dinosaur_prestige
+		value = $AMOUNT$
+	}
+
+	#Used to display the right tooltip
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = lepsius_change_dinousaur_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = lepsius_change_dinousaur_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = lepsius_change_dinousaur_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = lepsius_change_dinousaur_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = lepsius_change_dinousaur_plus_x_tt
+	}
+
+	#Fallback in case the variable does not exist yet
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_dinosaur_rating
+			}
 		}
+		set_variable = {
+			name = dubois_dinosaur_rating
+			value = 0
+		}
+	}
+
+	#Actual Variable Change
+	change_variable = { 
+		name = dubois_dinosaur_rating
+		add = $AMOUNT$
+	}
+
+	#Adds the correct modifier
+	hidden_effect = {
+		if = {
+			limit = {
+				var:dubois_dinosaur_rating <= -5
+				NOT = {
+					has_modifier = dubois_dinosaur_rating_cabinet_of_scientific_horros_modifier
+				}
+			}
+			dubois_remove_dinosaur_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = dubois_dinosaur_rating_cabinet_of_scientific_horros_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_dinosaur_rating <= -2
+				NOR = {
+					var:dubois_dinosaur_rating <= -5
+					has_modifier = dubois_dinosaur_rating_skeletons_of_ridiculousness_modifier
+				}
+			}
+			dubois_remove_dinosaur_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = dubois_dinosaur_rating_skeletons_of_ridiculousness_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_dinosaur_rating < 2
+				NOR = {
+					var:dubois_dinosaur_rating <= -2
+					has_modifier = dubois_dinosaur_rating_mediocre_exhibition_modifier
+				}
+			}
+			dubois_remove_dinosaur_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = dubois_dinosaur_rating_mediocre_exhibition_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_dinosaur_rating >= 2
+				NOR = {
+					var:dubois_dinosaur_rating >= 5
+					has_modifier = dubois_dinosaur_rating_little_paleontological_curiosities_modifier
+				}
+			}
+			dubois_remove_dinosaur_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = dubois_dinosaur_rating_little_paleontological_curiosities_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_dinosaur_rating >= 5
+				NOR = {
+					var:dubois_dinosaur_rating >= 10
+					has_modifier = dubois_dinosaur_rating_surprising_saurian_species_modifier
+				}
+			}
+			dubois_remove_dinosaur_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = dubois_dinosaur_rating_surprising_saurian_species_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_dinosaur_rating >= 10
+				NOR = {
+					var:dubois_dinosaur_rating >= 15
+					has_modifier = dubois_dinosaur_rating_amazing_animals_of_the_past_modifier
+				}
+			}
+			dubois_remove_dinosaur_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = dubois_dinosaur_rating_amazing_animals_of_the_past_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_dinosaur_rating >= 15
+				NOR = {
+					var:dubois_dinosaur_rating >= 20
+					has_modifier = dubois_dinosaur_rating_overwhelming_selection_of_dire_lizards_modifier
+				}
+			}
+			dubois_remove_dinosaur_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = dubois_dinosaur_rating_overwhelming_selection_of_dire_lizards_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_dinosaur_rating >= 20
+				NOT = {
+					has_modifier = dubois_dinosaur_rating_worldwide_unique_exhibition_of_the_giants_of_prehistoric_times_modifier
+				}
+			}
+			dubois_remove_dinosaur_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = dubois_dinosaur_rating_worldwide_unique_exhibition_of_the_giants_of_prehistoric_times_modifier
+			}
+		}
+	}
+}
+
+dubois_remove_dinosaur_prestige_modifiers_effect = { #Used to remove any of the prestige modifiers (fallback if any are left)
+	if = {
+		limit = { has_modifier = dubois_dinosaur_rating_cabinet_of_scientific_horros_modifier }
+		remove_modifier = dubois_dinosaur_rating_cabinet_of_scientific_horros_modifier
+	}
+	if = {
+		limit = { has_modifier = dubois_dinosaur_rating_skeletons_of_ridiculousness_modifier }
+		remove_modifier = dubois_dinosaur_rating_skeletons_of_ridiculousness_modifier
+	}
+	if = {
+		limit = { has_modifier = dubois_dinosaur_rating_mediocre_exhibition_modifier }
+		remove_modifier = dubois_dinosaur_rating_mediocre_exhibition_modifier
+	}
+	if = {
+		limit = { has_modifier = dubois_dinosaur_rating_little_paleontological_curiosities_modifier }
+		remove_modifier = dubois_dinosaur_rating_little_paleontological_curiosities_modifier
+	}
+	if = {
+		limit = { has_modifier = dubois_dinosaur_rating_surprising_saurian_species_modifier }
+		remove_modifier = dubois_dinosaur_rating_surprising_saurian_species_modifier
+	}
+	if = {
+		limit = { has_modifier = dubois_dinosaur_rating_amazing_animals_of_the_past_modifier }
+		remove_modifier = dubois_dinosaur_rating_amazing_animals_of_the_past_modifier
+	}
+	if = {
+		limit = { has_modifier = dubois_dinosaur_rating_overwhelming_selection_of_dire_lizards_modifier }
+		remove_modifier = dubois_dinosaur_rating_overwhelming_selection_of_dire_lizards_modifier
+	}
+	if = {
+		limit = { has_modifier = dubois_dinosaur_rating_worldwide_unique_exhibition_of_the_giants_of_prehistoric_times_modifier }
+		remove_modifier = dubois_dinosaur_rating_worldwide_unique_exhibition_of_the_giants_of_prehistoric_times_modifier
 	}
 }
 
