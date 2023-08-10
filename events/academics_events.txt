@@ -2156,3 +2156,113 @@ academics.1002 = {
 	after = {
 	}
 }
+
+#Academics 1003: Dr. [Paleontologist] requests funding
+academics.1003 = {
+	type = country_event
+
+	title = academics.1003.t
+
+	desc = academics.1003.d
+
+	flavor = academics.1003.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_paleontologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = {
+		years = { 3 5 }
+	}
+
+	trigger = {
+		OR = {
+			has_variable = dubois_promote_humanities_active
+			has_variable = dubois_promote_natural_history_active
+		}
+		has_variable = dubois_paleontologist_var
+		NOT = {
+			has_modifier = academics_additional_funding_paleontologist_modifier
+		}
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = academics.1003.g
+
+		add_modifier = {
+			name = academics_additional_funding_paleontologist_modifier
+			years = 3
+		}
+	}
+
+	option = {
+		name = academics.1003.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_no_funding_paleontologist_modifier
+			years = 3
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:dubois_paleontologist_var = {
+				has_trait = direct
+			}
+			factor = 2
+		}
+		modifier = {
+			var:dubois_paleontologist_var = {
+				has_trait = arrogant
+			}
+			factor = 2
+		}
+		modifier = {
+			var:dubois_paleontologist_var = {
+				has_trait = reckless
+			}
+			factor = 2
+		}
+		modifier = {
+			var:dubois_paleontologist_var = {
+				has_trait = ambitious
+			}
+			factor = 2
+		}
+		modifier = {
+			var:dubois_paleontologist_var = {
+				has_trait = reserved
+			}
+			factor = 0.1
+		}
+		modifier = {
+			var:dubois_paleontologist_var = {
+				has_trait = tactful
+			}
+			factor = 0.5
+		}
+		modifier = {
+			var:dubois_paleontologist_var = {
+				has_trait = cautious
+			}
+			factor = 0.5
+		}
+	}
+
+	after = {
+	}
+}
