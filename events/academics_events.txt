@@ -50,6 +50,10 @@ namespace = academics
 #Academics 108: Scope is now an experienced Archaeologist
 #Academics 109: Scope is now an famous Archaeologist
 
+###Experience Gain Events (hidden)###
+
+#Academics 151: Astronomer yearly Experience Gain
+
 ###Academic Interactions###
 
 # Academic unhappy with Promotion of other Academics
@@ -1825,6 +1829,55 @@ academics.109 = {
 	}
 
 	after = {
+	}
+}
+
+#################################################################################
+
+###Experience Gain Events (hidden)###
+
+#Academics 150: Academics Yearly Experience Gain
+academics.150 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		OR = {
+			has_variable = verrier_astronomer_var
+			has_variable = dubois_paleontologist_var
+			has_variable = lepsius_archaeologist_var
+		}
+	}
+
+	immediate = {
+		if = { #Astronomer
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			astronomer_experience_gain_effect = {
+				AMOUNT = "5"
+			}
+		}
+		if = { #Paleontologist
+			limit = {
+				has_variable = dubois_paleontologist_var
+			}
+			paleontologist_experience_gain_effect = {
+				AMOUNT = "5"
+			}
+		}
+		if = { #Archaeologist
+			limit = {
+				has_variable = lepsius_archaeologist_var
+			}
+			archaeologist_experience_gain_effect = {
+				AMOUNT = "5"
+			}
+		}
+
+		#Notification
+		post_notification = academics_yearly_experience_gain_notification
 	}
 }
 
