@@ -68,6 +68,10 @@ namespace = academics
 
 ###Astronomical Missions###
 
+#Academics 2000: The Scientific Society asks us to focus on surveying the skies
+#Academics 2001: Dr. [Astronomer] presents a new star chart
+#Academics 2002: Our focus on Astronomy failed!
+
 #################################################################################
 
 #Academics 1: Engineer retires
@@ -2441,3 +2445,184 @@ academics.1004 = {
 
 ######Astronomical Missions######
 
+#Academics 2000: The Scientific Society asks us to focus on surveying the skies
+academics.2000 = {
+	type = country_event
+
+	title = academics.2000.t
+	desc = academics.2000.d
+	flavor = academics.2000.f
+
+	placement = ROOT
+
+	cooldown = {
+		years = { 10 20 }
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_milky_way.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		has_game_rule = academics_missions_rule
+		academics_astronomical_mission_possible_trigger = yes #does not have an astronomical mission or 3 or more missions already
+		has_building = building_verrier_observatory
+		has_technology_researched = verrier_astronomy_tech
+		ig:ig_intelligentsia = {
+			is_marginal = no
+		}
+		verrier_has_astronomer = no
+	}
+
+	immediate = {
+	}
+
+	option = { #Ad Astra!
+		name = academics.2000.g
+
+		add_journal_entry = {
+			type = je_academics_find_more_stars
+		}
+	}
+
+	option = { #Stars? We have better things to do!
+		name = academics.2000.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
+	}
+}
+
+#Academics 2001: Dr. [Astronomer] presents a new star chart
+academics.2001 = {
+	type = country_event
+
+	title = academics.2001.t
+	desc = academics.2001.d
+	flavor = academics.2001.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = { #Hurray
+		name = academics.2001.g
+
+		add_modifier = {
+			name = academics_scientific_society_happy
+			years = 3
+		}
+	}
+}
+
+#Academics 2002: Our focus on Astronomy failed!
+academics.2002 = {
+	type = country_event
+
+	title = academics.2002.t
+	desc = academics.2002.d
+	flavor = academics.2002.f
+
+	placement = ROOT
+
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by timed out je
+	}
+
+	immediate = {
+	}
+
+	option = { #What a pitty!
+		name = academics.2002.g
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
+	}
+}
+
+#Academics 2003: We need to find more stars than [Scope Rival Nation]
+academics.2003 = {
+	type = country_event
+
+	title = academics.2003.t
+
+	desc = academics.2003.d
+
+	flavor = academics.2003.f
+
+	placement = ROOT
+
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_milky_way.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	cooldown = {
+		years = { 5 10 }
+	}
+
+	trigger = {
+		has_building = building_verrier_observatory
+		any_country = {
+			var:verrier_astronomical_objects > root.var:verrier_astronomical_objects
+		}
+		ig:ig_intelligentsia = {
+			is_marginal = no
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #Ad Astra!
+		name = academics.2003.g
+
+		
+	}
+
+	option = { #Stars? We have better things to do!
+		name = academics.2003.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 2
+		}
+	}
+}

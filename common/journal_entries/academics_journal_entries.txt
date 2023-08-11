@@ -248,3 +248,59 @@ je_academics_tech_school = {
 
 	weight = 35
 }
+
+###### ASTRONOMICAL MISSIONS ###########################################################
+
+je_academics_find_more_stars = {
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		academics_add_astronomical_mission = yes
+	}
+
+	current_value = {
+		value = var:verrier_astronomical_objects
+	}
+
+	goal_add_value = {
+		value = 75
+	}
+
+	complete = {
+		verrier_has_astronomer = yes
+
+		custom_tooltip = {
+			text = je_academics_find_more_stars_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		custom_tooltip = {
+			text = je_academics_find_more_stars_event_tt
+			trigger_event = { 
+				id = academics.2001
+				popup = yes 
+			}
+		}
+
+		academics_remove_astronomical_mission = yes
+	}
+
+	timeout = 3600
+
+	on_timeout = {
+		trigger_event = { 
+			id = academics.2002
+			popup = yes 
+		}
+
+		academics_remove_astronomical_mission = yes
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
