@@ -115,3 +115,70 @@ je_dubois_specimen = {
 
 	weight = 100
 }
+
+je_dubois_fossil = {
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	is_shown_when_inactive = {
+		is_player = yes
+	}
+
+	possible = {
+		any_scope_building = {
+			is_building_type = building_dubois_zoo
+		}
+		has_technology_researched = dubois_paleontology_tech
+	}
+	
+	immediate = {
+	}
+
+	
+    fail = {
+    }
+
+	on_fail = {
+	}
+
+	complete = {
+		dubois_has_paleontologist = yes
+		custom_tooltip = {
+			text = dubois_fossil_tt
+			var:dubois_fossil >= 100
+		}
+		NOT = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_paleontological_collection
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		dubois_sub_100_fossil = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_paleontological_collection
+			}
+		}
+	}
+
+	invalid = {
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	should_be_pinned_by_default = no
+
+	weight = 100
+}
