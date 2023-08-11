@@ -304,3 +304,86 @@ je_academics_find_more_stars = {
 
 	weight = 50
 }
+
+je_academics_create_star_chart = {
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		academics_add_astronomical_mission = yes
+	}
+
+	current_value = {
+		value = var:verrier_astronomical_objects
+	}
+
+	goal_add_value = {
+		value = 100
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_academics_create_star_chart_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			custom_tooltip = {
+				text = je_academics_create_star_chart_event_tt
+				trigger_event = { 
+					id = academics.2004
+					popup = yes 
+				}
+			}
+		}
+		else = {
+			custom_tooltip = {
+				text = je_academics_create_star_chart_event_without_astronomer_tt
+				trigger_event = { 
+					id = academics.2006
+					popup = yes 
+				}
+			}
+		}
+
+		academics_remove_astronomical_mission = yes
+	}
+
+	timeout = 3600
+
+	on_timeout = {
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			custom_tooltip = {
+				text = je_academics_create_star_chart_failed_event_tt
+				trigger_event = { 
+					id = academics.2005
+					popup = yes 
+				}
+			}
+		}
+		else = {
+			custom_tooltip = {
+				text = je_academics_create_star_chart_failed_event_without_astronomer_tt
+				trigger_event = { 
+					id = academics.2007
+					popup = yes 
+				}
+			}
+		}
+
+		academics_remove_astronomical_mission = yes
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
