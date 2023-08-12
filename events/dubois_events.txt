@@ -11137,6 +11137,8 @@ dubois.2103 = {
 	}
 }
 
+######North American Dinosaur Collection######
+
 #Dubois 2111: North American Dinosaurs
 
 dubois.2111 = {
@@ -11560,6 +11562,1123 @@ dubois.2115 = {
 			set_character_busy = yes
 		}
 		set_variable = dubois_remount_tyrannosaurus_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+######South American Dinosaur Collection######
+
+#Dubois 2121: South American Dinosaurs
+
+dubois.2121 = {
+	type = country_event
+
+	title = dubois.2121.t
+	desc = dubois.2121.d
+
+	flavor = dubois.2121.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	option = {	#Visit Antarctosaurus
+		name = dubois.2121.g
+		trigger = {
+			has_variable = dubois_antarctosaurus_var
+		}
+
+		trigger_event = {
+			id = dubois.2122
+			popup = yes
+		}
+	}
+	option = {	#Visit Argyrosaurus
+		name = dubois.2121.h
+		trigger = {
+			has_variable = dubois_argyrosaurus_var
+		}
+
+		trigger_event = {
+			id = dubois.2123
+			popup = yes
+		}
+	}
+
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2122: Antarctosaurus
+
+dubois.2122 = {
+	type = country_event
+
+	title = dubois.2122.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_antarctosaurus_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_antarctosaurus_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_antarctosaurus_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2122.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Antarctosaurus
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_antarctosaurus_var
+				has_variable = dubois_poor_antarctosaurus_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_antarctosaurus_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2123: Argyrosaurus
+
+dubois.2123 = {
+	type = country_event
+
+	title = dubois.2123.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_argyrosaurus_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_argyrosaurus_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_argyrosaurus_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2122.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Argyrosaurus
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_argyrosaurus_var
+				has_variable = dubois_poor_argyrosaurus_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_argyrosaurus_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+######European Dinosaur Collection######
+
+#Dubois 2131: European Dinosaurs
+
+dubois.2131 = {
+	type = country_event
+
+	title = dubois.2131.t
+	desc = dubois.2131.d
+
+	flavor = dubois.2131.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	option = {	#Visit Iguanodon
+		name = dubois.2131.g
+		trigger = {
+			has_variable = dubois_iguanodon_var
+		}
+
+		trigger_event = {
+			id = dubois.2132
+			popup = yes
+		}
+	}
+	option = {	#Visit Plateosaurus
+		name = dubois.2131.h
+		trigger = {
+			has_variable = dubois_plateosaurus_var
+		}
+
+		trigger_event = {
+			id = dubois.2133
+			popup = yes
+		}
+	}
+
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2132: Iguanodon
+
+dubois.2132 = {
+	type = country_event
+
+	title = dubois.2132.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_iguanodon_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_iguanodon_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_iguanodon_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2132.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Iguanodon
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_iguanodon_var
+				has_variable = dubois_poor_iguanodon_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_iguanodon_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2133: Plateosaurus
+
+dubois.2133 = {
+	type = country_event
+
+	title = dubois.2133.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_plateosaurus_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_plateosaurus_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_plateosaurus_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2133.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Plateosaurus
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_plateosaurus_var
+				has_variable = dubois_poor_plateosaurus_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_plateosaurus_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+###African Dinosaur Collection###
+
+#Dubois 2141: African Dinosaurs
+
+dubois.2141 = {
+	type = country_event
+
+	title = dubois.2141.t
+	desc = dubois.2141.d
+
+	flavor = dubois.2141.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	option = {	#Visit Giraffatitan
+		name = dubois.2141.g
+		trigger = {
+			has_variable = dubois_giraffatitan_var
+		}
+
+		trigger_event = {
+			id = dubois.2142
+			popup = yes
+		}
+	}
+	option = {	#Visit Spinosaurus
+		name = dubois.2141.h
+		trigger = {
+			has_variable = dubois_spinosaurus_var
+		}
+
+		trigger_event = {
+			id = dubois.2143
+			popup = yes
+		}
+	}
+
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2142: Giraffatitan
+
+dubois.2142 = {
+	type = country_event
+
+	title = dubois.2142.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_giraffatitan_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_giraffatitan_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_giraffatitan_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2142.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Giraffatitan
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_giraffatitan_var
+				has_variable = dubois_poor_giraffatitan_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_giraffatitan_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2143: Spinosaurus
+
+dubois.2143 = {
+	type = country_event
+
+	title = dubois.2143.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_spinosaurus_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_spinosaurus_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_spinosaurus_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2143.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Spinosaurus
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_spinosaurus_var
+				has_variable = dubois_poor_spinosaurus_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_spinosaurus_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+###Asian Dinosaur Collection###
+
+#Dubois 2151: Asian Dinosaurs
+
+dubois.2151 = {
+	type = country_event
+
+	title = dubois.2151.t
+	desc = dubois.2151.d
+
+	flavor = dubois.2151.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	option = {	#Visit Psittacosaurus
+		name = dubois.2151.g
+		trigger = {
+			has_variable = dubois_psittacosaurus_var
+		}
+
+		trigger_event = {
+			id = dubois.2152
+			popup = yes
+		}
+	}
+	option = {	#Visit Velociraptor
+		name = dubois.2151.h
+		trigger = {
+			has_variable = dubois_velociraptor_var
+		}
+
+		trigger_event = {
+			id = dubois.2153
+			popup = yes
+		}
+	}
+
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2152: Psittacosaurus
+
+dubois.2152 = {
+	type = country_event
+
+	title = dubois.2152.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_psittacosaurus_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_psittacosaurus_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_psittacosaurus_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2152.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Psittacosaurus
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_psittacosaurus_var
+				has_variable = dubois_poor_psittacosaurus_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_psittacosaurus_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2153: Velociraptor
+
+dubois.2153 = {
+	type = country_event
+
+	title = dubois.2153.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_velociraptor_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_velociraptor_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_velociraptor_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2153.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Velociraptor
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_velociraptor_var
+				has_variable = dubois_poor_velociraptor_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_velociraptor_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+###Australian Dinosaur Collection###
+
+#Dubois 2161: Australian Dinosaurs
+
+dubois.2161 = {
+	type = country_event
+
+	title = dubois.2161.t
+	desc = dubois.2161.d
+
+	flavor = dubois.2161.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	option = {	#Visit Muttaburrasaurus
+		name = dubois.2161.g
+		trigger = {
+			has_variable = dubois_muttaburrasaurus_var
+		}
+
+		trigger_event = {
+			id = dubois.2162
+			popup = yes
+		}
+	}
+
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2162: Muttaburrasaurus
+
+dubois.2162 = {
+	type = country_event
+
+	title = dubois.2162.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_muttaburrasaurus_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_muttaburrasaurus_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_muttaburrasaurus_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2162.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Muttaburrasaurus
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_muttaburrasaurus_var
+				has_variable = dubois_poor_muttaburrasaurus_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_muttaburrasaurus_var
 		dubois_remount_dinosaur_effect = yes
 		hidden_effect = {
 			trigger_event = {
