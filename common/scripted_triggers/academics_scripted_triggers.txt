@@ -97,9 +97,17 @@ academics_has_tech_school = {
 
 ######ACADEMIC MISSIONS######
 
+academics_mission_possible = {
+	is_player = yes #only players should receive missions
+	has_game_rule = academics_missions_rule #Missions are only possible if the game rule is set
+	NOR = { #Checks if the player does not have 3 or more missions already or got a mission in the last few years
+		var:academics_mission_counter_var >= 3 #Not 3 or more missions already
+		has_variable = academics_mission_timer_var #Random number of days between 5 years and 10 years, set with every new mission, prevents mission spam
+	}
+}
+
 academics_astronomical_mission_possible_trigger = {
-	NOR = {
-		has_variable = academics_astronomical_mission_var
-		var:academics_mission_counter_var >= 3
+	NOT = {
+		has_variable = academics_astronomical_mission_var #does not have an astronomical mission already
 	}
 }

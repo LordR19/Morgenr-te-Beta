@@ -1134,6 +1134,16 @@ academics_add_historical_tech_schools = {
 	}
 }
 
+### ACADEMIC MISSION EFFECTS ###
+
+academics_set_mission_timer_effect = {
+	set_variable = { #Is used to not send new missions shortly after a first mission
+		name = academics_mission_timer_var
+		years = { 5 10 }
+	}
+}
+
+#Astronomical missions
 academics_add_astronomical_mission = {
 	if = {
 		limit = { #Fallback if the variable doesn't exist
@@ -1144,17 +1154,18 @@ academics_add_astronomical_mission = {
 			value = 0
 		}
 	}
-	change_variable = {
+	change_variable = { #The mission counter is used to not flood the player with missions. It is raised by 1 for each mission and gets checked before adding a new mission.
 		name = academics_mission_counter_var
 		add = 1
 	}
-	set_variable = academics_astronomical_mission_var
+	set_variable = academics_astronomical_mission_var #A country should have maximum one astronomical mission. This variable is used to check that
+	academics_set_mission_timer_effect = yes #Sets a timer for New missions to be unavailable
 }
 
 academics_remove_astronomical_mission = {
-	change_variable = {
+	change_variable = { #Removes the mission from the mission counter
 		name = academics_mission_counter_var
 		add = -1
 	}
-	remove_variable = academics_astronomical_mission_var
+	remove_variable = academics_astronomical_mission_var #removes the astronomical mission and allows new astronomical missions
 }
