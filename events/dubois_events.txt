@@ -105,6 +105,7 @@ namespace = dubois
 #Dubois 154: Koala
 #Dubois 155: Platypus
 
+
 ######PALEONTOLOGY######
 
 #Dubois 200: Opening of the Natural History Museum
@@ -121,6 +122,18 @@ namespace = dubois
 #Dubois 208: Ammonites
 #Dubois 209: Eusthenopteron
 #Dubois 210: Dinosauria eggs
+
+#######DINOSAUR EXCAVATION######
+
+#Dinosaur Bones (Great Formation)
+
+#Dubois 211: Dinosaur Excavation
+#Dubois 212: Excavation Progress (hidden)
+#Dubois 213: Fossil Fragments
+#Dubois 214: Dinosaur Bone
+#Dubois 215: Dinosaur Skull
+#Dubois 216: Dinosaur Skeleton
+#Dubois 220: Excavation finished
 
 
 ######ZOO######
@@ -4798,10 +4811,10 @@ dubois.211 = {
 	trigger = {
 		dubois_paleontological_research = yes
 		dubois_has_potential_dinosaur_bone = yes
-		dubois_set_dinosaur_excavation_progress = yes
 	}
 
 	immediate = {
+		dubois_set_dinosaur_excavation_progress = yes
 		var:dubois_paleontologist_var = {
 			save_scope_as = dubois_paleontologist_scope
 		}
@@ -5235,6 +5248,13 @@ dubois.220 = {
 
 	option = {
 		name = dubois.220.g #
+		if = {
+			limit = {
+				dubois_paleontological_research = yes
+				dubois_has_potential_dinosaur_bone = yes
+			}
+			dubois_add_dinousaur_bone = yes
+		}
 		dubois_small_add_technology = yes
 		paleontologist_experience_gain_effect = {
 			AMOUNT = "5"
@@ -11125,7 +11145,7 @@ dubois.2111 = {
 		}
 	}
 	option = {	#Visit Tyrannosaurus Rex
-		name = dubois.2110.j
+		name = dubois.2111.j
 		trigger = {
 			has_variable = dubois_tyrannosaurus_var
 		}
