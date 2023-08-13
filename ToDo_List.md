@@ -10,7 +10,7 @@
 
 #Astronomy:
 - Mission to discover Pluto
-- Mission to discover Uranus
+- Mission to discover Neptun
 - More historical Astronomers that can spawn
 - Move the past conferences to a new event
 - Add Conference for Moon formation
