@@ -1,11 +1,14 @@
 #TODO List
 
 #General:
-- Death Events for Academics
 - Add academics for some nations at game start
 - Add a list with discoveries / deeds to each academic
-- Add more custom locs for the Scientific Society
+- Add more custom locs for the Scientific Society (invented)
 - Make sure that historical academics spawn properly
+
+Done:
+- Death Events for Academics
+- Added historic or modern names for the scientific society
 
 #Archaeology:
 - Add Christian Jürgensen Thomsen at game start (https://en.wikipedia.org/wiki/Christian_J%C3%BCrgensen_Thomsen)
