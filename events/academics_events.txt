@@ -2,7 +2,7 @@
 # ACADEMICS EVENTS  #
 #####################
 
-#by Lord R
+#by Lord R & Marco Dandolo
 
 ###################
 
@@ -92,6 +92,12 @@ namespace = academics
 #Academics 2009: We need to find more stars than [Scope Rival Nation]
 #Academics 2010: We won the Race for the Stars
 #Academics 2011: We lost the Race for the Stars
+
+###Archaeological Missions###
+
+#Academics 2101: The Scientific Society asks us to found an Archaeological Museum
+#Academics 2102: New Museum opens
+#Academics 2103: Archaeological disappointment
 
 #################################################################################
 
@@ -3245,5 +3251,165 @@ academics.2011 = {
 		}
 
 		remove_variable = je_rival_nation_var
+	}
+}
+
+
+###Archaeological Missions###
+
+#Academics 2101: The Scientific Society asks us to found an Archaeological Museum
+
+academics.2101 = {
+	type = country_event
+
+	title = academics.2101.t
+	desc = academics.2101.d
+	flavor = academics.2101.f
+
+	placement = ROOT
+
+	duration = 3
+
+	cooldown = {
+		years = { 50 100 }
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_interior.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		academics_archaeological_mission_possible_trigger = yes #does not have an archaeological mission or 3 or more missions already
+		has_technology_researched = lepsius_antiquarianism_tech
+		var:lepsius_total_artifacts <= 4
+		country_rank >= rank_value:major_power
+		has_port = yes
+		ig:ig_intelligentsia = {
+			is_marginal = no
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #We'll go on treasure hunt!
+		name = academics.2101.g
+
+		add_journal_entry = {
+			type = je_academics_found_archaeological_museum
+		}
+
+		custom_tooltip = academics.2101_goal_tt
+		custom_tooltip = academics.2101_reward_tt
+	}
+
+	option = { #No need for a dusty museum.
+		name = academics.2101.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
+	}
+}
+#Academics 2102: New Museum opens
+
+academics.2102 = {
+	type = country_event
+
+	title = academics.2102.t
+	desc = academics.2102.d
+	flavor = academics.2102.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_interior.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+	}
+
+	option = { #Hurray
+		name = academics.2102.g
+
+		add_modifier = {
+			name = academics_scientific_society_higher_standard_modifier
+			years = 5
+		}
+
+		add_modifier = {
+			name = academics_scientific_society_happy
+			years = 3
+		}
+
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+}
+
+#Academics 2103: Archaeological disappointment
+
+academics.2103 = {
+	type = country_event
+
+	title = academics.2103.t
+	desc = academics.2103.d
+	flavor = academics.2103.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_interior.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by timed out je
+	}
+
+	immediate = {
+	}
+
+	option = { #What a pitty!
+		name = academics.2103.g
+
+		every_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			add_modifier = {
+				name = academics_scientific_society_lower_standard_modifier
+				years = 5
+			}
+		}
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
 	}
 }
