@@ -1111,20 +1111,50 @@ paleontologist_experience_gain_effect = { #adds XP to the Paleontologist
 ######ARCHAEOLOGIST######
 
 create_archaeologist_effect = {
-	create_character = {
-		save_scope_as = lepsius_archaeologist_scope
-	}
-		
-	scope:lepsius_archaeologist_scope = {
-		add_trait = lepsius_archaeologist
-		set_variable = mr_is_archaeologist_var
-		archaeologist_experience_set_up_effect = yes
-		place_character_in_void = 1200	
-	}
-		
-	set_variable = {
-		name = lepsius_archaeologist_var
-		value = scope:lepsius_archaeologist_scope
+	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Flinders Petrie
+			trigger = {
+				c:GBR ?= this
+				game_date < 1908.6.3 #Age 55
+				year > 1880 #First Travel to Giza
+				NOT = { has_global_variable = lepsius_petrie_created }
+			}
+			create_character = {
+				template = mr_gbr_petrie_flinders_character_template
+
+				save_scope_as = lepsius_archaeologist_scope
+			}
+			scope:lepsius_archaeologist_scope = {
+				set_variable = lepsius_petrie_character_var #Unique for Petrie, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_archaeologist_var #This is basically the role of Archaeologist for a country, makes it possible to access character
+				value = scope:lepsius_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_petrie_created #Makes sure Petrie is not already created
+		}
+		1 = { #Random Archaeologist (fallback and to make it uncertain for historical once to appear)
+			create_character = {
+				save_scope_as = lepsius_archaeologist_scope
+			}
+
+			scope:lepsius_archaeologist_scope = {
+				add_trait = lepsius_archaeologist
+				set_variable = mr_is_archaeologist_var
+				archaeologist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = lepsius_archaeologist_var
+				value = scope:lepsius_archaeologist_scope
+			}
+		}
 	}
 }
 
@@ -1138,15 +1168,54 @@ kill_archaeologist_effect = {
 
 # Creates a new Archaeologist without losing the old one
 create_new_archaeologist_effect = {
-	create_character = {
-		save_scope_as = lepsius_new_archaeologist_scope
+	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Flinders Petrie
+			trigger = {
+				c:GBR ?= this
+				game_date < 1908.6.3 #Age 55
+				year > 1880 #First Travel to Giza
+				NOT = { has_global_variable = lepsius_petrie_created }
+			}
+			create_character = {
+				template = mr_gbr_petrie_flinders_character_template
+
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+			scope:lepsius_new_archaeologist_scope = {
+				set_variable = lepsius_petrie_character_var #Unique for Petrie, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var #Used to set the scope again
+				value = scope:lepsius_new_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_petrie_created #Makes sure Petrie is not already created
+		}
+		1 = { #Random Archaeologist (fallback and to make it uncertain for historical once to appear)
+			create_character = {
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+
+			scope:lepsius_new_archaeologist_scope = {
+				add_trait = lepsius_archaeologist
+				set_variable = mr_is_archaeologist_var
+				archaeologist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var
+				value = scope:lepsius_new_archaeologist_scope
+			}
+		}
 	}
-		
-	scope:lepsius_new_archaeologist_scope = {
-		add_trait = lepsius_archaeologist
-		set_variable = mr_is_archaeologist_var
-		archaeologist_experience_set_up_effect = yes
-		place_character_in_void = 1200	
+
+	var:lepsius_new_archaeologist_var = {
+		save_scope_as = lepsius_new_archaeologist_scope
 	}
 }
 
