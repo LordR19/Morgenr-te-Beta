@@ -1712,3 +1712,30 @@ academics_remove_astronomical_mission = {
 	}
 	remove_variable = academics_astronomical_mission_var #removes the astronomical mission and allows new astronomical missions
 }
+
+#Archaeological missions
+academics_add_archaeological_mission = {
+	if = {
+		limit = { #Fallback if the variable doesn't exist
+			NOT = { has_variable = academics_mission_counter_var }
+		}
+		set_variable = { #used to count the academic missions
+			name = academics_mission_counter_var
+			value = 0
+		}
+	}
+	change_variable = { #The mission counter is used to not flood the player with missions. It is raised by 1 for each mission and gets checked before adding a new mission.
+		name = academics_mission_counter_var
+		add = 1
+	}
+	set_variable = academics_archaeological_mission_var #A country should have maximum one archaeological mission. This variable is used to check that
+	academics_set_mission_timer_effect = yes #Sets a timer for New missions to be unavailable
+}
+
+academics_remove_archaeological_mission = {
+	change_variable = { #Removes the mission from the mission counter
+		name = academics_mission_counter_var
+		add = -1
+	}
+	remove_variable = academics_archaeological_mission_var #removes the archaeological mission and allows new astronomical missions
+}
