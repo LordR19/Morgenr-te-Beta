@@ -806,8 +806,8 @@ create_paleontologist_effect = {
 		4 = { #Edward Drinker Cope, USA
 			trigger = {
 				c:USA ?= this
-				game_date < 1887.12.15 #Age 55
-				year > 1858 #Part time work at the Academy of Natural Sciences
+				game_date < 1895.6.28 #Age 55
+				year > 1864 #Became Professor at Haverford College
 				NOT = { has_global_variable = dubois_cope_created }
 			}
 			create_character = {
@@ -828,6 +828,32 @@ create_paleontologist_effect = {
 			}
 
 			set_global_variable = dubois_cope_created #Makes sure Cope is not already created
+		}
+		4 = { #Othniel Charles Marsh, USA
+			trigger = {
+				c:USA ?= this
+				game_date < 1886.10.29 #Age 55
+				year > 1866 #Became Professor at Yale College
+				NOT = { has_global_variable = dubois_marsh_created }
+			}
+			create_character = {
+				template = mr_usa_marsh_othniel_charles_character_template
+
+				save_scope_as = dubois_paleontologist_scope
+			}
+			scope:dubois_paleontologist_scope = {
+				set_variable = dubois_marsh_character_var #Unique for Marsh, mostly used for clothing
+				set_variable = mr_is_paleontologist_var #Could be used for clothing or a role in the future
+				paleontologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = dubois_paleontologist_var #This is basically the role of Paleontologist for a country, makes it possible to access character
+				value = scope:dubois_paleontologist_scope
+			}
+
+			set_global_variable = dubois_marsh_created #Makes sure Marsh is not already created
 		}
 		1 = { #Random Paleontologist (fallback and to make it uncertain for historical once to appear)
 			create_character = {
@@ -863,8 +889,8 @@ create_new_paleontologist_effect = {
 		4 = { #Edward Drinker Cope, USA
 			trigger = {
 				c:USA ?= this
-				game_date < 1887.12.15 #Age 55
-				year > 1858 #Part time work at the Academy of Natural Sciences
+				game_date < 1895.6.28 #Age 55
+				year > 1864 #Became Professor at Haverford College
 				NOT = { has_global_variable = dubois_cope_created }
 			}
 			create_character = {
@@ -885,6 +911,32 @@ create_new_paleontologist_effect = {
 			}
 
 			set_global_variable = dubois_cope_created #Makes sure Cope is not already created
+		}
+		4 = { #Othniel Charles Marsh, USA
+			trigger = {
+				c:USA ?= this
+				game_date < 1886.10.29 #Age 55
+				year > 1866 #Became Professor at Yale College
+				NOT = { has_global_variable = dubois_marsh_created }
+			}
+			create_character = {
+				template = mr_usa_marsh_othniel_charles_character_template
+
+				save_scope_as = dubois_new_paleontologist_scope
+			}
+			scope:dubois_new_paleontologist_scope = {
+				set_variable = dubois_marsh_character_var #Unique for Marsh, mostly used for clothing
+				set_variable = mr_is_paleontologist_var #Could be used for clothing or a role in the future
+				paleontologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = dubois_new_paleontologist_var
+				value = scope:dubois_new_paleontologist_scope
+			}
+
+			set_global_variable = dubois_marsh_created #Makes sure Marsh is not already created
 		}
 		1 = { #Random Paleontologist (fallback and to make it uncertain for historical once to appear)
 			create_character = {

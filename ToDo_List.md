@@ -5,9 +5,11 @@
 - Add a list with discoveries / deeds to each academic
 - Add more custom locs for the Scientific Society (invented)
 - Make sure that historical academics spawn properly
+- Mission to recruit more Academics
+- Death Events for Academics
 
 Done:
-- Death Events for Academics
+- Death Events for Academics (if they die without our input)
 - Added historic or modern names for the scientific society
 
 #Archaeology:
