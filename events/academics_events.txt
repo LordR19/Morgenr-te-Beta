@@ -80,6 +80,10 @@ namespace = academics
 #Academics 2007: A new Star Chart
 #Academics 2008: No Astronomer, no Star Chart
 
+#Academics 2009: We need to find more stars than [Scope Rival Nation]
+#Academics 2010: We won the Race for the Stars
+#Academics 2011: We lost the Race for the Stars
+
 #################################################################################
 
 #Academics 1: Engineer retires
@@ -2613,7 +2617,7 @@ academics.2003 = {
 
 ### Find 100 Astronomical Objects ###
 
-#Academics 2004: The Scientific Society The requests a new star chart from our [Astronomer]
+#Academics 2004: The Scientific Society requests a new star chart from our [Astronomer]
 academics.2004 = {
 	type = country_event
 
@@ -2869,9 +2873,11 @@ academics.2009 = {
 	}
 
 	trigger = {
+		academics_astronomical_mission_possible_trigger = yes #does not have an astronomical mission or 3 or more missions already
 		has_building = building_verrier_observatory
 		any_country = {
-			var:verrier_astronomical_objects > root.var:verrier_astronomical_objects
+			var:verrier_astronomical_objects >= academics_has_10_or_more_astronomical_objects
+			var:verrier_astronomical_objects <= academics_has_100_or_less_astronomical_objects_more
 		}
 		ig:ig_intelligentsia = {
 			is_marginal = no
@@ -2879,21 +2885,141 @@ academics.2009 = {
 	}
 
 	immediate = {
-	}
-
-	option = { #Ad Astra!
-		name = academics.2001.g
+		random_country = {
+			limit = {
+				var:verrier_astronomical_objects >= academics_has_10_or_more_astronomical_objects
+				var:verrier_astronomical_objects <= academics_has_100_or_less_astronomical_objects_more
+			}
+			save_scope_as = rival_scope
+		}
 
 		
+		set_variable = {
+			name = je_rival_nation_var
+			value = scope:rival_scope
+		}
 	}
 
-	option = { #Stars? We have better things to do!
-		name = academics.2001.h
+	option = { #Let us beat them!
+		name = academics.2009.g
+
+		add_journal_entry = {
+			type = je_academics_rivalry_for_stars
+			target = scope:rival_scope
+		}
+
+		custom_tooltip = academics.2009_goal_tt
+		custom_tooltip = academics.2009_reward_tt
+	}
+
+	option = { #This is not a space race...
+		name = academics.2009.h
 		default_option = yes
 
 		add_modifier = {
 			name = academics_unhappy_intelligentsia
 			years = 2
 		}
+
+		remove_variable = je_rival_nation_var
+	}
+}
+
+#Academics 2010: We won the Race for the Stars
+academics.2010 = {
+	type = country_event
+
+	title = academics.2010.t
+
+	desc = {
+		triggered_desc = { #In case your Rival still exists
+			desc = academics.2010.d_rival
+			trigger = {
+				exists = var:je_rival_nation_var
+			}
+		}
+		triggered_desc = { #In case your Rival does not exist anymore
+			desc = academics.2010.d_rival_gone
+			trigger = {
+				NOT = {
+					exists = var:je_rival_nation_var
+				}
+			}
+		}
+	}
+	flavor = academics.2010.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_milky_way.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+	}
+
+	option = { #Hurray
+		name = academics.2002.g
+
+		add_modifier = {
+			name = academics_competition_with_rival_won
+			years = 4
+		}
+
+		remove_variable = je_rival_nation_var
+	}
+}
+
+#Academics 2011: We lost the Race for the Stars
+academics.2011 = {
+	type = country_event
+
+	title = academics.2011.t
+	desc = academics.2011.d
+	flavor = academics.2011.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by timed out je
+	}
+
+	immediate = {
+	}
+
+	option = { #What a pitty!
+		name = academics.2011.g
+
+		add_modifier = {
+			name = academics_no_competition_with_rival
+			years = 3
+		}
+
+		add_radicals = {
+			pop_type = academics
+			value = 0.15
+		}
+
+		remove_variable = je_rival_nation_var
 	}
 }

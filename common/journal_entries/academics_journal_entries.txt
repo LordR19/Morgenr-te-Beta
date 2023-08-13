@@ -387,3 +387,45 @@ je_academics_create_star_chart = {
 
 	weight = 50
 }
+
+je_academics_rivalry_for_stars = {
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		academics_add_astronomical_mission = yes
+	}
+
+	complete = {
+		OR = {
+			custom_tooltip = {
+				text = je_academics_rivalry_for_stars_success
+				var:verrier_astronomical_objects > scope:target.var:verrier_astronomical_objects
+			}
+			NOT = {
+				exists = var:je_rival_nation_var
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = academics.2010
+			popup = yes 
+		}
+			
+		academics_remove_astronomical_mission = yes
+	}
+
+	timeout = 3600
+
+	on_timeout = {
+		trigger_event = { 
+			id = academics.2011
+			popup = yes 
+		}
+
+		academics_remove_astronomical_mission = yes
+	}
+
+	weight = 50
+}
