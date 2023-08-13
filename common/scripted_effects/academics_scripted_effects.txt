@@ -18,32 +18,76 @@
 
 ######ENGINEER######
 
+#This effect choses a historical Engineer or creates a generic one.
 create_engineer_effect = {
-	if = { #Gustave Eiffel, France
-		limit = {
-			c:FRA ?= this
-			game_date < 1887.12.15 #Age 55
-			year > 1857 #First Contract of Eiffel as an Engineer
-			NOT = { has_global_variable = gaudi_eiffel_created }
-		}
-		create_eiffel_gustave_effect = yes
-		set_global_variable = gaudi_eiffel_created
-	}
-	else = {
-		create_character = {
-			save_scope_as = gaudi_engineer_scope
-		}
+	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Gustave Eiffel
+			trigger = {
+				c:FRA ?= this
+				game_date < 1887.12.15 #Age 55
+				year > 1857 #First Contract of Eiffel as an Engineer
+				NOT = { has_global_variable = gaudi_eiffel_created }
+			}
+			create_character = {
+				template = mr_fra_eiffel_gustave_character_template
 
-		scope:gaudi_engineer_scope = {
-			add_trait = engineer
-			set_variable = mr_is_engineer_var
-			engineer_experience_set_up_effect = yes
-			place_character_in_void = 1200	
+				save_scope_as = gaudi_engineer_scope
+			}
+			scope:gaudi_engineer_scope = {
+				set_variable = gaudi_eiffel_character_var #Unique for Eiffel, mostly used for clothing
+				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
+				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = gaudi_engineer_var #This is basically the role of Engineer for a country, makes it possible to access character
+				value = scope:gaudi_engineer_scope
+			}
+
+			set_global_variable = gaudi_eiffel_created #Makes sure Eiffel is not already created
 		}
-			
-		set_variable = {
-			name = gaudi_engineer_var
-			value = scope:gaudi_engineer_scope
+		4 = { #Nikola Tesla
+			trigger = {
+				game_date < 1911.7.10 #Age 55
+				year > 1878 #Exmatriculation
+				NOT = { has_global_variable = gaudi_tesla_created }
+			}
+			create_character = {
+				template = mr_ser_tesla_nikola_character_template
+
+				save_scope_as = gaudi_engineer_scope
+			}
+			scope:gaudi_engineer_scope = {
+				set_variable = gaudi_tesla_character_var #Unique for Tesla, mostly used for clothing
+				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
+				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = gaudi_engineer_var #This is basically the role of Engineer for a country, makes it possible to access character
+				value = scope:gaudi_engineer_scope
+			}
+
+			set_global_variable = gaudi_tesla_created #Makes sure Tesla is not already created
+		}
+		1 = { #Random Engineer (fallback and to make it uncertain for historical once to appear)
+			create_character = {
+				save_scope_as = gaudi_engineer_scope
+			}
+
+			scope:gaudi_engineer_scope = {
+				add_trait = engineer
+				set_variable = mr_is_engineer_var
+				engineer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = gaudi_engineer_var
+				value = scope:gaudi_engineer_scope
+			}
 		}
 	}
 }
@@ -57,17 +101,84 @@ kill_engineer_effect = {
 }
 
 # Creates a new Engineer without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
 create_new_engineer_effect = {
-	create_character = {
-		save_scope_as = gaudi_new_engineer_scope
+	random_list = {
+		4 = { #Gustave Eiffel
+			trigger = {
+				c:FRA ?= this
+				game_date < 1887.12.15 #Age 55
+				year > 1857 #First Contract of Eiffel as an Engineer
+				NOT = { has_global_variable = gaudi_eiffel_created }
+			}
+			create_character = {
+				template = mr_fra_eiffel_gustave_character_template
+
+				save_scope_as = gaudi_new_engineer_scope
+			}
+			scope:gaudi_new_engineer_scope = {
+				set_variable = gaudi_eiffel_character_var
+				set_variable = mr_is_engineer_var
+				engineer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = gaudi_new_engineer_var
+				value = scope:gaudi_new_engineer_scope
+			}
+
+			set_global_variable = gaudi_eiffel_created
+		}
+		4 = { #Nikola Tesla
+			trigger = {
+				game_date < 1911.7.10 #Age 55
+				year > 1878 #Exmatriculation
+				NOT = { has_global_variable = gaudi_tesla_created }
+			}
+			create_character = {
+				template = mr_ser_tesla_nikola_character_template
+
+				save_scope_as = gaudi_new_engineer_scope
+			}
+			scope:gaudi_new_engineer_scope = {
+				set_variable = gaudi_tesla_character_var
+				set_variable = mr_is_engineer_var
+				engineer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = gaudi_new_engineer_var
+				value = scope:gaudi_new_engineer_scope
+			}
+
+			set_global_variable = gaudi_tesla_created
+		}
+		1 = { #Random Engineer
+			create_character = {
+				save_scope_as = gaudi_new_engineer_scope
+			}
+
+			scope:gaudi_new_engineer_scope = {
+				add_trait = engineer
+				set_variable = mr_is_engineer_var
+				engineer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = gaudi_new_engineer_var
+				value = scope:gaudi_new_engineer_scope
+			}
+		}
 	}
 
-	scope:gaudi_new_engineer_scope = {
-		add_trait = engineer
-		set_variable = mr_is_engineer_var
-		engineer_experience_set_up_effect = yes
-		place_character_in_void = 1200	
+	var:gaudi_new_engineer_var = {
+		save_scope_as = gaudi_new_engineer_scope
 	}
+	remove_variable = gaudi_new_engineer_var
 }
 
 # Set new Engineer as official Engineer
@@ -160,31 +271,50 @@ engineer_experience_gain_effect = { #adds XP to the Engineer
 ######ASTRONOMER######
 
 create_astronomer_effect = {
-	if = { #Quetelet Belgium
-		limit = {
-			c:BEL ?= this
-			game_date < 1851.2.22 #Age 55
-			year > 1828 #Prevents Earlier Start Dates to spawn character before he is ready
-			NOT = { has_global_variable = verrier_quetelet_created_global_var }
+	random_list = {
+		4 = { #Adolphe Quetelet, Belgium
+			trigger = {
+				c:BEL ?= this
+				game_date < 1851.2.22 #Age 55
+				year > 1828 #Prevents Earlier Start Dates to spawn character before he is ready
+				NOT = { has_global_variable = verrier_quetelet_created_global_var }
+			}
+			create_character = {
+				template = mr_bel_quetelet_adolphe_character_template
+
+				save_scope_as = verrier_astronomer_scope
+			}
+			scope:verrier_astronomer_scope = {
+				set_variable = verrier_quetelet_character_var
+				set_variable = mr_is_astronomer_var
+				astronomer_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = verrier_astronomer_var
+				value = scope:verrier_astronomer_scope
+			}
+
+			set_global_variable = verrier_quetelet_created_global_var
 		}
-		create_quetelet_adolphe_effect = yes
-	}
-	else = {
-		create_character = {
-			save_scope_as = verrier_astronomer_scope
+		1 = { #Random Engineer
+			create_character = {
+				save_scope_as = verrier_astronomer_scope
+			}
+
+			scope:verrier_astronomer_scope = {
+				add_trait = verrier_astronomer
+				set_variable = mr_is_astronomer_var
+				astronomer_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = verrier_astronomer_var
+				value = scope:verrier_astronomer_scope
+			}
 		}
-	}
-		
-	scope:verrier_astronomer_scope = {
-		add_trait = verrier_astronomer
-		set_variable = mr_is_astronomer_var
-		astronomer_experience_set_up_effect = yes
-		place_character_in_void = 1200	
-	}
-		
-	set_variable = {
-		name = verrier_astronomer_var
-		value = scope:verrier_astronomer_scope
 	}
 }
 
@@ -198,15 +328,54 @@ kill_astronomer_effect = {
 
 # Creates a new Astronomer without losing the old one
 create_new_astronomer_effect = {
-	create_character = {
-		save_scope_as = verrier_new_astronomer_scope
+	random_list = {
+		4 = { #Adolphe Quetelet, Belgium
+			trigger = {
+				c:BEL ?= this
+				game_date < 1851.2.22 #Age 55
+				year > 1828 #Prevents Earlier Start Dates to spawn character before he is ready
+				NOT = { has_global_variable = verrier_quetelet_created_global_var }
+			}
+			create_character = {
+				template = mr_bel_quetelet_adolphe_character_template
+
+				save_scope_as = verrier_new_astronomer_scope
+			}
+			scope:verrier_new_astronomer_scope = {
+				set_variable = verrier_quetelet_character_var
+				set_variable = mr_is_astronomer_var
+				astronomer_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = verrier_new_astronomer_var
+				value = scope:verrier_new_astronomer_scope
+			}
+
+			set_global_variable = verrier_quetelet_created_global_var
+		}
+		1 = { #Random Engineer
+			create_character = {
+				save_scope_as = verrier_new_astronomer_scope
+			}
+
+			scope:verrier_new_astronomer_scope = {
+				add_trait = verrier_astronomer
+				set_variable = mr_is_astronomer_var
+				astronomer_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = verrier_new_astronomer_var
+				value = scope:verrier_new_astronomer_scope
+			}
+		}
 	}
 
-	scope:verrier_new_astronomer_scope = {
-		add_trait = verrier_astronomer
-		set_variable = mr_is_astronomer_var
-		astronomer_experience_set_up_effect = yes
-		place_character_in_void = 1200	
+	var:verrier_new_astronomer_var = {
+		save_scope_as = verrier_new_astronomer_scope
 	}
 }
 
@@ -359,46 +528,82 @@ astronomer_experience_gain_effect = { #adds XP to the Astronomer
 ######NATURALIST######
 
 create_naturalist_effect = {
-	if = { #Wallace, Great Britain or Wales
-		limit = {
-			OR = {
-				c:GBR ?= this
-				c:WLS ?= this
+	random_list = {
+		4 = { #Alfred Russell Wallace, Great Britain or Wales
+			trigger = {
+				OR = {
+					c:GBR ?= this
+					c:WLS ?= this
+				}
+				game_date < 1878.1.8 #Age 55
+				year > 1848 #First Expedition of Wallace to Brazil
+				NOT = { has_global_variable = dubois_wallace_created_global_var }
 			}
-			game_date < 1878.1.8 #Age 55
-			year > 1848 #First Expedition of Wallace to Brazil
-			NOT = { has_global_variable = dubois_wallace_created_global_var }
-		}
-		create_wallace_alfred_russel_effect = yes
-	}
-	else_if = {
-		limit = {
-			OR = {
-				country_has_primary_culture = cu:north_italian
-				country_has_primary_culture = cu:south_italian
+			create_character = {
+				template = mr_bel_quetelet_adolphe_character_template
+
+				save_scope_as = dubois_naturalist_scope
 			}
-			game_date < 1898.11.16 #Age 55
-			year > 1865 #First Expedition of Beccari to Borneo
-			NOT = { has_global_variable = dubois_beccari_created_global_var }
+			scope:dubois_naturalist_scope = {
+				set_variable = dubois_wallace_character_var
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_naturalist_var
+				value = scope:dubois_naturalist_scope
+			}
+
+			set_global_variable = dubois_wallace_created_global_var
 		}
-		create_beccari_odoardo_effect = yes
-	}
-	else = {
-		create_character = {
-			save_scope_as = dubois_naturalist_scope
+		4 = { #Odoardo Beccari,
+			trigger = {
+				OR = {
+					country_has_primary_culture = cu:north_italian
+					country_has_primary_culture = cu:south_italian
+				}
+				game_date < 1898.11.16 #Age 55
+				year > 1865 #First Expedition of Beccari to Borneo
+				NOT = { has_global_variable = dubois_beccari_created_global_var }
+			}
+			create_character = {
+				template = mr_ita_beccari_odoardo_character_template
+
+				save_scope_as = dubois_naturalist_scope
+			}
+			scope:dubois_naturalist_scope = {
+				set_variable = dubois_beccari_character_var
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_naturalist_var
+				value = scope:dubois_naturalist_scope
+			}
+
+			set_global_variable = dubois_beccari_created_global_var
 		}
-	}
-		
-	scope:dubois_naturalist_scope = {
-		add_trait = dubois_naturalist
-		set_variable = mr_is_naturalist_var
-		naturalist_experience_set_up_effect = yes
-		place_character_in_void = 1200	
-	}
-		
-	set_variable = {
-		name = dubois_naturalist_var
-		value = scope:dubois_naturalist_scope
+		1 = { #Random Engineer
+			create_character = {
+				save_scope_as = dubois_naturalist_scope
+			}
+
+			scope:dubois_naturalist_scope = {
+				add_trait = dubois_naturalist
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_naturalist_var
+				value = scope:dubois_naturalist_scope
+			}
+		}
 	}
 }
 
@@ -416,15 +621,86 @@ kill_naturalist_effect = {
 
 # Creates a new Naturalist without losing the old one
 create_new_naturalist_effect = {
-	create_character = {
-		save_scope_as = dubois_new_naturalist_scope
+	random_list = {
+		4 = { #Alfred Russell Wallace, Great Britain or Wales
+			trigger = {
+				OR = {
+					c:GBR ?= this
+					c:WLS ?= this
+				}
+				game_date < 1878.1.8 #Age 55
+				year > 1848 #First Expedition of Wallace to Brazil
+				NOT = { has_global_variable = dubois_wallace_created_global_var }
+			}
+			create_character = {
+				template = mr_bel_quetelet_adolphe_character_template
+
+				save_scope_as = dubois_new_naturalist_scope
+			}
+			scope:dubois_new_naturalist_scope = {
+				set_variable = dubois_wallace_character_var
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_new_naturalist_var
+				value = scope:dubois_new_naturalist_scope
+			}
+
+			set_global_variable = dubois_wallace_created_global_var
+		}
+		4 = { #Odoardo Beccari,
+			trigger = {
+				OR = {
+					country_has_primary_culture = cu:north_italian
+					country_has_primary_culture = cu:south_italian
+				}
+				game_date < 1898.11.16 #Age 55
+				year > 1865 #First Expedition of Beccari to Borneo
+				NOT = { has_global_variable = dubois_beccari_created_global_var }
+			}
+			create_character = {
+				template = mr_ita_beccari_odoardo_character_template
+
+				save_scope_as = dubois_new_naturalist_scope
+			}
+			scope:dubois_new_naturalist_scope = {
+				set_variable = dubois_beccari_character_var
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_new_naturalist_var
+				value = scope:dubois_new_naturalist_scope
+			}
+
+			set_global_variable = dubois_beccari_created_global_var
+		}
+		1 = { #Random Engineer
+			create_character = {
+				save_scope_as = dubois_new_naturalist_scope
+			}
+
+			scope:dubois_new_naturalist_scope = {
+				add_trait = dubois_naturalist
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_new_naturalist_var
+				value = scope:dubois_new_naturalist_scope
+			}
+		}
 	}
-		
-	scope:dubois_new_naturalist_scope = {
-		add_trait = dubois_naturalist
-		set_variable = mr_is_naturalist_var
-		naturalist_experience_set_up_effect = yes
-		place_character_in_void = 1200	
+
+	var:dubois_new_naturalist_var = {
+		save_scope_as = dubois_new_naturalist_scope
 	}
 }
 
@@ -518,20 +794,50 @@ naturalist_experience_gain_effect = { #adds XP to the Naturalist
 ######PALEONTOLOGIST######
 
 create_paleontologist_effect = {
-	create_character = {
-		save_scope_as = dubois_paleontologist_scope
-	}
-		
-	scope:dubois_paleontologist_scope = {
-		add_trait = dubois_paleontologist
-		set_variable = mr_is_paleontologist_var
-		paleontologist_experience_set_up_effect = yes
-		place_character_in_void = 1200
-	}
-		
-	set_variable = {
-		name = dubois_paleontologist_var
-		value = scope:dubois_paleontologist_scope
+	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Edward Drinker Cope, USA
+			trigger = {
+				c:USA ?= this
+				game_date < 1887.12.15 #Age 55
+				year > 1858 #Part time work at the Academy of Natural Sciences
+				NOT = { has_global_variable = dubois_cope_created }
+			}
+			create_character = {
+				template = mr_usa_cope_edward_drinker_character_template
+
+				save_scope_as = dubois_paleontologist_scope
+			}
+			scope:dubois_paleontologist_scope = {
+				set_variable = dubois_cope_character_var #Unique for Cope, mostly used for clothing
+				set_variable = mr_is_paleontologist_var #Could be used for clothing or a role in the future
+				paleontologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = dubois_paleontologist_var #This is basically the role of Paleontologist for a country, makes it possible to access character
+				value = scope:dubois_paleontologist_scope
+			}
+
+			set_global_variable = dubois_cope_created #Makes sure Cope is not already created
+		}
+		1 = { #Random Paleontologist (fallback and to make it uncertain for historical once to appear)
+			create_character = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+
+			scope:dubois_paleontologist_scope = {
+				add_trait = dubois_paleontologist
+				set_variable = mr_is_paleontologist_var
+				paleontologist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = dubois_paleontologist_var
+				value = scope:dubois_paleontologist_scope
+			}
+		}
 	}
 }
 
@@ -545,15 +851,54 @@ kill_paleontologist_effect = {
 
 # Creates a new Paleontologist without losing the old one
 create_new_paleontologist_effect = {
-	create_character = {
-		save_scope_as = dubois_new_paleontologist_scope
+	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Edward Drinker Cope, USA
+			trigger = {
+				c:USA ?= this
+				game_date < 1887.12.15 #Age 55
+				year > 1858 #Part time work at the Academy of Natural Sciences
+				NOT = { has_global_variable = dubois_cope_created }
+			}
+			create_character = {
+				template = mr_usa_cope_edward_drinker_character_template
+
+				save_scope_as = dubois_new_paleontologist_scope
+			}
+			scope:dubois_new_paleontologist_scope = {
+				set_variable = dubois_cope_character_var #Unique for Cope, mostly used for clothing
+				set_variable = mr_is_paleontologist_var #Could be used for clothing or a role in the future
+				paleontologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = dubois_paleontologist_var #This is basically the role of Paleontologist for a country, makes it possible to access character
+				value = scope:dubois_new_paleontologist_scope
+			}
+
+			set_global_variable = dubois_cope_created #Makes sure Cope is not already created
+		}
+		1 = { #Random Paleontologist (fallback and to make it uncertain for historical once to appear)
+			create_character = {
+				save_scope_as = dubois_new_paleontologist_scope
+			}
+
+			scope:dubois_new_paleontologist_scope = {
+				add_trait = dubois_paleontologist
+				set_variable = mr_is_paleontologist_var
+				paleontologist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = dubois_new_paleontologist_var
+				value = scope:dubois_new_paleontologist_scope
+			}
+		}
 	}
-		
-	scope:dubois_new_paleontologist_scope = {
-		add_trait = dubois_paleontologist
-		set_variable = mr_is_paleontologist_var
-		paleontologist_experience_set_up_effect = yes
-		place_character_in_void = 1200	
+
+	var:dubois_new_paleontologist_var = {
+		save_scope_as = dubois_new_paleontologist_scope
 	}
 }
 
