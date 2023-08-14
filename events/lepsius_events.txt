@@ -260,7 +260,7 @@ namespace = lepsius
 #2000+ Historical Archaeologist Events
 
 ######Historical Archaeologists######
-#Lepsius 2000: Thomsen
+#Lepsius 2000: Thomsen invents the Three-Age System
 
 ######SETUP EVENTS######
 
@@ -16838,3 +16838,71 @@ lepsius.962 = {
 }
 
 #Lepsius 971: [Vilcabamba is a narrative Event]
+
+
+#################################################################################
+
+######Historical Archaeologists######
+#Lepsius 2000: Thomsen invents the Three-Age System
+lepsius.2000 = {
+	type = country_event
+
+	title = lepsius.2000.t
+	desc = lepsius.2000.d
+	flavor = lepsius.2000.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_new_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		NOT = { has_global_variable = lepsius_three_age_system_invented_global_var }
+		year > 1835
+		c:DEN ?= this
+	}
+
+	immediate = {
+		set_global_variable = lepsius_three_age_system_invented_global_var
+		create_thomsen_cristian_jurgensen_effect = yes
+	}
+
+	option = {
+		name = lepsius.2000.g #Such a great mind needs to work for us!
+		default_option = yes
+
+		lepsius_set_new_archaeologist_as_archaeologist_effect = yes
+
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = lepsius_antiquarianism_tech
+				}
+			}
+			add_technology_researched = lepsius_antiquarianism_tech
+		}
+	}
+
+	option = {
+		name = lepsius.2000.h #He can stay in his museum...
+		default_option = yes
+
+		lepsius_remove_new_archaeologist_effect = yes
+
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = lepsius_antiquarianism_tech
+				}
+			}
+			add_technology_researched = lepsius_antiquarianism_tech
+		}
+
+		lepsius_large_add_technology = yes
+	}
+}
