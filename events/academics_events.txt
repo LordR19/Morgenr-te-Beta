@@ -3392,7 +3392,7 @@ academics.2102 = {
 		}
 
 		add_modifier = {
-			name = academics_scientific_society_happy
+			name = academics_scientific_society_happy_archaeology_modifier
 			years = 3
 		}
 	}
@@ -3780,7 +3780,7 @@ academics.2108 = {
 		}
 
 		add_modifier = {
-			name = academics_scientific_society_happy
+			name = academics_scientific_society_happy_archaeology_modifier
 			years = 3
 		}
 
@@ -3834,6 +3834,322 @@ academics.2109 = {
 		add_radicals = {
 			pop_type = academics
 			value = 0.1
+		}
+	}
+}
+
+###Major Artficat###
+
+#Academics 2110: Archaeological Museum wants Major Artifact
+
+academics.2110 = {
+	type = country_event
+
+	title = academics.2110.t
+	desc = academics.2110.d
+	flavor = academics.2110.f
+
+	placement = ROOT
+
+	duration = 3
+
+	cooldown = {
+		years = { 50 100 }
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_curse_of_pharaoh.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		academics_archaeological_mission_possible_trigger = yes #does not have an archaeological mission or 3 or more missions already
+		any_scope_building = {
+			is_building_type = building_lepsius_archaeological_museum
+		}
+		lepsius_on_archaeological_excavation = yes
+		lepsius_has_major_artifacts = no
+		ig:ig_intelligentsia = {
+			is_marginal = no
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #A prestigious venture
+		name = academics.2110.g
+
+		add_journal_entry = {
+			type = je_academics_major_artifact
+		}
+
+		custom_tooltip = academics.2110_goal_tt
+		custom_tooltip = academics.2110_reward_tt
+	}
+
+	option = { #It's not worth the trouble.
+		name = academics.2110.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
+	}
+}
+
+#Academics 2111: Splendour of the Museum
+
+academics.2111 = {
+	type = country_event
+
+	title = academics.2111.t
+	desc = academics.2111.d
+	flavor = academics.2111.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_curse_of_pharaoh.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+	}
+
+	option = { #Hurray
+		name = academics.2111.g
+
+		add_modifier = {
+			name = academics_scientific_society_major_artifact_modifier
+			years = 5
+		}
+
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "25"
+		}
+	}
+}
+
+#Academics 2112: A dusty place
+
+academics.2112 = {
+	type = country_event
+
+	title = academics.2112.t
+	desc = academics.2112.d
+	flavor = academics.2112.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_curse_of_pharaoh.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+	}
+
+	option = { #We did our best.
+		name = academics.2112.g
+
+		add_modifier = {
+			name = academics_scientific_society_no_major_artifact
+			years = 3
+		}
+	}
+}
+
+###Excellent Collection###
+
+#Academics 2112: Archaeological Museum wants Excellent Collection
+
+academics.2112 = {
+	type = country_event
+
+	title = academics.2112.t
+	desc = academics.2112.d
+	flavor = academics.2112.f
+
+	placement = ROOT
+
+	duration = 3
+
+	cooldown = {
+		years = { 50 100 }
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_major_artifacts.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		academics_archaeological_mission_possible_trigger = yes #does not have an archaeological mission or 3 or more missions already
+		has_technology_researched = lepsius_modern_archaeology_tech
+		any_scope_building = {
+			is_building_type = building_lepsius_archaeological_museum
+		}
+		NOR = {
+			has_modifier = lepsius_excellent_egyptian_exhibition_modifier
+			has_modifier = lepsius_excellent_mesopotamian_exhibition_modifier
+			has_modifier = lepsius_excellent_aegean_exhibition_modifier
+			has_modifier = lepsius_excellent_precolumbian_exhibition_modifier
+		}
+		OR = {
+			AND = {
+				var:lepsius_egyptian_artifact_minor >= 25
+				var:lepsius_egyptian_artifact_minor <= 75
+			}
+			AND = {
+				var:lepsius_mesopotamian_artifact_minor >= 35
+				var:lepsius_mesopotamian_artifact_minor <= 75
+			}
+			AND = {
+				var:lepsius_aegean_artifact_minor >= 35
+				var:lepsius_aegean_artifact_minor <= 75
+			}
+			AND = {
+				var:lepsius_precolumbian_artifact_minor >= 35
+				var:lepsius_precolumbian_artifact_minor <= 75
+			}
+		}
+		ig:ig_intelligentsia = {
+			is_marginal = no
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #A challenge!
+		name = academics.2112.g
+
+		add_journal_entry = {
+			type = je_academics_excellent_collection
+		}
+
+		custom_tooltip = academics.2112_goal_tt
+		custom_tooltip = academics.2112_reward_tt
+	}
+
+	option = { #That's too risky!
+		name = academics.2112.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_prestige_small_hit_modifier
+			years = 5
+		}
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
+	}
+}
+
+#Academics 2113: Archaeology on its peak
+
+academics.2113 = {
+	type = country_event
+
+	title = academics.2113.t
+	desc = academics.2113.d
+	flavor = academics.2113.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_major_artifacts.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+	}
+
+	option = { #Hurray
+		name = academics.2113.g
+
+		add_modifier = {
+			name = academics_scientific_society_excellent_collection_modifier
+			years = 5
+		}
+
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "50"
+		}
+	}
+}
+
+#Academics 2114: Setback for Archaoelogy
+
+academics.2114 = {
+	type = country_event
+
+	title = academics.2114.t
+	desc = academics.2114.d
+	flavor = academics.2114.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_major_artifacts.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+	}
+
+	option = { #What a pitty
+		name = academics.2114.g
+
+		add_modifier = {
+			name = academics_scientific_society_no_excellent_collection_modifier
+			years = 5
 		}
 	}
 }
