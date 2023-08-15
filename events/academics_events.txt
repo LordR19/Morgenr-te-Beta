@@ -93,11 +93,22 @@ namespace = academics
 #Academics 2010: We won the Race for the Stars
 #Academics 2011: We lost the Race for the Stars
 
+#Academics 2012: The Scientific Society asks us to found an Observatory
+#Academics 2013: New Observatory starts Observation
+#Academics 2014: An Astronomical Failure 
+
 ###Archaeological Missions###
 
 #Academics 2101: The Scientific Society asks us to found an Archaeological Museum
 #Academics 2102: New Museum opens
 #Academics 2103: Archaeological disappointment
+
+#Academics 2104: Archaeological Museum wants Egyptian Artifacts
+#Academics 2105: Archaeological Museum wants Mesopotamian Artifacts
+#Academics 2106: Archaeological Museum wants Aegean Artifacts
+#Academics 2107: Archaeological Museum wants Pre-Columbian Artifacts
+#Academics 2108: Successful Treasure Hunt
+#Academics 2109: Failed Treasure Hunt
 
 #################################################################################
 
@@ -3284,6 +3295,149 @@ academics.2011 = {
 	}
 }
 
+#Academics 2012: The Scientific Society asks us to found an Observatory
+academics.2012 = {
+	type = country_event
+
+	title = academics.2012.t
+	desc = academics.2012.d
+	flavor = academics.2012.f
+
+	placement = ROOT
+
+	duration = 3
+
+	cooldown = {
+		years = { 50 100 }
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_observatory_athens_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		academics_astronomical_mission_possible_trigger = yes #does not have an astronomical mission or 3 or more missions already
+		NOT = { has_building = building_verrier_observatory }
+		has_technology_researched = verrier_physics_tech
+		ig:ig_intelligentsia = {
+			is_marginal = no
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #I need our best architects and engineers right now!
+		name = academics.2012.g
+
+		add_journal_entry = {
+			type = je_academics_build_observatory
+		}
+
+		custom_tooltip = academics.2012_goal_tt
+		custom_tooltip = academics.2012_reward_tt
+	}
+
+	option = { #Who needs an Observatory anyways?
+		name = academics.2012.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
+	}
+}
+
+#Academics 2013: New Observatory starts Observation
+academics.2013 = {
+	type = country_event
+
+	title = academics.2013.t
+	desc = academics.2013.d
+	flavor = academics.2013.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_observatory_athens_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by completed je
+	}
+
+	immediate = {
+	}
+
+	option = { #We will uncover the mytery of the night sky!
+		name = academics.2013.g
+
+		add_modifier = {
+			name = academics_scientific_society_happy
+			years = 5
+		}
+
+		add_loyalists = {
+			pop_type = academics
+			value = 0.05
+		}
+	}
+}
+
+#Academics 2014: An Astronomical Failure 
+academics.2014 = {
+	type = country_event
+
+	title = academics.2014.t
+	desc = academics.2014.d
+	flavor = academics.2014.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_observatory_athens_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by timed out je
+	}
+
+	immediate = {
+	}
+
+	option = { #It was the Comet's fault!
+		name = academics.2014.g
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
+
+		add_radicals = {
+			pop_type = academics
+			value = 0.15
+		}
+	}
+}
+
+#################################################################################
 
 ###Archaeological Missions###
 
