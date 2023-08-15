@@ -95,7 +95,11 @@ namespace = academics
 
 #Academics 2012: The Scientific Society asks us to found an Observatory
 #Academics 2013: New Observatory starts Observation
-#Academics 2014: An Astronomical Failure 
+#Academics 2014: An Astronomical Failure
+
+#Academics 2015: The Scientific Society asks wants us to focus to find Planet X
+#Academics 2016: We found Planet X
+#Academics 2017: We were to late to find Planet X
 
 ###Archaeological Missions###
 
@@ -3125,6 +3129,8 @@ academics.2008 = {
 	}
 }
 
+###Find more stars than rival###
+
 #Academics 2009: We need to find more stars than [Scope Rival Nation]
 academics.2009 = {
 	type = country_event
@@ -3303,6 +3309,8 @@ academics.2011 = {
 	}
 }
 
+###Found Observatory###
+
 #Academics 2012: The Scientific Society asks us to found an Observatory
 academics.2012 = {
 	type = country_event
@@ -3436,6 +3444,155 @@ academics.2014 = {
 		add_modifier = {
 			name = academics_unhappy_intelligentsia
 			years = 3
+		}
+
+		add_radicals = {
+			pop_type = academics
+			value = 0.15
+		}
+	}
+}
+
+###Find Planet X (Pluto)###
+
+#Academics 2015: The Scientific Society wants us to find Planet X
+academics.2015 = {
+	type = country_event
+
+	title = academics.2015.t
+	desc = academics.2015.d
+	flavor = academics.2015.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_pluto_mission_start.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		NOR = {
+			has_global_variable = verrier_pluto_discovered_var
+			has_journal_entry = je_academics_find_planet_x
+		}
+		academics_astronomical_mission_possible_trigger = yes #does not have an astronomical mission or 3 or more missions already
+		has_building = building_verrier_observatory
+		has_journal_entry = je_verrier_pluto
+		var:verrier_astronomical_objects >= 1000
+		ig:ig_intelligentsia = {
+			is_marginal = no
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #Focus all our ressources on finding that planet!
+		name = academics.2015.g
+
+		add_journal_entry = {
+			type = je_academics_find_planet_x
+		}
+
+		custom_tooltip = academics.2015_goal_tt
+		custom_tooltip = academics.2015_reward_tt
+	}
+
+	option = { #Planet X? More like Planet Y...
+		name = academics.2015.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
+	}
+}
+
+#Academics 2016: We found Planet X
+academics.2016 = {
+	type = country_event
+
+	title = academics.2016.t
+	desc = academics.2016.d
+	flavor = academics.2016.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_pluto.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by completed je
+	}
+
+	immediate = {
+	}
+
+	option = { #This is the most important astronomical discovery of the Century!
+		name = academics.2016.g
+
+		add_modifier = {
+			name = academics_scientific_society_happy
+			years = 10
+		}
+
+		astronomer_experience_gain_effect = {
+			AMOUNT = 50
+		}
+
+		add_loyalists = {
+			pop_type = academics
+			value = 0.1
+		}
+	}
+}
+
+#Academics 2017: We were to late to find Planet X
+academics.2017 = {
+	type = country_event
+
+	title = academics.2017.t
+	desc = academics.2017.d
+	flavor = academics.2017.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_pluto_mission_start.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by timed out je
+	}
+
+	immediate = {
+	}
+
+	option = { #That's not a real planet anyways!
+		name = academics.2017.g
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 5
 		}
 
 		add_radicals = {
