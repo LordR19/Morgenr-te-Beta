@@ -144,6 +144,10 @@ namespace = verrier
 
 #verrier 1060: a comet grazing the sun flushes money into Harvard's coffers (William Cranch Bond USA)
 
+#Stress events
+
+#Verrier 1100: A stressful job
+
 #################################################################################
 
 #Yearly astronomical report
@@ -1242,6 +1246,12 @@ verrier.40 = {
 
 	trigger = {
 		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
 	}
 
 	option = {
@@ -1278,6 +1288,12 @@ verrier.41 = {
 
 	trigger = {
 		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
 	}
 
 	option = {
@@ -1314,6 +1330,12 @@ verrier.42 = {
 
 	trigger = {
 		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
 	}
 
 	option = {
@@ -1425,6 +1447,12 @@ verrier.43 = {
 
 	trigger = {
 		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
 	}
 
 	option = {
@@ -1536,6 +1564,12 @@ verrier.44 = {
 
 	trigger = {
 		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
 	}
 
 	immediate = {
@@ -1672,6 +1706,12 @@ verrier.46 = {
 
 	trigger = {
 		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
 	}
 
 	option = {
@@ -1779,6 +1819,12 @@ verrier.47 = {
 
 	trigger = {
 		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
 	}
 
 	option = {
@@ -1893,6 +1939,12 @@ verrier.48 = {
 
 	trigger = {
 		verrier_has_astronomer = yes
+		NOT = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
 		var:verrier_astronomer_var = {
 			OR = {
 				has_trait = verrier_astronomer_experienced
@@ -5046,7 +5098,6 @@ verrier.200 = {
 	}
 }
 
-
 #################################################################################
 
 ############################
@@ -5590,6 +5641,176 @@ verrier.1060 = {
 
 		ai_chance = {
 			base = 0
+		}
+	}
+}
+
+#################################################################################
+
+#################
+# Stress events #
+#################
+
+#Verrier 1100: A stressful job
+verrier.1100 = {
+	type = country_event
+
+	title = verrier.1100.t
+	desc = verrier.1100.d
+	flavor = verrier.1100.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/1Character_Banner"
+
+	cooldown = {
+		years = 6
+	}
+
+	trigger = {
+		verrier_has_astronomer = yes
+		calc_true_if = {
+			amount < 2
+			has_trait = alcoholic
+			has_trait = opium_addiction
+			has_trait = cocaine_addiction
+			has_trait = senile
+			has_trait = psychological_affliction
+			has_trait = kidney_stones
+		}
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	#[Astronomer] needs a break!
+	option = {
+		name = verrier.1100.g
+		default_option = yes
+
+		custom_tooltip = {
+			text = astronomer_on_break_tt
+			var:verrier_astronomer_var = {
+				set_variable = {
+					name = verrier_astronomer_on_break_var
+					months = 12
+				}
+			}
+		}
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	#It's his job. He gets paid for discovering stars, not for breaks!
+	option = { 
+		name = verrier.1100.h
+
+		random_list = {
+			4 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 5 } }
+			2 = { var:verrier_astronomer_var = { add_trait = alcoholic } }
+			2 = { var:verrier_astronomer_var = { add_trait = opium_addiction } }
+			2 = { var:verrier_astronomer_var = { add_trait = cocaine_addiction } }
+			2 = { var:verrier_astronomer_var = { add_trait = psychological_affliction } }
+			2 = { var:verrier_astronomer_var = { add_trait = kidney_stones } }
+		}
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = meticulous
+			}
+			factor = 1.2
+		}
+	}
+}
+
+#Verrier 1101: Is [Astronomer] losing his/her mind?
+verrier.1101 = {
+	type = country_event
+
+	title = verrier.1101.t
+	desc = verrier.1101.d
+	flavor = verrier.1101.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/1Character_Banner"
+
+	cooldown = {
+		years = 6
+	}
+
+	trigger = {
+		verrier_has_astronomer = yes
+		var:verrier_astronomer_var = {
+			age >= 57
+		}
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	#I don't think he should keep working.
+	option = {
+		name = verrier.1101.g
+		default_option = yes
+
+		dubois_add_x_academy_progress = { AMOUNT = 6 }
+
+		kill_astronomer_effect = yes
+		
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	#Pff, that's totally normal!
+	option = { 
+		name = verrier.1101.h
+
+		var:verrier_astronomer_var = {
+			add_trait = senile
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:verrier_astronomer_var = {
+				age >= 65
+			}
+			factor = 5
 		}
 	}
 }
