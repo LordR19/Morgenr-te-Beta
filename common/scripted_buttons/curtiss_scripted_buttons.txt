@@ -7,17 +7,166 @@
 ######################
 
 #button for balloonist journal entry, that triggers the ballooning event.
-ballooning_button = {
-	name = "ballooning_button"
-	desc = "ballooning_button_desc"
+#ballooning_button = {
+#	name = "ballooning_button"
+#	desc = "ballooning_button_desc"
+#
+#	visible = { always = yes }
+#
+#	possible = {
+#		NOT = {
+#			has_variable = curtiss_ballooning_window_open_var
+#		}
+#		is_player = yes
+#	}
+#
+#	ai_chance = {
+#		base = 0
+#	}
+#
+#	effect = {
+#		trigger_event = {
+#			id = curtiss.651
+#			popup = yes
+#		}
+#
+#		set_variable = curtiss_ballooning_window_open_var
+#	}
+#}
+
+curtiss_ballooning_recruit_balloonist = {
+	name = "curtiss_ballooning_recruit_balloonist"
+	desc = "curtiss_ballooning_recruit_balloonist_desc"
 
 	visible = { always = yes }
 
 	possible = {
-		NOT = {
-			has_variable = curtiss_ballooning_window_open_var
+		curtiss_no_balloonist_trigger = yes
+	}
+
+	ai_chance = {
+		base = 6 #Hopefully mostly progressive countries should do this
+		modifier = {
+			trigger = {
+				ig:ig_devout = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+			}
+			add = -15
 		}
-		is_player = yes
+		modifier = {
+			trigger = {
+				country_rank >= rank_value:major_power
+			}
+			add = 25
+		}
+		modifier = {
+			trigger = {
+				country_rank < rank_value:major_power
+			}
+			add = -5
+		}
+		modifier = {
+			trigger = {
+				ig:ig_landowners = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+			}
+			add = -15
+		}
+		modifier = {
+			trigger = {
+				ig:ig_intelligentsia = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+			}
+			add = 5
+		}
+		modifier = {
+			trigger = {
+				ig:ig_industrialists = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+			}
+			add = 5
+		}
+		modifier = {
+			trigger = {
+				ruler = {
+					interest_group = { 
+						OR = {
+							is_interest_group_type = ig_intelligentsia
+							is_interest_group_type = ig_industrialists
+						}
+					}
+				}
+			}
+			add = 5
+		}
+		modifier = {
+			trigger = {
+				has_technology_researched = zeppelins
+			}
+			add = -5
+		}
+		modifier = {
+			trigger = {
+				is_country_type = recognized
+			}
+			add = 5
+		}
+		modifier = {
+			trigger = {
+				NOR = {
+					average_sol >= 15
+					any_scope_pop = {
+						standard_of_living > 52
+					}
+				}
+			}
+			add = -5
+		}
+		modifier = {
+			trigger = {
+				NOT = {
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 5
+					}
+				}			
+			}
+			add = -5
+		}
+	}
+
+	effect = {
+		trigger_event = {
+			id = curtiss.650
+			popup = yes
+		}
+	}
+}
+
+curtiss_ballooning_fire_balloonist = {
+	name = "curtiss_ballooning_fire_balloonist"
+	desc = "curtiss_ballooning_fire_balloonist_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		curtiss_has_balloonist_trigger = yes
 	}
 
 	ai_chance = {
@@ -25,11 +174,122 @@ ballooning_button = {
 	}
 
 	effect = {
-		trigger_event = {
-			id = curtiss.651
-			popup = yes
-		}
+		kill_balloonist_effect = yes
+	}
+}
 
-		set_variable = curtiss_ballooning_window_open_var
+curtiss_ballooning_no_more_flight_information = {
+	name = "curtiss_ballooning_no_more_flight_information"
+	desc = "curtiss_ballooning_no_more_flight_information_desc"
+
+	visible = {
+		NOT = {
+			has_variable = curtiss_no_balloonist_flight_events
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = curtiss_ballooning_no_more_flight_information_trigger_tt
+			NOT = {
+				has_variable = curtiss_no_balloonist_flight_events
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = curtiss_ballooning_no_more_flight_information_tt
+			set_variable = curtiss_no_balloonist_flight_events
+		}
+	}
+}
+
+curtiss_ballooning_flight_information = {
+	name = "curtiss_ballooning_flight_information"
+	desc = "curtiss_ballooning_flight_information_desc"
+
+	visible = {
+		has_variable = curtiss_no_balloonist_flight_events
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = curtiss_ballooning_return_flight_information_trigger_tt
+			has_variable = curtiss_no_balloonist_flight_events
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = curtiss_ballooning_return_flight_information_tt
+			remove_variable = curtiss_no_balloonist_flight_events
+		}
+	}
+}
+
+curtiss_ballooning_no_more_death_information = {
+	name = "curtiss_ballooning_no_more_death_information"
+	desc = "curtiss_ballooning_no_more_death_information_desc"
+
+	visible = {
+		NOT = {
+			has_variable = curtiss_no_balloonist_death_events
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = curtiss_ballooning_no_more_death_information_trigger_tt
+			NOT = {
+				has_variable = curtiss_no_balloonist_death_events
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = curtiss_ballooning_no_more_death_information_tt
+			set_variable = curtiss_no_balloonist_death_events
+		}
+	}
+}
+
+curtiss_ballooning_death_information = {
+	name = "curtiss_ballooning_death_information"
+	desc = "curtiss_ballooning_death_information_desc"
+
+	visible = {
+		has_variable = curtiss_no_balloonist_death_events
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = curtiss_ballooning_death_information_trigger_tt
+			has_variable = curtiss_no_balloonist_death_events
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = curtiss_ballooning_death_information_tt
+			remove_variable = curtiss_no_balloonist_death_events
+		}
 	}
 }
