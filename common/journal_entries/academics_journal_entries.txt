@@ -912,3 +912,45 @@ je_academics_rivalry_for_artifacts = {
 
 	weight = 50
 }
+
+je_academics_rivalry_for_specimen = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	immediate = {
+		academics_add_archaeological_mission = yes
+	}
+
+	complete = {
+		OR = {
+			custom_tooltip = {
+				text = je_academics_rivalry_for_artifacts_success
+				var:lepsius_total_artifacts > scope:target.var:lepsius_total_artifacts
+			}
+			var:je_artifacts_rival_nation_var = {
+				is_country_alive = no
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = academics.2117
+			popup = yes 
+		}
+			
+		academics_remove_archaeological_mission = yes
+	}
+
+	timeout = 3600
+
+	on_timeout = {
+		trigger_event = { 
+			id = academics.2118
+			popup = yes 
+		}
+
+		academics_remove_archaeological_mission = yes
+	}
+
+	weight = 50
+}
