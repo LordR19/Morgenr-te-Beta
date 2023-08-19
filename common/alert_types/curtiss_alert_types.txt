@@ -134,3 +134,49 @@ curtiss_zeppelin_expedition_possible_alert = {
 	type = important_action
 	alert_group = morgenroete
 }
+
+curtiss_schneider_trophy_race_possible_alert = {
+	script_context = player_country
+
+	valid = {
+		NOT = {
+			any_country = {
+				has_modifier = curtiss_the_schneider_trophy_modifier
+			}
+		}
+		curtiss_schneider_trophy_winner = yes
+		NOT = {
+			has_variable = curtiss_schneider_trophy_host
+		}
+		is_at_war = no
+		NOT = {
+			has_modifier = curtiss_schneider_trophy_break_modifier
+		}
+		OR = {
+			any_scope_state = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_port
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 10
+				}
+			}
+			AND = {
+				exists = c:SWI
+				c:SWI = ROOT
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 10
+					}
+				}
+			}
+		}
+	}
+
+	open_panel = journal|decisions
+	type = important_action
+	alert_group = morgenroete
+}
