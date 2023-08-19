@@ -314,3 +314,134 @@ mr.4 = {
 		}
 	}
 }
+
+#Check University PMs
+
+mr.5 = {
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		is_player = no
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_university
+				production_method = pm_dubois_university_standard
+			}
+		}
+		OR = {
+			AND = {
+				has_technology_researched = lepsius_antiquarianism_tech
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_university
+							production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+			}
+			AND = {
+				has_technology_researched = dubois_theory_of_evolution_tech
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_university
+							production_method = pm_dubois_university_natural_history
+						}
+					}
+				}
+			}
+			AND = {
+				has_technology_researched = verrier_astronomy_tech
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_university
+							production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				has_technology_researched = verrier_astronomy_tech
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_university
+							production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_university
+						production_method = pm_dubois_university_standard
+					}
+				}
+				activate_production_method = {
+					building_type = building_university
+					production_method = pm_dubois_university_mathematics
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_technology_researched = dubois_theory_of_evolution_tech
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_university
+							production_method = pm_dubois_university_natural_history
+						}
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_university
+						production_method = pm_dubois_university_standard
+					}
+				}
+				activate_production_method = {
+					building_type = building_university
+					production_method = pm_dubois_university_natural_history
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_technology_researched = lepsius_antiquarianism_tech
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_university
+							production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_university
+						production_method = pm_dubois_university_standard
+					}
+				}
+				activate_production_method = {
+					building_type = building_university
+					production_method = pm_dubois_university_humanities
+				}
+			}
+		}
+	}
+}
