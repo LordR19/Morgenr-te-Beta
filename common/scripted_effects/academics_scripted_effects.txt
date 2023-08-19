@@ -495,7 +495,7 @@ astronomer_experience_set_up_effect = {
 			name = verrier_astronomer_experience
 			multiply = 10
 		}
-		if = { #Adds the Experienced Archaeologist Trait if Experience is above 100
+		if = { #Adds the Experienced Astronomer Trait if Experience is above 100
 			limit = {
 				var:verrier_astronomer_experience >= 100
 				NOT = {
@@ -509,7 +509,7 @@ astronomer_experience_set_up_effect = {
 			remove_trait = verrier_astronomer
 			add_trait = verrier_astronomer_experienced
 		}
-		if = { #Adds the Famous Archaeologist Trait if Experience is above 100
+		if = { #Adds the Famous Astronomer Trait if Experience is above 100
 			limit = {
 				var:verrier_astronomer_experience >= 300
 				NOT = {
@@ -1246,7 +1246,7 @@ paleontologist_experience_set_up_effect = {
 			name = dubois_paleontologist_experience
 			multiply = 10
 		}
-		if = { #Adds the Experienced Archaeologist Trait if Experience is above 100
+		if = { #Adds the Experienced Paleontologist Trait if Experience is above 100
 			limit = {
 				var:dubois_paleontologist_experience >= 100
 				NOT = {
@@ -1260,7 +1260,7 @@ paleontologist_experience_set_up_effect = {
 			remove_trait = dubois_paleontologist
 			add_trait = dubois_paleontologist_experienced
 		}
-		if = { #Adds the Famous Archaeologist Trait if Experience is above 100
+		if = { #Adds the Famous Paleontologist Trait if Experience is above 100
 			limit = {
 				var:dubois_paleontologist_experience >= 300
 				NOT = {
@@ -1348,12 +1348,38 @@ paleontologist_experience_gain_effect = { #adds XP to the Paleontologist
 
 create_archaeologist_effect = {
 	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Paul-Émile Botta
+			trigger = {
+				NOT = { has_global_variable = lepsius_botta_created }
+				c:FRA ?= this
+				game_date < 1857.12.6 #Age 55
+				year >= 1831 #Travel to Cairo
+			}
+			create_character = {
+				template = mr_fra_botta_paul_emile_character_template
+
+				save_scope_as = lepsius_archaeologist_scope
+			}
+			scope:lepsius_archaeologist_scope = {
+				set_variable = lepsius_mariette_character_var #Unique for Botta, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_archaeologist_var #This is basically the role of Archaeologist for a country, makes it possible to access character
+				value = scope:lepsius_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_botta_created #Makes sure Botta is not already created
+		}
 		4 = { #Auguste Mariette
 			trigger = {
 				NOT = { has_global_variable = lepsius_mariette_created }
 				c:FRA ?= this
 				game_date < 1876.2.11 #Age 55
-				year > 1850 #First Journey to Egypt
+				year >= 1850 #First Journey to Egypt
 			}
 			create_character = {
 				template = mr_fra_mariette_auguste_character_template
@@ -1382,7 +1408,7 @@ create_archaeologist_effect = {
 					c:GER ?= this
 				}
 				game_date < 1910.9.10 #Age 55
-				year > 1882 #First Excavation
+				year >= 1882 #First Excavation
 			}
 			create_character = {
 				template = mr_ger_koldewey_robert_character_template
@@ -1408,7 +1434,7 @@ create_archaeologist_effect = {
 				NOT = { has_global_variable = lepsius_petrie_created }
 				c:GBR ?= this
 				game_date < 1908.6.3 #Age 55
-				year > 1880 #First Travel to Giza
+				year >= 1880 #First Travel to Giza
 			}
 			create_character = {
 				template = mr_gbr_petrie_flinders_character_template
@@ -1429,6 +1455,32 @@ create_archaeologist_effect = {
 
 			set_global_variable = lepsius_petrie_created #Makes sure Petrie is not already created
 		}
+		4 = { #Henry Creswicke Rawlinson
+			trigger = {
+				NOT = { has_global_variable = lepsius_rawlinson_created }
+				c:GBR ?= this
+				game_date < 1865.4.11 #Age 55
+				year >= 1836 #Started Transcription of inscription at Behistun
+			}
+			create_character = {
+				template = mr_gbr_rawlinson_henry_creswick_character_template
+
+				save_scope_as = lepsius_archaeologist_scope
+			}
+			scope:lepsius_archaeologist_scope = {
+				set_variable = lepsius_rawlinson_character_var #Unique for Rawlinson, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_archaeologist_var #This is basically the role of Archaeologist for a country, makes it possible to access character
+				value = scope:lepsius_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_rawlinson_created #Makes sure Rawlinson is not already created
+		}
 		4 = { #Ernesto Schiaparelli
 			trigger = {
 				NOT = { has_global_variable = lepsius_schiaparelli_created }
@@ -1440,7 +1492,7 @@ create_archaeologist_effect = {
 					owner = root
 				}
 				game_date < 1911.7.12 #Age 55
-				year > 1881 #First time as a director of Egyptian Museum
+				year >= 1881 #First time as a director of Egyptian Museum
 			}
 			create_character = {
 				template = mr_ita_schiaparelli_ernesto_character_template
@@ -1492,12 +1544,38 @@ kill_archaeologist_effect = {
 # Creates a new Archaeologist without losing the old one
 create_new_archaeologist_effect = {
 	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Paul-Émile Botta
+			trigger = {
+				NOT = { has_global_variable = lepsius_botta_created }
+				c:FRA ?= this
+				game_date < 1857.12.6 #Age 55
+				year >= 1831 #Travel to Cairo
+			}
+			create_character = {
+				template = mr_fra_botta_paul_emile_character_template
+
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+			scope:lepsius_new_archaeologist_scope = {
+				set_variable = lepsius_mariette_character_var #Unique for Botta, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var #Used to set the scope again
+				value = scope:lepsius_new_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_botta_created #Makes sure Botta is not already created
+		}
 		4 = { #Auguste Mariette
 			trigger = {
 				NOT = { has_global_variable = lepsius_mariette_created }
 				c:FRA ?= this
 				game_date < 1876.2.11 #Age 55
-				year > 1850 #First Journey to Egypt
+				year >= 1850 #First Journey to Egypt
 			}
 			create_character = {
 				template = mr_fra_mariette_auguste_character_template
@@ -1526,7 +1604,7 @@ create_new_archaeologist_effect = {
 					c:GER ?= this
 				}
 				game_date < 1910.9.10 #Age 55
-				year > 1882 #First Excavation
+				year >= 1882 #First Excavation
 			}
 			create_character = {
 				template = mr_ger_koldewey_robert_character_template
@@ -1552,7 +1630,7 @@ create_new_archaeologist_effect = {
 				NOT = { has_global_variable = lepsius_petrie_created }
 				c:GBR ?= this
 				game_date < 1908.6.3 #Age 55
-				year > 1880 #First Travel to Giza
+				year >= 1880 #First Travel to Giza
 			}
 			create_character = {
 				template = mr_gbr_petrie_flinders_character_template
@@ -1573,6 +1651,32 @@ create_new_archaeologist_effect = {
 
 			set_global_variable = lepsius_petrie_created #Makes sure Petrie is not already created
 		}
+		4 = { #Henry Creswicke Rawlinson
+			trigger = {
+				NOT = { has_global_variable = lepsius_rawlinson_created }
+				c:GBR ?= this
+				game_date < 1865.4.11 #Age 55
+				year >= 1836 #Started Transcription of inscription at Behistun
+			}
+			create_character = {
+				template = mr_gbr_rawlinson_henry_creswick_character_template
+
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+			scope:lepsius_new_archaeologist_scope = {
+				set_variable = lepsius_rawlinson_character_var #Unique for Rawlinson, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var
+				value = scope:lepsius_new_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_rawlinson_created #Makes sure Rawlinson is not already created
+		}
 		4 = { #Ernesto Schiaparelli
 			trigger = {
 				NOT = { has_global_variable = lepsius_schiaparelli_created }
@@ -1584,7 +1688,7 @@ create_new_archaeologist_effect = {
 					owner = root
 				}
 				game_date < 1911.7.12 #Age 55
-				year > 1881 #First time as a director of Egyptian Museum
+				year >= 1881 #First time as a director of Egyptian Museum
 			}
 			create_character = {
 				template = mr_ita_schiaparelli_ernesto_character_template
