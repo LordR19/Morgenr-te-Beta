@@ -7,7 +7,7 @@
 - Florida Panther
 - American Bison
 - Alligator
-- [Axolotl]
+- [Axolotl 1.8.3]
 
 ###South America###
 - Brown-throated sloth
@@ -16,8 +16,7 @@
 - Nine-banded Armadillo
 - Andean Condor
 - West Indian Manatee
-- [Capybara]
-- [Squirrel Monkey]
+- [Squirrel Monkey 1.8.3]
 
 ###Europe###
 - Eurasian Otter
@@ -26,7 +25,7 @@
 - Stoat
 - Eurasian wolf
 - Alpine Ibex
-- [Moose]
+- [Wisent 1.8.3]
 
 ###Africa###
 - Lion
@@ -35,12 +34,7 @@
 - Hippopotamus
 - African Pinguin
 - Naked Mole-Rat
-- [Gorilla]
-- [Zebra]
-- [Cheetah]
-- [Lemur]
-- [Ostrich]
-- [Rhinoceros]
+- [Zebra 1.8.3]
 
 ###Asia###
 - Tiger
@@ -49,8 +43,7 @@
 - Komodo dragon
 - Malayan Tapir
 - Snow Leopard
-- [Cobra]
-- [Red Panda]
+- [Asiatic Cheetah 1.8.3]
 
 ###Australia&Oceania
 - Sea Turtle (South Pacific mission/expedition)
@@ -59,5 +52,4 @@
 - Kangaroo
 - Platypus
 - Cassowary
-- [Kiwi]
-- [New Zealand sea lion]
+- [New Zealand Sea lion 1.8.3]
