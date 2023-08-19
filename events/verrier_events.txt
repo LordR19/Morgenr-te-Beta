@@ -147,6 +147,11 @@ namespace = verrier
 #Stress events
 
 #Verrier 1100: A stressful job
+#Verrier 1101: Is [Astronomer] losing his/her mind?
+
+#Verrier 1110: Twin Star disappeared
+#Verrier 1111: Research Notes destroyed
+#Verrier 1112: Lost stars
 
 #################################################################################
 
@@ -5730,11 +5735,46 @@ verrier.1100 = {
 
 		random_list = {
 			4 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 5 } }
-			2 = { var:verrier_astronomer_var = { add_trait = alcoholic } }
-			2 = { var:verrier_astronomer_var = { add_trait = opium_addiction } }
-			2 = { var:verrier_astronomer_var = { add_trait = cocaine_addiction } }
-			2 = { var:verrier_astronomer_var = { add_trait = psychological_affliction } }
-			2 = { var:verrier_astronomer_var = { add_trait = kidney_stones } }
+			2 = {
+				trigger = {
+					var:verrier_astronomer_var = {
+						NOT = { has_trait = alcoholic }
+					}
+				}
+				var:verrier_astronomer_var = { add_trait = alcoholic }
+			}
+			2 = {
+				trigger = {
+					var:verrier_astronomer_var = {
+						NOT = { has_trait = alcoholic }
+					}
+				}
+				var:verrier_astronomer_var = { add_trait = opium_addiction }
+			}
+			2 = {
+				trigger = {
+					var:verrier_astronomer_var = {
+						NOT = { has_trait = opium_addiction }
+					}
+				}
+				var:verrier_astronomer_var = { add_trait = cocaine_addiction }
+			}
+			2 = {
+				trigger = {
+					var:verrier_astronomer_var = {
+						NOT = { has_trait = psychological_affliction }
+					}
+				}
+				var:verrier_astronomer_var = { add_trait = psychological_affliction }
+			}
+			2 = {
+				trigger = {
+					var:verrier_astronomer_var = {
+						NOT = { has_trait = psychological_affliction }
+					}
+				}
+				var:verrier_astronomer_var = { add_trait = kidney_stones }
+			}
 		}
 		ai_chance = {
 			base = 20
@@ -5779,7 +5819,7 @@ verrier.1101 = {
 	trigger = {
 		verrier_has_astronomer = yes
 		var:verrier_astronomer_var = {
-			age >= 57
+			age >= 55
 		}
 	}
 
@@ -5820,9 +5860,213 @@ verrier.1101 = {
 		base = 1
 		modifier = {
 			var:verrier_astronomer_var = {
+				age >= 60
+			}
+			factor = 7
+		}
+
+		modifier = {
+			var:verrier_astronomer_var = {
 				age >= 65
 			}
-			factor = 5
+			factor = 3
+		}
+	}
+}
+
+#Verrier 1110: Twin Star disappeared
+
+verrier.1110 = {
+	type = country_event
+
+	title = verrier.1110.t
+	desc = verrier.1110.d
+	flavor = verrier.1110.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_cluster.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		verrier_has_astronomer = yes
+		NOT = {
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
+		var:verrier_astronomer_var = {
+			has_trait = alcoholic
+		}
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = {
+		name = verrier.1110.g #He needs to get back on track!
+		default_option = yes
+
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = -1
+		}
+	}
+}
+
+#Verrier 1111: Research Notes destroyed
+
+verrier.1111 = {
+	type = country_event
+
+	title = verrier.1111.t
+	desc = verrier.1111.d
+	flavor = verrier.1111.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_milky_way.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		verrier_has_astronomer = yes
+		NOT = {
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
+		var:verrier_astronomer_var = {
+			OR = {
+				has_trait = alcoholic
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+				has_trait = psychological_affliction
+				has_trait = senile
+			}
+		}
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = {
+		name = verrier.1111.g #Was he drunk or something?
+		default_option = yes
+
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = -5
+		}
+
+		trigger = {
+			var:verrier_astronomer_var = {
+				has_trait = alcoholic
+			}
+		}
+	}
+
+	option = {
+		name = verrier.1111.h #Was he on drugs?
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = -5
+		}
+
+		trigger = {
+			var:verrier_astronomer_var = {
+				OR = {
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+				}
+			}
+		}
+	}
+
+	option = {
+		name = verrier.1111.i #Did he have another breakdown?
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = -5
+		}
+
+		trigger = {
+			var:verrier_astronomer_var = {
+				has_trait = psychological_affliction
+			}
+		}
+	}
+
+	option = {
+		name = verrier.1111.j #Did he forget the candles again?
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = -5
+		}
+
+		trigger = {
+			var:verrier_astronomer_var = {
+				has_trait = senile
+			}
+		}
+	}
+}
+
+
+#Verrier 1112: Lost stars
+
+verrier.1112 = {
+	type = country_event
+
+	title = verrier.1112.t
+	desc = verrier.1112.d
+	flavor = verrier.1112.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_cluster.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		verrier_has_astronomer = yes
+		NOT = {
+			var:verrier_astronomer_var = {
+				has_variable = verrier_astronomer_on_break_var
+			}
+		}
+		var:verrier_astronomer_var = {
+			has_trait = senile
+		}
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = {
+		name = verrier.1112.g #Was he drunk or something?
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = -5
 		}
 	}
 }
