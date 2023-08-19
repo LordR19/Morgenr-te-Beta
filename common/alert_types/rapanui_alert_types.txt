@@ -25,20 +25,32 @@
 # player_commander
 # player_trade_route
 
-### ALERTS
-### these need icons, if you create a new alert or move an important action here use texture = "gfx/interface/icons/alert_icons/placeholder.dds"
-### and then ask art to make an icon, you can also check the unused folder if anything fits, you can also use ANY icon in the game if it would fit
-### but always check with art to verify it is looking good
-
-lepsius_expedition_possible_alert = {
+rapanui_pacific_expedition_possible_alert = {
 	script_context = player_country
 
 	valid = {
-		lepsius_on_archaeological_expedition = no
-		lepsius_has_active_archaeologist = yes
-		var:lepsius_excavation_teams >= 1
+		country_rank >= rank_value:major_power
+		has_technology_researched = screw_frigate
+		has_technology_researched = dialectics
+		any_scope_building = {
+			is_building_type = building_port
+		}
+		any_scope_building = {
+			is_building_type = building_university
+		}
+		navy_size >= 15
+		any_scope_character = {
+			has_role = admiral
+			is_busy = no
+			count >= 1
+		}
 		NOT = {
-			has_modifier = lepsius_had_expedition_modifier
+			any_country = {
+				OR = {
+					has_technology_researched = dreadnought
+					has_technology_researched = destroyer
+				}
+			}
 		}
 	}
 
