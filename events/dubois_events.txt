@@ -3066,6 +3066,87 @@ dubois.81 = {
 	}
 }
 
+#######BOTANY
+
+#Dubois 82: Yearly botanical report
+
+dubois.82 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		NOT = {
+			has_variable = dubois_botanical_report_cooldown_var
+		}
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		set_variable = {
+			name = dubois_botanical_report_cooldown_var
+			days = 365
+		}
+		dubois_add_1000_specimen = yes #base specimen
+
+		#Additional yearly specimen
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_university
+					has_active_production_method = pm_dubois_university_natural_history
+				}
+			}
+			dubois_add_1000_specimen = yes
+		}
+		if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					var:dubois_naturalist_experience >= 100
+				}
+			}
+			dubois_add_1000_specimen = yes
+		}
+		if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					var:dubois_naturalist_experience >= 200
+				}
+			}
+			dubois_add_1000_specimen = yes
+		}
+		if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					var:dubois_naturalist_experience >= 300
+				}
+			}
+			dubois_add_1000_specimen = yes
+		}
+		if = {
+			limit = {
+				has_variable = dubois_yearly_specimen_var
+			}
+			set_variable = {
+				name = dubois_specimen_notification_var
+				value = var:dubois_yearly_specimen_var
+			}
+			set_variable = {
+				name = dubois_yearly_specimen_var
+				value = 0
+			}
+		}
+
+		#Notification
+		if = {
+			limit = {
+				dubois_botanical_research = yes
+			}
+			post_notification = dubois_botanical_report_notification
+		}
+	}
+}
+
 #################################################################################
 
 ######101-200: Animals arrive######
@@ -4778,6 +4859,7 @@ dubois.201 = {
 
 	option = {	#Nevermind
 		name = dubois.201.g
+		default_option = yes
 	}
 
 	after = {
@@ -5882,9 +5964,9 @@ dubois.220 = {
 dubois.221 = {
 	type = country_event
 
-	title = dubois.209.t
-	desc = dubois.209.d
-	flavor = dubois.209.f
+	title = dubois.221.t
+	desc = dubois.221.d
+	flavor = dubois.221.f
 
 	duration = 3
 
@@ -5911,7 +5993,7 @@ dubois.221 = {
 	}
 
 	option = {
-		name = dubois.209.g #So exciting.
+		name = dubois.221.g #So exciting.
 		if = {
 			limit = {
 				NOT = {
@@ -5928,6 +6010,154 @@ dubois.221 = {
 	}
 
 	after = {
+	}
+}
+
+#####################################################################
+
+######BOTANY######
+
+#Dubois 301: Botanical Expedition Destinantion
+
+dubois.301 = {
+	type = country_event
+
+	title = dubois.301.t
+	desc = dubois.301.d
+	flavor = dubois.301.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {	#To Amazonas
+		name = dubois.301.g
+		trigger = {
+			dubois_botanical_expedition_possible_amazonas = yes
+			NOR = {
+				has_modifier = dubois_botanical_expedition_modifier
+				has_modifier = dubois_naturalist_travell_to_location_modifier
+				has_modifier = dubois_naturalist_travell_from_location_modifier
+			}
+			scope:dubois_naturalist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_naturalist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_naturalist_to_amazonas = yes
+		add_modifier = {
+			name = dubois_botanical_expedition_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_naturalist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#To Congo
+		name = dubois.301.h
+		trigger = {
+			dubois_botanical_expedition_possible_congo = yes
+			NOR = {
+				has_modifier = dubois_botanical_expedition_modifier
+				has_modifier = dubois_naturalist_travell_to_location_modifier
+				has_modifier = dubois_naturalist_travell_from_location_modifier
+			}
+			scope:dubois_naturalist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_naturalist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_naturalist_to_congo = yes
+		add_modifier = {
+			name = dubois_botanical_expedition_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_naturalist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#To Borneo
+		name = dubois.301.i
+		trigger = {
+			dubois_botanical_expedition_possible_borneo = yes
+			NOR = {
+				has_modifier = dubois_botanical_expedition_modifier
+				has_modifier = dubois_naturalist_travell_to_location_modifier
+				has_modifier = dubois_naturalist_travell_from_location_modifier
+			}
+			scope:dubois_naturalist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_naturalist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_naturalist_to_borneo = yes
+		add_modifier = {
+			name = dubois_botanical_expedition_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_naturalist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#To Indochina
+		name = dubois.301.j
+		trigger = {
+			dubois_botanical_expedition_possible_indochina = yes
+			NOR = {
+				has_modifier = dubois_botanical_expedition_modifier
+				has_modifier = dubois_naturalist_travell_to_location_modifier
+				has_modifier = dubois_naturalist_travell_from_location_modifier
+			}
+			scope:dubois_naturalist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_naturalist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_naturalist_to_indochina = yes
+		add_modifier = {
+			name = dubois_botanical_expedition_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_naturalist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#Nevermind
+		name = dubois.201.g
+		default_option = yes
+	}
+
+	after = {
+		remove_variable = dubois_paleontological_expedition_destination_selection_var
 	}
 }
 
