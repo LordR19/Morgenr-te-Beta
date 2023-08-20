@@ -4506,46 +4506,282 @@ dubois.200 = {
 
 ###Random Events for Normal Formation
 
-#Dubois 201: Farns
+#Dubois 201: Paleontological Expedition Destinantion
 
 dubois.201 = {
 	type = country_event
 
 	title = dubois.201.t
-	desc = dubois.201.d
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_paleontologist_in_north_america_var
+			}
+			desc = dubois.2011.d_north_america
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_paleontologist_in_south_america_var
+			}
+			desc = dubois.2011.d_south_america
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_paleontologist_in_europe_var
+			}
+			desc = dubois.2011.d_europe
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_paleontologist_in_africa_var
+			}
+			desc = dubois.2011.d_africa
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_paleontologist_in_asia_var
+			}
+			desc = dubois.2011.d_asia
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_paleontologist_in_europe_var
+			}
+			desc = dubois.2011.d_australia
+		}
+		triggered_desc = {
+			trigger = {
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+			}
+			desc = dubois.2011.d_to_location
+		}
+		triggered_desc = {
+			trigger = {
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
+			}
+			desc = dubois.2011.d_from_location
+		}
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_variable = dubois_paleontologist_in_north_america_var
+					has_variable = dubois_paleontologist_in_south_america_var
+					has_variable = dubois_paleontologist_in_europe_var
+					has_variable = dubois_paleontologist_in_africa_var
+					has_variable = dubois_paleontologist_in_asia_var
+					has_variable = dubois_paleontologist_in_australia_var
+					has_modifier = dubois_paleontologist_travell_to_location_modifier
+					has_modifier = dubois_paleontologist_travell_from_location_modifier
+				}
+			}
+			desc = dubois.2011.d_default
+		}
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_variable = dubois_paleontologist_in_north_america_var
+					has_variable = dubois_paleontologist_in_south_america_var
+					has_variable = dubois_paleontologist_in_europe_var
+					has_variable = dubois_paleontologist_in_africa_var
+					has_variable = dubois_paleontologist_in_asia_var
+					has_variable = dubois_paleontologist_in_australia_var
+					has_modifier = dubois_paleontologist_travell_to_location_modifier
+					has_modifier = dubois_paleontologist_travell_from_location_modifier
+				}
+				scope:dubois_paleontologist_scope = {
+					is_busy = yes
+				}
+			}
+			desc = dubois.2011.d_other
+		}
+	}
 	flavor = dubois.201.f
 
-	duration = 3
+	gui_window = event_window_1char_tabloid
 
-	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_flora.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	left_icon = scope:dubois_paleontologist_scope
 
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
-	cooldown = { 
-		years = 10
-	}
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		dubois_paleontological_research = yes
 	}
 
 	immediate = {
-	}
-
-	option = {
-		name = dubois.201.g #So exciting.
-		dubois_add_1_fossil = yes
-		dubois_small_add_technology = yes
-		paleontologist_experience_gain_effect = {
-			AMOUNT = "15"
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
 		}
 	}
 
+	option = {	#To North America
+		name = dubois.2011.g
+		trigger = {
+			dubois_dinosaur_research_in_north_america = yes
+			NOR = {
+				has_modifier = dubois_paleontological_research_modifier
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
+			}
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_paleontologist_to_north_america = yes
+		add_modifier = {
+			name = dubois_paleontological_research_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_paleontologist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#To South America
+		name = dubois.2011.h
+		trigger = {
+			dubois_dinosaur_research_in_south_america = yes
+			NOR = {
+				has_modifier = dubois_paleontological_research_modifier
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
+			}
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_paleontologist_to_south_america = yes
+		add_modifier = {
+			name = dubois_paleontological_research_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_paleontologist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#To Europe
+		name = dubois.2011.i
+		trigger = {
+			dubois_dinosaur_research_in_europe = yes
+			NOR = {
+				has_modifier = dubois_paleontological_research_modifier
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
+			}
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_paleontologist_to_europe = yes
+		add_modifier = {
+			name = dubois_paleontological_research_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_paleontologist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#To Africa
+		name = dubois.2011.j
+		trigger = {
+			dubois_dinosaur_research_in_africa = yes
+			NOR = {
+				has_modifier = dubois_paleontological_research_modifier
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
+			}
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_paleontologist_to_africa = yes
+		add_modifier = {
+			name = dubois_paleontological_research_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_paleontologist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#To Asia
+		name = dubois.2011.k
+		trigger = {
+			dubois_dinosaur_research_in_asia = yes
+			NOR = {
+				has_modifier = dubois_paleontological_research_modifier
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
+			}
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_paleontologist_to_asia = yes
+		add_modifier = {
+			name = dubois_paleontological_research_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_paleontologist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#To Australia
+		name = dubois.2011.l
+		trigger = {
+			dubois_dinosaur_research_in_australia = yes
+			NOR = {
+				has_modifier = dubois_paleontological_research_modifier
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
+			}
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		dubois_set_paleontologist_to_australia = yes
+		add_modifier = {
+			name = dubois_paleontological_research_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		add_modifier = {
+			name = dubois_paleontologist_travell_to_location_modifier
+			days = 90
+		}
+	}
+
+	option = {	#Nevermind
+		name = dubois.201.g
+	}
+
 	after = {
+		remove_variable = dubois_paleontological_expedition_destination_selection_var
 	}
 }
 
@@ -5069,7 +5305,7 @@ dubois.208 = {
 	}
 }
 
-#Dubois 209: Eusthenopteron
+#Dubois 209: Farns
 
 dubois.209 = {
 	type = country_event
@@ -5081,7 +5317,7 @@ dubois.209 = {
 	duration = 3
 
 	event_image = {
-		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_eusthenopteron.dds"
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_flora.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -5089,7 +5325,7 @@ dubois.209 = {
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	cooldown = { 
-		years = 25
+		years = 10
 	}
 
 	trigger = {
@@ -5097,25 +5333,14 @@ dubois.209 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
-			save_scope_as = dubois_paleontologist_scope
-		}
 	}
 
 	option = {
 		name = dubois.209.g #So exciting.
-		if = {
-			limit = {
-				NOT = {
-					has_variable = dubois_fossil_eusthenopteron
-				}
-			}
-			dubois_add_fossil_eusthenopteron = yes
-		}
 		dubois_add_1_fossil = yes
-		dubois_medium_add_technology = yes
+		dubois_small_add_technology = yes
 		paleontologist_experience_gain_effect = {
-			AMOUNT = "35"
+			AMOUNT = "15"
 		}
 	}
 
@@ -5643,6 +5868,62 @@ dubois.220 = {
 		dubois_small_add_technology = yes
 		paleontologist_experience_gain_effect = {
 			AMOUNT = "5"
+		}
+	}
+
+	after = {
+	}
+}
+
+######Special Fossils######
+
+#Dubois 221: Eusthenopteron
+
+dubois.221 = {
+	type = country_event
+
+	title = dubois.209.t
+	desc = dubois.209.d
+	flavor = dubois.209.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_eusthenopteron.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 25
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.209.g #So exciting.
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_fossil_eusthenopteron
+				}
+			}
+			dubois_add_fossil_eusthenopteron = yes
+		}
+		dubois_add_1_fossil = yes
+		dubois_medium_add_technology = yes
+		paleontologist_experience_gain_effect = {
+			AMOUNT = "35"
 		}
 	}
 
@@ -10784,226 +11065,6 @@ dubois.2011 = {
 	immediate = {
 		var:dubois_paleontologist_var = {
 			save_scope_as = dubois_paleontologist_scope
-		}
-	}
-
-	option = {	#To North America
-		name = dubois.2011.g
-		trigger = {
-			dubois_dinosaur_research_in_north_america = yes
-			NOR = {
-				has_modifier = dubois_paleontological_research_modifier
-				has_modifier = dubois_paleontologist_travell_to_location_modifier
-				has_modifier = dubois_paleontologist_travell_from_location_modifier
-			}
-			scope:dubois_paleontologist_scope = {
-				is_busy = no
-			}
-		}
-		scope:dubois_paleontologist_scope = {
-			set_character_busy = yes
-		}
-		dubois_set_paleontologist_to_north_america = yes
-		add_modifier = {
-			name = dubois_paleontological_research_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_paleontologist_travell_to_location_modifier
-			days = 90
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#To South America
-		name = dubois.2011.h
-		trigger = {
-			dubois_dinosaur_research_in_south_america = yes
-			NOR = {
-				has_modifier = dubois_paleontological_research_modifier
-				has_modifier = dubois_paleontologist_travell_to_location_modifier
-				has_modifier = dubois_paleontologist_travell_from_location_modifier
-			}
-			scope:dubois_paleontologist_scope = {
-				is_busy = no
-			}
-		}
-		scope:dubois_paleontologist_scope = {
-			set_character_busy = yes
-		}
-		dubois_set_paleontologist_to_south_america = yes
-		add_modifier = {
-			name = dubois_paleontological_research_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_paleontologist_travell_to_location_modifier
-			days = 90
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#To Europe
-		name = dubois.2011.i
-		trigger = {
-			dubois_dinosaur_research_in_europe = yes
-			NOR = {
-				has_modifier = dubois_paleontological_research_modifier
-				has_modifier = dubois_paleontologist_travell_to_location_modifier
-				has_modifier = dubois_paleontologist_travell_from_location_modifier
-			}
-			scope:dubois_paleontologist_scope = {
-				is_busy = no
-			}
-		}
-		scope:dubois_paleontologist_scope = {
-			set_character_busy = yes
-		}
-		dubois_set_paleontologist_to_europe = yes
-		add_modifier = {
-			name = dubois_paleontological_research_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_paleontologist_travell_to_location_modifier
-			days = 90
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#To Africa
-		name = dubois.2011.j
-		trigger = {
-			dubois_dinosaur_research_in_africa = yes
-			NOR = {
-				has_modifier = dubois_paleontological_research_modifier
-				has_modifier = dubois_paleontologist_travell_to_location_modifier
-				has_modifier = dubois_paleontologist_travell_from_location_modifier
-			}
-			scope:dubois_paleontologist_scope = {
-				is_busy = no
-			}
-		}
-		scope:dubois_paleontologist_scope = {
-			set_character_busy = yes
-		}
-		dubois_set_paleontologist_to_africa = yes
-		add_modifier = {
-			name = dubois_paleontological_research_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_paleontologist_travell_to_location_modifier
-			days = 90
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#To Asia
-		name = dubois.2011.k
-		trigger = {
-			dubois_dinosaur_research_in_asia = yes
-			NOR = {
-				has_modifier = dubois_paleontological_research_modifier
-				has_modifier = dubois_paleontologist_travell_to_location_modifier
-				has_modifier = dubois_paleontologist_travell_from_location_modifier
-			}
-			scope:dubois_paleontologist_scope = {
-				is_busy = no
-			}
-		}
-		scope:dubois_paleontologist_scope = {
-			set_character_busy = yes
-		}
-		dubois_set_paleontologist_to_asia = yes
-		add_modifier = {
-			name = dubois_paleontological_research_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_paleontologist_travell_to_location_modifier
-			days = 90
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#To Australia
-		name = dubois.2011.l
-		trigger = {
-			dubois_dinosaur_research_in_australia = yes
-			NOR = {
-				has_modifier = dubois_paleontological_research_modifier
-				has_modifier = dubois_paleontologist_travell_to_location_modifier
-				has_modifier = dubois_paleontologist_travell_from_location_modifier
-			}
-			scope:dubois_paleontologist_scope = {
-				is_busy = no
-			}
-		}
-		scope:dubois_paleontologist_scope = {
-			set_character_busy = yes
-		}
-		dubois_set_paleontologist_to_australia = yes
-		add_modifier = {
-			name = dubois_paleontological_research_modifier
-			multiplier = money_amount_multiplier_very_small
-		}
-		add_modifier = {
-			name = dubois_paleontologist_travell_to_location_modifier
-			days = 90
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#Call him back
-		name = dubois.2011.m
-		trigger = {
-			has_modifier = dubois_paleontological_research_modifier
-		}
-		scope:dubois_paleontologist_scope = {
-			set_character_busy = no
-		}
-		dubois_set_paleontologist_to_default = yes
-		remove_modifier = dubois_paleontological_research_modifier
-		add_modifier = {
-			name = dubois_paleontologist_travell_from_location_modifier
-			days = 90
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
 		}
 	}
 
