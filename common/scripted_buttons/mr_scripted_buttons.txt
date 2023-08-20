@@ -537,7 +537,11 @@ mr_botanical_expedition_button = {
 	name = "mr_botanical_expedition_button"
 	desc = "mr_botanical_expedition_button_desc"
 
-	visible = { always = yes }
+	visible = {
+		NOT = {
+			has_modifier = dubois_botanical_expedition_modifier
+		}
+	}
 
 	possible = {
 		has_technology_researched = dubois_theory_of_evolution_tech
@@ -553,10 +557,6 @@ mr_botanical_expedition_button = {
 				dubois_has_rainforest = yes
 			}
 		}
-		NOR = {
-			has_modifier = dubois_botanical_expedition_modifier
-			has_modifier = dubois_had_botanical_expedition_modifier
-		}
 	}
 
 	effect = {
@@ -564,13 +564,11 @@ mr_botanical_expedition_button = {
 			name = dubois_botanical_expedition_modifier
 		}
 		trigger_event = { 
-			id = dubois.301 
+			id = dubois.301
 			popup = yes 
 		}
-		hidden_effect = {
-			var:dubois_naturalist_var = {
-				set_character_busy = yes
-			}
+		var:dubois_naturalist_var = {
+			set_character_busy = yes
 		}
 	}
 
@@ -601,5 +599,113 @@ mr_botanical_expedition_button = {
 			}
 			add = -200
 		}	
+	}
+}
+
+mr_botanical_expedition_recall_button = {
+	name = "mr_botanical_expedition_recall_button"
+	desc = "mr_botanical_expedition_recall_button_desc"
+
+	visible = { 
+		has_modifier = dubois_botanical_expedition_modifier
+	}
+
+	possible = {
+		NOR = {
+			has_modifier = dubois_naturalist_travell_to_location_modifier
+			has_modifier = dubois_naturalist_travell_from_location_modifier
+		}
+	}
+
+	effect = {
+		var:dubois_naturalist_var = {
+			set_character_busy = no
+		}
+		dubois_set_naturalist_to_default = yes
+		remove_modifier = dubois_botanical_expedition_modifier
+		add_modifier = {
+			name = dubois_naturalist_travell_from_location_modifier
+			days = 90
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+######PALEONTOLOGICAL EXPEDITION######
+
+mr_paleontological_expedition_button = {
+	name = "mr_paleontological_expedition_button"
+	desc = "mr_paleontological_expedition_button_desc"
+
+	visible = { 
+		NOR = {
+			has_modifier = dubois_paleontological_research_modifier
+			has_modifier = dubois_paleontologist_travell_to_location_modifier
+			has_modifier = dubois_paleontologist_travell_from_location_modifier
+		}
+	}
+
+	possible = {
+		dubois_has_active_paleontologist = yes
+		OR = {
+			dubois_has_formation = yes
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = paleontological_license
+				}				
+				dubois_has_formation = yes
+			}
+		}
+		NOT = {
+			has_variable = dubois_paleontological_expedition_destination_selection_var
+		}
+	}
+
+	effect = {
+		trigger_event = { 
+			id = dubois.201
+			popup = yes 
+		}
+		set_variable = dubois_paleontological_expedition_destination_selection_var
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+mr_paleontological_expedition_recall_button = {
+	name = "mr_paleontological_expedition_recall_button"
+	desc = "mr_paleontological_expedition_recall_button_desc"
+
+	visible = { 
+		has_modifier = dubois_paleontological_research_modifier
+	}
+
+	possible = {
+		NOR = {
+			has_modifier = dubois_paleontologist_travell_to_location_modifier
+			has_modifier = dubois_paleontologist_travell_from_location_modifier
+		}
+	}
+
+	effect = {
+		var:dubois_paleontologist_var = {
+			set_character_busy = no
+		}
+		dubois_set_paleontologist_to_default = yes
+		remove_modifier = dubois_paleontological_research_modifier
+		add_modifier = {
+			name = dubois_paleontologist_travell_from_location_modifier
+			days = 90
+		}
+	}
+
+	ai_chance = {
+		base = 0
 	}
 }
