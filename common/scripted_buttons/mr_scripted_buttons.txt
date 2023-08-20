@@ -207,3 +207,70 @@ mr_visit_scientific_society_button = {
 		}
 	}
 }
+
+###########################################################################
+
+######BOTANICAL EXPEDITION######
+
+mr_botanical_expedition_button = {
+	name = "mr_botanical_expedition_button"
+	desc = "mr_botanical_expedition_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		has_technology_researched = dubois_theory_of_evolution_tech
+		has_technology_researched = malaria_prevention
+		dubois_has_active_naturalist = yes
+		OR = {
+			dubois_has_rainforest = yes
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = botanical_license
+				}				
+				dubois_has_rainforest = yes
+			}
+		}
+		NOR = {
+			has_modifier = dubois_botanical_expedition_modifier
+			has_modifier = dubois_had_botanical_expedition_modifier
+		}
+	}
+
+	effect = {
+		add_modifier = {
+			name = dubois_botanical_expedition_modifier
+		}
+		trigger_event = { id = dubois.301 popup = yes }
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			}
+			add = 100
+		}
+		modifier = {
+			trigger = {
+				var:dubois_specimen < 35000
+			}
+			add = 100
+		}		
+		modifier = {
+			trigger = {
+				var:lepsius_aegean_artifact_minor < 45000
+			}
+			add = 25
+		}	
+		modifier = {
+			trigger = {
+				var:dubois_specimen >= 50000
+			}
+			add = -200
+		}	
+	}
+}
