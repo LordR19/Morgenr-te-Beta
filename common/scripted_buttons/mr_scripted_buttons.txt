@@ -210,6 +210,327 @@ mr_visit_scientific_society_button = {
 
 ###########################################################################
 
+#SCIENTIFIC EXPEDITION
+
+######PACIFIC EXPEDITION######
+
+mr_pacific_expedition_button = {
+	name = "mr_pacific_expedition_button"
+	desc = "mr_pacific_expedition_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		country_rank >= rank_value:major_power
+		has_technology_researched = screw_frigate
+		has_technology_researched = dialectics
+		any_scope_building = {
+			is_building_type = building_port
+		}
+		any_scope_building = {
+			is_building_type = building_university
+		}
+		navy_size >= 15
+		any_scope_character = {
+			has_role = admiral
+			is_busy = no
+			count >= 1
+		}
+		NOT = {
+			any_country = {
+				OR = {
+					has_technology_researched = dreadnought
+					has_technology_researched = destroyer
+				}
+			}
+		}
+		NOR = {
+			has_modifier = rapanui_pacific_expedition_modifier
+			has_modifier = rapanui_had_pacific_expedition_modifier
+		}
+	}
+
+	effect = {
+		add_treasury = -25000
+		add_modifier = {
+			name = rapanui_pacific_expedition_modifier
+		}
+		trigger_event = { 
+			id = rapanui.201
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			}
+			add = 100
+		}
+	}
+}
+
+######ARCTIC EXPEDITION######
+
+mr_arctica_expedition_button = {
+	name = "mr_arctica_expedition_button"
+	desc = "mr_arctica_expedition_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		has_technology_researched = zeppelins
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_curtiss_weather_station
+		}
+		any_scope_character = {
+			OR = {
+				has_trait = curtiss_pilot
+				has_trait = curtiss_pilot_ace
+			}
+			is_busy = no
+		}
+		OR = {
+
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_GREENLAND
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_GREENLAND
+					}
+				}		
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_NORTHERN_NORWAY
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_NORTHERN_NORWAY
+					}
+				}		
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_ALASKA
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_ALASKA
+					}
+				}		
+			}
+			OR = {
+				any_scope_state = {
+				state_region = s:STATE_NUNAVUT
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_NUNAVUT
+					}
+				}		
+			}
+			OR = {
+				any_scope_state = {
+					state_region = s:STATE_NENETSIA
+				}
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = airspace_convention
+					}				
+					any_scope_state = {
+						state_region = s:STATE_NENETSIA
+					}
+				}		
+			}
+		}
+		NOR = {
+			has_modifier = curtiss_arctica_expedition_modifier
+			has_modifier = curtiss_had_arctica_expedition_modifier
+		}
+	}
+
+	effect = {
+		set_variable = {
+			name = curtiss_zeppelin_progress
+			value = 0
+		}
+		set_variable = {
+			name = curtiss_zeppelin_science
+			value = 0
+		}
+		set_variable = {
+			name = curtiss_zeppelin_danger
+			value = 0
+		}
+		add_modifier = {
+			name = curtiss_arctica_expedition_modifier
+		}
+		add_modifier = {
+			name = curtiss_zeppelin_expedition_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		trigger_event = { 
+			id = curtiss.520
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_small
+				gold_reserves > 0
+
+			}
+			add = 1
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -1000
+		}		
+		modifier = {
+			OR = {
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			add = -1000
+		}
+	}
+}
+
+######SAFARI EXPEDITION######
+
+mr_safari_expedition_button = {
+	name = "mr_safari_expedition_button"
+	desc = "mr_safari_expedition_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		has_technology_researched = dubois_theory_of_evolution_tech
+		has_technology_researched = civilizing_mission
+		any_scope_state = {
+			is_capital = yes
+			OR = {
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_2
+				}
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_3
+				}
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_4
+				}
+			}
+		}
+		dubois_has_active_naturalist = yes
+		custom_tooltip = {
+			text = dubois_safari_possible_tt
+			dubois_safari_possible = yes
+		}
+		NOR = {
+			has_modifier = dubois_on_safari_modifier
+			has_modifier = dubois_had_safari_modifier
+		}
+	}
+
+	effect = {
+		add_modifier = {
+			name = dubois_on_safari_modifier
+		}
+		trigger_event = {
+			id = dubois.31
+			popup = yes
+		}
+		hidden_effect = {
+			var:dubois_naturalist_var = {
+				add_modifier = {
+					name = dubois_animal_hunter_modifier
+				}
+				set_character_busy = yes
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+######ZOOLOGICAL EXPEDITION
+
+mr_zoological_expedition_button = {
+	name = "mr_zoological_expedition_button"
+	desc = "mr_zoological_expedition_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		has_technology_researched = dubois_theory_of_evolution_tech
+		dubois_has_active_naturalist = yes
+		custom_tooltip = {
+			text = dubois_has_local_animal_tt
+			dubois_has_local_animal = yes
+		}
+		NOT = {
+			has_modifier = dubois_search_local_animal_modifier
+		}
+	}
+
+	effect = {
+		add_modifier = {
+			name = dubois_search_local_animal_modifier
+		}
+		hidden_effect = {
+			dubois_set_catch_animals = yes
+			var:dubois_naturalist_var = {
+				add_modifier = {
+					name = dubois_animal_hunter_modifier
+				}
+				set_character_busy = yes
+			}
+			trigger_event = {
+				id = dubois.21
+				days = 365
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
 ######BOTANICAL EXPEDITION######
 
 mr_botanical_expedition_button = {
@@ -242,7 +563,15 @@ mr_botanical_expedition_button = {
 		add_modifier = {
 			name = dubois_botanical_expedition_modifier
 		}
-		trigger_event = { id = dubois.301 popup = yes }
+		trigger_event = { 
+			id = dubois.301 
+			popup = yes 
+		}
+		hidden_effect = {
+			var:dubois_naturalist_var = {
+				set_character_busy = yes
+			}
+		}
 	}
 
 	ai_chance = {
