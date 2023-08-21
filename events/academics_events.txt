@@ -4644,6 +4644,243 @@ academics.2202 = {
 	}
 }
 
+###Get a specific Exotic animal
+
+#Academics 2203: Get a [exotic animal] for our Zoo
+academics.2203 = {
+	type = country_event
+
+	title = academics.2203.t
+
+	desc = academics.2203.d
+
+	flavor = academics.2203.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	cooldown = {
+		years = { 10 20 }
+	}
+
+	trigger = {
+		has_building = building_dubois_zoo
+		NOT = {
+			AND = {
+				has_variable = dubois_zoo_animal_polar
+				has_variable = dubois_zoo_animal_grizzly
+				has_variable = dubois_zoo_animal_eagle
+				has_variable = dubois_zoo_animal_bison
+				has_variable = dubois_zoo_animal_panther
+				has_variable = dubois_zoo_animal_alligator
+				#has_variable = dubois_zoo_animal_axolotl
+				has_variable = dubois_zoo_animal_sloth
+				has_variable = dubois_zoo_animal_jaguar
+				has_variable = dubois_zoo_animal_anteater
+				has_variable = dubois_zoo_animal_armadillo
+				has_variable = dubois_zoo_animal_condor
+				has_variable = dubois_zoo_animal_manatee
+				#has_variable = dubois_zoo_animal_monkey
+				has_variable = dubois_zoo_animal_lynx
+				has_variable = dubois_zoo_animal_wolf
+				has_variable = dubois_zoo_animal_badger
+				has_variable = dubois_zoo_animal_stoat
+				has_variable = dubois_zoo_animal_otter
+				has_variable = dubois_zoo_animal_ibex
+				#has_variable = dubois_zoo_animal_wisent
+				has_variable = dubois_zoo_animal_hippopotamus
+				has_variable = dubois_zoo_animal_lion
+				has_variable = dubois_zoo_animal_elephant
+				has_variable = dubois_zoo_animal_giraffe
+				has_variable = dubois_zoo_animal_penguin
+				has_variable = dubois_zoo_animal_mole
+				#has_variable = dubois_zoo_animal_zebra
+				has_variable = dubois_zoo_animal_panda
+				has_variable = dubois_zoo_animal_orangutan
+				has_variable = dubois_zoo_animal_tiger
+				has_variable = dubois_zoo_animal_tapir
+				has_variable = dubois_zoo_animal_dragon
+				has_variable = dubois_zoo_animal_leopard
+				#has_variable = dubois_zoo_animal_cheetah
+			}
+		}
+		any_interest_group = {
+			OR = {
+				is_powerful = yes
+				AND = {
+					is_marginal = no
+					is_interest_group_type = ig_intelligentsia
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_interest_group = {
+			limit = {
+				OR = {
+					is_powerful = yes
+					AND = {
+						is_marginal = no
+						is_interest_group_type = ig_intelligentsia
+					}
+				}
+			}
+			save_scope_as = academics_mission_interest_group_scope
+		}
+
+		set_variable = { #This is used to save the interest group for multiple events / the journal entry
+			name = academics_mission_interest_group_var
+			value = scope:academics_mission_interest_group_scope
+		}
+
+		academics_random_animal_chooser_je_effect = yes #This effect chooses a random animal, that is not yet at the zoo
+	}
+
+	option = { #Gotta catch them all!
+		name = academics.2203.g
+
+		add_journal_entry = {
+			type = je_academics_get_exotic_animal
+		}
+
+		custom_tooltip = academics.2203_goal_tt
+		custom_tooltip = academics.2203_reward_tt
+	}
+
+	option = { #I am leading a great nation. I don't have dealings with a Zoo!
+		name = academics.2203.h
+		default_option = yes
+
+		var:academics_mission_interest_group_var = {
+			add_modifier = {
+				name = academics_exotic_animal_not_acquired_ig_modifier
+				years = 2
+			}
+		}
+
+		remove_variable = academics_mission_interest_group_var
+		je_academics_get_exotic_animal_variable_remover_effect = yes
+	}
+}
+
+#Academics 2204: A new home for the [exotic animal]
+academics.2204 = {
+	type = country_event
+
+	title = academics.2204.t
+
+	desc = {
+		triggered_desc = { #In case your Rival still exists
+			desc = academics.2204.d_rival
+			trigger = {
+				exists = var:je_specimen_rival_nation_var
+			}
+		}
+		triggered_desc = { #In case your Rival does not exist anymore
+			desc = academics.2204.d_rival_gone
+			trigger = {
+				NOT = {
+					exists = var:je_specimen_rival_nation_var
+				}
+			}
+		}
+	}
+	flavor = academics.2204.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+	}
+
+	option = { #A wonderful animal!
+		name = academics.2204.g
+
+		var:academics_mission_interest_group_var = {
+			add_modifier = {
+				name = academics_exotic_animal_acquired_ig_modifier
+				years = 5
+			}
+		}
+		add_modifier = {
+			name = academics_exotic_animal_acquired_country_modifier
+			years = 5
+		}
+
+		remove_variable = academics_exotic_animal_acquired_country_modifier
+		je_academics_get_exotic_animal_variable_remover_effect = yes
+	}
+}
+
+#Academics 2205: No [exotic animal] in our zoo
+academics.2205 = {
+	type = country_event
+
+	title = academics.2205.t
+	desc = academics.2205.d
+	flavor = academics.2205.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	trigger = {
+		#triggered by timed out je
+	}
+
+	immediate = {
+	}
+
+	option = { #How horrible!
+		name = academics.2205.g
+
+		var:academics_mission_interest_group_var = {
+			add_modifier = {
+				name = academics_exotic_animal_not_acquired_ig_modifier
+				years = 3
+			}
+		}
+
+		add_radicals = {
+			value = 0.02
+		}
+
+		remove_variable = academics_mission_interest_group_var
+		je_academics_get_exotic_animal_variable_remover_effect = yes
+	}
+}
+
 #################################################################################
 
 ###Paleontological Missions###
