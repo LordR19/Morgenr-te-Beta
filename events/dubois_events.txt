@@ -112,7 +112,7 @@ namespace = dubois
 
 #Random Events for Normal Formation
 
-#Dubois 201: Farns
+#Dubois 201: Paleontological Expedition Destination
 #Dubois 202: Shark Tooth
 #Dubois 203: Dinosaur Footprints
 #Dubois 204: Palaeosinopa
@@ -120,7 +120,7 @@ namespace = dubois
 #Dubois 206: Composita
 #Dubois 207: Trilobite
 #Dubois 208: Ammonites
-#Dubois 209: Eusthenopteron
+#Dubois 209: Farns
 #Dubois 210: Dinosauria eggs
 
 #######DINOSAUR EXCAVATION######
@@ -134,6 +134,19 @@ namespace = dubois
 #Dubois 215: Dinosaur Skull
 #Dubois 216: Dinosaur Skeleton
 #Dubois 220: Excavation finished
+
+######BOTANY######
+
+#Dubois 301: Botanical Expedition Destination
+#Dubois 302: Victoria amazonica (Amazonia)
+#Dubois 303: Attacus atlas (Indochina)
+#Dubois 304: Amorphophallus titanum (Borneo)
+#Dubois 305: Goliathus (Congo)
+#Dubois 306: New species of orchids
+#Dubois 307: Medicinal plants
+#Dubois 308: Beautiful, poisonous flowers
+#Dubois 309: IG questions botanical expedition
+#Dubois 310: Naturalist is sick!
 
 
 ######ZOO######
@@ -1569,6 +1582,9 @@ dubois.21 = {
 		default_option = yes
 		remove_modifier = dubois_search_local_animal_modifier
 		dubois_add_total_catch_animals = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "25"
+		}
 	}
 
 	after = {
@@ -2056,6 +2072,9 @@ dubois.33 = {
 		default_option = yes
 		dubois_medium_add_technology = yes
 		dubois_add_safari_progress = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
 	}
 
 	option = {
@@ -2132,6 +2151,9 @@ dubois.34 = {
 		default_option = yes
 		dubois_add_5000_specimen = yes
 		dubois_add_safari_progress = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
 	}
 
 	option = {
@@ -2370,6 +2392,9 @@ dubois.39 = {
 		name = dubois.39.g #Great
 		default_option = yes
 		dubois_transport_safari_animal = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "25"
+		}
 	}
 
 	after = {
@@ -6158,6 +6183,650 @@ dubois.301 = {
 
 	after = {
 		remove_variable = dubois_paleontological_expedition_destination_selection_var
+	}
+}
+
+#Dubois 302: Victoria amazonica (Amazonia)
+
+dubois.302 = {
+	type = country_event
+
+	title = dubois.302.t
+	desc = dubois.302.d
+	flavor = dubois.302.f
+
+	placement = scope:dubois_botany_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_specimen_flower.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		dubois_set_naturalist_location = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.302.g #
+		default_option = yes
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				has_active_production_method = pm_botanical_garden
+			}
+			NOT = {
+				any_scope_building = {
+					has_modifier = dubois_victoria_amazonica_modifier
+				}
+			}
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_dubois_zoo
+				has_active_production_method = pm_botanical_garden
+			}
+			add_modifier = {
+				name = dubois_victoria_amazonica_modifier
+			}
+		}
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	option = {
+		name = dubois.302.h #
+		naturalist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		dubois_small_add_technology = yes
+		dubois_add_3000_specimen = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 303: Attacus atlas (Indochina)
+
+dubois.303 = {
+	type = country_event
+
+	title = dubois.303.t
+	desc = dubois.303.d
+	flavor = dubois.303.f
+
+	placement = scope:dubois_botany_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_specimen_beetle.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		dubois_set_naturalist_location = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.302.g #
+		default_option = yes
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				has_active_production_method = pm_specimen_collection
+			}
+			NOT = {
+				any_scope_building = {
+					has_modifier = dubois_attacus_atlas_modifier
+				}
+			}
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_dubois_zoo
+				has_active_production_method = pm_specimen_collection
+			}
+			add_modifier = {
+				name = dubois_attacus_atlas_modifier
+			}
+		}
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	option = {
+		name = dubois.302.h #
+		naturalist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		dubois_small_add_technology = yes
+		dubois_add_3000_specimen = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 304: Amorphophallus titanum (Borneo)
+
+dubois.304 = {
+	type = country_event
+
+	title = dubois.304.t
+	desc = dubois.304.d
+	flavor = dubois.304.f
+
+	placement = scope:dubois_botany_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_specimen_flower.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		dubois_set_naturalist_location = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.302.g #
+		default_option = yes
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				has_active_production_method = pm_botanical_garden
+			}
+			NOT = {
+				any_scope_building = {
+					has_modifier = dubois_amorphophallus_titanum_modifier
+				}
+			}
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_dubois_zoo
+				has_active_production_method = pm_botanical_garden
+			}
+			add_modifier = {
+				name = dubois_amorphophallus_titanum_modifier
+			}
+		}
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	option = {
+		name = dubois.302.h #
+		naturalist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		dubois_small_add_technology = yes
+		dubois_add_3000_specimen = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 305: Goliathus (Congo)
+
+dubois.305 = {
+	type = country_event
+
+	title = dubois.305.t
+	desc = dubois.305.d
+	flavor = dubois.305.f
+
+	placement = scope:dubois_botany_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_specimen_beetle.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		dubois_set_naturalist_location = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.302.g #
+		default_option = yes
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				has_active_production_method = pm_specimen_collection
+			}
+			NOT = {
+				any_scope_building = {
+					has_modifier = dubois_goliath_beetle_modifier
+				}
+			}
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_dubois_zoo
+				has_active_production_method = pm_specimen_collection
+			}
+			add_modifier = {
+				name = dubois_goliath_beetle_modifier
+			}
+		}
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	option = {
+		name = dubois.302.h #
+		naturalist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		dubois_small_add_technology = yes
+		dubois_add_3000_specimen = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 306: New species of orchids
+
+dubois.306 = {
+	type = country_event
+
+	title = dubois.306.t
+	desc = dubois.306.d
+	flavor = dubois.306.f
+
+	placement = scope:dubois_botany_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_indonesia_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		dubois_set_naturalist_location = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.306.g #
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+		dubois_add_1000_specimen = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 307: Medicinal plants
+
+dubois.307 = {
+	type = country_event
+
+	title = dubois.307.t
+	desc = dubois.307.d
+	flavor = dubois.307.f
+
+	placement = scope:dubois_botany_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_indonesia_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		dubois_set_naturalist_location = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.307.g #Study them
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+		dubois_small_add_technology = yes
+	}
+
+	option = {
+		name = dubois.307.g #Collect them
+		default_option = yes
+		dubois_add_3000_specimen = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 308: Beautiful, poisonous flowers
+
+dubois.308 = {
+	type = country_event
+
+	title = dubois.308.t
+	desc = dubois.308.d
+	flavor = dubois.308.f
+
+	placement = scope:dubois_botany_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_indonesia_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		dubois_set_naturalist_location = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.308.g #The expedition crew should collect these plants
+		dubois_add_5000_specimen = yes
+		random_list = {
+			3 = {}
+			1 = {
+				scope:dubois_naturalist_scope = {
+					add_trait = reckless
+				}
+			}
+			1 = {
+				scope:dubois_naturalist_scope = {
+					add_trait = cruel
+				}
+			}
+			1 = {
+				scope:dubois_naturalist_scope = {
+					add_trait = hedonist
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.308.h #Collect them
+		dubois_add_5000_specimen = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				trigger_event = {
+					id = dubois.310
+					popup = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.308.i #Don't touch them
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 309: IG questions botanical expedition
+
+dubois.309 = {
+	type = country_event
+
+	title = dubois.309.t
+	desc = dubois.309.d
+	flavor = dubois.309.f
+
+	placement = scope:dubois_botany_state
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_sceptical_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+		random_interest_group = {
+			limit = {
+    			is_in_government = no
+	        }
+			save_scope_as = dubois_sceptical_ig
+			leader = {
+				save_scope_as = dubois_sceptical_leader
+			}
+		}
+	}
+
+	option = {
+		name = dubois.309.g #NATURALIST is scheduled to return immediately
+		scope:petty_bourgeoisie_ig  = {
+			add_modifier = {
+				name = ig_placated
+				years = 3
+			}
+		}
+		scope:dubois_naturalist_scope = {
+			set_character_busy = no
+			add_modifier = {
+				name = dubois_botany_banned_modifier
+				years = 3
+			}
+		}
+		dubois_set_naturalist_to_default = yes
+		remove_modifier = dubois_botanical_expedition_modifier
+		add_modifier = {
+			name = dubois_naturalist_travell_from_location_modifier
+			days = 90
+		}
+	}
+
+	option = {
+		name = dubois.309.h #We will not make science a political issue.
+		dubois_add_3000_specimen = yes
+		scope:petty_bourgeoisie_ig  = {
+			add_modifier = {
+				name = ig_not_placated
+				years = 3
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 310: NATURALIST is sick!
+
+dubois.310 = {
+	type = country_event
+
+	title = dubois.310.t
+	desc = dubois.310.d
+	flavor = dubois.310.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		dubois_set_naturalist_location = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.310.g #Worrying
+		custom_tooltip = dubois.310.tt
+		hidden_effect = {
+			random_list = {
+				1 = {
+					scope:dubois_naturalist_scope = {
+						add_modifier = {
+							name = dubois_botany_sickness_modifier
+							years = 1
+						}
+					}
+				}
+				1 = {
+					scope:dubois_naturalist_scope = {
+						add_modifier = {
+							name = dubois_botany_sickness_modifier
+							years = 2
+						}
+					}
+				}
+				1 = {
+					scope:dubois_naturalist_scope = {
+						add_modifier = {
+							name = dubois_botany_sickness_modifier
+							years = 3
+						}
+					}
+				}
+			}
+		}
+	}
+
+	after = {
 	}
 }
 
