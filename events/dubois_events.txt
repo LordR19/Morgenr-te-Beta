@@ -147,6 +147,7 @@ namespace = dubois
 #Dubois 308: Beautiful, poisonous flowers
 #Dubois 309: IG questions botanical expedition
 #Dubois 310: Naturalist is sick!
+#Dubois 311: Exotic seeds
 
 
 ######ZOO######
@@ -6727,7 +6728,7 @@ dubois.309 = {
 
 	option = {
 		name = dubois.309.g #NATURALIST is scheduled to return immediately
-		scope:dubois_sceptical_ig  = {
+		scope:dubois_sceptical_ig = {
 			add_modifier = {
 				name = ig_placated
 				years = 3
@@ -6823,6 +6824,70 @@ dubois.310 = {
 						}
 					}
 				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 311: Exotic seeds
+
+dubois.311 = {
+	type = country_event
+
+	title = dubois.311.t
+	desc = dubois.311.d
+	flavor = dubois.311.f
+
+	placement = scope:dubois_botany_state
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_indonesia_panorama.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		dubois_botanical_research = yes
+	}
+
+	immediate = {
+		dubois_set_naturalist_location = yes
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = rapanui.311.g #Good work
+		default_option = yes
+		dubois_add_3000_specimen = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+	}
+
+	option = {
+		name = rapanui.311.h #Use them for agriculture
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_farm_building = yes
+				}
+			}
+			add_modifier = {
+				name = rapanui_new_seeds_modifier
+				years = 5
 			}
 		}
 	}
