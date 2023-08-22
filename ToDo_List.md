@@ -1,13 +1,12 @@
 #TODO List
 
 #General:
-- Add academics for some nations at game start
 - Add a list with discoveries / deeds to each academic
 - Add more custom locs for the Scientific Society (invented)
 X Make sure that historical academics spawn properly
 - Mission to recruit more Academics
 - Death Events for Academics
-X Death Events for Academics (if they die without our input)
+- Death Events for Academics (if they die without our input)
 X Added historic or modern names for the scientific society
 
 #Archaeology:
@@ -20,11 +19,11 @@ X Mission to discover Pluto
 - Move the past conferences to a new event
 - Add Conference for Moon formation
 - Add Customizable Observatory Names
-- Add Events with negative Traits (Alcoholic, etc.)
-   + If a character is senile, they lose their research
-   + An alcoholic might discover twin stars
-   + An alcoholic might find stars that don't exist
-- Add a stress event that either forces you to let the astronomer take a break or adds a negative trait to them
+x Add Events with negative Traits (Alcoholic, etc.)
+   x If a character is senile, they lose their research
+   x An alcoholic might discover twin stars
+   x An alcoholic might find stars that don't exist
+x Add a stress event that either forces you to let the astronomer take a break or adds a negative trait to them
 - Add more discovery events but reduce the chances for them to make them happen about as often
 - Add an event for the classification of the stars with spectroscopy
 
