@@ -3439,6 +3439,11 @@ academics.2101 = {
 		var:lepsius_total_artifacts <= 4
 		country_rank >= rank_value:major_power
 		has_port = yes
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_lepsius_archaeological_museum
+			}
+		}
 		ig:ig_intelligentsia = {
 			is_marginal = no
 		}
@@ -4495,7 +4500,7 @@ academics.2200 = {
 	}
 
 	trigger = {
-		academics_naturalist_mission_possible_trigger = yes #does not have an astronomical mission
+		academics_naturalist_mission_possible_trigger = yes #does not have a naturalist mission
 		dubois_has_naturalist = yes
 		var:dubois_specimen > 5000
 		any_country = {
@@ -4681,6 +4686,7 @@ academics.2203 = {
 	}
 
 	trigger = {
+		academics_naturalist_mission_possible_trigger = yes #does not have a naturalist mission
 		has_building = building_dubois_zoo
 		NOT = {
 			AND = {
@@ -4872,6 +4878,160 @@ academics.2205 = {
 
 		remove_variable = academics_mission_interest_group_var
 		je_academics_get_exotic_animal_variable_remover_effect = yes
+	}
+}
+
+###Found a Zoo
+
+academics.2206 = {
+	type = country_event
+
+	title = academics.2206.t
+	desc = academics.2206.d
+	flavor = academics.2206.f
+
+	placement = ROOT
+
+	duration = 3
+
+	cooldown = {
+		years = { 50 100 }
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		academics_naturalist_mission_possible_trigger = yes #does not have a naturalist mission
+		has_technology_researched = dubois_theory_of_evolution_tech
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+			}
+		}
+		ig:ig_intelligentsia = {
+			is_marginal = no
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #We should build a Zoo.
+		name = academics.2206.g
+
+		add_journal_entry = {
+			type = je_academics_found_zoo
+		}
+
+		custom_tooltip = academics.2206_goal_tt
+		custom_tooltip = academics.2206_reward_tt
+	}
+
+	option = { #But I'm allergic!
+		name = academics.2206.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 3
+		}
+	}
+}
+
+#Academics 2207: A new Zoo!
+
+academics.2207 = {
+	type = country_event
+
+	title = academics.2207.t
+
+	desc = academics.2207.d
+
+	flavor = academics.2207.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+	}
+
+	option = { #Hurray
+		name = academics.2207.g
+
+		if = {
+			limit = {
+				dubois_has_naturalist = yes
+			}
+			naturalist_experience_gain_effect = {
+				AMOUNT = "50"
+			}
+		}
+
+		if = {
+			limit = {
+				dubois_has_naturalist = no
+			}
+			create_naturalist_effect = yes
+		}
+	}
+}
+
+#Academics 2208: No Zoo
+
+academics.2208 = {
+	type = country_event
+
+	title = academics.2208.t
+
+	desc = academics.2208.d
+
+	flavor = academics.2208.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_zoo_entrance.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		#triggered by successful je
+	}
+
+	immediate = {
+	}
+
+	option = { #What a pitty
+		name = academics.2208.g
+
+		add_modifier = {
+			name = academics_unhappy_intelligentsia
+			years = 5
+		}
 	}
 }
 
