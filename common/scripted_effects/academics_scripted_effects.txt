@@ -1669,6 +1669,32 @@ create_archaeologist_effect = {
 
 			set_global_variable = lepsius_schiaparelli_created #Makes sure Schiaparelli is not already created
 		}
+		1 = { #Henry Jones Sr.
+			trigger = {
+				NOT = { has_global_variable = lepsius_jones_sr_created }
+				c:USA ?= this
+				game_date < 1927.12.12 #Age 55
+				year >= 1912 #Arrival in Utah
+			}
+			create_character = {
+				template = mr_usa_jones_sr_henry_character_template
+
+				save_scope_as = lepsius_archaeologist_scope
+			}
+			scope:lepsius_archaeologist_scope = {
+				set_variable = lepsius_jones_sr_character_var #Unique for Rawlinson, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_archaeologist_var #This is basically the role of Archaeologist for a country, makes it possible to access character
+				value = scope:lepsius_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_jones_sr_created #Makes sure Rawlinson is not already created
+		}
 		1 = { #Random Archaeologist (fallback and to make it uncertain for historical once to appear)
 			create_character = {
 				save_scope_as = lepsius_archaeologist_scope
@@ -1864,6 +1890,32 @@ create_new_archaeologist_effect = {
 			}
 
 			set_global_variable = lepsius_schiaparelli_created #Makes sure Schiaparelli is not already created
+		}
+		1 = { #Henry Jones Sr.
+			trigger = {
+				NOT = { has_global_variable = lepsius_jones_sr_created }
+				c:USA ?= this
+				game_date < 1927.12.12 #Age 55
+				year >= 1912 #Arrival in Utah
+			}
+			create_character = {
+				template = mr_usa_jones_sr_henry_character_template
+
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+			scope:lepsius_new_archaeologist_scope = {
+				set_variable = lepsius_jones_sr_character_var #Unique for Rawlinson, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var #This is basically the role of Archaeologist for a country, makes it possible to access character
+				value = scope:lepsius_new_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_jones_sr_created #Makes sure Rawlinson is not already created
 		}
 		1 = { #Random Archaeologist (fallback and to make it uncertain for historical once to appear)
 			create_character = {
