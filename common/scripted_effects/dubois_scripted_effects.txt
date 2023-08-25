@@ -920,12 +920,62 @@ dubois_large_add_technology = {
 
 ######ADD SPECIMEN######
 
+#Effect to add a specific amount of fossils to the paleontologist and the the yearly discovered fossils
+#NUMBER = How many fossils will be added
+dubois_set_specimens_naturalist_yearly = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_yearly_specimen_var
+			}
+		}
+		set_variable = {
+			name = dubois_yearly_specimen_var
+			value = 0
+		}
+	}
+	if = {
+		limit = {
+			has_variable = dubois_naturalist_var
+			NOT = {
+				var:dubois_naturalist_var = {
+					has_variable = dubois_naturalist_total_specimens_var
+				}
+			}
+		}
+		var:dubois_naturalist_var = {
+			set_variable = {
+				name = dubois_naturalist_total_specimens_var
+				value = 0
+			}
+		}
+	}
+	change_variable = {
+		name = dubois_yearly_specimen_var
+		add = $NUMBER$
+	}
+	if = {
+		limit = {
+			has_variable = dubois_naturalist_var
+		}
+		var:dubois_naturalist_var = {
+			change_variable = {
+				name = dubois_naturalist_total_specimens_var
+				add = $NUMBER$
+			}
+		}
+	}
+}
+
 #Add 1000 specimen
 
 dubois_add_1000_specimen = {
 	change_variable = {
  		name = dubois_specimen
  		add = 1000
+	}
+	dubois_set_specimens_naturalist_yearly = {
+		AMOUNT = 1000
 	}
 	custom_tooltip = dubois_add_1000_specimen_tt
 }
@@ -937,6 +987,9 @@ dubois_add_3000_specimen = {
  		name = dubois_specimen
  		add = 3000
 	}
+	dubois_set_specimens_naturalist_yearly = {
+		AMOUNT = 3000
+	}
 	custom_tooltip = dubois_add_3000_specimen_tt
 }
 
@@ -946,6 +999,9 @@ dubois_add_5000_specimen = {
 	change_variable = {
  		name = dubois_specimen
  		add = 5000
+	}
+	dubois_set_specimens_naturalist_yearly = {
+		AMOUNT = 5000
 	}
 	custom_tooltip = dubois_add_5000_specimen_tt
 }
@@ -957,6 +1013,9 @@ dubois_add_10000_specimen = {
  		name = dubois_specimen
  		add = 10000
 	}
+	dubois_set_specimens_naturalist_yearly = {
+		AMOUNT = 10000
+	}
 	custom_tooltip = dubois_add_10000_specimen_tt
 }
 
@@ -966,6 +1025,9 @@ dubois_sub_50000_specimen = {
 	change_variable = {
  		name = dubois_specimen
  		add = -50000
+	}
+	dubois_set_specimens_naturalist_yearly = {
+		AMOUNT = -50000
 	}
 	custom_tooltip = dubois_sub_50000_specimen_tt
 }
