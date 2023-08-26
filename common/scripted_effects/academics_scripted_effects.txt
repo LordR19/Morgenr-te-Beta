@@ -1700,6 +1700,37 @@ create_archaeologist_effect = {
 
 			set_global_variable = lepsius_babbitt_created #Makes sure Babbitt is not already created
 		}
+		50 = { #Harriet Ann Boyd, USA
+			trigger = {
+				NOT = { has_global_variable = lepsius_boyd_created }
+				c:USA ?= this
+				OR = {
+					has_law = law_type:law_women_own_property
+					has_law = law_type:law_women_in_the_workplace
+					has_law = law_type:law_womens_suffrage
+				}
+				game_date < 1926.10.11 #Age 55
+				year >= 1899 #First journey to Crete
+			}
+			create_character = {
+				template = mr_usa_boyd_harriet_ann_character_template
+
+				save_scope_as = lepsius_archaeologist_scope
+			}
+			scope:lepsius_archaeologist_scope = {
+				set_variable = lepsius_boyd_character_var #Unique for Boyd, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_archaeologist_var #This is basically the role of Archaeologist for a country, makes it possible to access character
+				value = scope:lepsius_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_boyd_created #Makes sure Boyd is not already created
+		}
 		100 = { #Samuel Foster Haven, USA
 			trigger = {
 				NOT = { has_global_variable = lepsius_haven_created }
@@ -1974,7 +2005,7 @@ create_new_archaeologist_effect = {
 
 			set_global_variable = lepsius_schiaparelli_created #Makes sure Schiaparelli is not already created
 		}
-		500 = { #Frances Eliza Babbitt, USA
+		50 = { #Frances Eliza Babbitt, USA
 			trigger = {
 				NOT = { has_global_variable = lepsius_babbitt_created }
 				c:USA ?= this
@@ -2004,6 +2035,37 @@ create_new_archaeologist_effect = {
 			}
 
 			set_global_variable = lepsius_babbitt_created #Makes sure Babbitt is not already created
+		}
+		500 = { #Harriet Ann Boyd, USA
+			trigger = {
+				NOT = { has_global_variable = lepsius_boyd_created }
+				c:USA ?= this
+			#	OR = {
+			#		has_law = law_type:law_women_own_property
+			#		has_law = law_type:law_women_in_the_workplace
+			#		has_law = law_type:law_womens_suffrage
+			#	}
+				game_date < 1926.10.11 #Age 55
+			#	year >= 1899 #First journey to Crete
+			}
+			create_character = {
+				template = mr_usa_boyd_harriet_ann_character_template
+
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+			scope:lepsius_new_archaeologist_scope = {
+				set_variable = lepsius_boyd_character_var #Unique for Boyd, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var #Used to set the scope again
+				value = scope:lepsius_new_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_boyd_created #Makes sure Boyd is not already created
 		}
 		100 = { #Samuel Foster Haven, USA
 			trigger = {
