@@ -2111,6 +2111,32 @@ create_archaeologist_effect = {
 
 			set_global_variable = lepsius_koldewey_created #Makes sure Koldewey is not already created
 		}
+		100 = { #Howard Carter, Great Britain
+			trigger = {
+				NOT = { has_global_variable = lepsius_carter_created }
+				c:GBR ?= this
+				game_date < 1929.5.9 #Age 55
+				year >= 1899 #Inspector of Monuments for Upper Egypt in the Egyptian Antiquities Service 
+			}
+			create_character = {
+				template = mr_gbr_carter_howard_character_template
+
+				save_scope_as = lepsius_archaeologist_scope
+			}
+			scope:lepsius_archaeologist_scope = {
+				set_variable = lepsius_carter_character_var #Unique for Carter, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_archaeologist_var #This is basically the role of Archaeologist for a country, makes it possible to access character
+				value = scope:lepsius_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_carter_created #Makes sure Carter is not already created
+		}
 		100 = { #Flinders Petrie
 			trigger = {
 				NOT = { has_global_variable = lepsius_petrie_created }
@@ -2446,6 +2472,32 @@ create_new_archaeologist_effect = {
 			}
 
 			set_global_variable = lepsius_koldewey_created #Makes sure Koldewey is not already created
+		}
+		100 = { #Howard Carter, Great Britain
+			trigger = {
+				NOT = { has_global_variable = lepsius_carter_created }
+				c:GBR ?= this
+				game_date < 1929.5.9 #Age 55
+				year >= 1899 #Inspector of Monuments for Upper Egypt in the Egyptian Antiquities Service 
+			}
+			create_character = {
+				template = mr_gbr_carter_howard_character_template
+
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+			scope:lepsius_new_archaeologist_scope = {
+				set_variable = lepsius_carter_character_var #Unique for Carter, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var #Used to set the scope again
+				value = scope:lepsius_new_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_carter_created #Makes sure Carter is not already created
 		}
 		100 = { #Flinders Petrie
 			trigger = {
