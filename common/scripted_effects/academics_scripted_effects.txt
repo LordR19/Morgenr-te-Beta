@@ -2082,6 +2082,35 @@ create_archaeologist_effect = {
 
 			set_global_variable = lepsius_mariette_created #Makes sure Mariette is not already created
 		}
+		100 = { #Ernst Curtius, Germany
+			trigger = {
+				NOT = { has_global_variable = lepsius_curtius_created }
+				OR = {
+					country_has_primary_culture = cu:north_german
+					c:GER ?= this
+				}
+				game_date < 1869.9.2 #Age 55
+				year >= 1844 #Praeceptor of Prince Friedrich Wilhelm
+			}
+			create_character = {
+				template = mr_ger_curtius_ernst_character_template
+
+				save_scope_as = lepsius_archaeologist_scope
+			}
+			scope:lepsius_archaeologist_scope = {
+				set_variable = lepsius_curtius_character_var #Unique for Curtius, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_archaeologist_var #This is basically the role of Archaeologist for a country, makes it possible to access character
+				value = scope:lepsius_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_curtius_created #Makes sure Curtius is not already created
+		}
 		100 = { #Robert Koldewey
 			trigger = {
 				NOT = { has_global_variable = lepsius_koldewey_created }
@@ -2443,6 +2472,35 @@ create_new_archaeologist_effect = {
 			}
 
 			set_global_variable = lepsius_mariette_created #Makes sure Mariette is not already created
+		}
+		100 = { #Ernst Curtius, Germany
+			trigger = {
+				NOT = { has_global_variable = lepsius_curtius_created }
+				OR = {
+					country_has_primary_culture = cu:north_german
+					c:GER ?= this
+				}
+				game_date < 1869.9.2 #Age 55
+		#		year >= 1844 #Praeceptor of Prince Friedrich Wilhelm
+			}
+			create_character = {
+				template = mr_ger_curtius_ernst_character_template
+
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+			scope:lepsius_new_archaeologist_scope = {
+				set_variable = lepsius_curtius_character_var #Unique for Curtius, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var #Used to set the scope again
+				value = scope:lepsius_new_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_curtius_created #Makes sure Curtius is not already created
 		}
 		100 = { #Robert Koldewey
 			trigger = {
