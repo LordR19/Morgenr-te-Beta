@@ -1797,7 +1797,21 @@
                 add = 10000
                 shopkeepers_clothes_pop_trigger = yes
                 OR = {
-                    european_clothes_pop_trigger = yes
+                    AND = {
+                        european_clothes_pop_trigger = yes
+
+                        ## Midsummer clothes exception ##
+                        NAND = {
+                            OR = {
+                                slavic_clothes_pop_trigger = yes
+                                nordic_clothes_pop_trigger = yes
+                            }
+                            scope:pop ?= {
+                                month = 5 # June. The trigger for months is on a 0-11 scale.
+                            }
+                        }
+                        ## Midsummer clothes exception ##
+                    }
                     african_diaspora_pop_clothes_trigger = yes
                     AND = {
                         native_american_clothes_pop_trigger = yes
@@ -4804,131 +4818,305 @@ chinese_upper_clothes = {
 
 #Religion Clothes
 
-christian_religious_clothes = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = outfits
-            template = christian_outfits
-            range = { 0 1 } # For the randomness to work correctly
-        }
-    } 
-
-    weight = {
-        base = 0
-        modifier = {
-            add = 1000
-            AND = {
-                christian_clothes_pop_trigger = yes
-                NOT = {
-                    scope:pop ?= {
-                        religion = rel:oriental_orthodox
-                    }
-                }
-                clergy_clothes_pop_trigger = yes
+    christian_religious_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = outfits
+                template = christian_outfits
+                range = { 0 1 } # For the randomness to work correctly
             }
-        }
-    }
-}
+        } 
 
-semitic_religious_clothes = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = outfits
-            template = arabic_upper_outfits
-            range = { 0 1 } # For the randomness to work correctly
-        }
-    } 
-
-    weight = {
-        base = 0
-        modifier = {
-            add = 1000
-            AND = {
-                OR = {
-                    muslim_clothes_pop_trigger = yes
-                    scope:pop ?= {
-                        religion = rel:oriental_orthodox
-                    }
-                    AND = {
-                        european_clothes_pop_trigger = no
-                        jewish_clothes_pop_trigger = yes
-                    }
-                }
-                clergy_clothes_pop_trigger = yes
-            }
-        }
-    }
-}
-
-european_semitic_religious_clothes = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = outfits
-            template = semitic_upper_outfits
-            range = { 0 1 } # For the randomness to work correctly
-        }
-    } 
-
-    weight = {
-        base = 0
-        modifier = {
-            add = 1000
-            AND = {
-                european_clothes_pop_trigger = yes
-                jewish_clothes_pop_trigger = yes
-                clergy_clothes_pop_trigger = yes
-            }
-        }
-    }
-}
-
-buddhist_religious_clothes = {
-    dna_modifiers = {
-        accessory = {
-            mode = add
-            gene = outfits
-            template = chinese_common_outfits
-            range = { 0 1 } # For the randomness to work correctly
-        }
-    } 
-
-    weight = {
-        base = 0
-        modifier = {
-            add = 1000
-            OR = {
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
                 AND = {
-                    buddhist_clothes_pop_trigger = yes
-                    japanese_clothes_pop_trigger = no
+                    christian_clothes_pop_trigger = yes
+                    NOT = {
+                        scope:pop ?= {
+                            religion = rel:oriental_orthodox
+                        }
+                    }
                     clergy_clothes_pop_trigger = yes
                 }
+            }
+        }
+    }
+
+    semitic_religious_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = outfits
+                template = arabic_upper_outfits
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        } 
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
                 AND = {
-                    exists = scope:character
-                    scope:character = {
-                        is_ruler = yes
-                        OR = {
-                            religion = {
-                                has_discrimination_trait = buddhist
-                            }
-                            #religion = rel:sikh
-                            religion = rel:shinto
+                    OR = {
+                        muslim_clothes_pop_trigger = yes
+                        scope:pop ?= {
+                            religion = rel:oriental_orthodox
                         }
-						exists = home_country
-                        home_country = {
-                            has_law = law_type:law_theocracy
+                        AND = {
+                            european_clothes_pop_trigger = no
+                            jewish_clothes_pop_trigger = yes
+                        }
+                    }
+                    clergy_clothes_pop_trigger = yes
+                }
+            }
+        }
+    }
+
+    european_semitic_religious_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = outfits
+                template = semitic_upper_outfits
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        } 
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                AND = {
+                    european_clothes_pop_trigger = yes
+                    jewish_clothes_pop_trigger = yes
+                    clergy_clothes_pop_trigger = yes
+                }
+            }
+        }
+    }
+
+    buddhist_religious_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = outfits
+                template = chinese_common_outfits
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        } 
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                OR = {
+                    AND = {
+                        buddhist_clothes_pop_trigger = yes
+                        japanese_clothes_pop_trigger = no
+                        clergy_clothes_pop_trigger = yes
+                    }
+                    AND = {
+                        exists = scope:character
+                        scope:character = {
+                            is_ruler = yes
+                            OR = {
+                                religion = {
+                                    has_discrimination_trait = buddhist
+                                }
+                                #religion = rel:sikh
+                                religion = rel:shinto
+                            }
+                            exists = home_country
+                            home_country = {
+                                has_law = law_type:law_theocracy
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
+
+    slavik_kokoshnik_clothes = {
+        dna_modifiers = {
+        accessory = {
+            mode = add
+            gene = outfits
+            template = slavic_outfits_kokoshnik
+            range = { 0 1 }
+            }
+
+            accessory = {
+                mode = add
+                gene = legwear
+                template = south_american_legwear
+                range = { 0 1 }
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 11000 # this should trump the midsummer clothes
+                has_cosmetic_dlc = "Dawn of Wonder"
+                OR = {
+                    AND = {
+                        scope:character ?= {
+                            culture = {
+                                has_discrimination_trait = east_slavic
+                            }
+                            is_female = yes
+                            OR = {
+                                has_variable = getting_married
+                                has_modifier = marriage_popularity
+                            }
+                        }
+                    }
+                    AND = {
+                        upper_clothes_pop_trigger = yes
+                        scope:pop ?= { # Wear this clothing either during Midsummer or during a Royal Wedding
+                            culture = {
+                                has_discrimination_trait = east_slavic
+                            }
+                            OR = {
+                                scope:pop ?= {
+                                    month = 5 # June. The trigger for months is on a 0-11 scale.
+                                }
+                                owner = {
+                                    OR = {
+                                        has_modifier = royal_marriage
+                                        any_scope_character = {
+                                            OR = {
+                                                is_ruler = yes
+                                                is_heir = yes
+                                            }
+                                            has_modifier = marriage_popularity
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    hindu_diwali_clothes = {
+        dna_modifiers = {
+        accessory = {
+            mode = add
+            gene = outfits
+            template = female_outfit_indian_diwali
+            range = { 0 1 }
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 2000
+                has_cosmetic_dlc = "Dawn of Wonder"
+                OR = {
+                    AND = {
+                        indian_clothes_pop_trigger = yes
+                        hindu_clothes_pop_trigger = yes
+                        OR = {
+                            middle_clothes_pop_trigger = yes
+                            upper_clothes_pop_trigger = yes
+                        }
+                        scope:pop ?= {
+                            month = 10 # November. The trigger for months is on a 0-11 scale.
+                        }
+                    }
+                    AND = {
+                        indian_clothes_trigger = yes
+                        scope:character ?= {
+                            is_female = yes
+                            religion = rel:hindu
+                            month = 10 # November. The trigger for months is on a 0-11 scale.
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    midsummer_clothes = {
+        dna_modifiers = {
+        accessory = {
+            mode = add
+            gene = outfits
+            template = female_outfit_midsummer
+            range = { 0 1 }
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = south_american_legwear
+                range = { 0 1 }
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 2000
+                has_cosmetic_dlc = "Dawn of Wonder"
+                OR = {
+                    slavic_clothes_pop_trigger = yes
+                    nordic_clothes_pop_trigger = yes
+                }
+                OR = {
+                    middle_clothes_pop_trigger = yes
+                    upper_clothes_pop_trigger = yes
+                }
+                scope:pop ?= {
+                    month = 5 # June. The trigger for months is on a 0-11 scale.
+                }
+            }
+        }
+    }
+
+    pierrot_clothing = {
+        dna_modifiers = {
+        accessory = {
+            mode = add
+            gene = outfits
+            template = male_outfit_european_carnaval_pierrot_01
+            range = { 0 1 }
+            }
+        }
+
+        weight = {
+            base = 0
+            modifier = {
+                add = 11000
+                has_cosmetic_dlc = "Dawn of Wonder"
+                OR = {
+                    european_clothes_pop_trigger = yes
+                    south_american_clothes_pop_trigger = yes
+                }
+
+                OR = {
+                    middle_clothes_pop_trigger = yes
+                    upper_clothes_pop_trigger = yes
+                }
+
+                scope:pop ?= {
+                    religion = rel:catholic
+                    month = 1 # Carnival is /usually/ in February
+                }
+            }
+        }
+    }
 
     #Morgenröte Addition
-    morgenroete_european_scientist_clothes = {
+    morgenroete_historical_european_scientist_clothes = {
         dna_modifiers = {
             accessory = {
                 mode = add
@@ -4961,7 +5149,7 @@ buddhist_religious_clothes = {
         }
     }
 
-    morgenroete_european_female_scientist_clothes = {
+    morgenroete_historical_european_female_agitator_outfit = {
         dna_modifiers = {
             accessory = {
                 mode = add
@@ -4981,7 +5169,7 @@ buddhist_religious_clothes = {
     }
 
 
-    morgenroete_european_scientist_with_glasses_clothes = {
+    morgenroete_historical_european_scientist_with_glasses_clothes = {
         dna_modifiers = {
         accessory = {
             mode = add

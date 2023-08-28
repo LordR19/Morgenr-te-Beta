@@ -1211,66 +1211,127 @@
         }
     }
 
-    ### Morgenröte Additions ###
-
-    morgenroete_no_headgear = {
+    slavik_kokoshnik_headgear = {
         dna_modifiers = {
-            accessory = {
-                mode = add
-                gene = headgear
-                template = no_headgear
-                range = { 0 1 } # For the randomness to work correctly
+           accessory = {
+               mode = add
+               gene = headgear
+               template = female_headgear_slavic_kokoshnik
+               range = { 0 1 }
             }
-        }   
+        }
+
         weight = {
             base = 0
             modifier = {
-                add = 90000
-                scope:character ?= {
-                    OR = {
-                        mr_agitator_clothing_female_famous_people_trigger = yes
-                        mr_clothing_famous_people_trigger = yes
+                add = 11000
+                has_cosmetic_dlc = "Dawn of Wonder"
+                OR = {
+                    AND = {
+                        scope:character ?= {
+                            culture = {
+                                has_discrimination_trait = east_slavic
+                            }
+                            is_female = yes
+                            OR = {
+                                has_variable = getting_married
+                                has_modifier = marriage_popularity
+                            }
+                        }
+                    }
+                    AND = {
+                        upper_clothes_pop_trigger = yes
+                        scope:pop ?= { # Wear this clothing either during Midsummer or during a Royal Wedding
+                            culture = {
+                                has_discrimination_trait = east_slavic
+                            }
+                            OR = {
+                                scope:pop ?= {
+                                    month = 5 # June. The trigger for months is on a 0-11 scale.
+                                }
+                                owner = {
+                                    OR = {
+                                        has_modifier = royal_marriage
+                                        any_scope_character = {
+                                            OR = {
+                                                is_ruler = yes
+                                                is_heir = yes
+                                            }
+                                            has_modifier = marriage_popularity
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-    morgenroete_agitator_headgear = {
+    midsummer_headgear = {
         dna_modifiers = {
-            accessory = {
-                mode = add
-                gene = headgear
-                template = european_headgear_agitators
-                range = { 0 0 } # For the randomness to work correctly
+           accessory = {
+               mode = add
+               gene = headgear
+               template = female_headgear_slavic_midsummer
+               range = { 0 1 }
             }
         }
+
         weight = {
             base = 0
             modifier = {
-                add = 100000
-                scope:character ?= {
-                    has_variable = lepsius_boyd_character_var
+                add = 2000
+                has_cosmetic_dlc = "Dawn of Wonder"
+                OR = {
+                    AND = {
+                        slavic_clothes_pop_trigger = yes
+                        middle_clothes_pop_trigger = yes
+                    }
+                    AND = {
+                        nordic_clothes_pop_trigger = yes
+                        OR = {
+                            middle_clothes_pop_trigger = yes
+                            upper_clothes_pop_trigger = yes
+                        }
+                    }
+                }
+                scope:pop ?= {
+                    month = 5 # June. The trigger for months is on a 0-11 scale.
                 }
             }
         }
     }
 
-    morgenroete_tophat_headgear = {
+    pierrot_headgear = {
         dna_modifiers = {
-            accessory = {
-                mode = add
-                gene = headgear
-                template = european_tophat
-                range = { 0 1 } # For the randomness to work correctly
+           accessory = {
+               mode = add
+               gene = headgear
+               template = male_headgear_carnaval_pierrot
+               range = { 0 1 }
             }
         }
+
         weight = {
             base = 0
             modifier = {
-                add = 100000
-                scope:character ?= {
-                    has_variable = lepsius_carter_character_var
+                add = 2000
+                has_cosmetic_dlc = "Dawn of Wonder"
+                OR = {
+                    european_clothes_pop_trigger = yes
+                    south_american_clothes_pop_trigger = yes
+                }
+
+                OR = {
+                    middle_clothes_pop_trigger = yes
+                    upper_clothes_pop_trigger = yes
+                }
+
+                scope:pop ?= {
+                    religion = rel:catholic
+                    month = 1 # Carnival is /usually/ in February
                 }
             }
         }
@@ -1293,4 +1354,69 @@
     #        }
     #    }
     #}
+
+    ### Morgenröte Additions ###
+
+    morgenroete_historic_characters_no_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = no_headgear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 90000
+                scope:character ?= {
+                    OR = {
+                        mr_agitator_clothing_female_famous_people_trigger = yes
+                        mr_clothing_famous_people_trigger = yes
+                    }
+                }
+            }
+        }
+    }
+
+    morgenroete_historic_character_agitator_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_headgear_agitators
+                range = { 0 0 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100000
+                scope:character ?= {
+                    has_variable = lepsius_boyd_character_var
+                }
+            }
+        }
+    }
+
+    morgenroete_historic_character_tophat_headgear = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = european_tophat
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100000
+                scope:character ?= {
+                    has_variable = lepsius_carter_character_var
+                }
+            }
+        }
+    }
 }
