@@ -6558,7 +6558,7 @@ TODO_choose_portait_key={
 	entity={ 0 0 }
 }
 
-#mr_swiss_brown_charles
+#mr_swi_brown_charles
 TODO_choose_portait_key={
 	type=male
 	id=0
@@ -6675,7 +6675,7 @@ TODO_choose_portait_key={
 	entity={ 0 0 }
 }
 
-#mr_brown_charles_eugene_lancelot
+#mr_swi_brown_charles_eugene_lancelot
 TODO_choose_portait_key={
 	type=male
 	id=0
