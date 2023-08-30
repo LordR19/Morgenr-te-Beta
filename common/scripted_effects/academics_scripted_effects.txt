@@ -1284,11 +1284,46 @@ create_naturalist_effect = {
 
 			set_global_variable = dubois_gervais_created_global_var
 		}
+		4 = { #David Livingstone, Great Britain or Scottland
+			trigger = {
+				NOT = { has_global_variable = dubois_livingstone_created_global_var }
+				OR = {
+					AND = {
+						NOT = { exists = c:SCO }
+						c:GBR ?= this
+					}
+					c:SCO ?= this
+				}
+				game_date < 1873.5.1 #Historical Death date
+				year >= 1840 #Moved to South Africa
+			}
+			create_character = {
+				template = ecchi_gbr_livingstone_character_template
+
+				save_scope_as = dubois_naturalist_scope
+			}
+			scope:dubois_naturalist_scope = {
+				set_variable = dubois_livingstone_character_var
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_naturalist_var
+				value = scope:dubois_naturalist_scope
+			}
+
+			set_global_variable = dubois_livingstone_created_global_var
+		}
 		4 = { #Alfred Russell Wallace, Great Britain or Wales
 			trigger = {
 				NOT = { has_global_variable = dubois_wallace_created_global_var }
 				OR = {
-					c:GBR ?= this
+					AND = {
+						NOT = { exists = c:WLS }
+						c:GBR ?= this
+					}
 					c:WLS ?= this
 				}
 				game_date < 1878.1.8 #Age 55
@@ -1537,6 +1572,38 @@ create_new_naturalist_effect = {
 			}
 
 			set_global_variable = dubois_gervais_created_global_var
+		}
+		4 = { #David Livingstone, Great Britain or Scottland
+			trigger = {
+				NOT = { has_global_variable = dubois_livingstone_created_global_var }
+				OR = {
+					AND = {
+						NOT = { exists = c:SCO }
+						c:GBR ?= this
+					}
+					c:SCO ?= this
+				}
+				game_date < 1873.5.1 #Historical Death date
+				year >= 1840 #Moved to South Africa
+			}
+			create_character = {
+				template = ecchi_gbr_livingstone_character_template
+
+				save_scope_as = dubois_new_naturalist_scope
+			}
+			scope:dubois_new_naturalist_scope = {
+				set_variable = dubois_livingstone_character_var
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_new_naturalist_var
+				value = scope:dubois_new_naturalist_scope
+			}
+
+			set_global_variable = dubois_livingstone_created_global_var
 		}
 		4 = { #Alfred Russell Wallace, Great Britain or Wales
 			trigger = {
