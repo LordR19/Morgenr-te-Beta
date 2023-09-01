@@ -21,6 +21,36 @@
 #This effect choses a historical Engineer or creates a generic one.
 create_engineer_effect = {
 	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Alfred Belpaire, Belgium
+			trigger = {
+				NOT = { has_global_variable = gaudi_belpaire_created }
+				OR = {
+					c:BEL ?= this
+					country_has_primary_culture = cu:wallonian
+					country_has_primary_culture = cu:flemish
+				}
+				game_date < 1875.9.25 #Age 55
+				year >= 1850 #In charge of Materials at the Belgian State Railways
+			}
+			create_character = {
+				template = mr_bel_belpaire_alfred_character_template
+
+				save_scope_as = gaudi_engineer_scope
+			}
+			scope:gaudi_engineer_scope = {
+				set_variable = gaudi_belpaire_character_var #Unique for Belpaire, mostly used for clothing
+				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
+				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = gaudi_engineer_var #This is basically the role of Engineer for a country, makes it possible to access character
+				value = scope:gaudi_engineer_scope
+			}
+
+			set_global_variable = gaudi_belpaire_created #Makes sure Belpaire is not already created
+		}
 		4 = { #Édouard Empain, Belgium
 			trigger = {
 				NOT = { has_global_variable = gaudi_empain_created }
@@ -415,6 +445,36 @@ kill_engineer_effect = {
 #Therefore a Variable is set to save the scope again. then gets deleted
 create_new_engineer_effect = {
 	random_list = {
+		4 = { #Alfred Belpaire, Belgium
+			trigger = {
+				NOT = { has_global_variable = gaudi_belpaire_created }
+				OR = {
+					c:BEL ?= this
+					country_has_primary_culture = cu:wallonian
+					country_has_primary_culture = cu:flemish
+				}
+				game_date < 1875.9.25 #Age 55
+				year >= 1850 #In charge of Materials at the Belgian State Railways
+			}
+			create_character = {
+				template = mr_bel_belpaire_alfred_character_template
+
+				save_scope_as = gaudi_new_engineer_scope
+			}
+			scope:gaudi_new_engineer_scope = {
+				set_variable = gaudi_belpaire_character_var #Unique for Belpaire, mostly used for clothing
+				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
+				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = gaudi_new_engineer_var
+				value = scope:gaudi_new_engineer_scope
+			}
+
+			set_global_variable = gaudi_belpaire_created #Makes sure Belpaire is not already created
+		}
 		4 = { #Édouard Empain, Belgium
 			trigger = {
 				NOT = { has_global_variable = gaudi_empain_created }
@@ -1433,6 +1493,35 @@ astronomer_experience_gain_effect = { #adds XP to the Astronomer
 
 create_naturalist_effect = {
 	random_list = {
+		4 = { #Frederick McCoy, Australia (and Ireland)
+			trigger = {
+				NOT = { has_global_variable = dubois_mccoy_created_global_var }
+				OR = {
+					country_has_primary_culture = cu:irish
+					country_has_primary_culture = cu:australian
+				}
+				game_date < 1872.03.11 #Age 55
+				year >= 1841 #published first book
+			}
+			create_character = {
+				template = mr_ast_mccoy_frederick_character_template
+
+				save_scope_as = dubois_naturalist_scope
+			}
+			scope:dubois_naturalist_scope = {
+				set_variable = dubois_mccoy_character_var
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_naturalist_var
+				value = scope:dubois_naturalist_scope
+			}
+
+			set_global_variable = dubois_mccoy_created_global_var
+		}
 		4 = { #Pierre-Joseph van Beneden, Belgium
 			trigger = {
 				NOT = { has_global_variable = dubois_van_beneden_created_global_var }
@@ -1767,6 +1856,35 @@ kill_naturalist_effect = {
 # Creates a new Naturalist without losing the old one
 create_new_naturalist_effect = {
 	random_list = {
+		4 = { #Frederick McCoy, Australia (and Ireland)
+			trigger = {
+				NOT = { has_global_variable = dubois_mccoy_created_global_var }
+				OR = {
+					country_has_primary_culture = cu:irish
+					country_has_primary_culture = cu:australian
+				}
+				game_date < 1872.03.11 #Age 55
+				year >= 1841 #published first book
+			}
+			create_character = {
+				template = mr_ast_mccoy_frederick_character_template
+
+				save_scope_as = dubois_new_naturalist_scope
+			}
+			scope:dubois_new_naturalist_scope = {
+				set_variable = dubois_mccoy_character_var
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_new_naturalist_var
+				value = scope:dubois_new_naturalist_scope
+			}
+
+			set_global_variable = dubois_mccoy_created_global_var
+		}
 		4 = { #Pierre-Joseph van Beneden, Belgium
 			trigger = {
 				NOT = { has_global_variable = dubois_van_beneden_created_global_var }
@@ -2204,6 +2322,35 @@ create_paleontologist_effect = {
 
 			set_global_variable = dubois_ameghino_created #Makes sure Ameghino is not already created
 		}
+		4 = { #Frederick McCoy, Australia (and Ireland)
+			trigger = {
+				NOT = { has_global_variable = dubois_mccoy_created_global_var }
+				OR = {
+					country_has_primary_culture = cu:irish
+					country_has_primary_culture = cu:australian
+				}
+				game_date < 1872.03.11 #Age 55
+				year >= 1841 #published first book
+			}
+			create_character = {
+				template = mr_ast_mccoy_frederick_character_template
+
+				save_scope_as = dubois_paleontologist_scope
+			}
+			scope:dubois_paleontologist_scope = {
+				set_variable = dubois_mccoy_character_var
+				set_variable = mr_is_paleontologist_var
+				paleontologist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_paleontologist_var
+				value = scope:dubois_paleontologist_scope
+			}
+
+			set_global_variable = dubois_mccoy_created_global_var
+		}
 		4 = { #Pierre-Joseph van Beneden, Belgium
 			trigger = {
 				NOT = { has_global_variable = dubois_van_beneden_created_global_var }
@@ -2380,6 +2527,38 @@ create_paleontologist_effect = {
 
 			set_global_variable = dubois_anning_created #Makes sure Anning is not already created
 		}
+		4 = { #Vladimir Prokhorovich Amalitskii, France
+			trigger = {
+				NOT = { has_global_variable = dubois_amalitskii_created }
+				OR = {
+					c:RUS ?= this
+					AND = {
+						country_has_primary_culture = cu:russian
+						has_state_in_state_region = STATE_ARKHANGELSK
+					}
+				}
+				game_date < 1905.7.13 #Age 55
+				year >= 1890 #Extraordinary professor at the Warsaw University
+			}
+			create_character = {
+				template = mr_rus_amalitskii_vladimir_prokhorovich_character_template
+
+				save_scope_as = dubois_paleontologist_scope
+			}
+			scope:dubois_paleontologist_scope = {
+				set_variable = dubois_amalitskii_character_var #Unique for Amalitskii, mostly used for clothing
+				set_variable = mr_is_paleontologist_var #Could be used for clothing or a role in the future
+				paleontologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = dubois_paleontologist_var #This is basically the role of Paleontologist for a country, makes it possible to access character
+				value = scope:dubois_paleontologist_scope
+			}
+
+			set_global_variable = dubois_amalitskii_created #Makes sure Amalitskii is not already created
+		}
 		4 = { #Edward Drinker Cope, USA
 			trigger = {
 				NOT = { has_global_variable = dubois_cope_created }
@@ -2491,6 +2670,35 @@ create_new_paleontologist_effect = {
 			}
 
 			set_global_variable = dubois_ameghino_created #Makes sure Ameghino is not already created
+		}
+		4 = { #Frederick McCoy, Australia (and Ireland)
+			trigger = {
+				NOT = { has_global_variable = dubois_mccoy_created_global_var }
+				OR = {
+					country_has_primary_culture = cu:irish
+					country_has_primary_culture = cu:australian
+				}
+				game_date < 1872.03.11 #Age 55
+				year >= 1841 #published first book
+			}
+			create_character = {
+				template = mr_ast_mccoy_frederick_character_template
+
+				save_scope_as = dubois_new_paleontologist_scope
+			}
+			scope:dubois_new_paleontologist_scope = {
+				set_variable = dubois_mccoy_character_var
+				set_variable = mr_is_paleontologist_var
+				paleontologist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_new_paleontologist_var
+				value = scope:dubois_new_paleontologist_scope
+			}
+
+			set_global_variable = dubois_mccoy_created_global_var
 		}
 		4 = { #Pierre-Joseph van Beneden, Belgium
 			trigger = {
@@ -2668,6 +2876,38 @@ create_new_paleontologist_effect = {
 			}
 
 			set_global_variable = dubois_anning_created #Makes sure Anning is not already created
+		}
+		4 = { #Vladimir Prokhorovich Amalitskii, France
+			trigger = {
+				NOT = { has_global_variable = dubois_amalitskii_created }
+				OR = {
+					c:RUS ?= this
+					AND = {
+						country_has_primary_culture = cu:russian
+						has_state_in_state_region = STATE_ARKHANGELSK
+					}
+				}
+				game_date < 1905.7.13 #Age 55
+				year >= 1890 #Extraordinary professor at the Warsaw University
+			}
+			create_character = {
+				template = mr_rus_amalitskii_vladimir_prokhorovich_character_template
+
+				save_scope_as = dubois_new_paleontologist_scope
+			}
+			scope:dubois_new_paleontologist_scope = {
+				set_variable = dubois_amalitskii_character_var #Unique for Amalitskii, mostly used for clothing
+				set_variable = mr_is_paleontologist_var #Could be used for clothing or a role in the future
+				paleontologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = dubois_new_paleontologist_var
+				value = scope:dubois_new_paleontologist_scope
+			}
+
+			set_global_variable = dubois_amalitskii_created #Makes sure Amalitskii is not already created
 		}
 		4 = { #Edward Drinker Cope, USA
 			trigger = {
