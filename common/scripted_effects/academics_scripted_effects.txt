@@ -21,6 +21,36 @@
 #This effect choses a historical Engineer or creates a generic one.
 create_engineer_effect = {
 	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Alfred Belpaire, Belgium
+			trigger = {
+				NOT = { has_global_variable = gaudi_belpaire_created }
+				OR = {
+					c:BEL ?= this
+					country_has_primary_culture = cu:wallonian
+					country_has_primary_culture = cu:flemish
+				}
+				game_date < 1875.9.25 #Age 55
+				year >= 1850 #In charge of Materials at the Belgian State Railways
+			}
+			create_character = {
+				template = mr_bel_belpaire_alfred_character_template
+
+				save_scope_as = gaudi_engineer_scope
+			}
+			scope:gaudi_engineer_scope = {
+				set_variable = gaudi_belpaire_character_var #Unique for Belpaire, mostly used for clothing
+				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
+				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = gaudi_engineer_var #This is basically the role of Engineer for a country, makes it possible to access character
+				value = scope:gaudi_engineer_scope
+			}
+
+			set_global_variable = gaudi_belpaire_created #Makes sure Belpaire is not already created
+		}
 		4 = { #Édouard Empain, Belgium
 			trigger = {
 				NOT = { has_global_variable = gaudi_empain_created }
@@ -415,6 +445,36 @@ kill_engineer_effect = {
 #Therefore a Variable is set to save the scope again. then gets deleted
 create_new_engineer_effect = {
 	random_list = {
+		4 = { #Alfred Belpaire, Belgium
+			trigger = {
+				NOT = { has_global_variable = gaudi_belpaire_created }
+				OR = {
+					c:BEL ?= this
+					country_has_primary_culture = cu:wallonian
+					country_has_primary_culture = cu:flemish
+				}
+				game_date < 1875.9.25 #Age 55
+				year >= 1850 #In charge of Materials at the Belgian State Railways
+			}
+			create_character = {
+				template = mr_bel_belpaire_alfred_character_template
+
+				save_scope_as = gaudi_new_engineer_scope
+			}
+			scope:gaudi_new_engineer_scope = {
+				set_variable = gaudi_belpaire_character_var #Unique for Belpaire, mostly used for clothing
+				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
+				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = gaudi_new_engineer_var
+				value = scope:gaudi_new_engineer_scope
+			}
+
+			set_global_variable = gaudi_belpaire_created #Makes sure Belpaire is not already created
+		}
 		4 = { #Édouard Empain, Belgium
 			trigger = {
 				NOT = { has_global_variable = gaudi_empain_created }
