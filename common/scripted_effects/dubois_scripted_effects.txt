@@ -5887,6 +5887,12 @@ remove_dubois_mountain_choice_effect = {
 	remove_variable = dubois_summit_zagros_mountains_var
 	remove_variable = dubois_summit_himalayas_mountains_var
 	remove_variable = dubois_summit_great_dividing_range_var
+	random_scope_state = {
+		limit = {
+			has_variable = dubois_targeted_summit_var
+		}
+		remove_variable = dubois_targeted_summit_var
+	}
 }
 
 set_dubois_summit_location = {
@@ -5912,7 +5918,19 @@ set_dubois_mountain_expedition_scientist_effect = {
 			}
 		}
 	}
-
+	if = {
+		limit = { 
+			has_variable = dubois_paleontologist_var
+		}
+		var:dubois_paleontologist_var = {
+			if = {
+				limit = {
+					has_variable = dubois_mountain_scientist_var
+				}
+				save_scope_as = dubois_mountain_scientist
+			}
+		}
+	}
 	if = {
 		limit = {
 			has_variable = dubois_geologist_var
@@ -5945,6 +5963,20 @@ remove_dubois_mountain_expedition_scientist_effect = {
 	}
 	if = {
 		limit = {
+			has_variable = dubois_paleontologist_var
+		}
+		var:dubois_paleontologist_var = {
+			if = {
+				limit = {
+					has_variable = dubois_mountain_scientist_var
+				}
+				remove_variable = dubois_mountain_scientist_var
+				set_character_busy = no
+			}
+		}
+	}
+	if = {
+		limit = {
 			has_variable = dubois_geologist_var
 		}
 		var:dubois_geologist_var = {
@@ -5957,6 +5989,268 @@ remove_dubois_mountain_expedition_scientist_effect = {
 			}
 		}
 	}
+}
+
+set_dubois_summit_reached_effect = {
+	random_scope_state = {
+		limit = {
+			has_variable = dubois_targeted_summit_var
+		}
+		add_modifier = dubois_first_ascent_modifier
+	}
+}
+
+set_dubois_promote_mountain_expedition_leader_effect = {
+	if = {
+		limit = {
+			scope:dubois_mountain_expedition_leader = {
+				has_trait = dubois_mountaineer
+				has_trait = explorer
+			}
+		}
+		scope:dubois_mountain_expedition_leader = {
+			add_trait = mountain_commander
+		}
+	}
+	if = {
+		limit = {
+			scope:dubois_mountain_expedition_leader = {
+				has_trait = dubois_mountaineer
+				NOT = {
+					has_trait = explorer
+				}
+			}
+		}
+		scope:dubois_mountain_expedition_leader = {
+			add_trait = explorer
+		}
+	}
+	if = {
+		limit = {
+			scope:dubois_mountain_expedition_leader = {
+				NOT = {
+					has_trait = dubois_mountaineer
+				}
+			}
+		}
+		scope:dubois_mountain_expedition_leader = {
+			add_trait = dubois_mountaineer
+		}
+	}
+}
+
+add_dubois_mountain_expedition_science_bonus = {
+	###NATURALIST###
+	#Mountains with less than 3000 m
+	if = {
+		limit = {
+			has_variable = dubois_naturalist_var
+			var:dubois_naturalist_var = {
+				has_variable = dubois_mountain_scientist_var
+			}
+			OR = {
+				has_variable = dubois_summit_great_dividing_range_var
+				has_variable = dubois_summit_appalachian_mountains_var
+				has_variable = dubois_summit_scottish_highlands_var
+				has_variable = dubois_summit_ural_mountains_var
+			}
+			dubois_add_x_specimen_effect = { AMOUNT = 1000 }
+		}
+	}
+	#Mountains with less than 5000 m
+	if = {
+		limit = {
+			has_variable = dubois_naturalist_var
+			var:dubois_naturalist_var = {
+				has_variable = dubois_mountain_scientist_var
+			}
+			OR = {
+				has_variable = dubois_summit_cascades_var
+				has_variable = dubois_summit_sierra_nevada_var
+				has_variable = dubois_summit_rocky_mountains_var
+				has_variable = dubois_summit_sierra_madre_occidental_var
+				has_variable = dubois_summit_central_american_cordilleras_var
+				has_variable = dubois_summit_wasatch_range_var
+				has_variable = dubois_summit_alps_mountains_var
+				has_variable = dubois_summit_pyrenees_mountains_var
+				has_variable = dubois_summit_atlas_mountains_var
+				has_variable = dubois_summit_zagros_mountains_var
+			}
+			dubois_add_x_specimen_effect = { AMOUNT = 3000 }
+		}
+	}
+	#Mountains with 5000 m or more
+	if = {
+		limit = {
+			has_variable = dubois_naturalist_var
+			var:dubois_naturalist_var = {
+				has_variable = dubois_mountain_scientist_var
+			}
+			OR = {
+				has_variable = dubois_summit_sierra_madre_oriental_var
+				has_variable = dubois_summit_andes_var
+				has_variable = dubois_summit_caucasus_mountains_var
+				has_variable = dubois_summit_himalayas_mountains_var
+			}
+			dubois_add_x_specimen_effect = { AMOUNT = 5000 }
+		}
+	}
+
+	###PALEONTOLOGIST###
+	#Mountains with less than 3000 m
+	if = {
+		limit = {
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				has_variable = dubois_mountain_scientist_var
+			}
+			OR = {
+				has_variable = dubois_summit_great_dividing_range_var
+				has_variable = dubois_summit_appalachian_mountains_var
+				has_variable = dubois_summit_scottish_highlands_var
+				has_variable = dubois_summit_ural_mountains_var
+			}
+			dubois_add_1_fossil = yes
+		}
+	}
+	#Mountains with less than 5000 m
+	if = {
+		limit = {
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				has_variable = dubois_mountain_scientist_var
+			}
+			OR = {
+				has_variable = dubois_summit_cascades_var
+				has_variable = dubois_summit_sierra_nevada_var
+				has_variable = dubois_summit_rocky_mountains_var
+				has_variable = dubois_summit_sierra_madre_occidental_var
+				has_variable = dubois_summit_central_american_cordilleras_var
+				has_variable = dubois_summit_wasatch_range_var
+				has_variable = dubois_summit_alps_mountains_var
+				has_variable = dubois_summit_pyrenees_mountains_var
+				has_variable = dubois_summit_atlas_mountains_var
+				has_variable = dubois_summit_zagros_mountains_var
+			}
+			dubois_add_2_fossil = yes
+		}
+	}
+	#Mountains with 5000 m or more
+	if = {
+		limit = {
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				has_variable = dubois_mountain_scientist_var
+			}
+			OR = {
+				has_variable = dubois_summit_sierra_madre_oriental_var
+				has_variable = dubois_summit_andes_var
+				has_variable = dubois_summit_caucasus_mountains_var
+				has_variable = dubois_summit_himalayas_mountains_var
+			}
+			dubois_add_3_fossil = yes
+		}
+	}
+
+	#Scientist becomes Mountaineer
+	if = {
+		limit = {
+			scope:dubois_mountain_scientist = {
+				NOT = {
+					has_trait = dubois_mountaineer
+				}
+			}
+		}
+		scope:dubois_mountain_scientist = {
+			add_trait = dubois_mountaineer
+		}
+	}
+}
+
+add_dubois_mountain_expedition_prestige_bonus = {
+	#Mountains with less than 3000 m
+	if = {
+		limit = {
+			OR = {
+				has_variable = dubois_summit_great_dividing_range_var
+				has_variable = dubois_summit_appalachian_mountains_var
+				has_variable = dubois_summit_scottish_highlands_var
+				has_variable = dubois_summit_ural_mountains_var
+			}
+			add_modifier = {
+				name = dubois_summit_level_1_modifier
+				years = 2
+			}
+		}
+	}
+	#Mountains with less than 5000 m
+	if = {
+		limit = {
+			OR = {
+				has_variable = dubois_summit_cascades_var
+				has_variable = dubois_summit_sierra_nevada_var
+				has_variable = dubois_summit_rocky_mountains_var
+				has_variable = dubois_summit_sierra_madre_occidental_var
+				has_variable = dubois_summit_central_american_cordilleras_var
+				has_variable = dubois_summit_wasatch_range_var
+				has_variable = dubois_summit_alps_mountains_var
+				has_variable = dubois_summit_pyrenees_mountains_var
+				has_variable = dubois_summit_atlas_mountains_var
+				has_variable = dubois_summit_zagros_mountains_var
+			}
+			add_modifier = {
+				name = dubois_summit_level_2_modifier
+				years = 4
+			}
+		}
+	}
+	#Mountains with less than 7000 m
+	if = {
+		limit = {
+			OR = {
+				has_variable = dubois_summit_sierra_madre_oriental_var
+				has_variable = dubois_summit_andes_var
+				has_variable = dubois_summit_caucasus_mountains_var
+			}
+			add_modifier = {
+				name = dubois_summit_level_3_modifier
+				years = 7
+			}
+		}
+	}
+	#Mountains with more than 7000 m
+	if = {
+		limit = {
+			has_variable = dubois_summit_himalayas_mountains_var
+		}
+		add_modifier = {
+			name = dubois_summit_level_4_modifier
+			years = 10
+		}
+	}
+}
+
+set_dubois_mountain_climbing_progress = {
+	set_variable = {
+		name = dubois_mountain_climbing_progress
+		value = 0
+   }
+}
+
+add_dubois_mountain_climbing_progress = {
+	change_variable = {
+		name = dubois_mountain_climbing_progress
+		add = 1
+   }
+   custom_tooltip = dubois_add_mountain_climbing_progress_tt
+}
+
+sub_dubois_mountain_climbing_progress = {
+	change_variable = {
+		name = dubois_mountain_climbing_progress
+		add = -1
+   }
+   custom_tooltip = dubois_sub_mountain_climbing_progress_tt
 }
 
 ############################################################################
