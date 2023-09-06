@@ -11,7 +11,8 @@ types objective_types
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = preferred
 				margin = { 20 25 }
-				minimumsize = { 0 500 }
+				minimumsize = { 0 650 }
+				spacing = 10
 				
 				background = {
 					using = default_background
@@ -38,7 +39,8 @@ types objective_types
 					texture_density = 2
 					
 					textbox = {
-						using = fontsize_xxl
+						using = header_font_fancy
+						using = header_font_fancy_size
 						align = center|nobaseline
 						text = "SELECT_OBJECTIVE_TITLE"
 						size = { 100% 100% }
@@ -52,25 +54,27 @@ types objective_types
 				hbox = {
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = preferred
-					margin_top = 15
+					margin_top = 10
+					margin_bottom = 10
+					spacing = 8
 
 					### objectives
 					widget = {
-						layoutstretchfactor_horizontal = 4
 						layoutpolicy_horizontal = expanding
 						layoutpolicy_vertical = preferred
 						
-						hbox = {
+						hbox = {	
 							layoutpolicy_horizontal = expanding
 							layoutpolicy_vertical = preferred
-							margin = { 10 0 }
-							spacing = 10
+							spacing = 5
 							datamodel = "[GameSetup.GetObjectives]"
 							
 							item = {
 								widget = {
-									layoutpolicy_horizontal = expanding
+									layoutpolicy_horizontal = preferred
 									layoutpolicy_vertical = preferred
+									minimumsize = { 270 82 }
+									maximumsize = { 270 600 }
 									
 									widget = {
 										size = { 100% 100% }
@@ -79,45 +83,60 @@ types objective_types
 											texture = "[ObjectiveType.GetBackground]"
 											fittype = centercrop
 										}
-										
+
 										widget = {
-											size = { 100% 50 }
+											size = { 100% 77 }
 											parentanchor = hcenter|bottom
-											
-											background = {
-												visible = "[Not(GameSetup.HasSelectedObjective)]"
-												using = dark_area
-												alpha = 0.3
-												
-												modify_texture = {
-													texture = "gfx/interface/masks/fade_horizontal_center.dds"
-													spriteType = Corneredstretched
-													spriteborder = { 0 0 }
-													blend_mode = alphamultiply
-													alpha = 0.5
+
+											widget = {
+												size = { 100% 62 }
+												parentanchor = hcenter|bottom
+
+												icon = {
+													size = { 100% 5% }
+													texture = "gfx/interface/backgrounds/divider_gold.dds"
+												}
+
+												background = {
+													#visible = "[Not(GameSetup.HasSelectedObjective)]"
+													using = dark_area
+													alpha = 0.7
+													
+													modify_texture = {
+														texture = "gfx/interface/masks/fade_horizontal_center.dds"
+														spriteType = Corneredstretched
+														spriteborder = { 0 0 }
+														blend_mode = alphamultiply
+														alpha = 0.5
+													}
 												}
 											}
-											
-											hbox = {
-												margin_left = 5
-												margin_right = 20
-												
+
+											vbox = {
 												icon = {
-													size = { 40 40 }
-													texture = "[ObjectiveType.GetIcon]"
+													size = { 42 42 }
+													texture = "gfx/interface/backgrounds/round_button_bg.dds"
+													icon = {
+														size = { 37 37 }
+														parentanchor = center
+														texture = "[ObjectiveType.GetIcon]"
+													}
 												}
-												
+
 												textbox = {
 													layoutpolicy_horizontal = expanding
 													layoutpolicy_vertical = expanding
 													text = "[ObjectiveType.GetName]"
+													margin_bottom = 10
 											
 													align = center|nobaseline
 													using = fontsize_xl
 													alwaystransparent = yes
 													elide = right
-													fontsize_min = 16
-													multiline = yes
+													autoresize = yes
+													minimumsize = { 250 -1 }
+													maximumsize = { 250 -1 }
+													fontsize_min = 14
 												}
 											}
 										}
@@ -132,7 +151,7 @@ types objective_types
 									
 									icon = {
 										size = { 100% 100% }
-										using = simple_frame
+										using = entry_bg_unit_dark
 									}
 									
 									icon = {
@@ -146,44 +165,37 @@ types objective_types
 					
 					### sandbox (select any country)
 					widget = {
-						layoutstretchfactor_horizontal = 1
 						layoutpolicy_horizontal = expanding
 						layoutpolicy_vertical = preferred
-						
-						widget = {
-							visible = "[Not(GameSetup.HasSelectedObjective)]"
-							size = { 100% 100% }
-							
-							background = {
+						maximumsize = { 285 620 }
+						visible = "[Not(GameSetup.HasSelectedObjective)]"
+
+						background = {
 								texture = "gfx/interface/icons/objectives/sandbox.dds"
 								fittype = centercrop
 								using = frame_small_mask
 							}
-							
-							textbox = {
-								position = { 0 10 }
-								size = { 100% 60 }
+
+						default_header_clean = {
+							blockoverride "text" {
 								text = "SANDBOX"
-								align = center|nobaseline
-								using = fontsize_mega
-								margin = { 0 15 }
-								
-								background = {
-									using = default_header_bg_faded
-									margin = { -5 0 }
-									alpha = 0.8
-								}
 							}
-							
-							flowcontainer = {
-								direction = vertical
-								spacing = 10
-								parentanchor = bottom|hcenter
-								margin = { 0 15 }
-								
+							blockoverride "header_mask" {
+								using = frame_small_mask_top
+							}
+							blockoverride "size" {
+								size = { 100% 42 }
+							}
+						}
+
+						widget = {
+							size = { 100% 100 }
+							parentanchor = hcenter|bottom
+
+							vbox = {	
 								background = {
 									using = dark_area
-									alpha = 0.6
+									alpha = 0.7
 									using = frame_small_mask
 									
 									modify_texture = {
@@ -193,92 +205,85 @@ types objective_types
 										blend_mode = alphamultiply
 									}
 								}
-								
+
 								textbox = {
 									text = "START_GAME"
+									margin_top = 2
 									align = center|nobaseline
-									minimumsize = { 350 -1 }
-									maximumsize = { 350 -1 }
+									minimumsize = { 280 -1 }
+									maximumsize = { 280 -1 }
 									autoresize = yes
 									multiline = yes
 									using = fontsize_xxl
 								}
-								
+
 								textbox = {
 									text = "START_GAME_NO_OBJECTIVE_NO_TAG"
+									align = hcenter|nobaseline
 									default_format = "#instruction"
-									align = center|nobaseline
-									minimumsize = { 350 -1 }
-									maximumsize = { 350 -1 }
+									margin_bottom = 15
+									minimumsize = { 260 -1 }
+									maximumsize = { 260 -1 }
+									fontsize_min = 10
 									autoresize = yes
 									multiline = yes
-									using = fontsize_large
+									using = fontsize_medium
 								}
-							}
-							
-							widget = {
-								size = { 50 50 }
-								parentanchor = bottom
-								position = { 0 -70 }
 								
-								hbox = {
-									margin_left = 5
-
-									icon = {
-										size = { 40 40 }
-										texture = "gfx/interface/icons/generic_icons/generic_concept_icon.dds"
-									}
-								}
-							}
-
-							button = {
-								using = glow_button_border
-								size = { 100% 100% }
-								onclick = "[GameSetup.OnStart]"
-								using = frame_small_mask
-								using = start_game_button_sound
 								
-								state = {
-									trigger_on_create = yes
-									name = 1
-									next = 2
-									alpha = 0.3
-									duration = 0.5
-									using = Animation_Curve_Default
-								}
-								state = {
-									name = 2
-									next = 1
-									alpha = 1
-									duration = 0.5
-									using = Animation_Curve_Default
-								}
-							}
-							
-							icon = {
-								size = { 100% 100% }
-								using = frame_small
 							}
 						}
+
+						button = {
+							using = glow_button_border
+							size = { 100% 100% }
+							onclick = "[GameSetup.OnStart]"
+							using = frame_small_mask
+							using = start_game_button_sound
+							
+							state = {
+								trigger_on_create = yes
+								name = 1
+								next = 2
+								alpha = 0.3
+								duration = 0.5
+								using = Animation_Curve_Default
+							}
+							state = {
+								name = 2
+								next = 1
+								alpha = 1
+								duration = 0.5
+								using = Animation_Curve_Default
+							}
+						}
+						
+						icon = {
+							size = { 100% 100% }
+							using = frame_small
+						}
+					}
+
+					
+
+					widget = {
+						visible = "[GameSetup.HasSelectedObjective]"
+						size = { 285 20 }
 					}
 				}
 				
-				widget = {
-					visible = "[GameSetup.HasSelectedObjective]"
-					size = { 1 20 }
-				}
 				
 				flowcontainer = {
-					spacing = 20
+					spacing = 5
 					### SELECTED OBJECTIVE INFO
 					widget = {
 						visible = "[GameSetup.HasSelectedObjective]"
 						datacontext = "[GameSetup.GetSelectedObjective]"
-						size = { 530 0 }
+						size = { 480 0 }
 						
 						state = {
 							name = _show
-							size = { 530 610 }
+							size = { 480 610 }
 							duration = 0.3
 							alpha = 1
 							using = Animation_Curve_Default
@@ -286,7 +291,7 @@ types objective_types
 						}
 						state = {
 							name = _hide
-							size = { 530 0 }
+							size = { 480 0 }
 							duration = 0.3
 							alpha = 0
 							using = Animation_Curve_Default
@@ -344,10 +349,15 @@ types objective_types
 										margin = { -5 0 }
 									}
 								}
-								
+
 								icon = {
-									size = { 80 80 }
-									texture = "[ObjectiveType.GetIcon]"
+									size = { 100 100 }
+									texture = "gfx/interface/backgrounds/round_button_bg.dds"
+									icon = {
+										size = { 80 80 }
+										parentanchor = center
+										texture = "[ObjectiveType.GetIcon]"
+									}
 								}
 								
 								scrollarea = {
@@ -497,12 +507,12 @@ types objective_types
 													datacontext = "[GameSetup.GetSelectedObjective]"
 													layoutpolicy_horizontal = expanding
 													margin = { 15 20 }
-													spacing = 20
+													spacing = 10
 													
 													hbox = {
 														layoutpolicy_horizontal = expanding
 														margin = { 5 0 }
-														spacing = 15
+														spacing = 12
 													
 														icon = {
 															size = { 48 32 }
@@ -521,6 +531,10 @@ types objective_types
 															layoutpolicy_horizontal = expanding
 															text = "[ObjectiveType.GetNameForCountryDef(CountryDefinition.AccessSelf)]"
 															align = nobaseline
+															elide = right
+															minimumsize = { 210 -1 }
+															maximumsize = { 210 -1 }
+															fontsize_min = 14
 															using = fontsize_xxl
 															alwaystransparent = yes
 														}
@@ -559,191 +573,45 @@ types objective_types
 					size = { 1 20 }
 				}
 				
-				### BOTTOM BAR
+				### BOTTOM BAR - OBJECTIVE NOT SELECTED
 				hbox = {
-					name = "bottom_panel"
+					name = "bottom_panel_not_selected"
+					visible = "[Not(GameSetup.HasSelectedObjective)]"
 					layoutpolicy_horizontal = expanding
-					margin = { 15 15 }
+					margin = { 15 0 }
+					using = default_fade_in_out
 
 					widget = {
-						visible = "[(GameSetup.HasSelectedObjective)]"
-						size = { 340 80 }
-						
-						# select any country
-						button = {
-							using = default_button_primary_big_action
-							parentanchor = left|vcenter
-							size = { 330 60 }
-							enabled = "[Not(GameSetup.HasSelectedTag)]"
-							onclick = "[GameSetup.OnStart]"
-							onclick = "[PdxGuiTriggerAllAnimations('bookmarks_game_start')]"
-							using = default_fade_in_out
-							using = start_game_button_sound
-							
-							using = tooltip_above
-							tooltip = "[SelectLocalization(GameSetup.HasSelectedTag, 'HAS_SELECTED_COUNTRY_TOOLTIP', 'START_ANY_COUNTRY_TOOLTIP')]"
-
-							textbox = {
-								size = { 100% 100% }
-								text = "SELECT_ANY_COUNTRY"
-								align = center|nobaseline
-								using = fontsize_xl
-								fontsize_min = 14
-								elide = right
-								margin = { 20 0 }
-							}
-						}
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
 					}
 
-					### GAME RULES
-					hbox = {
-						visible = "[NOT( GameSetup.HasSelectedObjective, GameSetup.HasSelectedTag )]"
-						layoutpolicy_horizontal = preferred
-						spacing = 15
-						margin = { 75 0 }
-						using = default_fade_in_out
-						
-						
-						background = {
-							using = dark_area_rounded
-							alpha = 0.3
-						}
-						
-						
-						button_standard = {
-							name = "game_rules_button"
-							size = { 200 45 }
+					game_rules_hbox = {}
 
-							text = "GAME_RULES"
-							onclick = "[OpenGameRules]"
-
-							button_rules = {
-								size = { 25 25 }
-								parentanchor = left|vcenter
-								position = { 5 0 }
-								alwaystransparent = yes
-							}
-						}
-						
-						divider_light = {
-							layoutpolicy_vertical = expanding
-						}
-						
-						flowcontainer_game_rules_mini = {
-							name = "game_rules_mini"
-						}
-						
-						divider_light = {
-							layoutpolicy_vertical = expanding
-						}
-
-						widget = {
-							size = { 180 60 }
-							
-							hbox = {
-								name = "buttons"
-								visible = "[Not( IsInGame )]"
-
-								button_checkbox_label = {
-									visible = "[Not( IsIronmanEnabled )]"
-									onclick = "[SetIronmanEnabledStatus( '(bool)yes' )]"
-
-									blockoverride "checkbox"
-									{
-										checked = "[IsIronmanEnabled]"
-									}
-
-									blockoverride "text"
-									{
-										text = "BOOKMARK_IRONMAN_DISABLED"
-									}
-								}
-
-								button_checkbox_label = {
-									visible = "[IsIronmanEnabled]"
-									onclick = "[SetIronmanEnabledStatus( '(bool)no' )]"
-
-									blockoverride "checkbox"
-									{
-										checked = "[IsIronmanEnabled]"
-									}
-
-									blockoverride "text"
-									{
-										text = "BOOKMARK_IRONMAN_ENABLED"
-									}
-								}
-							}
-						}						
-
-						divider_light = {
-							layoutpolicy_vertical = expanding
-						}
-
-						widget = {
-							size = { 180 80 }
-							
-							hbox_achievements_info = {
-								using = tooltip_ne
-								blockoverride "ai_background" {}
-
-								blockoverride "ai_icon_size"
-								{
-									size = { 36 36 }
-								}
-							}
-						}
-					}
-					
 					widget = {
 						layoutpolicy_horizontal = expanding
 						layoutpolicy_vertical = expanding
 					}
 					
-					### BUTTONS BOTTOM RIGHT
+					start_game_buttons = {}
+				}
+
+				### BOTTOM BAR - OBJECTIVE SELECTED
+				hbox = {
+					name = "bottom_panel"
+					visible = "[GameSetup.HasSelectedObjective]"
+					layoutpolicy_horizontal = expanding
+					margin = { 15 0 }
+					using = default_fade_in_out
+
+					game_rules_hbox = {}
+
 					widget = {
-						size = { 340 80 }
-						
-						# start game
-						button = {
-							using = default_button_primary_big_action
-							parentanchor = right|vcenter
-							size = { 330 60 }
-							enabled = "[GameSetup.HasSelectedTag]"
-							visible = "[GameSetup.HasSelectedObjective]"
-							onclick = "[GameSetup.OnStart]"
-							onclick = "[PdxGuiTriggerAllAnimations('bookmarks_game_start')]"
-							using = default_fade_in_out
-							using = start_game_button_sound
-
-							# tooltip if country selected
-							widget = {
-								visible = "[GameSetup.HasSelectedTag]"
-								size = { 100% 100% }
-								using = tooltip_above
-								datacontext = "[GameSetup.GetSelectedTag]"
-								tooltip = "START_GAME_TOOLTIP"
-							}
-
-							# tooltip if no country selected
-							widget = {
-								visible = "[Not(GameSetup.HasSelectedTag)]"
-								size = { 100% 100% }
-								using = tooltip_above
-								tooltip = "NO_SELECTED_COUNTRY_TOOLTIP"
-							}
-
-							textbox = {
-								size = { 100% 100% }
-								text = "START_GAME"
-								align = center|nobaseline
-								using = fontsize_xxl
-								fontsize_min = 14
-								elide = right
-								margin = { 20 0 }
-							}
-						}
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
 					}
+					
+					start_game_buttons = {}
 				}
 			}
 			
@@ -782,5 +650,177 @@ types objective_types
 				expand = {}
 			}
 		}	
+	}
+
+	type game_rules_hbox = hbox {
+
+		### GAME RULES
+		layoutpolicy_horizontal = preferred
+		spacing = 15
+		margin = { 15 0 }
+		using = default_fade_in_out
+		
+		background = {
+			using = dark_area_rounded
+			alpha = 0.3
+		}
+		
+		button_standard = {
+			name = "game_rules_button"
+			size = { 200 45 }
+
+			text = "GAME_RULES"
+			onclick = "[OpenGameRules]"
+
+			button_rules = {
+				size = { 25 25 }
+				parentanchor = left|vcenter
+				position = { 5 0 }
+				alwaystransparent = yes
+			}
+		}
+		
+		divider_light = {
+			layoutpolicy_vertical = expanding
+		}
+		
+		flowcontainer_game_rules_mini = {
+			name = "game_rules_mini"
+		}
+		
+		divider_light = {
+			layoutpolicy_vertical = expanding
+		}
+
+		widget = {
+			size = { 180 60 }
+			
+			hbox = {
+				name = "buttons"
+				visible = "[Not( IsInGame )]"
+
+				button_checkbox_label = {
+					visible = "[Not( IsIronmanEnabled )]"
+					onclick = "[SetIronmanEnabledStatus( '(bool)yes' )]"
+
+					blockoverride "checkbox"
+					{
+						checked = "[IsIronmanEnabled]"
+					}
+
+					blockoverride "text"
+					{
+						text = "BOOKMARK_IRONMAN_DISABLED"
+					}
+				}
+
+				button_checkbox_label = {
+					visible = "[IsIronmanEnabled]"
+					onclick = "[SetIronmanEnabledStatus( '(bool)no' )]"
+
+					blockoverride "checkbox"
+					{
+						checked = "[IsIronmanEnabled]"
+					}
+
+					blockoverride "text"
+					{
+						text = "BOOKMARK_IRONMAN_ENABLED"
+					}
+				}
+			}
+		}						
+
+		divider_light = {
+			layoutpolicy_vertical = expanding
+		}
+
+		widget = {
+			size = { 180 80 }
+			
+			hbox_achievements_info = {
+				using = tooltip_ne
+				blockoverride "ai_background" {}
+
+				blockoverride "ai_icon_size"
+				{
+					size = { 36 36 }
+				}
+			}
+		}
+	}
+
+	type start_game_buttons = widget {
+		
+		### BUTTONS BOTTOM RIGHT
+		size = { 680 80 }
+		visible = "[GameSetup.HasSelectedObjective]"
+		using = default_fade_in_out
+		
+		# select any country
+		button = {
+			using = default_button_primary_big_action
+			parentanchor = left|vcenter
+			size = { 330 60 }
+			enabled = "[Not(GameSetup.HasSelectedTag)]"
+			visible = "[GameSetup.HasSelectedObjective]"
+			onclick = "[GameSetup.OnStart]"
+			onclick = "[PdxGuiTriggerAllAnimations('bookmarks_game_start')]"
+			using = default_fade_in_out
+			using = start_game_button_sound
+			
+			using = tooltip_above
+			tooltip = "[SelectLocalization(GameSetup.HasSelectedTag, 'HAS_SELECTED_COUNTRY_TOOLTIP', 'START_ANY_COUNTRY_TOOLTIP')]"
+
+			textbox = {
+				size = { 100% 100% }
+				text = "SELECT_ANY_COUNTRY"
+				align = center|nobaseline
+				using = fontsize_xl
+				fontsize_min = 14
+				elide = right
+				margin = { 20 0 }
+			}
+		}
+		
+		# start game
+		button = {
+			using = default_button_primary_big_action
+			parentanchor = right|vcenter
+			size = { 330 60 }
+			enabled = "[GameSetup.HasSelectedTag]"
+			visible = "[GameSetup.HasSelectedObjective]"
+			onclick = "[GameSetup.OnStart]"
+			onclick = "[PdxGuiTriggerAllAnimations('bookmarks_game_start')]"
+			using = default_fade_in_out
+			using = start_game_button_sound
+
+			# tooltip if country selected
+			widget = {
+				visible = "[GameSetup.HasSelectedTag]"
+				size = { 100% 100% }
+				using = tooltip_above
+				datacontext = "[GameSetup.GetSelectedTag]"
+				tooltip = "START_GAME_TOOLTIP"
+			}
+
+			# tooltip if no country selected
+			widget = {
+				visible = "[Not(GameSetup.HasSelectedTag)]"
+				size = { 100% 100% }
+				using = tooltip_above
+				tooltip = "NO_SELECTED_COUNTRY_TOOLTIP"
+			}
+
+			textbox = {
+				size = { 100% 100% }
+				text = "START_GAME"
+				align = center|nobaseline
+				using = fontsize_xxl
+				fontsize_min = 14
+				elide = right
+				margin = { 20 0 }
+			}
+		}
 	}
 }
