@@ -7802,7 +7802,7 @@ dubois.414 = {
 	}
 }
 
-###Mountaineering Expedition Events###
+###Mountaineering Expedition End###
 
 #Dubois 420: The Summit
 
@@ -7846,6 +7846,39 @@ dubois.420 = {
 			}
 			add_dubois_mountain_expedition_science_bonus = yes
 		}
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:dubois_mountain_expedition_leader = {
+						has_trait = dubois_mountaineer
+						has_trait = explorer
+						has_trait = mountain_commander
+					}
+					NOT = {
+						has_modifier = dubois_mountaineering_regiment_modifier
+					}
+				}
+				trigger_event = {
+					id = dubois.423
+					days = { 30 50 }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						elgar_has_great_composer = yes
+						elgar_has_composer = yes
+					}
+					NOT = {
+						has_variable = elgar_alpine_symphony_var
+					}
+				}
+				trigger_event = {
+					id = dubois.424
+					days = { 7 14 }
+				}
+			}
+		}	
 	}
 
 	after = {
@@ -7940,6 +7973,129 @@ dubois.421 = {
 }
 
 #Dubois 422: Climb aborted
+
+dubois.422 = {
+	type = country_event
+
+	title = dubois.422.t
+	desc = dubois.422.d
+	flavor = dubois.422.f
+
+	placement = scope:dubois_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_mountaineering_beginning.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_dubois_mountain_expedition_leader_effect = yes
+		set_dubois_summit_location = yes
+		set_dubois_mountain_expedition_scientist_effect = yes
+	}
+
+	option = {
+		name = dubois.422.g #Disappointing
+		default_option = yes
+		add_modifier = {
+			name = dubois_mountaineering_disappointment_modifier
+			years = 3
+		}
+	}
+
+	after = {
+		remove_dubois_mountain_expedition_leader_effect = yes
+		remove_dubois_mountain_expedition_scientist_effect = yes
+		remove_dubois_mountain_choice_effect = yes
+	}
+}
+
+#Dubois 423: Mountain Troops
+
+dubois.423 = {
+	type = country_event
+
+	title = dubois.423.t
+	desc = dubois.423.d
+	flavor = dubois.423.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_mountain_veteran
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_trait = dubois_mountaineer
+				has_trait = explorer
+				has_trait = mountain_commander
+			}
+			save_scope_as = dubois_mountain_veteran
+		}
+	}
+
+	option = {
+		name = dubois.423.g #They will carry his legacy into the future.
+		add_modifier = {
+			name = dubois_mountaineering_regiment_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 424: Mountain Symphony
+
+dubois.424 = {
+	type = country_event
+
+	title = dubois.424.t
+	desc = dubois.424.d
+	flavor = dubois.424.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_mountaineering_summit.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = elgar_alpine_symphony_var
+	}
+
+	option = {
+		name = dubois.424.g #Hopefully there won't be any alpenhorns in it.
+		elgar_add_25_music_tradition = yes
+	}
+
+	after = {
+	}
+}
 
 ######ZOO######
 
