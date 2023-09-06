@@ -234,7 +234,6 @@ mr_pacific_expedition_button = {
 		any_scope_character = {
 			has_role = admiral
 			is_busy = no
-			count >= 1
 		}
 		NOT = {
 			any_country = {
@@ -266,6 +265,56 @@ mr_pacific_expedition_button = {
 		modifier = {
 			trigger = { 
 				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			}
+			add = 100
+		}
+	}
+}
+
+######MOUNTAIN EXPEDITION######
+
+mr_mountain_expedition_button = {
+	name = "mr_mountain_expedition_button"
+	desc = "mr_mountain_expedition_button_desc"
+
+	visible = { always = yes }
+
+	possible = {
+		dubois_has_unconquered_summit = yes
+		has_technology_researched = prospecting
+		has_technology_researched = nationalism
+		any_scope_character = {
+			has_role = general
+			is_busy = no
+			OR = {
+				has_trait = dubois_mountaineer
+				has_trait = explorer
+				has_trait = mountain_commander
+				has_trait = surveyor
+			}
+		}
+		NOR = {
+			has_modifier = dubois_summit_level_1_modifier
+			has_modifier = dubois_summit_level_2_modifier
+			has_modifier = dubois_summit_level_3_modifier
+			has_modifier = dubois_summit_level_4_modifier
+			has_modifier = dubois_mountaineering_disaster_modifier
+		}
+	}
+
+	effect = {
+		add_treasury = -25000
+		trigger_event = { 
+			id = dubois.411
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = {
 				gold_reserves > 0
 			}
 			add = 100
