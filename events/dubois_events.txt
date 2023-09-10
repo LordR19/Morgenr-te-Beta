@@ -16880,10 +16880,10 @@ dubois.2041 = {
 			var:dubois_north_american_dinosaur_bone >= 5
 			NAND = {
 				has_variable = dubois_ankylosaurus_var
-				#has_variable = dubois_brontosaurus_var
 				has_variable = dubois_diplodocus_var
 				has_variable = dubois_triceratops_var
 				has_variable = dubois_tyrannosaurus_var
+				has_variable = dubois_stegosaurus_var
 			}
 			scope:dubois_paleontologist_scope = {
 				is_busy = no
@@ -17022,8 +17022,9 @@ dubois.2041 = {
 		name = dubois.2041.m
 		trigger = {
 			var:dubois_australian_dinosaur_bone >= 5
-			NOT = {
+			NAND = {
 				has_variable = dubois_muttaburrasaurus_var
+				has_variable = dubois_rhoetosaurus_var
 			}
 			scope:dubois_paleontologist_scope = {
 				is_busy = no
@@ -17314,6 +17315,12 @@ dubois.2051 = {
 		}
 		triggered_desc = {
 			trigger = {
+				has_variable = dubois_stegosaurus_var
+			}
+			desc = dubois.2051.stegosaurus
+		}
+		triggered_desc = {
+			trigger = {
 				has_variable = dubois_antarctosaurus_var
 			}
 			desc = dubois.2051.antarctosaurus
@@ -17366,6 +17373,12 @@ dubois.2051 = {
 			}
 			desc = dubois.2051.muttaburrasaurus
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_rhoetosaurus_var
+			}
+			desc = dubois.2051.rhoetosaurus
+		}
 	}
 
 	event_image = { 
@@ -17381,10 +17394,10 @@ dubois.2051 = {
 		trigger = {
 			OR = {
 				has_variable = dubois_ankylosaurus_var
-				#has_variable = dubois_brontosaurus_var
 				has_variable = dubois_diplodocus_var
 				has_variable = dubois_triceratops_var
 				has_variable = dubois_tyrannosaurus_var
+				has_variable = dubois_stegosaurus_var
 			}
 		}
 
@@ -17429,7 +17442,6 @@ dubois.2051 = {
 		trigger = {
 			OR = {
 				has_variable = dubois_giraffatitan_var
-				#has_variable = dubois_melanorosaurus_var
 				has_variable = dubois_spinosaurus_var
 			}
 		}
@@ -17460,6 +17472,7 @@ dubois.2051 = {
 		trigger = {
 			OR = {
 				has_variable = dubois_muttaburrasaurus_var
+				has_variable = dubois_rhoetosaurus_var
 			}
 		}
 
@@ -17681,6 +17694,18 @@ dubois.2111 = {
 
 		trigger_event = {
 			id = dubois.2115
+			popup = yes
+		}
+	}
+
+	option = {	#Visit Stegosaurus
+		name = dubois.2111.k
+		trigger = {
+			has_variable = dubois_stegosaurus_var
+		}
+
+		trigger_event = {
+			id = dubois.2116
 			popup = yes
 		}
 	}
@@ -18069,6 +18094,98 @@ dubois.2115 = {
 			set_character_busy = yes
 		}
 		set_variable = dubois_remount_tyrannosaurus_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2116: Stegosaurus
+
+dubois.2116 = {
+	type = country_event
+
+	title = dubois.2116.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_stegosaurus_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_stegosaurus_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_stegosaurus_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2115.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_stegosaurus_var
+				has_variable = dubois_poor_stegosaurus_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_stegosaurus_var
 		dubois_remount_dinosaur_effect = yes
 		hidden_effect = {
 			trigger_event = {
@@ -19166,6 +19283,18 @@ dubois.2161 = {
 		}
 	}
 
+	option = {	#Visit Rhoetosaurus
+		name = dubois.2161.h
+		trigger = {
+			has_variable = dubois_rhoetosaurus_var
+		}
+
+		trigger_event = {
+			id = dubois.2163
+			popup = yes
+		}
+	}
+
 	option = {	#Return to the Main Hall
 		name = dubois.2001.h
 		default_option = yes
@@ -19258,7 +19387,107 @@ dubois.2162 = {
 			}
 		}
 	}
-	option = {	#Return to Asian Section
+	option = {	#Return to Australian Section
+		name = dubois.2162.h
+
+		trigger_event = {
+			id = dubois.2161
+			popup = yes
+		}
+	}
+	option = {	#Return to the Main Hall
+		name = dubois.2001.h
+		default_option = yes
+
+		trigger_event = {
+			id = dubois.2001
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = dubois.2001.g
+		remove_variable = dubois_visiting_fossils_var
+
+		custom_tooltip = dubois_leave_fossils_tt
+	}
+}
+
+#Dubois 2163: Rhoetosaurus
+
+dubois.2163 = {
+	type = country_event
+
+	title = dubois.2163.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_perfect_rhoetosaurus_var
+			}
+			desc = dubois.2112.d_perfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_imperfect_rhoetosaurus_var
+			}
+			desc = dubois.2112.d_imperfect_dinosaur
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_poor_rhoetosaurus_var
+			}
+			desc = dubois.2112.d_poor_dinosaur
+		}
+	}
+
+	flavor = dubois.2163.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_skeleton.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var 
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = dubois_paleontologist_scope
+			}
+		}
+	}
+
+	option = {	#Remount Rhoetosaurus
+		name = dubois.2112.g
+		trigger = {
+			OR = {
+				has_variable = dubois_imperfect_rhoetosaurus_var
+				has_variable = dubois_poor_rhoetosaurus_var
+			}
+			exists = scope:dubois_paleontologist_scope
+			scope:dubois_paleontologist_scope = {
+				is_busy = no
+				NOT = {
+					has_modifier = dubois_exhausted_paleontologist_modifier
+				}
+			}
+		}
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		set_variable = dubois_remount_rhoetosaurus_var
+		dubois_remount_dinosaur_effect = yes
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+	}
+	option = {	#Return to Australian Section
 		name = dubois.2162.h
 
 		trigger_event = {
