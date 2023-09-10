@@ -1308,116 +1308,6 @@ has_zoo_animal_sealion_trigger = {
 	}
 }
 
-### Nature Reserve without habitat possible ###
-dubois_nature_reserve_without_habitat_possible_trigger = {
-	has_technology_researched = dubois_genetics_tech			
-	any_scope_building = {
-		is_building_type = building_dubois_zoo
-		level > 0
-	}
-	NOT = {
-		any_scope_building = {
-			is_building_type = building_dubois_national_park
-		}
-	}
-	is_homeland_of_country_cultures = owner
-	custom_tooltip = {
-		text = dubois_has_no_habitat_for_nr_tt
-		NOR = {
-			has_modifier = dubois_grizzly_habitat_modifier
-			has_modifier = dubois_eagle_habitat_modifier
-			has_modifier = dubois_bison_habitat_modifier
-			has_modifier = dubois_panther_habitat_modifier
-			has_modifier = dubois_alligator_habitat_modifier
-			has_modifier = dubois_axolotl_habitat_modifier
-			has_modifier = dubois_sloth_habitat_modifier
-			has_modifier = dubois_jaguar_habitat_modifier
-			has_modifier = dubois_anteater_habitat_modifier
-			has_modifier = dubois_armadillo_habitat_modifier
-			has_modifier = dubois_condor_habitat_modifier
-			has_modifier = dubois_manatee_habitat_modifier
-			has_modifier = dubois_monkey_habitat_modifier
-			has_modifier = dubois_lynx_habitat_modifier
-			has_modifier = dubois_wolf_habitat_modifier
-			has_modifier = dubois_badger_habitat_modifier
-			has_modifier = dubois_stoat_habitat_modifier
-			has_modifier = dubois_otter_habitat_modifier
-			has_modifier = dubois_wisent_habitat_modifier
-			has_modifier = dubois_hippopotamus_habitat_modifier
-			has_modifier = dubois_lion_habitat_modifier
-			has_modifier = dubois_elephant_habitat_modifier
-			has_modifier = dubois_giraffe_habitat_modifier
-			has_modifier = dubois_penguin_habitat_modifier
-			has_modifier = dubois_zebra_habitat_modifier
-			has_modifier = dubois_panda_habitat_modifier
-			has_modifier = dubois_orangutan_habitat_modifier
-			has_modifier = dubois_tiger_habitat_modifier
-			has_modifier = dubois_tapir_habitat_modifier
-			has_modifier = dubois_dragon_habitat_modifier
-			has_modifier = dubois_cheetah_habitat_modifier
-			has_modifier = dubois_turtle_habitat_modifier
-			has_modifier = dubois_manta_habitat_modifier
-			has_modifier = dubois_kangaroo_habitat_modifier
-			has_modifier = dubois_koala_habitat_modifier
-			has_modifier = dubois_platypus_habitat_modifier
-			has_modifier = dubois_sealion_habitat_modifier
-		}
-	}
-	OR = {
-		trigger_if = {
-			limit = {
-				country_is_in_europe = yes
-			}
-			has_european_animal_in_zoo = yes
-		}
-		trigger_if = {
-			limit = {
-				OR = {
-					country_is_in_north_america = yes
-					country_is_in_central_america = yes
-				}
-
-			}
-			has_north_american_animal_in_zoo = yes
-		}
-		trigger_if = {
-			limit = {
-				OR = {
-					country_is_in_middle_east = yes
-					country_is_in_central_asia = yes
-					country_is_in_india = yes
-					country_is_in_east_asia = yes
-					country_is_in_southeast_asia = yes
-				}
-
-			}
-			has_asian_animal_in_zoo = yes
-		}
-		trigger_if = {
-			limit = {
-				OR = {
-					country_is_in_africa = yes
-				}
-
-			}
-			has_african_animal_in_zoo = yes
-		}
-		trigger_if = {
-			limit = {
-				OR = {
-					capital = {
-						OR = {
-							region = sr:region_oceania
-						}
-					}
-				}
-
-			}
-			has_australian_animal_in_zoo = yes
-		}
-	}
-}
-
 ### Zoo Animal from Region Trigger ###
 has_european_animal_in_zoo = {
 	custom_tooltip = {
@@ -1998,5 +1888,164 @@ dubois_state_has_unconquered_summit = {
 	}
 	NOT = {
 		has_modifier = dubois_first_ascent_modifier
+	}
+}
+
+############################################################################
+
+######NATURE RESERVE######
+
+dubois_state_has_forest = {
+	OR = {
+		has_state_trait = state_trait_scandinavian_forests
+		has_state_trait = state_trait_northern_california_coastal_forests
+		has_state_trait = state_trait_american_chestnuts
+		has_state_trait = state_trait_amazon_rainforest
+		has_state_trait = state_trait_black_forest
+		has_state_trait = state_trait_russian_forest
+		has_state_trait = state_trait_congo_forest
+		has_state_trait = state_trait_burmese_teak
+		has_state_trait = state_trait_indochinese_forest
+		has_state_trait = state_trait_borneo_rainforest
+		has_state_trait = state_trait_hawaii_sandalwood_forests
+	}
+}
+
+dubois_state_has_fjord = {
+	OR = {
+		has_state_trait = state_trait_odensefjorden
+		has_state_trait = state_trait_trondhjemsfjorden
+		has_state_trait = state_trait_hardangerfjorden
+		has_state_trait = state_trait_christianiafjorden
+	}
+}
+
+dubois_state_has_desert = {
+	OR = {
+		has_state_trait = state_trait_the_great_basin_desert
+		has_state_trait = state_trait_atacama_desert
+		has_state_trait = state_trait_sahara_desert
+		has_state_trait = state_trait_arabian_desert
+		has_state_trait = state_trait_gobi_desert
+		has_state_trait = state_trait_taklamakan_desert
+		has_state_trait = state_trait_australian_desert
+	}
+}
+
+
+### Nature Reserve without habitat possible ###
+dubois_nature_reserve_without_habitat_possible_trigger = {
+	has_technology_researched = dubois_genetics_tech			
+	any_scope_building = {
+		is_building_type = building_dubois_zoo
+		level > 0
+	}
+	NOT = {
+		any_scope_building = {
+			is_building_type = building_dubois_national_park
+		}
+	}
+	any_scope_state = {
+		is_homeland_of_country_cultures = owner
+		is_incorporated = yes
+		arable_land > 0
+		NOT = {
+			has_modifier = dubois_nature_reserve_location_modifier
+		}
+		custom_tooltip = {
+			text = dubois_has_no_habitat_for_nr_tt
+			NOR = {
+				has_modifier = dubois_grizzly_habitat_modifier
+				has_modifier = dubois_eagle_habitat_modifier
+				has_modifier = dubois_bison_habitat_modifier
+				has_modifier = dubois_panther_habitat_modifier
+				has_modifier = dubois_alligator_habitat_modifier
+				has_modifier = dubois_axolotl_habitat_modifier
+				has_modifier = dubois_sloth_habitat_modifier
+				has_modifier = dubois_jaguar_habitat_modifier
+				has_modifier = dubois_anteater_habitat_modifier
+				has_modifier = dubois_armadillo_habitat_modifier
+				has_modifier = dubois_condor_habitat_modifier
+				has_modifier = dubois_manatee_habitat_modifier
+				has_modifier = dubois_monkey_habitat_modifier
+				has_modifier = dubois_lynx_habitat_modifier
+				has_modifier = dubois_wolf_habitat_modifier
+				has_modifier = dubois_badger_habitat_modifier
+				has_modifier = dubois_stoat_habitat_modifier
+				has_modifier = dubois_otter_habitat_modifier
+				has_modifier = dubois_wisent_habitat_modifier
+				has_modifier = dubois_hippopotamus_habitat_modifier
+				has_modifier = dubois_lion_habitat_modifier
+				has_modifier = dubois_elephant_habitat_modifier
+				has_modifier = dubois_giraffe_habitat_modifier
+				has_modifier = dubois_penguin_habitat_modifier
+				has_modifier = dubois_zebra_habitat_modifier
+				has_modifier = dubois_panda_habitat_modifier
+				has_modifier = dubois_orangutan_habitat_modifier
+				has_modifier = dubois_tiger_habitat_modifier
+				has_modifier = dubois_tapir_habitat_modifier
+				has_modifier = dubois_dragon_habitat_modifier
+				has_modifier = dubois_cheetah_habitat_modifier
+				has_modifier = dubois_turtle_habitat_modifier
+				has_modifier = dubois_manta_habitat_modifier
+				has_modifier = dubois_kangaroo_habitat_modifier
+				has_modifier = dubois_koala_habitat_modifier
+				has_modifier = dubois_platypus_habitat_modifier
+				has_modifier = dubois_sealion_habitat_modifier
+			}
+		}
+	}
+	OR = {
+		trigger_if = {
+			limit = {
+				country_is_in_europe = yes
+			}
+			has_european_animal_in_zoo = yes
+		}
+		trigger_if = {
+			limit = {
+				OR = {
+					country_is_in_north_america = yes
+					country_is_in_central_america = yes
+				}
+
+			}
+			has_north_american_animal_in_zoo = yes
+		}
+		trigger_if = {
+			limit = {
+				OR = {
+					country_is_in_middle_east = yes
+					country_is_in_central_asia = yes
+					country_is_in_india = yes
+					country_is_in_east_asia = yes
+					country_is_in_southeast_asia = yes
+				}
+
+			}
+			has_asian_animal_in_zoo = yes
+		}
+		trigger_if = {
+			limit = {
+				OR = {
+					country_is_in_africa = yes
+				}
+
+			}
+			has_african_animal_in_zoo = yes
+		}
+		trigger_if = {
+			limit = {
+				OR = {
+					capital = {
+						OR = {
+							region = sr:region_oceania
+						}
+					}
+				}
+
+			}
+			has_australian_animal_in_zoo = yes
+		}
 	}
 }
