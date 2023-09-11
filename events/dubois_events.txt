@@ -4774,6 +4774,43 @@ dubois.147 = {
 	}
 }
 
+#Dubois 148: Red Panda
+
+dubois.148 = {
+	type = country_event
+
+	title = dubois.148.t
+	desc = dubois.148.d
+	flavor = dubois.148.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_red.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.148.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_red = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
 ######151-160: Australian/Oceanian Animals######
 
 #Dubois 151: Green Sea Turtle
@@ -10093,6 +10130,65 @@ dubois.440 = {
 			dubois_add_1_fossil = yes
 			paleontologist_experience_gain_effect = {
 				AMOUNT = "5"
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 441: The Red Panda
+
+dubois.441 = {
+	type = country_event
+
+	title = dubois.441.t
+	desc = dubois.441.d
+	flavor = dubois.441.f
+
+	placement = scope:dubois_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_red.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		years = 100
+	}
+
+	trigger = {
+		has_variable = dubois_summit_himalayas_mountains_var
+		has_variable = dubois_naturalist_var
+		var:dubois_naturalist_var = {
+			has_variable = dubois_mountain_scientist_var
+		}
+		var:dubois_mountain_climbing_progress <= 4
+		var:dubois_mountain_climbing_progress > 1
+	}
+
+	immediate = {
+		set_dubois_mountain_expedition_leader_effect = yes
+		set_dubois_summit_location = yes
+		set_dubois_mountain_expedition_scientist_effect = yes
+	}
+
+	option = {
+		name = dubois.441.g #Is this the 43rd animal?
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.148
+				days = { 30 60 }
 			}
 		}
 	}
