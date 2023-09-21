@@ -234,6 +234,10 @@ namespace = dubois
 
 #Dubois 1201: Nature Reserve Location found
 
+#Dubois 1210: [Scope Animal] in [Scope State] is endangered
+#Dubois 1211: [Scope Animal] in [Scope State] is extinct
+
+#Dubois 1250: Yosemite National Park
 
 ######Paleontological Collection######
 
@@ -17447,6 +17451,77 @@ dubois.1211 = {
 	option = {
 		name = dubois.1211.g #Oh no. Anyways.
 		dubois_remove_habitats_effect = yes
+	}
+}
+
+#Dubois 1250: Yosemite National Park
+
+dubois.1250 = {
+	type = country_event
+
+	title = dubois.1250.t
+	desc = dubois.1250.d
+	flavor = dubois.1250.f
+
+	placement = scope:yosemite_state_scope
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_nature_reserve_yosemite.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = dubois_yosemite_event_var
+		}
+		year >= 1890
+		has_technology_researched = dubois_genetics_tech
+		OR = {
+			this ?= c:USA
+			this ?= c:CAL
+			was_formed_from = USA
+			was_formed_from = CAL
+		}
+		p:x0AF8FD = {
+			owner = root
+		}
+		any_scope_state = {
+			state_region = s:STATE_CALIFORNIA
+			NOT = {
+				has_building = building_dubois_national_park
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_CALIFORNIA
+			}
+			save_scope_as = yosemite_state_scope
+		}
+		set_variable = dubois_yosemite_event_var
+	}
+
+	option = {
+		name = dubois.1250.g #This is a great idea!
+		
+		scope:yosemite_state_scope = {
+			start_building_construction = building_dubois_national_park
+		}
+	}
+
+	option = {
+		name = dubois.1250.h #Actually, this looks like a great place for mining!
+
+		ai_chance = {
+			base = 0
+		}
 	}
 }
 
