@@ -17480,7 +17480,6 @@ dubois.1250 = {
 			has_variable = dubois_yosemite_event_var
 		}
 		year >= 1890
-		has_technology_researched = dubois_genetics_tech
 		OR = {
 			this ?= c:USA
 			this ?= c:CAL
@@ -17512,6 +17511,11 @@ dubois.1250 = {
 		name = dubois.1250.g #This is a great idea!
 		
 		scope:yosemite_state_scope = {
+			hidden_effect = {
+				add_modifier = {
+					name = dubois_nature_reserve_location_modifier
+				}
+			}
 			start_building_construction = building_dubois_national_park
 		}
 	}
@@ -17521,6 +17525,90 @@ dubois.1250 = {
 
 		ai_chance = {
 			base = 0
+		}
+	}
+}
+
+#Dubois 1251: The last Wisents
+
+dubois.1251 = {
+	type = country_event
+
+	title = dubois.1251.t
+	desc = dubois.1251.d
+	flavor = dubois.1251.f
+
+	placement = scope:bialowieza_state_scope
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_nature_reserve_bialowieza.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = dubois_bialowieza_event_var
+		}
+		year >= 1860
+		has_state_in_state_region = STATE_BREST
+		any_scope_state = {
+			state_region = s:STATE_BREST
+			has_modifier = dubois_wisent_habitat_modifier
+			NOT = {
+				has_building = building_dubois_national_park
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_BREST
+			}
+			save_scope_as = bialowieza_state_scope
+		}
+		set_variable = dubois_bialowieza_event_var
+	}
+
+	option = {
+		name = dubois.1251.g #We need to protect the Wisent!
+		
+		scope:bialowieza_state_scope = {
+			hidden_effect = {
+				add_modifier = {
+					name = dubois_nature_reserve_location_modifier
+				}
+			}
+			start_building_construction = building_dubois_national_park
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = dubois.1251.h #This forest is perfect for logging.
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				trigger = {
+					ruler = {
+						interest_group = { 
+							OR = {
+								is_interest_group_type = ig_landowners
+								is_interest_group_type = ig_industrialists
+							}
+						}
+					}
+				}
+				add = 50
+			}
 		}
 	}
 }
