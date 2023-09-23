@@ -3643,54 +3643,7 @@ archaeologist_experience_gain_effect = { #adds XP to the Archaeologist
 
 ######ANTHROPOLOGIST######
 
-create_anthropologist_effect = {
-	random_list = { #Each Entry has a chance to appear if the triggers are met.
-		4 = { #Thomas Henry Huxley
-			trigger = {
-				NOT = { has_global_variable = lepsius_huxley_created }
-				c:GBR ?= this
-				game_date < 1880.5.4 #Age 55
-				year > 1846 #First Expedition
-			}
-			create_character = {
-				template = mr_gbr_huxley_thomas_henry_character_template
-
-				save_scope_as = lepsius_anthropologist_scope
-			}
-			scope:lepsius_anthropologist_scope = {
-				set_variable = lepsius_huxley_character_var #Unique for Huxley, mostly used for clothing
-				set_variable = mr_is_anthropologist_var #Could be used for clothing or a role in the future
-				anthropologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
-				place_character_in_void = 1200 #This is needed so the character doesn't disappear
-			}
-
-			set_variable = {
-				name = lepsius_anthropologist_var #This is basically the role of Anthropologist for a country, makes it possible to access character
-				value = scope:lepsius_anthropologist_scope
-			}
-
-			set_global_variable = lepsius_huxley_created #Makes sure Huxley is not already created
-		}
-		1 = { #Random Anthropologist (fallback and to make it uncertain for historical once to appear)
-			create_character = {
-				save_scope_as = lepsius_anthropologist_scope
-			}
-
-			scope:lepsius_anthropologist_scope = {
-				add_trait = lepsius_anthropologist
-				set_variable = mr_is_anthropologist_var
-				anthropologist_experience_set_up_effect = yes
-				place_character_in_void = 1200
-			}
-
-			set_variable = {
-				name = lepsius_anthropologist_var
-				value = scope:lepsius_anthropologist_scope
-			}
-		}
-	}
-}
-
+#Effect to kill the current Anthropologist
 kill_anthropologist_effect = {
 	var:lepsius_anthropologist_var = {
 		free_character_from_void = no
