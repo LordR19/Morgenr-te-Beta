@@ -4015,6 +4015,31 @@ anthropologist_experience_set_up_effect = {
 			name = lepsius_anthropologist_experience
 			multiply = 10
 		}
+		if = { #Adds the Experienced Anthropologist Trait if Experience is above 100
+			limit = {
+				var:lepsius_anthropologist_experience >= 100
+				NOT = {
+					var:lepsius_anthropologist_experience >= 300
+				}
+				NOR = {
+					has_trait = lepsius_anthropologist_experienced
+					has_trait = lepsius_anthropologist_famous
+				}
+			}
+			remove_trait = lepsius_anthropologist
+			add_trait = lepsius_anthropologist_experienced
+		}
+		if = { #Adds the Famous Anthropologist Trait if Experience is above 100
+			limit = {
+				var:lepsius_anthropologist_experience >= 300
+				NOT = {
+					has_trait = lepsius_anthropologist_famous
+				}
+			}
+			remove_trait = lepsius_anthropologist
+			remove_trait = lepsius_anthropologist_experienced
+			add_trait = lepsius_anthropologist_famous
+		}
 	}
 }
 
@@ -4048,6 +4073,40 @@ anthropologist_experience_gain_effect = { #adds XP to the Anthropologist
 				change_variable = {
 					name = lepsius_anthropologist_experience
 					add = $AMOUNT$
+				}
+			}
+		}
+		var:lepsius_anthropologist_var = {
+			if = {
+				limit = {
+					var:lepsius_anthropologist_experience >= 100
+					NOT = {
+						var:lepsius_anthropologist_experience >= 300
+					}
+					NOR = {
+						has_trait = lepsius_anthropologist_experienced
+						has_trait = lepsius_anthropologist_famous
+					}
+				}
+				root = {
+					trigger_event = {
+						id = academics.110
+						popup = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					var:lepsius_anthropologist_experience >= 300
+					NOT = {
+						has_trait = lepsius_anthropologist_famous
+					}
+				}
+				root = {
+					trigger_event = {
+						id = academics.111
+						popup = yes
+					}
 				}
 			}
 		}
