@@ -4054,6 +4054,131 @@ anthropologist_experience_gain_effect = { #adds XP to the Anthropologist
 	}
 }
 
+######GEOLOGIST######
+
+#Effect to kill the current Geologist
+kill_geologist_effect = {
+	var:dubois_geologist_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = dubois_geologist_var
+}
+
+# Creates a new Geologist without losing the old one
+create_new_geologist_effect = {
+	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		1 = { #Random Geologist (fallback and to make it uncertain for historical once to appear)
+			create_character = {
+				save_scope_as = dubois_new_geologist_scope
+			}
+
+			scope:dubois_new_geologist_scope = {
+				add_trait = dubois_geologist
+				set_variable = mr_is_geologist_var
+				geologist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = dubois_new_geologist_var
+				value = scope:dubois_new_geologist_scope
+			}
+		}
+	}
+
+	var:dubois_new_geologist_var = {
+		save_scope_as = dubois_new_geologist_scope
+	}
+}
+
+# Set new Geologist as official Geologist
+dubois_set_new_geologist_as_geologist_effect = {
+	custom_tooltip = {
+		text = dubois_replace_geologist_with_new_geologist_tt
+	
+		if = {
+			limit = {
+				has_variable = dubois_geologist_var
+			}
+			var:dubois_geologist_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = dubois_geologist_var
+			value = scope:dubois_new_geologist_scope
+		}
+	}
+}
+
+# Remove new Geologist
+dubois_remove_new_geologist_effect = {
+	scope:dubois_new_geologist_scope = {
+		free_character_from_void = no
+	}
+}
+
+# Used to set up the Experience of a character
+geologist_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_geologist_experience
+			}
+		}
+		set_variable = {
+			name = dubois_geologist_experience
+			value = age
+		}
+		change_variable = {
+			name = dubois_geologist_experience
+			subtract = 30
+		}
+		change_variable = {
+			name = dubois_geologist_experience
+			multiply = 10
+		}
+	}
+}
+
+#Geologist Experience gain
+geologist_experience_gain_effect = { #adds XP to the Geologist
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = dubois_geologist_var #should only add experience if there actually is an Geologist
+		}
+		custom_tooltip = {
+			text = dubois_geologist_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:dubois_geologist_var = { #Fallback to make sure there are no errors if the Geologist does not have the variable yet
+							has_variable = dubois_geologist_experience
+						}
+					}
+				}
+				var:dubois_geologist_var = { #Sets the experience in case it was not set yet
+					geologist_experience_set_up_effect = yes
+				}
+			}
+			var:dubois_geologist_var = {
+				change_variable = {
+					name = dubois_geologist_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+	}
+}
+
 ##########################################################################
 
 ######ACADEMIC FOCUS######
