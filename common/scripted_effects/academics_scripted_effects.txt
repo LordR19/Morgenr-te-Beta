@@ -4199,6 +4199,31 @@ geologist_experience_set_up_effect = {
 			name = dubois_geologist_experience
 			multiply = 10
 		}
+		if = { #Adds the Experienced Geologist Trait if Experience is above 100
+			limit = {
+				var:dubois_geologist_experience >= 100
+				NOT = {
+					var:dubois_geologist_experience >= 300
+				}
+				NOR = {
+					has_trait = dubois_geologist_experienced
+					has_trait = dubois_geologist_famous
+				}
+			}
+			remove_trait = dubois_geologist
+			add_trait = dubois_geologist_experienced
+		}
+		if = { #Adds the Famous Geologist Trait if Experience is above 100
+			limit = {
+				var:dubois_geologist_experience >= 300
+				NOT = {
+					has_trait = dubois_geologist_famous
+				}
+			}
+			remove_trait = dubois_geologist
+			remove_trait = dubois_geologist_experienced
+			add_trait = dubois_geologist_famous
+		}
 	}
 }
 
@@ -4232,6 +4257,40 @@ geologist_experience_gain_effect = { #adds XP to the Geologist
 				change_variable = {
 					name = dubois_geologist_experience
 					add = $AMOUNT$
+				}
+			}
+		}
+		var:dubois_geologist_var = {
+			if = {
+				limit = {
+					var:dubois_geologist_experience >= 100
+					NOT = {
+						var:dubois_geologist_experience >= 300
+					}
+					NOR = {
+						has_trait = dubois_geologist_experienced
+						has_trait = dubois_geologist_famous
+					}
+				}
+				root = {
+					trigger_event = {
+						id = academics.112
+						popup = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					var:dubois_geologist_experience >= 300
+					NOT = {
+						has_trait = dubois_geologist_famous
+					}
+				}
+				root = {
+					trigger_event = {
+						id = academics.113
+						popup = yes
+					}
 				}
 			}
 		}
