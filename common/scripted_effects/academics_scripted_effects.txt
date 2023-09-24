@@ -1923,9 +1923,11 @@ create_new_naturalist_effect = {
 		4 = { #Odoardo Beccari, Italy
 			trigger = {
 				NOT = { has_global_variable = dubois_beccari_created_global_var }
-				OR = {
-					country_has_primary_culture = cu:north_italian
-					country_has_primary_culture = cu:south_italian
+				has_state_in_state_region = STATE_TUSCANY
+				NOT = {
+					cu:north_italian = {
+						culture_is_discriminated_in = root
+					}
 				}
 				game_date < 1898.11.16 #Age 55
 				year >= 1865 #First Expedition of Beccari to Borneo
@@ -1948,6 +1950,37 @@ create_new_naturalist_effect = {
 			}
 
 			set_global_variable = dubois_beccari_created_global_var
+		}
+		4 = { #Pellegrino Strobel, Italy
+			trigger = {
+				NOT = { has_global_variable = dubois_strobel_created_global_var }
+				has_state_in_state_region = STATE_EMILIA
+				NOT = {
+					cu:north_italian = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1876.8.22 #Age 55
+#				year >= 1857 #Professor of Natural History in Piacenza
+			}
+			create_character = {
+				template = mr_ita_strobel_pellegrino_character_template
+
+				save_scope_as = dubois_new_naturalist_scope
+			}
+			scope:dubois_new_naturalist_scope = {
+				set_variable = dubois_strobel_character_var
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_new_naturalist_var
+				value = scope:dubois_new_naturalist_scope
+			}
+
+			set_global_variable = dubois_strobel_created_global_var
 		}
 		4 = { #Jagadish Chandra Bose, India
 			trigger = {
@@ -3593,6 +3626,37 @@ create_new_archaeologist_effect = {
 			}
 
 			set_global_variable = lepsius_rawlinson_created #Makes sure Rawlinson is not already created
+		}
+		100 = { #Pellegrino Strobel, Italy
+			trigger = {
+				NOT = { has_global_variable = dubois_strobel_created_global_var }
+				has_state_in_state_region = STATE_EMILIA
+				NOT = {
+					cu:north_italian = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1876.8.22 #Age 55
+#				year >= 1857 #Professor of Natural History in Piacenza
+			}
+			create_character = {
+				template = mr_ita_strobel_pellegrino_character_template
+
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+			scope:lepsius_new_archaeologist_scope = {
+				set_variable = dubois_strobel_character_var
+				set_variable = mr_is_archaeologist_var
+				archaeologist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var
+				value = scope:lepsius_new_archaeologist_scope
+			}
+
+			set_global_variable = dubois_strobel_created_global_var
 		}
 		100 = { #Ernesto Schiaparelli
 			trigger = {
