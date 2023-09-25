@@ -239,6 +239,7 @@ namespace = dubois
 
 #Dubois 1250: Yosemite National Park
 #Dubois 1251: The last Wisents
+#Dubois 1252: A Royal Hunting Reserve in Gran Paradiso?
 
 ######Paleontological Collection######
 
@@ -17611,6 +17612,102 @@ dubois.1251 = {
 				}
 				add = 50
 			}
+		}
+	}
+}
+
+#Dubois 1252: A Royal Hunting Reserve in Gran Paradiso?
+
+dubois.1252 = {
+	type = country_event
+
+	title = dubois.1252.t
+	desc = dubois.1252.d
+	flavor = dubois.1252.f
+
+	placement = scope:gran_paradiso_state_scope
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_natue_reserve_gran_paradiso.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_global_variable = dubois_gran_paradiso_global_var
+		}
+		has_law = law_type:law_monarchy
+		OR = {
+			year >= 1856
+			ruler = {
+				interest_group = { 
+					OR = {
+						is_interest_group_type = ig_intelligentsia
+						is_interest_group_type = ig_rural_folk
+					}
+				}
+			}
+		}
+		any_scope_state = {
+			state_region = s:STATE_PIEDMONT
+			has_modifier = dubois_ibex_habitat_modifier
+			OR = {
+				NOT = {
+					has_building = building_dubois_national_park
+				}
+				NOT = {
+					has_modifier = dubois_nature_reserve_location_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_PIEDMONT
+			}
+			save_scope_as = gran_paradiso_state_scope
+		}
+		set_global_variable = dubois_gran_paradiso_global_var
+	}
+
+	option = {
+		name = dubois.1252.g #Found the Reserve immediately!
+		default_option = yes
+		
+		scope:gran_paradiso_state_scope = {
+			hidden_effect = {
+				add_modifier = {
+					name = dubois_nature_reserve_location_modifier
+				}
+			}
+			start_building_construction = building_dubois_national_park
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = dubois.1252.h #Maybe later...
+
+		custom_tooltip = {
+			text = dubois_gran_paradiso_tt
+			scope:gran_paradiso_state_scope = {
+				add_modifier = {
+					name = dubois_nature_reserve_location_modifier
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 0
 		}
 	}
 }
