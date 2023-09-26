@@ -17712,6 +17712,199 @@ dubois.1252 = {
 	}
 }
 
+#Dubois 1301: Choose a Nature Reserve to breed Exotic Animals
+
+dubois.1301 = {
+	type = country_event
+
+	title = dubois.1301.t
+	desc = dubois.1301.d
+	flavor = dubois.1301.f
+
+	placement = root
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_natue_reserve_gran_paradiso.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+		#Triggered by desicion
+	}
+
+	immediate = {
+		random_scope_state = { #This sets the first state as a scope
+			limit = {
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				trigger_if = {
+					limit = {
+						OR = {
+							dubois_europe_breeding_possible_trigger = yes
+							dubois_north_america_breeding_possible_trigger = yes
+							dubois_south_america_breeding_possible_trigger = yes
+							dubois_africa_breeding_possible_trigger = yes
+							dubois_asia_breeding_possible_trigger = yes
+							dubois_australia_breeding_possible_trigger = yes
+						}
+					}
+				}
+			}
+			save_scope_as = breeding_state_1_scope
+			set_variable = {
+				name = dubois_number_of_states_var
+				value = 1
+			}
+		}
+		if = { #Checks if a second state is possible
+			limit = {
+				any_scope_state = {
+					NOT = { this = scope:breeding_state_1_scope }
+					any_scope_building = {
+						is_building_type = building_dubois_national_park
+						level > 0
+					}
+					trigger_if = {
+						limit = {
+							OR = {
+								dubois_europe_breeding_possible_trigger = yes
+								dubois_north_america_breeding_possible_trigger = yes
+								dubois_south_america_breeding_possible_trigger = yes
+								dubois_africa_breeding_possible_trigger = yes
+								dubois_asia_breeding_possible_trigger = yes
+								dubois_australia_breeding_possible_trigger = yes
+							}
+						}
+					}
+				}
+			}
+			random_scope_state = { #Sets the second state if possible
+				limit = {
+					any_scope_building = {
+						is_building_type = building_dubois_national_park
+						level > 0
+					}
+					trigger_if = {
+						limit = {
+							OR = {
+								dubois_europe_breeding_possible_trigger = yes
+								dubois_north_america_breeding_possible_trigger = yes
+								dubois_south_america_breeding_possible_trigger = yes
+								dubois_africa_breeding_possible_trigger = yes
+								dubois_asia_breeding_possible_trigger = yes
+								dubois_australia_breeding_possible_trigger = yes
+							}
+						}
+					}
+				}
+				save_scope_as = breeding_state_2_scope
+				change_variable = {
+					name = dubois_number_of_states_var
+					add = 1
+				}
+			}
+		}
+		if = { #Checks if a third state is possible
+			limit = {
+				any_scope_state = {
+					NOR = {
+						this = scope:breeding_state_1_scope
+						this = scope:breeding_state_2_scope
+					}
+					any_scope_building = {
+						is_building_type = building_dubois_national_park
+						level > 0
+					}
+					trigger_if = {
+						limit = {
+							OR = {
+								dubois_europe_breeding_possible_trigger = yes
+								dubois_north_america_breeding_possible_trigger = yes
+								dubois_south_america_breeding_possible_trigger = yes
+								dubois_africa_breeding_possible_trigger = yes
+								dubois_asia_breeding_possible_trigger = yes
+								dubois_australia_breeding_possible_trigger = yes
+							}
+						}
+					}
+				}
+			}
+			random_scope_state = { #Sets the third state if possible
+				limit = {
+					any_scope_building = {
+						is_building_type = building_dubois_national_park
+						level > 0
+					}
+					trigger_if = {
+						limit = {
+							OR = {
+								dubois_europe_breeding_possible_trigger = yes
+								dubois_north_america_breeding_possible_trigger = yes
+								dubois_south_america_breeding_possible_trigger = yes
+								dubois_africa_breeding_possible_trigger = yes
+								dubois_asia_breeding_possible_trigger = yes
+								dubois_australia_breeding_possible_trigger = yes
+							}
+						}
+					}
+				}
+				save_scope_as = breeding_state_3_scope
+				change_variable = {
+					name = dubois_number_of_states_var
+					add = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1301.g #[breeding_state_1_scope]
+		default_option = yes
+		
+		set_variable = {
+			name = dubois_breeding_state_var
+			value = scope:breeding_state_1_scope
+		}
+
+		trigger_event = dubois.1302
+	}
+
+	option = {
+		name = dubois.1301.h #[breeding_state_2_scope]
+		trigger = {
+			var:dubois_number_of_states_var > 1
+		}
+
+		set_variable = {
+			name = dubois_breeding_state_var
+			value = scope:breeding_state_2_scope
+		}
+
+		trigger_event = dubois.1302
+	}
+
+	option = {
+		name = dubois.1301.i #[breeding_state_3_scope]
+		trigger = {
+			var:dubois_number_of_states_var > 2
+		}
+
+		set_variable = {
+			name = dubois_breeding_state_var
+			value = scope:breeding_state_3_scope
+		}
+
+		trigger_event = dubois.1302
+	}
+}
+
 
 #Dubois 1311: Hidden Event to calculate change for the animal population
 dubois.1311 = {
