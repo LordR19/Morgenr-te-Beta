@@ -70,6 +70,63 @@ je_dubois_safari = {
 	weight = 35
 }
 
+######ANIMAL BREEDING######
+
+je_animal_breeding = {	
+
+	on_weekly_pulse = {
+		random_events = {
+			5 = dubois.1311 #Dubois 1311: Hidden Event to calculate change for the animal population
+		}
+	}
+	
+	immediate = {
+		set_variable = {
+			name = dubois_breeding_animal_amount_var
+			value = 20
+		}
+	}
+	
+    fail = {
+		OR = {
+			custom_tooltip = {
+				text = je_ibex_gran_paradiso_extinct
+				var:dubois_breeding_animal_amount_var <= 1
+			}
+		}
+    }
+	
+	on_fail = {
+#		trigger_event = { id = italian_flavor_events.8 }
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_ibex_gran_paradiso_saved
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+	
+	on_complete = {
+#		trigger_event = { id = italian_flavor_events.9 }
+	}
+	
+	current_value = {
+		value = var:dubois_breeding_animal_amount_var
+	}
+
+	goal_add_value = {
+		value = 4000 #value you want the variable to reach
+	}
+	
+	progressbar = yes
+	
+    weight = 200
+    should_be_pinned_by_default = yes
+}
+
 ######SPECIMEN COLLECTION######
 
 je_dubois_specimen = {
