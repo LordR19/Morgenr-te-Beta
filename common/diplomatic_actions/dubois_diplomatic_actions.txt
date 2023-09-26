@@ -256,6 +256,95 @@ ask_for_zoo_animal = {
 	}
 }
 
+smuggle_zoo_animal = {
+	requires_approval = no
+	show_effect_in_tooltip = yes
+
+	unlocking_technologies = {
+		dubois_theory_of_evolution_tech
+	}
+
+	potential = {
+		NOT = { is_country_type = decentralized }
+		scope:target_country = {
+			NOT = { is_country_type = decentralized }
+		}
+		is_revolutionary = no
+		has_diplomatic_relevance = scope:target_country
+		is_player = yes
+		NOT = {
+			has_variable = dubois_smuggle_zoo_animal_var
+		}
+	}
+	
+	possible = {
+		dubois_has_active_naturalist = yes
+		OR = {
+			has_building = building_dubois_zoo
+			has_building = building_dubois_national_park
+		}
+		custom_tooltip = {
+			text = dubois_target_has_animal_tt
+			dubois_target_has_animal = yes
+		}
+		NOR = {
+			has_modifier = dubois_animal_smuggle_modifier
+			has_modifier = dubois_poacher_modifier
+		}
+	}
+
+	accept_effect = {
+		set_variable = dubois_smuggle_zoo_animal_var
+		add_treasury = -100000
+		ROOT = {
+			random_list = {
+				2 = {
+					modifier = {
+						if = {
+							limit = {
+								var:dubois_naturalist_var = {
+									var:dubois_naturalist_experience >= 100
+								}
+							}
+							add = 1
+						}
+					}
+					modifier = {
+						if = {
+							limit = {
+								var:dubois_naturalist_var = {
+									var:dubois_naturalist_experience >= 200
+								}
+							}
+							add = 1
+						}
+					}
+					modifier = {
+						if = {
+							limit = {
+								var:dubois_naturalist_var = {
+									var:dubois_naturalist_experience >= 300
+								}
+							}
+							add = 1
+						}
+					}
+					trigger_event = {
+						id = dubois.12 #Poachers succeed
+						popup = yes
+					}
+				}
+				2 = {
+					trigger_event = {
+						id = dubois.13 #Poachers failed
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
+
 paleontological_license = {
 	requires_approval = yes
 	show_effect_in_tooltip = yes
