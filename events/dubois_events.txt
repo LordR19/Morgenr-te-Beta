@@ -18926,7 +18926,7 @@ dubois.1301 = {
 				}
 			}
 			save_scope_as = breeding_state_1_scope
-			set_variable = {
+			set_variable = { #Used to display the amount of Options
 				name = dubois_number_of_states_var
 				value = 1
 			}
@@ -18975,7 +18975,7 @@ dubois.1301 = {
 					}
 				}
 				save_scope_as = breeding_state_2_scope
-				change_variable = {
+				change_variable = { #Used to display the amount of Options
 					name = dubois_number_of_states_var
 					add = 1
 				}
@@ -19028,7 +19028,7 @@ dubois.1301 = {
 					}
 				}
 				save_scope_as = breeding_state_3_scope
-				change_variable = {
+				change_variable = { #Used to display the amount of Options
 					name = dubois_number_of_states_var
 					add = 1
 				}
@@ -19040,12 +19040,15 @@ dubois.1301 = {
 		name = dubois.1301.g #[breeding_state_1_scope]
 		default_option = yes
 		
-		set_variable = {
+		set_variable = { #Sets the state as a variable to access it later.
 			name = dubois_breeding_state_var
 			value = scope:breeding_state_1_scope
 		}
 
-		trigger_event = dubois.1302
+		trigger_event = {
+			name = dubois.1302
+			popup = yes
+		}
 
 		remove_variable = dubois_number_of_states_var
 	}
@@ -19056,19 +19059,22 @@ dubois.1301 = {
 			var:dubois_number_of_states_var > 1
 		}
 
-		set_variable = {
+		set_variable = { #Sets the state as a variable to access it later.
 			name = dubois_breeding_state_var
 			value = scope:breeding_state_2_scope
 		}
 
-		trigger_event = dubois.1302
+		trigger_event = {
+			name = dubois.1302
+			popup = yes
+		}
 
 		remove_variable = dubois_number_of_states_var
 	}
 
 	option = {
 		name = dubois.1301.i #[breeding_state_3_scope]
-		trigger = {
+		trigger = { #Sets the state as a variable to access it later.
 			var:dubois_number_of_states_var > 2
 		}
 
@@ -19077,7 +19083,10 @@ dubois.1301 = {
 			value = scope:breeding_state_3_scope
 		}
 
-		trigger_event = dubois.1302
+		trigger_event = {
+			name = dubois.1302
+			popup = yes
+		}
 
 		remove_variable = dubois_number_of_states_var
 	}
@@ -19099,7 +19108,7 @@ dubois.1302 = {
 	desc = dubois.1302.d
 	flavor = dubois.1302.f
 
-	placement = root
+	placement = var:dubois_breeding_state_var
 
 	event_image = { 
 		texture = "gfx/event_pictures/dubois_pictures/dubois_natue_reserve_gran_paradiso.dds"
@@ -19119,40 +19128,214 @@ dubois.1302 = {
 	}
 
 	option = {
-		name = dubois.1301.g #Polar Bears
+		name = dubois.1302.polar #Polar Bears
 		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_modifier = dubois_polar_habitat_modifier
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_region = s:STATE_ICELAND
+					state_region = s:STATE_GREENLAND
+					state_region = s:STATE_NORTHERN_NORWAY
+					state_region = s:STATE_NENETSIA
+					state_region = s:STATE_OB
+					state_region = s:STATE_UPPER_YENISEYSK
+					state_region = s:STATE_YAKUTSK
+					state_region = s:STATE_CHUKOTKA
+					state_region = s:STATE_KAMCHATKA
+					state_region = s:STATE_ALASKA
+					state_region = s:STATE_YUKON_TERRITORY
+					state_region = s:STATE_NORTHWEST_TERRITORIES
+					state_region = s:STATE_NUNAVUT
+					state_region = s:STATE_MANITOBA
+					state_region = s:STATE_ONTARIO
+					state_region = s:STATE_QUEBEC
+					state_region = s:STATE_NEWFOUNDLAND
+				}
+			}
+			has_variable = dubois_zoo_animal_polar
+		}
 		
 		set_variable = dubois_breeding_polar_var
 
-		trigger_event = dubois.1302
+		add_journal_entry = {
+			type = je_animal_breeding
+			target = var:dubois_breeding_state_var
+		}
 	}
 
 	option = {
-		name = dubois.1301.h #[breeding_state_2_scope]
+		name = dubois.1302.grizzly #Grizzly Bears
+		default_option = yes
 		trigger = {
-			var:dubois_number_of_states_var > 1
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_modifier = dubois_grizzly_habitat_modifier
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_north_america = yes
+					region = sr:region_mexico
+				}
+			}
+			has_variable = dubois_zoo_animal_grizzly
 		}
+		
+		set_variable = dubois_breeding_grizzly_var
 
-		set_variable = {
-			name = dubois_breeding_state_var
-			value = scope:breeding_state_2_scope
+		add_journal_entry = {
+			type = je_animal_breeding
+			target = var:dubois_breeding_state_var
 		}
-
-		trigger_event = dubois.1302
 	}
 
 	option = {
-		name = dubois.1301.i #[breeding_state_3_scope]
+		name = dubois.1302.eagle #Bald Eagles
+		default_option = yes
 		trigger = {
-			var:dubois_number_of_states_var > 2
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_modifier = dubois_eagle_habitat_modifier
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_north_america = yes
+					region = sr:region_mexico
+				}
+			}
+			has_variable = dubois_zoo_animal_eagle
 		}
+		
+		set_variable = dubois_breeding_eagle_var
 
-		set_variable = {
-			name = dubois_breeding_state_var
-			value = scope:breeding_state_3_scope
+		add_journal_entry = {
+			type = je_animal_breeding
+			target = var:dubois_breeding_state_var
 		}
+	}
 
-		trigger_event = dubois.1302
+	option = {
+		name = dubois.1302.bison #American Bisons
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_modifier = dubois_bison_habitat_modifier
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_north_america = yes
+					region = sr:region_mexico
+				}
+			}
+			has_variable = dubois_zoo_animal_bison
+		}
+		
+		set_variable = dubois_breeding_bison_var
+
+		add_journal_entry = {
+			type = je_animal_breeding
+			target = var:dubois_breeding_state_var
+		}
+	}
+
+	option = {
+		name = dubois.1302.panther #Florida Panthers
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_modifier = dubois_panther_habitat_modifier
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_north_america = yes
+					region = sr:region_mexico
+				}
+			}
+			has_variable = dubois_zoo_animal_panther
+		}
+		
+		set_variable = dubois_breeding_panther_var
+
+		add_journal_entry = {
+			type = je_animal_breeding
+			target = var:dubois_breeding_state_var
+		}
+	}
+
+	option = {
+		name = dubois.1302.alligator #Alligators
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_modifier = dubois_alligator_habitat_modifier
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_north_america = yes
+					region = sr:region_mexico
+				}
+			}
+			has_variable = dubois_zoo_animal_alligator
+		}
+		
+		set_variable = dubois_breeding_alligator_var
+
+		add_journal_entry = {
+			type = je_animal_breeding
+			target = var:dubois_breeding_state_var
+		}
+	}
+
+	option = {
+		name = dubois.1302.axolotl #Axolotls
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_modifier = dubois_axolotl_habitat_modifier
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_north_america = yes
+					region = sr:region_mexico
+				}
+			}
+			has_variable = dubois_zoo_animal_axolotl
+		}
+		
+		set_variable = dubois_breeding_axolotl_var
+
+		add_journal_entry = {
+			type = je_animal_breeding
+			target = var:dubois_breeding_state_var
+		}
 	}
 
 	option = {
