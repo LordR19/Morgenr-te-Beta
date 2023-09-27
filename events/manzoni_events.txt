@@ -1,0 +1,72 @@
+﻿#####################
+# Manzoni EVENTS  #
+#####################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = manzoni
+
+###################
+
+# Manzoni 101: Sherlock Holmes published
+
+###################
+
+# Manzoni 101: Sherlock Holmes published
+manzoni.101 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.101.t
+	desc = manzoni.101.d
+	flavor = manzoni.101.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = manzoni_sherlock_holmes_global_var
+		}
+		year >= 1886
+		c:GBR ?= this
+	}
+
+	immediate = {
+		set_global_variable = manzoni_sherlock_holmes_global_var
+
+		create_character = {
+			template = manzoni_gbr_doyle_arthur_conan_template
+
+			save_scope_as = manzoni_writer_scope
+
+			on_created = {
+				scope:manzoni_writer_scope = {
+					place_character_in_void = 4
+				}
+			}
+		}
+
+		scope:manzoni_writer_scope = {
+			set_variable = manzoni_doyle_character_var
+		}
+	}
+
+	option = { #Elementary, my dear Watson.
+		name = manzoni.101.a
+		default_option = yes
+
+		add_modifier = {
+			name = manzoni_sherlock_holmes_modifier
+		}
+	}
+}
