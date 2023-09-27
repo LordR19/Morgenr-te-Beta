@@ -1842,35 +1842,815 @@ mr_fourth_excavation_team_button = {
 	}
 }
 
-#################################
 
-#Found an Archaeological Society
+###########################################################################
 
-mr_found_archaeological_society_button = {
-	name = "mr_found_archaeological_society_button"
-	desc = "mr_found_archaeological_society_button_desc"
+######THE ARTS######
 
-	visible = {
+###Monuments###
+
+mr_mozart_monument_button = {
+	name = "mr_mozart_monument_button"
+	desc = "mr_mozart_monument_button_desc"
+
+	visible = { 
+		any_scope_state = {
+			state_region = s:STATE_TYROL
+		}
+		is_player = yes
 		NOT = {
-			has_modifier = lepsius_archaeological_society_modifier
+			has_global_variable = elgar_mozart_monument_var
+		}
+	}
+
+	possible = {
+		is_at_war = no
+		any_scope_state = {
+			state_region = s:STATE_TYROL
+		}
+		has_technology_researched = romanticism
+		any_scope_building = {
+			is_building_type = building_elgar_opera
+			level >= 4
+		}
+				
+		custom_tooltip = {
+			text = elgar_mozart_monument_decision_tt
+			var:elgar_music_tradition >= 50
+		}
+	}
+
+	effect = {
+		trigger_event = { 
+			id = elgar.111
+			popup = yes
+		}
+		set_global_variable = elgar_mozart_monument_var		
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+mr_mozart_monument_ai_button = {
+	name = "mr_mozart_monument_button"
+	desc = "mr_mozart_monument_button_desc"
+
+	visible = { 
+		any_scope_state = {
+			state_region = s:STATE_TYROL
+		}
+		is_player = no
+		NOT = {
+			has_global_variable = elgar_mozart_monument_var
+		}
+	}
+
+	possible = {
+		is_at_war = no
+		any_scope_state = {
+			state_region = s:STATE_TYROL
+		}
+		has_technology_researched = romanticism
+		custom_tooltip = {
+			text = elgar_mozart_monument_decision_tt
+			var:elgar_music_tradition >= 50
+		}
+	}
+
+	effect = {
+		trigger_event = { 
+			id = elgar.111
+			popup = yes
+		}
+		set_global_variable = elgar_mozart_monument_var
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+mr_beethoven_monument_button = {
+	name = "mr_beethoven_monument_button"
+	desc = "mr_beethoven_monument_button_desc"
+
+	visible = { 
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		has_variable = elgar_beethoven_sponsor_var
+		NOT = {
+			has_global_variable = elgar_beethoven_monument_var
+		}
+	}
+
+	possible = {
+		is_at_war = no
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		has_technology_researched = elgar_irrationalism_tech
+		custom_tooltip = {
+			text = elgar_beethoven_monument_decision_tt
+			var:elgar_music_tradition >= 100
+		}
+	}
+
+	effect = {
+		trigger_event = { 
+			id = elgar.102
+			popup = yes
+		}
+		set_global_variable = elgar_beethoven_monument_var
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+###Composer###
+
+mr_romantic_composer_button = {
+	name = "mr_romantic_composer_button"
+	desc = "mr_composer_button_desc"
+
+	visible = { 
+		is_player = yes
+		country_rank <= rank_value:major_power
+		NOT = {
+			any_scope_character = {
+				has_trait = elgar_composer
+			}
+		}
+		NOT = {
+			has_variable = elgar_romantic_composer_var
+		}
+	}
+
+	possible = {
+		any_scope_character = {
+			is_ruler = no
+			has_trait = romantic
+			NOT = {
+				has_trait = elgar_composer
+			}
+		}
+		has_technology_researched = romanticism
+		custom_tooltip = {
+			text = elgar_romantic_composer_decision_tt
+			var:elgar_music_tradition >= 250
+		}
+	}
+
+	effect = {
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				has_trait = romantic
+			}
+			add_trait = elgar_composer
+		}
+		set_variable = elgar_romantic_composer_var
+		add_modifier = {
+			name = elgar_composer_cost_modifier
+			multiplier = money_amount_multiplier_medium
+			years = 15
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+mr_wagnerian_composer_button = {
+	name = "mr_wagnerian_composer_button"
+	desc = "mr_composer_button_desc"
+
+	visible = { 
+		is_player = yes
+		country_rank <= rank_value:major_power
+		has_variable = elgar_romantic_composer_var
+		NOT = {
+			any_scope_character = {
+				has_trait = elgar_composer
+			}
+		}
+		NOT = {
+			has_variable = elgar_wagnerian_composer_var
+		}
+		NOT = {
+			has_variable = elgar_romantic_composer_var
+		}
+	}
+
+	possible = {
+		any_scope_character = {
+			is_ruler = no
+			has_trait = ambitious
+			NOT = {
+				has_trait = elgar_composer
+			}
+		}
+		has_technology_researched = elgar_irrationalism_tech
+		custom_tooltip = {
+			text = elgar_wagnerian_composer_decision_tt
+			var:elgar_music_tradition >= 500
+		}
+	}
+
+	effect = {
+		random_scope_character = {
+			limit = {
+				is_ruler = no
+				has_trait = ambitious
+			}
+			add_trait = elgar_composer
+		}
+		set_variable = elgar_wagnerian_composer_var
+		add_modifier = {
+			name = elgar_composer_cost_modifier
+			multiplier = money_amount_multiplier_medium
+			years = 15
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+mr_modern_composer_button = {
+	name = "mr_modern_composer_button"
+	desc = "mr_composer_button_desc"
+
+	visible = { 
+		is_player = yes
+		country_rank <= rank_value:major_power
+		has_variable = elgar_wagnerian_composer_var
+		NOT = {
+			any_scope_character = {
+				has_trait = elgar_composer
+			}
+		}
+		NOT = {
+			has_variable = elgar_modern_composer_var
+		}
+	}
+
+	possible = {
+		any_scope_character = {
+			is_ruler = no
+			has_trait = innovative
+			NOT = {
+				has_trait = elgar_composer
+			}
+		}
+		OR = {
+			has_technology_researched = elgar_neoclassicism_tech
+			has_technology_researched = elgar_new_objectivity_tech
+			has_technology_researched = elgar_art_deco_tech
+		}
+		custom_tooltip = {
+			text = elgar_modern_composer_decision_tt
+			var:elgar_music_tradition >= 1000
+		}
+	}
+
+	effect = {
+		random_scope_character = {
+			limit = { 
+				is_ruler = no
+				has_trait = innovative
+			}
+			add_trait = elgar_composer
+		}
+		set_variable = elgar_modern_composer_var
+		add_modifier = {
+			name = elgar_composer_cost_modifier
+			multiplier = money_amount_multiplier_medium
+			years = 15
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
+###Conductor###
+
+mr_appoint_conductor_button = {
+	name = "mr_appoint_conductor_button"
+	desc = "mr_appoint_conductor_button_desc"
+
+	visible = { 
+		NOT = {
+			any_scope_character = {
+				has_modifier = elgar_conductor_modifier
+			}
+		}
+	}
+
+	possible = {
+		any_scope_character = {
+			has_trait = elgar_composer
+		}
+		any_scope_building = {
+			is_building_type = building_elgar_opera
+			level >= 5
+		}
+	}
+
+	effect = {
+		set_variable = elgar_appointing_conductor_var
+		set_variable = {
+            name = elgar_composer_progress
+            value = 0
+		}
+		trigger_event = { 
+			id = elgar.401 
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+###Allgemeiner Deutscher Musikverein###
+
+mr_musikverein_button = {
+	name = "mr_musikverein_button"
+	desc = "mr_musikverein_button_desc"
+
+	visible = { 
+		OR = {
+			country_has_primary_culture = cu:south_german
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:alemannic
+		}
+		NOT = {
+			has_global_variable = elgar_musikverein_var
+		}
+	}
+
+	possible = {
+		elgar_has_great_composer = yes
+		has_technology_researched = nationalism
+		has_technology_researched = elgar_irrationalism_tech
+		custom_tooltip = {
+			text = elgar_musikverein_decision_tt
+			var:elgar_music_tradition >= 250
+		}
+	}
+
+	effect = {
+		add_modifier = {
+			name = elgar_founded_musikverein_modifier
+		}
+		trigger_event = { 
+			id = elgar.121
+			popup = yes
+		}
+		set_global_variable = elgar_musikverein_var
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+###National and Historical Conservatories###
+
+mr_national_conservatory_button = {
+	name = "mr_national_conservatory_button"
+	desc = "mr_national_conservatory_button_desc"
+
+	visible = { 
+		elgar_has_conservatory = no
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_LAZIO
+			}
+		}
+		NAND = {
+			any_scope_state = {
+				state_region = s:STATE_SAXONY
+			}
+			exists = c:SAX
+			ROOT = c:SAX
+		}
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_INGRIA
+			}
+		}
+	}
+
+	possible = {
+		has_technology_researched = elgar_irrationalism_tech
+		any_scope_building = {
+			is_building_type = building_elgar_opera
+			level >= 5
+		}
+		any_scope_character = {
+			has_modifier = elgar_conductor_modifier
+		}
+		custom_tooltip = {
+			text = elgar_national_conservatory_decision_tt
+			var:elgar_music_tradition >= 500
+		}
+	}
+
+	effect = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = elgar_national_conservatory_modifier
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+mr_santa_cecilia_button = {
+	name = "mr_santa_cecilia_button"
+	desc = "mr_santa_cecilia_button_desc"
+
+	visible = { 
+		any_scope_state = {
+			state_region = s:STATE_LAZIO
+		}
+		c:PAP ?= this
+		NOT = {
+			any_state = {
+				has_modifier = elgar_rome_conservatory_modifier
+			}
+		}
+		NOT = {
+			any_scope_state = {
+				has_modifier = elgar_national_conservatory_modifier
+			}
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_LAZIO
+		}
+		custom_tooltip = {
+			text = elgar_santa_cecilia_decision_tt
+			var:elgar_music_tradition >= 100
+		}
+	}
+
+	effect = {
+		every_state = {
+			limit = {
+				state_region = s:STATE_LAZIO
+			}
+			add_modifier = {
+				name = elgar_rome_conservatory_modifier
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+mr_leipzig_conservatory_button = {
+	name = "mr_leipzig_conservatory_button"
+	desc = "mr_leipzig_conservatory_button_desc"
+
+	visible = { 
+		any_scope_state = {
+			state_region = s:STATE_SAXONY
+		}
+		c:SAX ?= this
+		NOT = {
+			any_state = {
+				has_modifier = elgar_leipzig_conservatory_modifier
+			}
+		}
+		NOT = {
+			any_scope_state = {
+				has_modifier = elgar_national_conservatory_modifier
+			}
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_SAXONY
+		}
+		any_scope_building = {
+			is_building_type = building_elgar_opera
+			level >= 2
+		}
+		custom_tooltip = {
+			text = elgar_leipzig_conservatory_decision_tt
+			var:elgar_music_tradition >= 250
+		}
+	}
+
+	effect = {
+		every_state = {
+			limit = {
+				state_region = s:STATE_SAXONY
+				owner = c:SAX
+			}
+			add_modifier = {
+				name = elgar_leipzig_conservatory_modifier
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+mr_petrograd_conservatory_button = {
+	name = "mr_petrograd_conservatory_button"
+	desc = "mr_petrograd_conservatory_button_desc"
+
+	visible = { 
+		any_scope_state = {
+			state_region = s:STATE_INGRIA
+		}
+		country_has_primary_culture = cu:russian
+		NOT = {
+			any_state = {
+				has_modifier = elgar_petrograd_conservatory_modifier
+			}
+		}
+		NOT = {
+			any_scope_state = {
+				has_modifier = elgar_national_conservatory_modifier
+			}
+		}
+		NOT = {
+			has_variable = elgar_music_decisions_hide
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_INGRIA
+		}
+		any_scope_building = {
+			is_building_type = building_elgar_opera
+			level >= 3
+		}
+		custom_tooltip = {
+			text = elgar_petrograd_conservatory_decision_tt
+			var:elgar_music_tradition >= 350
+		}
+	}
+
+	effect = {
+		every_state = {
+			limit = {
+				state_region = s:STATE_INGRIA
+			}
+			add_modifier = {
+				name = elgar_petrograd_conservatory_modifier
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+###Other special musical institutions###
+
+mr_bayreuth_button = {
+	name = "mr_bayreuth_button"
+	desc = "mr_bayreuth_button_desc"
+
+	visible = { 
+		NOT = {
+			has_global_variable = elgar_bayreuth_build_var
 		}
 	}
 
 	possible = {
 		any_scope_building = {
-			is_building_type = building_lepsius_archaeological_museum
+			is_building_type = building_elgar_opera
+			level >= 15
 		}
-		has_technology_researched = lepsius_early_archaeology_tech
-		lepsius_has_famous_archaeologist = yes
+		has_modifier = elgar_wagner_contract_modifier
+		custom_tooltip = {
+			text = elgar_bayreuth_decision_tt
+			var:elgar_music_tradition >= 500
+		}
 	}
 
 	effect = {
-		add_modifier = {
-			name = lepsius_archaeological_society_modifier
-		}		
+		trigger_event = {
+			id = elgar.1355
+			popup = yes
+		}
+		set_global_variable = elgar_bayreuth_build_var
+		set_variable = elgar_wagnerism_achievement
 	}
 
 	ai_chance = {
-		base = 100
+		base = 1000
+	}
+}
+
+mr_concertgebouw_button = {
+	name = "mr_concertgebouw_button"
+	desc = "mr_concertgebouw_button_desc"
+
+	visible = { 
+		any_scope_state = {
+			state_region = s:STATE_HOLLAND
+		}
+		OR = {
+			country_has_primary_culture = cu:wallonian
+			country_has_primary_culture = cu:flemish
+			country_has_primary_culture = cu:dutch
+		}
+		NOT = {
+			any_state = {
+				has_modifier = elgar_amsterdam_concertgebouw_modifier
+			}
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_HOLLAND
+		}
+		any_scope_building = {
+			is_building_type = building_elgar_opera
+			level >= 10
+		}
+		custom_tooltip = {
+			text = elgar_concertgebouw_decision_tt
+			var:elgar_music_tradition >= 750
+		}
+	}
+
+	effect = {
+		every_state = {
+			limit = {
+				state_region = s:STATE_HOLLAND
+			}
+			add_modifier = {
+				name = elgar_amsterdam_concertgebouw_modifier
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+mr_the_proms_button = {
+	name = "mr_the_proms_button"
+	desc = "mr_the_proms_button_desc"
+
+	visible = { 
+		any_scope_state = {
+			state_region = s:STATE_HOME_COUNTIES
+		}
+		c:GBR ?= this
+		NOT = {
+			any_state = {
+				has_modifier = elgar_london_proms_modifier
+			}
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_HOME_COUNTIES
+		}
+		any_scope_building = {
+			is_building_type = building_elgar_opera
+			level >= 20
+		}
+		custom_tooltip = {
+			text = elgar_the_proms_decision_tt
+			var:elgar_music_tradition >= 750
+		}
+	}
+
+	effect = {
+		every_state = {
+			limit = {
+				state_region = s:STATE_HOME_COUNTIES
+			}
+			add_modifier = {
+				name = elgar_london_proms_modifier
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+###National Broadcasting Channel###
+
+mr_nbc_button = {
+	name = "mr_nbc_button"
+	desc = "mr_nbc_button_desc"
+
+	visible = { 
+		NOT = {
+			has_variable = elgar_nbc_var
+		}
+	}
+
+	possible = {
+		has_technology_researched = radio
+		has_technology_researched = political_agitation
+		has_technology_researched = elgar_mass_culture_tech
+		any_scope_building = {
+			is_building_type = building_urban_center
+			has_active_production_method = pm_elgar_radio_stations
+		}
+		NOR = {
+			has_law = law_type:law_laissez_faire
+			has_law = law_type:law_anarchy
+		}
+	}
+
+	effect = {
+		set_variable = elgar_nbc_var
+		trigger_event = {
+			id = elgar.40
+			popup = yes
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+mr_nbc_license_button = {
+	name = "mr_nbc_license_button"
+	desc = "mr_nbc_button_desc"
+
+	visible = { 
+		has_technology_researched = radio
+		has_variable = elgar_nbc_var
+		NOR = {
+			has_modifier = elgar_nbc_news_modifier
+			has_modifier = elgar_nbc_education_modifier
+			has_modifier = elgar_nbc_government_modifier
+			has_modifier = elgar_nbc_monarch_modifier
+			has_modifier = elgar_nbc_propaganda_modifier
+		}
+		NOR = {
+			has_law = law_type:law_laissez_faire
+			has_law = law_type:law_anarchy
+		}
+		NOT = {
+			has_variable = elgar_nbc_decision_taken
+		}
+	}
+
+	possible = {
+		has_technology_researched = radio
+		has_technology_researched = political_agitation
+		has_technology_researched = elgar_mass_culture_tech
+		any_scope_building = {
+			is_building_type = building_urban_center
+			has_active_production_method = pm_elgar_radio_stations
+		}
+	}
+
+	effect = {
+		trigger_event = {
+			id = elgar.40
+			popup = yes
+		}
+		set_variable = elgar_nbc_decision_taken
+	}
+
+	ai_chance = {
+		base = 1000
 	}
 }
