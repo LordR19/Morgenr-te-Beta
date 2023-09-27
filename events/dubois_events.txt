@@ -18914,6 +18914,7 @@ dubois.1301 = {
 				trigger_if = {
 					limit = {
 						OR = {
+							dubois_polar_breeding_possible_trigger = yes
 							dubois_europe_breeding_possible_trigger = yes
 							dubois_north_america_breeding_possible_trigger = yes
 							dubois_south_america_breeding_possible_trigger = yes
@@ -18941,6 +18942,7 @@ dubois.1301 = {
 					trigger_if = {
 						limit = {
 							OR = {
+								dubois_polar_breeding_possible_trigger = yes
 								dubois_europe_breeding_possible_trigger = yes
 								dubois_north_america_breeding_possible_trigger = yes
 								dubois_south_america_breeding_possible_trigger = yes
@@ -18961,6 +18963,7 @@ dubois.1301 = {
 					trigger_if = {
 						limit = {
 							OR = {
+								dubois_polar_breeding_possible_trigger = yes
 								dubois_europe_breeding_possible_trigger = yes
 								dubois_north_america_breeding_possible_trigger = yes
 								dubois_south_america_breeding_possible_trigger = yes
@@ -18992,6 +18995,7 @@ dubois.1301 = {
 					trigger_if = {
 						limit = {
 							OR = {
+								dubois_polar_breeding_possible_trigger = yes
 								dubois_europe_breeding_possible_trigger = yes
 								dubois_north_america_breeding_possible_trigger = yes
 								dubois_south_america_breeding_possible_trigger = yes
@@ -19012,6 +19016,7 @@ dubois.1301 = {
 					trigger_if = {
 						limit = {
 							OR = {
+								dubois_polar_breeding_possible_trigger = yes
 								dubois_europe_breeding_possible_trigger = yes
 								dubois_north_america_breeding_possible_trigger = yes
 								dubois_south_america_breeding_possible_trigger = yes
@@ -19039,6 +19044,85 @@ dubois.1301 = {
 			name = dubois_breeding_state_var
 			value = scope:breeding_state_1_scope
 		}
+
+		trigger_event = dubois.1302
+
+		remove_variable = dubois_number_of_states_var
+	}
+
+	option = {
+		name = dubois.1301.h #[breeding_state_2_scope]
+		trigger = {
+			var:dubois_number_of_states_var > 1
+		}
+
+		set_variable = {
+			name = dubois_breeding_state_var
+			value = scope:breeding_state_2_scope
+		}
+
+		trigger_event = dubois.1302
+
+		remove_variable = dubois_number_of_states_var
+	}
+
+	option = {
+		name = dubois.1301.i #[breeding_state_3_scope]
+		trigger = {
+			var:dubois_number_of_states_var > 2
+		}
+
+		set_variable = {
+			name = dubois_breeding_state_var
+			value = scope:breeding_state_3_scope
+		}
+
+		trigger_event = dubois.1302
+
+		remove_variable = dubois_number_of_states_var
+	}
+
+	option = {
+		name = dubois.1301.i #Nevermind
+		
+		remove_variable = dubois_number_of_states_var
+		remove_variable = dubois_breeding_animals_var
+	}
+}
+
+#Dubois 1302: Choose an Exotic Animal to breed
+
+dubois.1302 = {
+	type = country_event
+
+	title = dubois.1302.t
+	desc = dubois.1302.d
+	flavor = dubois.1302.f
+
+	placement = root
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_natue_reserve_gran_paradiso.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+		#Triggered by Dubois 1301: Choose a Nature Reserve to breed Exotic Animals
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.1301.g #Polar Bears
+		default_option = yes
+		
+		set_variable = dubois_breeding_polar_var
 
 		trigger_event = dubois.1302
 	}
@@ -19070,8 +19154,13 @@ dubois.1301 = {
 
 		trigger_event = dubois.1302
 	}
-}
 
+	option = {
+		name = dubois.1301.i #Nevermind
+		
+		remove_variable = dubois_breeding_animals_var
+	}
+}
 
 #Dubois 1311: Hidden Event to calculate change for the animal population
 dubois.1311 = {
