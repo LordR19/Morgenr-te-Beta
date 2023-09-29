@@ -25,7 +25,7 @@ namespace = lepsius
 
 ###Museum###
 
-#Lepsius 10: Museum Foundation
+#Lepsius 10: Museum Inauguration
 #Lepsius 11: Museum Overview
 
 #Lepsius 12: Egyptian Collection
@@ -533,7 +533,59 @@ lepsius.6 = {
 
 #################################################################################
 
-#Lepsius 10: Found a Museum #REMOVED
+#Lepsius 10: Museum Inauguration
+
+lepsius.10 = {
+	type = country_event
+
+	title = lepsius.10.t
+
+	desc = lepsius.10.d
+
+	flavor = lepsius.10.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_interior.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		owner = {
+			set_variable = lepsius_museum_inauguration_happened
+		}
+		if = {
+			limit = { has_variable = lepsius_archaeologist_var }
+			var:lepsius_archaeologist_var = {
+				set_variable = lepsius_archaeologist_inaugurated_museum_var
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.10.g #Visit the new museum
+		default_option = yes
+		set_variable = lepsius_visiting_museum_var
+		hidden_effect = {
+			trigger_event = { 
+				id = lepsius.11
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.10.h #Have a nice day
+	}
+
+	after = {
+	}
+}
 
 #Lepsius 11: Museum Main Hall
 
