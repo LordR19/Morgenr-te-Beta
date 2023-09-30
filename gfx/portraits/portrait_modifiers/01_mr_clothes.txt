@@ -5414,4 +5414,56 @@ chinese_upper_clothes = {
            }
         }
     }
+
+    #Swiss Officers should were a Swiss like uniform
+    mr_swiss_military_clothes = {
+        dna_modifiers = {
+             accessory = {
+                mode = add
+                gene = coats
+                template = french_coats
+                range = { 0.6 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = european_legwear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = epaulettes
+                template = all_epaulettes
+                range = { 0.67 0.77 } # I only want male_epaulettes_04
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 10000
+                american_clothes_trigger = no
+                arabic_clothes_trigger = no
+                british_empire_clothes_trigger = no
+                french_empire_clothes_trigger = no
+                OR = {
+                    military_clothes_trigger = yes
+                    officers_clothes_pop_trigger = yes
+                    AND = {
+                        armed_forces_clothes_trigger = yes
+                        politician_clothes_trigger = yes
+                    }
+                }
+                scope:character = {
+                    AND = {
+                        exists = c:SWI
+						exists = home_country
+                        OR = {
+                            home_country = c:SWI
+                            was_formed_from = SWI
+                        } 
+                    }
+                }
+            }
+        }
+    }
 }
