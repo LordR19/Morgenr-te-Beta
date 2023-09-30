@@ -3000,6 +3000,123 @@ academics.1004 = {
 	}
 }
 
+#Academics 1005: Dr. [Anthropologist] requests funding
+academics.1005 = {
+	type = country_event
+
+	title = academics.1005.t
+
+	desc = academics.1005.d
+
+	flavor = academics.1005.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_anthropologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	cooldown = {
+		years = { 5 10 }
+	}
+
+	trigger = {
+		OR = {
+			has_variable = academics_promote_engineer_active
+			has_variable = academics_promote_astronomer_active
+			has_variable = academics_promote_naturalist_active
+			has_variable = academics_promote_paleontologist_active
+		}
+		has_variable = lepsius_anthropologist_var
+		NOR = {
+			has_modifier = academics_additional_funding_anthropologist_modifier
+			has_variable = academics_no_more_funding_petitions_var
+		}
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
+		set_variable = {
+			name = academics_no_more_funding_petitions_var
+			years = { 3 7 }
+		}
+	}
+
+	option = {
+		name = academics.1005.g
+
+		add_modifier = {
+			name = academics_additional_funding_anthropologist_modifier
+			years = 3
+		}
+	}
+
+	option = {
+		name = academics.1005.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_no_funding_anthropologist_modifier
+			years = 3
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = direct
+			}
+			factor = 2
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = arrogant
+			}
+			factor = 2
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = reckless
+			}
+			factor = 2
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = ambitious
+			}
+			factor = 2
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = reserved
+			}
+			factor = 0.1
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = tactful
+			}
+			factor = 0.5
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = cautious
+			}
+			factor = 0.5
+		}
+	}
+
+	after = {
+	}
+}
+
 #################################################################################
 
 ######MISSIONS######
