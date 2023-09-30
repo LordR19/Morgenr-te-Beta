@@ -25,7 +25,7 @@ namespace = lepsius
 
 ###Museum###
 
-#Lepsius 10: Museum Foundation
+#Lepsius 10: Museum Inauguration
 #Lepsius 11: Museum Overview
 
 #Lepsius 12: Egyptian Collection
@@ -533,7 +533,60 @@ lepsius.6 = {
 
 #################################################################################
 
-#Lepsius 10: Found a Museum #REMOVED
+#Lepsius 10: Museum Inauguration
+
+lepsius.10 = {
+	type = country_event
+
+	title = lepsius.10.t
+
+	desc = lepsius.10.d
+
+	flavor = lepsius.10.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_interior.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		owner = {
+			set_variable = lepsius_museum_inauguration_happened
+		}
+		if = {
+			limit = { has_variable = lepsius_archaeologist_var }
+			var:lepsius_archaeologist_var = {
+				set_variable = lepsius_archaeologist_inaugurated_museum_var
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.10.g #Visit the new museum
+		default_option = yes
+		set_variable = lepsius_visiting_museum_var
+		hidden_effect = {
+			trigger_event = { 
+				id = lepsius.11
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.10.h #Have a nice day
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
 
 #Lepsius 11: Museum Main Hall
 
@@ -682,125 +735,6 @@ lepsius.12 = {
 	immediate = {
 	}
 
-	#Arrange Small Exhibition
-	option = {
-		name = lepsius.12.g
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_small_egyptian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_egyptian_artifact_minor >= 10
-		}
-		set_variable = lepsius_small_egyptian_exhibition_var
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small 
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.22
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Medium Exhibition
-	option = {
-		name = lepsius.12.h
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_medium_egyptian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_egyptian_artifact_minor >= 25
-			has_modifier = lepsius_small_egyptian_exhibition_modifier
-		}
-		set_variable = lepsius_medium_egyptian_exhibition_var
-		remove_modifier = lepsius_small_egyptian_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.22
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Large Exhibition
-	option = {
-		name = lepsius.12.i
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_large_egyptian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_egyptian_artifact_minor >= 50
-			has_modifier = lepsius_medium_egyptian_exhibition_modifier
-		}
-		set_variable = lepsius_large_egyptian_exhibition_var
-		remove_modifier = lepsius_medium_egyptian_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.22
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Excellent Exhibition
-	option = {
-		name = lepsius.12.j
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_excellent_egyptian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_egyptian_artifact_minor >= 100
-			var:lepsius_egyptian_artifact_major >= 1
-			has_modifier = lepsius_large_egyptian_exhibition_modifier
-		}
-		set_variable = lepsius_excellent_egyptian_exhibition_var
-		remove_modifier = lepsius_large_egyptian_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.22
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
 	#Back to the Main Hall
 	option = {
 		name = lepsius.12.k
@@ -842,125 +776,6 @@ lepsius.13 = {
 	}
 
 	immediate = {
-	}
-
-	#Arrange Small Exhibition
-	option = {
-		name = lepsius.12.g
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_small_mesopotamian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_mesopotamian_artifact_minor >= 10
-		}
-		set_variable = lepsius_small_mesopotamian_exhibition_var
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.23
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Medium Exhibition
-	option = {
-		name = lepsius.12.h
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_medium_mesopotamian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_mesopotamian_artifact_minor >= 25
-			has_modifier = lepsius_small_mesopotamian_exhibition_modifier
-		}
-		set_variable = lepsius_medium_mesopotamian_exhibition_var
-		remove_modifier = lepsius_small_mesopotamian_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.23
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Large Exhibition
-	option = {
-		name = lepsius.12.i
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_large_mesopotamian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_mesopotamian_artifact_minor >= 50
-			has_modifier = lepsius_medium_mesopotamian_exhibition_modifier
-		}
-		set_variable = lepsius_large_mesopotamian_exhibition_var
-		remove_modifier = lepsius_medium_mesopotamian_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.23
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Excellent Exhibition
-	option = {
-		name = lepsius.12.j
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_excellent_mesopotamian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_mesopotamian_artifact_minor >= 100
-			var:lepsius_mesopotamian_artifact_major >= 1
-			has_modifier = lepsius_large_mesopotamian_exhibition_modifier
-		}
-		set_variable = lepsius_excellent_mesopotamian_exhibition_var
-		remove_modifier = lepsius_large_mesopotamian_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.23
-				days = { 160 200 }
-				popup = yes
-			}
-		}
 	}
 
 	#Back to the Main Hall
@@ -1006,125 +821,6 @@ lepsius.14 = {
 	immediate = {
 	}
 
-	#Arrange Small Exhibition
-	option = {
-		name = lepsius.12.g
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_small_aegean_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_aegean_artifact_minor >= 10
-		}
-		set_variable = lepsius_small_aegean_exhibition_var
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.24
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Medium Exhibition
-	option = {
-		name = lepsius.12.h
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_medium_aegean_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_aegean_artifact_minor >= 25
-			has_modifier = lepsius_small_aegean_exhibition_modifier
-		}
-		set_variable = lepsius_medium_aegean_exhibition_var
-		remove_modifier = lepsius_small_aegean_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.24
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Large Exhibition
-	option = {
-		name = lepsius.12.i
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_large_aegean_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_aegean_artifact_minor >= 50
-			has_modifier = lepsius_medium_aegean_exhibition_modifier
-		}
-		set_variable = lepsius_large_aegean_exhibition_var
-		remove_modifier = lepsius_medium_aegean_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.24
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Excellent Exhibition
-	option = {
-		name = lepsius.12.j
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_excellent_aegean_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_aegean_artifact_minor >= 100
-			var:lepsius_aegean_artifact_major >= 1
-			has_modifier = lepsius_large_aegean_exhibition_modifier
-		}
-		set_variable = lepsius_excellent_aegean_exhibition_var
-		remove_modifier = lepsius_large_aegean_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.24
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
 	#Back to the Main Hall
 	option = {
 		name = lepsius.12.k
@@ -1168,125 +864,6 @@ lepsius.15 = {
 	immediate = {
 	}
 
-	#Arrange Small Exhibition
-	option = {
-		name = lepsius.12.g
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_small_precolumbian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_precolumbian_artifact_minor >= 10
-		}
-		set_variable = lepsius_small_precolumbian_exhibition_var
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.25
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Medium Exhibition
-	option = {
-		name = lepsius.12.h
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_medium_precolumbian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_precolumbian_artifact_minor >= 25
-			has_modifier = lepsius_small_precolumbian_exhibition_modifier
-		}
-		set_variable = lepsius_medium_precolumbian_exhibition_var
-		remove_modifier = lepsius_small_precolumbian_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.25
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Large Exhibition
-	option = {
-		name = lepsius.12.i
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_large_precolumbian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_precolumbian_artifact_minor >= 50
-			has_modifier = lepsius_medium_precolumbian_exhibition_modifier
-		}
-		set_variable = lepsius_large_precolumbian_exhibition_var
-		remove_modifier = lepsius_medium_precolumbian_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.25
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
-	#Arrange Excellent Exhibition
-	option = {
-		name = lepsius.12.j
-		remove_variable = lepsius_visiting_museum_var
-		trigger = {
-			NOT = {
-				has_variable = lepsius_excellent_precolumbian_exhibition_var
-			}
-			NOT = {
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-			}
-			var:lepsius_precolumbian_artifact_minor >= 100
-			var:lepsius_precolumbian_artifact_major >= 1
-			has_modifier = lepsius_large_precolumbian_exhibition_modifier
-		}
-		set_variable = lepsius_excellent_precolumbian_exhibition_var
-		remove_modifier = lepsius_large_precolumbian_exhibition_modifier
-		add_modifier = {
-			name = lepsius_prepare_new_exhibition_modifier
-			multiplier = money_amount_multiplier_very_small
-			months = 12
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.25
-				days = { 160 200 }
-				popup = yes
-			}
-		}
-	}
-
 	#Back to the Main Hall
 	option = {
 		name = lepsius.12.k
@@ -1327,36 +904,6 @@ lepsius.16 = {
 
 	immediate = {
 		set_lepsius_archaeologist_scope_effect = yes
-	}
-
-	#Host a major archaeological congress
-	option = {
-		name = lepsius.16.g
-		trigger = {
-			NOR = {
-				var:lepsius_archaeologist_var = {
-					has_modifier = lepsius_attends_archaeological_congress_modifier
-				}
-				has_modifier = lepsius_archaeological_society_modifier
-				has_modifier = lepsius_had_archaeological_congress
-			}
-		}
-		default_option = yes
-		var:lepsius_archaeologist_var = {
-			add_modifier = {
-				name = lepsius_attends_archaeological_congress_modifier
-				days = 90
-			}
-			set_character_busy = yes
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.26
-				days = 90
-				popup = yes
-			}
-			remove_variable = lepsius_visiting_museum_var
-		}
 	}
 
 	#Back to the Main Hall
@@ -1640,455 +1187,15 @@ lepsius.18 = {
 	}
 }
 
-#Lepsius 22: Egyptian Exhibition
+#Lepsius 22: Egyptian Exhibition #REMOVED
 
-lepsius.22 = {
-	type = country_event
+#Lepsius 23: Mesopotamian Exhibition #REMOVED
 
-	title = lepsius.22.t
-	desc = lepsius.22.d
-	flavor = lepsius.22.f
+#Lepsius 24: Aegean Exhibition #REMOVED
 
-	duration = 3
+#Lepsius 25: Pre-Columbian Exhibition #REMOVED
 
-	event_image = {
-		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_egyptian_collection.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	trigger = {
-		#lepsius_museum_decision
-	}
-
-	immediate = {
-	}
-
-	#New Exhibition
-	option = {
-		name = lepsius.22.g
-		if = {
-			limit = {
-				has_variable = lepsius_small_egyptian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_small_egyptian_exhibition_modifier
-					has_variable = lepsius_medium_egyptian_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_small_egyptian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_medium_egyptian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_medium_egyptian_exhibition_modifier
-					has_variable = lepsius_large_egyptian_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_medium_egyptian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_large_egyptian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_large_egyptian_exhibition_modifier
-					has_variable = lepsius_excellent_egyptian_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_large_egyptian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excellent_egyptian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_excellent_egyptian_exhibition_modifier
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_excellent_egyptian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-	}
-}
-
-#Lepsius 23: Mesopotamian Exhibition
-
-lepsius.23 = {
-	type = country_event
-
-	title = lepsius.23.t
-	desc = lepsius.22.d
-	flavor = lepsius.22.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_mesopotamian_collection.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	trigger = {
-		#lepsius_museum_decision
-	}
-
-	immediate = {
-	}
-
-	#New Exhibition
-	option = {
-		name = lepsius.22.g
-		if = {
-			limit = {
-				has_variable = lepsius_small_mesopotamian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_small_mesopotamian_exhibition_modifier
-					has_variable = lepsius_medium_mesopotamian_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_small_mesopotamian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_medium_mesopotamian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_medium_mesopotamian_exhibition_modifier
-					has_variable = lepsius_large_mesopotamian_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_medium_mesopotamian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_large_mesopotamian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_large_mesopotamian_exhibition_modifier
-					has_variable = lepsius_excellent_mesopotamian_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_large_mesopotamian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excellent_mesopotamian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_excellent_mesopotamian_exhibition_modifier
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_excellent_mesopotamian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-	}
-}
-
-#Lepsius 24: Aegean Exhibition
-
-lepsius.24 = {
-	type = country_event
-
-	title = lepsius.24.t
-	desc = lepsius.22.d
-	flavor = lepsius.22.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_aegean_collection.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	trigger = {
-		#lepsius_museum_decision
-	}
-
-	immediate = {
-	}
-
-	#New Exhibition
-	option = {
-		name = lepsius.22.g
-		if = {
-			limit = {
-				has_variable = lepsius_small_aegean_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_small_aegean_exhibition_modifier
-					has_variable = lepsius_medium_aegean_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_small_aegean_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_medium_aegean_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_medium_aegean_exhibition_modifier
-					has_variable = lepsius_large_aegean_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_medium_aegean_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_large_aegean_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_large_aegean_exhibition_modifier
-					has_variable = lepsius_excellent_aegean_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_large_aegean_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excellent_aegean_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_excellent_aegean_exhibition_modifier
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_excellent_aegean_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-	}
-}
-
-#Lepsius 25: Pre-Columbian Exhibition
-
-lepsius.25 = {
-	type = country_event
-
-	title = lepsius.25.t
-	desc = lepsius.22.d
-	flavor = lepsius.22.f
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_precolumbian_collection.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	trigger = {
-		#lepsius_museum_decision
-	}
-
-	immediate = {
-	}
-
-	#New Exhibition
-	option = {
-		name = lepsius.22.g
-		if = {
-			limit = {
-				has_variable = lepsius_small_precolumbian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_small_precolumbian_exhibition_modifier
-					has_variable = lepsius_medium_precolumbian_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_small_precolumbian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_medium_precolumbian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_medium_precolumbian_exhibition_modifier
-					has_variable = lepsius_large_precolumbian_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_medium_precolumbian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_large_precolumbian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_large_precolumbian_exhibition_modifier
-					has_variable = lepsius_excellent_precolumbian_exhibition_var
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_large_precolumbian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-		if = {
-			limit = {
-				has_variable = lepsius_excellent_precolumbian_exhibition_var
-				has_modifier = lepsius_prepare_new_exhibition_modifier
-				NOT = {
-					has_modifier = lepsius_excellent_precolumbian_exhibition_modifier
-				}
-			}
-			remove_modifier = lepsius_prepare_new_exhibition_modifier
-			add_modifier = {
-				name = lepsius_excellent_precolumbian_exhibition_modifier
-			}
-			add_modifier = {
-				name = lepsius_new_exhibition_modifier
-				days = 120
-			}
-		}
-	}
-}
-
-#Lepsius 26: Archaeological Congress
-
-lepsius.26 = {
-	type = country_event
-
-	title = lepsius.26.t
-	desc = lepsius.26.d
-	flavor = lepsius.26.f
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:lepsius_archaeologist_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	immediate = {
-		set_lepsius_archaeologist_scope_effect = yes
-	}
-
-	#Always this argument about who has the finest leather jackets...
-	option = {
-		name = lepsius.26.g
-		custom_tooltip = lepsius_add_archaeological_experience_tt
-		add_modifier = {
-			name = lepsius_had_archaeological_congress
-			years = 10
-		}
-		archaeologist_experience_gain_effect = {
-			AMOUNT = "25"
-		}
-		scope:lepsius_archaeologist_scope = {
-			set_character_busy = no
-		}
-	}
-}
+#Lepsius 26: Archaeological Congress #REMOVED
 
 #Lepsius 27: World Cultures Exhibition
 
@@ -2233,6 +1340,10 @@ lepsius.50 = {
 			post_notification = lepsius_excavation_artifacts_notification
 		}
 	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
 }
 
 #################################################################################
@@ -2356,6 +1467,7 @@ lepsius.80 = {
 	}
 
 	after = {
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -2552,9 +1664,7 @@ lepsius.120 = {
 					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			if = {
+			else_if = {
 				limit = {
 					OR = {
 						scope:lepsius_archaeological_expedition_leader = {
@@ -2567,31 +1677,32 @@ lepsius.120 = {
 				}
 				trigger_event = { 
 					id = lepsius.140
-					days = { 21 28 }
+					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			if = {
+			else_if = {
 				limit = {
-					any_scope_building = {
-						is_building_type = building_university
-						level >= 25
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_university
+							level >= 15
+							production_method = pm_dubois_university_mathematics
+						}
 					}
-					literacy_rate >= 0.85
+					literacy_rate >= 0.75
 					has_technology_researched = lepsius_modern_archaeology_tech
 				}
 				trigger_event = { 
 					id = lepsius.150
-					days = { 35 42 }
+					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = lepsius.200
-				days = { 50 60 }
-				popup = yes
+			else = {
+				trigger_event = { 
+					id = lepsius.200
+					days = { 50 60 }
+					popup = yes
+				}
 			}
 		}
 	}
@@ -2628,6 +1739,51 @@ lepsius.130 = {
 	option = {
 		name = lepsius.140.b	
 	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						scope:lepsius_archaeological_expedition_leader = {
+							has_trait = lepsius_archaeologist_experienced
+						}
+						scope:lepsius_archaeological_expedition_leader = {
+							has_trait = lepsius_archaeologist_famous
+						}
+					}
+				}
+				trigger_event = { 
+					id = lepsius.140
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_university
+							level >= 15
+							production_method = pm_dubois_university_mathematics
+						}
+					}
+					literacy_rate >= 0.75
+					has_technology_researched = lepsius_modern_archaeology_tech
+				}
+				trigger_event = { 
+					id = lepsius.150
+					days = { 7 14 }
+				}
+			}
+			else = {
+				trigger_event = { 
+					id = lepsius.200
+					days = { 50 60 }
+					popup = yes
+				}
+			}
+		}
+	}
 }
 
 #Lepsius 140: Archaeologist recruits experienced scholars
@@ -2661,6 +1817,35 @@ lepsius.140 = {
 	option = {
 		name = lepsius.130.b	
 	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_university
+							level >= 15
+							production_method = pm_dubois_university_mathematics
+						}
+					}
+					literacy_rate >= 0.75
+					has_technology_researched = lepsius_modern_archaeology_tech
+				}
+				trigger_event = { 
+					id = lepsius.150
+					days = { 7 14 }
+				}
+			}
+			else = {
+				trigger_event = { 
+					id = lepsius.200
+					days = { 50 60 }
+					popup = yes
+				}
+			}
+		}
+	}
 }
 
 #Lepsius 150: Natural Scientists join the expedition
@@ -2693,6 +1878,16 @@ lepsius.150 = {
 	}
 	option = {
 		name = lepsius.150.b	
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = { 
+				id = lepsius.200
+				days = { 50 60 }
+				popup = yes
+			}
+		}
 	}
 }
 
@@ -3091,19 +2286,13 @@ lepsius.210 = {
 		default_option = yes
 		lepsius_expedition_success_large_add = yes	
 	}
-	option = { #We need more beasts of burden and porters (more events)
+	option = { #We need a guide who knows the secrets of the area (more special events)
 		name = lepsius.210.b
-		custom_tooltip = lepsius_expedition_speed_up_tt
-		set_variable = lepsius_speed_up_var
+		custom_tooltip = lepsius_expedition_mysterious_guide_tt
+		set_variable = lepsius_mysterious_guide_var
 	}
+
 	after = {
-		hidden_effect = {
-			trigger_event = { #Expedition starts
-				id = lepsius.300
-				days = { 30 40 }
-				popup = yes
-			}
-		}
 		hidden_effect = {
 			if = {
 				limit = {
@@ -3114,126 +2303,94 @@ lepsius.210 = {
 				}
 				trigger_event = { #Archaeologist buys artifacts
 					id = lepsius.220
-					days = { 3 27 }
+					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			if = {
+			else_if = {
 				limit = {
-					OR = {
-						scope:lepsius_archaeological_expedition_leader = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
 							has_trait = cautious
-						}
-						scope:lepsius_archaeological_expedition_leader = {
 							has_trait = romantic
 						}
 					}
 				}
 				trigger_event = { #Romantic writes diary
 					id = lepsius.230
-					days = { 3 27 }
+					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			if = {
+			else_if = {
 				limit = {
-					OR = {
-						scope:lepsius_archaeological_expedition_leader = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
 							has_trait = innovative
-						}
-						scope:lepsius_archaeological_expedition_leader = {
 							has_trait = meticulous
 						}
 					}
 				}
 				trigger_event = { #Innovative writes scientific paper
 					id = lepsius.240
-					days = { 3 27 }
+					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			if = {
+			else_if = {
 				limit = {
-					OR = {
-						scope:lepsius_archaeological_expedition_leader = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
 							has_trait = reckless
-						}
-						scope:lepsius_archaeological_expedition_leader = {
 							has_trait = wrathful
-						}
-						scope:lepsius_archaeological_expedition_leader = {
 							has_trait = cruel
 						}
 					}
 				}
 				trigger_event = { #Tavern fight
 					id = lepsius.250
-					days = { 8 12 }
+					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			if = {
+			else_if = {
 				limit = {
-					OR = {
-						scope:lepsius_archaeological_expedition_leader = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
 							has_trait = charismatic
-						}
-						scope:lepsius_archaeological_expedition_leader = {
 							has_trait = tactful
-						}
-						scope:lepsius_archaeological_expedition_leader = {
 							has_trait = brave
 						}
 					}
 				}
 				trigger_event = { #Appreciation
 					id = lepsius.260
-					days = { 8 12 }
+					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			if = {
+			else_if = {
 				limit = {
-					OR = {
-						scope:lepsius_archaeological_expedition_leader = {
-							has_trait = hedonist
-						}
+					scope:lepsius_archaeological_expedition_leader = {
+						has_trait = hedonist
 					}
 				}
 				trigger_event = { #Ice cream and Lemonade
 					id = lepsius.270
-					days = 25
+					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			if = {
+			else_if = {
 				limit = {
-					OR = {
-						scope:lepsius_archaeological_expedition_leader = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
 							has_trait = basic_diplomat
-						}
-						scope:lepsius_archaeological_expedition_leader = {
 							has_trait = experienced_diplomat
-						}
-						scope:lepsius_archaeological_expedition_leader = {
 							has_trait = masterful_diplomat
 						}
 					}
 				}
 				trigger_event = { #An audience
 					id = lepsius.280
-					days = { 10 20 }
+					days = { 7 14 }
 				}
 			}
-		}
-		hidden_effect = {
-			if = {
+			else_if = {
 				limit = {
 					scope:lepsius_military_attache = {
 						OR = {
@@ -3247,6 +2404,13 @@ lepsius.210 = {
 				trigger_event = { #Attaché 
 					id = lepsius.290
 					days = { 10 20 }
+				}
+			}
+			else = {
+				trigger_event = { #Expedition starts
+					id = lepsius.300
+					days = { 30 40 }
+					popup = yes
 				}
 			}
 		}
@@ -3325,6 +2489,118 @@ lepsius.220 = {
 			lepsius_add_5_minor_artifact = yes
 		}
 	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = cautious
+							has_trait = romantic
+						}
+					}
+				}
+				trigger_event = { #Romantic writes diary
+					id = lepsius.230
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = innovative
+							has_trait = meticulous
+						}
+					}
+				}
+				trigger_event = { #Innovative writes scientific paper
+					id = lepsius.240
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = reckless
+							has_trait = wrathful
+							has_trait = cruel
+						}
+					}
+				}
+				trigger_event = { #Tavern fight
+					id = lepsius.250
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = charismatic
+							has_trait = tactful
+							has_trait = brave
+						}
+					}
+				}
+				trigger_event = { #Appreciation
+					id = lepsius.260
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						has_trait = hedonist
+					}
+				}
+				trigger_event = { #Ice cream and Lemonade
+					id = lepsius.270
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = basic_diplomat
+							has_trait = experienced_diplomat
+							has_trait = masterful_diplomat
+						}
+					}
+				}
+				trigger_event = { #An audience
+					id = lepsius.280
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_military_attache = {
+						OR = {
+							has_trait = resupply_commander
+							has_trait = expert_artillery_commander
+							has_trait = expert_offensive_planner
+							has_trait = expert_defensive_strategist
+						}
+					}
+				}
+				trigger_event = { #Attaché 
+					id = lepsius.290
+					days = { 10 20 }
+				}
+			}
+			else = {
+				trigger_event = { #Expedition starts
+					id = lepsius.300
+					days = { 30 40 }
+					popup = yes
+				}
+			}
+		}
+	}
 }
 
 #Lepsius 230: Romantic writes diary
@@ -3380,6 +2656,104 @@ lepsius.230 = {
 			}
 		}
 	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = innovative
+							has_trait = meticulous
+						}
+					}
+				}
+				trigger_event = { #Innovative writes scientific paper
+					id = lepsius.240
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = reckless
+							has_trait = wrathful
+							has_trait = cruel
+						}
+					}
+				}
+				trigger_event = { #Tavern fight
+					id = lepsius.250
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = charismatic
+							has_trait = tactful
+							has_trait = brave
+						}
+					}
+				}
+				trigger_event = { #Appreciation
+					id = lepsius.260
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						has_trait = hedonist
+					}
+				}
+				trigger_event = { #Ice cream and Lemonade
+					id = lepsius.270
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = basic_diplomat
+							has_trait = experienced_diplomat
+							has_trait = masterful_diplomat
+						}
+					}
+				}
+				trigger_event = { #An audience
+					id = lepsius.280
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_military_attache = {
+						OR = {
+							has_trait = resupply_commander
+							has_trait = expert_artillery_commander
+							has_trait = expert_offensive_planner
+							has_trait = expert_defensive_strategist
+						}
+					}
+				}
+				trigger_event = { #Attaché 
+					id = lepsius.290
+					days = { 10 20 }
+				}
+			}
+			else = {
+				trigger_event = { #Expedition starts
+					id = lepsius.300
+					days = { 30 40 }
+					popup = yes
+				}
+			}
+		}
+	}
 }
 
 #Lepsius 240: Innovative writes scientific paper
@@ -3432,6 +2806,90 @@ lepsius.240 = {
 		scope:lepsius_archaeological_expedition_leader = {
 			add_modifier = {
 				name = lepsius_writing_a_scientific_paper_modifier
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = reckless
+							has_trait = wrathful
+							has_trait = cruel
+						}
+					}
+				}
+				trigger_event = { #Tavern fight
+					id = lepsius.250
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = charismatic
+							has_trait = tactful
+							has_trait = brave
+						}
+					}
+				}
+				trigger_event = { #Appreciation
+					id = lepsius.260
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						has_trait = hedonist
+					}
+				}
+				trigger_event = { #Ice cream and Lemonade
+					id = lepsius.270
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = basic_diplomat
+							has_trait = experienced_diplomat
+							has_trait = masterful_diplomat
+						}
+					}
+				}
+				trigger_event = { #An audience
+					id = lepsius.280
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_military_attache = {
+						OR = {
+							has_trait = resupply_commander
+							has_trait = expert_artillery_commander
+							has_trait = expert_offensive_planner
+							has_trait = expert_defensive_strategist
+						}
+					}
+				}
+				trigger_event = { #Attaché 
+					id = lepsius.290
+					days = { 10 20 }
+				}
+			}
+			else = {
+				trigger_event = { #Expedition starts
+					id = lepsius.300
+					days = { 30 40 }
+					popup = yes
+				}
 			}
 		}
 	}
@@ -3493,6 +2951,75 @@ lepsius.250 = {
 			}
 		}
 	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = charismatic
+							has_trait = tactful
+							has_trait = brave
+						}
+					}
+				}
+				trigger_event = { #Appreciation
+					id = lepsius.260
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						has_trait = hedonist
+					}
+				}
+				trigger_event = { #Ice cream and Lemonade
+					id = lepsius.270
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = basic_diplomat
+							has_trait = experienced_diplomat
+							has_trait = masterful_diplomat
+						}
+					}
+				}
+				trigger_event = { #An audience
+					id = lepsius.280
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_military_attache = {
+						OR = {
+							has_trait = resupply_commander
+							has_trait = expert_artillery_commander
+							has_trait = expert_offensive_planner
+							has_trait = expert_defensive_strategist
+						}
+					}
+				}
+				trigger_event = { #Attaché 
+					id = lepsius.290
+					days = { 10 20 }
+				}
+			}
+			else = {
+				trigger_event = { #Expedition starts
+					id = lepsius.300
+					days = { 30 40 }
+					popup = yes
+				}
+			}
+		}
+	}
 }
 
 #Lepsius 260: Appreciation
@@ -3550,6 +3077,60 @@ lepsius.260 = {
 			}
 		}
 	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						has_trait = hedonist
+					}
+				}
+				trigger_event = { #Ice cream and Lemonade
+					id = lepsius.270
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = basic_diplomat
+							has_trait = experienced_diplomat
+							has_trait = masterful_diplomat
+						}
+					}
+				}
+				trigger_event = { #An audience
+					id = lepsius.280
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_military_attache = {
+						OR = {
+							has_trait = resupply_commander
+							has_trait = expert_artillery_commander
+							has_trait = expert_offensive_planner
+							has_trait = expert_defensive_strategist
+						}
+					}
+				}
+				trigger_event = { #Attaché 
+					id = lepsius.290
+					days = { 10 20 }
+				}
+			}
+			else = {
+				trigger_event = { #Expedition starts
+					id = lepsius.300
+					days = { 30 40 }
+					popup = yes
+				}
+			}
+		}
+	}
 }
 
 #Lepsius 270: Ice cream and lemonade
@@ -3601,6 +3182,49 @@ lepsius.270 = {
 		add_modifier = {
 			name = lepsius_ice_cream_and_lemonade_modifier
 			days = 365
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:lepsius_archaeological_expedition_leader = {
+						OR = {
+							has_trait = basic_diplomat
+							has_trait = experienced_diplomat
+							has_trait = masterful_diplomat
+						}
+					}
+				}
+				trigger_event = { #An audience
+					id = lepsius.280
+					days = { 7 14 }
+				}
+			}
+			else_if = {
+				limit = {
+					scope:lepsius_military_attache = {
+						OR = {
+							has_trait = resupply_commander
+							has_trait = expert_artillery_commander
+							has_trait = expert_offensive_planner
+							has_trait = expert_defensive_strategist
+						}
+					}
+				}
+				trigger_event = { #Attaché 
+					id = lepsius.290
+					days = { 10 20 }
+				}
+			}
+			else = {
+				trigger_event = { #Expedition starts
+					id = lepsius.300
+					days = { 30 40 }
+					popup = yes
+				}
+			}
 		}
 	}
 }
@@ -3672,6 +3296,34 @@ lepsius.280 = {
 			lepsius_add_2_minor_artifact = yes
 		}
 	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:lepsius_military_attache = {
+						OR = {
+							has_trait = resupply_commander
+							has_trait = expert_artillery_commander
+							has_trait = expert_offensive_planner
+							has_trait = expert_defensive_strategist
+						}
+					}
+				}
+				trigger_event = { #Attaché 
+					id = lepsius.290
+					days = { 10 20 }
+				}
+			}
+			else = {
+				trigger_event = { #Expedition starts
+					id = lepsius.300
+					days = { 30 40 }
+					popup = yes
+				}
+			}
+		}
+	}
 }
 
 #Lepsius 290: Attaché hires guards
@@ -3722,6 +3374,16 @@ lepsius.290 = {
 		name = lepsius.290.g
 		set_variable = lepsius_expedition_guards_var
 		lepsius_expedition_success_medium_add = yes
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = { #Expedition starts
+				id = lepsius.300
+				days = { 30 40 }
+				popup = yes
+			}
+		}
 	}
 }
 
@@ -3795,9 +3457,6 @@ lepsius.300 = {
 		if = {
 			limit = {
 				lepsius_expedition_in_egypt = yes
-				NOT = {
-					has_variable = lepsius_speed_up_var
-				}
 			}
 			add_journal_entry = {
 				type = je_lepsius_archaeological_expedition_egypt
@@ -3805,19 +3464,7 @@ lepsius.300 = {
 		}
 		if = {
 			limit = {
-				lepsius_expedition_in_egypt = yes
-				has_variable = lepsius_speed_up_var
-			}
-			add_journal_entry = {
-				type = je_lepsius_archaeological_expedition_egypt_fast
-			}
-		}
-		if = {
-			limit = {
 				lepsius_expedition_in_mesopotamia = yes
-				NOT = {
-					has_variable = lepsius_speed_up_var
-				}
 			}
 			add_journal_entry = {
 				type = je_lepsius_archaeological_expedition_mesopotamia
@@ -3825,19 +3472,7 @@ lepsius.300 = {
 		}
 		if = {
 			limit = {
-				lepsius_expedition_in_mesopotamia = yes
-				has_variable = lepsius_speed_up_var
-			}
-			add_journal_entry = {
-				type = je_lepsius_archaeological_expedition_mesopotamia_fast
-			}
-		}
-		if = {
-			limit = {
 				lepsius_expedition_in_greece = yes
-				NOT = {
-					has_variable = lepsius_speed_up_var
-				}
 			}
 			add_journal_entry = {
 				type = je_lepsius_archaeological_expedition_greece
@@ -3845,31 +3480,10 @@ lepsius.300 = {
 		}
 		if = {
 			limit = {
-				lepsius_expedition_in_greece = yes
-				has_variable = lepsius_speed_up_var
-			}
-			add_journal_entry = {
-				type = je_lepsius_archaeological_expedition_greece_fast
-			}
-		}
-		if = {
-			limit = {
 				lepsius_expedition_in_south_america = yes
-				NOT = {
-					has_variable = lepsius_speed_up_var
-				}
 			}
 			add_journal_entry = {
 				type = je_lepsius_archaeological_expedition_south_america
-			}
-		}
-		if = {
-			limit = {
-				lepsius_expedition_in_south_america = yes
-				has_variable = lepsius_speed_up_var
-			}
-			add_journal_entry = {
-				type = je_lepsius_archaeological_expedition_south_america_fast
 			}
 		}
 	}
@@ -4188,7 +3802,7 @@ lepsius.310 = {
 	}
 
 	after = {
-		remove_variable = lepsius_speed_up_var
+		remove_variable = lepsius_mysterious_guide_var
 		remove_variable = lepsius_expedition_artists_var
 		remove_variable = lepsius_expedition_scholars_var
 		remove_variable = lepsius_expedition_scientists_var
@@ -4356,6 +3970,7 @@ lepsius.313 = {
 		
 	option = { #Welcome back
 		name = lepsius.313.g
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -4823,10 +4438,11 @@ lepsius.406 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 5
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_shipwreck_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -4856,10 +4472,6 @@ lepsius.406 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_shipwreck_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -4886,10 +4498,11 @@ lepsius.407 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 5
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = lepsius_oasis_cooldown_var #only once in an expedition
-		}
 	}
 
 	immediate = {
@@ -4903,10 +4516,6 @@ lepsius.407 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
-			set_variable = {
-				name = lepsius_oasis_cooldown_var	#only once in an expedition
-				years = 4
-			}
 		}
 	}
 }
@@ -5930,6 +5539,14 @@ lepsius.421 = {
 			lepsius_archaeological_expedition_progress = yes
 		}
 	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 2
+		}
+	}
 }
 
 #Lepsius 422: A Temple in the Sand (Egypt)
@@ -5981,6 +5598,14 @@ lepsius.422 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 30
 		}
 	}
 }
@@ -6054,6 +5679,14 @@ lepsius.423 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 30
 		}
 	}
 }
@@ -6148,6 +5781,14 @@ lepsius.425 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 30
 		}
 	}
 }
@@ -6292,6 +5933,14 @@ lepsius.428 = {
 			lepsius_archaeological_expedition_progress = yes
 		}
 	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 30
+		}
+	}
 }
 
 #Lepsius 429: Crystal skull (South America)
@@ -6357,6 +6006,14 @@ lepsius.429 = {
 			lepsius_archaeological_expedition_progress = yes
 		}
 		set_variable = lepsius_crystall_skull_var #only once in a game
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 5
+		}
 	}
 }
 
@@ -8072,6 +7729,14 @@ lepsius.461 = {
 			lepsius_archaeological_expedition_progress = yes
 		}
 	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 2
+		}
+	}
 }
 
 #Lepsius 462: Sphinx whispers in the night (Lower Egypt) [for attaché]
@@ -8128,6 +7793,14 @@ lepsius.462 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 2
 		}
 	}
 }
@@ -8187,6 +7860,14 @@ lepsius.463 = {
 			lepsius_archaeological_expedition_progress = yes
 		}
 	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 2
+		}
+	}
 }
 
 #Lepsius 464: Hunting with a Saluki (Mesopotamia) [attaché gets hunting dog]
@@ -8242,6 +7923,14 @@ lepsius.464 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 2
 		}
 	}
 }
@@ -8485,6 +8174,14 @@ lepsius.467 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 2
 		}
 	}
 }
@@ -8761,7 +8458,7 @@ lepsius.471 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	cooldown = { 
-		years = 4
+		years = 10
 	}
 
 	trigger = {
@@ -8802,6 +8499,14 @@ lepsius.471 = {
 	after = {
 		hidden_effect = {
 			lepsius_archaeological_expedition_progress = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 10
 		}
 	}
 }
@@ -8867,6 +8572,14 @@ lepsius.472 = {
 				days = 1095
 				popup = yes
 			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 5
 		}
 	}
 }
@@ -8944,6 +8657,14 @@ lepsius.473 = {
 			set_variable = lepsius_found_lidenbrock_diary_var #only once in a game
 		}
 	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 5
+		}
+	}
 }
 
 #Lepsius 474: Huchuy Qosqo (Peru)
@@ -8983,6 +8704,10 @@ lepsius.501 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 10
+	}
+
 	trigger = {
 		OR = {
 			has_modifier = lepsius_upper_egypt_expedition_modifier
@@ -8990,7 +8715,6 @@ lepsius.501 = {
 		}
 		NOT = {
 			has_variable = lepsius_narrative_sarcophagus_var #only once in a game
-			has_variable = lepsius_narrative_sarcophagus_cooldown_var #only every ten years
 			var:lepsius_archaeological_expedition_progress >= 4 #will only trigger in the beginning of an expedition
 		}
 	}
@@ -9002,10 +8726,6 @@ lepsius.501 = {
 	option = { #We don't have time for this.
 		name = lepsius.501.g
 		default_option = yes
-		set_variable = {
-			name = lepsius_narrative_sarcophagus_cooldown_var #only every ten years
-			years = 10
-		}
 		if = {
 			limit = {
 				lepsius_on_archaeological_expedition = yes
@@ -9032,6 +8752,14 @@ lepsius.501 = {
 				}
 				lepsius_archaeological_expedition_progress = yes
 			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 50
 		}
 	}
 }
@@ -9457,6 +9185,10 @@ lepsius.511 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 5
+	}
+
 	trigger = {
 		OR = {
 			has_modifier = lepsius_lower_egypt_expedition_modifier
@@ -9464,14 +9196,13 @@ lepsius.511 = {
 		}
 		NOT = {
 			has_variable = lepsius_narrative_pyramids_flag_var #only one flag in a game
-			has_variable = lepsius_narrative_pyramids_cooldown_var #only every five years
 			var:lepsius_archaeological_expedition_progress >= 4 #will only trigger in the beginning of an expedition
 		}
 	}
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
-			set_archaeological_expedition_leader_effect = yes
+		set_archaeological_expedition_leader_effect = yes
 	}
 	option = { #We don't have time vor this.
 		name = lepsius.511.g
@@ -9495,16 +9226,20 @@ lepsius.511 = {
 	}
 	after = {
 		hidden_effect = {
-			set_variable = {
-				name = lepsius_narrative_pyramids_cooldown_var #only every five years
-				years = 5
-			}
 			if = {
 				limit = {
 					lepsius_on_archaeological_expedition = yes
 				}
 				lepsius_archaeological_expedition_progress = yes
 			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 50
 		}
 	}
 }
@@ -10665,13 +10400,16 @@ lepsius.521 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 5
+	}
+
 	trigger = {
 		OR = {
 			has_modifier = lepsius_babylonia_expedition_modifier
 			has_modifier = lepsius_babylonia_excavation_modifier
 		}
 		NOT = {
-			has_variable = lepsius_narrative_ishtar_cooldown_var #only every five years
 			has_global_variable = lepsius_narrative_ishtar_build_var
 			var:lepsius_archaeological_expedition_progress >= 4 #will only trigger in the beginning of an expedition
 		}
@@ -10685,10 +10423,6 @@ lepsius.521 = {
 		name = lepsius.521.g
 		default_option = yes
 		lepsius_add_2_minor_artifact = yes
-		set_variable = {
-			name = lepsius_narrative_ishtar_cooldown_var #only every five years
-			years = 5
-		}
 		if = {
 			limit = {
 				lepsius_on_archaeological_expedition = yes
@@ -10726,6 +10460,14 @@ lepsius.521 = {
 				}
 				lepsius_archaeological_expedition_progress = yes
 			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 50
 		}
 	}
 }
@@ -11064,6 +10806,10 @@ lepsius.531 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 5
+	}
+
 	trigger = {
 		OR = {
 			has_modifier = lepsius_assyria_expedition_modifier
@@ -11071,7 +10817,6 @@ lepsius.531 = {
 		}
 		NOT = {
 			has_variable = lepsius_major_artifact_lamassu_found_var #only one Lamassu in a game
-			has_variable = lepsius_narrative_lamassu_cooldown_var #only every five years
 			var:lepsius_archaeological_expedition_progress >= 4 #will only trigger in the beginning of an expedition
 		}
 	}
@@ -11102,16 +10847,20 @@ lepsius.531 = {
 	}
 	after = {
 		hidden_effect = {
-			set_variable = {
-				name = lepsius_narrative_lamassu_cooldown_var #only every five years
-				years = 5
-			}
 			if = {
 				limit = {
 					lepsius_on_archaeological_expedition = yes
 				}
 				lepsius_archaeological_expedition_progress = yes
 			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 50
 		}
 	}
 }
@@ -12639,6 +12388,10 @@ lepsius.561 = {
 
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
+	cooldown = { 
+		years = 10
+	}
+
 	trigger = {
 		OR = {
 			has_modifier = lepsius_yucatan_expedition_modifier
@@ -12646,7 +12399,6 @@ lepsius.561 = {
 		}
 		NOT = {
 			has_variable = lepsius_narrative_riddle_var #only once in a game
-			has_variable = lepsius_narrative_riddle_cooldown_var #only every ten years
 			var:lepsius_archaeological_expedition_progress >= 4 #will only trigger in the beginning of an expedition
 		}
 	}
@@ -12658,10 +12410,6 @@ lepsius.561 = {
 	option = { #We don't have time vor this.
 		name = lepsius.561.g
 		default_option = yes
-		set_variable = {
-			name = lepsius_narrative_riddle_cooldown_var #only every ten years
-			years = 10
-		}
 		if = {
 			limit = {
 				lepsius_on_archaeological_expedition = yes
@@ -12688,6 +12436,14 @@ lepsius.561 = {
 				}
 				lepsius_archaeological_expedition_progress = yes
 			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 50
 		}
 	}
 }
@@ -13007,6 +12763,10 @@ lepsius.565 = {
 			}
 		}
 	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
 }
 
 #Lepsius 566: Notification Rival
@@ -13046,6 +12806,10 @@ lepsius.566 = {
 	}
 	option = { #No
 		name = lepsius.566.h
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -13625,6 +13389,7 @@ lepsius.589 = {
 			name = lepsius_supported_a_hero_modifier
 			years = 5
 		}
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -14749,6 +14514,8 @@ lepsius.706 = {
 		remove_variable = lepsius_smuggle_diskos_var
 		remove_variable = lepsius_smuggle_snake_var
 		remove_variable = lepsius_smuggle_pakal_var
+
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -14990,6 +14757,7 @@ lepsius.721 = {
 		name = lepsius.721.g
 		lepsius_add_1_major_mesopotamian_artifact = yes 
 		set_variable = lepsius_major_artifact_gilgamesh_found_var
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -15454,6 +15222,7 @@ lepsius.743 = {
 		custom_tooltip = lepsius_add_10_aegean_artifact_tt
 
 		lepsius_remove_new_archaeologist_effect = yes
+		lepsius_update_exhibition_effect = yes
 	}
 
 	option = { #The true treassure is Schliemann!
@@ -16422,6 +16191,7 @@ lepsius.901 = {
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "50"
 		}
+		lepsius_update_exhibition_effect = yes
 	}
 	after = {
 		hidden_effect = {
@@ -16506,6 +16276,7 @@ lepsius.911 = {
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "50"
 		}
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -16581,6 +16352,7 @@ lepsius.921 = {
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "50"
 		}
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -16656,6 +16428,7 @@ lepsius.931 = {
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "50"
 		}
+		lepsius_update_exhibition_effect = yes
 	}
 	after = {
 		hidden_effect = {
@@ -16740,6 +16513,7 @@ lepsius.941 = {
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "50"
 		}
+		lepsius_update_exhibition_effect = yes
 	}
 	after = {
 		hidden_effect = {
@@ -16826,6 +16600,7 @@ lepsius.961 = {
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "50"
 		}
+		lepsius_update_exhibition_effect = yes
 	}
 	after = {
 		hidden_effect = {
