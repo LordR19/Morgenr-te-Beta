@@ -15407,7 +15407,7 @@ mr_swe_andersson_johan_gunnar={
 	entity={ 0 0 }
 }
 
-mr_swi_dufour_guillhaume_henri={
+mr_swi_dufour_guillaume_henri={
 	type=male
 	id=0
 	age=0.425000
