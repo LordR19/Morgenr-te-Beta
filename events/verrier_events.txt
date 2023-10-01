@@ -13,7 +13,7 @@ namespace = verrier
 #Events
 
 #Verrier 1: Yearly astronomical report
-#Verrier 5: Found an Observatory
+#Verrier 5: Observatory Inauguration
 #Verrier 6: Remove Observatory
 
 #Neptun
@@ -265,47 +265,66 @@ verrier.1 = {
 	}
 }
 
-#Verrier 5: Found an Observatory
+#Verrier 5: Observatory Inauguration
 
-#verrier.5 = {
-#	type = country_event
-#
-#	title = verrier.5.t
-#	desc = verrier.5.d
-#	flavor = verrier.5.f
-#
-#	duration = 3
-#
-#	event_image = {
-#		video = "gfx/event_pictures/europenorthamerica_london_center.bk2"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-#
-#	immediate = {
-#		random_scope_state = {
-#			limit = {
-#				is_capital = yes
-#			}
-#			add_modifier = {
-#				name = verrier_observatory_foundation_modifier
-#			}
-#		}
-#	}
-#	option = {
-#		name = verrier.5.g
-#	}
-#
-#	after = {
-#		random_scope_state = {
-#			limit = {
-#				is_capital = yes
-#			}
-#			start_building_construction = building_verrier_observatory
-#		}
-#	}
-#}
+verrier.5 = {
+	type = country_event
+
+	title = verrier.5.t
+
+	desc = verrier.5.d
+
+	flavor = verrier.5.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1881.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		owner = {
+			set_variable = verrier_observatory_inauguration_happened
+		}
+		if = {
+			limit = { has_variable = verrier_astronomer_var }
+			var:verrier_astronomer_var = {
+				set_variable = verrier_astronomer_inaugurated_museum_var
+			}
+		}
+	}
+
+	option = {
+		name = verrier.5.g #Visit the new observatory
+		default_option = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = "5"
+		}
+		set_variable = verrier_visiting_observatory_var
+		hidden_effect = {
+			trigger_event = { 
+				id = verrier.100
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.10.h #Have a nice day
+		dubois_add_x_academy_progress = {
+			AMOUNT = "5"
+		}
+	}
+
+	after = {
+	}
+}
 
 #Verrier 6: Dissolve Observatory
 
