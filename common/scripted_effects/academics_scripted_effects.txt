@@ -657,6 +657,7 @@ create_new_engineer_effect = {
 				add_trait = engineer
 				set_variable = mr_is_engineer_var
 				engineer_experience_set_up_effect = yes
+				engineer_experience_set_up_new_effect =yes
 				place_character_in_void = 1200
 			}
 
@@ -725,9 +726,9 @@ engineer_experience_set_up_effect = {
 }
 
 
-# Used to set up the Experience of a character 
+# Used to set up the Experience of an engineer 
 engineer_experience_set_up_new_effect = {
-	if = {
+	if = { #First all 5 variables for each kind of engineer get set to 0
 		limit = {
 			NOT = {
 				has_variable = gaudi_civil_engineer_experience
@@ -782,45 +783,119 @@ engineer_experience_set_up_new_effect = {
 			value = 0
 		}
 	}
-	random_list = {
+	random_list = { #Here, a random focus is chosen for the engineer. Then the Experience and trait are set up for them.
 		1 = {
-			Set_variable = {
-				name = gaudi_civil_engineer_experience
-				value = academics_experience_set_up_engineer_value
-			}
-		}
-		1 = {
-			Set_variable = {
-				name = gaudi_mechanical_engineer_experience
-				value = academics_experience_set_up_engineer_value
-			}
-		}
-		1 = {
-			Set_variable = {
-				name = gaudi_military_engineer_experience
-				value = academics_experience_set_up_engineer_value
-			}
-		}
-		1 = {
-			Set_variable = {
-				name = gaudi_electrical_engineer_experience
-				value = academics_experience_set_up_engineer_value
-			}
-			trigger = {
-				has_technology_researched = electrical_generation
-			}
-		}
-		1 = {
-			Set_variable = {
-				name = gaudi_aeronautical_engineer_experience
-				value = academics_experience_set_up_engineer_value
-			}
-			trigger = {
-				OR = {
-					has_technology_researched = curtiss_early_aviation_tech
-					has_technology_researched = zeppelins
+			if = {
+				limit = {
+					age > 30
+				}
+				Set_variable = {
+					name = gaudi_civil_engineer_experience
+					value = age
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					subtract = 30
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					multiply = 10
 				}
 			}
+			add_trait = gaudi_civil_engineer
+		}
+		1 = {
+			if = {
+				limit = {
+					age > 30
+				}
+				Set_variable = {
+					name = gaudi_mechanical_engineer_experience
+					value = age
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					subtract = 30
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					multiply = 10
+				}
+			}
+			add_trait = gaudi_mechanical_engineer
+		}
+		1 = {
+			if = {
+				limit = {
+					age > 30
+				}
+				Set_variable = {
+					name = gaudi_military_engineer_experience
+					value = age
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					subtract = 30
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					multiply = 10
+				}
+			}
+			add_trait = gaudi_military_engineer
+		}
+		1 = {
+			trigger = {
+				owner = {
+					has_technology_researched = electrical_generation
+				}
+			}
+			if = {
+				limit = {
+					age > 30
+				}
+				Set_variable = {
+					name = gaudi_electrical_engineer_experience
+					value = age
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					subtract = 30
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					multiply = 10
+				}
+			}
+			add_trait = gaudi_electrical_engineer
+		}
+		1 = {
+			trigger = {
+				owner = {
+					OR = {
+						has_technology_researched = curtiss_early_aviation_tech
+						has_technology_researched = zeppelins
+					}
+				}
+			}
+			if = {
+				limit = {
+					age > 30
+				}
+				Set_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					value = age
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					subtract = 30
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					multiply = 10
+				}
+			}
+			add_trait = gaudi_aeronautical_engineer
 		}
 	}
 }
