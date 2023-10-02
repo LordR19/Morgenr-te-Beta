@@ -1784,17 +1784,28 @@ astronomer_experience_set_up_effect = {
 				has_variable = verrier_astronomer_experience
 			}
 		}
-		set_variable = {
-			name = verrier_astronomer_experience
-			value = age
+		if = {
+			limit = {
+				age > 30
+			}
+			set_variable = {
+				name = verrier_astronomer_experience
+				value = age
+			}
+			change_variable = {
+				name = verrier_astronomer_experience
+				subtract = 30
+			}
+			change_variable = {
+				name = verrier_astronomer_experience
+				multiply = 10
+			}
 		}
-		change_variable = {
-			name = verrier_astronomer_experience
-			subtract = 30
-		}
-		change_variable = {
-			name = verrier_astronomer_experience
-			multiply = 10
+		else = {
+			set_variable = {
+				name = verrier_astronomer_experience
+				value = 0
+			}
 		}
 		if = { #Adds the Experienced Astronomer Trait if Experience is above 100
 			limit = {
@@ -1810,7 +1821,7 @@ astronomer_experience_set_up_effect = {
 			remove_trait = verrier_astronomer
 			add_trait = verrier_astronomer_experienced
 		}
-		if = { #Adds the Famous Astronomer Trait if Experience is above 100
+		if = { #Adds the Famous Astronomer Trait if Experience is above 300
 			limit = {
 				var:verrier_astronomer_experience >= 300
 				NOT = {
