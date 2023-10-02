@@ -654,7 +654,6 @@ create_new_engineer_effect = {
 				add_trait = engineer
 				set_variable = mr_is_engineer_var
 				engineer_experience_set_up_effect = yes
-				engineer_experience_set_up_new_effect =yes
 				place_character_in_void = 1200
 			}
 
@@ -5009,17 +5008,26 @@ archaeologist_experience_set_up_effect = { #This effect needs to be placed in th
 				has_variable = lepsius_archaeologist_experience
 			}
 		}
-		set_variable = {
-			name = lepsius_archaeologist_experience
-			value = age
+		if = {
+			limit = { age > 30 }
+			set_variable = {
+				name = lepsius_archaeologist_experience
+				value = age
+			}
+			change_variable = {
+				name = lepsius_archaeologist_experience
+				subtract = 30
+			}
+			change_variable = {
+				name = lepsius_archaeologist_experience
+				multiply = 10
+			}
 		}
-		change_variable = {
-			name = lepsius_archaeologist_experience
-			subtract = 30
-		}
-		change_variable = {
-			name = lepsius_archaeologist_experience
-			multiply = 10
+		else = {
+			set_variable = {
+				name = lepsius_archaeologist_experience
+				value = 0
+			}
 		}
 		if = { #Adds the Experienced Archaeologist Trait if Experience is above 100
 			limit = {
