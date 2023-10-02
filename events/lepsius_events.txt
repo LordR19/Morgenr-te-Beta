@@ -16697,6 +16697,1086 @@ lepsius.962 = {
 
 #Lepsius 971: [Vilcabamba is a narrative Event]
 
+#################################################################################
+
+#######ARCHAEOLOGICAL CONGRESS#######
+
+#######HISTORICITY OF THE EXODUS######
+
+#Lepsius 1101: Exodus - Invitation
+
+lepsius.1101 = {
+	type = country_event
+
+	title = lepsius.1101.t
+	desc = lepsius.1101.d
+	flavor = lepsius.1101.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		set_global_variable = lepsius_exodus_yes
+		set_global_variable = lepsius_exodus_no
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1101.g # Invite the leading archaeological nations
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				OR = {
+					has_variable = lepsius_archaeologist_var
+					var:lepsius_total_artifacts >= 10
+				}
+			}
+			trigger_event = {
+				id = lepsius.1102
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:lepsius_egyptian_artifact_minor >= 30
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 250
+				}
+			}
+			set_variable = lepsius_congress_lauded_var
+		}
+		else_if = {
+			limit = {
+				var:lepsius_egyptian_artifact_minor >= 15
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 100
+				}
+			}
+			set_variable = lepsius_congress_respected_var
+		}
+		else = {
+			set_variable = lepsius_congress_laughed_var
+		}
+		trigger_event = {
+			id = lepsius.1103
+			days = { 7 14 }
+		}
+		trigger_event = {
+			id = lepsius.1109
+			days = 180
+		}
+	}
+}
+
+#Lepsius 1102: Exodus - An Invitation
+
+lepsius.1102 = {
+	type = country_event
+
+	title = lepsius.1101.t
+	desc = lepsius.1102.d
+	flavor = lepsius.1101.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1102.g #We'll come
+		add_modifier = {
+			name = lepsius_congress_attend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:lepsius_egyptian_artifact_minor >= 30
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 250
+				}
+			}
+			set_variable = lepsius_congress_lauded_var
+		}
+		else_if = {
+			limit = {
+				var:lepsius_egyptian_artifact_minor >= 15
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 100
+				}
+			}
+			set_variable = lepsius_congress_respected_var
+		}
+		else = {
+			set_variable = lepsius_congress_laughed_var
+		}
+		trigger_event = {
+			id = lepsius.1103
+			days = { 7 14 }
+		}
+	}
+}
+
+#Lepsius 1103: Exodus - Lauded, Respected, Laughed
+
+lepsius.1103 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_laughed_var
+			}
+			desc = lepsius.1103.t_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_respected_var
+			}
+			desc = lepsius.1103.t_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_lauded_var
+			}
+			desc = lepsius.1103.t_lauded
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_laughed_var
+			}
+			desc = lepsius.1103.d_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_respected_var
+			}
+			desc = lepsius.1103.d_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_lauded_var
+			}
+			desc = lepsius.1103.d_lauded
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_laughed_var
+			}
+			desc = lepsius.1103.f_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_respected_var
+			}
+			desc = lepsius.1103.f_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_lauded_var
+			}
+			desc = lepsius.1103.f_lauded
+		}
+	}
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1103.g #
+		trigger = {
+			has_variable = lepsius_congress_laughed_var
+		}
+		add_modifier = {
+			name = lepsius_laughed_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = lepsius.1103.h #
+		trigger = {
+			has_variable = lepsius_congress_respected_var
+		}
+		lepsius_small_add_technology = yes
+		add_modifier = {
+			name = lepsius_respected_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = lepsius.1103.i #
+		trigger = {
+			has_variable = lepsius_congress_lauded_var
+		}
+		default_option = yes
+		lepsius_medium_add_technology = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = "3"
+		}
+		add_modifier = {
+			name = lepsius_lauded_congress_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		remove_variable = lepsius_congress_laughed_var
+		remove_variable = lepsius_congress_respected_var
+		remove_variable = lepsius_congress_lauded_var
+		trigger_event = {
+			id = lepsius.1104
+			days = { 7 14 }
+		}
+	}
+}
+
+#Lepsius 1104: Exodus - Historical merit or invention?
+
+lepsius.1104 = {
+	type = country_event
+
+	title = lepsius.1104.t
+	desc = lepsius.1104.d
+	flavor = lepsius.1104.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_bible_defender_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+				var:lepsius_archaeologist_var = {
+					NOT = {
+						this = scope:lepsius_bible_defender_scope
+					}
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_bible_attacker_scope
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1104.g #The Bible has some historical value as secondary source
+		default_option = yes
+		if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+			change_global_variable = {
+				name = lepsius_exodus_yes
+				add = 3
+			}
+			custom_tooltip = lepsius_conference_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = lepsius_exodus_yes
+				add = 2
+			}
+			custom_tooltip = lepsius_conference_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = lepsius_exodus_yes
+				add = 1
+			}
+		}
+		add_modifier = {
+			name = lepsius_historical_critical_school_modifier
+			years = 20
+		}
+		ai_chance = {
+			base = 1
+			modifier = { #State Church or Freedom of Conscience
+				trigger = {
+					religion = {
+						has_discrimination_trait = christian
+					}
+					OR = {
+						has_law = law_type:law_state_religion
+						has_law = law_type:law_freedom_of_conscience
+					}
+				}
+				add = 1
+			}
+			modifier = { #Pious Archaeologist
+				trigger = {
+					OR = {
+						has_religion = rel:catholic
+						has_religion = rel:orthodox
+						has_religion = rel:oriental_orthodox
+						has_religion = rel:protestant
+						has_religion = rel:jewish
+					}
+					var:lepsius_archaeologist_var = {
+						has_trait = pious
+					}
+				}
+				add = 1
+			}
+			modifier = { #Powerful Clergy
+				trigger = {
+					ig:ig_devout = {
+						is_powerful = yes
+					}
+				}
+				add = 1
+			}
+			modifier = { #Humanities scholars tend to differentiate to the point where the thesis dissolves itself
+				trigger = {
+					has_technology_researched = lepsius_early_archaeology_tech
+				}
+				add = 1
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_egyptian_artifact_minor >= 15
+				}
+				add = 1
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_egyptian_artifact_minor >= 20
+				}
+				add = 1
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_egyptian_artifact_minor <= 25
+				}
+				add = 1
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1104.g #The Bible has no historical value at all
+		if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+			change_global_variable = {
+				name = lepsius_exodus_no
+				add = 3
+			}
+			custom_tooltip = lepsius_conference_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = lepsius_exodus_no
+				add = 2
+			}
+			custom_tooltip = lepsius_conference_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = lepsius_exodus_no
+				add = 1
+			}
+		}
+		add_modifier = {
+			name = lepsius_historical_materialistic_school_modifier
+			years = 20
+		}
+		every_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			convert_population = {
+				target = rel:atheist
+				value = 0.05
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #Total Seperation or Atheism
+				trigger = {
+					religion = {
+						has_discrimination_trait = christian
+					}
+					OR = {
+						has_law = law_type:law_total_separation
+						has_law = law_type:law_state_atheism
+					}
+				}
+				add = 1
+			}	
+			modifier = { #Atheist Archaeologist
+				trigger = {
+					var:lepsius_archaeologist_var = {
+						has_ideology = ideology_atheist
+					}
+				}
+				add = 1
+			}
+			modifier = { #Powerless Clergy
+				trigger = {
+					ig:ig_devout = {
+						is_marginal = yes
+					}
+				}
+				add = 1
+			}
+			modifier = { #Scientists sometimes tend to be a little too convinced of their theories when the system is confirmed all too often
+				trigger = {
+					has_technology_researched = dubois_theory_of_evolution_tech
+				}
+				add = 1
+			}
+			modifier = { #Too few artifacts: Dunning-Krueger
+				trigger = {
+					var:lepsius_egyptian_artifact_minor < 15
+				}
+				add = 2
+			}
+			modifier = { #Too many artifacts: Scepticist
+				trigger = {
+					var:lepsius_egyptian_artifact_minor > 40
+				}
+				add = 3
+			}
+		}
+	}
+
+	after = {
+		random_list = {
+			1 = {
+				trigger_event = {
+					id = lepsius.1105
+					days = { 14 21 }
+				}
+			}
+			1 = {
+				trigger_event = {
+					id = lepsius.1106
+					days = { 14 21 }
+				}
+			}
+			1 = {
+				trigger_event = {
+					id = lepsius.1107
+					days = { 14 21 }
+				}
+			}
+
+			1 = {
+				trigger_event = {
+					id = lepsius.1108
+					days = { 14 21 }
+				}
+			}
+		}
+	}
+}
+
+#Lepsius 1105: Exodus - Archaeologists among themselves
+
+lepsius.1105 = {
+	type = country_event
+
+	title = lepsius.1105.t
+	desc = lepsius.1105.d
+	flavor = lepsius.1105.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_foreign_archaeologist_scope
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1105.g #Another friend of archaeology!
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1106: Exodus - A Negotiator's Artifact
+
+lepsius.1106 = {
+	type = country_event
+
+	title = lepsius.1106.t
+	desc = lepsius.1106.d
+	flavor = lepsius.1106.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1106.g #Expensive but valuable.
+		default_option = yes
+		add_treasury = -50000
+		lepsius_add_egyptian_artifact = yes
+		lepsius_update_exhibition_effect = yes
+	}
+
+	option = { 
+		name = lepsius.1106.h #Not valuable enough.
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1107: Exodus - Friendly talk
+
+lepsius.1107 = {
+	type = country_event
+
+	title = lepsius.1107.t
+	desc = lepsius.1107.d
+	flavor = lepsius.1107.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = lepsius_foreign_archaeologist_country_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1107.g #Let's improve our relationships
+		default_option = yes
+		scope:lepsius_foreign_archaeologist_country_scope = {
+			change_relations = {
+				country = ROOT 
+				value = 15
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1107.g #Let's improve our reputation
+		change_infamy = -2
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1108: Exodus - An Assistant
+
+lepsius.1108 = {
+	type = country_event
+
+	title = lepsius.1108.t
+	desc = lepsius.1108.d
+	flavor = lepsius.1108.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1108.g #Hire him!
+		default_option = yes
+		add_treasury = -5000
+		dubois_add_x_academy_progress = {
+			AMOUNT = "5"
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1109: Exodus - Decision for Host
+
+lepsius.1109 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_merit
+			}
+			desc = lepsius.1109.t_merit
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_invention
+			}
+			desc = lepsius.1109.t_invention
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_merit
+			}
+			desc = lepsius.1109.d_merit
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_invention
+			}
+			desc = lepsius.1109.d_invention
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_merit
+			}
+			desc = lepsius.1109.f_merit
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_invention
+			}
+			desc = lepsius.1109.f_invention
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		if = {
+			limit = {
+				global_var:lepsius_exodus_yes > global_var:lepsius_exodus_no
+			}
+			set_global_variable = lepsius_exodus_merit
+		}
+		else_if = {
+			limit = {
+				global_var:lepsius_exodus_yes = global_var:lepsius_exodus_no
+			}
+			set_global_variable = lepsius_exodus_merit
+		}
+		else_if = {
+			limit = {
+				global_var:lepsius_exodus_yes < global_var:lepsius_exodus_no
+			}
+			set_global_variable = lepsius_exodus_invention
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_exodus_merit
+		}
+		name = lepsius.1109.g #You have to classify and interpret the texts correctly.
+		default_option = yes
+		lepsius_large_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_exodus_invention
+			OR = {
+				country_has_state_religion = rel:catholic
+				country_has_state_religion = rel:orthodox
+				country_has_state_religion = rel:oriental_orthodox
+				country_has_state_religion = rel:protestant
+				country_has_state_religion = rel:jewish
+			}
+		}
+		name = lepsius.1109.h #The Bible is a useless storybook.
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		every_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			convert_population = {
+				target = rel:atheist
+				value = 0.03
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_exodus_invention
+			NOR = {
+				country_has_state_religion = rel:catholic
+				country_has_state_religion = rel:orthodox
+				country_has_state_religion = rel:oriental_orthodox
+				country_has_state_religion = rel:protestant
+				country_has_state_religion = rel:jewish
+			}
+		}
+		name = lepsius.1109.i #We already knew this beforehand.
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		add_modifier = {
+			name = lepsius_the_bible_is_a_lie_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_modifier = lepsius_congress_attend_modifier
+			}
+			trigger_event = {
+				id = lepsius.1110
+				popup = yes
+			}
+		}
+		remove_global_variable = lepsius_exodus_yes
+		remove_global_variable = lepsius_exodus_no
+	}
+}
+
+#Lepsius 1110: Exodus - Decision for Others
+
+lepsius.1110 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_merit
+			}
+			desc = lepsius.1109.t_merit
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_invention
+			}
+			desc = lepsius.1109.t_invention
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_merit
+			}
+			desc = lepsius.1109.d_merit
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_invention
+			}
+			desc = lepsius.1109.d_invention
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_merit
+			}
+			desc = lepsius.1109.f_merit
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_invention
+			}
+			desc = lepsius.1109.f_invention
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_exodus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_exodus_merit
+		}
+		name = lepsius.1109.g #You have to classify and interpret the texts correctly.
+		default_option = yes
+		remove_modifier = lepsius_congress_attend_modifier
+		lepsius_large_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_exodus_invention
+			OR = {
+				country_has_state_religion = rel:catholic
+				country_has_state_religion = rel:orthodox
+				country_has_state_religion = rel:oriental_orthodox
+				country_has_state_religion = rel:protestant
+				country_has_state_religion = rel:jewish
+			}
+		}
+		name = lepsius.1109.h #The Bible is a useless storybook.
+		remove_modifier = lepsius_congress_attend_modifier
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		every_scope_state = {
+			limit = {
+				is_incorporated = yes
+			}
+			convert_population = {
+				target = rel:atheist
+				value = 0.03
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_exodus_invention
+			NOR = {
+				country_has_state_religion = rel:catholic
+				country_has_state_religion = rel:orthodox
+				country_has_state_religion = rel:oriental_orthodox
+				country_has_state_religion = rel:protestant
+				country_has_state_religion = rel:jewish
+			}
+		}
+		name = lepsius.1109.i #We already knew this beforehand.
+		remove_modifier = lepsius_congress_attend_modifier
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		add_modifier = {
+			name = lepsius_the_bible_is_a_lie_modifier
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}
 
 #################################################################################
 
