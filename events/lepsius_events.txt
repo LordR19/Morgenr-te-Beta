@@ -17805,6 +17805,1035 @@ lepsius.1110 = {
 	}
 }
 
+######THE RISE OF CIVILIZATION######
+
+#Lepsius 1111: Civilization - Invitation
+
+lepsius.1111 = {
+	type = country_event
+
+	title = lepsius.1111.t
+	desc = lepsius.1111.d
+	flavor = lepsius.1111.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		set_global_variable = lepsius_babylon_yes
+		set_global_variable = lepsius_babylon_no
+		var:lepsius_archaeologist_var = {
+			set_variable = lepsius_attended_civilization_congress_var
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1101.g # Invite the leading archaeological nations
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				OR = {
+					has_variable = lepsius_archaeologist_var
+					var:lepsius_total_artifacts >= 15
+				}
+			}
+			trigger_event = {
+				id = lepsius.1112
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:lepsius_mesopotamian_artifact_minor >= 30
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 250
+				}
+			}
+			set_variable = lepsius_congress_lauded_var
+		}
+		else_if = {
+			limit = {
+				var:lepsius_mesopotamian_artifact_minor >= 15
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 100
+				}
+			}
+			set_variable = lepsius_congress_respected_var
+		}
+		else = {
+			set_variable = lepsius_congress_laughed_var
+		}
+		trigger_event = {
+			id = lepsius.1113
+			days = { 7 14 }
+		}
+		trigger_event = {
+			id = lepsius.1119
+			days = 180
+		}
+	}
+}
+
+#Lepsius 1112: Civilization - An Invitation
+
+lepsius.1112 = {
+	type = country_event
+
+	title = lepsius.1111.t
+	desc = lepsius.1112.d
+	flavor = lepsius.1111.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			set_variable = lepsius_attended_civilization_congress_var
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1112.g #We'll come
+		add_modifier = {
+			name = lepsius_congress_attend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:lepsius_mesopotamian_artifact_minor >= 30
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 250
+				}
+			}
+			set_variable = lepsius_congress_lauded_var
+		}
+		else_if = {
+			limit = {
+				var:lepsius_mesopotamian_artifact_minor >= 15
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 100
+				}
+			}
+			set_variable = lepsius_congress_respected_var
+		}
+		else = {
+			set_variable = lepsius_congress_laughed_var
+		}
+		trigger_event = {
+			id = lepsius.1113
+			days = { 7 14 }
+		}
+	}
+}
+
+#Lepsius 1113: Civilization - Lauded, Respected, Laughed
+
+lepsius.1113 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_laughed_var
+			}
+			desc = lepsius.1103.t_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_respected_var
+			}
+			desc = lepsius.1103.t_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_lauded_var
+			}
+			desc = lepsius.1103.t_lauded
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_laughed_var
+			}
+			desc = lepsius.1113.d_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_respected_var
+			}
+			desc = lepsius.1113.d_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_lauded_var
+			}
+			desc = lepsius.1113.d_lauded
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_laughed_var
+			}
+			desc = lepsius.1103.f_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_respected_var
+			}
+			desc = lepsius.1103.f_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_lauded_var
+			}
+			desc = lepsius.1103.f_lauded
+		}
+	}
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1103.g #
+		trigger = {
+			has_variable = lepsius_congress_laughed_var
+		}
+		add_modifier = {
+			name = lepsius_laughed_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = lepsius.1103.h #
+		trigger = {
+			has_variable = lepsius_congress_respected_var
+		}
+		lepsius_small_add_technology = yes
+		add_modifier = {
+			name = lepsius_respected_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = lepsius.1103.i #
+		trigger = {
+			has_variable = lepsius_congress_lauded_var
+		}
+		default_option = yes
+		lepsius_medium_add_technology = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = "3"
+		}
+		add_modifier = {
+			name = lepsius_lauded_congress_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		remove_variable = lepsius_congress_laughed_var
+		remove_variable = lepsius_congress_respected_var
+		remove_variable = lepsius_congress_lauded_var
+		trigger_event = {
+			id = lepsius.1114
+			days = { 7 14 }
+		}
+	}
+}
+
+#Lepsius 1114: Civilization - Babylon or different roots?
+
+lepsius.1114 = {
+	type = country_event
+
+	title = lepsius.1114.t
+	desc = lepsius.1114.d
+	flavor = lepsius.1114.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_babylon_defender_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+				var:lepsius_archaeologist_var = {
+					NOT = {
+						this = scope:lepsius_babylon_defender_scope
+					}
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_babylon_attacker_scope
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1114.g #Babylon is the cradle of civilization.
+		default_option = yes
+		if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+			change_global_variable = {
+				name = lepsius_babylon_yes
+				add = 3
+			}
+			custom_tooltip = lepsius_conference_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = lepsius_babylon_yes
+				add = 2
+			}
+			custom_tooltip = lepsius_conference_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = lepsius_babylon_yes
+				add = 1
+			}
+		}
+		add_modifier = {
+			name = lepsius_panbabylonism_modifier
+			years = 25
+		}
+		ai_chance = {
+			base = 1
+			modifier = { #The decoder of Akkadian will be biased
+				trigger = {
+					has_modifier = lepsius_decipherment_akkadian_modifier
+				}
+				add = 5
+			}
+			modifier = { #The fascination with astronomy was important in the establishment of Panbabylonism
+				trigger = {
+					has_technology_researched = verrier_astronomy_tech
+					var:verrier_astronomical_objects >= 250
+					var:verrier_astronomical_objects < 500
+				}
+				add = 1
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_mesopotamian_artifact_minor >= 10
+				}
+				add = 1
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_mesopotamian_artifact_minor >= 20
+				}
+				add = 1
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_mesopotamian_artifact_minor >= 30
+				}
+				add = 1
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_mesopotamian_artifact_minor >= 40
+				}
+				add = 1
+			}
+			modifier = { #Countries with excavation will profit from this
+				trigger = {
+					has_modifier = lepsius_babylonia_excavation_modifier
+				}
+				add = 2
+			}
+			modifier = { #Countries with excavation will profit from this
+				trigger = {
+					has_modifier = lepsius_assyria_excavation_modifier
+				}
+				add = 2
+			}
+			modifier = { #Interested in Ishtar Gate
+				trigger = {
+					OR = {
+						has_modifier = lepsius_ishtar_gate_cost_modifier
+						has_modifier = lepsius_ishtar_gate_modifier
+					}
+				}
+				add = 3
+			}
+			modifier = { #Interested in Gilgamesh
+				trigger = {
+					var:lepsius_gilgamesh_pieces >= 1
+				}
+				add = 3
+			}
+			modifier = { #Major Mesopotamian Artifact
+				trigger = {
+					var:lepsius_mesopotamian_artifact_major >= 1
+				}
+				add = 3
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1114.h #Civilization arose in several places.
+		if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+			change_global_variable = {
+				name = lepsius_babylon_no
+				add = 3
+			}
+			custom_tooltip = lepsius_conference_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = lepsius_babylon_no
+				add = 2
+			}
+			custom_tooltip = lepsius_conference_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = lepsius_babylon_no
+				add = 1
+			}
+		}
+		add_modifier = {
+			name = lepsius_anti_panbabylonism_modifier
+			years = 25
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #The fascination with astronomy was important in refuting Panbabylonism
+				trigger = {
+					has_technology_researched = verrier_astronomy_tech
+					var:verrier_astronomical_objects >= 500
+				}
+				add = 2
+			}
+			modifier = { #More nuanced approach as archeology advances
+				trigger = {
+					has_technology_researched = lepsius_modern_archaeology_tech
+				}
+				add = 2
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_egyptian_artifact_minor >= 40
+				}
+				add = 4
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_precolumbian_artifact_minor >= 40
+				}
+				add = 4
+			}
+			modifier = { #Sweet spot for artifacts
+				trigger = {
+					var:lepsius_aegean_artifact_minor >= 40
+				}
+				add = 4
+			}
+		}
+	}
+
+	after = {
+		random_list = {
+			1 = {
+				trigger_event = {
+					id = lepsius.1115
+					days = { 14 21 }
+				}
+			}
+			1 = {
+				trigger_event = {
+					id = lepsius.1116
+					days = { 14 21 }
+				}
+			}
+			1 = {
+				trigger_event = {
+					id = lepsius.1117
+					days = { 14 21 }
+				}
+			}
+			1 = {
+				trigger_event = {
+					id = lepsius.1118
+					days = { 14 21 }
+				}
+			}
+		}
+	}
+}
+
+#Lepsius 1115: Civilization - Archaeologists among themselves
+
+lepsius.1115 = {
+	type = country_event
+
+	title = lepsius.1105.t
+	desc = lepsius.1105.d
+	flavor = lepsius.1105.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_foreign_archaeologist_scope
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1105.g #Another friend of archaeology!
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1116: Civilization - A Negotiator's Artifact
+
+lepsius.1116 = {
+	type = country_event
+
+	title = lepsius.1106.t
+	desc = lepsius.1106.d
+	flavor = lepsius.1106.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1106.g #Expensive but valuable.
+		default_option = yes
+		add_treasury = -75000
+		lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1 }
+		lepsius_update_exhibition_effect = yes
+	}
+
+	option = { 
+		name = lepsius.1106.h #Not valuable enough.
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1117: Civilization - Friendly talk
+
+lepsius.1117 = {
+	type = country_event
+
+	title = lepsius.1107.t
+	desc = lepsius.1107.d
+	flavor = lepsius.1107.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = lepsius_foreign_archaeologist_country_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1107.g #Let's improve our relationships
+		default_option = yes
+		scope:lepsius_foreign_archaeologist_country_scope = {
+			change_relations = {
+				country = ROOT 
+				value = 15
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1107.g #Let's improve our reputation
+		change_infamy = -2
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1118: Civilization - An Assistant
+
+lepsius.1118 = {
+	type = country_event
+
+	title = lepsius.1118.t
+	desc = lepsius.1118.d
+	flavor = lepsius.1118.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1108.g #Hire him!
+		default_option = yes
+		add_treasury = -10000
+		dubois_add_x_academy_progress = {
+			AMOUNT = "5"
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1119: Civilization - Decision for Host
+
+lepsius.1119 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_panbabylonism
+			}
+			desc = lepsius.1119.t_panbabylonism
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_antipanbabylonism
+			}
+			desc = lepsius.1119.t_antipanbabylonism
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_panbabylonism
+			}
+			desc = lepsius.1119.d_panbabylonism
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_antipanbabylonism
+			}
+			desc = lepsius.1119.d_antipanbabylonism
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_panbabylonism
+			}
+			desc = lepsius.1119.f_panbabylonism
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_antipanbabylonism
+			}
+			desc = lepsius.1119.f_antipanbabylonism
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		if = {
+			limit = {
+				global_var:lepsius_babylon_yes > global_var:lepsius_babylon_no
+			}
+			set_global_variable = lepsius_civilization_panbabylonism
+		}
+		else_if = {
+			limit = {
+				global_var:lepsius_babylon_yes = global_var:lepsius_babylon_no
+			}
+			set_global_variable = lepsius_civilization_antipanbabylonism
+		}
+		else_if = {
+			limit = {
+				global_var:lepsius_babylon_yes < global_var:lepsius_babylon_no
+			}
+			set_global_variable = lepsius_civilization_antipanbabylonism
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_civilization_panbabylonism
+		}
+		name = lepsius.1119.g #Mesopotamia is the cradle of Civilization
+		default_option = yes
+		lepsius_medium_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		every_country = {
+			limit = {
+				has_modifier = lepsius_panbabylonism_modifier
+			}
+			add_modifier = {
+				name = lepsius_established_panbabylonism_modifier
+				years = 10
+			}
+		}
+		every_country = {
+			limit = {
+				has_modifier = lepsius_anti_panbabylonism_modifier
+			}
+			add_modifier = {
+				name = lepsius_criticized_panbabylonism_modifier
+				years = 10
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_civilization_antipanbabylonism
+		}
+		name = lepsius.1119.h #There were several places where civilization arose independently.
+		lepsius_large_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_modifier = lepsius_congress_attend_modifier
+			}
+			trigger_event = {
+				id = lepsius.1120
+				popup = yes
+			}
+		}
+		remove_global_variable = lepsius_babylon_yes
+		remove_global_variable = lepsius_babylon_no
+	}
+}
+
+#Lepsius 1120: Civilization - Decision for Others
+
+lepsius.1120 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_panbabylonism
+			}
+			desc = lepsius.1119.t_panbabylonism
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_antipanbabylonism
+			}
+			desc = lepsius.1119.t_antipanbabylonism
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_panbabylonism
+			}
+			desc = lepsius.1119.d_panbabylonism
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_antipanbabylonism
+			}
+			desc = lepsius.1119.d_antipanbabylonism
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_panbabylonism
+			}
+			desc = lepsius.1119.f_panbabylonism
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_antipanbabylonism
+			}
+			desc = lepsius.1119.f_antipanbabylonism
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_civilization_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_civilization_panbabylonism
+		}
+		name = lepsius.1119.g #Mesopotamia is the cradle of Civilization
+		default_option = yes
+		remove_modifier = lepsius_congress_attend_modifier
+		lepsius_medium_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+		every_country = {
+			limit = {
+				has_modifier = lepsius_panbabylonism_modifier
+			}
+			add_modifier = {
+				name = lepsius_established_panbabylonism_modifier
+				years = 10
+			}
+		}
+		every_country = {
+			limit = {
+				has_modifier = lepsius_anti_panbabylonism_modifier
+			}
+			add_modifier = {
+				name = lepsius_criticized_panbabylonism_modifier
+				years = 10
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_civilization_antipanbabylonism
+		}
+		name = lepsius.1119.h #There were several places where civilization arose independently.
+		remove_modifier = lepsius_congress_attend_modifier
+		lepsius_large_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+	}
+
+	after = {
+	}
+}
+
 #################################################################################
 
 ######Historical Archaeologists######
