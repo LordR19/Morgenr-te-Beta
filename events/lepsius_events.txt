@@ -1343,6 +1343,20 @@ lepsius.50 = {
 		}
 		if = {
 			limit = {
+				has_modifier = lepsius_argolis_excavation_modifier #Argolis
+				has_modifier = lepsius_troy_homeric_modifier ##Gives +2 excavation artifacts each year
+			}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
+		}
+		if = {
+			limit = {
+				has_modifier = lepsius_crete_excavation_modifier #Crete
+				has_modifier = lepsius_troy_homeric_modifier ##Gives +2 excavation artifacts each year
+			}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
+		}
+		if = {
+			limit = {
 				has_modifier = lepsius_yucatan_excavation_modifier #Yucatán
 			}
 			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1}
@@ -17148,7 +17162,7 @@ lepsius.1104 = {
 		}
 		add_modifier = {
 			name = lepsius_historical_critical_school_modifier
-			years = 20
+			years = 25
 		}
 		ai_chance = {
 			base = 1
@@ -17248,7 +17262,7 @@ lepsius.1104 = {
 		}
 		add_modifier = {
 			name = lepsius_historical_materialistic_school_modifier
-			years = 20
+			years = 25
 		}
 		every_scope_state = {
 			limit = {
@@ -18573,9 +18587,9 @@ lepsius.1117 = {
 lepsius.1118 = {
 	type = country_event
 
-	title = lepsius.1118.t
-	desc = lepsius.1118.d
-	flavor = lepsius.1118.f
+	title = lepsius.1108.t
+	desc = lepsius.1108.d
+	flavor = lepsius.1108.f
 
 	duration = 3
 
@@ -18873,6 +18887,1174 @@ lepsius.1120 = {
 		lepsius_large_add_technology = yes
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "15"
+		}
+	}
+
+	after = {
+	}
+}
+
+######THE TROY DEBATE######
+
+#Lepsius 1211: Troy - Invitation
+
+lepsius.1211 = {
+	type = country_event
+
+	title = lepsius.1211.t
+	desc = lepsius.1211.d
+	flavor = lepsius.1211.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		set_global_variable = lepsius_troy_yes
+		set_global_variable = lepsius_troy_maybe
+		set_global_variable = lepsius_troy_no
+		var:lepsius_archaeologist_var = {
+			set_variable = lepsius_attended_troy_congress_var
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1201.g # Invite the leading archaeological nations
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				OR = {
+					has_variable = lepsius_archaeologist_var
+					var:lepsius_total_artifacts >= 25
+				}
+			}
+			trigger_event = {
+				id = lepsius.1212
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:lepsius_aegean_artifact_minor >= 30
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 250
+				}
+			}
+			set_variable = lepsius_congress_lauded_var
+		}
+		else_if = {
+			limit = {
+				var:lepsius_aegean_artifact_minor >= 15
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 100
+				}
+			}
+			set_variable = lepsius_congress_respected_var
+		}
+		else = {
+			set_variable = lepsius_congress_laughed_var
+		}
+		trigger_event = {
+			id = lepsius.1213
+			days = { 7 14 }
+		}
+		trigger_event = {
+			id = lepsius.1219
+			days = 180
+		}
+	}
+}
+
+#Lepsius 1212: Troy - An Invitation
+
+lepsius.1212 = {
+	type = country_event
+
+	title = lepsius.1211.t
+	desc = lepsius.1212.d
+	flavor = lepsius.1211.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			set_variable = lepsius_attended_troy_congress_var
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1212.g #We'll come
+		add_modifier = {
+			name = lepsius_congress_attend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:lepsius_aegean_artifact_minor >= 30
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 250
+				}
+			}
+			set_variable = lepsius_congress_lauded_var
+		}
+		else_if = {
+			limit = {
+				var:lepsius_aegean_artifact_minor >= 15
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 100
+				}
+			}
+			set_variable = lepsius_congress_respected_var
+		}
+		else = {
+			set_variable = lepsius_congress_laughed_var
+		}
+		trigger_event = {
+			id = lepsius.1213
+			days = { 7 14 }
+		}
+	}
+}
+
+#Lepsius 1213: Troy - Lauded, Respected, Laughed
+
+lepsius.1213 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_laughed_var
+			}
+			desc = lepsius.1103.t_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_respected_var
+			}
+			desc = lepsius.1103.t_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_lauded_var
+			}
+			desc = lepsius.1103.t_lauded
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_laughed_var
+			}
+			desc = lepsius.1213.d_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_respected_var
+			}
+			desc = lepsius.1213.d_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_lauded_var
+			}
+			desc = lepsius.1213.d_lauded
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_laughed_var
+			}
+			desc = lepsius.1103.f_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_respected_var
+			}
+			desc = lepsius.1103.f_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = lepsius_congress_lauded_var
+			}
+			desc = lepsius.1103.f_lauded
+		}
+	}
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1103.g #
+		trigger = {
+			has_variable = lepsius_congress_laughed_var
+		}
+		add_modifier = {
+			name = lepsius_laughed_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = lepsius.1103.h #
+		trigger = {
+			has_variable = lepsius_congress_respected_var
+		}
+		lepsius_small_add_technology = yes
+		add_modifier = {
+			name = lepsius_respected_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = lepsius.1103.i #
+		trigger = {
+			has_variable = lepsius_congress_lauded_var
+		}
+		default_option = yes
+		lepsius_medium_add_technology = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = "3"
+		}
+		add_modifier = {
+			name = lepsius_lauded_congress_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		remove_variable = lepsius_congress_laughed_var
+		remove_variable = lepsius_congress_respected_var
+		remove_variable = lepsius_congress_lauded_var
+		trigger_event = {
+			id = lepsius.1214
+			days = { 7 14 }
+		}
+	}
+}
+
+#Lepsius 1214: Troy - Did Schliemann really find Troy?
+
+lepsius.1214 = {
+	type = country_event
+
+	title = lepsius.1214.t
+	desc = lepsius.1214.d
+	flavor = lepsius.1214.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_troy_defender_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+				var:lepsius_archaeologist_var = {
+					NOT = {
+						this = scope:lepsius_troy_defender_scope
+					}
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_troy_attacker_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+				var:lepsius_archaeologist_var = {
+					NOT = {
+						this = scope:lepsius_troy_defender_scope
+					}
+					NOT = {
+						this = scope:lepsius_troy_attacker_scope
+					}
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_troy_mediator_scope
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1214.g #Schliemann did find Troy.
+		if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+			change_global_variable = {
+				name = lepsius_troy_yes
+				add = 3
+			}
+			custom_tooltip = lepsius_conference_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = lepsius_troy_yes
+				add = 2
+			}
+			custom_tooltip = lepsius_conference_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = lepsius_troy_yes
+				add = 1
+			}
+		}
+		add_modifier = {
+			name = lepsius_troy_homeric_modifier
+			years = 25
+		}
+		ai_chance = {
+			base = 1
+			modifier = { #Schliemann supporter will be biased
+				trigger = {
+					has_modifier = lepsius_support_schliemann_modifier
+				}
+				add = 5
+			}
+			modifier = { #Passionate Archaeologist
+				trigger = {
+					var:lepsius_archaeologist_var = {
+						OR = {
+							has_trait = romantic
+							has_trait = brave
+						}
+					}
+				}
+				add = 1
+			}
+			modifier = { #Has some evidence, but not too much
+				trigger = {
+					var:lepsius_aegean_artifact_minor >= 10
+					var:lepsius_aegean_artifact_minor < 25
+				}
+				add = 2
+			}
+			modifier = { #Countries with excavation will profit from this
+				trigger = {
+					has_modifier = lepsius_argolis_excavation_modifier
+				}
+				add = 2
+			}
+			modifier = { #Major Aegean Artifact
+				trigger = {
+					var:lepsius_aegean_artifact_major >= 1
+				}
+				add = 1
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1214.h #Schliemann did find "Troy", but the matter is more complicated.
+		default_option = yes
+		if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+			change_global_variable = {
+				name = lepsius_maybe
+				add = 3
+			}
+			custom_tooltip = lepsius_conference_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = lepsius_maybe
+				add = 2
+			}
+			custom_tooltip = lepsius_conference_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = lepsius_maybe
+				add = 1
+			}
+		}
+		add_modifier = {
+			name = lepsius_troy_historical_modifier
+			years = 25
+		}
+		ai_chance = {
+			base = 1
+			modifier = { #More nuanced approach as archeology advances
+				trigger = {
+					has_technology_researched = lepsius_modern_archaeology_tech
+				}
+				add = 1
+			}
+			modifier = { #Pensive Archaeologist
+				trigger = {
+					var:lepsius_archaeologist_var = {
+						OR = {
+							has_trait = meticulous
+							has_trait = erudite
+							has_trait = cautios
+						}
+					}
+				}
+				add = 1
+			}
+			modifier = { #Has so much evidence that they contradict each other
+				trigger = {
+					var:lepsius_aegean_artifact_minor >= 25
+				}
+				add = 2
+			}
+			modifier = { #Countries with excavation will profit from this
+				trigger = {
+					has_modifier = lepsius_argolis_excavation_modifier
+				}
+				add = 2
+			}
+			modifier = { #Major Aegean Artifact
+				trigger = {
+					var:lepsius_aegean_artifact_major >= 1
+				}
+				add = 1
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1214.i #There is no real evidence that this is really Troy.
+		if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_famous
+				}
+			}
+			change_global_variable = {
+				name = lepsius_troy_no
+				add = 3
+			}
+			custom_tooltip = lepsius_conference_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					has_trait = lepsius_archaeologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = lepsius_troy_no
+				add = 2
+			}
+			custom_tooltip = lepsius_conference_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = lepsius_troy_no
+				add = 1
+			}
+		}
+		add_modifier = {
+			name = lepsius_troy_myth_modifier
+			years = 25
+		}
+		ai_chance = {
+			base = 1
+			modifier = { #Aknowledged Archaeologists will refute Schliemann
+				trigger = {
+					var:lepsius_archaeologist_var = {
+						has_trait = lepsius_archaeologist_famous
+					}
+				}
+				add = 1
+			}
+			modifier = { #Sceptical Archaeologist
+				trigger = {
+					var:lepsius_archaeologist_var = {
+						OR = {
+							has_trait = reserved
+							has_trait = bigoted
+							has_trait = arrogant
+						}
+					}
+				}
+				add = 1
+			}
+			modifier = { #Has little evidence
+				trigger = {
+					var:lepsius_aegean_artifact_minor < 10
+				}
+				add = 2
+			}
+		}
+	}
+
+	after = {
+		random_list = {
+			1 = {
+				trigger_event = {
+					id = lepsius.1215
+					days = { 14 21 }
+				}
+			}
+			1 = {
+				trigger_event = {
+					id = lepsius.1216
+					days = { 14 21 }
+				}
+			}
+			1 = {
+				trigger_event = {
+					id = lepsius.1217
+					days = { 14 21 }
+				}
+			}
+			1 = {
+				trigger_event = {
+					id = lepsius.1218
+					days = { 14 21 }
+				}
+			}
+		}
+	}
+}
+
+#Lepsius 1215: Troy - Archaeologists among themselves
+
+lepsius.1215 = {
+	type = country_event
+
+	title = lepsius.1105.t
+	desc = lepsius.1105.d
+	flavor = lepsius.1105.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = lepsius_foreign_archaeologist_scope
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1105.g #Another friend of archaeology!
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1216: Troy - A Negotiator's Artifact
+
+lepsius.1216 = {
+	type = country_event
+
+	title = lepsius.1106.t
+	desc = lepsius.1106.d
+	flavor = lepsius.1106.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1106.g #Expensive but valuable.
+		default_option = yes
+		add_treasury = -100000
+		lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
+		lepsius_update_exhibition_effect = yes
+	}
+
+	option = { 
+		name = lepsius.1106.h #Not valuable enough.
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1217: Troy - Friendly talk
+
+lepsius.1217 = {
+	type = country_event
+
+	title = lepsius.1107.t
+	desc = lepsius.1107.d
+	flavor = lepsius.1107.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_archaeologist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			save_scope_as = lepsius_foreign_archaeologist_country_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1107.g #Let's improve our relationships
+		default_option = yes
+		scope:lepsius_foreign_archaeologist_country_scope = {
+			change_relations = {
+				country = ROOT 
+				value = 15
+			}
+		}
+	}
+
+	option = { 
+		name = lepsius.1107.g #Let's improve our reputation
+		change_infamy = -2
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1218: Troy - An Assistant
+
+lepsius.1218 = {
+	type = country_event
+
+	title = lepsius.1108.t
+	desc = lepsius.1108.d
+	flavor = lepsius.1108.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { 
+		name = lepsius.1108.g #Hire him!
+		default_option = yes
+		add_treasury = -10000
+		dubois_add_x_academy_progress = {
+			AMOUNT = "5"
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1219: Troy - Decision for Host
+
+lepsius.1219 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_homeric
+			}
+			desc = lepsius.1219.t_homeric
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_historical
+			}
+			desc = lepsius.1219.t_historical
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_myth
+			}
+			desc = lepsius.1219.t_myth
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_disputed
+			}
+			desc = lepsius.1219.t_disputed
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_homeric
+			}
+			desc = lepsius.1219.d_homeric
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_historical
+			}
+			desc = lepsius.1219.d_historical
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_myth
+			}
+			desc = lepsius.1219.d_myth
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_disputed
+			}
+			desc = lepsius.1219.d_disputed
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_homeric
+			}
+			desc = lepsius.1219.f_homeric
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_historical
+			}
+			desc = lepsius.1219.f_historical
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_myth
+			}
+			desc = lepsius.1219.f_myth
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_disputed
+			}
+			desc = lepsius.1219.f_disputed
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		if = {
+			limit = {
+				global_var:lepsius_troy_yes > global_var:lepsius_troy_maybe
+				global_var:lepsius_troy_yes > global_var:lepsius_troy_no
+			}
+			set_global_variable = lepsius_troy_homeric
+		}
+		else_if = {
+			limit = {
+				global_var:lepsius_troy_maybe >= global_var:lepsius_troy_yes
+				global_var:lepsius_troy_maybe >= global_var:lepsius_troy_no
+			}
+			set_global_variable = lepsius_troy_historical
+		}
+		else_if = {
+			limit = {
+				global_var:lepsius_troy_no > global_var:lepsius_troy_yes
+				global_var:lepsius_troy_no > global_var:lepsius_troy_maybe
+			}
+			set_global_variable = lepsius_troy_myth
+		}
+		else = {
+			set_global_variable = lepsius_troy_disputed
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_troy_homeric
+		}
+		name = lepsius.1219.g #So Schliemann actually found Troy!
+		lepsius_medium_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_troy_historical
+		}
+		name = lepsius.1219.h #Schliemann dug up the wrong Troy, but the location is correct.
+		default_option = yes
+		lepsius_large_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "25"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_troy_myth
+		}
+		name = lepsius.1219.i #Troy is most likely pure literature.
+		lepsius_small_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_troy_disputed
+		}
+		name = lepsius.1219.j #This entire congress was a complete waste of time!
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "5"
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_modifier = lepsius_congress_attend_modifier
+			}
+			trigger_event = {
+				id = lepsius.1220
+				popup = yes
+			}
+		}
+		remove_global_variable = lepsius_troy_yes
+		remove_global_variable = lepsius_troy_maybe
+		remove_global_variable = lepsius_troy_no
+	}
+}
+
+#Lepsius 1220: Troy - Decision for Others
+
+lepsius.1220 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_homeric
+			}
+			desc = lepsius.1219.t_homeric
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_historical
+			}
+			desc = lepsius.1219.t_historical
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_myth
+			}
+			desc = lepsius.1219.t_myth
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_disputed
+			}
+			desc = lepsius.1219.t_disputed
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_homeric
+			}
+			desc = lepsius.1219.d_homeric
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_historical
+			}
+			desc = lepsius.1219.d_historical
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_myth
+			}
+			desc = lepsius.1219.d_myth
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_disputed
+			}
+			desc = lepsius.1219.d_disputed
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_homeric
+			}
+			desc = lepsius.1219.f_homeric
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_historical
+			}
+			desc = lepsius.1219.f_historical
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_myth
+			}
+			desc = lepsius.1219.f_myth
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_disputed
+			}
+			desc = lepsius.1219.f_disputed
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_troy_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+			save_scope_as = lepsius_congress_host_country
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_troy_homeric
+		}
+		name = lepsius.1219.g #So Schliemann actually found Troy!
+		lepsius_medium_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "15"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_troy_historical
+		}
+		name = lepsius.1219.h #Schliemann dug up the wrong Troy, but the location is correct.
+		default_option = yes
+		lepsius_large_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "25"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_troy_myth
+		}
+		name = lepsius.1219.i #Troy is most likely pure literature.
+		lepsius_small_add_technology = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = lepsius_troy_disputed
+		}
+		name = lepsius.1219.j #This entire congress was a complete waste of time!
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "5"
 		}
 	}
 
