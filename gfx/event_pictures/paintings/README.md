@@ -1,0 +1,1 @@
+All of these paintings can be found here: https://en.wikipedia.org/wiki/Category:19th-century_paintings

@@ -1,0 +1,264 @@
+﻿namespace = mfe_industry_events
+
+mfe_industry_events.1 = {	#Rich industrialist Founds a railway company
+	type = country_event
+	placement = scope:railway_state
+	title = mfe_industry_events.1.t
+	desc = mfe_industry_events.1.d
+	flavor = mfe_industry_events.1.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rich_dude
+
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			NOT = { has_building = building_railway }
+			any_neighbouring_state = {
+				owner = ROOT
+				has_building = building_railway
+			}
+		}
+		exists = ig:ig_industrialists
+		ig:ig_industrialists = {
+			is_marginal = no
+		}
+		exists = ig:ig_intelligentsia
+		ig:ig_intelligentsia = {
+			is_marginal = no
+		}
+		has_technology_researched = railways
+		NOT = { has_variable = railway_company_showed_up }
+	}
+	cancellation_trigger = {
+		NOT = {
+			exists = scope:rich_dude
+		}
+	}
+	immediate = {
+		ig:ig_intelligentsia = {
+			save_scope_as = ig_intelligentsia
+		}
+		set_variable = railway_company_showed_up
+		ordered_scope_state = {
+			limit = {
+				is_incorporated = yes
+				NOT = { has_building = building_railway }
+				any_neighbouring_state = {
+					owner = ROOT
+					has_building = building_railway
+				}
+			}
+			order_by = state_population
+			max = 1
+			save_scope_as = railway_state
+		}
+		create_character = {
+			interest_group = ig_industrialists
+			ideology = ideology_market_liberal
+			save_scope_as = rich_dude
+		}
+		hidden_effect = {
+			scope:rich_dude = {
+				place_character_in_void = 24
+			}
+		}
+		save_scope_as = root_c
+	}
+	option = {	# Allow scope:rich_dude to do as he pleases
+		name = mfe_industry_events.1.a
+		trigger = {
+			exists = scope:rich_dude
+		}
+		default_option = yes
+		scope:railway_state = {
+			add_building_level_with_tooltip = {
+				BUILDING = "building_railway"
+				AMOUNT = "1"
+				TT = "add_1_rail_level_tt"
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = mfe_industry_events.2
+				days = 300
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = supported_railway_company_approval
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {	
+			add_modifier = {
+				name = supported_railway_company_disapproval
+				months = normal_modifier_time
+			}
+		}
+	}
+	option = {	# Block any further efforts
+		name = mfe_industry_events.1.b
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = supported_railway_company_disapproval
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {	
+			add_modifier = {
+				name = supported_railway_company_approval
+				months = normal_modifier_time
+			}
+		}
+	}
+	option = {	# Subsidize his efforts
+		name = mfe_industry_events.1.c
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = supported_railway_company_approval
+				months = normal_modifier_time
+			}
+		}
+		ig:ig_intelligentsia = {	
+			add_modifier = {
+				name = supported_railway_company_disapproval
+				months = normal_modifier_time
+			}
+		}
+		add_modifier = {
+			name = spent_money_on_rail_company
+			days = 365
+		}
+		scope:railway_state = {
+			add_building_level_with_tooltip = {
+				BUILDING = "building_railway"
+				AMOUNT = "2"
+				TT = "add_2_rail_level_tt"
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = mfe_industry_events.2
+				days = 300
+			}
+		}
+	}
+}
+
+mfe_industry_events.2 = { #Railway company is thriving
+    type = country_event
+    placement = scope:railway_state
+    title = mfe_industry_events.2.t
+    desc = mfe_industry_events.2.d
+    flavor = mfe_industry_events.2.f
+    
+    duration = 3
+
+    event_image = {
+        video = "gfx/event_pictures/unspecific_trains.bk2"
+    }
+
+    icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/unspecific/trains"
+
+    trigger = {
+    	exists = scope:railway_state
+    }
+    option = {	# This is great!
+        name = mfe_industry_events.2.a
+        default_option = yes
+        scope:railway_state = {
+        	add_modifier = {
+        		name = rail_company_state_mod
+        		months = 190
+        	}
+        	random_neighbouring_state = {
+        		limit = {
+        			owner = scope:root_c
+        			NOT = { has_building = building_railway }
+        		}
+    			add_building_level_with_tooltip = {
+    				BUILDING = "building_railway"
+    				AMOUNT = "1"
+    				TT = "add_1_rail_level_tt"
+    			}
+        	}
+        }
+        hidden_effect = {
+        	random = {
+        		chance = 33
+        		trigger_event = {
+        			id = mfe_industry_events.3
+        			days = 730
+        		}
+        	}
+        }
+    }
+}
+
+mfe_industry_events.3 = {	#Railway company in trouble
+    type = country_event
+    placement = scope:railway_state
+    title = mfe_industry_events.3.t
+    desc = mfe_industry_events.3.d
+    flavor = mfe_industry_events.3.f
+    
+    duration = 3
+
+    event_image = {
+    	video = "gfx/event_pictures/unspecific_signed_contract.bk2"
+    }
+
+    icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/unspecific/signed_contract"
+
+    trigger = {
+    	exists = scope:railway_state
+    }
+
+	immediate = {
+		ig:ig_intelligentsia = {
+			save_scope_as = ig_intelligentsia
+		}
+		ig:ig_industrialists = {
+			save_scope_as = ig_industrialists
+		}
+	}
+
+    option = {	# Subsidize the Rails!
+        name = mfe_industry_events.3.a
+        default_option = yes
+        custom_tooltip = subsidize_rail_state_tt
+		hidden_effect = {
+	        scope:railway_state.b:building_railway = {
+	        	set_subsidized = yes
+	        }
+        }
+        ig_approval_effect = {
+        	GROUP = "ig:ig_industrialists"
+        	MOD1 = supported_railway_company_approval
+        	MOD2 = supported_railway_company_disapproval
+        }
+    }
+    option = {	# They were the ones who wanted a free market...
+        name = mfe_industry_events.3.b
+        ig_approval_effect = {
+        	GROUP = "ig:ig_industrialists"
+        	MOD1 = supported_railway_company_disapproval
+        	MOD2 = supported_railway_company_approval
+        }
+    }
+}
