@@ -890,12 +890,48 @@ MFE_trade_good_events.11 = {
 	option = {
 		name = MFE_trade_good_events.11.a
 		default_option = yes
-
+		scope:ship_state = {
+			add_modifier = {
+				name = MFE_manowar_war_mod
+				months = normal_modifier_time
+			}
+		}
 	}
 
 	option = {
 		name = MFE_trade_good_events.11.b
-		
+		trigger = {
+			any_scope_state = {
+				OR = {
+					is_production_method_active = {
+						building_type = building_wheat_farm
+						production_method = pm_vineyards
+					}
+					is_production_method_active = {
+						building_type = building_maize_farm
+						production_method = pm_vineyards_building_maize_farm
+					}
+				}
+			}
+		}
+		every_scope_state = {
+			limit = {
+				OR = {
+					is_production_method_active = {
+						building_type = building_wheat_farm
+						production_method = pm_vineyards
+					}
+					is_production_method_active = {
+						building_type = building_maize_farm
+						production_method = pm_vineyards_building_maize_farm
+					}
+				}
+			}
+			add_modifier = {
+				name = MFE_champagne_for_ships
+				months = normal_modifier_time
+			}
+		}
 	}
 }
 
