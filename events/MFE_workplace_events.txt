@@ -1,0 +1,1698 @@
+﻿namespace = MFE_workplace_events
+
+# Based on https://github.com/Historical-Expansion-Mod/Greater-Flavor-Mod/blob/master/GFM/events/WorkPlaceEvents.txt
+
+# Mine accident - has level 5 coal mine and does not have law_worker_protections
+
+MFE_workplace_events.1 = {
+	type = country_event
+	placement = scope:mine_state
+	title = MFE_workplace_events.1.t
+	desc = MFE_workplace_events.1.d
+	flavor = MFE_workplace_events.1.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_child_labor.bk2"
+	}
+
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/child_labor"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_coal_mine level >= 5"
+			K = "2"
+		}
+		NOT = { has_law = law_type:law_worker_protections }
+		NOT = { has_variable = had_recent_mining_accident }
+	}
+
+	immediate = {
+		set_variable = {
+		    name = had_recent_mining_accident
+		    days = medium_cooldown
+		}
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					K = "2"
+					T = "is_building_type = building_coal_mine level >= 5"
+				}
+			}
+			save_scope_as = mine_state
+		}
+	}
+
+	option = {  # This is a small price to pay for the march of industry.
+		name = MFE_workplace_events.1.a
+		default_option = yes
+		scope:mine_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = medium_radicals
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {  # This outrageous abuse of the common man cannot continue!
+		name = MFE_workplace_events.1.b
+		scope:mine_state = {
+			add_radicals_in_state = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {  # We should have never started mining to begin with
+		name = MFE_workplace_events.1.c
+		scope:mine_state = {
+			add_radicals_in_state = {
+				strata = middle
+				value = medium_radicals
+			}
+		}
+		ig:ig_rural_folk = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+#The Girl in The Coal Mine - has level 5 coal mine, no law_worker_protections, law_women_in_the_workplace or law_womens_suffrage, and law_child_labor_allowed
+
+MFE_workplace_events.2 = {
+	type = country_event
+	placement = scope:mining_state
+	title = MFE_workplace_events.2.t
+	desc = MFE_workplace_events.2.d
+	flavor = MFE_workplace_events.2.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_child_labor.bk2"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/child_labor"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+		NOR = {
+			has_law = law_type:law_worker_protections
+			has_law = law_type:law_women_in_the_workplace
+			has_law = law_type:law_womens_suffrage
+		}
+		has_law = law_type:law_child_labor_allowed
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_coal_mine level >= 5"
+			K = "2"
+		}
+		NOT = { has_variable = girl_in_mine_happened }
+	}
+
+	immediate = {
+		set_variable = girl_in_mine_happened
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_coal_mine level >= 5"
+					K = "2"
+				}
+			}
+			save_scope_as = mining_state
+		}
+	}
+
+	option = {  # She was just a girl...what have we become
+		name = MFE_workplace_events.2.a
+		default_option = yes
+		add_modifier = {
+			name = national_tradgedy_mod
+			days = long_modifier_time
+		}
+		custom_tooltip = MFE_workplace_events.2.tt
+		hidden_effect = {
+			scope:mining_state = {
+				add_radicals_in_state = {
+					value = small_radicals
+				}
+			}
+		}
+	}
+}
+
+# Production Shortfalls
+
+MFE_workplace_events.3 = {
+	type = country_event
+	placement = scope:shorfalls_state
+	title = MFE_workplace_events.3.t
+	desc = MFE_workplace_events.3.d
+	flavor = MFE_workplace_events.3.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_factory_closed.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/factory_closed"
+	cooldown = { months = long_cooldown }
+	trigger = {
+		MFE_has_building = {
+			S = "2"
+			T = "is_building_type = building_munition_plants level >= 2"
+			K = "1"
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_munition_plants level >= 2"
+					K = "1"
+				}
+			}
+			save_scope_as = shorfalls_state
+			random_scope_building = {
+				limit = {
+					MFE_has_building = {
+						S = "3"
+						T = "is_building_type = building_munition_plants level >= 2"
+						K = "1"
+					}
+				}
+				save_scope_as = shortfall_building
+			}
+		}
+	}
+
+	option = {  # Nothing can be done
+		name = MFE_workplace_events.3.a
+		default_option = yes
+		scope:shorfalls_state = {
+			add_modifier = {
+				name = struggling_munitions_plant_mod
+				days = long_modifier_time
+			}
+		}
+	}
+	option = {  # Send them some cash, that might do the trick
+		name = MFE_workplace_events.3.b
+		add_treasury = subtract_2_percent_of_credit
+		scope:shorfalls_state = {
+			add_modifier = {
+				name = supported_munitions_plant_mod
+				days = long_modifier_time
+			}
+		}
+	}
+}
+
+# Tea Weighing Station Robbed
+
+MFE_workplace_events.4 = {
+	type = country_event
+	placement = scope:tea_state
+	title = MFE_workplace_events.4.t
+	desc = MFE_workplace_events.4.d
+	flavor = MFE_workplace_events.4.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/public_assasination_test.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/public_figure_assassination"
+	cooldown = { months = long_cooldown }
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_tea_plantation level >= 5"
+			K = "2"
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_tea_plantation level >= 5"
+					K = "2"
+				}
+			}
+			save_scope_as = tea_state
+			random_scope_building = {
+				limit = {
+					MFE_has_building = {
+						S = "3"
+						T = "is_building_type = building_tea_plantation level >= 5"
+						K = "2"
+					}
+				}
+				save_scope_as = tea_building
+			}
+		}
+	}
+
+	option = {  # What do we need tea for anyway
+		name = MFE_workplace_events.4.a
+		default_option = yes
+		scope:tea_state = {
+			add_radicals_in_state = {
+				value = small_radicals
+			}
+			add_modifier = {
+				name = robbed_tea_station_mod
+				days = long_modifier_time
+			}
+		}
+	}
+	option = {  # I would conquer the entire world for a cup of tea!
+		name = MFE_workplace_events.4.b
+		# Launch an investigation into the robbery
+		# TODO: Write 2-3 random events that can fire from this
+		custom_tooltip = MFE_workplace_events.4.ttt
+		scope:tea_state = {
+			add_modifier = {
+				name = robbed_tea_station_mod
+				days = long_modifier_time
+			}
+		}
+	}
+}
+
+# Old Canned Food - Has level 3 grocery building with cannaries production method
+
+MFE_workplace_events.5 = {
+	type = country_event
+	placement = scope:canning_state
+	title = MFE_workplace_events.5.t
+	desc = MFE_workplace_events.5.d
+	flavor = MFE_workplace_events.5.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/asia_poor_people_moving.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/event_prosperous_farm_amb_07"
+	cooldown = { months = very_long_cooldown }
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_food_industry has_active_production_method = pm_cannery level >= 3"
+			K = "3"
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_food_industry has_active_production_method = pm_cannery level >= 3"
+					K = "3"
+				}
+			}
+			save_scope_as = canning_state
+			random_scope_building = {
+				limit = {
+					MFE_has_building = {
+						S = "3"
+						T = "is_building_type = building_food_industry has_active_production_method = pm_cannery level >= 3"
+						K = "3"
+					}
+				}
+				save_scope_as = canning_building
+			}
+		}
+	}
+
+	option = {  # That is disgusting
+		name = MFE_workplace_events.5.a
+		default_option = yes
+		scope:canning_state = {
+			add_radicals_in_state = { value = small_radicals }
+		}
+	}
+	option = {  # Im sure we can find some people to eat that goop!
+		name = MFE_workplace_events.5.b
+		custom_tooltip = MFE_workplace_events.5.tt
+		hidden_effect = {
+			scope:canning_state = {
+				ordered_scope_pop = {
+					order_by = {
+					  value = wealth
+					  multiply = -1
+					}
+					max = 25
+					add_pop_wealth = {
+					   wealth_distribution = {
+						   value = -8
+					   }
+					}
+				}
+			}
+		}
+	}
+}
+
+# Bovine Fever - Has level 5 or more livestock ranches
+
+MFE_workplace_events.6 = {
+	type = country_event
+	placement = scope:bovine_state
+	title = MFE_workplace_events.6.t
+	desc = MFE_workplace_events.6.d
+	flavor = MFE_workplace_events.6.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/asia_dead_cattle_poor_harvest.bk2"
+	}
+	minor_left_icon = g:meat
+	minor_right_icon = g:fabric
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/dead_cattle_poor_harvest"
+	cooldown = { months = long_cooldown }
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_livestock_ranch level >= 5"
+			K = "1"
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_livestock_ranch level >= 5"
+					K = "1"
+				}
+			}
+			save_scope_as = bovine_state
+			random_scope_building = {
+				limit = {
+					MFE_has_building = {
+						S = "1"
+						T = "is_building_type = building_livestock_ranch level >= 5"
+						K = "1"
+					}
+				}
+				save_scope_as = bovine_building
+			}
+		}
+	}
+
+	option = {  # Send all the help they need!
+		name = MFE_workplace_events.6.a
+		default_option = yes
+		add_modifier = {
+			name = bovine_fever_aid_mod
+			multiplier = money_amount_multiplier_very_small
+			months = short_modifier_time
+		}
+		scope:bovine_state = {
+			state_region = {
+				add_devastation = 15
+			}
+			add_radicals_in_state = {
+				value = small_radicals
+			}
+			add_modifier = {
+				name = bovine_fever_state_mod
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {  # We can't spare anything to help
+		name = MFE_workplace_events.6.b
+		scope:bovine_state = {
+			state_region = {
+				add_devastation = 15
+			}
+			add_radicals_in_state = {
+				value = small_radicals
+			}
+			add_modifier = {
+				name = bovine_fever_state_mod
+				months = long_modifier_time
+				multiplier = 2
+			}
+		}
+	}
+	option = {  # Talk with neighboring states and see if we can get them help
+		name = MFE_workplace_events.6.c
+		trigger = {
+			scope:bovine_state = {
+				any_neighbouring_state = {
+					count > 1
+					MFE_has_building = {
+						S = "1"
+						T = "is_building_type = building_livestock_ranch level >= 3"
+						K = "2"
+					}
+				}
+			}
+		}
+		scope:bovine_state = {
+			add_loyalists_in_state = {
+				value = large_radicals
+			}
+			ordered_neighbouring_state = {
+				limit = {
+					MFE_has_building = {
+						S = "1"
+						T = "is_building_type = building_livestock_ranch level >= 3"
+						K = "2"
+					}
+				}
+				order_by = state_population
+				max = 2
+				add_modifier = {
+					name = sent_livestock_to_help_mod
+					months = short_modifier_time
+				}
+			}
+		}
+	}
+}
+
+# Death In The Silk Fields - Has level 5 or more silk plantation and no law_worker_protections
+
+MFE_workplace_events.7 = {
+	type = country_event
+	placement = scope:silk_state
+	title = MFE_workplace_events.7.t
+	desc = MFE_workplace_events.7.d
+	flavor = MFE_workplace_events.7.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:guilty_silk_field_owner
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/gears_pistons"
+	cooldown = { months = long_cooldown }
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_silk_plantation level >= 5"
+			K = "2"
+		}
+		any_scope_character = {
+			has_role = politician
+			is_ruler = no
+			age >= 18 # must be an adult
+			interest_group = {
+				is_insurrectionary = no
+				is_marginal = no
+				OR = {
+					is_interest_group_type = ig_petty_bourgeoisie
+					is_interest_group_type = ig_landowners
+					is_interest_group_type = ig_industrialists
+					is_interest_group_type = ig_armed_forces
+				}
+			}
+		}
+		NOT = { has_law = law_type:law_worker_protections }
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_silk_plantation level >= 5"
+					K = "2"
+				}
+			}
+			save_scope_as = silk_state
+		}
+		random_scope_character = {
+			limit = {
+				has_role = politician
+				is_ruler = no
+				age >= 18
+				interest_group = {
+					is_insurrectionary = no
+					is_marginal = no
+					OR = {
+						is_interest_group_type = ig_petty_bourgeoisie
+						is_interest_group_type = ig_landowners
+						is_interest_group_type = ig_industrialists
+						is_interest_group_type = ig_armed_forces
+					}
+				}
+			}
+			save_scope_as = guilty_silk_field_owner
+			interest_group = {
+				save_scope_as = guilty_silk_field_owner_ig
+			}
+		}
+	}
+	cancellation_trigger = {
+		scope:guilty_silk_field_owner = {
+			is_character_alive = no
+		}
+	}
+	option = { # [SCOPE.sCharacter('guilty_silk_field_owner').GetFullName] is only doing [SCOPE.sCharacter('guilty_silk_field_owner').GetHerHis] job.
+		name = MFE_workplace_events.7.a
+		default_option = yes
+		scope:silk_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = medium_radicals
+			}
+		}
+		scope:guilty_silk_field_owner_ig = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {	# [SCOPE.sCharacter('guilty_silk_field_owner').GetFullName] will pay for [SCOPE.sCharacter('guilty_silk_field_owner').GetHerHis] ignorance
+		name = MFE_workplace_events.7.b
+		custom_tooltip = MFE_workplace_events.7.tt
+		hidden_effect = {
+			scope:guilty_silk_field_owner = {
+				kill_character = yes
+			}
+		}
+		scope:guilty_silk_field_owner_ig = {
+			add_modifier = {
+				name = ig_power_challenged
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+# Blood & Iron Mine - has level 5 iron mine and no law_worker_protections, iron mine workers die and radicalize
+
+MFE_workplace_events.8 = {
+	type = country_event
+	placement = scope:iron_state
+	title = MFE_workplace_events.8.t
+	desc = MFE_workplace_events.8.d
+	flavor = MFE_workplace_events.8.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/asia_factory_accident.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/factory_accident"
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_iron_mine level >= 5"
+			K = "2"
+		}
+		NOT = { has_law = law_type:law_worker_protections }
+		NOT = { has_variable = had_recent_mining_accident }
+	}
+
+	immediate = {
+		set_variable = {
+		    name = had_recent_mining_accident
+		    days = medium_cooldown
+		}
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_iron_mine level >= 5"
+					K = "2"
+				}
+			}
+			save_scope_as = iron_state
+			random_scope_building = {
+				limit = {
+					MFE_has_building = {
+						S = "3"
+						T = "is_building_type = building_iron_mine level >= 5"
+						K = "2"
+					}
+				}
+				save_scope_as = iron_building
+			}
+		}
+		scope:iron_state = {
+			add_modifier = {
+				name = iron_and_blood_building_mod
+				multiplier = 2
+				months = short_modifier_time
+			}
+		}
+	}
+
+	option = {	# Give them a few days off and send some aid
+		name = MFE_workplace_events.8.a
+		default_option = yes
+		add_modifier = {
+			name = blood_and_iron_aid_mod
+			multiplier = money_amount_multiplier_very_small
+			months = short_modifier_time
+		}
+		scope:iron_state = {
+			state_region = {
+				add_devastation = 10
+			}
+		}
+	}
+	option = {	# Who cares about a few deaths...get back to work!
+		name = MFE_workplace_events.8.b
+		scope:iron_state = {
+			add_modifier = {
+				name = iron_and_blood_building_fuck_em_mod
+				months = long_modifier_time
+			}
+		}
+		scope:iron_state = {
+			state_region = {
+				add_devastation = 20
+			}
+			add_radicals_in_state = {
+				value = large_radicals
+			}
+		}
+	}
+}
+
+# Tragedy at the Mine - has level 5 iron mine and no law_worker_protections
+
+MFE_workplace_events.9 = {
+	type = country_event
+	placement = scope:iron_tragedy_state
+	title = MFE_workplace_events.9.t
+	desc = MFE_workplace_events.9.d
+	flavor = MFE_workplace_events.9.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/asia_factory_accident.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/factory_accident"
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_iron_mine level >= 5"
+			K = "2"
+		}
+		NOT = { has_law = law_type:law_worker_protections }
+		NOT = { has_variable = had_recent_mining_accident }
+	}
+
+	immediate = {
+		set_variable = {
+		    name = had_recent_mining_accident
+		    days = medium_cooldown
+		}
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_iron_mine level >= 5"
+					K = "2"
+				}
+			}
+			save_scope_as = iron_tragedy_state
+		}
+	}
+
+	option = {	# Those damn industrialists...
+		name = MFE_workplace_events.9.a
+		default_option = yes
+		scope:iron_tragedy_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = medium_radicals
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {	# Support the workers in any way we can
+		name = MFE_workplace_events.9.b
+		scope:iron_tragedy_state = {
+			add_radicals_in_state = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+
+	option = {	# Why can't we go back to simpler times in the fields
+		name = MFE_workplace_events.9.c
+		scope:iron_tragedy_state = {
+			add_radicals_in_state = {
+				strata = middle
+				value = medium_radicals
+			}
+		}
+		ig:ig_rural_folk = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+# Quality Problems - has level 5 cottom plantation
+
+MFE_workplace_events.10 = {
+	type = country_event
+	placement = scope:cotton_state
+	title = MFE_workplace_events.10.t
+	desc = MFE_workplace_events.10.d
+	flavor = MFE_workplace_events.10.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/asia_dead_cattle_poor_harvest.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/asia/dead_cattle_poor_harvest"
+	cooldown = { months = very_long_cooldown }
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_cotton_plantation NOT = { has_active_production_method = automatic_irrigation_building_cotton_plantation } level >= 5"
+			K = "1"
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_cotton_plantation NOT = { has_active_production_method = automatic_irrigation_building_cotton_plantation } level >= 5"
+					K = "1"
+				}
+			}
+			save_scope_as = cotton_state
+			add_modifier = {
+				name = cotton_quality_problems_mod
+				months = long_modifier_time
+			}
+		}
+	}
+
+	option = {	# The landowners will get us out of this one
+		name = MFE_workplace_events.10.a
+		default_option = yes
+		add_modifier = {
+			name = decree_agricultural_landowners_attraction
+			months = short_modifier_time
+		}
+	}
+	option = {	# The rural folk have been doing this for centuries
+		name = MFE_workplace_events.10.b
+		add_modifier = {
+			name = decree_agricultural_rural_folk_attraction
+			months = short_modifier_time
+		}
+	}
+	option = {	# Religious leaders will pray for better cotton
+		name = MFE_workplace_events.10.c
+		add_modifier = {
+			name = decree_agricultural_devout_attraction
+			months = short_modifier_time
+		}
+	}
+}
+
+# Boiler Explodes! - has a shipyard that has the steamers production method
+
+MFE_workplace_events.11 = {
+	type = country_event
+	placement = scope:steamer_state
+	title = MFE_workplace_events.11.t
+	desc = MFE_workplace_events.11.d
+	flavor = MFE_workplace_events.11.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+	cooldown = { months = long_cooldown }
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_shipyards OR = { has_active_production_method = pm_metal_shipbuilding has_active_production_method = pm_arc_welding_shipbuilding } level >= 3"
+			K = "2"
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_shipyards OR = { has_active_production_method = pm_metal_shipbuilding has_active_production_method = pm_arc_welding_shipbuilding } level >= 3"
+					K = "2"
+				}
+			}
+			save_scope_as = steamer_state
+		}
+	}
+
+	option = {
+		name = MFE_workplace_events.11.a
+		default_option = yes
+		scope:steamer_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = medium_radicals
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = 18
+			}
+		}
+	}
+	option = {
+		name = MFE_workplace_events.11.b
+		scope:steamer_state = {
+			add_radicals_in_state = {
+				strata = rich
+				value = medium_radicals
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {
+		name = MFE_workplace_events.11.c
+		scope:steamer_state = {
+			add_radicals_in_state = {
+				strata = middle
+				value = medium_radicals
+			}
+		}
+		ig:ig_rural_folk = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+# Dyeworks Accident - has level 3 dye plantation
+
+MFE_workplace_events.12 = {
+	type = country_event
+	placement = scope:dyeworks_state
+	title = MFE_workplace_events.12.t
+	desc = MFE_workplace_events.12.d
+	flavor = MFE_workplace_events.12.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/asia_factory_accident.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/gears_pistons"
+
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_dye_plantation level >= 3"
+			K = "2"
+		}
+		NOT = { has_variable = dyeworks_accident_var }
+	}
+
+	immediate = {
+		set_variable = dyeworks_accident_var
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_dye_plantation level >= 3"
+					K = "2"
+				}
+			}
+			save_scope_as = dyeworks_state
+		}
+	}
+
+	option = {
+		name = MFE_workplace_events.12.a
+		default_option = yes
+		scope:dyeworks_state = {
+			add_modifier = {
+				name = modifier_state_dyeworks_accident
+				months = long_modifier_time
+			}
+			add_radicals_in_state = {
+				pop_type = laborers
+				value = medium_radicals
+			}
+		}
+	}
+	option = {
+		name = MFE_workplace_events.12.b
+		trigger = {
+			ig:ig_trade_unions = {
+				is_insurrectionary = no
+				is_revolutionary = no
+			}
+		}
+		scope:dyeworks_state = {
+			add_modifier = {
+				name = modifier_state_dyeworks_accident
+				months = long_modifier_time
+			}
+		}
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+# Cistern Explodes - has level 5 oil rig
+
+MFE_workplace_events.13 = {
+	type = country_event
+	placement = scope:oil_state
+	title = MFE_workplace_events.13.t
+	desc = MFE_workplace_events.13.d
+	flavor = MFE_workplace_events.13.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:guilty_oil_owner
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/oil_derricks"
+
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_oil_rig level >= 5"
+			K = "2"
+		}
+		NOT = { has_variable = oil_accident_var }
+		any_scope_character = {
+			has_role = politician
+			is_ruler = no
+			age >= 18
+			interest_group = {
+				is_insurrectionary = no
+				is_marginal = no
+				OR = {
+					is_interest_group_type = ig_petty_bourgeoisie
+					is_interest_group_type = ig_landowners
+					is_interest_group_type = ig_industrialists
+					is_interest_group_type = ig_armed_forces
+				}
+			}
+		}
+	}
+	cancellation_trigger = {
+		scope:guilty_oil_owner = {
+			is_character_alive = no
+		}
+	}
+	immediate = {
+		set_variable = oil_accident_var
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_oil_rig level >= 5"
+					K = "2"
+				}
+			}
+			save_scope_as = oil_state
+		}
+		random_scope_character = {
+			limit = {
+				has_role = politician
+				is_ruler = no
+				age >= 18
+				interest_group = {
+					is_insurrectionary = no
+					is_marginal = no
+					OR = {
+						is_interest_group_type = ig_petty_bourgeoisie
+						is_interest_group_type = ig_landowners
+						is_interest_group_type = ig_industrialists
+						is_interest_group_type = ig_armed_forces
+					}
+				}
+			}
+			save_scope_as = guilty_oil_owner
+			interest_group = {
+				save_scope_as = guilty_oil_owner_ig
+			}
+		}
+	}
+
+	option = {
+		name = MFE_workplace_events.13.a
+		default_option = yes
+		scope:oil_state = {
+			add_radicals_in_state = {
+				strata = poor
+				value = medium_radicals
+			}
+		}
+		scope:guilty_oil_owner_ig = {
+			add_modifier = {
+				name = ig_gaining_support
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {
+		name = MFE_workplace_events.13.b
+		custom_tooltip = MFE_workplace_events.13.tt
+		hidden_effect = {
+			scope:guilty_oil_owner = {
+				kill_character = yes
+			}
+		}
+		scope:guilty_oil_owner_ig = {
+			add_modifier = {
+				name = ig_power_challenged
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+# Overproduction at the Refinery - Has level 8 oil rig, get throughput mod or pocket cash
+
+MFE_workplace_events.14 = {
+	type = country_event
+	placement = scope:oil_state
+	title = MFE_workplace_events.14.t
+	desc = MFE_workplace_events.14.d
+	flavor = MFE_workplace_events.14.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/middleeast_oil_derricks.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/oil_derricks"
+
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_oil_rig level >= 8"
+			K = "2"
+		}
+		NOT = { has_variable = oil_boon_var }
+	}
+
+	immediate = {
+		set_variable = oil_boon_var
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_oil_rig level >= 8"
+					K = "2"
+				}
+			}
+			save_scope_as = oil_state
+			random_scope_building = {
+				limit = {
+					MFE_has_building = {
+						S = "3"
+						T = "is_building_type = building_oil_rig level >= 8"
+						K = "2"
+					}
+				}
+				save_scope_as = oil_building
+			}
+		}
+	}
+
+	option = {	# Oil is the fuel of the future!
+		name = MFE_workplace_events.14.a
+		default_option = yes
+		scope:oil_state = {
+			add_modifier = {
+				name = oil_boon_building_mod
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {	# Direct the funds to more...legitimate matters
+		name = MFE_workplace_events.14.b
+		add_investment_pool = 50000
+		add_modifier = {
+			name = oil_boon_diverted_mod
+			months = long_modifier_time
+		}
+	}
+}
+
+# The Old Man and The Sea - has level 5 fishery, get throughput mod
+
+MFE_workplace_events.15 = {
+	type = country_event
+	placement = scope:fishing_state
+	title = MFE_workplace_events.15.t
+	desc = MFE_workplace_events.15.d
+	flavor = MFE_workplace_events.15.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:professor
+
+	icon = "gfx/interface/icons/event_icons/event_trade.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/africa/prosperous_farm"
+
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_fishing_wharf level >= 8"
+			K = "2"
+		}
+		NOT = { has_variable = fish_boon_var }
+	}
+	cancellation_trigger = {
+		scope:fisherman = {
+			is_character_alive = no
+		}
+	}
+	immediate = {
+		set_variable = fish_boon_var
+		create_character = {
+			save_scope_as = fisherman
+			age = 62
+		}
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_fishing_wharf level >= 8"
+					K = "2"
+				}
+			}
+			save_scope_as = fishing_state
+			random_scope_building = {
+				limit = {
+					MFE_has_building = {
+						S = "3"
+						T = "is_building_type = building_fishing_wharf level >= 8"
+						K = "2"
+					}
+				}
+				save_scope_as = fish_building
+			}
+		}
+	}
+
+	option = {	# How could we interfere, that is just amazing
+		name = MFE_workplace_events.15.a
+		default_option = yes
+		scope:fishing_state = {
+			add_modifier = {
+				name = fish_boon_building_mod
+				months = long_modifier_time
+			}
+		}
+	}
+	option = {	# The people of [SCOPE.sState('fishing_state').GetName] will have the cheapest fish in the world
+		name = MFE_workplace_events.15.b
+		scope:fishing_state = {
+			add_modifier = {
+				name = fish_boon_state_mod
+				months = long_modifier_time
+			}
+		}
+	}
+}
+
+# Explosives Explode - has level 3 fertilizer plant producing explosives
+
+MFE_workplace_events.16 = {
+	type = country_event
+	placement = scope:explosion_state
+	title = MFE_workplace_events.16.t
+	desc = MFE_workplace_events.16.d
+	flavor = MFE_workplace_events.16.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/unspecific_devastation.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_fire.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/devastation"
+	cooldown = { months = very_long_cooldown }
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_chemical_plants NOT = { has_active_production_method = pm_no_explosives_production } level >= 3 level < 10"
+			K = "1"
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_chemical_plants NOT = { has_active_production_method = pm_no_explosives_production } level >= 3 level < 10"
+					K = "1"
+				}
+			}
+			save_scope_as = explosion_state
+			random_scope_building = {
+				limit = {
+					MFE_has_building = {
+						S = "3"
+						T = "is_building_type = building_chemical_plants NOT = { has_active_production_method = pm_no_explosives_production } level >= 3 level < 10"
+						K = "1"
+					}
+				}
+				save_scope_as = explosion_building
+			}
+		}
+	}
+
+	option = {	# Repair the Factory immediately!
+		name = MFE_workplace_events.16.a
+		default_option = yes
+		add_modifier = {
+			name = explosive_explosion_aid_mod
+			multiplier = money_amount_multiplier_very_small
+			months = short_modifier_time
+		}
+		scope:explosion_state = {
+			state_region = {
+				add_devastation = 15
+			}
+		}
+	}
+	option = {	# There is nothing but rubble, what can be done...
+		name = MFE_workplace_events.16.b
+		scope:explosion_state = {
+			state_region = {
+				add_devastation = 25
+			}
+			add_radicals_in_state = {
+				value = large_radicals
+			}
+			remove_building = building_chemical_plants
+		}
+	}
+}
+
+# Elegant furniture - has level 5 furniture manufactury, get mod
+
+MFE_workplace_events.17 = {
+	type = country_event
+	placement = scope:luxury_state
+	title = MFE_workplace_events.17.t
+	desc = MFE_workplace_events.17.d
+	flavor = MFE_workplace_events.17.f
+
+	duration = 3
+
+	event_image = {
+		video = "gfx/event_pictures/southamerica_aristocrats.bk2"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/southamerica/aristocrats"
+	cooldown = { months = long_cooldown }
+	trigger = {
+		MFE_has_building = {
+			S = "1"
+			T = "is_building_type = building_furniture_manufacturies NOT = { has_active_production_method = pm_no_luxuries } level >= 5"
+			K = "2"
+		}
+		#leading_producer_of = g:luxury_furniture
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				MFE_has_building = {
+					S = "2"
+					T = "is_building_type = building_furniture_manufacturies NOT = { has_active_production_method = pm_no_luxuries } level >= 5"
+					K = "2"
+				}
+			}
+			save_scope_as = luxury_state
+		}
+	}
+
+	option = {	# throughput
+		name = MFE_workplace_events.17.a
+		default_option = yes
+		scope:luxury_state = {
+			add_modifier = {
+				name = elegant_furniture_mod
+				months = short_modifier_time
+			}
+		}
+	}
+	option = { # Upper Strata Sol
+		name = MFE_workplace_events.17.b
+		scope:luxury_state = {
+			add_modifier = {
+				name = elegant_furniture_sol_mod
+				months = short_modifier_time
+			}
+		}
+	}
+}
+
+# Factory Stinks! - has level 3 fertilizer plant
+
+MFE_workplace_events.18 = {
+    type = country_event
+    placement = scope:stinking_state
+    title = MFE_workplace_events.18.t
+    desc = MFE_workplace_events.18.d
+    flavor = MFE_workplace_events.18.f
+
+    duration = 3
+
+    event_image = {
+        video = "gfx/event_pictures/unspecific_gears_pistons.bk2"
+    }
+
+    icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/unspecific/gears_pistons"
+
+    trigger = {
+    	MFE_has_building = {
+    		S = "1"
+    		T = "is_building_type = building_chemical_plants level >= 3"
+    		K = "3"
+    	}
+    }
+
+    immediate = {
+    	random_scope_state = {
+    		limit = {
+    			MFE_has_building = {
+    				S = "2"
+    				T = "is_building_type = building_chemical_plants level >= 3"
+    				K = "3"
+    			}
+    		}
+    		save_scope_as = stinking_state
+    	}
+    }
+
+    option = {	# Crops do not grow themselves, sadly
+        name = MFE_workplace_events.18.a
+        default_option = yes
+        scope:stinking_state = {
+        	add_modifier = {
+        		name = fertilizer_factory_supported_mod
+        		months = long_modifier_time
+        	}
+        	add_radicals_in_state = {
+        		value = small_radicals
+        	}
+        }
+        ig:ig_industrialists = {
+        	add_modifier = {
+        		name = ig_gaining_support
+        		months = long_modifier_time
+        	}
+        }
+    }
+    option = {	# We should consider some local restrictions.
+        name = MFE_workplace_events.18.b
+        scope:stinking_state = {
+        	add_modifier = {
+        		name = local_restrictions_on_fertilizer_mod
+        		months = long_modifier_time
+        	}
+        }
+        ig:ig_trade_unions = {
+        	add_modifier = {
+        		name = ig_gaining_support
+        		months = long_modifier_time
+        	}
+        }
+    }
+}
+
+# Clippings (boon)
+MFE_workplace_events.19 = {
+    type = country_event
+    placement = scope:clipper_state
+    title = MFE_workplace_events.19.t
+    desc = MFE_workplace_events.19.d
+    flavor = MFE_workplace_events.19.f
+
+    duration = 3
+
+    event_image = {
+        video = "gfx/event_pictures/africa_construction_colony.bk2"
+    }
+
+    icon = "gfx/interface/icons/event_icons/event_industry.dds"
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/africa/construction_colony"
+
+    cooldown = { months = long_cooldown }
+    trigger = {
+    	# Navy building with clipper pm
+    	MFE_has_building = {
+    		S = "1"
+    		T = "OR = { has_active_production_method = pm_basic_shipbuilding has_active_production_method = pm_complex_shipbuilding } level >= 2"
+    		K = "3"
+    	}
+    	market = {
+    		mg:clippers = {
+    			market_goods_sell_orders > 5
+    		}
+    	}
+    }
+
+    immediate = {
+    	random_scope_state = {
+    		limit = {
+    			MFE_has_building = {
+    				S = "2"
+    				T = "OR = { has_active_production_method = pm_basic_shipbuilding has_active_production_method = pm_complex_shipbuilding } level >= 2"
+    				K = "3"
+    			}
+    		}
+    		save_scope_as = clipper_state
+    	}
+    }
+
+    option = {
+        name = MFE_workplace_events.19.a
+        add_modifier = {
+        	name = world_renowned_clippers
+        	months = long_modifier_time
+        }
+    }
+    option = {
+        name = MFE_workplace_events.19.b
+        default_option = yes
+        scope:clipper_state = {
+        	add_modifier = {
+        		name = naval_school_mod
+        		months = long_modifier_time
+        	}
+        	add_loyalists_in_state = {
+        		value = medium_radicals
+        	}
+        }
+    }
+}
+
+# Radio [SCOPE.sState('radio_state').GetName]
+MFE_workplace_events.20 = {
+    type = country_event
+    placement = scope:radio_state
+    title = MFE_workplace_events.20.t
+    desc = MFE_workplace_events.20.d
+    flavor = MFE_workplace_events.20.f
+    
+    duration = 3
+
+    event_image = {
+        video = "gfx/event_pictures/unspecific_world_fair.bk2"
+    }
+
+    icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+    on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+    on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+    trigger = {
+    	has_technology_researched = radio
+		any_scope_building = {
+			is_building_type = building_electrics_industry
+			weekly_profit > 0
+			level >= 2
+			has_active_production_method = pm_radios
+		}
+    	any_scope_war = {
+    		count > 0
+    	}
+    }
+
+    immediate = {
+    	random_scope_building = {
+    		limit = {
+    			is_building_type = building_electrics_industry
+    			occupancy > 0.75
+    			cash_reserves_ratio > 0.25
+    			weekly_profit > 0
+    			level >= 5
+    			has_active_production_method = pm_radios
+    		}
+    		save_scope_as = radio_state
+    		add_modifier = {
+    			name = radio_component_shortage_mod
+    			months = long_modifier_time
+    		}
+    	}
+    }
+
+    option = {	# We have none to spare
+        name = MFE_workplace_events.20.a
+        default_option = yes
+        scope:radio_state = {
+        	add_radicals_in_state = {
+        		value = medium_radicals
+        	}
+        }
+    }
+    option = {	# Give them the radios
+        name = MFE_workplace_events.20.b
+        add_modifier = {
+        	name = supporting_state_with_radio_components_mod
+        	months = long_modifier_time
+        }
+        scope:radio_state = {
+        	add_loyalists_in_state = {
+        		value = medium_radicals
+        	}
+        }
+    }
+}
