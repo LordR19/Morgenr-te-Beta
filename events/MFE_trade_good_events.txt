@@ -1055,6 +1055,7 @@ MFE_trade_good_events.13 = {
 				has_active_production_method = pm_saw_mills
 				level >= 5
 			}
+			save_scope_as = sawmill_fire_building
 			state = {
 				save_scope_as = sawmill_fire_state
 			}
@@ -1064,6 +1065,44 @@ MFE_trade_good_events.13 = {
 	option = {
 		name = MFE_trade_good_events.13.a
 		default_option = yes
+		scope:sawmill_fire_state = {
+			add_modifier = {
+				name = MFE_state_sawmill_burned_down_mod
+				months = normal_modifier_time
+			}
+		}
+		scope:sawmill_fire_building = {
+			add_modifier = {
+				name = MFE_building_sawmill_burned_down_mod
+				months = normal_modifier_time
+			}
+		}
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = MFE_trade_good_events.13.b
+		scope:sawmill_fire_state = {
+			add_modifier = {
+				name = MFE_state_sawmill_burned_down_aid_sent_mod
+				months = normal_modifier_time
+			}
+		}
+		add_modifier = {
+			name = MFE_send_cash_to_burning_sawmill_mod
+			months = normal_modifier_time
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				trigger = {
+					weekly_net_fixed_income > 2000
+				}
+				add = 2
+			}
+		}
 	}
 }
 
