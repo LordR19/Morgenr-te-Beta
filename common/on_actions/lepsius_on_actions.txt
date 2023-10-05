@@ -52,6 +52,99 @@ lepsius_on_monthly_pulse_country = {
 	events = {
 		lepsius.2000 #Thomsen invents the Three-Age System
 	}
+	effect = { #Deactivates Archaeological Museums if there is more than 1
+		if = {
+			limit = {
+				any_scope_state = {
+					is_capital = yes
+					has_building = building_lepsius_archaeological_museum
+					NOT = {
+						has_active_building = building_lepsius_archaeological_museum
+					}
+				}
+			}
+			capital = {
+				activate_building = {
+					building = building_lepsius_archaeological_museum
+				}
+			}
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					has_active_building = building_lepsius_archaeological_museum
+					count > 1
+				}
+			}
+			if = {
+				limit = {
+					any_scope_state = {
+						is_capital = yes
+						has_active_building = building_lepsius_archaeological_museum
+					}
+				}
+				every_scope_state= {
+					limit = {
+						is_capital = no
+						has_active_building = building_lepsius_archaeological_museum
+					}
+					activate_building = {
+						building = building_lepsius_archaeological_museum
+					}
+				}
+			}
+			else = {
+				while = {
+					limit = {
+						any_scope_state = {
+							has_active_building = building_lepsius_archaeological_museum
+							count > 1
+						}
+					}
+					random_scope_state = {
+						deactivate_building = {
+							building = building_lepsius_archaeological_museum
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_lepsius_archaeological_museum
+				}
+				NOT = {
+					any_scope_state = {
+						has_active_building = building_lepsius_archaeological_museum
+					}
+				}
+			}
+			if = {
+				limit = {
+					any_scope_state = {
+						is_capital = yes
+						has_building = building_lepsius_archaeological_museum
+					}
+				}
+				capital = {
+					activate_building = {
+						building = building_lepsius_archaeological_museum
+					}
+				}
+			}
+			else = {
+				random_scope_state = {
+					limit = {
+						has_building = building_lepsius_archaeological_museum
+					}
+					activate_building = {
+						building = building_lepsius_archaeological_museum
+					}
+				}
+			}
+		}
+	}
 }
 
 lepsius_on_acquired_technology = {

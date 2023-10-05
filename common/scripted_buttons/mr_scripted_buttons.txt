@@ -634,7 +634,7 @@ mr_botanical_expedition_button = {
 		}		
 		modifier = {
 			trigger = {
-				var:lepsius_aegean_artifact_minor < 45000
+				var:dubois_specimen < 45000
 			}
 			add = 25
 		}	
@@ -760,6 +760,186 @@ mr_paleontological_expedition_recall_button = {
 
 ######SCIENTIFIC CONFERENCES######
 
+#Historicity of Exodus
+
+mr_exodus_congress_button = {
+	name = "mr_exodus_congress_button"
+	desc = "mr_exodus_congress_button_desc"
+
+	visible = { 
+		NOT = {
+			has_global_variable = lepsius_exodus_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+		}
+	}
+
+	possible = {
+		country_rank >= rank_value:major_power
+		has_technology_researched = lepsius_antiquarianism_tech
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 5
+		}
+		any_scope_building = {
+			is_building_type = building_lepsius_archaeological_museum
+		}
+		lepsius_has_archaeologist = yes
+		any_country = {
+			lepsius_has_archaeologist = yes
+			count >= 5
+		}
+		custom_tooltip = {
+			text = mr_exodus_congress_egyptian_artifacts_tt
+			var:lepsius_egyptian_artifact_minor >= 25
+		}
+		custom_tooltip = {
+			text = mr_exodus_congress_global_artifacts_tt
+			global_var:lepsius_global_artifacts >= 150
+		}
+	}
+
+	effect = {
+		trigger_event = { 
+			id = lepsius.1101
+			popup = yes 
+		}
+		set_global_variable = lepsius_exodus_congress_hosted_var
+		add_modifier = {
+			name = lepsius_congress_host_modifier
+			years = 5
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+#The Rise of Civilization
+
+mr_civilization_congress_button = {
+	name = "mr_civilization_congress_button"
+	desc = "mr_civilization_congress_button_desc"
+
+	visible = { 
+		has_global_variable = lepsius_exodus_congress_hosted_var
+		NOT = {
+			has_global_variable = lepsius_civilization_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+		}
+	}
+
+	possible = {
+		country_rank >= rank_value:major_power
+		has_technology_researched = lepsius_early_archaeology_tech
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 10
+		}
+		any_scope_building = {
+			is_building_type = building_lepsius_archaeological_museum
+		}
+		lepsius_has_archaeologist = yes
+		any_country = {
+			has_variable = lepsius_archaeologist_var
+			count >= 10
+		}
+		custom_tooltip = {
+			text = mr_civilization_congress_mesopotamian_artifacts_tt
+			var:lepsius_mesopotamian_artifact_minor >= 25
+		}
+		custom_tooltip = {
+			text = mr_civilization_congress_global_artifacts_tt
+			global_var:lepsius_global_artifacts >= 300
+		}
+	}
+
+	effect = {
+		trigger_event = { 
+			id = lepsius.1111
+			popup = yes 
+		}
+		set_global_variable = lepsius_civilization_congress_hosted_var
+		add_modifier = {
+			name = lepsius_congress_host_modifier
+			years = 5
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
+#Troy: Just a Myth?
+
+mr_troy_congress_button = {
+	name = "mr_troy_congress_button"
+	desc = "mr_troy_congress_button_desc"
+
+	visible = { 
+		has_global_variable = lepsius_civilization_congress_hosted_var
+		has_global_variable = lepsius_support_schliemann_var
+		NOT = {
+			has_global_variable = lepsius_troy_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = lepsius_congress_host_modifier
+			}
+		}
+	}
+
+	possible = {
+		country_rank >= rank_value:major_power
+		has_technology_researched = lepsius_early_archaeology_tech
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 20
+		}
+		any_scope_building = {
+			is_building_type = building_lepsius_archaeological_museum
+		}
+		lepsius_has_archaeologist = yes
+		any_country = {
+			has_variable = lepsius_archaeologist_var
+			count >= 15
+		}
+		custom_tooltip = {
+			text = mr_troy_congress_aegean_artifacts_tt
+			var:lepsius_aegean_artifact_minor >= 25
+		}
+		custom_tooltip = {
+			text = mr_troy_congress_global_artifacts_tt
+			global_var:lepsius_global_artifacts >= 500
+		}
+	}
+
+	effect = {
+		trigger_event = { 
+			id = lepsius.1121
+			popup = yes 
+		}
+		set_global_variable = lepsius_troy_congress_hosted_var
+		add_modifier = {
+			name = lepsius_congress_host_modifier
+			years = 5
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+	}
+}
+
 #Asteroids or Planets?
 
 mr_asteroid_congress_button = {
@@ -810,11 +990,7 @@ mr_asteroid_congress_button = {
 	}
 
 	ai_chance = {
-		base = 0
-		modifier = {
-			global_var:verrier_total_astronomical_objects >= 1510 #AI will give the player a chance
-			add = 1000
-		}
+		base = 1000
 	}
 }
 
@@ -867,11 +1043,7 @@ mr_carte_congress_button = {
 	}
 
 	ai_chance = {
-		base = 0
-		modifier = {
-			global_var:verrier_total_astronomical_objects >= 7010 #AI will give the player a chance
-			add = 1000
-		}
+		base = 1000
 	}
 }
 
@@ -923,11 +1095,7 @@ mr_great_debate_congress_button = {
 	}
 
 	ai_chance = {
-		base = 0
-		modifier = {
-			global_var:verrier_total_astronomical_objects >= 12025 #AI will give the player a chance
-			add = 1000
-		}
+		base = 1000
 	}
 }
 
@@ -1818,20 +1986,6 @@ mr_first_excavation_team_button = {
 				gold_reserves > 0
 			}
 			add = 100
-		}
-		modifier = {
-			trigger = {
-				NOT = {
-					any_country = {
-						has_diplomatic_pact = {
-							who = ROOT
-							type = excavation_license
-						}				
-						lepsius_has_excavation_site = yes
-					}
-				}
-			}
-			add = -1000
 		}
 	}
 }

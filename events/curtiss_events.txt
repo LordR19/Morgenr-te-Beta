@@ -1622,7 +1622,7 @@ curtiss.52 = {
 	}
 }
 
-#Curtiss 53: Graf Ferdinand von Zeppelin
+#Curtiss 53: Graf Ferdinand von Zeppelin seeks support to build an airship
 
 curtiss.53 = {
 	type = country_event
@@ -1633,11 +1633,11 @@ curtiss.53 = {
 
 	flavor = curtiss.53.f
 
-	duration = 1
-		
-	event_image = { 
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_lz1.dds"
-	}
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_new_engineer_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
@@ -1645,12 +1645,12 @@ curtiss.53 = {
 	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
 
 	trigger = {
-		game_date >= 1900.1.1
+		game_date >= 1890.1.1
 		NOT = {
-			game_date >= 1909.1.1
+			year > 1899
 		}
 		NOT = {
-			has_global_variable = curtiss_ferdinand_von_zeppelin_happened
+			has_global_variable = gaudi_von_zeppelin_created
 		}
 		OR = {
 			country_has_primary_culture = cu:south_german
@@ -1664,11 +1664,92 @@ curtiss.53 = {
 	}
 
 	immediate = {
-		set_global_variable = curtiss_ferdinand_von_zeppelin_happened
+		create_character = {
+			template = mr_ger_von_zeppelin_ferdinand_character_template
+
+			save_scope_as = gaudi_new_engineer_scope
+		}
+		scope:gaudi_new_engineer_scope = {
+			set_variable = gaudi_von_zeppelin_character_var
+			set_variable = mr_is_engineer_var
+			engineer_experience_set_up_effect = yes
+			aeronautical_engineer_experience_gain_effect = {
+				AMOUNT = 50
+			}
+			place_character_in_void = 1200
+		}
+
+		set_variable = {
+			name = gaudi_new_engineer_var
+			value = scope:gaudi_new_engineer_scope
+		}
+
+		set_global_variable = gaudi_von_zeppelin_created
 	}
 
-	option = { #A misjudged genius.
-		name = curtiss.52.g
+	option = { #The new Icarus. A waste of money.
+		name = curtiss.53.g
+		default_option = yes
+		
+		gaudi_remove_new_engineer_effect = yes
+	}
+
+	option = { #A formidable idea! Support him!
+		name = curtiss.53.h
+
+		add_treasury = -5000000
+
+		gaudi_set_new_engineer_as_engineer_effect = yes
+
+		hidden_effect = {
+			trigger_event = {
+				id = curtiss.54
+				years = { 2 10 }
+			}
+		}
+		
+		ai_chance = {
+			base = 1
+			modifier = {
+				trigger = {
+					gaudi_has_engineer = no
+				}
+				add = 1000
+			}
+		}
+	}
+}
+
+#Curtiss 54: Graf Ferdinand von Zeppelin
+
+curtiss.54 = {
+	type = country_event
+
+    title = curtiss.54.t
+		
+    desc = curtiss.54.d
+
+	flavor = curtiss.54.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin_lz1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #I knew he could do it!
+		name = curtiss.54.g
 		default_option = yes
 		if = {
 			limit = {

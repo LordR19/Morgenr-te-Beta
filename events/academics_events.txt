@@ -65,6 +65,12 @@ namespace = academics
 #Academics 112: Scope is now an experienced Geologist
 #Academics 113: Scope is now a famous Geologist
 
+#Academics 140: [Scope] is now a Civil Engineer
+#Academics 141: [Scope] is now a Mechanical Engineer
+#Academics 142: [Scope] is now a Military Engineer
+#Academics 143: [Scope] is now a Electrical Engineer
+#Academics 144: [Scope] is now a Aeronautical Engineer
+
 ###Experience Gain Events (hidden)###
 
 #Academics 151: Astronomer yearly Experience Gain
@@ -387,7 +393,7 @@ academics.4 = {
 
 	desc = academics.4.d
 
-#	flavor = academics.4.f
+	flavor = academics.4.f
 	
 	duration = 3
 
@@ -463,7 +469,7 @@ academics.5 = {
 
 	desc = academics.5.d
 
-#	flavor = academics.5.f
+	flavor = academics.5.f
 	
 	duration = 3
 
@@ -1137,7 +1143,7 @@ academics.34 = {
 
 	desc = academics.34.d
 
-#	flavor = academics.34.f
+	flavor = academics.4.f
 	
 	duration = 3
 
@@ -1190,7 +1196,7 @@ academics.35 = {
 
 	desc = academics.35.d
 
-#	flavor = academics.35.f
+	flavor = academics.5.f
 	
 	duration = 3
 
@@ -1412,7 +1418,10 @@ academics.50 = {
 
 		if = { #Observatory gives mathematical advantage
 			limit = {
-				has_variable = dubois_promote_mathematics_active
+				OR = {
+					has_variable = academics_promote_astronomer_active
+					has_variable = academics_promote_engineer_active
+				}
 				any_scope_building = {
 					is_building_type = building_verrier_observatory
 				}
@@ -1422,7 +1431,10 @@ academics.50 = {
 
 		if = { #Zoo gives naturalistic advantage
 			limit = {
-				has_variable = dubois_promote_natural_history_active
+				OR = {
+					has_variable = academics_promote_naturalist_active
+					has_variable = academics_promote_paleontologist_active
+				}
 				any_scope_building = {
 					is_building_type = building_dubois_zoo
 				}
@@ -1432,7 +1444,10 @@ academics.50 = {
 
 		if = { #Archaoelogical Museum gives anthropological advantage
 			limit = {
-				has_variable = dubois_promote_humanities_active
+				OR = {
+					has_variable = academics_promote_archaeologist_active
+					has_variable = academics_promote_anthropologist_active
+				}
 				any_scope_building = {
 					is_building_type = building_lepsius_archaeological_museum
 				}
@@ -1443,6 +1458,20 @@ academics.50 = {
 		if = { #Academy Investment
 			limit = {
             	has_modifier = dubois_academy_investment_modifier
+        	}
+			dubois_add_academy_progress = yes
+		}
+
+		if = { #Exodus Congress
+			limit = {
+            	has_modifier = lepsius_historical_materialistic_school_modifier
+        	}
+			dubois_add_academy_progress = yes
+		}
+
+		if = { #Troy Congress
+			limit = {
+            	has_modifier = lepsius_troy_myth_modifier
         	}
 			dubois_add_academy_progress = yes
 		}
@@ -1815,102 +1844,7 @@ academics.56 = {
 	}
 }
 
-#Academics 60: Random Scientist
-
-#academics.60 = {
-#	type = country_event
-#
-#	title = academics.51.t
-#
-#	desc = {
-#		triggered_desc = {
-#			trigger = {
-#				has_variable = dubois_promote_engineer
-#			}
-#			desc = academics.60.d.engineer
-#		}
-#		triggered_desc = {
-#			trigger = {
-#				has_variable = dubois_promote_astronomer
-#			}
-#			desc = academics.60.d.astronomer
-#		}
-#		triggered_desc = {
-#			trigger = {
-#				has_variable = dubois_promote_naturalist
-#			}
-#			desc = academics.60.d.naturalist
-#		}
-#		triggered_desc = {
-#			trigger = {
-#				has_variable = dubois_promote_paleontologist
-#			}
-#			desc = academics.60.d.paleontologist
-#		}
-#		triggered_desc = {
-#			trigger = {
-#				has_variable = dubois_promote_archaeologist
-#			}
-#			desc = academics.60.d.archaeologist
-#		}
-#		triggered_desc = {
-#			trigger = {
-#				has_variable = dubois_promote_anthropologist
-#			}
-#			desc = academics.60.d.anthropologist
-#		}
-#	}
-#
-#	flavor = academics.51.f
-#
-#	event_image = {
-#		texture = "gfx/event_pictures/dubois_pictures/dubois_academy.dds"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#
-#	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-#
-#	trigger = {
-#	}
-#
-#	immediate = {
-#		random_list = { #randomizes scientist
-#			1 = { 
-#				set_variable = dubois_promote_engineer
-#				create_engineer_effect = yes
-#			}
-#			1 = { 
-#				set_variable = dubois_promote_astronomer
-#				create_astronomer_effect = yes
-#			}
-#			1 = { 
-#				set_variable = dubois_promote_naturalist
-#				create_naturalist_effect = yes
-#			}
-#			1 = { 
-#				set_variable = dubois_promote_paleontologist
-#				create_paleontologist_effect = yes
-#			}
-#			1 = { 
-#				set_variable = dubois_promote_archaeologist
-#				create_archaeologist_effect = yes
-#			}
-			#1 = { 
-			#	set_variable = dubois_promote_anthropologist
-			#	create_anthropologist_effect = yes
-			#}
-#		}
-#	}
-#
-#	option = {
-#		name = academics.51.g
-#	}
-#
-#	after = {
-#		dubois_remove_academy_effect = yes
-#	}
-#}
+#Academics 60: Random Scientist REMOVED
 
 #################################################################################
 
@@ -2440,6 +2374,217 @@ academics.113 = {
 	}
 }
 
+#Academics 140: [Scope] is now a Civil Engineer
+academics.140 = {
+	type = country_event
+
+	title = academics.140.t
+
+	desc = academics.140.d
+
+	flavor = academics.140.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = academics.140.g
+		default_option = yes
+
+		var:gaudi_engineer_var = {
+			add_trait = gaudi_civil_engineer
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 141: [Scope] is now a Mechanical Engineer
+academics.141 = {
+	type = country_event
+
+	title = academics.141.t
+
+	desc = academics.141.d
+
+	flavor = academics.141.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = academics.141.g
+		default_option = yes
+
+		var:gaudi_engineer_var = {
+			add_trait = gaudi_mechanical_engineer
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 142: [Scope] is now a Military Engineer
+academics.142 = {
+	type = country_event
+
+	title = academics.142.t
+
+	desc = academics.142.d
+
+	flavor = academics.142.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = academics.142.g
+		default_option = yes
+
+		var:gaudi_engineer_var = {
+			add_trait = gaudi_military_engineer
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 143: [Scope] is now a Electrical Engineer
+academics.143 = {
+	type = country_event
+
+	title = academics.143.t
+
+	desc = academics.143.d
+
+	flavor = academics.143.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = academics.143.g
+		default_option = yes
+
+		var:gaudi_engineer_var = {
+			add_trait = gaudi_electrical_engineer
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 144: [Scope] is now a Aeronautical Engineer
+academics.144 = {
+	type = country_event
+
+	title = academics.144.t
+
+	desc = academics.144.d
+
+	flavor = academics.144.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = academics.144.g
+		default_option = yes
+
+		var:gaudi_engineer_var = {
+			add_trait = gaudi_aeronautical_engineer
+		}
+	}
+
+	after = {
+	}
+}
+
+
 #################################################################################
 
 ###Experience Gain Events (hidden)###
@@ -2527,8 +2672,10 @@ academics.1000 = {
 
 	trigger = {
 		OR = {
-			has_variable = dubois_promote_humanities_active
-			has_variable = dubois_promote_natural_history_active
+			has_variable = academics_promote_naturalist_active
+			has_variable = academics_promote_paleontologist_active
+			has_variable = academics_promote_archaeologist_active
+			has_variable = academics_promote_anthropologist_active
 		}
 		has_variable = gaudi_engineer_var
 		NOR = {
@@ -2642,8 +2789,10 @@ academics.1001 = {
 
 	trigger = {
 		OR = {
-			has_variable = dubois_promote_humanities_active
-			has_variable = dubois_promote_natural_history_active
+			has_variable = academics_promote_naturalist_active
+			has_variable = academics_promote_paleontologist_active
+			has_variable = academics_promote_archaeologist_active
+			has_variable = academics_promote_anthropologist_active
 		}
 		has_variable = verrier_astronomer_var
 		NOR = {
@@ -2757,8 +2906,10 @@ academics.1002 = {
 
 	trigger = {
 		OR = {
-			has_variable = dubois_promote_humanities_active
-			has_variable = dubois_promote_natural_history_active
+			has_variable = academics_promote_engineer_active
+			has_variable = academics_promote_astronomer_active
+			has_variable = academics_promote_archaeologist_active
+			has_variable = academics_promote_anthropologist_active
 		}
 		has_variable = dubois_naturalist_var
 		NOR = {
@@ -2872,8 +3023,10 @@ academics.1003 = {
 
 	trigger = {
 		OR = {
-			has_variable = dubois_promote_humanities_active
-			has_variable = dubois_promote_natural_history_active
+			has_variable = academics_promote_engineer_active
+			has_variable = academics_promote_astronomer_active
+			has_variable = academics_promote_archaeologist_active
+			has_variable = academics_promote_anthropologist_active
 		}
 		has_variable = dubois_paleontologist_var
 		NOR = {
@@ -2987,8 +3140,10 @@ academics.1004 = {
 
 	trigger = {
 		OR = {
-			has_variable = dubois_promote_humanities_active
-			has_variable = dubois_promote_natural_history_active
+			has_variable = academics_promote_engineer_active
+			has_variable = academics_promote_astronomer_active
+			has_variable = academics_promote_naturalist_active
+			has_variable = academics_promote_paleontologist_active
 		}
 		has_variable = lepsius_archaeologist_var
 		NOR = {
@@ -3066,6 +3221,123 @@ academics.1004 = {
 		}
 		modifier = {
 			var:lepsius_archaeologist_var = {
+				has_trait = cautious
+			}
+			factor = 0.5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 1005: Dr. [Anthropologist] requests funding
+academics.1005 = {
+	type = country_event
+
+	title = academics.1005.t
+
+	desc = academics.1005.d
+
+	flavor = academics.1005.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_anthropologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	cooldown = {
+		years = { 5 10 }
+	}
+
+	trigger = {
+		OR = {
+			has_variable = academics_promote_engineer_active
+			has_variable = academics_promote_astronomer_active
+			has_variable = academics_promote_naturalist_active
+			has_variable = academics_promote_paleontologist_active
+		}
+		has_variable = lepsius_anthropologist_var
+		NOR = {
+			has_modifier = academics_additional_funding_anthropologist_modifier
+			has_variable = academics_no_more_funding_petitions_var
+		}
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
+		set_variable = {
+			name = academics_no_more_funding_petitions_var
+			years = { 3 7 }
+		}
+	}
+
+	option = {
+		name = academics.1005.g
+
+		add_modifier = {
+			name = academics_additional_funding_anthropologist_modifier
+			years = 3
+		}
+	}
+
+	option = {
+		name = academics.1005.h
+		default_option = yes
+
+		add_modifier = {
+			name = academics_no_funding_anthropologist_modifier
+			years = 3
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = direct
+			}
+			factor = 2
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = arrogant
+			}
+			factor = 2
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = reckless
+			}
+			factor = 2
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = ambitious
+			}
+			factor = 2
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = reserved
+			}
+			factor = 0.1
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
+				has_trait = tactful
+			}
+			factor = 0.5
+		}
+		modifier = {
+			var:lepsius_anthropologist_var = {
 				has_trait = cautious
 			}
 			factor = 0.5
