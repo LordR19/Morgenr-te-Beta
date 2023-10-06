@@ -16,6 +16,7 @@ namespace = dubois
 #Dubois 4: Kosmos
 #Dubois 5: Mendel
 #Dubois 6: Dubois finds the Java Man (alternative to Rapanui.250)
+#Dubois 7: The Peppered Moth evolves!
 
 #Diplomatic Action
 
@@ -643,6 +644,47 @@ dubois.6 = {
 	after = {
 	}
 }
+
+#Dubois 7: The Peppered Moth evolves!
+
+dubois.7 = {
+	type = country_event
+
+	title = dubois.7.t
+	desc = dubois.7.d
+	flavor = dubois.7.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_evolution_peppered_moth.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_global_variable = dubois_peppered_moth_evolved_var
+		}
+		dubois_has_naturalist = yes
+		has_technology_researched = dubois_theory_of_evolution_tech
+		any_scope_state = {
+			pollution_generation > 2000
+		}
+	}
+
+	immediate = {
+		set_global_variable = dubois_peppered_moth_evolved_var
+	}
+
+	option = {	#Clear evidence for evolution!
+		name = dubois.7.g
+
+		naturalist_experience_gain_effect = { AMOUNT = 10 }
+		dubois_medium_add_technology = yes
+	}
+}
+
 
 ######Diplomatic action######
 

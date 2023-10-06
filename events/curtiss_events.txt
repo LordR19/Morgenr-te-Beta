@@ -76,6 +76,7 @@ namespace = curtiss
 #Curtiss 137: Sabotage!
 #Curtiss 138: Sabotage not discovered
 #Curtiss 139: Sabotage discovered
+#Curtiss 140: [Aeronautical Engineer] constructs new engine
 
 #Airlines
 
@@ -1840,6 +1841,11 @@ curtiss.100 = {
 				days = 60
 			}
 			trigger_event = {
+				id = curtiss.140
+				popup = yes
+				days = { 65 90 }
+			}
+			trigger_event = {
 				id = curtiss.110
 				popup = yes
 				days = 120
@@ -1937,6 +1943,11 @@ curtiss.101 = {
 				id = curtiss.108
 				popup = yes
 				days = 60
+			}
+			trigger_event = {
+				id = curtiss.140
+				popup = yes
+				days = { 65 90 }
 			}
 			trigger_event = {
 				id = curtiss.110
@@ -2037,6 +2048,11 @@ curtiss.102 = {
 				id = curtiss.108
 				popup = yes
 				days = 60
+			}
+			trigger_event = {
+				id = curtiss.140
+				popup = yes
+				days = { 65 90 }
 			}
 			trigger_event = {
 				id = curtiss.110
@@ -2612,6 +2628,12 @@ curtiss.110 = {
 			}
 			curtiss_add_2_schneider_trophy_point = yes
 		}
+		if = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_new_engine
+			}
+			curtiss_add_5_schneider_trophy_point = yes
+		}
 		###PILOTS###
 		if = {
 			limit = {
@@ -2772,6 +2794,7 @@ curtiss.110 = {
 		default_option = yes
 		remove_variable = curtiss_schneider_trophy_training_good
 		remove_variable = curtiss_schneider_trophy_training_normal
+		remove_variable = curtiss_schneider_trophy_new_engine
 	}
 }
 
@@ -3117,6 +3140,7 @@ curtiss.121 = {
 	}
 
 	trigger = {
+		gaudi_has_aeronautical_engineer_trigger = no
 	}
 
 	immediate = {
@@ -3344,6 +3368,18 @@ curtiss.124 = {
 		if = {
 			limit = {
 				has_modifier = curtiss_schneider_trophy_support_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_engineer_var
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				gaudi_has_aeronautical_engineer_trigger = yes
 			}
 			curtiss_add_1_schneider_trophy_point = yes
 		}
@@ -5312,6 +5348,50 @@ curtiss.139 = {
 	}
 
 	after = {
+	}
+}
+
+
+#Curtiss 140: [Aeronautical Engineer] constructs new engine
+
+curtiss.140 = {
+	type = country_event
+
+    title = curtiss.140.t
+		
+    desc = curtiss.140.d
+
+	flavor = curtiss.140.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		gaudi_has_aeronautical_engineer_trigger = yes
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = { #A technical wonder!
+		name = curtiss.140.g
+		default_option = yes
+		
+		custom_tooltip = {
+			text = curtiss_schneider_trophy_new_engine_tt
+			set_variable = curtiss_schneider_trophy_new_engine
+		}
 	}
 }
 
