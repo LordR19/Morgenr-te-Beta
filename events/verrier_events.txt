@@ -153,6 +153,10 @@ namespace = verrier
 #Verrier 1111: Research Notes destroyed
 #Verrier 1112: Lost stars
 
+### Verrier 9000 - 9999: Historical Experiments ###
+
+#
+
 #################################################################################
 
 #Yearly astronomical report
@@ -6126,6 +6130,158 @@ verrier.1112 = {
 		name = verrier.1112.g #Was he drunk or something?
 		verrier_add_x_astronomical_objects_effect = {
 			AMOUNT = -5
+		}
+	}
+}
+
+### Hitorical Experiments ###
+
+#Verrier 9000: A teacher from Michigan attempts to go over the Niagara Falls in a barrel
+verrier.9000 = {
+	type = country_event
+	placement = scope:niagara_falls_state_scope
+
+	title = verrier.9000.t
+	desc = verrier.9000.d	
+	flavor = verrier.9000.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier/verrier_barrel.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	trigger = {
+		OR = {
+			p:x24691A = {
+				owner = root
+			}
+			p:xE217B5 = {
+				owner = root
+			}
+		}
+		NOT = {
+			has_variable = cow_na_niagara_falls_barrel_variable
+		}
+	}
+
+	immediate = {
+		random_state  = { #Sets Ontario or New York as scope
+			limit = {
+				owner = root
+				OR = {
+					state_region = s:STATE_NEW_YORK
+					state_region = s:STATE_ONTARIO
+				}
+			}
+			save_scope_as = niagara_falls_state_scope
+		}
+		set_variable = cow_na_niagara_falls_barrel_variable
+	}
+
+	option = { #Stop this madness immediately!
+		name = verrier.9000.g
+		default_option = yes
+
+		custom_tooltip = verrier_niagara_falls_not_allow_barrel_tt
+	}
+
+	option = { #Not my problem! Let her do whatever she wants...
+		name = verrier.9000.h
+
+		custom_tooltip = {
+			text = verrier_niagara_falls_allow_barrel_tt
+			random_list = {
+				1 = {
+					trigger_event = {
+					id = verrier.9001
+					days = { 2 14 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.9002
+						days = { 2 14 }
+					}
+				}
+			}
+		}
+	}
+}
+
+# Annie Edson Taylor is the first person to cross Niagara Falls in a barrel
+verrier.9001 = {
+	type = country_event
+	placement = scope:niagara_falls_state_scope
+
+	title = verrier.9001.t
+	desc = verrier.9001.d	
+	flavor = verrier.9001.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier/verrier_barrel.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Lucky her. Now ban people from trying again!
+		name = verrier.9001.g
+
+		add_modifier = {
+			name = verrier_barrel_successful_modifier
+			months = 12
+		}
+	}
+}
+
+# Annie Edson Taylor dies while attempting to cross Niagara Falls
+verrier.9002 = {
+	type = country_event
+	placement = scope:niagara_falls_state_scope
+
+	title = verrier.9002.t
+	desc = verrier.9002.d	
+	flavor = verrier.9002.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier/verrier_barrel.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Play stupid games, win stupid prizes... Ban anyone from trying ever again.
+		name = verrier.9002.g
+
+		add_modifier = {
+			name = verrier_barrel_unsuccessful_modifier
+			months = 12
 		}
 	}
 }
