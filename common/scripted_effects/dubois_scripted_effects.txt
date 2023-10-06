@@ -3910,6 +3910,116 @@ dubois_add_random_great_formations = {
 
 ######FOSSILS######
 
+#Effect to add $AMOUNT$ Fossils
+dubois_add_x_fossils_effect = {
+	# Amount = amount of artifacts to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = fossil_amount
+		value = $AMOUNT$
+	}
+
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = dubois_add_x_fossils_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = dubois_add_x_fossils_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = dubois_add_x_fossils_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = dubois_add_x_fossils_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = dubois_add_x_fossils_plus_x_tt
+	}
+
+	change_global_variable = {
+		name = dubois_global_fossil
+		add = 1
+    }
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = dubois_total_fossil
+			}
+		}
+		set_variable = {
+			name = dubois_total_fossil
+			value = 0
+		}
+	}
+	change_variable = {
+		name = dubois_total_fossil
+		add = $AMOUNT$
+	}
+	change_global_variable = {
+		name = dubois_global_fossil
+		add = $AMOUNT$
+	}
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = dubois_yearly_fossils_var
+			}
+		}
+		set_variable = {
+			name = dubois_yearly_fossils_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = dubois_yearly_fossils_var
+		add = $AMOUNT$
+	}
+	change_global_variable = {
+		name = dubois_yearly_fossils_var
+		add = $AMOUNT$
+	}
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = dubois_fossil
+			}
+		}
+		set_variable = {
+			name = dubois_fossil
+			value = 0
+		}
+	}
+	change_variable = {
+		name = dubois_fossil
+		add = $AMOUNT$
+	}
+	if = {
+		limit = { #Only works if there actually is an anthropologist
+			has_variable = dubois_paleontologist_var
+		}
+		var:dubois_paleontologist_var = {
+			if = { #Fallback if the variable does not exist yet
+				limit = {
+					NOT = {
+						has_variable = dubois_paleontologist_total_fossils_var
+					}
+				}
+				set_variable = {
+					name = dubois_paleontologist_total_fossils_var
+					value = 0
+				}
+			}
+			change_variable = { #The amount of Artifacts that this archaeologist discovered
+				name = dubois_paleontologist_total_fossils_var
+				add = $AMOUNT$
+			}
+		}
+	}
+}
+
 #Effect to add a specific amount of fossils to the paleontologist and the yearly discovered fossils
 #NUMBER = How many fossils will be added
 dubois_set_fossils_paleontologist_yearly = {
@@ -7938,7 +8048,7 @@ add_dubois_mountain_expedition_science_bonus = {
 				has_variable = dubois_summit_ural_mountains_var
 			}
 		}
-		dubois_add_1_fossil = yes
+		dubois_add_x_fossils_effect = { AMOUNT = 1 }
 		paleontologist_experience_gain_effect = {
 			AMOUNT = "5"
 		}
@@ -7963,7 +8073,7 @@ add_dubois_mountain_expedition_science_bonus = {
 				has_variable = dubois_summit_zagros_mountains_var
 			}
 		}
-		dubois_add_2_fossil = yes
+		dubois_add_x_fossils_effect = { AMOUNT = 2 }
 		paleontologist_experience_gain_effect = {
 			AMOUNT = "15"
 		}
@@ -7982,7 +8092,7 @@ add_dubois_mountain_expedition_science_bonus = {
 				has_variable = dubois_summit_himalayas_mountains_var
 			}
 		}
-		dubois_add_3_fossil = yes
+		dubois_add_x_fossils_effect = { AMOUNT = 3 }
 		paleontologist_experience_gain_effect = {
 			AMOUNT = "25"
 		}
@@ -7997,9 +8107,9 @@ add_dubois_mountain_expedition_science_bonus = {
 				}
 			}
 		}
-	}
-	scope:dubois_mountain_scientist = {
-		add_trait = dubois_mountaineer
+		scope:dubois_mountain_scientist = {
+			add_trait = dubois_mountaineer
+		}
 	}
 }
 
