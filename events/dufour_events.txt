@@ -1,0 +1,389 @@
+﻿##################
+# Dufour EVENTS  #
+##################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = dufour
+
+###################
+
+### Verrier 1000 - 1999: Minor Political Swiss Events ###
+
+#Dufour 1000: The two Appenzells do not implement the women's suffrage
+#Dufour 1001: Defeat in the vote on women's suffrage in both Appenzell
+#Dufour 1002: Both Appenzell introduce women's suffrage
+#Dufour 1003: Another failed vote for women's suffrage
+#Dufour 1004: Bundesgericht forces Appenzell to allow women the right to vote
+
+###################
+
+#Dufour 1000: The two Appenzells do not implement the women's suffrage
+dufour.1000 = { 
+	type = country_event
+	placement = scope:east_switzerland_state
+
+    title = dufour.1000.t
+    desc = dufour.1000.d
+    flavor = dufour.1000.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dufour_pictures/dufour_landsgemeinde_hundwil.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	trigger = {
+		c:SWI ?= this
+		has_law = law_type:law_womens_suffrage
+		NOT = {
+			has_global_variable = dufour_womens_suffrage_appenzell_global_var
+		}
+	}
+
+	immediate = {
+		random_state = { #sets the scope to the state of East Switzerland
+			limit = {
+				state_region = s:STATE_EAST_SWITZERLAND
+			}
+			save_scope_as = east_switzerland_state
+		}
+		set_global_variable = dufour_womens_suffrage_appenzell_global_var
+	}
+
+	option = { #Force them to let women vote
+		name = dufour.1000.g
+
+		scope:east_switzerland_state = {
+			add_radicals_in_state = {
+				pop_type = farmers
+				value = 0.05
+			}
+
+			add_radicals_in_state = {
+				pop_type = aristocrats
+				value = 0.05
+			}
+
+			add_radicals_in_state = {
+				pop_type = peasants
+				value = 0.05
+			}
+
+			add_radicals_in_state = {
+				pop_type = clergymen
+				value = 0.05
+			}
+		}
+	}
+
+	option = { #They will surely decide to let women vote soon!
+		name = dufour.1000.h
+		default_option = yes
+
+		scope:east_switzerland_state = {
+			add_radicals_in_state = {
+				pop_type = academics
+				value = 0.05
+			}
+		}
+
+		hidden_effect = {
+			random_list = {
+				9 = {
+					trigger_event = {
+						id = dufour.1001 #Vote for women's suffrage in Appenzell failed
+						popup = yes
+						years = { 1 2 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = dufour.1002 #Appenzell votes for women's suffrage.
+						popup = yes
+						years = { 1 2 }
+					}
+				}
+			}
+		}
+
+		custom_tooltip = cow_swi_womens_suffrage_appenzell_effects_tt
+	}
+}
+
+#Dufour 1001: Defeat in the vote on women's suffrage in both Appenzell
+dufour.1001 = { 
+	type = country_event
+	placement = scope:east_switzerland_state
+
+
+    title = dufour.1001.t
+    desc = dufour.1001.d
+    flavor = dufour.1001.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dufour_pictures/dufour_landsgemeinde_hundwil.dds"
+	}
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	trigger = {
+		has_law = law_type:law_womens_suffrage
+	}
+
+	immediate = {
+		east_switzerland_scope_effect = yes #sets the scope to the state of East Switzerland
+	}
+
+	option = { #It's enough! Just force them to do it.
+		name = dufour.1001.g
+
+		scope:east_switzerland_state = {
+			add_radicals_in_state = {
+				pop_type = farmers
+				value = 0.04
+			}
+
+			add_radicals_in_state = {
+				pop_type = aristocrats
+				value = 0.04
+			}
+
+			add_radicals_in_state = {
+				pop_type = peasants
+				value = 0.04
+			}
+
+			add_radicals_in_state = {
+				pop_type = clergymen
+				value = 0.04
+			}
+		}
+	}
+
+	option = { #Just wait a little longer
+		name = dufour.1001.g
+		default_option = yes
+
+		scope:east_switzerland_state = {
+			add_radicals_in_state = {
+				pop_type = academics
+				value = 0.07
+			}
+		}
+
+		hidden_effect = {
+			random_list = {
+				4 = {
+					trigger_event = {
+						id = dufour.1003 #Another failed vote for women's suffrage
+						popup = yes
+						years = { 4 5 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = dufour.1002 #Appenzell votes for women's suffrage.
+						popup = yes
+						years = { 4 5 }
+					}
+				}
+			}
+		}
+
+		custom_tooltip = cow_swi_womens_suffrage_appenzell_effects_tt
+	}
+}
+
+#Dufour 1002: Both Appenzell introduce women's suffrage
+dufour.1002 = { 
+	type = country_event
+	placement = scope:east_switzerland_state
+
+
+    title = dufour.1002.t
+    desc = dufour.1002.d
+    flavor = dufour.1002.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dufour_pictures/dufour_landsgemeinde_hundwil.dds"
+	}
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	trigger = {
+		has_law = law_type:law_womens_suffrage
+	}
+
+	immediate = {
+		east_switzerland_scope_effect = yes #sets the scope to the state of East Switzerland
+	}
+
+	option = { #They took way more time than expected...
+		name = dufour.1002.g
+		default_option = yes
+	}
+}
+
+#Dufour 1003: Further failure in the introduction of women's suffrage in the two AppenzellAnother failed vote for women's suffrage
+dufour.1003 = { 
+	type = country_event
+	placement = scope:east_switzerland_state
+
+
+    title = dufour.1003.t
+    desc = dufour.1003.d
+    flavor = dufour.1003.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dufour_pictures/dufour_landsgemeinde_hundwil.dds"
+	}
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	trigger = {
+		has_law = law_type:law_womens_suffrage
+	}
+
+	immediate = {
+		east_switzerland_scope_effect = yes #sets the scope to the state of East Switzerland
+	}
+
+	option = { #Damn hillbillies! They had their chances. Force them to allow women to vote!
+		name = dufour.1003.g
+
+		scope:east_switzerland_state = {
+			add_radicals_in_state = {
+				pop_type = farmers
+				value = 0.02
+			}
+
+			add_radicals_in_state = {
+				pop_type = aristocrats
+				value = 0.02
+			}
+
+			add_radicals_in_state = {
+				pop_type = peasants
+				value = 0.02
+			}
+
+			add_radicals_in_state = {
+				pop_type = clergymen
+				value = 0.02
+			}
+		}
+	}
+
+	option = { #We can't just skip the democratic processes!
+		name = dufour.1003.h
+		default_option = yes
+
+		scope:east_switzerland_state = {
+			add_radicals_in_state = {
+				pop_type = academics
+				value = 0.1
+			}
+		}
+
+		hidden_effect = {
+			random_list = {
+				1 = {
+					trigger_event = {
+						id = dufour.1004 #Bundesgericht forces Appenzell to allow women the right to vote.
+						popup = yes
+						years = { 7 8 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = dufour.1002 #Appenzell votes for women's suffrage.
+						popup = yes
+						years = { 7 8 }
+					}
+				}
+			}
+		}
+	
+		custom_tooltip = cow_swi_womens_suffrage_appenzell_effects_tt
+	}
+}
+
+#Dufour 1004: Bundesgericht forces Appenzell to allow women the right to vote
+dufour.1004 = { 
+	type = country_event
+	placement = scope:east_switzerland_state
+
+
+    title = dufour.1004.t
+    desc = dufour.1004.d
+    flavor = dufour.1004.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dufour_pictures/dufour_landsgemeinde_hundwil.dds"
+	}
+	
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/leader_speaking_to_a_group_of_people"
+
+	icon = "gfx/interface/icons/event_icons/event_election.dds"
+
+	trigger = {
+		has_law = law_type:law_womens_suffrage
+	}
+
+	immediate = {
+		east_switzerland_scope_effect = yes #sets the scope to the state of East Switzerland
+	}
+
+	option = { #Finally!
+		name = dufour.1004.g
+		default_option = yes
+
+		scope:east_switzerland_state = {
+			add_radicals_in_state = {
+				pop_type = farmers
+				value = 0.01
+			}
+
+			add_radicals_in_state = {
+				pop_type = aristocrats
+				value = 0.01
+			}
+
+			add_radicals_in_state = {
+				pop_type = peasants
+				value = 0.01
+			}
+
+			add_radicals_in_state = {
+				pop_type = clergymen
+				value = 0.01
+			}
+		}
+	}
+}
