@@ -11774,6 +11774,895 @@ dubois.441 = {
 	}
 }
 
+#################################################################################################################################
+
+######NATURAL HISTORY CONGRESSES######
+
+#Man's Place in Nature
+
+#Dubois 901: Hippocampus - Invitation
+
+dubois.901 = {
+	type = country_event
+
+	title = dubois.901.t
+	desc = dubois.901.d
+	flavor = dubois.901.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_hippocampus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	immediate = {
+		set_global_variable = dubois_unique_yes
+		set_global_variable = dubois_unique_no
+		var:dubois_naturalist_var = {
+			set_variable = dubois_attended_hippocampus_congress_var
+			save_scope_as = dubois_naturalist_scope
+		}
+		random_country = {
+			limit = {
+				var:dubois_naturalist_var = {
+					has_variable = dubois_invented_evolution_theory_var
+				}
+			}
+			var:dubois_naturalist_var = {
+				save_scope_as = dubois_darwin_scope
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.901.g # Invite the leading naturalist nations
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_variable = dubois_naturalist_var
+			}
+			trigger_event = {
+				id = dubois.902
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = dubois.904
+			days = { 7 14 }
+		}
+		trigger_event = {
+			id = dubois.909
+			days = 180
+		}
+	}
+}
+
+#Dubois 902: Hippocampus - An Invitation
+
+dubois.902 = {
+	type = country_event
+
+	title = dubois.901.t
+	desc = dubois.902.d
+	flavor = dubois.901.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_hippocampus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:dubois_naturalist_var = {
+			set_variable = dubois_attended_hippocampus_congress_var
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = { 
+		name = dubois.902.g #We'll come
+		add_modifier = {
+			name = dubois_congress_attend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = dubois.904
+			days = { 7 14 }
+		}
+	}
+}
+
+#Dubois 904: Hippocampus - Relation to Ape or Uniqueness?
+
+dubois.904 = {
+	type = country_event
+
+	title = dubois.904.t
+	desc = dubois.904.d
+	flavor = dubois.904.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_hippocampus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_naturalist_var
+				NOT = {
+					this = ROOT
+				}
+			}
+			var:dubois_naturalist_var = {
+				save_scope_as = dubois_hippocampus_defender_scope
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_naturalist_var
+				NOT = {
+					this = ROOT
+				}
+				var:dubois_naturalist_var = {
+					NOT = {
+						this = scope:dubois_hippocampus_defender_scope
+					}
+				}
+			}
+			var:dubois_naturalist_var = {
+				save_scope_as = dubois_hippocampus_attacker_scope
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.904.g #Man is unique in the animal kingdom
+		if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					has_trait = dubois_naturalist_famous
+				}
+			}
+			change_global_variable = {
+				name = dubois_unique_yes
+				add = 3
+			}
+			custom_tooltip = dubois_conference_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					has_trait = dubois_naturalist_experienced
+				}
+			}
+			change_global_variable = {
+				name = dubois_unique_yes
+				add = 2
+			}
+			custom_tooltip = dubois_conference_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = dubois_unique_yes
+				add = 1
+			}
+		}
+		
+		ai_chance = {
+			base = 1
+			modifier = { #State Church
+				trigger = {
+					has_law = law_type:law_state_religion
+				}
+				add = 1
+			}
+			modifier = { #Powerful Clergy
+				trigger = {
+					ig:ig_devout = {
+						is_powerful = yes
+					}
+				}
+				add = 1
+			}
+			modifier = { #Cautious Character preserves status quo
+				trigger = {
+					var:dubois_naturalist_var = {
+						has_trait = cautious
+					}
+				}
+				add = 1
+			}
+			modifier = { #Less experiences remains conformist
+				trigger = {
+					var:dubois_naturalist_var = {
+						var:dubois_naturalist_experience < 100
+					}
+				}
+				add = 1
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.904.h #Man is nearer to apes than we thought before
+		default_option = yes
+		if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					has_trait = dubois_naturalist_famous
+				}
+			}
+			change_global_variable = {
+				name = dubois_unique_no
+				add = 3
+			}
+			custom_tooltip = dubois_conference_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					has_trait = dubois_naturalist_experienced
+				}
+			}
+			change_global_variable = {
+				name = dubois_unique_no
+				add = 2
+			}
+			custom_tooltip = dubois_conference_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = dubois_unique_no
+				add = 1
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #Total Seperation or Atheism
+				trigger = {
+					OR = {
+						has_law = law_type:law_total_separation
+						has_law = law_type:law_state_atheism
+					}
+				}
+				add = 1
+			}	
+			modifier = { #Atheist Archaeologist
+				trigger = {
+					var:lepsius_archaeologist_var = {
+						has_ideology = ideology:ideology_anti_clerical
+					}
+				}
+				add = 1
+			}
+			modifier = { #Powerless Clergy
+				trigger = {
+					ig:ig_devout = {
+						is_marginal = yes
+					}
+				}
+				add = 1
+			}
+			modifier = { #Theory of Evolution will help significantly
+				trigger = {
+					has_technology_researched = dubois_theory_of_evolution_tech
+				}
+				add = 5
+			}
+			modifier = { #Innovative will tend to Theory of Evolution
+				trigger = {
+					var:dubois_naturalist_var = {
+						has_trait = innovative
+					}
+				}
+				add = 1
+			}
+			modifier = { #More experience ist non-conformist
+				trigger = {
+					var:dubois_naturalist_var = {
+						var:dubois_naturalist_experience >= 100
+					}
+				}
+				add = 2
+			}
+			modifier = { #Mr. Darwin will defend his theory at all cost
+				trigger = {
+					var:dubois_naturalist_var = {
+						has_variable = dubois_invented_evolution_theory_var
+					}
+				}
+				add = 20
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					OR = {
+						has_trait = inspirational_orator
+						has_trait = demagogue
+						has_trait = firebrand
+						has_trait = charismatic
+					}
+				}
+			}
+			trigger_event = {
+				id = dubois.905 #Respected Speech
+				days = { 14 21 }
+			}
+		}
+		else_if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					OR = {
+						has_trait = innovative
+						has_trait = meticulous
+						has_trait = erudite
+					}
+				}
+			}
+			trigger_event = {
+				id = dubois.906 #Valuable contribution to the debate
+				days = { 14 21 }
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_character = {
+					has_trait = literary
+				}
+			}
+			trigger_event = {
+				id = dubois.907 #The Hippopotamus
+				days = { 14 21 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = dubois.908 #Intellectural or material exchange
+				days = { 14 21 }
+			}
+		}
+	}
+}
+
+#Dubois 905: Hippocampus - Respected Speech
+
+dubois.905 = {
+	type = country_event
+
+	title = dubois.905.t
+	desc = dubois.905.d
+	flavor = dubois.905.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_hippocampus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					this = ROOT
+				}
+				OR = {
+					has_modifier = dubois_congress_host_modifier
+					has_modifier = dubois_congress_attend_modifier
+				}
+			}
+			save_scope_as = dubois_congress_country
+		}
+	}
+
+	option = { 
+		name = dubois.905.g #He brings honor to our country
+		dubois_add_x_academy_progress = {
+			AMOUNT = "3"
+		}
+		change_infamy = -3
+		scope:dubois_congress_country = {
+			change_relations = {
+				country = ROOT 
+				value = 10
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:dubois_naturalist_var = {
+					OR = {
+						has_trait = innovative
+						has_trait = meticulous
+						has_trait = erudite
+					}
+				}
+			}
+			trigger_event = {
+				id = dubois.906 #Valuable contribution to the debate
+				days = { 14 21 }
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_character = {
+					has_trait = literary
+				}
+			}
+			trigger_event = {
+				id = dubois.907 #The Hippopotamus
+				days = { 14 21 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = dubois.908 #Intellectural or material exchange
+				days = { 14 21 }
+			}
+		}
+	}
+}
+
+#Dubois 906: Hippocampus - Valuable contribution to the debate
+
+dubois.906 = {
+	type = country_event
+
+	title = dubois.906.t
+	desc = dubois.906.d
+	flavor = dubois.906.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_hippocampus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+		every_country = {
+			limit = {
+				NOT = {
+					this = ROOT
+				}
+				OR = {
+					has_modifier = dubois_congress_host_modifier
+					has_modifier = dubois_congress_attend_modifier
+				}
+			}
+			save_scope_as = dubois_congress_country
+		}
+	}
+
+	option = { 
+		name = dubois.905.g #He brings honor to our country
+		dubois_small_add_technology = yes
+		scope:dubois_congress_country = {
+			change_relations = {
+				country = ROOT 
+				value = 10
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				any_scope_character = {
+					has_trait = literary
+				}
+			}
+			trigger_event = {
+				id = dubois.907 #The Hippopotamus
+				days = { 14 21 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = dubois.908 #Intellectural or material exchange
+				days = { 14 21 }
+			}
+		}
+	}
+}
+
+#Dubois 907: Hippocampus - The Hippopotamus Question
+
+dubois.907 = {
+	type = country_event
+
+	title = dubois.907.t
+	desc = dubois.907.d
+	flavor = dubois.907.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_hippocampus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_trait = literary
+			}
+			save_scope_as = dubois_hippopotamus_writer
+		}
+	}
+
+	option = { 
+		name = dubois.907.g #That's hilarious.
+		add_modifier = {
+			name = dubois_congress_reception_modifier
+			years = 3
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = dubois.908 #Intellectural or material exchange
+			days = { 14 21 }
+		}
+	}
+}
+
+#Dubois 908: Hippocampus - Intellectual or material exchange
+
+dubois.908 = {
+	type = country_event
+
+	title = dubois.908.t
+	desc = dubois.908.d
+	flavor = dubois.908.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_hippocampus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = { 
+		name = dubois.908.g #Exchange thoughts with colleagues
+		default_option = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	option = { 
+		name = dubois.908.h #Exchange specimen with colleagues
+		dubois_add_x_specimen_effect = { 
+			AMOUNT = 5000 
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 909: Hippocampus - Decision for Host
+
+dubois.909 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_unique
+			}
+			desc = dubois.909.t_unique
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_primate
+			}
+			desc = dubois.909.t_primate
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_unique
+			}
+			desc = dubois.909.d_unique
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_primate
+			}
+			desc = dubois.909.d_primate
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_unique
+			}
+			desc = dubois.909.f_unique
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_primate
+			}
+			desc = dubois.909.f_primate
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_hippocampus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+		if = {
+			limit = {
+				global_var:dubois_unique_yes > global_var:dubois_unique_no
+			}
+			set_global_variable = dubois_hippocampus_unique
+		}
+		else_if = {
+			limit = {
+				global_var:dubois_unique_yes = global_var:dubois_unique_no
+			}
+			set_global_variable = dubois_hippocampus_primate
+		}
+		else_if = {
+			limit = {
+				global_var:dubois_unique_yes < global_var:dubois_unique_no
+			}
+			set_global_variable = dubois_hippocampus_primate
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = dubois_hippocampus_unique
+		}
+		name = dubois.909.g #Man is the crown of creation.
+		default_option = yes
+		dubois_small_add_technology = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = dubois_hippocampus_primate
+		}
+		name = dubois.909.h #Are we just hairless monkeys?
+		dubois_large_add_technology = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_modifier = dubois_congress_attend_modifier
+			}
+			trigger_event = {
+				id = dubois.910
+				popup = yes
+			}
+		}
+		remove_global_variable = dubois_unique_yes
+		remove_global_variable = dubois_unique_no
+	}
+}
+
+#Dubois 910: Hippocampus - Decision for Others
+
+dubois.910 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_unique
+			}
+			desc = dubois.909.t_unique
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_primate
+			}
+			desc = dubois.909.t_primate
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_unique
+			}
+			desc = dubois.909.d_unique
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_primate
+			}
+			desc = dubois.909.d_primate
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_unique
+			}
+			desc = dubois.909.f_unique
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_primate
+			}
+			desc = dubois.909.f_primate
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_hippocampus_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = dubois_hippocampus_unique
+		}
+		name = dubois.909.g #Man is the crown of creation.
+		default_option = yes
+		dubois_small_add_technology = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = dubois_hippocampus_primate
+		}
+		name = dubois.909.h #Are we just hairless monkeys?
+		dubois_large_add_technology = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	after = {
+	}
+}
+
+#################################################################################################################################
+
 ######ZOO######
 
 #Dubois 1000: Le Carnaval des animaux
