@@ -11778,7 +11778,7 @@ dubois.441 = {
 
 ######NATURAL HISTORY CONGRESSES######
 
-#Man's Place in Nature
+######Man's Place in Nature######
 
 #Dubois 901: Hippocampus - Invitation
 
@@ -11911,7 +11911,7 @@ dubois.904 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
 	immediate = {
 		var:dubois_naturalist_var = {
@@ -12639,6 +12639,7 @@ dubois.910 = {
 			has_global_variable = dubois_hippocampus_unique
 		}
 		name = dubois.909.g #Man is the crown of creation.
+		remove_modifier = dubois_congress_attend_modifier
 		default_option = yes
 		dubois_small_add_technology = yes
 		naturalist_experience_gain_effect = {
@@ -12651,10 +12652,588 @@ dubois.910 = {
 			has_global_variable = dubois_hippocampus_primate
 		}
 		name = dubois.909.h #Are we just hairless monkeys?
+		remove_modifier = dubois_congress_attend_modifier
 		dubois_large_add_technology = yes
 		naturalist_experience_gain_effect = {
 			AMOUNT = "20"
 		}
+	}
+
+	after = {
+	}
+}
+
+#######Extinction of the Dinosaurs######
+
+#Dubois 921: Extinction - Invitation
+
+dubois.921 = {
+	type = country_event
+
+	title = dubois.921.t
+	desc = dubois.921.d
+	flavor = dubois.921.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_extinction_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			set_variable = dubois_attended_extinction_congress_var
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = { 
+		name = dubois.921.g # Invite the leading paleontologist nations
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_variable = dubois_paleontologist_var
+			}
+			OR = {
+				var:dubois_fossil >= 10
+				dubois_has_dinosaur_skeleton = yes
+			}
+			trigger_event = {
+				id = dubois.922
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				AND = {
+					has_variable = verrier_astronomer_var
+					var:verrier_astronomer_var = {
+						has_trait = verrier_astronomer_famous
+					}
+				}
+				AND = {
+					has_variable = dubois_paleontologist_var
+					var:dubois_paleontologist_var = {
+						has_trait = dubois_paleontologist_famous
+					}
+				}
+				has_technology_researched = verrier_astro_physics_tech
+			}
+			trigger_event = {
+				id = dubois.923
+				days = { 3 6 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = dubois.924
+				days = { 7 14 }
+			}
+		}
+		trigger_event = {
+			id = dubois.929
+			days = 180
+		}
+	}
+}
+
+#Dubois 922: Extinction - An Invitation
+
+dubois.922 = {
+	type = country_event
+
+	title = dubois.901.t
+	desc = dubois.902.d
+	flavor = dubois.901.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_extinction_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
+		}
+		var:dubois_paleontologist_var = {
+			set_variable = dubois_attended_extinction_congress_var
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = { 
+		name = dubois.922.g #We'll come
+		add_modifier = {
+			name = dubois_congress_attend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				AND = {
+					has_variable = verrier_astronomer_var
+					var:verrier_astronomer_var = {
+						has_trait = verrier_astronomer_famous
+					}
+				}
+				AND = {
+					has_variable = dubois_paleontologist_var
+					var:dubois_paleontologist_var = {
+						has_trait = dubois_paleontologist_famous
+					}
+				}
+				has_technology_researched = verrier_astro_physics_tech
+			}
+			trigger_event = {
+				id = dubois.923
+				days = { 3 6 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = dubois.924
+				days = { 7 14 }
+			}
+		}
+	}
+}
+
+#Dubois 923: Extinction - An Invitation
+
+dubois.923 = {
+	type = country_event
+
+	title = dubois.923.t
+	desc = dubois.923.d
+	flavor = dubois.923.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_extinction_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = { 
+		name = dubois.923.g #This is a fascinating idea.
+		set_variable = dubois_extinction_asteroid_theory_var
+	}
+
+	option = { 
+		name = dubois.923.g #This is absurd
+	}
+
+	after = {
+		trigger_event = {
+			id = dubois.924
+			days = { 3 7 }
+		}
+	}
+}
+
+#Dubois 924: Extinction - Why did the dinosaurs die out?
+
+dubois.924 = {
+	type = country_event
+
+	title = dubois.924.t
+	desc = dubois.924.d
+	flavor = dubois.924.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_extinction_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	#Potemkin Congress
+
+	option = { 
+		name = dubois.924.a #An asteroid impact was responsible.
+		trigger = {
+			has_variable = dubois_extinction_asteroid_theory_var
+		}
+		highlighted_option = yes
+		default_option = yes
+		custom_tooltip = dubois.924.tt
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { 
+		name = dubois.924.g #The sea level dropped and destroyed habitats
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.924.h #Oxygen contents of Earth's atmosphere rose to levels better suited for birds and mammals
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.924.i #Maladaptive traits
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.924.j #Diminuition of sexual activity
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.924.k #Pathological Gigantism
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.924.l #Competition with Mammals who ate their eggs
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.924.m #Climate Change
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.924.n #Volcanic Eruptions
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.924.o #Bombardment from cosmic or ultraviolet radiation
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.924.p #Dinosaur brain size diminished over the course of the Mesozoic until, in effect, they became too stupid to live
+		trigger = {
+			NOT = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Dubois 929: Extinction - Decision Host
+
+dubois.929 = {
+	type = country_event
+
+	title = dubois.929.t
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_asteroid
+			}
+			desc = dubois.929.t_asteroid
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_climate
+			}
+			desc = dubois.929.t_climate
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_sex
+			}
+			desc = dubois.929.t_sex
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_mammals
+			}
+			desc = dubois.929.t_mammals
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_fat
+			}
+			desc = dubois.929.t_fat
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_stupid
+			}
+			desc = dubois.929.t_stupid
+		}
+	}
+
+	flavor = dubois.929.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_extinction_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_variable = dubois_extinction_asteroid_theory_var
+				}
+			}
+			set_global_variable = dubois_extinction_asteroid
+		}
+		else = {
+			random_list = {
+				1 = {
+					set_global_variable = dubois_extinction_climate
+				}
+				1 = {
+					set_global_variable = dubois_extinction_sex
+				}
+				1 = {
+					set_global_variable = dubois_extinction_mammals
+				}
+				1 = {
+					set_global_variable = dubois_extinction_fat
+				}
+				1 = {
+					set_global_variable = dubois_extinction_stupid
+				}
+			}
+		}
+	}
+
+	option = { 
+		name = dubois.929.g #An asteroid impact was responsible.
+		trigger = {
+			has_global_variable = dubois_extinction_asteroid
+		}
+		if = {
+			limit = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+			add_modifier = {
+				name = verrier_breakthrough_modifier
+				years = 10
+			}
+		}
+		dubois_large_add_technology = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = "10"
+		}
+		paleontologist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	option = { 
+		name = dubois.929.g #Aan awkward theory, but the only one accepted.
+		trigger = {
+			NOT = {
+				has_global_variable = dubois_extinction_asteroid
+			}
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_modifier = dubois_congress_attend_modifier
+			}
+			trigger_event = {
+				id = dubois.930
+				popup = yes
+			}
+		}
+	}
+}
+
+#Dubois 930: Extinction - Decision Others
+
+dubois.930 = {
+	type = country_event
+
+	title = dubois.929.t
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_asteroid
+			}
+			desc = dubois.929.t_asteroid
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_climate
+			}
+			desc = dubois.929.t_climate
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_sex
+			}
+			desc = dubois.929.t_sex
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_mammals
+			}
+			desc = dubois.929.t_mammals
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_fat
+			}
+			desc = dubois.929.t_fat
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_stupid
+			}
+			desc = dubois.929.t_stupid
+		}
+	}
+
+	flavor = dubois.929.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_extinction_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	#Potemkin Congress
+
+	option = { 
+		name = dubois.929.g #An asteroid impact was responsible.
+		trigger = {
+			has_global_variable = dubois_extinction_asteroid
+		}
+		remove_modifier = dubois_congress_attend_modifier
+		if = {
+			limit = {
+				has_variable = dubois_extinction_asteroid_theory_var
+			}
+			add_modifier = {
+				name = verrier_breakthrough_modifier
+				years = 10
+			}
+		}
+		dubois_large_add_technology = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = "10"
+		}
+		paleontologist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	option = { 
+		name = dubois.929.g #An awkward theory, but the only one accepted.
+		trigger = {
+			NOT = {
+				has_global_variable = dubois_extinction_asteroid
+			}
+		}
+		remove_modifier = dubois_congress_attend_modifier
 	}
 
 	after = {
