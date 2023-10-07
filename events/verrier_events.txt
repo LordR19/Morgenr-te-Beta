@@ -6296,3 +6296,168 @@ verrier.9002 = {
 		}
 	}
 }
+
+# Niagra Falls frozen
+verrier.9003 = {
+	type = country_event
+	placement = scope:niagara_falls_state_scope
+
+	title = verrier.9003.t
+	desc = verrier.9003.d	
+	flavor = verrier.9003.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_niagara_falls_frozen.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	trigger = {
+		OR = {
+			p:x24691A = {
+				owner = root
+			}
+			p:xE217B5 = {
+				owner = root
+			}
+		}
+		NOT = {
+			has_variable = verrier_niagara_falls_frozen_variable
+		}
+	}
+
+	immediate = {
+		random_state  = { #Sets Ontario or New York as scope
+			limit = {
+				owner = root
+				OR = {
+					state_region = s:STATE_NEW_YORK
+					state_region = s:STATE_ONTARIO
+				}
+			}
+			save_scope_as = niagara_falls_state_scope
+		}
+		set_variable = verrier_niagara_falls_frozen_variable
+	}
+
+	option = { #Take meassures to keep the people safe. We can't risk anything.
+		name = verrier.9003.g
+		default_option = yes
+
+		scope:niagara_falls_state_scope = {
+			add_radicals_in_state = {
+				value = 0.01
+			}
+		}
+	}
+
+	option = { #They are adults. I'm sure they know about the risks!
+		name = verrier.9003.h
+
+		scope:niagara_falls_state_scope = {
+			add_loyalists_in_state = {
+				value = 0.01
+			}
+		}
+
+		hidden_effect = {
+			random_list = {
+				3 = {
+					trigger_event = {
+					id = verrier.9004
+					days = { 3 30 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = verrier.9005
+						days = { 14 60 }
+					}
+				}
+			}
+		}
+
+		custom_tooltip = verrier_niagara_falls_no_security_tt
+	}
+}
+
+# Niagara Falls ice bridge collapsed - several fatalities
+verrier.9004 = {
+	type = country_event
+	placement = scope:niagara_falls_state_scope
+
+	title = verrier.9004.t
+	desc = verrier.9004.d	
+	flavor = verrier.9004.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_niagara_falls_frozen.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #What an unnecessary tragedy!
+		name = verrier.9004.g
+		default_option = yes
+
+		scope:niagara_falls_state_scope = {
+			add_radicals_in_state = {
+				value = 0.05
+			}
+		}
+	}
+}
+
+# The ice at Niagara Falls has melted
+verrier.9005 = {
+	type = country_event
+	placement = scope:niagara_falls_state_scope
+
+	title = verrier.9005.t
+	desc = verrier.9005.d	
+	flavor = verrier.9005.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_niagara_falls_painting.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_newspaper.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Wonderful!
+		name = verrier.9005.g
+		default_option = yes
+
+		scope:niagara_falls_state_scope = {
+			add_loyalists_in_state = {
+				value = 0.01
+			}
+		}
+	}
+}
