@@ -238,6 +238,7 @@ namespace = gaudi
 
 #Gaudí 1001: Invention of the Steel Frame (Eiffel)
 #Gaudí 1002: Pavellons Güell (Gaudì)
+#Gaudí 1003: Enzo Ferrari wins on the Savio Circuit
 
 #################################################################################
 
@@ -10004,6 +10005,76 @@ gaudi.1002 = {
 
 	option = {
 		name = gaudi.1002.h #Gaudì has a great future ahead of him!
+		default_option = yes
+		
+		gaudi_set_new_engineer_as_engineer_effect = yes
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1003: Enzo Ferrari wins on the Savio Circuit
+
+gaudi.1003 = {
+	type = country_event
+
+	title = gaudi.1003.t
+	desc = gaudi.1003.d
+	flavor = gaudi.1003.f
+
+	placement = scope:ravenna_state_scope
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_new_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/automobiles.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = gaudi_ferrari_event_global_var
+		}
+		year >= 1923 #year Ferrari won the Grand Prix in Ravenna
+		has_technology_researched = combustion_engine
+		country_has_primary_culture = cu:north_italian
+		p:x708020 = {
+			owner = root
+		}
+	}
+
+	immediate = {
+		set_global_variable = gaudi_ferrari_event_global_var
+
+		create_ferrari_enzo_effect = yes
+
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ROMAGNA
+			}
+			save_scope_as = ravenna_state_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1003.g #What a spectacle!
+		default_option = yes
+
+		gaudi_remove_new_engineer_effect = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = gaudi.1003.h #He is meant for greater things!
 		default_option = yes
 		
 		gaudi_set_new_engineer_as_engineer_effect = yes
