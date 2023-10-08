@@ -17727,7 +17727,7 @@ mr_ita_maserati_alfieri={
 	entity={ 0 0 }
 }
 
-ita_bugatti_ettore={
+mr_ita_bugatti_ettore={
 	type=male
 	id=0
 	age=0.520000
