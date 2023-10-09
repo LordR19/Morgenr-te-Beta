@@ -177,6 +177,11 @@ namespace = elgar
 #Elgar 443: Successful Conductor
 #Elgar 444: Unsccessful Conductor
 
+###Historical Events for Music###
+
+#Elgar 501: Canto degli Italiani
+#Elgar 502: Canto degli Italiani
+
 ######Cosmopolitan Composers######
 
 ###Donizetti###
@@ -8826,6 +8831,159 @@ elgar.444 = {
 	option = { #Disappointing 
 		name = elgar.444.g
 		default_option = yes
+	}
+}
+
+###Historical Events for Music###
+
+#Elgar 501: Canto degli Italiani
+
+elgar.501 = {
+	type = country_event
+	placement = ROOT
+
+	title = elgar.501.t
+	desc = elgar.501.d
+	flavor = elgar.501.f
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_mameli.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_PIEDMONT
+		}
+		has_technology_researched = nationalism
+		game_date >= 1847.1.1
+		NOT = {
+			game_date >= 1849.7.7 #Mameli dies
+		}
+		NOT = { 
+			has_global_variable = elgar_inno_mameli_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = elgar_inno_mameli_var
+		}
+	}
+
+	option = {
+		name = elgar.501.g #There should be a law against it...
+		trigger = {
+			NOR = {
+				country_has_primary_culture = cu:south_italian
+				country_has_primary_culture = cu:north_italian
+			}
+		}
+		add_radicals = {
+			value = 0.1
+			culture = cu:north_italian
+		}
+		add_radicals = {
+			value = 0.1
+			culture = cu:south_italian
+		}
+	}
+
+	option = {
+		name = elgar.501.h #Fratelli d'Italia, l'Italia s'è desta!
+		default_option = yes
+		trigger = {
+			OR = {
+				country_has_primary_culture = cu:south_italian
+				country_has_primary_culture = cu:north_italian
+			}
+		}
+		elgar_add_10_music_tradition = yes
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					any_scope_state = {
+						region = sr:region_italy
+					}
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_event = { 
+					id = elgar.502
+					popup = yes 
+					days = { 1 7 }
+				}
+			}
+		}
+	}
+}
+
+#Elgar 502: Canto degli Italiani
+
+elgar.502 = {
+	type = country_event
+	placement = ROOT
+
+	title = elgar.501.t
+	desc = elgar.501.d
+	flavor = elgar.501.f
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_mameli.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = elgar.501.g #There should be a law against it...
+		trigger = {
+			NOR = {
+				country_has_primary_culture = cu:south_italian
+				country_has_primary_culture = cu:north_italian
+			}
+		}
+		add_radicals = {
+			value = 0.1
+			culture = cu:north_italian
+		}
+		add_radicals = {
+			value = 0.1
+			culture = cu:south_italian
+		}
+	}
+
+	option = {
+		name = elgar.501.h #Fratelli d'Italia, l'Italia s'è desta!
+		default_option = yes
+		trigger = {
+			OR = {
+				country_has_primary_culture = cu:south_italian
+				country_has_primary_culture = cu:north_italian
+			}
+		}
+		elgar_add_10_music_tradition = yes
+	}
+
+	after = {
 	}
 }
 
