@@ -21,6 +21,15 @@ namespace = manzoni
 #Manzoni 1104: Monsieur Crépin published
 #Manzoni 1105: Aline published
 
+### Italy ###
+#Manzoni 1200: I Promessi Sposi
+#Manzoni 1201: I Promessi Sposi (for other italian nations and Austria)
+#Manzoni 1202: Giacomo Leopardi, La Ginestra
+#Manzoni 1203: Giosué Carducci, Rime Nuove
+#Manzoni 1204: Giovanni Pascoli, Myricae
+#Manzonu 1205: Italo Svevo, Zeno's Conscience
+#Manzoni 1206: Gabriele D'Annunzio, Il Piacere
+
 ###################
 
 ### Great Britain ###
@@ -341,5 +350,434 @@ manzoni.1105 = {
 		add_modifier = {
 			name = manzoni_aline_published_modifier
 		}
+	}
+}
+
+###################
+
+### Italy ###
+
+#Manzoni 1200: Alessandro Manzoni, I Promessi Sposi
+manzoni.1200 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1200.t
+	desc = manzoni.1200.d
+	flavor = manzoni.1200.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_promessi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_LOMBARDY
+		}
+		has_technology_researched = romanticism
+		game_date >= 1842.1.1
+		NOT = { 
+			has_global_variable = manzoni_promessi_published_global_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = manzoni_promessi_published_global_var
+		}
+	}
+
+	option = {
+		name = manzoni.1200.g #Who cares about a silly Italian novel?
+		trigger = {
+			NOR = {
+				country_has_primary_culture = cu:south_italian
+				country_has_primary_culture = cu:north_italian
+			}
+		}
+		add_radicals = {
+			value = 0.1
+			culture = cu:north_italian
+		}
+		add_radicals = {
+			value = 0.1
+			culture = cu:south_italian
+		}
+	}
+
+	option = {
+		name = manzoni.1200.h #The peak of Italian culture!
+		default_option = yes
+		trigger = {
+			OR = {
+				country_has_primary_culture = cu:south_italian
+				country_has_primary_culture = cu:north_italian
+			}
+		}
+		add_modifier = {
+			name = manzoni_promessi_published_modifier
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					OR = {
+						country_has_primary_culture = cu:south_italian
+						country_has_primary_culture = cu:north_italian
+					}
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_event = { 
+					id = manzoni.1201
+					popup = yes 
+					days = { 1 7 }
+				}
+			}
+		}
+	}
+}
+
+#Manzoni 1201: Alessandro Manzoni, I Promessi Sposi
+manzoni.1201 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1200.t
+	desc = manzoni.1200.d
+	flavor = manzoni.1200.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_promessi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = manzoni.1200.h #The peak of Italian culture!
+		default_option = yes
+		trigger = {
+			OR = {
+				country_has_primary_culture = cu:south_italian
+				country_has_primary_culture = cu:north_italian
+			}
+		}
+		add_modifier = {
+			name = manzoni_promessi_published_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1202: Giacomo Leopardi, La Ginestra
+manzoni.1202 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1202.t
+	desc = manzoni.1202.d
+	flavor = manzoni.1202.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_leopardi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_CAMPANIA
+		}
+		NOT = {
+			game_date >= 1837.6.14 #Leopardi dies
+		}
+		NOT = { 
+			has_global_variable = manzoni_ginestra_published_global_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = manzoni_ginestra_published_global_var
+		}
+	}
+
+	option = {
+		name = manzoni.1202.g #How melancholic
+		default_option = yes
+		add_modifier = {
+			name = manzoni_ginestra_published_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1203: Giosué Carducci, Rime Nuove
+manzoni.1203 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1203.t
+	desc = manzoni.1203.d
+	flavor = manzoni.1203.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_carducci.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		c:ITA ?= this
+		has_technology_researched = realism
+		game_date >= 1887.1.1
+		NOT = {
+			game_date >= 1907.2.16 #Carducci dies
+		}
+		NOT = { 
+			has_global_variable = manzoni_rime_published_global_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = manzoni_rime_published_global_var
+		}
+	}
+
+	option = {
+		name = manzoni.1203.g #The new national poet of Italy!
+		default_option = yes
+		add_modifier = {
+			name = manzoni_rime_published_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1204: Giovanni Pascoli, Myricae
+manzoni.1204 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1204.t
+	desc = manzoni.1204.d
+	flavor = manzoni.1204.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_pascoli.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		c:ITA ?= this
+		has_technology_researched = elgar_irrationalism_tech
+		game_date >= 1891.1.1
+		NOT = {
+			game_date >= 1912.4.6 #Pascoli dies
+		}
+		NOT = { 
+			has_global_variable = manzoni_myricae_published_global_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = manzoni_myricae_published_global_var
+		}
+	}
+
+	option = {
+		name = manzoni.1204.g #A little great poet.
+		default_option = yes
+		add_modifier = {
+			name = manzoni_myricae_published_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1205: Italo Svevo, Zeno's Conscience
+manzoni.1205 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1205.t
+	desc = manzoni.1205.d
+	flavor = manzoni.1205.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_svevo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		c:ITA ?= this
+		has_technology_researched = elgar_irrationalism_tech
+		has_technology_researched = psychoanalysis
+		game_date >= 1923.1.1
+		NOT = {
+			game_date >= 1928.9.13 #Svevo dies
+		}
+		NOT = { 
+			has_global_variable = manzoni_zeno_published_global_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = manzoni_zeno_published_global_var
+		}
+	}
+
+	option = {
+		name = manzoni.1205.g #Is the author making fun of Sigmund Freud?
+		default_option = yes
+		add_modifier = {
+			name = manzoni_zeno_published_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1206: Gabriele D'Annunzio, Il Piacere
+manzoni.1206 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1206.t
+	desc = manzoni.1206.d
+	flavor = manzoni.1206.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_dannunzio.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		c:ITA ?= this
+		has_technology_researched = elgar_irrationalism_tech
+		game_date >= 1889.1.1
+		NOT = { 
+			has_global_variable = manzoni_piacere_published_global_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = manzoni_piacere_published_global_var
+		}
+	}
+
+	option = {
+		name = manzoni.1206.g #Is this symbolism or already decadence?
+		default_option = yes
+		add_modifier = {
+			name = manzoni_piacere_published_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1207: Carlo Collodi, Pinocchio
+manzoni.1207 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1207.t
+	desc = manzoni.1207.d
+	flavor = manzoni.1207.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_collodi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		c:ITA ?= this
+		has_technology_researched = realism
+		game_date >= 1880.1.1
+		NOT = {
+			game_date >= 1890.10.26 #Collodi dies
+		}
+		NOT = { 
+			has_global_variable = manzoni_pinocchio_published_global_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = manzoni_pinocchio_published_global_var
+		}
+	}
+
+	option = {
+		name = manzoni.1207.g #This children's tale would definitely have been more successful as a film.
+		default_option = yes
+		add_modifier = {
+			name = manzoni_pinocchio_published_modifier
+		}
+	}
+
+	after = {
 	}
 }
