@@ -1,0 +1,174 @@
+﻿############################
+# ARTISTS SCRPITED EFFECTS #
+############################
+
+############################################################################
+
+#All Academics (and Special Characters) should have a variable assigned to the character:
+# mr_is_composer_var		--> Composer
+# mr_is_writer_var			--> Writer
+
+######COMPOSER######
+
+#This effect kills the current composer
+kill_composer_effect = {
+	var:elgar_composer_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = elgar_composer_var
+}
+
+# Creates a new Composer without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_composer_effect = {
+	random_list = {
+		1 = { #Random Composer
+			create_character = {
+				save_scope_as = elgar_new_composer_scope
+			}
+
+			scope:elgar_new_composer_scope = {
+				add_trait = elgar_composer
+				set_variable = mr_is_composer_var
+				composer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = elgar_new_composer_var
+				value = scope:elgar_new_composer_scope
+			}
+		}
+	}
+
+	var:elgar_new_composer_var = {
+		save_scope_as = elgar_new_composer_scope
+	}
+	remove_variable = elgar_new_composer_var
+}
+
+# Set new Composer as official Composer
+elgar_set_new_composer_as_composer_effect = {
+	custom_tooltip = {
+		text = elgar_replace_composer_with_new_composer_tt
+	
+		if = {
+			limit = {
+				has_variable = elgar_composer_var
+			}
+			var:elgar_composer_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = elgar_composer_var
+			value = scope:elgar_new_composer_scope
+		}
+	}
+}
+
+# Remove new Engineer
+elgar_remove_new_composer_effect = {
+	scope:elgar_new_composer_scope = {
+		free_character_from_void = no
+	}
+}
+
+# Used to set up the Experience of a character 
+composer_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = elgar_composer_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 30
+			}
+			set_variable = {
+				name = elgar_composer_experience
+				value = age
+			}
+			change_variable = {
+				name = elgar_composer_experience
+				subtract = 30
+			}
+			change_variable = {
+				name = elgar_composer_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = elgar_composer_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Famous Composer Trait if Experience is above 500
+			limit = {
+				var:elgar_composer_experience >= 500
+				NOT = {
+					has_trait = elgar_great_composer
+				}
+			}
+			remove_trait = elgar_composer
+			add_trait = elgar_great_composer
+		}
+	}
+}
+
+#Composer Experience gain
+composer_experience_gain_effect = { #adds XP to the Composer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = elgar_composer_var #should only add experience if there actually is a Composer
+		}
+		custom_tooltip = {
+			text = elgar_composer_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:elgar_composer_var = { #Fallback to make sure there are no errors if the Composer does not have the variable yet
+							has_variable = elgar_composer_experience
+						}
+					}
+				}
+				var:elgar_composer_var = { #Sets the experience in case it was not set yet
+					composer_experience_set_up_effect = yes
+				}
+			}
+			var:elgar_composer_var = {
+				change_variable = {
+					name = elgar_composer_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:elgar_composer_var = {
+			if = {
+				limit = {
+					var:verrier_astronomer_experience >= 500
+					NOT = {
+						has_trait = elgar_great_composer
+					}
+				}
+				root = {
+					trigger_event = {
+						id = artists.101
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
