@@ -1,68 +1,33 @@
-﻿##########################
-# GAUDÍ SCRIPTED EFFECTS #
-##########################
+﻿###########################
+# ANZONI SCRIPTED EFFECTS #
+###########################
 
 #by Marco Dandolo & Lord R
 
 ##########################
 
 
-######ADD SPECIMEN######
+######ADD LITERARY TRADITION######
 
-#Effect to add $AMOUNT$ Specimen
+#Effect to add $AMOUNT$ Literary Tradition
 manzoni_add_x_literary_tradition_effect = {
-	set_local_variable = {
-		name = manzoni_amount_after_calc_local_var
-		value = $AMOUNT$
-	}
-	if = {
-		limit = { country_rank = rank_value:great_power }
-		change_local_variable = {
-			name = manzoni_amount_after_calc_local_var
-			multiply = 0.5
-		}
-		round_local_variable = {
-			name = manzoni_amount_after_calc_local_var
-			nearest = 1
-		}
-	}
-	if = {
-		limit = { country_rank = rank_value:major_power }
-		change_local_variable = {
-			name = manzoni_amount_after_calc_local_var
-			multiply = 0.75
-		}
-		round_local_variable = {
-			name = manzoni_amount_after_calc_local_var
-			nearest = 1
-		}
-	}
-	
 	# Amount = amount of specimens to add
 	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
 		name = literary_tradition_amount
-		value = local_var:manzoni_amount_after_calc_local_var
+		value = $AMOUNT$
 	}
 
 	#This part is used to display an accurate tooltip (Gain, loss, etc.)
 	if = { #Negative Plural Tooltip if local_var is negative
-		limit = { local_var:manzoni_amount_after_calc_local_var < -1 }
+		limit = { $AMOUNT$ < 0 }
 		custom_tooltip = manzoni_add_x_literary_tradition_minus_x_tt
 	}
-	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
-		limit = { local_var:manzoni_amount_after_calc_local_var = -1 }
-		custom_tooltip = manzoni_add_x_literary_tradition_minus_1_tt
-	}
 	if = { #Neutral Tooltip if $AMOUNT$ is 0
-		limit = { local_var:manzoni_amount_after_calc_local_var = 0 }
+		limit = { $AMOUNT$ = 0 }
 		custom_tooltip = manzoni_add_x_literary_tradition_0_tt
 	}
 	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { local_var:manzoni_amount_after_calc_local_var = 1 }
-		custom_tooltip = manzoni_add_x_literary_tradition_plus_1_tt
-	}
-	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
-		limit = { local_var:manzoni_amount_after_calc_local_var > 1 }
+		limit = { $AMOUNT$ > 0 }
 		custom_tooltip = manzoni_add_x_literary_tradition_plus_x_tt
 	}
 
@@ -80,11 +45,11 @@ manzoni_add_x_literary_tradition_effect = {
 	}
 	change_variable = {
 		name = manzoni_yearly_literary_tradition_var
-		add = local_var:manzoni_amount_after_calc_local_var
+		add = $AMOUNT$
 	}
 	change_global_variable = {
 		name = manzoni_global_literary_tradition_var
-		add = local_var:manzoni_amount_after_calc_local_var
+		add = $AMOUNT$
 	}
 
 	#This part adds the AMOUNT of Literary Tradition
@@ -101,7 +66,7 @@ manzoni_add_x_literary_tradition_effect = {
 	}
 	change_variable = {
 		name = manzoni_literary_tradition_var
-		add = local_var:manzoni_amount_after_calc_local_var
+		add = $AMOUNT$
 	}
 
 	#manzoni_writer_total_literary_tradition_var is used to keep track of all the Literary Tradition that a specific Writer created.
@@ -125,7 +90,7 @@ manzoni_add_x_literary_tradition_effect = {
 			}
 			change_variable = { #The amount of Specimens that this Naturalist discovered
 				name = manzoni_writer_total_literary_tradition_var
-				add = local_var:manzoni_amount_after_calc_local_var
+				add = $AMOUNT$
 			}
 		}
 	}
