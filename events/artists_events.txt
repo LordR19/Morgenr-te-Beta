@@ -26,12 +26,14 @@ namespace = artists
 ###Academy###
 
 #Artists 51: Composer
+#Artists 52: Writer
 
 #Artists 60: Random Artist /// Not yet implemented
 
 ###Level Up Events###
 
 #Artists 101: [Scope] is now a great Composer
+#Artists 102: [Scope] is now a great Writer
 
 #################################################################################
 
@@ -81,10 +83,70 @@ artists.51 = {
 
 		ai_chance = {
 			base = 10
-			modifier = { #If the AI already has a Engineer that is younger than 60, it should nearly always take this option.
+			modifier = { #If the AI already has a Composer that is younger than 60, it should nearly always take this option.
 				trigger = { 
 					has_variable = elgar_composer_var
 					var:elgar_composer_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Artists 52: Writer
+
+artists.52 = {
+	type = country_event
+
+	title = artists.52.t
+
+	desc = artists.52.d
+
+	flavor = artists.52.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_new_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_writer_effect = yes
+	}
+
+	option = {
+		name = artists.52.g
+		default_option = yes
+
+		manzoni_set_new_writer_as_writer_effect = yes
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = artists.52.h
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
+		manzoni_remove_new_writer_effect = yes
+
+		ai_chance = {
+			base = 10
+			modifier = { #If the AI already has a Writer that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = manzoni_writer_var
+					var:manzoni_writer_var = {
 						age <= 60
 					}
 				}
@@ -102,6 +164,7 @@ artists.51 = {
 ######Level Up Events######
 
 #Artists 101: [Scope] is now a great Composer
+
 artists.101 = {
 	type = country_event
 
@@ -137,6 +200,47 @@ artists.101 = {
 		var:elgar_composer_var = {
 			remove_trait = elgar_composer
 			add_trait = elgar_great_composer
+		}
+	}
+}
+
+#Artists 102: [Scope] is now a great Writer
+
+artists.102 = {
+	type = country_event
+
+	title = artists.102.t
+
+	desc = artists.102.d
+
+	flavor = artists.102.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+	}
+
+	option = {
+		name = artists.102.g
+		default_option = yes
+
+		var:manzoni_writer_var = {
+			remove_trait = literary
+			add_trait = manzoni_great_writer
 		}
 	}
 }
