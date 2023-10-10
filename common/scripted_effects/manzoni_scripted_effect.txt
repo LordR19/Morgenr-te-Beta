@@ -12,11 +12,35 @@
 #Effect to add $AMOUNT$ Literary Tradition
 manzoni_add_x_literary_tradition_effect = {
 	# Amount = amount of specimens to add
-	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
-		name = literary_tradition_amount
-		value = $AMOUNT$
+	if = {
+		limit = { country_rank = rank_value:great_power }
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = literary_tradition_amount
+			value = {
+				value = $AMOUNT$
+				multiply = 0.5
+				round = yes
+			}
+		}
 	}
-
+	else_if = {
+		limit = { country_rank = rank_value:major_power }
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = literary_tradition_amount
+			value = {
+				value = $AMOUNT$
+				multiply = 0.75
+				round = yes
+			}
+		}
+	}
+	else = {
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = literary_tradition_amount
+			value = $AMOUNT$
+		}
+	}
+	
 	#This part is used to display an accurate tooltip (Gain, loss, etc.)
 	if = { #Negative Plural Tooltip if local_var is negative
 		limit = { $AMOUNT$ < 0 }
@@ -45,11 +69,11 @@ manzoni_add_x_literary_tradition_effect = {
 	}
 	change_variable = {
 		name = manzoni_yearly_literary_tradition_var
-		add = $AMOUNT$
+		add = scope:literary_tradition_amount
 	}
 	change_global_variable = {
 		name = manzoni_global_literary_tradition_var
-		add = $AMOUNT$
+		add = scope:literary_tradition_amount
 	}
 
 	#This part adds the AMOUNT of Literary Tradition
@@ -66,7 +90,7 @@ manzoni_add_x_literary_tradition_effect = {
 	}
 	change_variable = {
 		name = manzoni_literary_tradition_var
-		add = $AMOUNT$
+		add = scope:literary_tradition_amount
 	}
 
 	#manzoni_writer_total_literary_tradition_var is used to keep track of all the Literary Tradition that a specific Writer created.
@@ -90,7 +114,7 @@ manzoni_add_x_literary_tradition_effect = {
 			}
 			change_variable = { #The amount of Specimens that this Naturalist discovered
 				name = manzoni_writer_total_literary_tradition_var
-				add = $AMOUNT$
+				add = scope:literary_tradition_amount
 			}
 		}
 	}
