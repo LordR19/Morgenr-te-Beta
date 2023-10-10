@@ -5,8 +5,9 @@
 ############################################################################
 
 #All Academics (and Special Characters) should have a variable assigned to the character:
-# mr_is_composer_var		--> Composer
-# mr_is_writer_var			--> Writer
+# mr_is_composer_var	-->	Composer
+# mr_is_writer_var		-->	Writer
+# mr_is_painter_var		-->	Painter
 
 ######COMPOSER######
 
@@ -165,6 +166,171 @@ composer_experience_gain_effect = { #adds XP to the Composer
 				root = {
 					trigger_event = {
 						id = artists.101
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+######Writer######
+
+#This effect kills the current writer
+kill_writer_effect = {
+	var:manzoni_writer_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = manzoni_writer_var
+}
+
+# Creates a new Writer without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_writer_effect = {
+	random_list = {
+		1 = { #Random Writer
+			create_character = {
+				save_scope_as = manzoni_new_writer_scope
+			}
+
+			scope:manzoni_new_writer_scope = {
+				add_trait = literary
+				set_variable = mr_is_writer_var
+				writer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = manzoni_new_writer_var
+				value = scope:manzoni_new_writer_scope
+			}
+		}
+	}
+
+	var:manzoni_new_writer_var = {
+		save_scope_as = manzoni_new_writer_scope
+	}
+	remove_variable = manzoni_new_writer_var
+}
+
+# Set new Writer as official Writer
+elgar_set_new_writer_as_writer_effect = {
+	custom_tooltip = {
+		text = manzoni_replace_writer_with_new_writer_tt
+	
+		if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			var:manzoni_writer_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = manzoni_writer_var
+			value = scope:manzoni_new_writer_scope
+		}
+	}
+}
+
+# Remove new Engineer
+manzoni_remove_new_writer_effect = {
+	scope:manzoni_new_writer_scope = {
+		free_character_from_void = no
+	}
+}
+
+# Used to set up the Experience of a character 
+writer_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = manzoni_writer_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 30
+			}
+			set_variable = {
+				name = manzoni_writer_experience
+				value = age
+			}
+			change_variable = {
+				name = manzoni_writer_experience
+				subtract = 30
+			}
+			change_variable = {
+				name = manzoni_writer_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = manzoni_writer_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Great Writer Trait if Experience is above 500
+			limit = {
+				var:manzoni_writer_experience >= 500
+				NOT = {
+					has_trait = manzoni_great_writer
+				}
+			}
+			remove_trait = literary
+			add_trait = manzoni_great_writer
+		}
+	}
+}
+
+#Writer Experience gain
+writer_experience_gain_effect = { #adds XP to the Writer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = manzoni_writer_var #should only add experience if there actually is a Writer
+		}
+		custom_tooltip = {
+			text = elgar_composer_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:manzoni_writer_var = { #Fallback to make sure there are no errors if the Writer does not have the variable yet
+							has_variable = manzoni_writer_experience
+						}
+					}
+				}
+				var:manzoni_writer_var = { #Sets the experience in case it was not set yet
+					writer_experience_set_up_effect = yes
+				}
+			}
+			var:manzoni_writer_var = {
+				change_variable = {
+					name = manzoni_writer_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:manzoni_writer_var = {
+			if = {
+				limit = {
+					var:manzoni_writer_experience >= 500
+					NOT = {
+						has_trait = manzoni_great_writer
+					}
+				}
+				root = {
+					trigger_event = {
+						id = artists.102
 						popup = yes
 					}
 				}
