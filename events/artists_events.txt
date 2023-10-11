@@ -27,6 +27,7 @@ namespace = artists
 
 #Artists 51: Composer
 #Artists 52: Writer
+#Artists 53: Painter
 
 #Artists 60: Random Artist /// Not yet implemented
 
@@ -147,6 +148,66 @@ artists.52 = {
 				trigger = { 
 					has_variable = manzoni_writer_var
 					var:manzoni_writer_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Artists 53: Painter
+
+artists.53 = {
+	type = country_event
+
+	title = artists.53.t
+
+	desc = artists.53.d
+
+	flavor = artists.53.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_new_painter_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_painter_effect = yes
+	}
+
+	option = {
+		name = artists.53.g
+		default_option = yes
+
+		klimt_set_new_painter_as_painter_effect = yes
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = artists.53.h
+#		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 } #TODO add painting tradition effect
+		klimt_remove_new_painter_effect = yes
+
+		ai_chance = {
+			base = 10
+			modifier = { #If the AI already has a Painter that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = klimt_painter_var
+					var:klimt_painter_var = {
 						age <= 60
 					}
 				}
