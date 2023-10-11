@@ -355,6 +355,37 @@ kill_painter_effect = {
 #Therefore a Variable is set to save the scope again. then gets deleted
 create_new_painter_effect = {
 	random_list = {
+		4 = { #Adolf Hitler, Austria
+			trigger = {
+				NOT = { has_global_variable = klimt_hitler_created_global_var }
+				has_state_in_state_region = STATE_AUSTRIA
+				NOT = {
+					cu:south_german = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1944.4.20 #Age 55
+#				year >= 1910 #three years after he failed the entrance exam of the Vienna Arts Academy
+			}
+			create_character = {
+				template = mr_ger_hitler_painter_character_template
+
+				save_scope_as = klimt_new_painter_scope
+			}
+			scope:klimt_new_painter_scope = {
+				set_variable = klimt_hitler_character_var
+				set_variable = mr_is_painter_var
+				painter_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = klimt_new_painter_var
+				value = scope:klimt_new_painter_scope
+			}
+
+			set_global_variable = klimt_hitler_created_global_var
+		}
 		1 = { #Random Painter
 			create_character = {
 				save_scope_as = klimt_new_painter_scope
