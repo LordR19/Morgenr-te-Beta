@@ -1363,13 +1363,19 @@ lepsius.50 = {
 			limit = {
 				has_modifier = lepsius_yucatan_excavation_modifier #Yucatán
 			}
-			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1}
 		}
 		if = {
 			limit = {
 				has_modifier = lepsius_peru_excavation_modifier #Peru
 			}
-			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1}
+		}
+		if = {
+			limit = {
+				has_modifier = lepsius_local_excavation_modifier #Local Excavation
+			}
+			lepsius_add_x_local_artifacts_effect = { AMOUNT = 1}
 		}
 		if = {
 			limit = {
@@ -20201,8 +20207,58 @@ lepsius.1202 = {
 	option = {
 		name = lepsius.1202.g #Welcome back
 		default_option = yes
-
+		if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 300
+				}
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 5
+			}
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience < 300
+					var:lepsius_archaeologist_experience >= 250
+				}
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 4
+			}
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience < 250
+					var:lepsius_archaeologist_experience >= 200
+				}
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 3
+			}
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience < 200
+					var:lepsius_archaeologist_experience >= 100
+				}
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 2
+			}
+		}
+		else = {
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 1
+			}
+		}
 		lepsius_update_exhibition_effect = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
 		scope:lepsius_archaeologist_scope = {
 			set_character_busy = no
 		}
@@ -20243,6 +20299,9 @@ lepsius.1203 = {
 		
 		lepsius_update_exhibition_effect = yes
 		remove_modifier = lepsius_local_excavation_modifier
+		lepsius_add_x_local_artifacts_effect = {
+			AMOUNT = 5
+		}
 		custom_tooltip = {
 			text = lepsius_add_archaeological_team_tt
 			change_variable = {
