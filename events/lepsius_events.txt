@@ -20340,6 +20340,7 @@ lepsius.1211 = {
 	}
 
 	trigger = {
+		has_modifier = lepsius_local_excavation_modifier
 	}
 
 	immediate = {
@@ -20385,6 +20386,7 @@ lepsius.1212 = {
 	}
 
 	trigger = {
+		has_modifier = lepsius_local_excavation_modifier
 	}
 
 	immediate = {
@@ -20433,6 +20435,7 @@ lepsius.1213 = {
 	}
 
 	trigger = {
+		has_modifier = lepsius_local_excavation_modifier
 	}
 
 	immediate = {
@@ -20478,10 +20481,15 @@ lepsius.1214 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	cooldown = { 
-		years = 5
+		years = 20
 	}
 
 	trigger = {
+		any_scope_state = {
+			has_modifier = lepsius_local_excavation_state_modifier
+			lepsius_cromagnon_region = yes
+		}
+		has_modifier = lepsius_local_excavation_modifier
 	}
 
 	immediate = {
@@ -20496,7 +20504,7 @@ lepsius.1214 = {
 	option = {
 		name = lepsius.1214.g #A task for an anthropologist.
 		default_option = yes
-		
+		lepsius_add_unknown_cromagnon_fossil_effect = yes
 	}
 
 	after = {
@@ -20527,15 +20535,16 @@ lepsius.1215 = {
 	}
 
 	trigger = {
+		has_modifier = lepsius_local_excavation_modifier
+	}
+
+	immediate = {
 		random_scope_state = {
 			limit = {
 				has_modifier = lepsius_local_excavation_state_modifier
 			}
 			save_scope_as = lepsius_excavation_site
 		}
-	}
-
-	immediate = {
 	}
 
 	option = {
@@ -20553,6 +20562,8 @@ lepsius.1215 = {
 #################################################################################
 
 ######ANTHROPOLOGY######
+
+###Caves###
 
 #Lepsius 1301: Cave found
 
@@ -20959,6 +20970,242 @@ lepsius.1307 = {
 				name = lepsius_erectus_cave_modifier
 			}
 		}
+	}
+
+	after = {
+	}
+}
+
+###Identification##
+
+#Lepsius 1311: Human Fossil identified
+
+lepsius.1311 = {
+	type = country_event
+
+	title = lepsius.1311.t
+	desc = lepsius.1311.d
+	flavor = lepsius.1311.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_neanderthalensis.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		if = {
+			limit = {
+				var:lepsius_unknown_erectus_human_fossil >= 1
+			}
+			lepsius_identify_erectus_fossil_effect = yes
+		}
+		if_else = {
+			limit = {
+				var:lepsius_unknown_neanderthalensis_human_fossil >= 1
+			}
+			lepsius_identify_neanderthalensis_fossil_effect = yes
+		}
+		if_else = {
+			limit = {
+				var:lepsius_unknown_cromagnon_human_fossil >= 1
+			}
+			lepsius_identify_cromagnon_fossil_effect = yes
+		}
+	}
+
+	after = {
+	}
+}
+
+###Completion###
+
+#Lepsius 1321: Cro-Magnon complete
+
+lepsius.1321 = {
+	type = country_event
+
+	title = lepsius.1321.t
+	desc = lepsius.1321.d
+	flavor = lepsius.1321.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cromagnon.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = lepsius_cromagnon_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_cromagnon_complete_tt
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1322: Homo Neanderthalensis complete
+
+lepsius.1322 = {
+	type = country_event
+
+	title = lepsius.1322.t
+	desc = lepsius.1322.d
+	flavor = lepsius.1322.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_neanderthalensis.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = lepsius_neanderthalensis_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_neanderthalensis_complete_tt
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1323: Homo Erectus complete
+
+lepsius.1323 = {
+	type = country_event
+
+	title = lepsius.1323.t
+	desc = lepsius.1323.d
+	flavor = lepsius.1323.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_erectus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = lepsius_erectus_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_erectus_complete_tt
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1324: Australopithecus complete
+
+lepsius.1324 = {
+	type = country_event
+
+	title = lepsius.1324.t
+	desc = lepsius.1324.d
+	flavor = lepsius.1324.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_australopithecus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = lepsius_australopithecus_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_australopithecus_complete_tt
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1325: Paranthropus complete
+
+lepsius.1325 = {
+	type = country_event
+
+	title = lepsius.1325.t
+	desc = lepsius.1325.d
+	flavor = lepsius.1325.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_australopithecus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = lepsius_paranthropus_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_paranthropus_complete_tt
 	}
 
 	after = {
