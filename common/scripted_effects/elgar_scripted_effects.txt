@@ -1123,17 +1123,24 @@ elgar_add_variables = {
 ##############################
 
 #Creates a list of the ten countries with the highest musical tradition
+#As this effect is called in an effect, it creates the list with normal variables
+#Look at the customizable localizations to see how the countries are displayed.
+#Basically the custom loc uses the variable to display both the countries in their order as well as the variables of those countries
 elgar_create_musical_tradition_ranking_effect = {
 	ordered_country = {
 		limit = {
-			NOT = {
+			NOT = { #Hopefully keeps revolutions to appear in the ranking
 				is_revolutionary = yes
 			}
 		}
 		order_by = var:elgar_music_tradition
-		max = 10
-		check_range_bounds = no
+		max = 10 #Limits the list to the ten top countires
+		check_range_bounds = no #prevents errors
 
+		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
 		if = {
 			limit = {
 				NOT = {
@@ -1143,7 +1150,7 @@ elgar_create_musical_tradition_ranking_effect = {
 				}
 			}
 			root = {
-				set_variable = {
+				set_variable = { #The countries are actually saved to the country that uses the effect in the event window
 					name = elgar_musical_tradition_rank_1_var
 					value = prev
 				}

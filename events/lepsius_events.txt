@@ -44,6 +44,8 @@ namespace = lepsius
 #Lepsius 30: Lead Scientist appointed
 #Lepsius 31: Lead Scientist becomes Director
 
+#Lepsius 40: The nations with the most Artifacts
+
 #Lepsius 50: Yearly excavation report
 
 ###Technology Events###
@@ -713,6 +715,21 @@ lepsius.11 = {
 		}
 	}
 
+	option = { #Show me the countries with the most Artifacts!
+		name = lepsius.11.o
+
+		trigger = {
+			year > 1836 #Change if you change the start date
+		}
+		trigger_event = {
+			id = lepsius.40
+			popup = yes
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+
 	#Bye
 	option = {
 		name = lepsius.11.g
@@ -1276,6 +1293,57 @@ lepsius.27 = {
 #Lepsius 30: Lead Scientist appointed #REMOVED
 
 #Lepsius 31: Lead Scientist becomes director #REMOVED
+
+#Lepsius 40: The nations with the most Artifacts
+
+lepsius.40 = {
+	type = country_event
+
+    title = lepsius.40.t
+		
+    desc = lepsius.40.d
+
+	flavor = lepsius.40.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1881.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_create_total_artifacts_ranking_effect = yes
+	}
+
+	#Back to the Main Hall
+	option = {
+		name = lepsius.12.k
+		default_option = yes
+		hidden_effect = {
+			trigger_event = { 
+				id = lepsius.11
+				popup = yes
+			}
+		}
+	}
+
+	#Bye
+	option = {
+		name = lepsius.12.l
+		remove_variable = lepsius_visiting_museum_var
+	}
+
+	after = {
+		lepsius_remove_total_artifacts_ranking_variables = yes
+	}
+}
 
 #Lepsius 50: Yearly excavation report
 
