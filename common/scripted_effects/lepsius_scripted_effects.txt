@@ -3299,186 +3299,6 @@ lepsius_fossil_identification_progress = {
 	}
 }
 
-############################
-
-lepsius_add_variables = {
-	set_variable = {
-        name = lepsius_total_artifacts
-        value = 0
-		}
-	set_variable = {
-        name = lepsius_egyptian_artifact_minor
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_egyptian_artifact_major
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_mesopotamian_artifact_minor
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_mesopotamian_artifact_major
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_aegean_artifact_minor
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_aegean_artifact_major
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_precolumbian_artifact_minor
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_precolumbian_artifact_major
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_fareastern_artifact_minor
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_fareastern_artifact_major
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_oceanic_artifact_minor
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_oceanic_artifact_major
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_local_artifact_minor
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_excavation_teams
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_expedition_success
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_archaeological_expedition_progress
-        value = 0
-	}
-	set_variable = {
-		name = lepsius_archaeologist_experience
-		value = 0
-	}
-	set_variable = {
-        name = lepsius_tut_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_ship_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_babylon_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_semiramis_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_mycenae_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_pakal_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_alexander_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_ark_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_atlantis_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_eldorado_clue
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_gilgamesh_pieces
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_total_excavation_teams
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_total_expeditions
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_total_discoveries
-        value = 0
-	}
-	######Anthropology######
-	set_global_variable = {
-        name = lepsius_global_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_total_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_cromagnon_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_unknown_cromagnon_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_neanderthalensis_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_unknown_neanderthalensis_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_erectus_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_unknown_erectus_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_australopithecus_human_fossil
-        value = 0
-	}
-	set_variable = {
-        name = lepsius_paranthropus_human_fossil
-        value = 0
-	}
-	######Add all variables######
-	set_variable = lepsius_variables_var
-}
-
 ##############################
 
 # Creates a list of the ten countries with the most artifacts
@@ -3683,4 +3503,326 @@ lepsius_set_anthropologist_busy_effect = {
 			set_character_busy = yes
 		}
 	}
+}
+
+###ANTHROPOLOGICAL RATING######
+
+lepsius_change_anthropological_rating = {
+	# Amount = amount of artifacts to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = add_anthropological_prestige
+		value = $AMOUNT$
+	}
+
+	#Used to display the right tooltip
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = lepsius_change_anthropological_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = lepsius_change_anthropological_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = lepsius_change_anthropological_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = lepsius_change_anthropological_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = lepsius_change_anthropological_plus_x_tt
+	}
+
+	#Fallback in case the variable does not exist yet
+	if = {
+		limit = {
+			NOT = {
+				has_variable = lepsius_anthropological_rating
+			}
+		}
+		set_variable = {
+			name = lepsius_anthropological_rating
+			value = 0
+		}
+	}
+
+	#Actual Variable Change
+	change_variable = { 
+		name = lepsius_anthropological_rating
+		add = $AMOUNT$
+	}
+
+	#Adds the correct modifier
+	hidden_effect = {
+		if = {
+			limit = {
+				var:lepsius_anthropological_rating >= 50
+				NOR = {
+					var:lepsius_anthropological_rating >= 150
+					has_modifier = lepsius_anthropological_rating_level_1_modifier
+				}
+			}
+			lepsius_remove_anthropological_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = lepsius_anthropological_rating_level_1_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropological_rating >= 150
+				NOR = {
+					var:lepsius_anthropological_rating >= 250
+					has_modifier = lepsius_anthropological_rating_level_2_modifier
+				}
+			}
+			lepsius_remove_anthropological_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = lepsius_anthropological_rating_level_2_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropological_rating >= 250
+				NOR = {
+					var:lepsius_anthropological_rating >= 400
+					has_modifier = lepsius_anthropological_rating_level_3_modifier
+				}
+			}
+			lepsius_remove_anthropological_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = lepsius_anthropological_rating_level_3_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropological_rating >= 400
+				NOR = {
+					var:lepsius_anthropological_rating >= 600
+					has_modifier = lepsius_anthropological_rating_level_4_modifier
+				}
+			}
+			lepsius_remove_anthropological_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = lepsius_anthropological_rating_little_level_4_modifier
+			}
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropological_rating >= 600
+				NOT = {
+					has_modifier = lepsius_anthropological_rating_level_5_modifier
+				}
+			}
+			lepsius_remove_anthropological_prestige_modifiers_effect = yes
+			add_modifier = {
+				name = lepsius_anthropological_rating_little_level_5_modifier
+			}
+		}
+	}
+}
+
+lepsius_remove_anthropological_prestige_modifiers_effect = {
+	if = {
+		limit = { has_modifier = lepsius_anthropological_level_1_modifier }
+		remove_modifier = lepsius_anthropological_level_1_modifier
+	}
+	if = {
+		limit = { has_modifier = lepsius_anthropological_level_2_modifier }
+		remove_modifier = lepsius_anthropological_level_2_modifier
+	}
+	if = {
+		limit = { has_modifier = lepsius_anthropological_level_3_modifier }
+		remove_modifier = lepsius_anthropological_level_3_modifier
+	}
+	if = {
+		limit = { has_modifier = lepsius_anthropological_level_4_modifier }
+		remove_modifier = lepsius_anthropological_level_4_modifier
+	}
+	if = {
+		limit = { has_modifier = lepsius_anthropological_level_5_modifier }
+		remove_modifier = lepsius_anthropological_level_5_modifier
+	}
+}
+
+############################
+
+lepsius_add_variables = {
+	set_variable = {
+        name = lepsius_total_artifacts
+        value = 0
+		}
+	set_variable = {
+        name = lepsius_egyptian_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_egyptian_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_mesopotamian_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_mesopotamian_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_aegean_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_aegean_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_precolumbian_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_precolumbian_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_fareastern_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_fareastern_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_oceanic_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_oceanic_artifact_major
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_local_artifact_minor
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_excavation_teams
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_expedition_success
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_archaeological_expedition_progress
+        value = 0
+	}
+	set_variable = {
+		name = lepsius_archaeologist_experience
+		value = 0
+	}
+	set_variable = {
+        name = lepsius_tut_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_ship_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_babylon_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_semiramis_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_mycenae_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_pakal_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_alexander_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_ark_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_atlantis_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_eldorado_clue
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_gilgamesh_pieces
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_total_excavation_teams
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_total_expeditions
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_total_discoveries
+        value = 0
+	}
+	######Anthropology######
+	set_global_variable = {
+        name = lepsius_global_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_total_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_cromagnon_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_unknown_cromagnon_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_neanderthalensis_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_unknown_neanderthalensis_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_erectus_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_unknown_erectus_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_australopithecus_human_fossil
+        value = 0
+	}
+	set_variable = {
+        name = lepsius_paranthropus_human_fossil
+        value = 0
+	}
+	######Add all variables######
+	set_variable = lepsius_variables_var
 }
