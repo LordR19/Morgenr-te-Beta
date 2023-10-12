@@ -20688,6 +20688,9 @@ lepsius.1301 = {
 	option = {
 		name = lepsius.1301.g #Fascinating
 		default_option = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 25
+		}
 		scope:lepsius_cave_state = {
 			if = {
 				limit = {
@@ -21067,9 +21070,9 @@ lepsius.1311 = {
 
 	duration = 3
 
-	event_image = {
-		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_neanderthalensis.dds"
-	}
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_anthropologist_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -21079,11 +21082,20 @@ lepsius.1311 = {
 	}
 
 	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
 	}
 
 	option = {
-		name = lepsius.1321.g #Fascinating
+		name = lepsius.1311.g #Fascinating
 		default_option = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		scope:lepsius_anthropologist_scope = {
+			set_character_busy = no
+		}
 		if = {
 			limit = {
 				var:lepsius_unknown_erectus_human_fossil >= 1
@@ -21105,6 +21117,57 @@ lepsius.1311 = {
 	}
 
 	after = {
+	}
+}
+
+#Lepsius 1312: Identification (hidden)
+
+lepsius.1312 = {
+	type = country_event
+	
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_fossil_identification_progress = yes
+
+		if = {
+			limit = {
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience >= 300
+				}
+			}
+			lepsius_fossil_identification_progress = yes
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience < 300
+					var:lepsius_anthropologist_experience >= 200
+				}
+			}
+			lepsius_fossil_identification_progress = yes
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience < 200
+					var:lepsius_anthropologist_experience >= 100
+				}
+			}
+			lepsius_fossil_identification_progress = yes
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience < 100
+					var:lepsius_anthropologist_experience >= 50
+				}
+			}
+			lepsius_fossil_identification_progress = yes
+		}
 	}
 }
 
@@ -21133,6 +21196,9 @@ lepsius.1321 = {
 	}
 
 	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
 		set_variable = lepsius_cromagnon_complete
 	}
 
@@ -21140,6 +21206,9 @@ lepsius.1321 = {
 		name = lepsius.1321.g #Fascinating
 		default_option = yes
 		custom_tooltip = lepsius_cromagnon_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
 	}
 
 	after = {
@@ -21169,6 +21238,9 @@ lepsius.1322 = {
 	}
 
 	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
 		set_variable = lepsius_neanderthalensis_complete
 	}
 
@@ -21176,6 +21248,9 @@ lepsius.1322 = {
 		name = lepsius.1321.g #Fascinating
 		default_option = yes
 		custom_tooltip = lepsius_neanderthalensis_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
 	}
 
 	after = {
@@ -21205,6 +21280,9 @@ lepsius.1323 = {
 	}
 
 	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
 		set_variable = lepsius_erectus_complete
 	}
 
@@ -21212,6 +21290,9 @@ lepsius.1323 = {
 		name = lepsius.1321.g #Fascinating
 		default_option = yes
 		custom_tooltip = lepsius_erectus_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
 	}
 
 	after = {
@@ -21241,6 +21322,9 @@ lepsius.1324 = {
 	}
 
 	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
 		set_variable = lepsius_australopithecus_complete
 	}
 
@@ -21248,6 +21332,9 @@ lepsius.1324 = {
 		name = lepsius.1321.g #Fascinating
 		default_option = yes
 		custom_tooltip = lepsius_australopithecus_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
 	}
 
 	after = {
@@ -21277,6 +21364,9 @@ lepsius.1325 = {
 	}
 
 	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
 		set_variable = lepsius_paranthropus_complete
 	}
 
@@ -21284,6 +21374,9 @@ lepsius.1325 = {
 		name = lepsius.1321.g #Fascinating
 		default_option = yes
 		custom_tooltip = lepsius_paranthropus_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
 	}
 
 	after = {
