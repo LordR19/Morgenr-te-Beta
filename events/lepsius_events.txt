@@ -20771,7 +20771,7 @@ lepsius.1302 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				lepsius_has_cave = yes
+				state_region = s:STATE_RUHR
 				lepsius_has_discovered_cave = no
 			}
 			save_scope_as = lepsius_cave_state
@@ -20825,7 +20825,7 @@ lepsius.1303 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				lepsius_has_cave = yes
+				state_region = s:STATE_ASTURIAS
 				lepsius_has_discovered_cave = no
 			}
 			save_scope_as = lepsius_cave_state
@@ -20879,7 +20879,7 @@ lepsius.1304 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				lepsius_has_cave = yes
+				state_region = s:STATE_NORTHERN_CAPE
 				lepsius_has_discovered_cave = no
 			}
 			save_scope_as = lepsius_cave_state
@@ -20932,7 +20932,7 @@ lepsius.1305 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				lepsius_has_cave = yes
+				state_region = s:STATE_VRYSTAAT
 				lepsius_has_discovered_cave = no
 			}
 			save_scope_as = lepsius_cave_state
@@ -20985,7 +20985,7 @@ lepsius.1306 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				lepsius_has_cave = yes
+				state_region = s:STATE_BEIJING
 				lepsius_has_discovered_cave = no
 			}
 			save_scope_as = lepsius_cave_state
@@ -21039,7 +21039,7 @@ lepsius.1307 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				lepsius_has_cave = yes
+				state_region = s:STATE_EAST_JAVA
 				lepsius_has_discovered_cave = no
 			}
 			save_scope_as = lepsius_cave_state
@@ -21514,52 +21514,113 @@ lepsius.1501 = {
 	desc = lepsius.1501.d
 
 	flavor = {
+		desc = lepsius.1501_human_fossils
+		desc = lepsius.1501_total_human_fossils
+		desc = lepsius.1501_total_unknown_human_fossils
+		desc = lepsius.1501_cromagnon_human_fossils
+		desc = lepsius.1501_neanderthalensis_human_fossils
+		desc = lepsius.1501_erectus_human_fossils
+		desc = lepsius.1501_australopithecus_human_fossils
+		desc = lepsius.1501_paranthropus_human_fossils
 		triggered_desc = {
 			trigger = {
-				has_variable = dubois_fossil_java
+				OR = {
+					has_global_variable = lepsius_cromagnon_systemized
+					has_global_variable = lepsius_neanderthalensis_systemized
+					has_global_variable = lepsius_erectus_systemized
+					has_global_variable = lepsius_australopithecus_systemized
+					has_global_variable = lepsius_paranthropus_systemized
+				}
 			}
-			desc = dubois.2031_java
+			desc = lepsius.1501_taxonomy
 		}
 		triggered_desc = {
 			trigger = {
-				has_variable = dubois_fossil_neanderthaler
+				has_global_variable = lepsius_cromagnon_systemized
 			}
-			desc = dubois.2031_neanderthaler
+			desc = lepsius.1501_taxonomy_cromagnon
 		}
 		triggered_desc = {
 			trigger = {
-				has_variable = dubois_fossil_taung
+				has_global_variable = lepsius_neanderthalensis_systemized
 			}
-			desc = dubois.2021_taung
+			desc = lepsius.1501_taxonomy_neanderthalensis
 		}
-		desc = dubois.2031_total_human_fossils
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_erectus_systemized
+			}
+			desc = lepsius.1501_taxonomy_erectus
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_australopithecus_systemized
+			}
+			desc = lepsius.1501_taxonomy_australopithecus
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_paranthropus_systemized
+			}
+			desc = lepsius.1501_taxonomy_paranthropus
+		}
 	}
 
 	event_image = { 
 		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_java.dds"
 	}
 
-	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	immediate = {
 		set_variable = {
-			name = lepsius_total_human_fossils_var
+			name = lepsius_total_unknown_human_fossils_var
 			value = var:lepsius_unknown_cromagnon_human_fossil
 		}
 		change_variable = {
-			name = lepsius_total_human_fossils_var
+			name = lepsius_total_unknown_human_fossils_var
 			add = var:lepsius_unknown_neanderthalensis_human_fossil
 		}
 		change_variable = {
-			name = lepsius_total_human_fossils_var
+			name = lepsius_total_unknown_human_fossils_var
 			add = var:lepsius_unknown_erectus_human_fossil
 		}	
+		random_country = {
+			limit = {
+				has_variable = lepsius_cromagnon_systemizer
+			}
+			save_scope_as = lepsius_cromagnon_systemizer_country
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_neanderthalensis_systemizer
+			}
+			save_scope_as = lepsius_neanderthalensis_systemizer_country
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_erectus_systemizer
+			}
+			save_scope_as = lepsius_erectus_systemizer_country
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_australopithecus_systemizer
+			}
+			save_scope_as = lepsius_australopithecus_systemizer_country
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_paranthropus_systemizer
+			}
+			save_scope_as = lepsius_paranthropus_systemizer_country
+		}
 	}
 
 	option = {	#Return to the Main Hall
-		name = dubois.2001.h
+		name = lepsius.1501.h
 		default_option = yes
 
 		trigger_event = {
@@ -21568,14 +21629,14 @@ lepsius.1501 = {
 		}
 	}
 	option = {	#Leave the Fossil Collection
-		name = dubois.2001.g
+		name = lepsius.1501.g
 		remove_variable = dubois_visiting_fossils_var
 
 		custom_tooltip = dubois_leave_fossils_tt
 	}
 
 	after = {
-		remove_variable = lepsius_total_human_fossils_var
+		remove_variable = lepsius_total_unknown_human_fossils_var
 	}
 }
 
