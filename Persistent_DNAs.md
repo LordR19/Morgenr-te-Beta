@@ -18423,7 +18423,7 @@ mr_swi_rikli_martin={
 	entity={ 0 0 }
 }
 
-mr_swi_de_candole_alphonse_pyrame={
+mr_swi_de_condolle_alphonse_pyrame={
 	type=male
 	id=0
 	age=0.510000
