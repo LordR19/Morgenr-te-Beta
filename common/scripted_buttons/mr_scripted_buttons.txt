@@ -2446,6 +2446,69 @@ mr_fossil_identification_button = {
 	}
 }
 
+mr_examine_cave_button = {
+	name = "mr_examine_cave_button"
+	desc = "mr_examine_cave_button_desc"
+
+	visible = { 
+		NOT = {
+			has_modifier = lepsius_cave_examination_modifier
+		}
+	}
+
+	possible = {
+		lepsius_has_active_anthropologist = yes
+		random_scope_state = {
+			lepsius_has_discovered_cave = yes
+		}
+	}
+
+	effect = {
+		add_treasury = -50000
+		lepsius_set_anthropologist_busy_effect = yes
+		add_modifier = {
+			name = lepsius_cave_examination_modifier
+		}
+		trigger_event = { 
+			id = lepsius.1401
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+mr_recall_anthropologist_button = {
+	name = "mr_recall_anthropologist_button"
+	desc = "mr_recall_anthropologist_button_desc"
+
+	visible = { 
+		has_modifier = lepsius_cave_examination_modifier
+	}
+
+	possible = {
+	}
+
+	effect = {
+		var:lepsius_anthropologist_var = {
+			set_character_busy = no
+		}
+		remove_modifier = lepsius_cave_examination_modifier
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_cave_examination_state_modifier
+			}
+			remove_modifier = lepsius_cave_examination_state_modifier
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
 
 ###########################################################################
 
