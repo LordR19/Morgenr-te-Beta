@@ -21706,7 +21706,7 @@ lepsius.1332 = {
 		set_global_variable = lepsius_cromagnon_systemized
 		set_variable = lepsius_cromagnon_systemizer
 		lepsius_change_anthropological_rating = {
-			AMOUNT = 75
+			AMOUNT = 75n
 		}
 		hidden_effect = {
 			lepsius_add_cromagnon_fossil_effect = yes
@@ -22836,20 +22836,207 @@ lepsius.1501 = {
 		}
 	}
 
-	option = {	#Return to the Main Hall
+	option = {	#Visit special Fossils
 		name = lepsius.1501.h
 		default_option = yes
+		trigger = {
+			any_country = {
+				OR = {
+					has_variable = dubois_fossil_java
+					has_variable = dubois_fossil_neanderthaler
+					has_variable = dubois_fossil_taung
+					has_variable = dubois_fossil_peking
+					has_variable = dubois_fossil_cromagnon
+					has_variable = dubois_fossil_piltdown
+				}
+			}
+		}
 
 		trigger_event = {
-			id = dubois.2001
+			id = lepsius.1502
 			popup = yes
 		}
 	}
 	option = {	#Leave the Fossil Collection
 		name = lepsius.1501.g
-		remove_variable = dubois_visiting_fossils_var
+		remove_variable =  lepsius_visiting_human_evolution_var
 
-		custom_tooltip = dubois_leave_fossils_tt
+		custom_tooltip = lepsius_leave_human_evolution_tt
+	}
+
+	after = {
+		remove_variable = lepsius_total_unknown_human_fossils_var
+	}
+}
+
+#Lepsius 1502: Special Human Fossils
+
+lepsius.1502 = {
+	type = country_event
+
+	title = lepsius.1502.t
+	desc = lepsius.1502.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_cromagnon
+				}
+			}
+			desc = lepsius.1502_cromagnon_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_cromagnon
+				}
+			}
+			desc = lepsius.1502_cromagnon_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_neanderthaler
+				}
+			}
+			desc = lepsius.1502_neanderthaler_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_neanderthaler
+				}
+			}
+			desc = lepsius.1502_neanderthaler_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_java
+				}
+			}
+			desc = lepsius.1502_java_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_java
+				}
+			}
+			desc = lepsius.1502_java_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_taung
+				}
+			}
+			desc = lepsius.1502_taung_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_taung
+				}
+			}
+			desc = lepsius.1502_taung_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_peking
+				}
+			}
+			desc = lepsius.1502_peking_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_peking
+				}
+			}
+			desc = lepsius.1502_peking_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_piltdown
+				}
+			}
+			desc = lepsius.1502_piltdown_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_piltdown
+				}
+			}
+			desc = lepsius.1502_piltdown_d
+		}
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_piltdown.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_cromagnon
+			}
+			save_scope_as = lepsius_cromagnon_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_neanderthaler
+			}
+			save_scope_as = lepsius_neanderthaler_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_java
+			}
+			save_scope_as = lepsius_java_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_taung
+			}
+			save_scope_as = lepsius_taung_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_peking
+			}
+			save_scope_as = lepsius_peking_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_piltdown
+			}
+			save_scope_as = lepsius_piltdown_finder_country
+		}
+	}
+
+	option = {	#Back to main collection
+		name = lepsius.1501.i
+		default_option = yes
+
+		trigger_event = {
+			id = lepsius.1501
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = lepsius.1501.g
+		remove_variable =  lepsius_visiting_human_evolution_var
+
+		custom_tooltip = lepsius_leave_human_evolution_tt
 	}
 
 	after = {
