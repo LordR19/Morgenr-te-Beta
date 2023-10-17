@@ -3423,6 +3423,90 @@ lepsius_add_unknown_erectus_fossil_effect = {
 	}
 }
 
+lepsius_add_unknown_australopithecus_fossil_effect = {
+	
+	# Amount not needed
+
+	custom_tooltip = lepsius_add_archaeological_unknown_fossil_tt
+
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = lepsius_total_human_fossil
+			}
+		}
+		set_variable = {
+			name = lepsius_total_human_fossil
+			value = 0
+		}
+	}
+	change_variable = { #Total human fossils the TAG found
+		name = lepsius_total_human_fossil
+		add = 1
+	}
+	change_global_variable = { #Total human fossil found worldwide
+		name = lepsius_global_human_fossil
+		add = 1
+	}
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = lepsius_unknown_australopithecus_human_fossil
+			}
+		}
+		set_variable = {
+			name = lepsius_unknown_australopithecus_human_fossil
+			value = 0
+		}
+	}
+	change_variable = { #Add unknown Australopithecus
+		name = lepsius_unknown_australopithecus_human_fossil
+		add = 1
+	}
+}
+
+lepsius_add_unknown_paranthropus_fossil_effect = {
+	
+	# Amount not needed
+
+	custom_tooltip = lepsius_add_archaeological_unknown_fossil_tt
+
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = lepsius_total_human_fossil
+			}
+		}
+		set_variable = {
+			name = lepsius_total_human_fossil
+			value = 0
+		}
+	}
+	change_variable = { #Total human fossils the TAG found
+		name = lepsius_total_human_fossil
+		add = 1
+	}
+	change_global_variable = { #Total human fossil found worldwide
+		name = lepsius_global_human_fossil
+		add = 1
+	}
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = lepsius_unknown_paranthropus_human_fossil
+			}
+		}
+		set_variable = {
+			name = lepsius_unknown_paranthropus_human_fossil
+			value = 0
+		}
+	}
+	change_variable = { #Add unknown Paranthropus
+		name = lepsius_unknown_paranthropus_human_fossil
+		add = 1
+	}
+}
+
 #Identify Human Fossils
 
 lepsius_identify_cromagnon_fossil_effect = {
@@ -3544,6 +3628,94 @@ lepsius_identify_erectus_fossil_effect = {
 		}
 		trigger_event = {
 			id = lepsius.1323
+			popup = yes
+		}
+	}
+
+	#Total Human Fossils the Anthropolgist identified
+	if = {
+		limit = { has_variable = lepsius_anthropologist_var }
+		var:lepsius_anthropologist_var = {
+			if = {
+				limit = { NOT = { has_variable = lepsius_total_identified_human_fossils_anthropologist_var } }
+				set_variable = {
+					name = lepsius_total_identified_human_fossils_anthropologist_var
+					value = 0
+				}
+			}
+			change_variable = {
+				name = lepsius_total_identified_human_fossils_anthropologist_var
+				add = 1
+			}
+		}
+	}
+}
+
+lepsius_identify_australopithecus_fossil_effect = {
+	custom_tooltip = lepsius_identify_australopithecus_fossil_tt
+
+	change_variable = { #Sub Australopithecus
+		name = lepsius_unknown_australopithecus_human_fossil
+		add = -1
+	}
+	change_variable = { #Add unknown Australopithecus
+		name = lepsius_australopithecus_human_fossil
+		add = 1
+	}
+
+	if = {
+		limit = {
+			var:lepsius_australopithecus_human_fossil >= 3
+			NOT = {
+				has_variable = lepsius_australopithecus_complete
+			}
+		}
+		trigger_event = {
+			id = lepsius.1324
+			popup = yes
+		}
+	}
+
+	#Total Human Fossils the Anthropolgist identified
+	if = {
+		limit = { has_variable = lepsius_anthropologist_var }
+		var:lepsius_anthropologist_var = {
+			if = {
+				limit = { NOT = { has_variable = lepsius_total_identified_human_fossils_anthropologist_var } }
+				set_variable = {
+					name = lepsius_total_identified_human_fossils_anthropologist_var
+					value = 0
+				}
+			}
+			change_variable = {
+				name = lepsius_total_identified_human_fossils_anthropologist_var
+				add = 1
+			}
+		}
+	}
+}
+
+lepsius_identify_paranthropus_fossil_effect = {
+	custom_tooltip = lepsius_identify_paranthropus_fossil_tt
+
+	change_variable = { #Sub Paranthropus
+		name = lepsius_unknown_paranthropus_human_fossil
+		add = -1
+	}
+	change_variable = { #Add unknown Paranthropus
+		name = lepsius_paranthropus_human_fossil
+		add = 1
+	}
+
+	if = {
+		limit = {
+			var:lepsius_paranthropus_human_fossil >= 3
+			NOT = {
+				has_variable = lepsius_paranthropus_complete
+			}
+		}
+		trigger_event = {
+			id = lepsius.1325
 			popup = yes
 		}
 	}
