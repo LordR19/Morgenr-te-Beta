@@ -21898,10 +21898,10 @@ lepsius.1335 = {
 	trigger = {
 		game_date >= 1925.1.1
 		any_scope_state = {
-			state_region = s:STATE_NORTHERN_CAPE
+			state_region = s:STATE_HOME_COUNTIES
 		}
 		NOT = {
-			has_global_variable = lepsius_australopithecus_systemized
+			has_global_variable = lepsius_piltdown_discovered
 		}
 		has_game_rule = lepsius_anthropology_historical_rule
 	}
@@ -21909,33 +21909,168 @@ lepsius.1335 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				state_region = s:STATE_NORTHERN_CAPE
+				state_region = s:STATE_HOME_COUNTIES
 			}
 			save_scope_as = lepsius_cave_state
 		}
-		set_global_variable = lepsius_australopithecus_systemized
-		set_variable = lepsius_australopithecus_complete
+		set_global_variable = lepsius_piltdown_discovered
 	}
 
 	option = {
-		name = lepsius.1321.g #Our ancestors were not as primitive as we thought
+		name = lepsius.1325.g #Our ancestors were not as primitive as we thought
 		default_option = yes
-		dubois_add_fossil_taung = yes
-		set_global_variable = lepsius_australopithecus_systemized
-		set_variable = lepsius_australopithecus_systemizer
+		dubois_add_fossil_piltdown = yes
 		lepsius_change_anthropological_rating = {
-			AMOUNT = 125
+			AMOUNT = 100
 		}
-		hidden_effect = {
-			lepsius_add_australopithecus_fossil_effect = yes
-			lepsius_add_australopithecus_fossil_effect = yes
-			lepsius_add_australopithecus_fossil_effect = yes
+	}
+
+	option = {
+		name = lepsius.1325.h #This is a fraud
+		default_option = yes
+		dubois_add_fossil_piltdown = yes
+		lepsius_small_add_technology = yes
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+###Piltdown Fraud###
+
+#Lepsius 1341: Piltdown was a fraud! (hidden)
+
+lepsius.1341 = {
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		set_global_variable = lepsius_piltdown_discovered
+		any_country = {
+			var:lepsius_anthropologist_experience >= 300
+			count >= 3
 		}
+		NOT = {
+			has_global_variable = lepsius_piltdown_fraud
+		}
+	}
+
+	immediate = {
+		set_global_variable = lepsius_piltdown_fraud
 		every_country = {
 			limit = {
-				is_player = yes
+				NOT = {
+					has_variable = dubois_fossil_piltdown
+				}
+				var:lepsius_anthropologist_experience >= 300
 			}
-			post_notification = lepsius_australopithecus_systemized_notification
+			trigger_event = {
+				id = lepsius.1342
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_piltdown
+			}
+			trigger_event = {
+				id = lepsius.1343
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1342: Piltdown was a fraud! (Scientists)
+
+lepsius.1342 = {
+	type = country_event
+
+	title = lepsius.1342.t
+	desc = lepsius.1342.d
+	flavor = lepsius.1342.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_piltdown.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = lepsius.1342.g #In the end, serious science wins
+		default_option = yes
+		var:lepsius_anthropologist_var = {
+			set_variable = lepsius_exposed_piltdown_fraud_var
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		add_modifier = {
+			name = lepsius_exposed_piltdown_fraud_modifier
+			years = 10
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 15
+		}
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 25
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1343: Piltdown was a fraud! (Owner)
+
+lepsius.1343 = {
+	type = country_event
+
+	title = lepsius.1342.t
+	desc = lepsius.1342.d
+	flavor = lepsius.1343.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_piltdown.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = lepsius.1343.g #An international embarrassment beyond compare!
+		default_option = yes
+		remove_variable = dubois_fossil_piltdown
+		add_modifier = {
+			name = lepsius_piltdown_fraud_modifier
+			years = 10
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = -125
 		}
 	}
 
@@ -22769,6 +22904,7 @@ lepsius.1501 = {
 			}
 			desc = lepsius.1501_taxonomy_paranthropus
 		}
+		desc = lepsius.1501_global_total_human_fossils
 	}
 
 	event_image = { 
