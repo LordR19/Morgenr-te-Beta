@@ -51,6 +51,7 @@ namespace = lepsius
 ###Technology Events###
 
 #Lepsius 80: A new Age of Archaeology! (if Early Archaeology is discovered)
+#Lepsius 81: Modern Excavation Methods (if Modern Archaeology is discovered)
 
 ###Expeditions###
 
@@ -1581,6 +1582,64 @@ lepsius.80 = {
 
 	after = {
 		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 81: Modern Excavation Methods (if Modern Archaeology is discovered)
+lepsius.81 = {
+	type = country_event
+
+	title = lepsius.81.t
+
+	desc = lepsius.81.d
+
+	flavor = lepsius.81.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		has_technology_researched = lepsius_modern_archaeology_tech
+		NOT = {
+			has_global_variable = lepsius_modern_archaeology_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = lepsius_modern_archaeology_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = lepsius_anthropologist_var
+				}
+			}
+			create_new_anthropologist_effect = yes
+			lepsius_set_new_anthropologist_as_anthropologist_effect = yes
+		}
+		var:lepsius_anthropologist_var = {
+			set_variable = lepsius_invented_modern_archaeology_var
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { #So civilized!
+		name = lepsius.80.g
+		default_option = yes
+
+		anthropologist_experience_gain_effect = { AMOUNT = 30 }
+
+		lepsius_add_x_human_fossils_effect = { AMOUNT = 5 }
+		lepsius_change_anthropological_rating = { AMOUNT = 5 }
+	}
+
+	after = {
 	}
 }
 
