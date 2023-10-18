@@ -1,0 +1,439 @@
+types academy_view
+{
+	type academy_view = widget {
+		size = { 100% 100% }
+		alpha = "[TransparentIfFalse(GetVariableSystem.Exists('academy_view'))]"
+		visible = "[GetVariableSystem.Exists('academy_view')]"
+		# Close/open button
+		button = {
+			using = expand_button_bg_no_fade
+			parentanchor = right
+			position = { -30 13 }
+			size = { 75 75 }
+			
+			icon = {
+				size = { 70 70 }
+				parentanchor = center
+				texture = "gfx/interface/icons/alert_icons/has_no_research.dds"
+			}
+
+			tooltip = "GUI_TECH_VIEW_OPEN_TT"
+			onclick = "[GetVariableSystem.Toggle('academy_view')]"
+		}
+
+		# Promote science container
+		widget = {
+			size = { 860 250 }
+			position = { 28 10 }
+			background = {
+				using = entry_bg_simple
+			}
+			textbox = {
+				text = "PROGRESS_TO_NEXT_ACADEMIC"
+				position = { 20 5 }
+				parentanchor = top|center
+				autoresize = yes
+				using = fontsize_xxl
+			}
+			textbox = {
+				text = "CURRENT_ACADEMIC_SUPPORT"
+				position = { 20 58 }
+				parentanchor = top|left
+				autoresize = yes
+				using = fontsize_xl
+			}
+			green_progressbar_horizontal = {
+				position = { 20 100 }
+				size = { 820 35 }
+				blockoverride "values" {
+					value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('dubois_academy_progress').GetValue)]"
+				}
+			}
+			flowcontainer = {
+				direction = horizontal
+				spacing = 35
+				position = { 21 170 }
+				button = {
+					using = default_button_primary_big_action
+					size = { 250 50 }
+					raw_text = "Promote Humanities"
+					using = fontsize_large
+				}
+				button = {
+					using = default_button_primary_big_action
+					size = { 250 50 }
+					raw_text = "Promote Natural History"
+					using = fontsize_large
+				}
+				button = {
+					using = default_button_primary_big_action
+					size = { 250 50 }
+					raw_text = "Promote Mathematics"
+					using = fontsize_large
+				}
+			}
+		}
+
+		# Academic focus container
+		widget = {
+			size = { 860 250 }
+			parentanchor = right
+			position = { -28 10 }
+			background = {
+				using = entry_bg_simple
+			}
+			textbox = {
+				text = "ACADEMIC_FOCUS_TEXT"
+				position = { 0 5 }
+				parentanchor = top|center
+				autoresize = yes
+				using = fontsize_mega
+			}
+			flowcontainer = {
+				spacing = 15
+				direction = vertical
+				position = { 20 106 }
+				flowcontainer = {
+					direction = horizontal
+					spacing = 35
+					position = { 21 170 }
+					button = {
+						using = default_button_primary_big_action
+						size = { 250 50 }
+						raw_text = "Avantgarde Intelligentsia"
+						using = fontsize_large
+					}
+					button = {
+						using = default_button_primary_big_action
+						size = { 250 50 }
+						raw_text = "Practical Academia"
+						using = fontsize_large
+					}
+					button = {
+						using = default_button_primary_big_action
+						size = { 250 50 }
+						raw_text = "Military-Industrial Complex"
+						using = fontsize_large
+					}
+				}
+				flowcontainer = {
+					direction = horizontal
+					spacing = 35
+					position = { 21 170 }
+					button = {
+						using = default_button_primary_big_action
+						size = { 250 50 }
+						raw_text = "Business Schools"
+						using = fontsize_large
+					}
+					button = {
+						using = default_button_primary_big_action
+						size = { 250 50 }
+						raw_text = "Practical Academia"
+						using = fontsize_large
+					}
+					button = {
+						using = default_button_primary_big_action
+						size = { 250 50 }
+						raw_text = "Practical Academia"
+						using = fontsize_large
+					}
+				}
+			}
+		}
+
+		# Individual science types
+		widget = {
+			size = { 1770 620 }
+			parentanchor = bottom
+			position = { 28 -10 }
+			background = {
+				using = entry_bg_simple
+			}
+			scrollbox = {
+				size = { 1765 610 }
+				parentanchor = bottom
+				position = { 0 -5 }
+				blockoverride "scrollbox_background"
+				{}
+				blockoverride "scrollbox_content"
+				{
+					flowcontainer = {
+						spacing = 50
+						flowcontainer = {
+							parentanchor = top|right
+							position = { -20 20 }
+							direction = vertical
+							spacing = 15
+							# gaudi_engineer_var
+							academy_widget = {
+								visible = "[GetPlayer.MakeScope.Var('gaudi_engineer_var').IsSet]"
+								blockoverride "role_icon" {
+									texture = "gfx/interface/icons/character_role_icons/gaudi_engineer_mechanical.dds"
+								}
+								blockoverride "role_name" {
+									text = "ENGINEERING_HEADER_TEXT"
+								}
+								blockoverride "character" {
+									datacontext = "[AccessPlayer.AccessRuler]"
+								}
+								blockoverride "character_name" {
+									text = "[GetPlayer.MakeScope.Var('gaudi_engineer_var').GetCharacter.GetFirstName]"
+								}
+								blockoverride "small_box_content" {
+
+								}
+								blockoverride "visit_button" {
+									text = "VISIT_SCIENTIFIC_SOCIETY_BUTTON"
+									datacontext = "[GetScriptedGui('mr_visit_scientific_society')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								}
+								blockoverride "big_box_content" {
+									
+								}
+							}
+							# dubois_naturalist_var
+							academy_widget = {
+								visible = "[GetPlayer.MakeScope.Var('dubois_naturalist_var').IsSet]"
+								blockoverride "role_icon" {
+									texture = "gfx/interface/icons/character_role_icons/dubois_naturalist_role.dds"
+								}
+								blockoverride "role_name" {
+									text = "NATURALIST_HEADER_TEXT"
+								}
+								blockoverride "character" {
+									datacontext = "[GetPlayer.MakeScope.Var('dubois_naturalist_var').GetCharacter]"
+								}
+								blockoverride "character_name" {
+									text = "[GetPlayer.MakeScope.Var('dubois_naturalist_var').GetCharacter.GetFirstName]"
+								}
+								blockoverride "small_box_content" {
+
+								}
+								blockoverride "visit_button" {
+									raw_text = "VISIT_ZOO_BUTTON"
+									datacontext = "[GetScriptedGui('mr_visit_zoo')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								}
+								blockoverride "big_box_content" {
+									
+								}
+							}
+							# lepsius_anthropologist_var
+							academy_widget = {
+								visible = "[GetPlayer.MakeScope.Var('lepsius_anthropologist_var').IsSet]"
+								blockoverride "role_icon" {
+									texture = "gfx/interface/icons/character_role_icons/lepsius_anthropologist_role.dds"
+								}
+								blockoverride "role_name" {
+									text = "ANTHRAPOLOGY_HEADER_TEXT"
+								}
+								blockoverride "character" {
+									datacontext = "[GetPlayer.MakeScope.Var('lepsius_anthropologist_var').GetCharacter]"
+								}
+								blockoverride "character_name" {
+									text = "[GetPlayer.MakeScope.Var('lepsius_anthropologist_var').GetCharacter.GetFirstName]"
+								}
+								blockoverride "small_box_content" {
+
+								}
+								blockoverride "visit_button" {
+									text = "VISIT_ANTHROPOLOGICAL_COLLECTION_BUTTON"
+									datacontext = "[GetScriptedGui('mr_visit_anthropological_collection')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								}
+								blockoverride "big_box_content" {
+									
+								}
+							}
+						}
+						flowcontainer = {
+							parentanchor = top|left
+							position = { 20 20 }
+							direction = vertical
+							spacing = 15
+							# verrier_astronomer_var
+							academy_widget = {
+								visible = "[GetPlayer.MakeScope.Var('verrier_astronomer_var').IsSet]"
+								blockoverride "role_icon" {
+									texture = "gfx/interface/icons/character_role_icons/verrier_astronomer_role.dds"
+								}
+								blockoverride "role_name" {
+									text = "ASTRONOMY_HEADER_TEXT"
+								}
+								blockoverride "character" {
+									datacontext = "[GetPlayer.MakeScope.Var('verrier_astronomer_var').GetCharacter]"
+								}
+								blockoverride "character_name" {
+									text = "[GetPlayer.MakeScope.Var('verrier_astronomer_var').GetCharacter.GetFirstName]"
+								}
+								blockoverride "small_box_content" {
+
+								}
+								blockoverride "visit_button" {
+									text = "VISIT_OBSERVATORY_BUTTON"
+									datacontext = "[GetScriptedGui('mr_visit_observatory')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								}
+								blockoverride "big_box_content" {
+									
+								}
+							}
+							# dubois_paleontologist_var
+							academy_widget = {
+								visible = "[GetPlayer.MakeScope.Var('dubois_paleontologist_var').IsSet]"
+								blockoverride "role_icon" {
+									texture = "gfx/interface/icons/character_role_icons/dubois_paleontologist_role.dds"
+								}
+								blockoverride "role_name" {
+									text = "PALEONTOLOGY_HEADER_TEXT"
+								}
+								blockoverride "character" {
+									datacontext = "[GetPlayer.MakeScope.Var('dubois_paleontologist_var').GetCharacter]"
+								}
+								blockoverride "character_name" {
+									text = "[GetPlayer.MakeScope.Var('dubois_paleontologist_var').GetCharacter.GetFirstName]"
+								}
+								blockoverride "small_box_content" {
+
+								}
+								blockoverride "visit_button" {
+									raw_text = "VISIT_PALEONTOLOGICAL_COLLECTION_BUTTON"
+									datacontext = "[GetScriptedGui('mr_visit_paleontological_collection')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								}
+								blockoverride "big_box_content" {
+									
+								}
+							}
+							# lepsius_archaeologist_var
+							academy_widget = {
+								visible = "[GetPlayer.MakeScope.Var('lepsius_archaeologist_var').IsSet]"
+								blockoverride "role_icon" {
+									texture = "gfx/interface/icons/character_role_icons/lepsius_archaeologist_role.dds"
+								}
+								blockoverride "role_name" {
+									text = "ARCHAEOLOGY_HEADER_TEXT"
+								}
+								blockoverride "character" {
+									datacontext = "[GetPlayer.MakeScope.Var('lepsius_archaeologist_var').GetCharacter]"
+								}
+								blockoverride "character_name" {
+									text = "[GetPlayer.MakeScope.Var('lepsius_archaeologist_var').GetCharacter.GetFirstName]"
+								}
+								blockoverride "small_box_content" {
+
+								}
+								blockoverride "visit_button" {
+									text = "VISIT_MUSEUM_BUTTON"
+									datacontext = "[GetScriptedGui('mr_visit_museum')]"
+									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								}
+								blockoverride "big_box_content" {
+									
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	type academy_widget = widget {
+		# Blocks to override:
+		# role_icon
+		# role_name
+		# character
+		# character_name
+		# small_box_content
+		# visit_button
+		# big_box_content
+		size = { 839 350 }
+		background = {
+			using = entry_bg_unit_dark
+		}
+		widget = {
+			position = { 10 10 }
+			icon = {
+				size = { 65 65 }
+				block "role_icon" {
+					texture = "gfx/interface/icons/character_role_icons/lepsius_archaeologist_role.dds"
+				}
+			}
+			textbox = {
+				block "role_name" {
+					text = "ARCHAEOLOGY_HEADER_TEXT"
+				}
+				position = { 70 5 }
+				parentanchor = left
+				autoresize = yes
+				using = fontsize_mega
+			}
+		}
+		character_portrait_large_torso = {
+			position = { 40 35 }
+			block "character"
+			{
+				datacontext = "[AccessPlayer.AccessRuler]"
+			}
+			blockoverride "show_hat" {}
+		}
+		default_header_clean_faded = {
+			size = { 200 40 }
+			position = { 49 295 }
+			blockoverride "text" {
+				block "character_name" 
+				{
+					raw_text = "[GetPlayer.GetRuler.GetFirstName]"
+				}
+			}
+		}
+		widget = {
+			size = { 250 250 }
+			parentanchor = top
+			position = { 280 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "small_box_content"
+			{
+
+			}
+		}
+		button = {
+			parentanchor = bottom
+			position = { 280 -15 }
+			using = default_button_primary_big_action
+			size = { 250 50 }
+			block "visit_button"
+			{
+				raw_text = "Visit Museum"
+			}
+			using = fontsize_large
+		}
+		widget = {
+			size = { 250 320 }
+			parentanchor = right
+			position = { -15 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "big_box_content"
+			{
+				
+			}
+		}
+	}
+}

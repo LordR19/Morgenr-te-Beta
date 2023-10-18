@@ -1,0 +1,1322 @@
+template tech_tree_divider 
+{
+	using = dark_area
+	alpha = 1
+	parentanchor = hcenter
+	
+	modify_texture = {
+		texture = "gfx/interface/masks/fade_horizontal_center.dds"
+		spriteType = Corneredstretched
+		spriteborder = { 0 0 }
+		blend_mode = alphamultiply
+		alpha = 1
+	}
+}
+
+types tech_tree
+{
+	type tech_tree_panel = fullscreen_block_window {
+		name = "tech_tree_panel"
+		enabled = yes
+
+		blockoverride "animation_state_block" {
+			state = {
+				name = _show
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/technology"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_world_80"
+				}
+				start_sound = {
+					soundeffect = "snapshot:/Dynamic/mute_vfx_war_100"
+
+				}
+				# MOD
+				on_start = "[GetVariableSystem.Clear('academy_view')]"
+				on_start = "[GetVariableSystem.Toggle('academy_view')]" # for testing
+				# END MOD
+			}
+
+			state = {
+				name = _hide
+				start_sound = {
+					soundeffect = "event:/SFX/UI/SideBar/technology_stop"
+				}
+			}
+		}
+		
+		blockoverride "window_header_name"
+		{
+			# MOD
+			#text = "TECH_TREE"
+			text = "[SelectLocalization( GetVariableSystem.Exists('academy_view'), 'ACADEMY_OF_SCIENCE_VIEW_NAME', 'TECH_TREE' )]"
+			# END MOD
+		}
+
+		blockoverride "fixed_top" {
+			hbox = {
+				# MOD 
+				visible = "[Not(GetVariableSystem.Exists('academy_view'))]"
+				# END MOD
+				spacing = 20
+				margin = { 28 10 }
+				margin_bottom = 15
+				layoutpolicy_horizontal = growing
+				
+				### HAS NO RESEARCH
+				hbox = {
+					layoutpolicy_horizontal = growing
+					layoutstretchfactor_horizontal = 5
+					visible = "[Not(GetPlayer.HasCurrentlyResearchedTechnology)]"
+					margin = { 25 12 }
+					
+					using = entry_bg_fancy
+					
+					vbox = {
+						layoutpolicy_horizontal = growing
+						
+						textbox = {
+							layoutpolicy_horizontal = growing
+							autoresize = yes
+							text = "NO_ACTIVE_RESEARCH"
+							using = fontsize_large
+							align = left|nobaseline
+							alpha = 0.5
+						}
+						textbox = {
+							layoutpolicy_horizontal = growing
+							autoresize = yes
+							text = "RESEARCH_PANEL"
+							using = fontsize_xxl
+							align = left|nobaseline
+							
+							using = look_at_me_text_animation
+						}
+					}
+				}
+				
+				### CURRENT RESEARCH
+				hbox = {
+					layoutpolicy_horizontal = growing
+					layoutstretchfactor_horizontal = 5
+					visible = "[GetPlayer.HasCurrentlyResearchedTechnology]"
+					datacontext = "[AccessPlayer.AccessCurrentlyResearchedTechnology]"
+
+					spacing = 10
+					margin = { 15 7 }
+					margin_right = 25
+
+					background = {
+						using = entry_bg_simple
+					}
+					
+					widget = {
+						size = { 80 80 }
+
+						icon = {
+							parentanchor = center
+							using = rotate_glow_animation_02
+							size = { 250% 250% }
+						}
+
+						icon = {
+							size = { 100% 100% }
+							parentanchor = center
+							texture = "[Technology.GetTexture]"
+
+							tooltipwidget = {
+								FancyTooltip_Technology = {}
+							}
+
+							### ERA
+							widget = {
+								size = { 25 25 }
+								parentanchor = hcenter|bottom
+							
+								icon = {
+									size = { 100% 100% }
+									texture = "gfx/interface/backgrounds/round_button_bg.dds"
+								}
+								
+								textbox = {
+									text = "TECHNOLOGY_TYPE_DESCRIPTION"
+									align = center|nobaseline
+									parentanchor = center
+								}
+							}
+						}
+					}
+				
+					### TEXT + PROGRESS
+					vbox = {
+						spacing = 5
+						
+						hbox = {
+							textbox = {
+								layoutstretchfactor_horizontal = 3
+								layoutpolicy_horizontal = growing
+								size = { 0 30 }
+								raw_text = "#variable [Technology.GetNameNoFormatting]#!"
+								using = fontsize_large
+								align = left|nobaseline
+								fontsize_min = 14
+							}
+							
+							textbox = {
+								visible = "[Or(And(GreaterThan_CFixedPoint(Technology.GetProgress(GetPlayer.Self), '(CFixedPoint)0'), Not(Technology.HasResearchedTech(GetPlayer.Self))), GreaterThan_CFixedPoint(GetPlayer.GetMinWeeklyTechnologyProgressForTech(Technology.Self), '(CFixedPoint)0'))]"
+								layoutstretchfactor_horizontal = 2
+								layoutpolicy_horizontal = growing
+								size = { 0 30 }
+								text = "TECHNOLOGY_PROGRESS_WITH_GAIN"
+								align = right|nobaseline
+								using = fontsize_large
+								fontsize_min = 14
+							}
+						}
+
+						### PROGRESS
+						default_progressbar_horizontal = {
+							tooltip = "TECHNOLOGY_GAIN_BREAKDOWN"
+							visible = "[Or(And(GreaterThan_CFixedPoint(Technology.GetProgress(GetPlayer.Self), '(CFixedPoint)0'), Not(Technology.HasResearchedTech(GetPlayer.Self))), GreaterThan_CFixedPoint(GetPlayer.GetMinWeeklyTechnologyProgressForTech(Technology.Self), '(CFixedPoint)0'))]"
+							layoutpolicy_horizontal = growing
+							size = { 500 25 }
+
+							blockoverride "values" {
+								max = "[FixedPointToFloat(Technology.GetCost(GetPlayer.Self))]"
+								value = "[FixedPointToFloat(Technology.GetProgress(GetPlayer.Self))]"
+							}
+
+							textbox = {
+								margin_right = 10
+								text = "TECHNOLOGY_PROGRESS_TIME_LEFT"
+								parentanchor = vcenter|right
+								align = nobaseline
+								autoresize = yes
+
+							}
+						}
+					}
+
+					hbox = {
+						datamodel = "[AccessPlayer.GetResearchQueueTop]"
+						margin_left = 20
+						spacing = 5
+
+						item = {
+							queued_technology = {
+								visible = "[Not(Technology.IsResearching(GetPlayer.Self))]"
+							}
+						}
+					}
+
+					widget = {
+						visible = "[Not(IsDataModelEmpty(AccessPlayer.GetResearchQueueBottom))]"
+						size = { 80 80 }
+
+						button_icon_round = {
+							parentanchor = center
+							size = { 60 60 }
+							onclick = "[RightClickMenuManager.ToggleResearchQueue(PdxGuiWidget.AccessSelf)]"
+
+							textbox = {
+								parentanchor = center
+								align = nobaseline
+								autoresize = yes
+								using = fontsize_xxl
+								text = "REMAINING_RESEARCH_QUEUE"
+							}
+						}
+					}
+
+					expand = {
+						visible = "[IsDataModelEmpty(AccessPlayer.GetResearchQueueTop)]"
+					}
+
+					empty_state_dynamic_width = {
+						tooltip = "HOW_TO_ADD_TO_RESEARCH_QUEUE"
+						visible = "[IsDataModelEmpty(AccessPlayer.GetResearchQueueTop)]"
+						text = "NO_TECH_IN_RESEARCH_QUEUE"
+						autoresize = yes
+					}
+
+					expand = {}
+				}
+
+				### WEEKLY INNOVATION
+				vbox = {
+					layoutstretchfactor_horizontal = 2
+					layoutpolicy_horizontal = growing
+					margin = { 22 16 }
+					
+					background = {
+						using = entry_bg_simple
+					}
+					
+					textbox = {
+						layoutpolicy_horizontal = growing
+						size = { 0 30 }
+						elide = right
+						datacontext = "[GetPlayer]"
+						align = right|nobaseline
+						text = "INNOVATION_DESCRIPTION"
+						tooltip = "INNOVATION_TOOLTIP"
+						using = fontsize_large
+					}
+
+					textbox = {
+						layoutpolicy_horizontal = growing
+						size = { 0 30 }
+						elide = right
+						datacontext = "[GetPlayer]"
+						align = right|nobaseline
+						text = "TECHNOLOGY_SPREAD_RATE_DESCRIPTION"
+						tooltip = "TECHNOLOGY_SPREAD_RATE_TOOLTIP"
+					}
+				}
+
+				#### MOD
+				vbox = {
+					margin_bottom = 14
+					margin_right = 2
+					layoutpolicy_horizontal = growing
+					button = {
+						using = expand_button_bg_no_fade
+						size = { 75 75 }
+						icon = {
+							size = { 70 70 }
+							parentanchor = center
+							texture = "gfx/interface/icons/event_icons/event_astronomy.dds"
+						}
+						tooltip = "GUI_ACADEMY_OF_SCIENCE_OPEN_TT"
+						onclick = "[GetVariableSystem.Toggle('academy_view')]"
+					}
+				}
+				#### END MOD
+			}
+			
+			### TABS
+			tab_buttons_fullscreen = {
+				# MOD
+				visible = "[Not(GetVariableSystem.Exists('academy_view'))]"
+				# END MOD
+				# Production
+				blockoverride "first_button" {
+					text = "PRODUCTION_NO_CONCEPT"
+				}
+				blockoverride "first_button_tooltip" {
+					tooltip = "PRODUCTION_NO_CONCEPT"
+				}
+				blockoverride "first_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Orange
+						alpha = 0.5
+					}
+				}
+				blockoverride "first_button_click" {
+					onclick = "[InformationPanel.SelectTab('production')]"
+				}
+				blockoverride "first_button_visibility" {
+					visible = "[InformationPanel.IsTabSelected('production')]"
+				}
+				blockoverride "first_button_visibility_checked" {
+					visible = "[Not( InformationPanel.IsTabSelected('production') )]"
+				}
+				blockoverride "first_button_selected" {
+					text = "PRODUCTION_NO_CONCEPT"
+				}
+
+				blockoverride "first_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Orange
+						alpha = 0.5
+					}
+				}
+
+				# Military
+				blockoverride "second_button" {
+					text = "MILITARY"
+				}
+				blockoverride "second_button_tooltip" {
+					tooltip = "MILITARY"
+				}
+				blockoverride "second_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Red
+						alpha = 0.15
+					}
+				}
+				blockoverride "second_button_click" {
+					onclick = "[InformationPanel.SelectTab('military')]"
+				}
+				blockoverride "second_button_visibility" {
+					visible = "[InformationPanel.IsTabSelected('military')]"
+				}
+				blockoverride "second_button_visibility_checked" {
+					visible = "[Not( InformationPanel.IsTabSelected('military') )]"
+				}
+				blockoverride "second_button_selected" {
+					text = "MILITARY"
+				}
+				blockoverride "second_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Red
+						alpha = 0.15
+					}
+				}
+
+				# Society
+				blockoverride "third_button" {
+					text = "SOCIETY"
+				}
+				blockoverride "third_button_tooltip" {
+					tooltip = "SOCIETY"
+				}
+				blockoverride "third_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+				blockoverride "third_button_click" {
+					onclick = "[InformationPanel.SelectTab('society')]"
+				}
+				blockoverride "third_button_visibility" {
+					visible = "[InformationPanel.IsTabSelected('society')]"
+				}
+				blockoverride "third_button_visibility_checked" {
+					visible = "[Not( InformationPanel.IsTabSelected('society') )]"
+				}
+				blockoverride "third_button_selected" {
+					text = "SOCIETY"
+				}
+				blockoverride "third_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+
+				### ICON SHOWING WHERE TECH IS BEING TECHED.
+				datacontext = "[GetPlayer.GetCurrentlyResearchedTechnology]"
+
+				# production
+				blockoverride "first_button_icon" {
+
+					container = {
+						parentanchor = vcenter
+						# light bulb
+						visible = "[ObjectsEqual(Technology.GetCategoryName, 'Production')]"
+						
+						icon = {
+							using = rotate_glow_animation_02
+							size = { 60 60 }
+							parentanchor = center
+						}
+						icon = {
+							texture = "gfx/interface/icons/generic_icons/innovation.dds"
+							size = { 30 30 }
+							parentanchor = center
+						}
+					}
+				}
+				# military
+				blockoverride "second_button_icon" {
+					
+					container = {
+						parentanchor = vcenter
+						# light bulb
+						visible = "[ObjectsEqual(Technology.GetCategoryName, 'Military')]"
+						
+						icon = {
+							using = rotate_glow_animation_02
+							size = { 60 60 }
+							parentanchor = center
+						}
+						icon = {
+							texture = "gfx/interface/icons/generic_icons/innovation.dds"
+							size = { 30 30 }
+							parentanchor = center
+						}
+					}
+				}
+				# society
+				blockoverride "third_button_icon" {
+					
+					container = {
+						parentanchor = vcenter
+						# light bulb
+						visible = "[ObjectsEqual(Technology.GetCategoryName, 'Society')]"
+						
+						icon = {
+							using = rotate_glow_animation_02
+							size = { 60 60 }
+							parentanchor = center
+						}
+						icon = {
+							texture = "gfx/interface/icons/generic_icons/innovation.dds"
+							size = { 30 30 }
+							parentanchor = center
+						}
+					}
+				}
+			}
+		}
+		
+		### CONTENT
+		blockoverride "scrollarea_content"
+		{
+			widget = {
+				size = { 100% 100% }
+				
+				### ILLUSTRATIONS
+				background = {
+					using = illu_alpha
+					fittype = center
+					texture = "gfx/interface/illustrations/tech_tree/illustration_tech_production.dds"
+					visible = "[InformationPanel.IsTabSelected('production')]"
+					using = default_content_fade
+				}
+				background = {
+					using = illu_alpha
+					fittype = center
+					texture = "gfx/interface/illustrations/tech_tree/illustration_tech_military.dds"
+					visible = "[InformationPanel.IsTabSelected('military')]"
+					using = default_content_fade
+				}
+				background = {
+					using = illu_alpha
+					fittype = center
+					texture = "gfx/interface/illustrations/tech_tree/illustration_tech_society.dds"
+					visible = "[InformationPanel.IsTabSelected('society')]"
+					using = default_content_fade
+				}
+
+				# MOD
+				### Academy View
+				academy_view = {}
+				# END MOD
+
+				### TECH TREES
+				tech_tree_graph = {
+					name = "tech_tree_panel_production"
+					# MOD
+					visible = "[And(InformationPanel.IsTabSelected('production'), Not(GetVariableSystem.Exists('academy_view')))]"
+					#visible = "[InformationPanel.IsTabSelected('production')]"
+					# END MOD
+					using = default_content_fade
+
+					blockoverride "datamodel_lines" {
+						datamodel = "[TechTreePanel.GetProductionTechTreeLines]"
+					}
+
+					blockoverride "datamodel_items" {
+						datamodel = "[TechTreePanel.GetProductionTechTreeItems]"
+					}
+
+					blockoverride "extra_lines" {
+						icon = {
+							using = tech_tree_divider
+							position = { 0 -100 }
+							size = { 200% 1350 }
+						}
+						icon = {
+							using = tech_tree_divider
+							position = { 0 2200 }
+							size = { 200% 950 }
+						}
+						icon = {
+							using = tech_tree_divider
+							position = { 0 4060 }
+							size = { 200% 500 }
+						}
+					}
+
+					blockoverride "starting_pan_position" {
+						pan_position = "[GetDefine('NGUI', 'TECH_TREE_PRODUCTION_INITIAL_POSITION')]"
+					}
+				}
+				tech_tree_graph = {
+					name = "tech_tree_panel_military"
+					# MOD
+					visible = "[And(InformationPanel.IsTabSelected('military'), Not(GetVariableSystem.Exists('academy_view')))]"
+					#visible = "[InformationPanel.IsTabSelected('military')]"
+					# END MOD
+					using = default_content_fade
+
+					blockoverride "datamodel_lines" {
+						datamodel = "[TechTreePanel.GetMilitaryTechTreeLines]"
+					}
+
+					blockoverride "datamodel_items" {
+						datamodel = "[TechTreePanel.GetMilitaryTechTreeItems]"
+					}
+
+					blockoverride "extra_lines" {
+						icon = {
+							using = tech_tree_divider
+							position = { 0 -100 }
+							size = { 200% 1830 }
+						}
+						icon = {
+							using = tech_tree_divider
+							position = { 0 2650 }
+							size = { 200% 960 }
+						}
+						icon = {
+							using = tech_tree_divider
+							position = { 0 4540 }
+							size = { 200% 950 }
+						}
+					}
+
+					blockoverride "starting_pan_position" {
+						pan_position = "[GetDefine('NGUI', 'TECH_TREE_MILITARY_INITIAL_POSITION')]"
+					}
+				}
+				tech_tree_graph = {
+					name = "tech_tree_panel_society"
+					# MOD
+					visible = "[And(InformationPanel.IsTabSelected('society'), Not(GetVariableSystem.Exists('academy_view')))]"
+					#visible = "[InformationPanel.IsTabSelected('society')]"
+					# END MOD
+					using = default_content_fade
+
+					blockoverride "datamodel_lines" {
+						datamodel = "[TechTreePanel.GetSocietyTechTreeLines]"
+					}
+
+					blockoverride "datamodel_items" {
+						datamodel = "[TechTreePanel.GetSocietyTechTreeItems]"
+					}
+
+					blockoverride "extra_lines" {
+						icon = {
+							using = tech_tree_divider
+							position = { 0 -100 }
+							size = { 200% 2310 }
+						}
+						icon = {
+							using = tech_tree_divider
+							position = { 0 3120 }
+							size = { 200% 960 }
+						}
+						icon = {
+							using = tech_tree_divider
+							position = { 0 4540 }
+							size = { 200% 500 }
+						}
+					}
+
+					blockoverride "starting_pan_position" {
+						pan_position = "[GetDefine('NGUI', 'TECH_TREE_SOCIETY_INITIAL_POSITION')]"
+					}
+				}
+
+				container = {
+					# MOD
+					visible = "[Not(GetVariableSystem.Exists('academy_view'))]"
+					# END MOD
+					parentanchor = top|right
+					position = { -10 10 }
+					button_icon_reset = {
+						visible = "[InformationPanel.IsTabSelected('production')]"
+						tooltip = "TOOLTIP_RESET"
+						onclick = "[TechTreePanel.ResetProductionView]"
+						size = { 42 42 }
+					}
+					button_icon_reset = {
+						visible = "[InformationPanel.IsTabSelected('military')]"
+						tooltip = "TOOLTIP_RESET"
+						onclick = "[TechTreePanel.ResetMilitaryView]"
+						size = { 42 42 }
+					}
+					button_icon_reset = {
+						visible = "[InformationPanel.IsTabSelected('society')]"
+						tooltip = "TOOLTIP_RESET"
+						onclick = "[TechTreePanel.ResetSocietyView]"
+						size = { 42 42 }
+					}
+				}
+			}
+		}
+	}
+
+	type tech_tree_graph = zoomarea {
+		name = "graph_zoomarea"
+		size = { 100% 100% }
+
+		background = {
+			using = entry_header
+			
+			modify_texture = {
+				texture = "gfx/interface/masks/fade_vertical_top.dds"
+				spriteType = Corneredstretched
+				spriteborder = { 0 0 }
+				blend_mode = alphamultiply
+			}
+		}
+
+		state = {
+			name = "_zoom_changed"
+			duration = 0.15
+		}
+
+		zoom = "[GetDefine('NGUI', 'TECH_TREE_INITIAL_ZOOM')]"
+		zoom_step = 0.15
+		zoom_min = 0.20
+		zoom_max = 1
+		draggable_by = left # Do not add 'middle' click here, otherwise you will re-introduce PRCAL-16945
+
+		block "starting_pan_position" {}
+		
+		#scissor = yes
+
+		zoomwidget = {
+
+			container = {
+				widget = {
+					size = { 100% 100% }
+					alpha = 0.15
+					block "extra_lines" {}
+				}
+
+				container = { #Line Mech	
+					# These two widgets determine the margin between graph nodes
+					widget = {
+						name = "margin_top_left" # Do not change this name
+						size = { 50 150 }
+					}
+					widget = {
+						name = "margin_bottom_right" # Do not change this name
+						size = { 70 170 }
+					}
+
+					# This widget tells the layout how to offset and space the lines
+					widget = {
+						name = "line_offset" # Do not change this name
+						position = { 0 -10 } # Fixed offset (i.e. to compensate for line width)
+						size = { 30 0 } # Spacing between edges
+					}
+					
+					# Container for all the edges in the graph
+					container = {
+						name = "line_area" # Do not change this name
+
+						block "datamodel_lines" {
+							#datamodel = "[TechTreePanel.GetTechTreeLines]"
+						}
+
+						item = {
+							container = {
+								### CANNOT RESEARCH SPLINE
+								techtree_spline = {
+									visible = "[And(Not(IsValid(TechTreeLine.GetTargetTech.Research(GetPlayer.Self))), Not(TechTreeLine.GetTargetTech.HasResearchedTech(GetPlayer.Self)))]"
+								}
+
+								### IS RESEARCHING SPLINE
+								techtree_spline = {
+									visible = "[TechTreeLine.GetTargetTech.IsResearching(GetPlayer.Self)]"
+									blockoverride "tech_line_texture_border" {
+										texture = "gfx/interface/tech_tree/tech_line_border_researching.dds"
+									}
+									blockoverride "tech_line_texture" {
+										texture = "gfx/interface/tech_tree/tech_line_researching.dds"
+									}					
+								}
+
+								### HAS RESEARCHED SPLINE
+								techtree_spline = {
+									visible = "[TechTreeLine.GetTargetTech.HasResearchedTech(GetPlayer.Self)]"
+									blockoverride "tech_line_texture_border" {
+										texture = "gfx/interface/tech_tree/tech_line_border_research_done.dds"
+									}
+									blockoverride "tech_line_texture" {
+										texture = "gfx/interface/tech_tree/tech_line_research_done.dds"
+									}
+								}
+
+								### CAN RESEARCH SPLINE
+								techtree_spline = {
+									visible = "[IsValid(TechTreeLine.GetTargetTech.Research(GetPlayer.Self))]"
+								}
+								
+								### IS IN RESEARCH QUEUE SPLINE
+								techtree_spline = {
+									visible = "[TechTreeLine.GetTargetTech.IsInResearchQueue(GetPlayer.Self)]"
+									blockoverride "tech_line_texture_border" {
+										texture = "gfx/interface/tech_tree/tech_line_border_researching.dds"
+									}
+									blockoverride "tech_line_texture" {
+										texture = "gfx/interface/tech_tree/tech_line_researching.dds"
+									}					
+								}
+							}
+						}
+					}
+					
+					# Container for all the nodes in the graph
+					container = {
+						name = "node_area" # Do not change this name
+
+						block "datamodel_items" {
+							#datamodel = "[TechTreePanel.GetTechTreeItems]"
+						}
+						
+						item = {
+							widget = {
+								size = { 465 150 }
+								datacontext = "[TechTreeItem.GetTechnology]"
+								position = "[TechTreeItem.GetPosition]"
+								widgetid = "[TechTreeItem.GetKey]"
+							
+								tooltipwidget = {
+									FancyTooltip_Technology_Tech_Tree = {}
+								}
+								
+								### CAN RESEARCH
+								technology = {
+									visible = "[IsValid(Technology.Research(GetPlayer.Self))]"
+
+									blockoverride "glow_animation" {}
+								}
+
+								### CAN´T RESEARCH
+								technology = {
+									visible = "[And(Technology.ShouldShow(GetPlayer.Self),Not(IsValid(Technology.Research(GetPlayer.Self))))]"
+
+									blockoverride "glow_animation" {}
+
+									blockoverride "round_frame" {
+										button = {
+											texture = "gfx/interface/backgrounds/round_frame_dec.dds"
+											parentanchor = vcenter
+											size = { 180 180 }
+											alwaystransparent = yes
+											enabled = no
+											color = { 0.5 0.5 0.5 1 }
+										}
+									}
+
+									blockoverride "name_background" {
+										button = {
+											size = { 100% 100% }
+											
+											background = {
+												using = blurry_dark_background
+											}
+
+											enabled = no
+											color = { 0.5 0.5 0.5 1 }
+											alwaystransparent = yes
+										}
+									}
+
+									blockoverride "enabled" {
+										enabled = no
+									}
+
+									blockoverride "alpha" {
+										alpha = 0.5
+									}
+								}
+
+								### HAS RESEARCHED
+								technology = {
+									visible = "[Technology.HasResearchedTech(GetPlayer.Self)]"
+
+									blockoverride "glow_animation" {}
+
+									blockoverride "unlocks_alpha" {
+										alpha = 0.7
+									}
+								}
+
+								### CURRENTLY RESEARCHED
+								technology = {
+									visible = "[Technology.IsResearching(GetPlayer.Self)]"
+
+									blockoverride "name_formatting" {
+										default_format = "#header"
+										using = look_at_me_text_animation
+									}
+								}
+								
+								### TECH PROGRESS
+								container = {
+									tooltip = "TECHNOLOGY_GAIN_BREAKDOWN"
+									parentanchor = bottom|right
+									position = { -20 -15 }
+									visible = "[Or(And(GreaterThan_CFixedPoint(Technology.GetProgress(GetPlayer.Self), '(CFixedPoint)0'), Not(Technology.HasResearchedTech(GetPlayer.Self))), GreaterThan_CFixedPoint(GetPlayer.GetMinWeeklyTechnologyProgressForTech(Technology.Self), '(CFixedPoint)0'))]"
+
+									default_progressbar_horizontal = {
+										size = { 270 25 }
+										parentanchor = hcenter
+										blockoverride "values" {
+											max = "[FixedPointToFloat(Technology.GetCost(GetPlayer.Self))]"
+											value = "[FixedPointToFloat(Technology.GetProgress(GetPlayer.Self))]"
+										}
+										textbox = {
+											text = "TECHNOLOGY_PROGRESS_WITH_GAIN"
+											align = nobaseline
+											parentanchor = center
+											autoresize = yes
+											using = fontsize_xl
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	type technology = widget {
+		size = { 100% 100% }
+		parentanchor = hcenter
+	
+		using = default_fade_in_out
+
+		### RESEARCH BUTTON BACKGROUND
+		button = {
+			visible = "[IsValid(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+			size = { 80% 100% }
+			parentanchor = right
+			using = default_button_action
+			enabled = "[IsValid(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+			using = technology_confirm_button_sound
+			using = shimmer
+
+			click_modifiers = {
+				ondefault = "[Execute(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+				onshift = "[Execute(Technology.AddToQueueWithUnlocks(GetPlayer.Self))]"
+			}
+		}
+
+		### LOCKED RESEARCH BUTTON BACKGROUND
+		button = {
+			visible = "[And(And(Not(IsValid(Technology.Research(GetPlayer.Self))), Not(Technology.HasResearchedTech(GetPlayer.Self))), Not(ObjectsEqual(GetPlayer.GetCurrentlyResearchedTechnology, Technology.Self)))]"
+			size = { 80% 100% }
+			parentanchor = right
+			using = default_button_action
+			enabled = "[IsValid(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+			using = technology_confirm_button_sound
+			using = shimmer
+			color = { 0.4 0.4 0.4 1 }
+
+			click_modifiers = {
+				ondefault = "[Execute(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+				onshift = "[Execute(Technology.AddToQueueWithUnlocks(GetPlayer.Self))]"
+			}
+		}
+
+		### RESEARCHING BACKGROUND GLOW
+		icon = {
+			visible = "[Technology.IsResearching(GetPlayer.Self)]"
+			position = { 0 -20 }
+			parentanchor = center
+			using = rotate_glow_animation_02
+			size = { 500 500 }
+		}
+
+		### SIMPLE RECTANGULAR BACKGROUND GLOW
+		block "glow_animation" {
+			widget = {
+				size = { 130% 70 }
+				parentanchor = bottom|hcenter
+				position = { 0 -15 }
+				using = ui_event_glow_animation_looping
+
+				blockoverride "fade" {
+					modify_texture = {
+						texture = "gfx/interface/masks/fade_horizontal_center.dds"
+						spriteType = Corneredstretched
+						spriteborder = { 0 0 }
+						blend_mode = alphamultiply
+					}
+				}
+			}
+		}
+
+		### BACKGROUND
+		widget = {
+			parentanchor = top|right
+
+			size = { 80% 100% }
+
+			background = {
+				visible = "[And(Not(Technology.HasResearchedTech(GetPlayer.Self)), Not(Technology.IsResearching(GetPlayer.Self)))]"
+				using = entry_fancy_header_colored
+				using = dark_area
+			}
+
+			background = {
+				visible = "[Technology.IsResearching(GetPlayer.Self)]"
+				using = rounded_background_blue
+				alpha = 0.7
+			}
+
+			background = {
+				visible = "[Technology.HasResearchedTech(GetPlayer.Self)]"
+				using = paper_bg
+			}
+
+			icon = {
+					using = highlighted_square_selection
+					visible = "[ObjectsEqual(GetPlayer.GetCurrentlyResearchedTechnology, Technology.Self)]"
+			}
+		}
+
+		### TECH NAME
+		block "tech_name" {
+			widget = { 
+				size = { 330 60 }
+				parentanchor = right
+
+				block "name_background" {
+					background = {
+						visible = "[Not(Technology.HasResearchedTech(GetPlayer.Self))]"
+						using = fade_right_entry_fancy_header_colored
+						using = dark_area
+					}
+
+					background = {
+						visible = "[Technology.HasResearchedTech(GetPlayer.Self)]"
+						using = paper_bg
+					}
+				}
+			
+				textbox = {
+					text = "[Technology.GetNameNoFormatting]"
+					size = { 85% 100% }
+					margin = { 0 5 }
+					margin_left = 30
+					multiline = yes
+					elide = right
+					align = center|nobaseline
+					parentanchor = center
+
+					block "name_formatting" {}
+
+					block "alpha" {
+						alpha = 1
+					}
+
+					fontsize = 36
+					fontsize_min = 22
+				}
+			}
+		}
+
+		### TECH ICON FRAME BACKGROUND
+		block "round_frame" {
+			icon = {
+				texture = "gfx/interface/backgrounds/round_frame_dec.dds"
+				parentanchor = vcenter
+				size = { 180 180 }
+				alwaystransparent = yes
+			}
+		}
+		
+		### TECH ICON BUTTON
+		button = {
+			visible = "[IsValid(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+			size = { 138 138 }
+			texture = "[Technology.GetTexture]"
+			parentanchor = vcenter
+			position = { 20 0 }
+			enabled = "[IsValid(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+			blockoverride "sound" {
+				using = technology_confirm_button_sound
+			}
+
+			click_modifiers = {
+				ondefault = "[Execute(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+				onshift = "[Execute(Technology.AddToQueueWithUnlocks(GetPlayer.Self))]"
+			}
+		}
+
+		### TECH ICON - HAS RESEARCHED OR IS RESEARCHING
+		icon = {
+			visible = "[Or(Technology.HasResearchedTech(GetPlayer.Self), Technology.IsResearching(GetPlayer.Self))]"
+			size = { 138 138 }
+			texture = "[Technology.GetTexture]"
+			parentanchor = vcenter
+			position = { 20 0 }
+		}
+
+		### TECH ICON - CAN NOT RESEARCH
+		button = {
+			visible = "[And(And(Not(IsValid(Technology.Research(GetPlayer.Self))), Not(Technology.HasResearchedTech(GetPlayer.Self))), Not(ObjectsEqual(GetPlayer.GetCurrentlyResearchedTechnology, Technology.Self)))]"
+			size = { 138 138 }
+			texture = "[Technology.GetTexture]"
+			parentanchor = vcenter
+			position = { 20 0 }
+			color = { 0.4 0.4 0.4 1 }
+
+			click_modifiers = {
+				ondefault = "[Execute(Technology.ResearchWithUnlocks(GetPlayer.Self))]"
+				onshift = "[Execute(Technology.AddToQueueWithUnlocks(GetPlayer.Self))]"
+			}
+		}
+
+		### UNLOCK ICONS
+		flowcontainer = {
+			parentanchor = bottom|left
+			spacing = 3
+
+			state = {
+				name = "not_researching"
+				trigger_when = "[Not(Or(And(GreaterThan_CFixedPoint(Technology.GetProgress(GetPlayer.Self), '(CFixedPoint)0'), Not(Technology.HasResearchedTech(GetPlayer.Self))), GreaterThan_CFixedPoint(GetPlayer.GetMinWeeklyTechnologyProgressForTech(Technology.Self), '(CFixedPoint)0')))]"
+				position = { 180 -20 }
+ 			}
+
+ 			state = {
+				name = "researching"
+				trigger_when = "[Or(And(GreaterThan_CFixedPoint(Technology.GetProgress(GetPlayer.Self), '(CFixedPoint)0'), Not(Technology.HasResearchedTech(GetPlayer.Self))), GreaterThan_CFixedPoint(GetPlayer.GetMinWeeklyTechnologyProgressForTech(Technology.Self), '(CFixedPoint)0'))]"
+				position = { 180 -45 }
+ 			}
+
+
+			block "unlocks_alpha" {}
+
+			visible = "[Technology.ShouldShow(GetPlayer.Self)]"
+			datamodel = "[Technology.GetUnlocks(GetPlayer.Self)]"
+			item = {
+				icon = {
+					size = { 45 45 }
+					texture = "[TechnologyUnlock.GetTexture]"
+					tooltip = "[TechnologyUnlock.GetTooltip]"
+
+					icon = {
+						size = { 25 25 }
+						parentanchor = bottom|right
+						position = { 10 10 }
+
+						visible = "[TechnologyUnlock.IsGroup]"
+						texture = "gfx/interface/tech_tree/unlock_group_icon.dds"
+					}
+				}
+			}
+		}
+		
+		### CHECKMARK
+		widget = {
+			#visible = "[Technology.HasResearchedTech(GetPlayer.Self)]"
+			size = { 50 50 }
+			parentanchor = bottom|right
+			position = { 20 20 }
+			visible = no
+		
+			icon = {
+				size = { 50 50 }
+				texture = "gfx/interface/backgrounds/round_button_bg.dds"
+				parentanchor = center
+			}
+			
+			icon = {
+				texture = "gfx/interface/icons/generic_icons/checkmark.dds"
+				size = { 60 60 }
+				parentanchor = center
+			}
+		}
+
+		### QUEUE POSITION
+		widget = {
+			visible = "[GreaterThan_int32(Technology.GetResearchQueuePosition(GetPlayer.Self), '(int32)0')]"
+			parentanchor = top|left
+			position = { 10 5 }
+			size = { 40 40 }
+			tooltip = "TECHNOLOGY_PLACE_IN_QUEUE"
+
+			icon = {
+				parentanchor = center
+				using = rotate_glow_animation_02
+				size = { 250% 250% }
+			}
+
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/backgrounds/round_button_bg.dds"
+			}
+
+			textbox = {
+				parentanchor = center
+			 	align = hcenter|nobaseline
+			 	autoresize = yes
+			 	raw_text = "#v [Technology.GetResearchQueuePosition(GetPlayer.Self)]#!"
+			 	using = fontsize_xxl
+			}
+		}
+
+		### ERA
+		widget = {
+			size = { 40 40 }
+			parentanchor = left|bottom
+			position = { 70 15 }
+		
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/backgrounds/round_button_bg.dds"
+				block "enabled" {}
+			}
+			
+			textbox = {
+				text = "TECHNOLOGY_TYPE_DESCRIPTION"
+				align = center|nobaseline
+				using = fontsize_xxl
+				parentanchor = center
+				block "alpha" {}
+			}
+		}
+
+		### ADD TO QUEUE BUTTON
+		button_icon_plus_action = {
+			visible = "[IsValid(Technology.AddToQueueWithUnlocks(GetPlayer.Self))]"
+			size = { 50 50 }
+			tooltip = "ADD_TO_TECH_QUEUE"
+			onclick = "[Execute( Technology.AddToQueueWithUnlocks(GetPlayer.Self) )]"
+			enabled = "[IsValid( Technology.AddToQueueWithUnlocks(GetPlayer.Self) )]"
+		}
+	}
+
+	type queued_technology = widget {
+		
+		size = { 80 80 }
+
+		icon = {
+			texture = "gfx/interface/backgrounds/round_frame_dec.dds"
+			parentanchor = center
+			size = { 80 80 }
+			alwaystransparent = yes
+		}
+
+		icon = {
+			size = { 60 60 }
+			parentanchor = center
+			texture = "[Technology.GetTexture]"
+
+			tooltipwidget = {
+				FancyTooltip_Technology = {}
+			}
+		}
+
+		button_icon_cancel = {
+			parentanchor = top|right
+			size = { 25 25 }
+			tooltip = "REMOVE_TECH_FROM_QUEUE"
+			using = tooltip_below
+			onclick = "[Execute( Technology.RemoveFromQueue(GetPlayer.Self) )]"
+			enabled = "[IsValid( Technology.RemoveFromQueue(GetPlayer.Self) )]"
+		}
+
+		### QUEUE POSITION
+		widget = {
+			visible = "[GreaterThan_int32(Technology.GetResearchQueuePosition(GetPlayer.Self), '(int32)0')]"
+			parentanchor = top|left
+			size = { 25 25 }
+			tooltip = "TECHNOLOGY_PLACE_IN_QUEUE"
+
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/backgrounds/round_button_bg.dds"
+			}
+
+			textbox = {
+				parentanchor = center
+			 	align = vcenter|nobaseline
+			 	margin_bottom = 2
+			 	autoresize = yes
+			 	raw_text = "#v [Technology.GetResearchQueuePosition(GetPlayer.Self)]#!"
+			}
+		}
+
+		### ERA
+		widget = {
+			size = { 25 25 }
+			parentanchor = hcenter|bottom
+		
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/backgrounds/round_button_bg.dds"
+			}
+
+			textbox = {
+				text = "TECHNOLOGY_TYPE_DESCRIPTION"
+				align = center|nobaseline
+				parentanchor = center
+			}
+			
+		}
+	}
+
+	type techtree_spline = container {
+		line = {
+			position = "[TechTreeLine.GetPosition]"
+			gfxtype = linegfx
+			line_type = BSpline
+			block "tech_line_texture_border" {
+				texture = "gfx/interface/tech_tree/tech_line_border_research_locked.dds"
+			}
+			mask = "gfx/interface/tech_tree/tech_line_mask.dds"
+			width = 8
+			alpha = 0.6
+
+			points = "[TechTreeLine.GetPointsInContainer]"
+		}
+		line = {
+			position = "[TechTreeLine.GetPosition]"
+			gfxtype = linegfx
+			line_type = BSpline
+			block "tech_line_texture" {
+				texture = "gfx/interface/tech_tree/tech_line_research_locked.dds"
+			}
+			mask = "gfx/interface/tech_tree/tech_line_mask.dds"
+			width = 4
+			alpha = 0.8
+
+			points = "[TechTreeLine.GetPointsInContainer]"
+		}
+	}
+}
+
+right_click_menu = {
+	name = "research_queue"
+	visible = "[GreaterThan_int32(GetDataModelSize(AccessPlayer.GetResearchQueueBottom), '(int32)0')]"
+
+	onmousehierarchyenter = "[SetCanOpenRightClickContextMenu( '(bool)no' )]"
+	onmousehierarchyleave = "[SetCanOpenRightClickContextMenu( '(bool)yes' )]"
+
+	parentanchor = right|top
+	widgetanchor = left|top
+
+	blockoverride "header_text" {}
+
+	blockoverride "list" {
+		dynamicgridbox = {
+			datamodel = "[AccessPlayer.GetResearchQueueBottom]"
+			datamodel_wrap = 4
+			flipdirection = yes
+
+			item = {
+				widget = {
+					size = { 90 90 }
+					queued_technology = {
+						parentanchor = center
+					}
+				}
+			}
+		}
+	}
+}
