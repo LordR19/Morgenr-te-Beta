@@ -34,8 +34,40 @@ building_dubois_zoo = {
 	required_construction = construction_cost_medium
 
 	can_build_government = {
-		error_check = {
-			severity = invalid
+		trigger_if = {
+			limit = {
+				owner = {
+					is_ai = yes
+				}
+			}
+			trigger_if = {
+				limit = {
+					owner = {
+						has_technology_researched = dubois_theory_of_evolution_tech
+					}
+				}
+				trigger_if = {
+					limit = {
+						NOT = {
+							owner = {
+								any_scope_building = {
+									is_building_type = building_dubois_zoo
+									level > 0
+								}
+							}
+						}
+					}
+					is_capital = yes
+				}
+				trigger_else = {
+					always = no
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		trigger_else = {
 			custom_tooltip = {
 				text = dubois_zoo_can_construct_capital_tt
 				is_capital = yes
@@ -43,9 +75,11 @@ building_dubois_zoo = {
 			custom_tooltip = {
 				text = dubois_zoo_can_construct_no_zoo_tt
 				NOT = {
-					any_scope_building = {
-						is_building_type = building_dubois_zoo
-						level > 0
+					owner = {
+						any_scope_building = {
+							is_building_type = building_dubois_zoo
+							level > 0
+						}
 					}
 				}
 			}
@@ -59,10 +93,7 @@ building_dubois_zoo = {
 	}
 
 	can_build_private = {
-		error_check = {
-			severity = potential
-			always = no
-		}
+		always = no
 	}
 
 	ai_value = 10000 # Ai should do it whenever it can
