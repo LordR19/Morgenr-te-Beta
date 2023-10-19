@@ -73,10 +73,6 @@ manzoni.1000 = {
 			place_character_in_void = 4
 			set_variable = manzoni_doyle_character_var
 		}
-
-		scope:manzoni_writer_scope = {
-			set_variable = manzoni_doyle_character_var
-		}
 	}
 
 	option = { #Elementary, my dear Watson.
@@ -93,7 +89,6 @@ manzoni.1000 = {
 ### Switzerland ###
 
 #Manzoni 1100: Heidi published
-
 manzoni.1100 = {
 	type = country_event
 	placement = ROOT
@@ -829,6 +824,127 @@ manzoni.1208 = {
 		add_loyalists = {
 			value = 0.03
 			culture = cu:south_italian
+		}
+	}
+
+	after = {
+	}
+}
+
+###################
+
+### Germany ###
+
+#Manzoni 1300: Heinrich Heine, Deutschland, ein Wintermärchen
+manzoni.1300 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1300.t
+	desc = manzoni.1300.d
+	flavor = manzoni.1300.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_wintermaerchen.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		OR = {
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:south_german
+		}
+		has_technology_researched = romanticism
+		game_date >= 1843.1.1
+		game_date <= 1845.1.1
+		NOT = { 
+			has_variable = manzoni_wintermaerchen_published_var #Note that this will trigger in every german state
+		}
+	}
+
+	immediate = {
+		set_variable = manzoni_wintermaerchen_published_var #Note that this will trigger in every german state
+	}
+
+	option = {
+		name = manzoni.1300.g #It should be published.
+		default_option = yes
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 20
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_protected_speech
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = manzoni_heine_very_bad_influence_modifier
+				years = 5
+			}
+			add_modifier = {
+				name = manzoni_heine_allowed_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.1300.h #Ban and confiscate it!
+		trigger = {
+			has_law = law_type:law_outlawed_dissent
+		}
+		add_modifier = {
+			name = manzoni_heine_banned_modifier
+			years = 5
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_protected_speech
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = manzoni_heine_censored_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.1300.i #Censor it.
+		trigger = {
+			has_law = law_type:law_censorship
+		}
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 10
+		}
+		add_modifier = {
+			name = manzoni_censorship_machinery_modifier
+			years = 5
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_protected_speech
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = manzoni_heine_bad_influence_modifier
+				years = 5
+			}
+			add_modifier = {
+				name = manzoni_heine_censored_modifier
+				years = 5
+			}
 		}
 	}
 
