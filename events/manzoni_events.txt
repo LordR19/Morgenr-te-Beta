@@ -893,6 +893,22 @@ manzoni.1300 = {
 				years = 5
 			}
 		}
+		if = {
+			limit = {
+				any_scope_state = {
+					OR = {
+						has_modifier = gaudi_dombau_phase_1_modifier
+						has_modifier = gaudi_dombau_phase_2_modifier
+						has_modifier = gaudi_dombau_phase_3_modifier
+						has_modifier = gaudi_dombau_phase_4_modifier
+					}
+				}
+			}
+			trigger_events = {
+				id = manzoni.1301
+				days = { 5 10 }
+			}
+		}
 	}
 
 	option = {
@@ -944,6 +960,108 @@ manzoni.1300 = {
 			add_modifier = {
 				name = manzoni_heine_censored_modifier
 				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1301: Heinrich Heine mocks Cologne Cathedral
+manzoni.1301 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1301.t
+	desc = manzoni.1301.d
+	flavor = manzoni.1301.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_wintermaerchen.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = manzoni.1301.g #Damn you, Heine!
+		default_option = yes
+		add_modifier = {
+			name = manzoni_mocked_by_heine_modifier 
+			years = 3
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1302: Joseph von Eichendorff, Mondnacht
+manzoni.1302 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1302.t
+	desc = manzoni.1302.d
+	flavor = manzoni.1302.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_mondnacht.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		OR = {
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:south_german
+		}
+		has_technology_researched = romanticism
+		game_date >= 1837.1.1
+		game_date <= 1848.1.1
+		NOT = { 
+			has_variable = manzoni_mondnacht_published_var #Note that this will trigger in every german state
+		}
+	}
+
+	immediate = {
+		set_variable = manzoni_mondnacht_published_var #Note that this will trigger in every german state
+	}
+
+	option = {
+		name = manzoni.1302.g #Beautiful.
+		default_option = yes
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 10
+		}
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 5
+		}
+	}
+
+	option = {
+		name = manzoni.1302.h #So, instead of searching political freedom, germans are distracted by silly poems?
+		every_interest_group = {
+			limit = {
+				is_in_government = no
+			}
+			add_modifier = {
+				name = manzoni_michel_sleeps_modifier
+				years = 3
 			}
 		}
 	}
