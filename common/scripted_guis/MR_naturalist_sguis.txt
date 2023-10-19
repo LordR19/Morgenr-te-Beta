@@ -96,3 +96,63 @@ mr_zoological_expedition_button = {
 		base = 1000
 	}
 }
+
+#MR_BOTANICAL_EXPEDITION_BUTTON
+mr_botanical_expedition_button = {
+    scope = country
+    is_valid = {
+		### This part should make it visible. How do I do that
+		NOT = {
+			has_modifier = dubois_botanical_expedition_modifier
+		}
+		### End ###
+        has_technology_researched = dubois_theory_of_evolution_tech
+		has_technology_researched = malaria_prevention
+		dubois_has_active_naturalist = yes
+		dubois_botanical_expedition_banned = no
+		OR = {
+			dubois_has_rainforest = yes
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = botanical_license
+				}				
+				dubois_has_rainforest = yes
+			}
+		}
+    }
+    effect = {
+        trigger_event = { 
+			id = dubois.301
+			popup = yes 
+		}
+    }
+    ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			}
+			add = 100
+		}
+		modifier = {
+			trigger = {
+				var:dubois_specimen < 35000
+			}
+			add = 100
+		}		
+		modifier = {
+			trigger = {
+				var:dubois_specimen < 45000
+			}
+			add = 25
+		}	
+		modifier = {
+			trigger = {
+				var:dubois_specimen >= 50000
+			}
+			add = -200
+		}
+	}
+}
