@@ -1,0 +1,568 @@
+﻿############################
+# ARTISTS SCRPITED EFFECTS #
+############################
+
+############################################################################
+
+#All Academics (and Special Characters) should have a variable assigned to the character:
+# mr_is_composer_var	-->	Composer
+# mr_is_writer_var		-->	Writer
+# mr_is_painter_var		-->	Painter
+
+######COMPOSER######
+
+#This effect kills the current composer
+kill_composer_effect = {
+	var:elgar_composer_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = elgar_composer_var
+}
+
+# Creates a new Composer without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_composer_effect = {
+	random_list = {
+		4 = { #Edgar Elgar, Great Britain
+			trigger = {
+				NOT = { has_global_variable = elgar_elgar_created_global_var }
+				has_state_in_state_region = STATE_MIDLANDS
+				NOT = {
+					cu:british = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1912.6.2 #Age 55
+				year >= 1883 #first time one of his compositions was performed by a professional orchestra
+			}
+			create_character = {
+				template = mr_gbr_elgar_edgar_character_template
+
+				save_scope_as = elgar_new_composer_scope
+			}
+			scope:elgar_new_composer_scope = {
+				set_variable = elgar_elgar_character_var
+				set_variable = mr_is_composer_var
+				composer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = elgar_new_composer_var
+				value = scope:elgar_new_composer_scope
+			}
+
+			set_global_variable = elgar_elgar_created_global_var
+		}
+		1 = { #Random Composer
+			create_character = {
+				save_scope_as = elgar_new_composer_scope
+			}
+
+			scope:elgar_new_composer_scope = {
+				add_trait = elgar_composer
+				set_variable = mr_is_composer_var
+				composer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = elgar_new_composer_var
+				value = scope:elgar_new_composer_scope
+			}
+		}
+	}
+
+	var:elgar_new_composer_var = {
+		save_scope_as = elgar_new_composer_scope
+	}
+	remove_variable = elgar_new_composer_var
+}
+
+# Set new Composer as official Composer
+elgar_set_new_composer_as_composer_effect = {
+	custom_tooltip = {
+		text = elgar_replace_composer_with_new_composer_tt
+	
+		if = {
+			limit = {
+				has_variable = elgar_composer_var
+			}
+			var:elgar_composer_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = elgar_composer_var
+			value = scope:elgar_new_composer_scope
+		}
+	}
+}
+
+# Remove new Composer
+elgar_remove_new_composer_effect = {
+	scope:elgar_new_composer_scope = {
+		free_character_from_void = no
+	}
+}
+
+# Used to set up the Experience of a character 
+composer_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = elgar_composer_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 30
+			}
+			set_variable = {
+				name = elgar_composer_experience
+				value = age
+			}
+			change_variable = {
+				name = elgar_composer_experience
+				subtract = 30
+			}
+			change_variable = {
+				name = elgar_composer_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = elgar_composer_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Famous Composer Trait if Experience is above 500
+			limit = {
+				var:elgar_composer_experience >= 500
+				NOT = {
+					has_trait = elgar_great_composer
+				}
+			}
+			remove_trait = elgar_composer
+			add_trait = elgar_great_composer
+		}
+	}
+}
+
+#Composer Experience gain
+composer_experience_gain_effect = { #adds XP to the Composer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = elgar_composer_var #should only add experience if there actually is a Composer
+		}
+		custom_tooltip = {
+			text = elgar_composer_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:elgar_composer_var = { #Fallback to make sure there are no errors if the Composer does not have the variable yet
+							has_variable = elgar_composer_experience
+						}
+					}
+				}
+				var:elgar_composer_var = { #Sets the experience in case it was not set yet
+					composer_experience_set_up_effect = yes
+				}
+			}
+			var:elgar_composer_var = {
+				change_variable = {
+					name = elgar_composer_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:elgar_composer_var = {
+			if = {
+				limit = {
+					var:elgar_composer_experience >= 500
+					NOT = {
+						has_trait = elgar_great_composer
+					}
+				}
+				root = {
+					trigger_event = {
+						id = artists.101
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+######Writer######
+
+#This effect kills the current writer
+kill_writer_effect = {
+	var:manzoni_writer_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = manzoni_writer_var
+}
+
+# Creates a new Writer without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_writer_effect = {
+	random_list = {
+		1 = { #Random Writer
+			create_character = {
+				save_scope_as = manzoni_new_writer_scope
+			}
+
+			scope:manzoni_new_writer_scope = {
+				add_trait = literary
+				set_variable = mr_is_writer_var
+				writer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = manzoni_new_writer_var
+				value = scope:manzoni_new_writer_scope
+			}
+		}
+	}
+
+	var:manzoni_new_writer_var = {
+		save_scope_as = manzoni_new_writer_scope
+	}
+	remove_variable = manzoni_new_writer_var
+}
+
+# Set new Writer as official Writer
+manzoni_set_new_writer_as_writer_effect = {
+	custom_tooltip = {
+		text = manzoni_replace_writer_with_new_writer_tt
+	
+		if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			var:manzoni_writer_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = manzoni_writer_var
+			value = scope:manzoni_new_writer_scope
+		}
+	}
+}
+
+# Remove new Writer
+manzoni_remove_new_writer_effect = {
+	scope:manzoni_new_writer_scope = {
+		free_character_from_void = no
+	}
+}
+
+# Used to set up the Experience of a character 
+writer_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = manzoni_writer_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 30
+			}
+			set_variable = {
+				name = manzoni_writer_experience
+				value = age
+			}
+			change_variable = {
+				name = manzoni_writer_experience
+				subtract = 30
+			}
+			change_variable = {
+				name = manzoni_writer_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = manzoni_writer_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Great Writer Trait if Experience is above 500
+			limit = {
+				var:manzoni_writer_experience >= 500
+				NOT = {
+					has_trait = manzoni_great_writer
+				}
+			}
+			remove_trait = literary
+			add_trait = manzoni_great_writer
+		}
+	}
+}
+
+#Writer Experience gain
+writer_experience_gain_effect = { #adds XP to the Writer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = manzoni_writer_var #should only add experience if there actually is a Writer
+		}
+		custom_tooltip = {
+			text = manzoni_writer_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:manzoni_writer_var = { #Fallback to make sure there are no errors if the Writer does not have the variable yet
+							has_variable = manzoni_writer_experience
+						}
+					}
+				}
+				var:manzoni_writer_var = { #Sets the experience in case it was not set yet
+					writer_experience_set_up_effect = yes
+				}
+			}
+			var:manzoni_writer_var = {
+				change_variable = {
+					name = manzoni_writer_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:manzoni_writer_var = {
+			if = {
+				limit = {
+					var:manzoni_writer_experience >= 500
+					NOT = {
+						has_trait = manzoni_great_writer
+					}
+				}
+				root = {
+					trigger_event = {
+						id = artists.102
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+######Painter######
+
+#This effect kills the current painter
+kill_painter_effect = {
+	var:klimt_painter_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = klimt_painter_var
+}
+
+# Creates a new Painter without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_painter_effect = {
+	random_list = {
+		4 = { #Adolf Hitler, Austria
+			trigger = {
+				NOT = { has_global_variable = klimt_hitler_created_global_var }
+				has_global_variable = mr_hitler_painter
+				has_state_in_state_region = STATE_AUSTRIA
+				NOT = {
+					cu:south_german = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1944.4.20 #Age 55
+				year >= 1910 #three years after he failed the entrance exam of the Vienna Arts Academy
+			}
+			create_character = {
+				template = mr_ger_hitler_painter_character_template
+
+				save_scope_as = klimt_new_painter_scope
+			}
+			scope:klimt_new_painter_scope = {
+				set_variable = klimt_hitler_character_var
+				set_variable = mr_is_painter_var
+				painter_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = klimt_new_painter_var
+				value = scope:klimt_new_painter_scope
+			}
+
+			set_global_variable = klimt_hitler_created_global_var
+		}
+		1 = { #Random Painter
+			create_character = {
+				save_scope_as = klimt_new_painter_scope
+			}
+
+			scope:klimt_new_painter_scope = {
+				add_trait = klimt_painter
+				set_variable = mr_is_painter_var
+				painter_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = klimt_new_painter_var
+				value = scope:klimt_new_painter_scope
+			}
+		}
+	}
+
+	var:klimt_new_painter_var = {
+		save_scope_as = klimt_new_painter_scope
+	}
+	remove_variable = klimt_new_painter_var
+}
+
+# Set new Painter as official Painter
+klimt_set_new_painter_as_painter_effect = {
+	custom_tooltip = {
+		text = klimt_replace_painter_with_new_painter_tt
+	
+		if = {
+			limit = {
+				has_variable = klimt_painter_var
+			}
+			var:klimt_painter_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = klimt_painter_var
+			value = scope:klimt_new_painter_scope
+		}
+	}
+}
+
+# Remove new Painter
+klimt_remove_new_painter_effect = {
+	scope:klimt_new_painter_scope = {
+		free_character_from_void = no
+	}
+}
+
+# Used to set up the Experience of a character 
+painter_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = klimt_painter_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 30
+			}
+			set_variable = {
+				name = klimt_painter_experience
+				value = age
+			}
+			change_variable = {
+				name = klimt_painter_experience
+				subtract = 30
+			}
+			change_variable = {
+				name = klimt_painter_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = klimt_painter_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Great Painter Trait if Experience is above 500
+			limit = {
+				var:klimt_painter_experience >= 500
+				NOT = {
+					has_trait = klimt_great_painter
+				}
+			}
+			remove_trait = klimt_painter
+			add_trait = klimt_great_painter
+		}
+	}
+}
+
+#Painter Experience gain
+painter_experience_gain_effect = { #adds XP to the Painter
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = klimt_painter_var #should only add experience if there actually is a Painter
+		}
+		custom_tooltip = {
+			text = klimt_painter_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:klimt_painter_var = { #Fallback to make sure there are no errors if the Painter does not have the variable yet
+							has_variable = klimt_painter_experience
+						}
+					}
+				}
+				var:klimt_painter_var = { #Sets the experience in case it was not set yet
+					painter_experience_set_up_effect = yes
+				}
+			}
+			var:klimt_painter_var = {
+				change_variable = {
+					name = klimt_painter_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:klimt_painter_var = {
+			if = {
+				limit = {
+					var:klimt_painter_experience >= 500
+					NOT = {
+						has_trait = klimt_great_painter
+					}
+				}
+				root = {
+					trigger_event = {
+						id = artists.103
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}

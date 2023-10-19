@@ -1,0 +1,46 @@
+﻿#######################
+# GAUDI SCRPIT VALUES #
+#######################
+
+#By Lord R
+
+############################################################################
+
+#This Script value depends on the technological advancement of a country.
+gaudi_tech_level_multiplier_5_value = {
+	value = gaudi_percentage_more_advanced_countries_value
+	multiply = 5
+}
+
+#This Script Value calculates the percentage of more advanced countries that are not decentralized
+gaudi_percentage_more_advanced_countries_value = {
+	if = {
+		limit = {
+			any_country = {
+				techs_researched >= root.techs_researched
+			}
+		}
+		every_country = {
+			limit = {
+				NOT = { is_country_type = decentralized }
+				techs_researched >= root.techs_researched
+			}
+			add = 1
+		}
+	}
+	else = {
+		value = 0.01
+	}
+
+	divide = gaudi_num_countries_not_decentralized_value
+}
+
+#This Script Value counts the number of countries that are not decentralized
+gaudi_num_countries_not_decentralized_value = {
+	every_country = {
+		limit = {
+			NOT = { is_country_type = decentralized }
+		}
+		add = 1
+	}
+}

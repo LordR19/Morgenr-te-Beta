@@ -6,7 +6,7 @@
 X Make sure that historical academics spawn properly
 - Mission to recruit more Academics
 - Death Events for Academics
-- Death Events for Academics (if they die without our input)
+X Death Events for Academics (if they die without our input)
 X Added historic or modern names for the scientific society
 
 #Archaeology:
@@ -14,7 +14,7 @@ X Add Christian Jürgensen Thomsen at game start (https://en.wikipedia.org/wiki/
 
 #Astronomy:
 X Mission to discover Pluto
-- Mission to discover Neptun
+X Mission to discover Neptun
 - More historical Astronomers that can spawn
 - Move the past conferences to a new event
 - Add Conference for Moon formation
@@ -25,7 +25,7 @@ x Add Events with negative Traits (Alcoholic, etc.)
    x An alcoholic might find stars that don't exist
 x Add a stress event that either forces you to let the astronomer take a break or adds a negative trait to them
 - Add more discovery events but reduce the chances for them to make them happen about as often
-- Add an event for the classification of the stars with spectroscopy
+X Add an event for the classification of the stars with spectroscopy
 
 
 #Geology:

@@ -800,6 +800,117 @@ elgar_composer_lotto_3 = {
 
 ###Music tradition###
 
+#Effect to add $AMOUNT$ Music Tradition
+elgar_add_x_music_tradition_effect = {
+	# Amount = amount of music tradition to add
+	if = { #This changes the Amount depending on the power rank.
+		limit = { country_rank = rank_value:great_power }
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = music_tradition_amount
+			value = { #This is the way to calculate with temporary_scope_values. It is quite useful
+				value = $AMOUNT$
+				multiply = 0.5
+				round = yes
+			}
+		}
+	}
+	else_if = {
+		limit = { country_rank = rank_value:major_power }
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = music_tradition_amount
+			value = { #This is the way to calculate with temporary_scope_values. It is quite useful
+				value = $AMOUNT$
+				multiply = 0.75
+				round = yes
+			}
+		}
+	}
+	else = { #In case that you are below major power you get all of the musical tradition
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = music_tradition_amount
+			value = $AMOUNT$
+		}
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = elgar_add_x_music_tradition_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = elgar_add_x_music_tradition_tradition_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = elgar_add_x_music_tradition_plus_x_tt
+	}
+
+	#Yearly Music Tradition can be used for a report, they are added with each normal Music Tradition
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = elgar_yearly_music_tradition_var
+			}
+		}
+		set_variable = {
+			name = elgar_yearly_music_tradition_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = elgar_yearly_music_tradition_var
+		add = scope:music_tradition_amount
+	}
+	change_global_variable = {
+		name = elgar_global_music_tradition_var
+		add = scope:music_tradition_amount
+	}
+
+	#This part adds the AMOUNT of Music Tradition
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = elgar_music_tradition
+			}
+		}
+		set_variable = {
+			name = elgar_music_tradition
+			value = 0
+		}
+	}
+	change_variable = {
+		name = elgar_music_tradition
+		add = scope:music_tradition_amount
+	}
+
+	#elgar_composer_total_music_tradition_var is used to keep track of all the Music Tradition that a specific Writer created.
+	#It is used to show how successful the Writer is.
+	#Every time a normal Music Tradition Point is added, the same number gets added here.
+	if = {
+		limit = { #Only works if there actually is a Writer
+			has_variable = elgar_composer_var
+		}
+		var:elgar_composer_var = {
+			if = { #Fallback if the variable does not exist yet
+				limit = {
+					NOT = {
+						has_variable = elgar_composer_total_music_tradition_var
+					}
+				}
+				set_variable = {
+					name = elgar_composer_total_music_tradition_var
+					value = 0
+				}
+			}
+			change_variable = { #The amount of Musical Tradition that this Composer discovered
+				name = elgar_composer_total_music_tradition_var
+				add = scope:music_tradition_amount
+			}
+		}
+	}
+}
+
 elgar_add_1_music_tradition = {
 	change_variable = {
  		name = elgar_music_tradition
@@ -1007,4 +1118,192 @@ elgar_add_variables = {
         value = 0
 	}
 	set_variable = elgar_variables_var
+}
+
+##############################
+
+#Creates a list of the ten countries with the highest musical tradition
+#As this effect is called in an effect, it creates the list with normal variables
+#Look at the customizable localizations to see how the countries are displayed.
+#Basically the custom loc uses the variable to display both the countries in their order as well as the variables of those countries
+elgar_create_musical_tradition_ranking_effect = {
+	ordered_country = {
+		limit = {
+			NOT = { #Hopefully keeps revolutions to appear in the ranking
+				is_revolutionary = yes
+			}
+		}
+		order_by = var:elgar_music_tradition
+		max = 10 #Limits the list to the ten top countires
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_1_var
+					}
+				}
+			}
+			root = {
+				set_variable = { #The countries are actually saved to the country that uses the effect in the event window
+					name = elgar_musical_tradition_rank_1_var
+					value = prev
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_2_var
+					}
+				}
+			}
+			root = {
+				set_variable = {
+					name = elgar_musical_tradition_rank_2_var
+					value = prev
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_3_var
+					}
+				}
+			}
+			root = {
+				set_variable = {
+					name = elgar_musical_tradition_rank_3_var
+					value = prev
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_4_var
+					}
+				}
+			}
+			root = {
+				set_variable = {
+					name = elgar_musical_tradition_rank_4_var
+					value = prev
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_5_var
+					}
+				}
+			}
+			root = {
+				set_variable = {
+					name = elgar_musical_tradition_rank_5_var
+					value = prev
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_6_var
+					}
+				}
+			}
+			root = {
+				set_variable = {
+					name = elgar_musical_tradition_rank_6_var
+					value = prev
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_7_var
+					}
+				}
+			}
+			root = {
+				set_variable = {
+					name = elgar_musical_tradition_rank_7_var
+					value = prev
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_8_var
+					}
+				}
+			}
+			root = {
+				set_variable = {
+					name = elgar_musical_tradition_rank_8_var
+					value = prev
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_9_var
+					}
+				}
+			}
+			root = {
+				set_variable = {
+					name = elgar_musical_tradition_rank_9_var
+					value = prev
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					root = {
+						has_variable = elgar_musical_tradition_rank_10_var
+					}
+				}
+			}
+			root = {
+				set_variable = {
+					name = elgar_musical_tradition_rank_10_var
+					value = prev
+				}
+			}
+		}
+	}	
+}
+
+#Removes the ranking variables
+elgar_remove_musical_tradition_ranking_variables = {
+	remove_variable = elgar_musical_tradition_rank_1_var
+	remove_variable = elgar_musical_tradition_rank_2_var
+	remove_variable = elgar_musical_tradition_rank_3_var
+	remove_variable = elgar_musical_tradition_rank_4_var
+	remove_variable = elgar_musical_tradition_rank_5_var
+	remove_variable = elgar_musical_tradition_rank_6_var
+	remove_variable = elgar_musical_tradition_rank_7_var
+	remove_variable = elgar_musical_tradition_rank_8_var
+	remove_variable = elgar_musical_tradition_rank_9_var
+	remove_variable = elgar_musical_tradition_rank_10_var
 }

@@ -1,0 +1,109 @@
+﻿rich_building_trigger = {
+	cash_reserves_ratio > 0.8
+	occupancy >= 0.8
+	weekly_profit > 5
+}
+
+average_building_trigger = {
+	cash_reserves_ratio > 0.5
+	occupancy > 0.5
+	weekly_profit > 3
+}
+
+poor_building_trigger = {
+	cash_reserves_ratio > 0.25
+	weekly_profit < 4
+	occupancy >= 0.25
+}
+
+is_grain_producing_building = {
+	OR = {
+	    is_building_type = building_wheat_farm
+	    is_building_type = building_rice_farm
+	    is_building_type = building_rye_farm
+	    is_building_type = building_maize_farm
+	    is_building_type = building_millet_farm
+	}
+}
+
+is_in_agriculture_building_group = {
+	OR = {
+		is_building_group = bg_agriculture
+		is_building_group = bg_ranching
+		is_building_group = bg_plantations
+	}				
+}
+
+
+# MFE_has_building
+# S = Scope to run trigger in, can be 1/2/3 (1 = country scope, 2 = state, 3 = building)
+# T = Trigger to identifty building and evaluate more conditions with
+# K = Kind of Trigger to evaluate, 1/2/3 (1 = poor, 2 = rich, 3 = any )
+# Ex: 
+#MFE_has_building = {
+#    S = "3"
+#    K = "2"
+#    T = "is_building_group = bg_manufacturing level >= 5"
+#}
+MFE_has_building = {
+	trigger_if = {
+		limit = {
+			$S$ = 1
+		}
+		any_scope_state = {
+		    any_scope_building = {
+		    	$T$
+		    	trigger_if = {
+		    		limit = {
+		    			$K$ = 1
+		    		}
+		    		poor_building_trigger = yes
+		    	}
+		    	trigger_if = {
+		    		limit = {
+		    			$K$ = 2
+		    		}
+		    		rich_building_trigger = yes
+		    	}
+		   	}
+		}
+	}
+	trigger_if = {
+		limit = {
+			$S$ = 2	
+		}
+		any_scope_building = {
+			$T$
+			trigger_if = {
+				limit = {
+					$K$ = 1
+				}
+				poor_building_trigger = yes
+			}
+			trigger_if = {
+				limit = {
+					$K$ = 2
+				}
+				rich_building_trigger = yes
+			}
+		}
+	}
+	trigger_if = {
+		limit = {
+			$S$ = 3	
+		}
+		$T$
+		trigger_if = {
+			limit = {
+				$K$ = 1
+			}
+			poor_building_trigger = yes
+		}
+		trigger_if = {
+			limit = {
+				$K$ = 2
+			}
+			rich_building_trigger = yes
+		}
+	}
+}

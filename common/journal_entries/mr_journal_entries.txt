@@ -52,6 +52,7 @@ je_mr_visit_building = {
 	scripted_button = mr_visit_opera_button
 	scripted_button = mr_visit_zoo_button
 	scripted_button = mr_visit_paleontological_collection_button
+	scripted_button = mr_visit_anthropological_collection_button
 	scripted_button = mr_visit_scientific_society_button
 
 	complete = {
@@ -216,8 +217,9 @@ je_mr_scientific_conferences = {
 	scripted_button = mr_carte_congress_button
 	scripted_button = mr_great_debate_congress_button
 	#scripted_button = mr_origin_of_moon_debate_button (Astronomer)
-	#scripted_button = mr_hippocampus_debate_button (Paleontologists, Anthropologists)
-	#scripted_button = mr_origin_of_man_debate_button (Anthropologists)
+	scripted_button = mr_hippocampus_congress_button
+	scripted_button = mr_origin_congress_button
+	scripted_button = mr_extinction_congress_button
 	#scripted_button = mr_continental_drift_debate_button (Geologists)
 	#scripted_button = mr_age_of_earth_debate_button (Geologists)
 
@@ -247,18 +249,7 @@ je_mr_archaeology = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	is_shown_when_inactive = {
-		any_state = {
-			OR = {
-				has_modifier = lepsius_upper_egypt_modifier
-				has_modifier = lepsius_lower_egypt_modifier
-				has_modifier = lepsius_babylonia_modifier
-				has_modifier = lepsius_assyria_modifier
-				has_modifier = lepsius_argolis_modifier
-				has_modifier = lepsius_crete_modifier
-				has_modifier = lepsius_yucatan_modifier
-				has_modifier = lepsius_peru_modifier
-			}
-		}
+		has_global_variable = lepsius_archaeology_possible_global_var
 	}
 
 	possible = {
@@ -284,10 +275,57 @@ je_mr_archaeology = {
 	scripted_button = mr_peru_expedition_button
 	scripted_button = mr_inspect_excavation_button
 	scripted_button = mr_cancel_excavation_button
+	scripted_button = mr_local_excavation_button
 	scripted_button = mr_first_excavation_team_button
 	scripted_button = mr_second_excavation_team_button
 	scripted_button = mr_third_excavation_team_button
 	scripted_button = mr_fourth_excavation_team_button
+
+	complete = {
+	}
+
+	on_complete = {
+	}
+
+	invalid = {
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 1000
+}
+
+######Anthropology######
+
+je_mr_anthropology = {
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = lepsius_early_archaeology_tech
+	}
+
+	possible = {
+		has_technology_researched = lepsius_modern_archaeology_tech
+	}
+	
+	immediate = {
+	}
+
+    fail = {
+    }
+
+	on_fail = {
+	}
+
+	scripted_button = mr_fossil_identification_button
+	scripted_button = mr_examine_cave_button
+	scripted_button = mr_recall_anthropologist_button
 
 	complete = {
 	}
@@ -420,4 +458,29 @@ je_mr_zoology = {
 	should_be_pinned_by_default = yes
 
 	weight = 1000
+}
+
+######ENGINEER SPECIALIZATION######
+
+je_mr_engineer_specialization = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	is_shown_when_inactive = {
+		has_technology_researched = atmospheric_engine
+		always = no
+	}
+
+	possible = {
+		gaudi_has_engineer = yes
+	}
+
+	scripted_button = academics_change_to_civil_engineer_button
+	scripted_button = academics_change_to_mechanical_engineer_button
+	scripted_button = academics_change_to_military_engineer_button
+	scripted_button = academics_change_to_electrical_engineer_button
+	scripted_button = academics_change_to_aeronautical_button
+
+	can_deactivate = yes
+
+	weight = 500
 }

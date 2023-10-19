@@ -1,0 +1,465 @@
+﻿###################
+# ARTISTS EVENTS  #
+###################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = artists
+
+###################
+
+###Retirement###
+
+#Artists 1: Composer retires /// Not yet implemented
+
+###Death Notifications from Game caused Deaths###
+
+#Artists 11: Composer died
+#Artists 12: Writer died
+#Artists 13: Painter died
+
+###Character Overview###
+
+#Artists 30: Academy of Arts /// Not yet implemented
+#Artists 31: Our Composer, SCOPE /// Not yet implemented
+
+###Academy###
+
+#Artists 51: Composer
+#Artists 52: Writer
+#Artists 53: Painter
+
+#Artists 60: Random Artist /// Not yet implemented
+
+###Level Up Events###
+
+#Artists 101: [Scope] is now a great Composer
+#Artists 102: [Scope] is now a great Writer
+#Artists 103: [Scope] is now a great Painter
+
+#################################################################################
+
+######Character death Events######
+
+#TODO put in on_actions
+
+#Artists 11: Our Composer died
+artists.11 = {
+	type = country_event
+
+	title = artists.11.t
+
+	desc = artists.11.d
+
+#	flavor = artists.11.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = elgar_composer_var
+	}
+
+	option = {	#This is a huge loss!
+		name = artists.11.g
+		default_option = yes
+
+		custom_tooltip = artists.11_tt
+	}
+}
+
+#Artists 12: Our Writer died
+artists.12 = {
+	type = country_event
+
+	title = artists.12.t
+
+	desc = artists.12.d
+
+#	flavor = artists.12.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = manzoni_writer_var
+	}
+
+	option = {	#This is a huge loss!
+		name = artists.12.g
+		default_option = yes
+
+		custom_tooltip = artists.11_tt
+	}
+}
+
+#Artists 13: Our Painter died
+artists.13 = {
+	type = country_event
+
+	title = artists.13.t
+
+	desc = artists.13.d
+
+#	flavor = artists.13.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = klimt_painter_var
+	}
+
+	option = {	#This is a huge loss!
+		name = artists.13.g
+		default_option = yes
+
+		custom_tooltip = artists.11_tt
+	}
+}
+
+#################################################################################
+
+######Character Creation Events######
+
+#Artists 51: Composer
+
+artists.51 = {
+	type = country_event
+
+	title = artists.51.t
+
+	desc = artists.51.d
+
+	flavor = artists.51.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:elgar_new_composer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_composer_effect = yes
+	}
+
+	option = {
+		name = artists.51.g
+		default_option = yes
+
+		elgar_set_new_composer_as_composer_effect = yes
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = artists.51.h
+		elgar_add_x_music_tradition_effect = { AMOUNT = 50 }
+		elgar_remove_new_composer_effect = yes
+
+		ai_chance = {
+			base = 10
+			modifier = { #If the AI already has a Composer that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = elgar_composer_var
+					var:elgar_composer_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Artists 52: Writer
+
+artists.52 = {
+	type = country_event
+
+	title = artists.52.t
+
+	desc = artists.52.d
+
+	flavor = artists.52.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_new_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_writer_effect = yes
+	}
+
+	option = {
+		name = artists.52.g
+		default_option = yes
+
+		manzoni_set_new_writer_as_writer_effect = yes
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = artists.52.h
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
+		manzoni_remove_new_writer_effect = yes
+
+		ai_chance = {
+			base = 10
+			modifier = { #If the AI already has a Writer that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = manzoni_writer_var
+					var:manzoni_writer_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Artists 53: Painter
+
+artists.53 = {
+	type = country_event
+
+	title = artists.53.t
+
+	desc = artists.53.d
+
+	flavor = artists.53.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_new_painter_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_painter_effect = yes
+	}
+
+	option = {
+		name = artists.53.g
+		default_option = yes
+
+		klimt_set_new_painter_as_painter_effect = yes
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = artists.53.h
+		klimt_add_x_painting_tradition_effect = { AMOUNT = 10 }
+		klimt_remove_new_painter_effect = yes
+
+		ai_chance = {
+			base = 10
+			modifier = { #If the AI already has a Painter that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = klimt_painter_var
+					var:klimt_painter_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
+######Level Up Events######
+
+#Artists 101: [Scope] is now a great Composer
+
+artists.101 = {
+	type = country_event
+
+	title = artists.101.t
+
+	desc = artists.101.d
+
+	flavor = artists.101.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:elgar_composer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:elgar_composer_var = {
+			save_scope_as = elgar_composer_scope
+		}
+	}
+
+	option = {
+		name = artists.101.g
+		default_option = yes
+
+		var:elgar_composer_var = {
+			remove_trait = elgar_composer
+			add_trait = elgar_great_composer
+		}
+	}
+}
+
+#Artists 102: [Scope] is now a great Writer
+
+artists.102 = {
+	type = country_event
+
+	title = artists.102.t
+
+	desc = artists.102.d
+
+	flavor = artists.102.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+	}
+
+	option = {
+		name = artists.102.g
+		default_option = yes
+
+		var:manzoni_writer_var = {
+			remove_trait = literary
+			add_trait = manzoni_great_writer
+		}
+	}
+}
+
+#Artists 103: [Scope] is now a great Painter
+
+artists.103 = {
+	type = country_event
+
+	title = artists.103.t
+
+	desc = artists.103.d
+
+	flavor = artists.103.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:klimt_painter_var = {
+			save_scope_as = klimt_painter_scope
+		}
+	}
+
+	option = {
+		name = artists.103.g
+		default_option = yes
+
+		var:klimt_painter_var = {
+			remove_trait = klimt_painter
+			add_trait = klimt_great_painter
+		}
+	}
+}

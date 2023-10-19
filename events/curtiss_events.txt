@@ -76,6 +76,7 @@ namespace = curtiss
 #Curtiss 137: Sabotage!
 #Curtiss 138: Sabotage not discovered
 #Curtiss 139: Sabotage discovered
+#Curtiss 140: [Aeronautical Engineer] constructs new engine
 
 #Airlines
 
@@ -1141,8 +1142,8 @@ curtiss.23 = {
 #	immediate = {
 #		set_global_variable = curtiss_gabriele_dannunzio
 #		create_character = {
-#			first_name = curtiss_gabriele
-#	  		last_name = curtiss_dannunzio
+#			first_name = mr_gabriele
+#	  		last_name = mr_dannunzio
 #	   		culture = cu:south_italian
 #			female = no
 #			religion = catholic
@@ -1151,6 +1152,7 @@ curtiss.23 = {
 #			dna = ecchi_dna_gabriele_dannunzio
 #			is_general = yes
 #			birth_date = 1863.3.12
+#			historical = yes
 #			traits = { 
 #				curtiss_pilot
 #				ambitious 
@@ -1211,8 +1213,8 @@ curtiss.31 = {
 	immediate = {
 		set_global_variable = curtiss_manfred_von_richthofen
 		create_character = {
-			first_name = curtiss_manfred
-	  		last_name = curtiss_von_richthofen
+			first_name = mr_manfred
+	  		last_name = mr_von_richthofen
 	   		culture = cu:north_german
     		female = no
     		religion = protestant
@@ -1221,6 +1223,7 @@ curtiss.31 = {
 			dna = mr_ger_richthofen
 			is_general = yes
     		birth_date = 1892.5.2
+			historical = yes
     		traits = { 
 				curtiss_pilot_ace
 				brave
@@ -1361,8 +1364,8 @@ curtiss.41 = {
 			save_scope_as = flight_addict_culture
 		}
 		create_character = {
-			first_name = curtiss_charles
-    		last_name = curtiss_lindbergh
+			first_name = mr_charles
+    		last_name = mr_lindbergh
    			culture = cu:yankee
     		female = no
     		religion = protestant
@@ -1371,6 +1374,7 @@ curtiss.41 = {
     		interest_group = ig_petty_bourgeoisie
     		birth_date = 1902.2.4
 			dna = ecchi_dna_charles_linbergh
+			historical = yes
     		traits = { explorer brave romantic curtiss_pilot }
 			save_scope_as = curtiss_lindbergh
 		}
@@ -1840,6 +1844,11 @@ curtiss.100 = {
 				days = 60
 			}
 			trigger_event = {
+				id = curtiss.140
+				popup = yes
+				days = { 65 90 }
+			}
+			trigger_event = {
 				id = curtiss.110
 				popup = yes
 				days = 120
@@ -1937,6 +1946,11 @@ curtiss.101 = {
 				id = curtiss.108
 				popup = yes
 				days = 60
+			}
+			trigger_event = {
+				id = curtiss.140
+				popup = yes
+				days = { 65 90 }
 			}
 			trigger_event = {
 				id = curtiss.110
@@ -2037,6 +2051,11 @@ curtiss.102 = {
 				id = curtiss.108
 				popup = yes
 				days = 60
+			}
+			trigger_event = {
+				id = curtiss.140
+				popup = yes
+				days = { 65 90 }
 			}
 			trigger_event = {
 				id = curtiss.110
@@ -2612,6 +2631,12 @@ curtiss.110 = {
 			}
 			curtiss_add_2_schneider_trophy_point = yes
 		}
+		if = {
+			limit = {
+				has_variable = curtiss_schneider_trophy_new_engine
+			}
+			curtiss_add_5_schneider_trophy_point = yes
+		}
 		###PILOTS###
 		if = {
 			limit = {
@@ -2772,6 +2797,7 @@ curtiss.110 = {
 		default_option = yes
 		remove_variable = curtiss_schneider_trophy_training_good
 		remove_variable = curtiss_schneider_trophy_training_normal
+		remove_variable = curtiss_schneider_trophy_new_engine
 	}
 }
 
@@ -3117,6 +3143,7 @@ curtiss.121 = {
 	}
 
 	trigger = {
+		gaudi_has_aeronautical_engineer_trigger = no
 	}
 
 	immediate = {
@@ -3344,6 +3371,18 @@ curtiss.124 = {
 		if = {
 			limit = {
 				has_modifier = curtiss_schneider_trophy_support_modifier
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_engineer_var
+			}
+			curtiss_add_1_schneider_trophy_point = yes
+		}
+		if = {
+			limit = {
+				gaudi_has_aeronautical_engineer_trigger = yes
 			}
 			curtiss_add_1_schneider_trophy_point = yes
 		}
@@ -5315,6 +5354,50 @@ curtiss.139 = {
 	}
 }
 
+
+#Curtiss 140: [Aeronautical Engineer] constructs new engine
+
+curtiss.140 = {
+	type = country_event
+
+    title = curtiss.140.t
+		
+    desc = curtiss.140.d
+
+	flavor = curtiss.140.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	trigger = {
+		gaudi_has_aeronautical_engineer_trigger = yes
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = { #A technical wonder!
+		name = curtiss.140.g
+		default_option = yes
+		
+		custom_tooltip = {
+			text = curtiss_schneider_trophy_new_engine_tt
+			set_variable = curtiss_schneider_trophy_new_engine
+		}
+	}
+}
+
 ###################################################################################
 
 ######AIRLINES######
@@ -5387,6 +5470,9 @@ curtiss.201 = {
 		curtiss_add_1_flight_route = yes
 		scope:curtiss_new_airport_state = {
 			create_building = {
+				building = "building_airport"
+			}
+			activate_building = {
 				building = "building_airport"
 			}
 			add_modifier = {
@@ -7004,6 +7090,9 @@ curtiss.229 = {
 				level=2
  				reserves=2
 			}
+			activate_building = {
+				building = "building_war_machine_industry"
+			}
 		}
 		scope:ig_industrialists = {
 			add_modifier = {
@@ -7105,6 +7194,9 @@ curtiss.230 = {
 				building = "building_elgar_opera"
 				level=3
  				reserves=3
+			}
+			activate_building = {
+				building = "building_elgar_opera"
 			}
 		}
 		scope:ig_intelligentsia = {
@@ -12823,7 +12915,7 @@ curtiss.533 = {
 					limit = {
 						has_variable = curtiss_zeppelin_biology_var
 					}
-					dubois_add_1_fossil = yes
+					dubois_add_x_fossils_effect = { AMOUNT = 1 }
 					if = { 
 						limit = {
 							dubois_has_paleontologist = yes
@@ -13375,18 +13467,7 @@ curtiss.601 = {
 		set_global_variable = curtiss_rip_panel_invented_global_var
 
 		create_character = {
-			dna = mr_usa_wise
-			first_name = curtiss_john
-			last_name = curtiss_wise
-			birth_date = 1808.2.24
-			culture = cu:yankee
-			interest_group = ig_intelligentsia
-			female = no
-			traits = { 
-				meticulous
-				innovative
-				curtiss_balloonist_experienced
-			}
+			template = mr_usa_wise_john_character_template
 
 			save_scope_as = curtiss_balloonist_scope
 		}
@@ -14285,19 +14366,7 @@ curtiss.614 = {
 		set_global_variable = curtiss_auguste_piccard_global_var
 
 		create_character = {
-			dna = mr_swi_piccard
-			first_name = curtiss_auguste
-			last_name = curtiss_piccard
-			birth_date = 1884.1.28
-			culture = cu:alemannic
-			interest_group = ig_intelligentsia
-			female = no
-			traits = { 
-				meticulous
-				innovative
-				verrier_physicist
-				curtiss_balloonist_experienced
-			}
+			template = mr_swi_piccard_auguste_character_template
 
 			save_scope_as = curtiss_balloonist_scope
 		}
@@ -14618,8 +14687,6 @@ curtiss.651 = {
 				has_variable = curtiss_balloonist_var
 			}
 		}
-
-		balloonist_cost_effect = yes
 
 		trigger_event = {
 			id = curtiss.650
@@ -15357,8 +15424,6 @@ curtiss.656 = {
 
 		kill_balloonist_effect = yes
 
-		balloonist_cost_effect = yes
-
 		create_balloonist_effect = yes
 
 		ai_chance = {
@@ -15753,8 +15818,6 @@ curtiss.673 = {
 
 		kill_balloonist_effect = yes
 
-		balloonist_cost_effect = yes
-
 		create_balloonist_effect = yes
 
 		verrier_add_x_astronomical_objects_effect = {
@@ -15820,8 +15883,6 @@ curtiss.674 = {
 		name = curtiss.674.h
 
 		kill_balloonist_effect = yes
-
-		balloonist_cost_effect = yes
 
 		create_balloonist_effect = yes
 
@@ -15896,8 +15957,6 @@ curtiss.675 = {
 	immediate = {
 		kill_balloonist_effect = yes
 
-		balloonist_cost_effect = yes
-
 		create_balloonist_effect = yes
 	}
 }
@@ -15951,8 +16010,6 @@ curtiss.676 = {
 
 		kill_balloonist_effect = yes
 
-		balloonist_cost_effect = yes
-
 		create_balloonist_effect = yes
 
 		custom_tooltip = academics.11_tt
@@ -15975,8 +16032,6 @@ curtiss.677 = {
 
 	immediate = {
 		kill_balloonist_effect = yes
-
-		balloonist_cost_effect = yes
 
 		create_balloonist_effect = yes
 	}

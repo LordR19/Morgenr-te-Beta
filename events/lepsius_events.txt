@@ -44,11 +44,14 @@ namespace = lepsius
 #Lepsius 30: Lead Scientist appointed
 #Lepsius 31: Lead Scientist becomes Director
 
+#Lepsius 40: The nations with the most Artifacts
+
 #Lepsius 50: Yearly excavation report
 
 ###Technology Events###
 
 #Lepsius 80: A new Age of Archaeology! (if Early Archaeology is discovered)
+#Lepsius 81: Modern Excavation Methods (if Modern Archaeology is discovered)
 
 ###Expeditions###
 
@@ -257,6 +260,10 @@ namespace = lepsius
 
 #901-1000 Discoveries
 
+#1101-1200 Archaeological Congresses
+
+#1201-1300 Local Excavations
+
 #2000+ Historical Archaeologist Events
 
 ######Historical Archaeologists######
@@ -328,6 +335,7 @@ lepsius.2 = {
 			}
 			post_notification = lepsius_rosellini_notification
 		}
+		set_global_variable = lepsius_archaeology_possible_global_var
 	}
 }
 
@@ -371,6 +379,7 @@ lepsius.3 = {
 			}
 			post_notification = lepsius_stephens_catherwood_expedition_notification
 		}
+		set_global_variable = lepsius_archaeology_possible_global_var
 	}
 }
 
@@ -423,6 +432,7 @@ lepsius.4 = {
 			}
 			post_notification = lepsius_decipherment_akkadian_notification
 		}
+		set_global_variable = lepsius_archaeology_possible_global_var
 	}
 }
 
@@ -475,6 +485,7 @@ lepsius.5 = {
 			}
 			post_notification = lepsius_support_schliemann_notification
 		}
+		set_global_variable = lepsius_archaeology_possible_global_var
 	}
 
 	after = {
@@ -528,6 +539,7 @@ lepsius.6 = {
 			}
 			post_notification = lepsius_machu_picchu_notification
 		}
+		set_global_variable = lepsius_archaeology_possible_global_var
 	}
 }
 
@@ -706,6 +718,21 @@ lepsius.11 = {
 		trigger_event = { 
 			id = lepsius.16
 			popup = yes
+		}
+	}
+
+	option = { #Show me the countries with the most Artifacts!
+		name = lepsius.11.o
+
+		trigger = {
+			year > 1836 #Change if you change the start date
+		}
+		trigger_event = {
+			id = lepsius.40
+			popup = yes
+		}
+		ai_chance = {
+			base = 0
 		}
 	}
 
@@ -1273,6 +1300,57 @@ lepsius.27 = {
 
 #Lepsius 31: Lead Scientist becomes director #REMOVED
 
+#Lepsius 40: The nations with the most Artifacts
+
+lepsius.40 = {
+	type = country_event
+
+    title = lepsius.40.t
+		
+    desc = lepsius.40.d
+
+	flavor = lepsius.40.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/museum/lepsius_museum_interior.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_create_total_artifacts_ranking_effect = yes
+	}
+
+	#Back to the Main Hall
+	option = {
+		name = lepsius.12.k
+		default_option = yes
+		hidden_effect = {
+			trigger_event = { 
+				id = lepsius.11
+				popup = yes
+			}
+		}
+	}
+
+	#Bye
+	option = {
+		name = lepsius.12.l
+		remove_variable = lepsius_visiting_museum_var
+	}
+
+	after = {
+		lepsius_remove_total_artifacts_ranking_variables = yes
+	}
+}
+
 #Lepsius 50: Yearly excavation report
 
 lepsius.50 = {
@@ -1359,13 +1437,19 @@ lepsius.50 = {
 			limit = {
 				has_modifier = lepsius_yucatan_excavation_modifier #Yucatán
 			}
-			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1}
 		}
 		if = {
 			limit = {
 				has_modifier = lepsius_peru_excavation_modifier #Peru
 			}
-			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1}
+		}
+		if = {
+			limit = {
+				has_modifier = lepsius_local_excavation_modifier #Local Excavation
+			}
+			lepsius_add_x_local_artifacts_effect = { AMOUNT = 1}
 		}
 		if = {
 			limit = {
@@ -1455,6 +1539,7 @@ lepsius.80 = {
 			set_variable = lepsius_invented_early_archaeology_var
 			save_scope_as = lepsius_archaeologist_scope
 		}
+		set_variable = lepsius_first_invented_early_archaeology_var
 
 		random_list = {
 			1 = {
@@ -1502,6 +1587,64 @@ lepsius.80 = {
 
 	after = {
 		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 81: Modern Excavation Methods (if Modern Archaeology is discovered)
+lepsius.81 = {
+	type = country_event
+
+	title = lepsius.81.t
+
+	desc = lepsius.81.d
+
+	flavor = lepsius.81.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		has_technology_researched = lepsius_modern_archaeology_tech
+		NOT = {
+			has_global_variable = lepsius_modern_archaeology_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = lepsius_modern_archaeology_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = lepsius_anthropologist_var
+				}
+			}
+			create_new_anthropologist_effect = yes
+			lepsius_set_new_anthropologist_as_anthropologist_effect = yes
+		}
+		var:lepsius_anthropologist_var = {
+			set_variable = lepsius_invented_modern_archaeology_var
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { #We are no longer tomb raiders!
+		name = lepsius.81.g
+		default_option = yes
+
+		anthropologist_experience_gain_effect = { AMOUNT = 30 }
+
+		lepsius_add_x_human_fossils_effect = { AMOUNT = 5 }
+		lepsius_change_anthropological_rating = { AMOUNT = 5 }
+	}
+
+	after = {
 	}
 }
 
@@ -3858,9 +4001,6 @@ lepsius.310 = {
 		remove_modifier = lepsius_crete_expedition_modifier
 		remove_modifier = lepsius_yucatan_expedition_modifier
 		remove_modifier = lepsius_peru_expedition_modifier
-		scope:lepsius_archaeological_expedition_leader = {
-			set_character_busy = no
-		}
 		scope:lepsius_military_attache = {
 			set_character_busy = no
 			remove_variable = lepsius_military_attache_var
@@ -4008,6 +4148,9 @@ lepsius.313 = {
 	option = { #Welcome back
 		name = lepsius.313.g
 		lepsius_update_exhibition_effect = yes
+		var:lepsius_archaeologist_var = {
+			set_character_busy = no
+		}
 	}
 }
 
@@ -16775,10 +16918,8 @@ lepsius.1101 = {
 				NOT = { 
 					this = ROOT 
 				}
-				OR = {
-					has_variable = lepsius_archaeologist_var
-					var:lepsius_total_artifacts >= 10
-				}
+				has_variable = lepsius_archaeologist_var
+				var:lepsius_total_artifacts >= 10
 			}
 			trigger_event = {
 				id = lepsius.1102
@@ -17854,10 +17995,8 @@ lepsius.1111 = {
 				NOT = { 
 					this = ROOT 
 				}
-				OR = {
-					has_variable = lepsius_archaeologist_var
-					var:lepsius_total_artifacts >= 15
-				}
+				has_variable = lepsius_archaeologist_var
+				var:lepsius_total_artifacts >= 15
 			}
 			trigger_event = {
 				id = lepsius.1112
@@ -18884,10 +19023,8 @@ lepsius.1121 = {
 				NOT = { 
 					this = ROOT 
 				}
-				OR = {
-					has_variable = lepsius_archaeologist_var
-					var:lepsius_total_artifacts >= 25
-				}
+				has_variable = lepsius_archaeologist_var
+				var:lepsius_total_artifacts >= 25
 			}
 			trigger_event = {
 				id = lepsius.1122
@@ -19971,6 +20108,7 @@ lepsius.1130 = {
 			has_global_variable = lepsius_troy_homeric
 		}
 		name = lepsius.1129.g #So Schliemann actually found Troy!
+		remove_modifier = lepsius_congress_attend_modifier
 		lepsius_medium_add_technology = yes
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "15"
@@ -19982,6 +20120,7 @@ lepsius.1130 = {
 			has_global_variable = lepsius_troy_historical
 		}
 		name = lepsius.1129.h #Schliemann dug up the wrong Troy, but the location is correct.
+		remove_modifier = lepsius_congress_attend_modifier
 		default_option = yes
 		lepsius_large_add_technology = yes
 		archaeologist_experience_gain_effect = {
@@ -19994,6 +20133,7 @@ lepsius.1130 = {
 			has_global_variable = lepsius_troy_myth
 		}
 		name = lepsius.1129.i #Troy is most likely pure literature.
+		remove_modifier = lepsius_congress_attend_modifier
 		lepsius_small_add_technology = yes
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "10"
@@ -20005,12 +20145,3521 @@ lepsius.1130 = {
 			has_global_variable = lepsius_troy_disputed
 		}
 		name = lepsius.1129.j #This entire congress was a complete waste of time!
+		remove_modifier = lepsius_congress_attend_modifier
 		archaeologist_experience_gain_effect = {
 			AMOUNT = "5"
 		}
 	}
 
 	after = {
+	}
+}
+
+#################################################################################
+
+######LOCAL EXCAVATIONS######
+
+#Lepsius 1201: Local archaeological site
+
+lepsius.1201 = {
+	type = country_event
+
+	title = lepsius.1201.t
+	desc = lepsius.1201.d
+	flavor = lepsius.1201.f
+
+	duration = 3
+
+	placement = scope:lepsius_excavation_site
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+			}
+			save_scope_as = lepsius_excavation_site
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = {
+		name = lepsius.1201.g #10 years
+		default_option = yes
+		add_modifier = {
+			name = lepsius_local_excavation_modifier
+		}
+		add_modifier = {
+			name = lepsius_local_excavation_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+			years = 10
+		}
+		scope:lepsius_archaeologist_scope = {
+			set_character_busy = yes
+		}
+		scope:lepsius_excavation_site= {
+			add_modifier = {
+				name = lepsius_local_excavation_state_modifier
+				years = 10
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.1202
+				months = 18
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.1203
+				years = 10
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1201.h #7 years
+		default_option = yes
+		add_modifier = {
+			name = lepsius_local_excavation_modifier
+		}
+		add_modifier = {
+			name = lepsius_local_excavation_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+			years = 7
+		}
+		scope:lepsius_archaeologist_scope = {
+			set_character_busy = yes
+		}
+		scope:lepsius_excavation_site= {
+			add_modifier = {
+				name = lepsius_local_excavation_state_modifier
+				years = 7
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.1202
+				months = 12
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.1203
+				years = 7
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1201.i #5 years
+		default_option = yes
+		add_modifier = {
+			name = lepsius_local_excavation_modifier
+		}
+		add_modifier = {
+			name = lepsius_local_excavation_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+			years = 5
+		}
+		scope:lepsius_archaeologist_scope = {
+			set_character_busy = yes
+		}
+		scope:lepsius_excavation_site= {
+			add_modifier = {
+				name = lepsius_local_excavation_state_modifier
+				years = 5
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.1202
+				months = 6
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.1203
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1202: Archaeologist returns from local archaeological site
+
+lepsius.1202 = {
+	type = country_event
+
+	title = lepsius.1202.t
+	desc = lepsius.1202.d
+	flavor = lepsius.1202.f
+
+	duration = 3
+
+	placement = scope:lepsius_excavation_site
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_local_excavation_state_modifier
+			}
+			save_scope_as = lepsius_excavation_site
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = {
+		name = lepsius.1202.g #Welcome back
+		default_option = yes
+		if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience >= 300
+				}
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 5
+			}
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience < 300
+					var:lepsius_archaeologist_experience >= 250
+				}
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 4
+			}
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience < 250
+					var:lepsius_archaeologist_experience >= 200
+				}
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 3
+			}
+		}
+		else_if = {
+			limit = {
+				var:lepsius_archaeologist_var = {
+					var:lepsius_archaeologist_experience < 200
+					var:lepsius_archaeologist_experience >= 100
+				}
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 2
+			}
+		}
+		else = {
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 1
+			}
+		}
+		lepsius_update_exhibition_effect = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+		scope:lepsius_archaeologist_scope = {
+			set_character_busy = no
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1203: Local Excavation finished
+
+lepsius.1203 = {
+	type = country_event
+
+	title = lepsius.1203.t
+	desc = lepsius.1203.d
+	flavor = lepsius.1203.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_excavation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = lepsius.1203.g #We should do another excavation soon
+		default_option = yes
+		remove_modifier = lepsius_local_excavation_modifier
+		lepsius_add_x_local_artifacts_effect = {
+			AMOUNT = 5
+		}
+		lepsius_update_exhibition_effect = yes
+		custom_tooltip = {
+			text = lepsius_add_archaeological_team_tt
+			change_variable = {
+ 				name = lepsius_excavation_teams
+ 				add = 1
+			}
+ 		}
+	}
+
+	after = {
+	}
+}
+
+######EXCAVATION EVENTS######
+
+#Lepsius 1211: Cult Objects
+
+lepsius.1211 = {
+	type = country_event
+
+	title = lepsius.1211.t
+	desc = lepsius.1211.d
+	flavor = lepsius.1211.f
+
+	placement = scope:lepsius_excavation_site
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_excavation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_modifier = lepsius_local_excavation_modifier
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_local_excavation_state_modifier
+			}
+			save_scope_as = lepsius_excavation_site
+		}
+	}
+
+	option = {
+		name = lepsius.1211.g #This will give us new insights into the past.
+		default_option = yes
+		lepsius_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1212: Ceramics
+
+lepsius.1212 = {
+	type = country_event
+
+	title = lepsius.1212.t
+	desc = lepsius.1212.d
+	flavor = lepsius.1212.f
+
+	placement = scope:lepsius_excavation_site
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_excavation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_modifier = lepsius_local_excavation_modifier
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_local_excavation_state_modifier
+			}
+			save_scope_as = lepsius_excavation_site
+		}
+	}
+
+	option = {
+		name = lepsius.1212.g #Handle it carefully!
+		default_option = yes
+		lepsius_add_x_local_artifacts_effect = {
+			AMOUNT = 2
+		}
+		lepsius_update_exhibition_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1213: Neolithic Village
+
+lepsius.1213 = {
+	type = country_event
+
+	title = lepsius.1213.t
+	desc = lepsius.1213.d
+	flavor = lepsius.1213.f
+
+	placement = scope:lepsius_excavation_site
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_excavation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_modifier = lepsius_local_excavation_modifier
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_local_excavation_state_modifier
+			}
+			save_scope_as = lepsius_excavation_site
+		}
+	}
+
+	option = {
+		name = lepsius.1213.g #An archaeological sensation!
+		default_option = yes
+		lepsius_add_x_local_artifacts_effect = {
+			AMOUNT = 5
+		}
+		lepsius_update_exhibition_effect = yes
+		lepsius_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1214: Human Bones
+
+lepsius.1214 = {
+	type = country_event
+
+	title = lepsius.1214.t
+	desc = lepsius.1214.d
+	flavor = lepsius.1214.f
+
+	placement = scope:lepsius_excavation_site
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_excavation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	cooldown = { 
+		years = 20
+	}
+
+	trigger = {
+		any_scope_state = {
+			has_modifier = lepsius_local_excavation_state_modifier
+			lepsius_cromagnon_region = yes
+		}
+		has_modifier = lepsius_local_excavation_modifier
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_local_excavation_state_modifier
+			}
+			save_scope_as = lepsius_excavation_site
+		}
+	}
+
+	option = {
+		name = lepsius.1214.g #A task for an anthropologist.
+		default_option = yes
+		lepsius_add_unknown_cromagnon_fossil_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1215: An ambitious successor
+
+lepsius.1215 = {
+	type = country_event
+
+	title = lepsius.1215.t
+	desc = lepsius.1215.d
+	flavor = lepsius.1215.f
+
+	placement = scope:lepsius_excavation_site
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_excavation.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_modifier = lepsius_local_excavation_modifier
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_local_excavation_state_modifier
+			}
+			save_scope_as = lepsius_excavation_site
+		}
+	}
+
+	option = {
+		name = lepsius.1215.g #He is archaeologically talented.
+		default_option = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = "3"
+		}
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
+######ANTHROPOLOGY######
+
+###Caves###
+
+#Lepsius 1301: Cave found
+
+lepsius.1301 = {
+	type = country_event
+
+	title = lepsius.1301.t
+	desc = lepsius.1301.d
+	flavor = lepsius.1301.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_anthropologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		lepsius_has_active_anthropologist = yes
+		any_scope_state = {
+			lepsius_has_cave = yes
+			lepsius_has_discovered_cave = no
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				lepsius_has_cave = yes
+				lepsius_has_discovered_cave = no
+			}
+			save_scope_as = lepsius_cave_state
+		}
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
+	}
+
+	option = {
+		name = lepsius.1301.g #Fascinating
+		default_option = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		lepsius_add_x_human_fossils_effect = {
+			AMOUNT = 2
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 2
+		}
+		scope:lepsius_cave_state = {
+			if = {
+				limit = {
+					has_variable = lepsius_cromagnon_cave_var
+				}
+				add_modifier = {
+					name = lepsius_cromagnon_cave_modifier
+				}
+			}
+			if = {
+				limit = {
+					has_variable = lepsius_neanderthalensis_cave_var
+				}
+				add_modifier = {
+					name = lepsius_neanderthalensis_cave_modifier
+				}
+			}
+			if = {
+				limit = {
+					has_variable = lepsius_erectus_cave_var
+				}
+				add_modifier = {
+					name = lepsius_erectus_cave_modifier
+				}
+			}
+			if = {
+				limit = {
+					has_variable = lepsius_australopithecus_cave_var
+				}
+				add_modifier = {
+					name = lepsius_australopithecus_cave_modifier
+				}
+			}
+			if = {
+				limit = {
+					has_variable = lepsius_paranthropus_cave_var
+				}
+				add_modifier = {
+					name = lepsius_paranthropus_cave_modifier
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1302: Neanderthal (Neanderthaler)
+
+lepsius.1302 = {
+	type = country_event
+
+	title = lepsius.1301.t
+	desc = lepsius.1302.d
+	flavor = lepsius.1301.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_RUHR
+			lepsius_has_discovered_cave = no
+		}
+		game_date >= 1850.1.1
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_RUHR
+				lepsius_has_discovered_cave = no
+			}
+			save_scope_as = lepsius_cave_state
+		}
+	}
+
+	option = {
+		name = lepsius.1301.g #Fascinating
+		default_option = yes
+		scope:lepsius_cave_state = {
+			add_modifier = {
+				name = lepsius_neanderthalensis_cave_modifier
+			}
+		}
+		lepsius_add_unknown_neanderthalensis_fossil_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1303: Altamira
+
+lepsius.1303 = {
+	type = country_event
+
+	title = lepsius.1301.t
+	desc = lepsius.1302.d
+	flavor = lepsius.1301.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_ASTURIAS
+			lepsius_has_discovered_cave = no
+		}
+		game_date >= 1865.1.1
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ASTURIAS
+				lepsius_has_discovered_cave = no
+			}
+			save_scope_as = lepsius_cave_state
+		}
+	}
+
+	option = {
+		name = lepsius.1301.g #Fascinating
+		default_option = yes
+		scope:lepsius_cave_state = {
+			add_modifier = {
+				name = lepsius_cromagnon_cave_modifier
+			}
+		}
+		lepsius_add_unknown_cromagnon_fossil_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1304: Taung
+
+lepsius.1304 = {
+	type = country_event
+
+	title = lepsius.1301.t
+	desc = lepsius.1302.d
+	flavor = lepsius.1301.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_NORTHERN_CAPE
+			lepsius_has_discovered_cave = no
+		}
+		game_date >= 1920.1.1
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NORTHERN_CAPE
+				lepsius_has_discovered_cave = no
+			}
+			save_scope_as = lepsius_cave_state
+		}
+	}
+
+	option = {
+		name = lepsius.1301.g #Fascinating
+		default_option = yes
+		scope:lepsius_cave_state = {
+			add_modifier = {
+				name = lepsius_australopithecus_cave_modifier
+			}
+		}
+		lepsius_add_unknown_australopithecus_fossil_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1305: Kromdraai
+
+lepsius.1305 = {
+	type = country_event
+
+	title = lepsius.1301.t
+	desc = lepsius.1302.d
+	flavor = lepsius.1301.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_VRYSTAAT
+			lepsius_has_discovered_cave = no
+		}
+		game_date >= 1925.1.1
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_VRYSTAAT
+				lepsius_has_discovered_cave = no
+			}
+			save_scope_as = lepsius_cave_state
+		}
+	}
+
+	option = {
+		name = lepsius.1301.g #Fascinating
+		default_option = yes
+		scope:lepsius_cave_state = {
+			add_modifier = {
+				name = lepsius_paranthropus_cave_modifier
+			}
+		}
+		lepsius_add_unknown_paranthropus_fossil_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1306: Zhoukoudian
+
+lepsius.1306 = {
+	type = country_event
+
+	title = lepsius.1301.t
+	desc = lepsius.1302.d
+	flavor = lepsius.1301.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_BEIJING
+			lepsius_has_discovered_cave = no
+		}
+		game_date >= 1910.1.1
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_BEIJING
+				lepsius_has_discovered_cave = no
+			}
+			save_scope_as = lepsius_cave_state
+		}
+	}
+
+	option = {
+		name = lepsius.1301.g #Fascinating
+		default_option = yes
+		scope:lepsius_cave_state = {
+			add_modifier = {
+				name = lepsius_erectus_cave_modifier
+			}
+		}
+		lepsius_add_unknown_erectus_fossil_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1307: Ngandong
+
+lepsius.1307 = {
+	type = country_event
+
+	title = lepsius.1301.t
+	desc = lepsius.1302.d
+	flavor = lepsius.1301.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_EAST_JAVA
+			lepsius_has_discovered_cave = no
+		}
+		game_date >= 1925.1.1
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_EAST_JAVA
+				lepsius_has_discovered_cave = no
+			}
+			save_scope_as = lepsius_cave_state
+		}
+	}
+
+	option = {
+		name = lepsius.1301.g #Fascinating
+		default_option = yes
+		scope:lepsius_cave_state = {
+			add_modifier = {
+				name = lepsius_erectus_cave_modifier
+			}
+		}
+		lepsius_add_unknown_erectus_fossil_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1308: Vézère Valley (Cro-Magnon)
+
+lepsius.1308 = {
+	type = country_event
+
+	title = lepsius.1301.t
+	desc = lepsius.1302.d
+	flavor = lepsius.1301.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_GUYENNE
+			lepsius_has_discovered_cave = no
+		}
+		game_date >= 1868.1.1
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_GUYENNE
+				lepsius_has_discovered_cave = no
+			}
+			save_scope_as = lepsius_cave_state
+		}
+	}
+
+	option = {
+		name = lepsius.1301.g #Fascinating
+		default_option = yes
+		scope:lepsius_cave_state = {
+			add_modifier = {
+				name = lepsius_cromagnon_cave_modifier
+			}
+		}
+		lepsius_add_unknown_cromagnon_fossil_effect = yes
+	}
+
+	after = {
+	}
+}
+
+###Identification##
+
+#Lepsius 1311: Human Fossil identified
+
+lepsius.1311 = {
+	type = country_event
+
+	title = lepsius.1311.t
+	desc = lepsius.1311.d
+	flavor = lepsius.1311.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_anthropologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
+	}
+
+	option = {
+		name = lepsius.1311.g #Fascinating
+		default_option = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 5
+		}
+		scope:lepsius_anthropologist_scope = {
+			set_character_busy = no
+		}
+		if = {
+			limit = {
+				var:lepsius_unknown_paranthropus_human_fossil >= 1
+			}
+			lepsius_identify_paranthropus_fossil_effect = yes
+		}
+		else_if = {
+			limit = {
+				var:lepsius_unknown_australopithecus_human_fossil >= 1
+			}
+			lepsius_identify_australopithecus_fossil_effect = yes
+		}
+		else_if = {
+			limit = {
+				var:lepsius_unknown_erectus_human_fossil >= 1
+			}
+			lepsius_identify_erectus_fossil_effect = yes
+		}
+		else_if = {
+			limit = {
+				var:lepsius_unknown_neanderthalensis_human_fossil >= 1
+			}
+			lepsius_identify_neanderthalensis_fossil_effect = yes
+		}
+		else_if = {
+			limit = {
+				var:lepsius_unknown_cromagnon_human_fossil >= 1
+			}
+			lepsius_identify_cromagnon_fossil_effect = yes
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1312: Identification (hidden)
+
+lepsius.1312 = {
+	type = country_event
+	
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_fossil_identification_progress = yes
+
+		if = {
+			limit = {
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience >= 300
+				}
+			}
+			lepsius_fossil_identification_progress = yes
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience < 300
+					var:lepsius_anthropologist_experience >= 200
+				}
+			}
+			lepsius_fossil_identification_progress = yes
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience < 200
+					var:lepsius_anthropologist_experience >= 100
+				}
+			}
+			lepsius_fossil_identification_progress = yes
+		}
+		if = {
+			limit = {
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience < 100
+					var:lepsius_anthropologist_experience >= 50
+				}
+			}
+			lepsius_fossil_identification_progress = yes
+		}
+	}
+}
+
+###Completion###
+
+#Lepsius 1321: Cro-Magnon complete
+
+lepsius.1321 = {
+	type = country_event
+
+	title = lepsius.1321.t
+	desc = lepsius.1321.d
+	flavor = lepsius.1321.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cromagnon.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+			set_variable = lepsius_completed_cromagnon_anthropologist_var
+		}
+		set_variable = lepsius_cromagnon_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_cromagnon_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_cromagnon_systemized
+				}
+			}
+			set_global_variable = lepsius_cromagnon_systemized
+			set_variable = lepsius_cromagnon_systemizer
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 75
+			}
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = lepsius_cromagnon_systemized_notification
+			}
+		}
+		else = {
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 35
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1322: Homo Neanderthalensis complete
+
+lepsius.1322 = {
+	type = country_event
+
+	title = lepsius.1322.t
+	desc = lepsius.1322.d
+	flavor = lepsius.1322.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_neanderthalensis.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+			set_variable = lepsius_completed_neanderthalensis_anthropologist_var
+		}
+		set_variable = lepsius_neanderthalensis_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_neanderthalensis_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_neanderthalensis_systemized
+				}
+			}
+			set_global_variable = lepsius_neanderthalensis_systemized
+			set_variable = lepsius_neanderthalensis_systemizer
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 75
+			}
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = lepsius_neanderthalensis_systemized_notification
+			}
+		}
+		else = {
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 35
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1323: Homo Erectus complete
+
+lepsius.1323 = {
+	type = country_event
+
+	title = lepsius.1323.t
+	desc = lepsius.1323.d
+	flavor = lepsius.1323.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_erectus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+			set_variable = lepsius_completed_erectus_anthropologist_var
+		}
+		set_variable = lepsius_erectus_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_erectus_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_erectus_systemized
+				}
+			}
+			set_global_variable = lepsius_erectus_systemized
+			set_variable = lepsius_erectus_systemizer
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 100
+			}
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = lepsius_erectus_systemized_notification
+			}
+		}
+		else = {
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 50
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1324: Australopithecus complete
+
+lepsius.1324 = {
+	type = country_event
+
+	title = lepsius.1324.t
+	desc = lepsius.1324.d
+	flavor = lepsius.1324.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_australopithecus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+			set_variable = lepsius_completed_australopithecus_anthropologist_var
+		}
+		set_variable = lepsius_australopithecus_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_australopithecus_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_australopithecus_systemized
+				}
+			}
+			set_global_variable = lepsius_australopithecus_systemized
+			set_variable = lepsius_australopithecus_systemizer
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 125
+			}
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = lepsius_australopithecus_systemized_notification
+			}
+		}
+		else = {
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 75
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1325: Paranthropus complete
+
+lepsius.1325 = {
+	type = country_event
+
+	title = lepsius.1325.t
+	desc = lepsius.1325.d
+	flavor = lepsius.1325.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_australopithecus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+			set_variable = lepsius_completed_paranthropus_anthropologist_var
+		}
+		set_variable = lepsius_paranthropus_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Fascinating
+		default_option = yes
+		custom_tooltip = lepsius_paranthropus_complete_tt
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_paranthropus_systemized
+				}
+			}
+			set_global_variable = lepsius_paranthropus_systemized
+			set_variable = lepsius_paranthropus_systemizer
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 125
+			}
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = lepsius_paranthropus_systemized_notification
+			}
+		}
+		else = {
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 75
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+###Historical Discovery###
+
+#Lepsius 1331: Neanderthaler
+
+lepsius.1331 = {
+	type = country_event
+
+	title = lepsius.1331.t
+	desc = lepsius.1331.d
+	flavor = lepsius.1331.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_neanderthalensis.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		game_date >= 1860.1.1
+		any_scope_state = {
+			state_region = s:STATE_RUHR
+		}
+		NOT = {
+			has_global_variable = lepsius_neanderthalensis_systemized
+		}
+		has_game_rule = lepsius_anthropology_historical_rule
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_RUHR
+			}
+			save_scope_as = lepsius_cave_state
+		}
+		set_global_variable = lepsius_neanderthalensis_systemized
+		set_variable = lepsius_neanderthalensis_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Our ancestors were not as primitive as we thought
+		default_option = yes
+		dubois_add_fossil_neanderthaler = yes
+		set_global_variable = lepsius_neanderthalensis_systemized
+		set_variable = lepsius_neanderthalensis_systemizer
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 75
+		}
+		hidden_effect = {
+			lepsius_add_neanderthalensis_fossil_effect = yes
+			lepsius_add_neanderthalensis_fossil_effect = yes
+			lepsius_add_neanderthalensis_fossil_effect = yes
+		}
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+			post_notification = lepsius_neanderthalensis_systemized_notification
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1332: Cro-Magnon Man
+
+lepsius.1332 = {
+	type = country_event
+
+	title = lepsius.1332.t
+	desc = lepsius.1332.d
+	flavor = lepsius.1321.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cromagnon.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		game_date >= 1870.1.1
+		any_scope_state = {
+			state_region = s:STATE_GUYENNE
+		}
+		NOT = {
+			has_global_variable = lepsius_cromagnon_systemized
+		}
+		has_game_rule = lepsius_anthropology_historical_rule
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_GUYENNE
+			}
+			save_scope_as = lepsius_cave_state
+		}
+		set_global_variable = lepsius_cromagnon_systemized
+		set_variable = lepsius_cromagnon_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Our ancestors were not as primitive as we thought
+		default_option = yes
+		dubois_add_fossil_cromagnon = yes
+		set_global_variable = lepsius_cromagnon_systemized
+		set_variable = lepsius_cromagnon_systemizer
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 75
+		}
+		hidden_effect = {
+			lepsius_add_cromagnon_fossil_effect = yes
+			lepsius_add_cromagnon_fossil_effect = yes
+			lepsius_add_cromagnon_fossil_effect = yes
+		}
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+			post_notification = lepsius_cromagnon_systemized_notification
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1333: Peking Man
+
+lepsius.1333 = {
+	type = country_event
+
+	title = lepsius.1333.t
+	desc = lepsius.1333.d
+	flavor = lepsius.1333.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_peking_man.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		game_date >= 1930.1.1
+		any_scope_state = {
+			state_region = s:STATE_BEIJING
+		}
+		NOT = {
+			has_global_variable = lepsius_peking_man_discovered
+		}
+		has_game_rule = lepsius_anthropology_historical_rule
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_BEIJING
+			}
+			save_scope_as = lepsius_cave_state
+		}
+		set_global_variable = lepsius_peking_man_discovered
+	}
+
+	option = {
+		name = lepsius.1321.g #Our ancestors were not as primitive as we thought
+		default_option = yes
+		dubois_add_fossil_peking = yes
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_erectus_systemized
+				}
+			}
+			set_global_variable = lepsius_erectus_systemized
+			set_variable = lepsius_erectus_systemizer
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 100
+			}
+			hidden_effect = {
+				lepsius_add_erectus_fossil_effect = yes
+				lepsius_add_erectus_fossil_effect = yes
+				lepsius_add_erectus_fossil_effect = yes
+			}
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = lepsius_erectus_systemized_notification
+			}
+		}
+		else = {
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 50
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1334: Taung Child
+
+lepsius.1334 = {
+	type = country_event
+
+	title = lepsius.1334.t
+	desc = lepsius.1334.d
+	flavor = lepsius.1324.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_australopithecus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		game_date >= 1925.1.1
+		any_scope_state = {
+			state_region = s:STATE_NORTHERN_CAPE
+		}
+		NOT = {
+			has_global_variable = lepsius_australopithecus_systemized
+		}
+		has_game_rule = lepsius_anthropology_historical_rule
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NORTHERN_CAPE
+			}
+			save_scope_as = lepsius_cave_state
+		}
+		set_global_variable = lepsius_australopithecus_systemized
+		set_variable = lepsius_australopithecus_complete
+	}
+
+	option = {
+		name = lepsius.1321.g #Our ancestors were not as primitive as we thought
+		default_option = yes
+		dubois_add_fossil_taung = yes
+		set_global_variable = lepsius_australopithecus_systemized
+		set_variable = lepsius_australopithecus_systemizer
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 125
+		}
+		hidden_effect = {
+			lepsius_add_australopithecus_fossil_effect = yes
+			lepsius_add_australopithecus_fossil_effect = yes
+			lepsius_add_australopithecus_fossil_effect = yes
+		}
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+			post_notification = lepsius_australopithecus_systemized_notification
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1335: Piltdown Man
+
+lepsius.1335 = {
+	type = country_event
+
+	title = lepsius.1335.t
+	desc = lepsius.1335.d
+	flavor = lepsius.1335.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_piltdown.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		game_date >= 1912.1.1
+		any_scope_state = {
+			state_region = s:STATE_HOME_COUNTIES
+		}
+		NOT = {
+			has_global_variable = lepsius_piltdown_discovered
+		}
+		has_game_rule = lepsius_anthropology_historical_rule
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_HOME_COUNTIES
+			}
+			save_scope_as = lepsius_cave_state
+		}
+		set_global_variable = lepsius_piltdown_discovered
+	}
+
+	option = {
+		name = lepsius.1335.g #Our ancestors were not as primitive as we thought
+		default_option = yes
+		dubois_add_fossil_piltdown = yes
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 100
+		}
+	}
+
+	option = {
+		name = lepsius.1335.h #This is a fraud
+		default_option = yes
+		lepsius_small_add_technology = yes
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+###Piltdown Fraud###
+
+#Lepsius 1341: Piltdown was a fraud! (hidden)
+
+lepsius.1341 = {
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		has_global_variable = lepsius_piltdown_discovered
+		any_country = {
+			lepsius_has_anthropologist = yes
+			var:lepsius_anthropologist_var = {
+				var:lepsius_anthropologist_experience >= 300
+			}
+			count >= 3
+		}
+		NOT = {
+			has_global_variable = lepsius_piltdown_fraud
+		}
+	}
+
+	immediate = {
+		set_global_variable = lepsius_piltdown_fraud
+		every_country = {
+			limit = {
+				NOT = {
+					has_variable = dubois_fossil_piltdown
+				}
+				lepsius_has_anthropologist = yes
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience >= 300
+				}
+			}
+			trigger_event = {
+				id = lepsius.1342
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_piltdown
+			}
+			trigger_event = {
+				id = lepsius.1343
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1342: Piltdown was a fraud! (Scientists)
+
+lepsius.1342 = {
+	type = country_event
+
+	title = lepsius.1342.t
+	desc = lepsius.1342.d
+	flavor = lepsius.1342.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_piltdown.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = lepsius.1342.g #In the end, serious science wins
+		default_option = yes
+		var:lepsius_anthropologist_var = {
+			set_variable = lepsius_exposed_piltdown_fraud_var
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		add_modifier = {
+			name = lepsius_exposed_piltdown_fraud_modifier
+			years = 10
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 15
+		}
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 25
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1343: Piltdown was a fraud! (Owner)
+
+lepsius.1343 = {
+	type = country_event
+
+	title = lepsius.1342.t
+	desc = lepsius.1342.d
+	flavor = lepsius.1343.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_piltdown.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = lepsius.1343.g #An international embarrassment beyond compare!
+		default_option = yes
+		remove_variable = dubois_fossil_piltdown
+		add_modifier = {
+			name = lepsius_piltdown_fraud_modifier
+			years = 10
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = -125
+		}
+	}
+
+	after = {
+	}
+}
+
+###Cave Events###
+
+#Lepsius 1401: Cave Examination
+
+lepsius.1401 = {
+	type = country_event
+
+	title = lepsius.1401.t
+	desc = lepsius.1401.d
+	flavor = lepsius.1401.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_anthropologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+			}
+			save_scope_as = lepsius_cave_1
+		}
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+			}
+			save_scope_as = lepsius_cave_2
+		}
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+				NOT = {
+					this = scope:lepsius_cave_2
+				}
+			}
+			save_scope_as = lepsius_cave_3
+		}
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+				NOT = {
+					this = scope:lepsius_cave_2
+				}
+				NOT = {
+					this = scope:lepsius_cave_3
+				}
+			}
+			save_scope_as = lepsius_cave_4
+		}
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+				NOT = {
+					this = scope:lepsius_cave_2
+				}
+				NOT = {
+					this = scope:lepsius_cave_3
+				}
+				NOT = {
+					this = scope:lepsius_cave_4
+				}
+			}
+			save_scope_as = lepsius_cave_5
+		}
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+				NOT = {
+					this = scope:lepsius_cave_2
+				}
+				NOT = {
+					this = scope:lepsius_cave_3
+				}
+				NOT = {
+					this = scope:lepsius_cave_4
+				}
+				NOT = {
+					this = scope:lepsius_cave_5
+				}
+			}
+			save_scope_as = lepsius_cave_6
+		}
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+				NOT = {
+					this = scope:lepsius_cave_2
+				}
+				NOT = {
+					this = scope:lepsius_cave_3
+				}
+				NOT = {
+					this = scope:lepsius_cave_4
+				}
+				NOT = {
+					this = scope:lepsius_cave_5
+				}
+				NOT = {
+					this = scope:lepsius_cave_6
+				}
+			}
+			save_scope_as = lepsius_cave_7
+		}
+	}
+
+	option = {
+		name = lepsius.1401.g #Cave State 1
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_1
+		}
+		scope:lepsius_cave_1 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1401.h #Cave State 2
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_2
+		}
+		scope:lepsius_cave_2 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1401.i #Cave State 3
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_3
+		}
+		scope:lepsius_cave_3 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1401.j #Cave State 4
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_4
+		}
+		scope:lepsius_cave_4 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1401.k #Cave State 5
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_5
+		}
+		scope:lepsius_cave_5 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1401.l #Cave State 6
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_6
+		}
+		scope:lepsius_cave_6 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1401.m #Cave State 7
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_7
+		}
+		scope:lepsius_cave_7 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = lepsius.1402
+			years = 5
+		}
+	}
+}
+
+#Lepsius 1402: Cave Examination finished
+
+lepsius.1402= {
+	type = country_event
+
+	title = lepsius.1402.t
+	desc = lepsius.1402.d
+	flavor = lepsius.1402.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_site
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_anthropologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_set_cave_site = yes
+		lepsius_set_cave_leader = yes
+	}
+
+	option = {
+		name = lepsius.1402.g #Welcome back
+		default_option = yes
+		if = {
+			limit = {
+				scope:lepsius_anthropologist_scope = {
+					var:lepsius_anthropologist_experience >= 250
+				}
+			}
+			anthropologist_experience_gain_effect = {
+				AMOUNT = 25
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 6
+			}
+			lepsius_add_x_human_fossils_effect = {
+				AMOUNT = 10
+			}
+			lepsius_add_cave_bone_effect = yes
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 15
+			}
+		}
+		else_if = {
+			limit = {
+				scope:lepsius_anthropologist_scope = {
+					var:lepsius_anthropologist_experience < 250
+					var:lepsius_anthropologist_experience >= 150
+				}
+			}
+			anthropologist_experience_gain_effect = {
+				AMOUNT = 25
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 4
+			}
+			lepsius_add_x_human_fossils_effect = {
+				AMOUNT = 7
+			}
+			lepsius_add_cave_bone_effect = yes
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 12
+			}
+		}
+		else_if = {
+			limit = {
+				scope:lepsius_anthropologist_scope = {
+					var:lepsius_anthropologist_experience < 150
+					var:lepsius_anthropologist_experience >= 75
+				}
+			}
+			anthropologist_experience_gain_effect = {
+				AMOUNT = 25
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 2
+			}
+			lepsius_add_x_human_fossils_effect = {
+				AMOUNT = 5
+			}
+			lepsius_add_cave_bone_effect = yes
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 10
+			}
+		}
+		else = {
+			anthropologist_experience_gain_effect = {
+				AMOUNT = 25
+			}
+			lepsius_add_x_local_artifacts_effect = {
+				AMOUNT = 1
+			}
+			lepsius_add_x_human_fossils_effect = {
+				AMOUNT = 3
+			}
+			lepsius_change_anthropological_rating = {
+				AMOUNT = 3
+			}
+		}
+		scope:lepsius_anthropologist_scope = {
+			set_character_busy = no
+		}
+	}
+
+	after = {
+		scope:lepsius_cave_site = {
+			remove_modifier = lepsius_cave_examination_state_modifier
+		}
+	}
+}
+
+#Lepsius 1411: Stone Tools
+
+lepsius.1411 = {
+	type = country_event
+
+	title = lepsius.1411.t
+	desc = lepsius.1411.d
+	flavor = lepsius.1411.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_state
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		has_modifier = lepsius_cave_examination_modifier 
+	}
+
+	immediate = {
+		lepsius_set_cave_site = yes
+		lepsius_set_cave_leader = yes
+	}
+
+	option = {
+		name = lepsius.1411.g #Examine the tools
+		default_option = yes
+		lepsius_medium_add_technology = yes
+	}
+
+	option = {
+		name = lepsius.1411.h #This belongs in a museum
+		lepsius_add_x_local_artifacts_effect = {
+			AMOUNT = 3
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1412: Strange Bone
+
+lepsius.1412 = {
+	type = country_event
+
+	title = lepsius.1412.t
+	desc = lepsius.1412.d
+	flavor = lepsius.1412.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_site
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	cooldown = { 
+		years = 10
+	}
+
+	trigger = {
+		has_modifier = lepsius_cave_examination_modifier 
+	}
+
+	immediate = {
+		lepsius_set_cave_site = yes
+		lepsius_set_cave_leader = yes
+	}
+
+	option = {
+		name = lepsius.1412.g #We will identify it later
+		default_option = yes
+		scope:lepsius_cave_site = {
+			if = {
+				limit = {
+					has_modifier = lepsius_cromagnon_cave_modifier
+				}
+				owner = {
+					lepsius_add_unknown_cromagnon_fossil_effect = yes
+				}
+			}
+			if = {
+				limit = {
+					has_modifier = lepsius_neanderthalensis_cave_modifier
+				}
+				owner = {
+					lepsius_add_unknown_neanderthalensis_fossil_effect = yes
+				}
+			}
+			if = {
+				limit = {
+					has_modifier = lepsius_erectus_cave_modifier
+				}
+				owner = {
+					lepsius_add_unknown_erectus_fossil_effect = yes
+				}
+			}
+			if = {
+				limit = {
+					has_modifier = lepsius_australopithecus_cave_modifier
+				}
+				owner = {
+					lepsius_add_unknown_australopithecus_fossil_effect = yes
+				}
+			}
+			if = {
+				limit = {
+					has_modifier = lepsius_paranthropus_cave_modifier
+				}
+				owner = {
+					lepsius_add_unknown_paranthropus_fossil_effect = yes
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1413: Fruitful studies
+
+lepsius.1413 = {
+	type = country_event
+
+	title = lepsius.1413.t
+	desc = lepsius.1413.d
+	flavor = lepsius.1413.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_site
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_modifier = lepsius_cave_examination_modifier 
+	}
+
+	immediate = {
+		lepsius_set_cave_site = yes
+		lepsius_set_cave_leader = yes
+	}
+
+	option = {
+		name = lepsius.1413.g #This will be beneficial for him
+		default_option = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 10
+		}
+	}
+
+	option = {
+		name = lepsius.1413.h #This will be beneficial for science
+		lepsius_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1414: Assistant finds Fossils
+
+lepsius.1414 = {
+	type = country_event
+
+	title = lepsius.1414.t
+	desc = lepsius.1414.d
+	flavor = lepsius.1414.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_site
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		has_modifier = lepsius_cave_examination_modifier 
+	}
+
+	immediate = {
+		lepsius_set_cave_site = yes
+		lepsius_set_cave_leader = yes
+	}
+
+	option = {
+		name = lepsius.1414.g #This disovery was made by the young anthropologist
+		default_option = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = "5"
+		}
+		lepsius_add_x_human_fossils_effect = {
+			AMOUNT = 3
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 3
+		}
+	}
+
+	option = {
+		name = lepsius.1414.h #This disovery was made by our senior anthropologist
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 15
+		}
+		lepsius_add_x_human_fossils_effect = {
+			AMOUNT = 3
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 3
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1415: Human Bones
+
+lepsius.1415 = {
+	type = country_event
+
+	title = lepsius.1415.t
+	desc = lepsius.1415.d
+	flavor = lepsius.1415.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_site
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		has_modifier = lepsius_cave_examination_modifier 
+	}
+
+	immediate = {
+		lepsius_set_cave_site = yes
+		lepsius_set_cave_leader = yes
+	}
+
+	option = {
+		name = lepsius.1415.g #Yummy.
+		default_option = yes
+		lepsius_add_x_human_fossils_effect = {
+			AMOUNT = 5
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1416: Drawings
+
+lepsius.1416 = {
+	type = country_event
+
+	title = lepsius.1416.t
+	desc = lepsius.1416.d
+	flavor = lepsius.1416.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_site
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave_painting.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	cooldown = { 
+		years = 20
+	}
+
+	trigger = {
+		has_modifier = lepsius_cave_examination_modifier
+		any_scope_state = {
+			has_modifier = lepsius_cave_examination_state_modifier
+			has_modifier = lepsius_cromagnon_cave_modifier
+			NOT = {
+				state_region = s:STATE_ASTURIAS
+			}
+		}
+	}
+
+	immediate = {
+		lepsius_set_cave_site = yes
+		lepsius_set_cave_leader = yes
+	}
+
+	option = {
+		name = lepsius.1416.g #Our ancestors were not as primitive as we thought
+		default_option = yes
+		lepsius_large_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 1417: Paintings of Altamira
+
+lepsius.1417 = {
+	type = country_event
+
+	title = lepsius.1417.t
+	desc = lepsius.1417.d
+	flavor = lepsius.1417.f
+
+	duration = 3
+
+	placement = scope:lepsius_cave_site
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_altamira.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+		has_modifier = lepsius_cave_examination_modifier
+		any_scope_state = {
+			has_modifier = lepsius_cave_examination_state_modifier
+			has_modifier = lepsius_cromagnon_cave_modifier
+			state_region = s:STATE_ASTURIAS
+		}
+		NOT = {
+			has_global_variable = lepsius_altamira_discovered
+		}
+	}
+
+	immediate = {
+		lepsius_set_cave_site = yes
+		lepsius_set_cave_leader = yes
+		set_global_variable = lepsius_altamira_discovered
+	}
+
+	option = {
+		name = lepsius.1416.g #Our ancestors were not as primitive as we thought
+		default_option = yes
+		lepsius_large_add_technology = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 15
+		}
+		lepsius_add_x_human_fossils_effect = {
+			AMOUNT = 5
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 5
+		}
+		lepsius_add_x_local_artifacts_effect = {
+			AMOUNT = 3
+		}
+	}
+
+	after = {
+	}
+}
+
+###Foreign Anthropologist###
+
+#Lepsius 1421: Foreign Anthropologist does Exploration
+
+lepsius.1421 = {
+	type = country_event
+
+	title = lepsius.1421.t
+	desc = lepsius.1421.d
+	flavor = lepsius.1421.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+			}
+			save_scope_as = lepsius_cave_1
+		}
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+			}
+			save_scope_as = lepsius_cave_2
+		}
+		random_scope_state = {
+			limit = {
+				lepsius_has_discovered_cave = yes
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+				NOT = {
+					this = scope:lepsius_cave_2
+				}
+			}
+			save_scope_as = lepsius_cave_3
+		}
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = anthropological_invitation
+				}
+			}
+			save_scope_as = lepsius_anthropological_guest
+		}
+	}
+
+	option = {
+		name = lepsius.1421.g #Cave State 1
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_1
+		}
+		scope:lepsius_cave_1 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1421.h #Cave State 2
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_2
+		}
+		scope:lepsius_cave_2 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1421.i #Cave State 3
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_3
+		}
+		scope:lepsius_cave_3 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = lepsius.1423
+			days = 3
+		}
+	}
+}
+
+#Lepsius 1422: Foreign Anthropologist does Exploration (AI)
+
+lepsius.1422 = {
+	type = country_event
+
+	title = lepsius.1421.t
+	desc = lepsius.1421.d
+	flavor = lepsius.1421.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = lepsius_erectus_cave_modifier
+					has_modifier = lepsius_australopithecus_cave_modifier
+					has_modifier = lepsius_paranthropus_cave_modifier
+				}
+			}
+			save_scope_as = lepsius_cave_1
+		}
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = lepsius_erectus_cave_modifier
+					has_modifier = lepsius_australopithecus_cave_modifier
+					has_modifier = lepsius_paranthropus_cave_modifier
+				}
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+			}
+			save_scope_as = lepsius_cave_2
+		}
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = lepsius_erectus_cave_modifier
+					has_modifier = lepsius_australopithecus_cave_modifier
+					has_modifier = lepsius_paranthropus_cave_modifier
+				}
+				NOT = {
+					this = scope:lepsius_cave_1
+				}
+				NOT = {
+					this = scope:lepsius_cave_2
+				}
+			}
+			save_scope_as = lepsius_cave_3
+		}
+	}
+
+	option = {
+		name = lepsius.1421.g #Cave State 1
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_1
+		}
+		scope:lepsius_cave_1 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1421.h #Cave State 2
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_2
+		}
+		scope:lepsius_cave_2 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.1421.i #Cave State 3
+		default_option = yes
+		trigger = {
+			exists = scope:lepsius_cave_3
+		}
+		scope:lepsius_cave_3 = {
+			add_modifier = {
+				name = lepsius_cave_examination_state_modifier
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = lepsius.1423
+			days = 3
+		}
+	}
+}
+
+#Lepsius 1423: Cave Exploration by Foreigners ends
+
+lepsius.1423 = {
+	type = country_event
+
+	title = lepsius.1423.t
+	desc = lepsius.1423.d
+	flavor = lepsius.1423.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_cave.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = anthropological_invitation
+				}
+			}
+			save_scope_as = lepsius_anthropological_guest
+		}
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_cave_examination_state_modifier
+			}
+			save_scope_as = lepsius_cave_site
+		}
+	}
+
+	option = {
+		name = lepsius.1423.g #Welcome back
+		default_option = yes
+		remove_modifier = lepsius_foreign_anthropological_examination_modifier
+		lepsius_add_cave_bone_effect = yes
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 5
+		}
+		if = {
+			limit = {
+				is_player = no
+			}
+			set_variable = {
+				name = lepsius_anthropology_invitation_break
+				days = 500
+			}
+		}
+	}
+
+	after = {
+		scope:lepsius_anthropological_guest = {
+			trigger_event = {
+				id = lepsius.1424
+			}
+		}
+	}
+}
+
+#Lepsius 1424: Cave Exploration by Foreigners ends (For Anthropologist nation)
+
+lepsius.1424 = {
+	type = country_event
+
+	title = lepsius.1423.t
+	desc = lepsius.1424.d
+	flavor = lepsius.1423.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_anthropologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_set_cave_leader = yes
+		random_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = anthropological_invitation
+				}
+			}
+			save_scope_as = lepsius_anthropological_host
+		}
+	}
+
+	option = {
+		name = lepsius.1423.g #Welcome back
+		default_option = yes
+		anthropologist_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		lepsius_add_x_human_fossils_effect = {
+			AMOUNT = 5
+		}
+		lepsius_change_anthropological_rating = {
+			AMOUNT = 10
+		}
+		var:lepsius_anthropologist_var = {
+			set_character_busy = no
+		}
+		if = {
+			limit = {
+				scope:lepsius_anthropological_host = {
+					any_scope_state = {
+						has_modifier = lepsius_cave_examination_state_modifier
+						has_modifier = lepsius_cromagnon_cave_modifier
+					}
+				}
+			}
+			lepsius_add_cromagnon_fossil_effect = yes
+		}
+		if = {
+			limit = {
+				scope:lepsius_anthropological_host = {
+					any_scope_state = {
+						has_modifier = lepsius_cave_examination_state_modifier
+						has_modifier = lepsius_neanderthalensis_cave_modifier
+					}
+				}
+			}
+			lepsius_add_neanderthalensis_fossil_effect = yes
+		}
+		if = {
+			limit = {
+				scope:lepsius_anthropological_host = {
+					any_scope_state = {
+						has_modifier = lepsius_cave_examination_state_modifier
+						has_modifier = lepsius_erectus_cave_modifier
+					}
+				}
+			}
+			lepsius_add_erectus_fossil_effect = yes
+		}
+		if = {
+			limit = {
+				scope:lepsius_anthropological_host = {
+					any_scope_state = {
+						has_modifier = lepsius_cave_examination_state_modifier
+						has_modifier = lepsius_australopithecus_cave_modifier
+					}
+				}
+			}
+			lepsius_add_australopithecus_fossil_effect = yes
+		}
+		if = {
+			limit = {
+				scope:lepsius_anthropological_host = {
+					any_scope_state = {
+						has_modifier = lepsius_cave_examination_state_modifier
+						has_modifier = lepsius_paranthropus_cave_modifier
+					}
+				}
+			}
+			lepsius_add_paranthropus_fossil_effect = yes
+		}
+	}
+
+	after = {
+		scope:lepsius_anthropological_host = {
+			random_scope_state = {
+				limit = {
+					has_modifier = lepsius_cave_examination_state_modifier
+				}
+				remove_modifier = lepsius_cave_examination_state_modifier
+			}
+			remove_diplomatic_pact = {
+				country = ROOT
+				type = anthropological_invitation
+			}
+		}
+	}
+}
+
+#Lepsius 1501: Human Evolution
+
+lepsius.1501 = {
+	type = country_event
+
+	title = lepsius.1501.t
+	desc = lepsius.1501.d
+
+	flavor = {
+		desc = lepsius.1501_human_fossils
+		desc = lepsius.1501_total_human_fossils
+		desc = lepsius.1501_total_unknown_human_fossils
+		desc = lepsius.1501_cromagnon_human_fossils
+		desc = lepsius.1501_neanderthalensis_human_fossils
+		desc = lepsius.1501_erectus_human_fossils
+		desc = lepsius.1501_australopithecus_human_fossils
+		desc = lepsius.1501_paranthropus_human_fossils
+		triggered_desc = {
+			trigger = {
+				OR = {
+					has_global_variable = lepsius_cromagnon_systemized
+					has_global_variable = lepsius_neanderthalensis_systemized
+					has_global_variable = lepsius_erectus_systemized
+					has_global_variable = lepsius_australopithecus_systemized
+					has_global_variable = lepsius_paranthropus_systemized
+				}
+			}
+			desc = lepsius.1501_taxonomy
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_cromagnon_systemized
+			}
+			desc = lepsius.1501_taxonomy_cromagnon
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_neanderthalensis_systemized
+			}
+			desc = lepsius.1501_taxonomy_neanderthalensis
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_erectus_systemized
+			}
+			desc = lepsius.1501_taxonomy_erectus
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_australopithecus_systemized
+			}
+			desc = lepsius.1501_taxonomy_australopithecus
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_paranthropus_systemized
+			}
+			desc = lepsius.1501_taxonomy_paranthropus
+		}
+		desc = lepsius.1501_miscellaneous
+		desc = lepsius.1501_anthropological_prestige
+		desc = lepsius.1501_global_total_human_fossils
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_java.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		set_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			value = 0
+		}
+		change_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			add = var:lepsius_unknown_cromagnon_human_fossil
+		}
+		change_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			add = var:lepsius_unknown_neanderthalensis_human_fossil
+		}
+		change_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			add = var:lepsius_unknown_erectus_human_fossil
+		}
+		change_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			add = var:lepsius_unknown_australopithecus_human_fossil
+		}
+		change_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			add = var:lepsius_unknown_paranthropus_human_fossil
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_cromagnon_systemizer
+			}
+			save_scope_as = lepsius_cromagnon_systemizer_country
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_neanderthalensis_systemizer
+			}
+			save_scope_as = lepsius_neanderthalensis_systemizer_country
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_erectus_systemizer
+			}
+			save_scope_as = lepsius_erectus_systemizer_country
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_australopithecus_systemizer
+			}
+			save_scope_as = lepsius_australopithecus_systemizer_country
+		}
+		random_country = {
+			limit = {
+				has_variable = lepsius_paranthropus_systemizer
+			}
+			save_scope_as = lepsius_paranthropus_systemizer_country
+		}
+	}
+
+	option = {	#Visit special Fossils
+		name = lepsius.1501.g
+		default_option = yes
+		trigger = {
+			any_country = {
+				OR = {
+					has_variable = dubois_fossil_java
+					has_variable = dubois_fossil_neanderthaler
+					has_variable = dubois_fossil_taung
+					has_variable = dubois_fossil_peking
+					has_variable = dubois_fossil_cromagnon
+					has_variable = dubois_fossil_piltdown
+				}
+			}
+		}
+
+		trigger_event = {
+			id = lepsius.1502
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = lepsius.1501.h
+		remove_variable =  lepsius_visiting_human_evolution_var
+
+		custom_tooltip = lepsius_leave_human_evolution_tt
+	}
+
+	after = {
+		remove_variable = lepsius_total_unknown_human_fossils_var
+	}
+}
+
+#Lepsius 1502: Special Human Fossils
+
+lepsius.1502 = {
+	type = country_event
+
+	title = lepsius.1502.t
+	desc = lepsius.1502.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_cromagnon
+				}
+			}
+			desc = lepsius.1502_cromagnon_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_cromagnon
+				}
+			}
+			desc = lepsius.1502_cromagnon_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_neanderthaler
+				}
+			}
+			desc = lepsius.1502_neanderthaler_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_neanderthaler
+				}
+			}
+			desc = lepsius.1502_neanderthaler_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_java
+				}
+			}
+			desc = lepsius.1502_java_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_java
+				}
+			}
+			desc = lepsius.1502_java_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_taung
+				}
+			}
+			desc = lepsius.1502_taung_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_taung
+				}
+			}
+			desc = lepsius.1502_taung_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_peking
+				}
+			}
+			desc = lepsius.1502_peking_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_peking
+				}
+			}
+			desc = lepsius.1502_peking_d
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_piltdown
+				}
+			}
+			desc = lepsius.1502_piltdown_t
+		}
+		triggered_desc = {
+			trigger = {
+				any_country = {
+					has_variable = dubois_fossil_piltdown
+				}
+			}
+			desc = lepsius.1502_piltdown_d
+		}
+	}
+
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/anthropology/lepsius_piltdown.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_cromagnon
+			}
+			save_scope_as = lepsius_cromagnon_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_neanderthaler
+			}
+			save_scope_as = lepsius_neanderthaler_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_java
+			}
+			save_scope_as = lepsius_java_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_taung
+			}
+			save_scope_as = lepsius_taung_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_peking
+			}
+			save_scope_as = lepsius_peking_finder_country
+		}
+		random_country = {
+			limit = {
+				has_variable = dubois_fossil_piltdown
+			}
+			save_scope_as = lepsius_piltdown_finder_country
+		}
+	}
+
+	option = {	#Back to main collection
+		name = lepsius.1501.i
+		default_option = yes
+
+		trigger_event = {
+			id = lepsius.1501
+			popup = yes
+		}
+	}
+	option = {	#Leave the Fossil Collection
+		name = lepsius.1501.h
+		remove_variable =  lepsius_visiting_human_evolution_var
+
+		custom_tooltip = lepsius_leave_human_evolution_tt
+	}
+
+	after = {
+		remove_variable = lepsius_total_unknown_human_fossils_var
 	}
 }
 
