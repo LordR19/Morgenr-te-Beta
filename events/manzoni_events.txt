@@ -1069,3 +1069,303 @@ manzoni.1302 = {
 	after = {
 	}
 }
+
+#Manzoni 1303: The Weavers in $STATE$
+manzoni.1303 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1303.t
+	desc = manzoni.1303.d
+	flavor = manzoni.1303.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_weberaufstand.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_protest.dds"
+
+	duration = 3
+
+	trigger = {
+		game_date >= 1840.1.1
+		game_date <= 1848.1.1
+		NOT = { 
+			has_global_variable = manzoni_weberaufstand_var
+		}
+		OR = {
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:south_german
+		}
+		any_scope_state = {
+			has_building = building_textile_mills
+			any_scope_pop = {
+				is_pop_type = laborers
+				standard_of_living < 15
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = manzoni_weberaufstand_var
+		random_scope_state = {
+			limit = {
+				has_building = building_textile_mills
+				any_scope_pop = {
+					is_pop_type = laborers
+					standard_of_living < 15
+				}
+			}
+			save_scope_as = manzoni_weberaufstand_state
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = manzoni_weaver_revolt_suppression_modifier
+				years = 5
+			}
+	    }
+	}
+
+	option = {
+		name = manzoni.1303.g #Send the troops.
+		default_option = yes
+		add_modifier = {
+			name = manzoni_suppressed_weaver_modifier
+			years = 5
+		}
+		scope:manzoni_weberaufstand_state = {
+			set_variable = manzoni_weberaufstand_state
+			add_radicals_in_state = {
+				value = 0.1
+				pop_type = laborers
+			}
+			add_loyalists_in_state = {
+				value = 0.5
+				pop_type = capitalists
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = manzoni_weaver_revolt_suppression_modifier
+				years = 5
+			}
+	    }
+		hidden_effect = {
+			every_country = {
+				limit = {
+					OR = {
+						country_has_primary_culture = cu:north_german
+						country_has_primary_culture = cu:south_german
+					}
+				}
+				trigger_event = {
+					id = manzoni.1304
+					days = { 30 90 }
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = {
+		name = manzoni.1303.h #Negotiate
+		add_modifier = {
+			name = manzoni_negotiated_weaver_modifier
+			years = 5
+		}
+		scope:manzoni_weberaufstand_state = {
+			add_radicals_in_state = {
+				value = 0.5
+				pop_type = capitalists
+			}
+			add_loyalists_in_state = {
+				value = 0.1
+				pop_type = laborers
+			}
+		}
+		ig:ig_industrialists = {
+			add_modifier = {
+				name = manzoni_weaver_revolt_negotiation_modifier
+				years = 5
+			}
+	    }
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1304: Heinrich Heine, Weberlied
+manzoni.1304 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1304.t
+	desc = manzoni.1304.d
+	flavor = manzoni.1304.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_weberaufstand.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = manzoni.1304.g #You again, Heine?
+		default_option = yes
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 10
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 5
+			}
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					has_variable = manzoni_weberaufstand_state
+				}
+			}
+			add_modifier = {
+				name = manzoni_mocked_by_heine_modifier 
+				years = 3
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.1304.h #Censor! Censor!
+		trigger = {
+			OR = {
+				has_law = law_type:law_outlawed_dissent
+				has_law = law_type:law_censorship
+			}
+		}
+		add_modifier = {
+			name = manzoni_censorship_machinery_modifier
+			years = 5
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_protected_speech
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 5
+			}
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					has_variable = manzoni_weberaufstand_state
+				}
+			}
+			add_modifier = {
+				name = manzoni_mocked_by_heine_modifier 
+				years = 3
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 1305: Gerhart Hauptmann, Die Weber
+manzoni.1305 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1305.t
+	desc = manzoni.1305.d
+	flavor = manzoni.1305.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_weberaufstand.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		c:GER ?= this
+		game_date >= 1892.1.1
+		OR = {
+			has_law = law_type:law_protected_speech
+			has_law = law_type:law_right_of_assembly
+		}
+		has_technology_researched = realism
+		any_scope_state = {
+			has_variable = manzoni_weberaufstand_state
+		}
+		NOT = { 
+			has_global_variable = manzoni_hauptmann_published_global_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = manzoni_hauptmann_published_global_var
+		random_scope_state = {
+			limit = {
+				has_variable = manzoni_weberaufstand_state
+			}
+			save_scope_as = manzoni_weberaufstand_state
+		}
+	}
+
+	option = {
+		name = manzoni.1305.g #In Germany, even a gory tragedy becomes cultural heritage.
+		default_option = yes
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 30
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_wage_subsidies
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
