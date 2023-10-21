@@ -1,0 +1,79 @@
+﻿### ANTHROPOLOGIST BUTTONS ###
+
+#by Lord R
+
+#MR_FOSSIL_IDENTIFICATION_BUTTON
+mr_fossil_identification_button = {
+    scope = country
+    is_valid = {
+		lepsius_has_active_anthropologist = yes
+		lepsius_has_unknown_bone = yes
+    }
+    effect = {
+		hidden_effect = {
+			lepsius_set_fossil_identification_progress = yes
+		}
+		lepsius_set_anthropologist_busy_effect = yes
+		add_journal_entry = {
+			type = je_lepsius_fossil_identification
+		}	
+    }
+    ai_chance = {
+		base = 100
+	}
+}
+
+#MR_EXAMINE_CAVE_BUTTON
+mr_examine_cave_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_modifier = lepsius_cave_examination_modifier
+		}
+	}
+    is_valid = {
+		lepsius_has_active_anthropologist = yes
+		any_scope_state = {
+			lepsius_has_discovered_cave = yes
+		}
+    }
+    effect = {
+		add_treasury = -50000
+		lepsius_set_anthropologist_busy_effect = yes
+		add_modifier = {
+			name = lepsius_cave_examination_modifier
+		}
+		trigger_event = { 
+			id = lepsius.1401
+			popup = yes 
+		}
+    }
+    ai_chance = {
+		base = 100
+	}
+}
+
+#MR_RECALL_ANTHROPOLOGIST_BUTTON
+mr_recall_anthropologist_button = {
+    scope = country
+	is_shown = {
+		has_modifier = lepsius_cave_examination_modifier
+	}
+    is_valid = {
+    }
+    effect = {
+		var:lepsius_anthropologist_var = {
+			set_character_busy = no
+		}
+		remove_modifier = lepsius_cave_examination_modifier
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_cave_examination_state_modifier
+			}
+			remove_modifier = lepsius_cave_examination_state_modifier
+		}
+    }
+    ai_chance = {
+		base = 0
+	}
+}
