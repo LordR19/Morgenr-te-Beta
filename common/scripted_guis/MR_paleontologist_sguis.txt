@@ -6,26 +6,43 @@
 mr_paleontological_expedition_button = {
     scope = country
 	is_shown = {
-		NOR = {
+		NOT = {
 			has_modifier = dubois_paleontological_research_modifier
-			has_modifier = dubois_paleontologist_travell_to_location_modifier
-			has_modifier = dubois_paleontologist_travell_from_location_modifier
 		}
 	}
     is_valid = {
-        dubois_has_active_paleontologist = yes
-		OR = {
-			dubois_has_formation = yes
-			any_country = {
-				has_diplomatic_pact = {
-					who = ROOT
-					type = paleontological_license
-				}				
-				dubois_has_formation = yes
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_EXPEDITION_NOT_TRAVELLING_TRIGGER
+			NOR = {
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
 			}
 		}
-		NOT = {
-			has_variable = dubois_paleontological_expedition_destination_selection_var
+		custom_tooltip = {
+			text = MR_ACTIVE_PALEONTOLOGIST_TRIGGER
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_EXPEDITION_HAS_ACCESS_FORMATION_TRIGGER
+			OR = {
+				dubois_has_formation = yes
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = paleontological_license
+					}				
+					dubois_has_formation = yes
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_EXPEDITION_NOT_CHOOSING_CURRENTLY_TRIGGER
+			NOT = {
+				has_variable = dubois_paleontological_expedition_destination_selection_var
+			}
 		}
     }
     effect = {
