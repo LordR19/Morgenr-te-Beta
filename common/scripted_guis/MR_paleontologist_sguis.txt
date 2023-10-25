@@ -1,0 +1,167 @@
+﻿### PALEONTOLOGIST BUTTONS ###
+
+#by Lord R
+
+#MR_PALEONTOLOGICAL_EXPEDITION_BUTTON
+mr_paleontological_expedition_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_modifier = dubois_paleontological_research_modifier
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_EXPEDITION_NOT_TRAVELLING_TRIGGER
+			NOR = {
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
+			}
+		}
+		custom_tooltip = {
+			text = MR_ACTIVE_PALEONTOLOGIST_TRIGGER
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_EXPEDITION_HAS_ACCESS_FORMATION_TRIGGER
+			OR = {
+				dubois_has_formation = yes
+				any_country = {
+					has_diplomatic_pact = {
+						who = ROOT
+						type = paleontological_license
+					}				
+					dubois_has_formation = yes
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_EXPEDITION_NOT_CHOOSING_CURRENTLY_TRIGGER
+			NOT = {
+				has_variable = dubois_paleontological_expedition_destination_selection_var
+			}
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = dubois.201
+			popup = yes 
+		}
+		set_variable = dubois_paleontological_expedition_destination_selection_var
+    }
+    ai_chance = {
+		base = 0
+	}
+}
+
+#MR_PALEONTOLOGICAL_EXPEDITION_RECALL_BUTTON
+mr_paleontological_expedition_recall_button = {
+    scope = country
+	is_shown = {
+		has_modifier = dubois_paleontological_research_modifier
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_EXPEDITION_NOT_TRAVELLING_TRIGGER
+			NOR = {
+				has_modifier = dubois_paleontologist_travell_to_location_modifier
+				has_modifier = dubois_paleontologist_travell_from_location_modifier
+			}
+		}
+    }
+    effect = {
+		if = {
+			limit = { has_variable = dubois_paleontologist_var }
+			var:dubois_paleontologist_var = {
+				set_character_busy = no
+			}
+		}
+		dubois_set_paleontologist_to_default = yes
+		remove_modifier = dubois_paleontological_research_modifier
+		add_modifier = {
+			name = dubois_paleontologist_travell_from_location_modifier
+			days = 90
+		}
+    }
+    ai_chance = {
+		base = 0
+	}
+}
+
+#MR_EXTINCTION_CONGRESS_BUTTON
+mr_extinction_congress_button = {
+    scope = country
+	is_shown = {
+		has_global_variable = dubois_hippocampus_congress_hosted_var
+		NOT = {
+			has_global_variable = dubois_extinction_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = dubois_congress_host_modifier
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_PALEONTOLOGY_TECH_TRIGGER_TT
+			has_technology_researched = dubois_paleontology_tech
+		}
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_20_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_university
+				level >= 20
+			}
+		}
+		custom_tooltip = {
+			text = MR_VISIT_ZOO_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+			}
+		}
+		custom_tooltip = {
+			text = MR_HAS_PALEONTOLOGIST_TRIGGER_TT
+			dubois_has_paleontologist = yes
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_15_PALEONTOLOGISTS_TRIGGER_TT
+			any_country = {
+				dubois_has_paleontologist = yes
+				count >= 15
+			}
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_HAS_DINOSAUR_SKELETON_TRIGGER_TT
+			dubois_has_dinosaur_skeleton = yes
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_5_COUNTRIES_DINOSAUR_SKELETON_TRIGGER_TT
+			any_country = {
+				dubois_has_dinosaur_skeleton = yes
+				count >= 5
+			}
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_GLOBAL_FOSSIL_TT
+			global_var:dubois_global_fossil >= 500
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = dubois.921
+			popup = yes 
+		}
+		set_global_variable = dubois_extinction_congress_hosted_var
+		add_modifier = {
+			name = dubois_congress_host_modifier
+			years = 5
+		}
+    }
+    ai_chance = {
+		base = 1000
+	}
+}

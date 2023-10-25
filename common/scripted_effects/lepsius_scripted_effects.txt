@@ -3338,6 +3338,21 @@ lepsius_add_unknown_cromagnon_fossil_effect = {
 		name = lepsius_unknown_cromagnon_human_fossil
 		add = 1
 	}
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = lepsius_total_unknown_human_fossils_var
+			}
+		}
+		set_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			value = 0
+		}
+	}
+	change_variable = { #Add unknown human fossil
+		name = lepsius_total_unknown_human_fossils_var
+		add = 1
+	}
 }
 
 lepsius_add_unknown_neanderthalensis_fossil_effect = {
@@ -3377,6 +3392,21 @@ lepsius_add_unknown_neanderthalensis_fossil_effect = {
 	}
 	change_variable = { #Add unknown Neanderthalensis
 		name = lepsius_unknown_neanderthalensis_human_fossil
+		add = 1
+	}
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = lepsius_total_unknown_human_fossils_var
+			}
+		}
+		set_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			value = 0
+		}
+	}
+	change_variable = { #Add unknown human fossil
+		name = lepsius_total_unknown_human_fossils_var
 		add = 1
 	}
 }
@@ -3421,6 +3451,21 @@ lepsius_add_unknown_erectus_fossil_effect = {
 		name = lepsius_unknown_erectus_human_fossil
 		add = 1
 	}
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = lepsius_total_unknown_human_fossils_var
+			}
+		}
+		set_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			value = 0
+		}
+	}
+	change_variable = { #Add unknown human fossil
+		name = lepsius_total_unknown_human_fossils_var
+		add = 1
+	}
 }
 
 lepsius_add_unknown_australopithecus_fossil_effect = {
@@ -3461,6 +3506,21 @@ lepsius_add_unknown_australopithecus_fossil_effect = {
 	}
 	change_variable = { #Add unknown Australopithecus
 		name = lepsius_unknown_australopithecus_human_fossil
+		add = 1
+	}
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = lepsius_total_unknown_human_fossils_var
+			}
+		}
+		set_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			value = 0
+		}
+	}
+	change_variable = { #Add unknown human fossil
+		name = lepsius_total_unknown_human_fossils_var
 		add = 1
 	}
 }
@@ -3505,6 +3565,21 @@ lepsius_add_unknown_paranthropus_fossil_effect = {
 		name = lepsius_unknown_paranthropus_human_fossil
 		add = 1
 	}
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = lepsius_total_unknown_human_fossils_var
+			}
+		}
+		set_variable = {
+			name = lepsius_total_unknown_human_fossils_var
+			value = 0
+		}
+	}
+	change_variable = { #Add unknown human fossil
+		name = lepsius_total_unknown_human_fossils_var
+		add = 1
+	}
 }
 
 #Identify Human Fossils
@@ -3514,6 +3589,10 @@ lepsius_identify_cromagnon_fossil_effect = {
 
 	change_variable = { #Sub unknown Cro-Magnon
 		name = lepsius_unknown_cromagnon_human_fossil
+		add = -1
+	}
+	change_variable = { #Sub Unknown Human Fossil
+		name = lepsius_total_unknown_human_fossils_var
 		add = -1
 	}
 	if = { #Fallback if the variable does not exist yet
@@ -3570,7 +3649,11 @@ lepsius_identify_neanderthalensis_fossil_effect = {
 		name = lepsius_unknown_neanderthalensis_human_fossil
 		add = -1
 	}
-	change_variable = { #Add unknown Neanderthalensis
+	change_variable = { #Sub Unknown Human Fossil
+		name = lepsius_total_unknown_human_fossils_var
+		add = -1
+	}
+	change_variable = { #Add known Neanderthalensis
 		name = lepsius_neanderthalensis_human_fossil
 		add = 1
 	}
@@ -3612,6 +3695,10 @@ lepsius_identify_erectus_fossil_effect = {
 
 	change_variable = { #Sub Erectus
 		name = lepsius_unknown_erectus_human_fossil
+		add = -1
+	}
+	change_variable = { #Sub Unknown Human Fossil
+		name = lepsius_total_unknown_human_fossils_var
 		add = -1
 	}
 	change_variable = { #Add unknown Erectus
@@ -3658,6 +3745,10 @@ lepsius_identify_australopithecus_fossil_effect = {
 		name = lepsius_unknown_australopithecus_human_fossil
 		add = -1
 	}
+	change_variable = { #Sub Unknown Human Fossil
+		name = lepsius_total_unknown_human_fossils_var
+		add = -1
+	}
 	change_variable = { #Add unknown Australopithecus
 		name = lepsius_australopithecus_human_fossil
 		add = 1
@@ -3700,6 +3791,10 @@ lepsius_identify_paranthropus_fossil_effect = {
 
 	change_variable = { #Sub Paranthropus
 		name = lepsius_unknown_paranthropus_human_fossil
+		add = -1
+	}
+	change_variable = { #Sub Unknown Human Fossil
+		name = lepsius_total_unknown_human_fossils_var
 		add = -1
 	}
 	change_variable = { #Add unknown Paranthropus
@@ -3946,17 +4041,23 @@ lepsius_remove_total_artifacts_ranking_variables = {
 lepsius_set_archaeologist_busy_effect = {
 	custom_tooltip = {
 		text = lepsius_set_archaeologist_busy_tt
-		var:lepsius_archaeologist_var = {
-            set_character_busy = yes
-        }
+		if = {
+			limit = { has_variable = lepsius_archaeologist_var }
+			var:lepsius_archaeologist_var = {
+				set_character_busy = yes
+			}
+		}
 	}
 }
 
 lepsius_set_anthropologist_busy_effect = {
 	custom_tooltip = {
 		text = lepsius_set_anthropologist_busy_tt
-		var:lepsius_anthropologist_var = {
-			set_character_busy = yes
+		if = {
+			limit = { has_variable = lepsius_anthropologist_var }
+			var:lepsius_anthropologist_var = {
+				set_character_busy = yes
+			}
 		}
 	}
 }

@@ -1,0 +1,304 @@
+﻿### SCIENTIFIC EXPEDITION BUTTONS ###
+
+#by Lord R
+
+######MOUNTAIN EXPEDITION######
+mr_mountain_expedition_button = {
+    scope = country
+	
+    is_valid = {
+		custom_tooltip = {
+			text = MR_MOUNTAIN_UNCONQUERED_SUMMIT_TRIGGER_TT
+			dubois_has_unconquered_summit = yes
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_PROSPECTING_TECH_TRIGGER_TT
+			has_technology_researched = prospecting
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_NATIONALISM_TECH_TRIGGER_TT
+			has_technology_researched = nationalism
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_GENERAL_TRIGGER_TT
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				OR = {
+					has_trait = dubois_mountaineer
+					has_trait = explorer
+					has_trait = mountain_commander
+					has_trait = surveyor
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MOUNTAIN_RECENT_EXPEDITION_TRIGGER_TT
+			NOR = {
+				has_modifier = dubois_summit_level_1_modifier
+				has_modifier = dubois_summit_level_2_modifier
+				has_modifier = dubois_summit_level_3_modifier
+				has_modifier = dubois_summit_level_4_modifier
+				has_modifier = dubois_mountaineering_disaster_modifier
+				has_modifier = dubois_mountaineering_disappointment_modifier
+			}
+		}
+    }
+    effect = {
+		add_treasury = -25000
+		trigger_event = { 
+			id = dubois.411
+			popup = yes 
+		}
+    }
+    ai_chance = {
+		base = 0
+		modifier = {
+			trigger = {
+				gold_reserves > 0
+			}
+			add = 100
+		}
+	}
+}
+
+######ARCTIC EXPEDITION######
+mr_arctica_expedition_button = {
+    scope = country
+	
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ZEPPELIN_ZEPPELINS_TECH_TRIGGER_TT
+			has_technology_researched = zeppelins
+		}
+		custom_tooltip = {
+			text = MR_ZEPPELIN_OBSERVATORY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curtiss_weather_station
+			}
+		}
+		custom_tooltip = {
+			text = MR_ZEPPELIN_PILOT_TRIGGER_TT
+			any_scope_character = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_ZEPPELIN_ACCESS_TRIGGER_TT
+			OR = {
+				OR = {
+					any_scope_state = {
+						state_region = s:STATE_GREENLAND
+					}
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = airspace_convention
+						}				
+						any_scope_state = {
+							state_region = s:STATE_GREENLAND
+						}
+					}		
+				}
+				OR = {
+					any_scope_state = {
+						state_region = s:STATE_NORTHERN_NORWAY
+					}
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = airspace_convention
+						}				
+						any_scope_state = {
+							state_region = s:STATE_NORTHERN_NORWAY
+						}
+					}		
+				}
+				OR = {
+					any_scope_state = {
+						state_region = s:STATE_ALASKA
+					}
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = airspace_convention
+						}				
+						any_scope_state = {
+							state_region = s:STATE_ALASKA
+						}
+					}		
+				}
+				OR = {
+					any_scope_state = {
+					state_region = s:STATE_NUNAVUT
+					}
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = airspace_convention
+						}				
+						any_scope_state = {
+							state_region = s:STATE_NUNAVUT
+						}
+					}		
+				}
+				OR = {
+					any_scope_state = {
+						state_region = s:STATE_NENETSIA
+					}
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = airspace_convention
+						}				
+						any_scope_state = {
+							state_region = s:STATE_NENETSIA
+						}
+					}		
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_ZEPPELIN_RECENT_EXPEDITION_TRIGGER_TT
+			NOR = {
+				has_modifier = curtiss_arctica_expedition_modifier
+				has_modifier = curtiss_had_arctica_expedition_modifier
+			}
+		}
+    }
+    effect = {
+		set_variable = {
+			name = curtiss_zeppelin_progress
+			value = 0
+		}
+		set_variable = {
+			name = curtiss_zeppelin_science
+			value = 0
+		}
+		set_variable = {
+			name = curtiss_zeppelin_danger
+			value = 0
+		}
+		add_modifier = {
+			name = curtiss_arctica_expedition_modifier
+		}
+		add_modifier = {
+			name = curtiss_zeppelin_expedition_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		trigger_event = { 
+			id = curtiss.520
+			popup = yes 
+		}
+    }
+    ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_small
+				gold_reserves > 0
+
+			}
+			add = 1
+		}
+		modifier = {
+			trigger = {
+				has_strategy = ai_strategy_armed_isolationism
+			}
+			add = -1000
+		}		
+		modifier = {
+			OR = {
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
+			}
+			add = -1000
+		}
+	}
+}
+
+######PACIFIC EXPEDITION######
+mr_pacific_expedition_button = {
+    scope = country
+	
+    is_valid = {
+		custom_tooltip = {
+			text = MR_PACIFIC_RANK_TRIGGER_TT
+			country_rank >= rank_value:major_power
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_SCREW_FRIGATE_TECH_TRIGGER_TT
+			has_technology_researched = screw_frigate
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_DIALECTICS_TECH_TRIGGER_TT
+			has_technology_researched = dialectics
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_PORT_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_port
+			}
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_UNIVERSITY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_15_FLOTILLAS_TRIGGER_TT
+			navy_size >= 15
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_ADMIRAL_AVAILABLE_TRIGGER_TT
+			any_scope_character = {
+				has_role = admiral
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_NO_DREADNOUGHT_DESTROYER_TRIGGER_TT
+			NOT = {
+				any_country = {
+					OR = {
+						has_technology_researched = dreadnought
+						has_technology_researched = destroyer
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_RECENT_EXPEDITION_TRIGGER_TT
+			NOR = {
+				has_modifier = rapanui_pacific_expedition_modifier
+				has_modifier = rapanui_had_pacific_expedition_modifier
+			}
+		}
+    }
+    effect = {
+		add_treasury = -25000
+		add_modifier = {
+			name = rapanui_pacific_expedition_modifier
+		}
+		trigger_event = { 
+			id = rapanui.201
+			popup = yes 
+		}
+    }
+    ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			}
+			add = 100
+		}
+	}
+}
