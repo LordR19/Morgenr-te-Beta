@@ -34,17 +34,57 @@ building_dubois_zoo = {
 	required_construction = construction_cost_medium
 
 	can_build_government = {
-		error_check = {
-			severity = invalid
-			custom_tooltip = {
-				text = dubois_zoo_can_construct_tt
-				is_capital = yes
-				NOT = {
-					any_scope_building = {
-						is_building_type = building_dubois_zoo
-						level > 0
+		trigger_if = {
+			limit = {
+				owner = {
+					is_ai = yes
+				}
+			}
+			trigger_if = {
+				limit = {
+					owner = {
+						has_technology_researched = dubois_theory_of_evolution_tech
 					}
-				} 
+				}
+				trigger_if = {
+					limit = {
+						NOT = {
+							owner = {
+								any_scope_building = {
+									is_building_type = building_dubois_zoo
+									level > 0
+								}
+							}
+						}
+					}
+					is_capital = yes
+				}
+				trigger_else = {
+					always = no
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		trigger_else = {
+			custom_tooltip = {
+				text = dubois_zoo_can_construct_capital_tt
+				is_capital = yes
+			}
+			custom_tooltip = {
+				text = dubois_zoo_can_construct_no_zoo_tt
+				NOT = {
+					owner = {
+						any_scope_building = {
+							is_building_type = building_dubois_zoo
+							level > 0
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = dubois_zoo_can_construct_animals_tt
 				owner = {
 					dubois_has_zoo_minimum = yes
 				}
@@ -53,10 +93,7 @@ building_dubois_zoo = {
 	}
 
 	can_build_private = {
-		error_check = {
-			severity = potential
-			always = no
-		}
+		always = no
 	}
 
 	ai_value = 10000 # Ai should do it whenever it can
@@ -89,69 +126,140 @@ building_dubois_national_park = {
 	required_construction = construction_cost_medium
 
 	can_build_government = {
-		OR = {
-			AND = {
-				is_homeland_of_country_cultures = owner
-				is_incorporated = yes
-				custom_tooltip = {
-					text = dubois_has_habitat_for_nr_tt
+		trigger_if = {
+			limit = {
+				owner = { is_ai = yes }
+			}
+			trigger_if = {
+				limit = {
 					OR = {
-						has_modifier = dubois_grizzly_habitat_modifier
-						has_modifier = dubois_eagle_habitat_modifier
-						has_modifier = dubois_bison_habitat_modifier
-						has_modifier = dubois_panther_habitat_modifier
-						has_modifier = dubois_alligator_habitat_modifier
-						has_modifier = dubois_axolotl_habitat_modifier
-						has_modifier = dubois_sloth_habitat_modifier
-						has_modifier = dubois_jaguar_habitat_modifier
-						has_modifier = dubois_anteater_habitat_modifier
-						has_modifier = dubois_armadillo_habitat_modifier
-						has_modifier = dubois_condor_habitat_modifier
-						has_modifier = dubois_manatee_habitat_modifier
-						has_modifier = dubois_monkey_habitat_modifier
-						has_modifier = dubois_lynx_habitat_modifier
-						has_modifier = dubois_wolf_habitat_modifier
-						has_modifier = dubois_badger_habitat_modifier
-						has_modifier = dubois_stoat_habitat_modifier
-						has_modifier = dubois_otter_habitat_modifier
-						has_modifier = dubois_ibex_habitat_modifier
-						has_modifier = dubois_wisent_habitat_modifier
-						has_modifier = dubois_hippopotamus_habitat_modifier
-						has_modifier = dubois_lion_habitat_modifier
-						has_modifier = dubois_elephant_habitat_modifier
-						has_modifier = dubois_giraffe_habitat_modifier
-						has_modifier = dubois_penguin_habitat_modifier
-						has_modifier = dubois_mole_habitat_modifier
-						has_modifier = dubois_zebra_habitat_modifier
-						has_modifier = dubois_panda_habitat_modifier
-						has_modifier = dubois_orangutan_habitat_modifier
-						has_modifier = dubois_tiger_habitat_modifier
-						has_modifier = dubois_tapir_habitat_modifier
-						has_modifier = dubois_dragon_habitat_modifier
-						has_modifier = dubois_leopard_habitat_modifier
-						has_modifier = dubois_cheetah_habitat_modifier
-						has_modifier = dubois_turtle_habitat_modifier
-						has_modifier = dubois_manta_habitat_modifier
-						has_modifier = dubois_kangaroo_habitat_modifier
-						has_modifier = dubois_koala_habitat_modifier
-						has_modifier = dubois_platypus_habitat_modifier
-						has_modifier = dubois_cassowary_habitat_modifier
-						has_modifier = dubois_sealion_habitat_modifier
+						has_modifier = dubois_nature_reserve_location_modifier
+						owner = {
+							has_technology_researched = dubois_genetics_tech
+						}
+					}
+				}
+				OR = {
+					AND = {
+						is_homeland_of_country_cultures = owner
+						is_incorporated = yes
+						custom_tooltip = {
+							text = dubois_has_habitat_for_nr_tt
+							OR = {
+								has_modifier = dubois_grizzly_habitat_modifier
+								has_modifier = dubois_eagle_habitat_modifier
+								has_modifier = dubois_bison_habitat_modifier
+								has_modifier = dubois_panther_habitat_modifier
+								has_modifier = dubois_alligator_habitat_modifier
+								has_modifier = dubois_axolotl_habitat_modifier
+								has_modifier = dubois_sloth_habitat_modifier
+								has_modifier = dubois_jaguar_habitat_modifier
+								has_modifier = dubois_anteater_habitat_modifier
+								has_modifier = dubois_armadillo_habitat_modifier
+								has_modifier = dubois_condor_habitat_modifier
+								has_modifier = dubois_manatee_habitat_modifier
+								has_modifier = dubois_monkey_habitat_modifier
+								has_modifier = dubois_lynx_habitat_modifier
+								has_modifier = dubois_wolf_habitat_modifier
+								has_modifier = dubois_badger_habitat_modifier
+								has_modifier = dubois_stoat_habitat_modifier
+								has_modifier = dubois_otter_habitat_modifier
+								has_modifier = dubois_ibex_habitat_modifier
+								has_modifier = dubois_wisent_habitat_modifier
+								has_modifier = dubois_hippopotamus_habitat_modifier
+								has_modifier = dubois_lion_habitat_modifier
+								has_modifier = dubois_elephant_habitat_modifier
+								has_modifier = dubois_giraffe_habitat_modifier
+								has_modifier = dubois_penguin_habitat_modifier
+								has_modifier = dubois_mole_habitat_modifier
+								has_modifier = dubois_zebra_habitat_modifier
+								has_modifier = dubois_panda_habitat_modifier
+								has_modifier = dubois_orangutan_habitat_modifier
+								has_modifier = dubois_tiger_habitat_modifier
+								has_modifier = dubois_tapir_habitat_modifier
+								has_modifier = dubois_dragon_habitat_modifier
+								has_modifier = dubois_leopard_habitat_modifier
+								has_modifier = dubois_cheetah_habitat_modifier
+								has_modifier = dubois_turtle_habitat_modifier
+								has_modifier = dubois_manta_habitat_modifier
+								has_modifier = dubois_kangaroo_habitat_modifier
+								has_modifier = dubois_koala_habitat_modifier
+								has_modifier = dubois_platypus_habitat_modifier
+								has_modifier = dubois_cassowary_habitat_modifier
+								has_modifier = dubois_sealion_habitat_modifier
+							}
+						}
+					}
+					custom_tooltip = {
+						text = dubois_has_nature_reserve_location_tt
+						has_modifier = dubois_nature_reserve_location_modifier
 					}
 				}
 			}
-			custom_tooltip = {
-				text = dubois_has_nature_reserve_location_tt
-				has_modifier = dubois_nature_reserve_location_modifier
+			trigger_else = { always = no }
+		}
+		trigger_else = {
+			OR = {
+				AND = {
+					is_homeland_of_country_cultures = owner
+					is_incorporated = yes
+					custom_tooltip = {
+						text = dubois_has_habitat_for_nr_tt
+						OR = {
+							has_modifier = dubois_grizzly_habitat_modifier
+							has_modifier = dubois_eagle_habitat_modifier
+							has_modifier = dubois_bison_habitat_modifier
+							has_modifier = dubois_panther_habitat_modifier
+							has_modifier = dubois_alligator_habitat_modifier
+							has_modifier = dubois_axolotl_habitat_modifier
+							has_modifier = dubois_sloth_habitat_modifier
+							has_modifier = dubois_jaguar_habitat_modifier
+							has_modifier = dubois_anteater_habitat_modifier
+							has_modifier = dubois_armadillo_habitat_modifier
+							has_modifier = dubois_condor_habitat_modifier
+							has_modifier = dubois_manatee_habitat_modifier
+							has_modifier = dubois_monkey_habitat_modifier
+							has_modifier = dubois_lynx_habitat_modifier
+							has_modifier = dubois_wolf_habitat_modifier
+							has_modifier = dubois_badger_habitat_modifier
+							has_modifier = dubois_stoat_habitat_modifier
+							has_modifier = dubois_otter_habitat_modifier
+							has_modifier = dubois_ibex_habitat_modifier
+							has_modifier = dubois_wisent_habitat_modifier
+							has_modifier = dubois_hippopotamus_habitat_modifier
+							has_modifier = dubois_lion_habitat_modifier
+							has_modifier = dubois_elephant_habitat_modifier
+							has_modifier = dubois_giraffe_habitat_modifier
+							has_modifier = dubois_penguin_habitat_modifier
+							has_modifier = dubois_mole_habitat_modifier
+							has_modifier = dubois_zebra_habitat_modifier
+							has_modifier = dubois_panda_habitat_modifier
+							has_modifier = dubois_orangutan_habitat_modifier
+							has_modifier = dubois_tiger_habitat_modifier
+							has_modifier = dubois_tapir_habitat_modifier
+							has_modifier = dubois_dragon_habitat_modifier
+							has_modifier = dubois_leopard_habitat_modifier
+							has_modifier = dubois_cheetah_habitat_modifier
+							has_modifier = dubois_turtle_habitat_modifier
+							has_modifier = dubois_manta_habitat_modifier
+							has_modifier = dubois_kangaroo_habitat_modifier
+							has_modifier = dubois_koala_habitat_modifier
+							has_modifier = dubois_platypus_habitat_modifier
+							has_modifier = dubois_cassowary_habitat_modifier
+							has_modifier = dubois_sealion_habitat_modifier
+						}
+					}
+				}
+				custom_tooltip = {
+					text = dubois_has_nature_reserve_location_tt
+					has_modifier = dubois_nature_reserve_location_modifier
+				}
 			}
 		}
 	}
 
 	can_build_private = {
-		error_check = {
-			severity = potential
-			always = no
-		}
+		always = no
 	}
 }
 

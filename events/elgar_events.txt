@@ -8622,7 +8622,7 @@ elgar.441 = {
 			has_variable = elgar_conductor_is_on_tour
 		}
 		any_country = {
-			is_adjacent = ROOT
+			is_adjacent_to_country = ROOT
 			has_technology_researched = romanticism
 			any_scope_building = {
 				is_building_type = building_elgar_opera
@@ -8640,7 +8640,7 @@ elgar.441 = {
 		elgar_add_1_composer_progress = yes
 		random_country = {
 			limit = {
-				is_adjacent = ROOT
+				is_adjacent_to_country = ROOT
 				has_technology_researched = romanticism
 				any_scope_building = {
 					is_building_type = building_elgar_opera
@@ -8974,13 +8974,19 @@ elgar.501 = {
 				country_has_primary_culture = cu:north_italian
 			}
 		}
-		elgar_add_10_music_tradition = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 10
+		}
+		add_modifier = {
+			name = elgar_patriotic_music_modifier
+			years = 5
+		}
 		add_loyalists = {
-			value = 0.05
+			value = 0.01
 			culture = cu:north_italian
 		}
 		add_loyalists = {
-			value = 0.05
+			value = 0.01
 			culture = cu:south_italian
 		}
 	}
@@ -9059,14 +9065,95 @@ elgar.502 = {
 				country_has_primary_culture = cu:north_italian
 			}
 		}
-		elgar_add_5_music_tradition = yes
-		add_loyalists = {
-			value = 0.01
-			culture = cu:north_italian
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 5
+		}
+		add_modifier = {
+			name = elgar_patriotic_music_modifier
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Elgar 503: Deutschlandlied
+
+elgar.503 = {
+	type = country_event
+	placement = ROOT
+
+	title = elgar.503.t
+	desc = elgar.503.d
+	flavor = elgar.503.f
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_fallersleben.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	duration = 3
+
+	trigger = {
+		exists = c:FRA
+		c:FRA = {
+			has_modifier = france_natural_borders_pursuit
+		}
+		OR = {
+			country_has_primary_culture = cu:north_german
+			country_has_primary_culture = cu:south_german
+		}
+		NOT = {
+			has_variable = elgar_deutschlandlied_var
+		}
+	}
+
+	immediate = {
+		set_variable = elgar_deutschlandlied_var
+	}
+
+	option = {
+		name = elgar.503.g #Deutscher Sang und Deutscher Klang!
+		default_option = yes
+		trigger = {
+			NOT = {
+				ROOT = c:AUS
+			}
+		}
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 10
+		}
+	}
+
+	option = {
+		name = elgar.503.h #Deutschland über alles!
+		trigger = {
+			NOT = {
+				ROOT = c:AUS
+			}
+		}
+		add_modifier = {
+			name = elgar_patriotic_music_modifier
+			years = 5
 		}
 		add_loyalists = {
 			value = 0.01
-			culture = cu:south_italian
+			culture = cu:north_german
+		}
+		add_loyalists = {
+			value = 0.01
+			culture = cu:south_german
+		}
+	}
+
+	option = {
+		name = elgar.503.i #The song is called "Gott erhalte Franz, den Kaiser", fools!
+		trigger = {
+			ROOT = c:AUS
 		}
 	}
 

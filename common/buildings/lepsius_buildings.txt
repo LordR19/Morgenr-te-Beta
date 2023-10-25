@@ -35,17 +35,48 @@ building_lepsius_archaeological_museum = {
 	required_construction = construction_cost_medium
 
 	can_build_government = {
-		error_check = {
-			severity = invalid
+		trigger_if = {
+			limit = {
+				owner = {
+					is_ai = yes
+				}
+				trigger_if = {
+					limit = {
+						NOT = {
+							owner = {
+								any_scope_building = {
+									is_building_type = building_lepsius_archaeological_museum
+									level > 0
+								}
+							}
+						}
+					}
+					owner = {
+						lepsius_has_artifacts = yes
+					}
+					is_capital = yes
+				}
+				trigger_else = {
+					always = no
+				}
+			}
+		}
+		trigger_else = {
 			custom_tooltip = {
-				text = lepsius_archaeological_museum_can_construct_tt
+				text = lepsius_archaeological_museum_can_construct_capital_tt
 				is_capital = yes
+			}
+			custom_tooltip = {
+				text = lepsius_archaeological_museum_can_construct_only_museum_tt
 				NOT = {
 					any_scope_building = {
 						is_building_type = building_lepsius_archaeological_museum
 						level > 0
 					}
-				} 
+				}
+			}
+			custom_tooltip = {
+				text = lepsius_archaeological_museum_can_construct_has_artifacts_tt
 				owner = {
 					lepsius_has_artifacts = yes
 				}
@@ -54,10 +85,7 @@ building_lepsius_archaeological_museum = {
 	}
 
 	can_build_private = {
-		error_check = {
-			severity = potential
-			always = no
-		}
+		always = no
 	}
 
 	ai_value = 10000 # Ai should do it whenever it can

@@ -11373,7 +11373,7 @@ lepsius.533 = {
 		change_infamy = -1
 		every_country = {
 			limit = {
-				is_adjacent = THIS
+				is_adjacent_to_country = THIS
 			}
 			change_relations = {
 				country = ROOT 
@@ -14500,7 +14500,7 @@ lepsius.702 = {
 		}	
 		every_country = {
 			limit = {
-				is_adjacent = ROOT
+				is_adjacent_to_country = ROOT
 			}
 			change_relations = {
 				country = ROOT 
@@ -14560,7 +14560,7 @@ lepsius.702 = {
 		}
 		every_country = {
 			limit = {
-				is_adjacent = ROOT
+				is_adjacent_to_country = ROOT
 			}
 			change_relations = {
 				country = ROOT 
@@ -21960,7 +21960,7 @@ lepsius.1335 = {
 	icon = "gfx/interface/icons/event_icons/event_anthropology.dds"
 
 	trigger = {
-		game_date >= 1925.1.1
+		game_date >= 1912.1.1
 		any_scope_state = {
 			state_region = s:STATE_HOME_COUNTIES
 		}
@@ -22012,7 +22012,10 @@ lepsius.1341 = {
 	trigger = {
 		has_global_variable = lepsius_piltdown_discovered
 		any_country = {
-			var:lepsius_anthropologist_experience >= 300
+			lepsius_has_anthropologist = yes
+			var:lepsius_anthropologist_var = {
+				var:lepsius_anthropologist_experience >= 300
+			}
 			count >= 3
 		}
 		NOT = {
@@ -22027,7 +22030,10 @@ lepsius.1341 = {
 				NOT = {
 					has_variable = dubois_fossil_piltdown
 				}
-				var:lepsius_anthropologist_experience >= 300
+				lepsius_has_anthropologist = yes
+				var:lepsius_anthropologist_var = {
+					var:lepsius_anthropologist_experience >= 300
+				}
 			}
 			trigger_event = {
 				id = lepsius.1342
@@ -23013,7 +23019,7 @@ lepsius.1421 = {
 	after = {
 		trigger_event = {
 			id = lepsius.1423
-			years = 3
+			days = 3
 		}
 	}
 }
@@ -23124,7 +23130,7 @@ lepsius.1422 = {
 	after = {
 		trigger_event = {
 			id = lepsius.1423
-			years = 3
+			days = 3
 		}
 	}
 }
@@ -23161,6 +23167,12 @@ lepsius.1423 = {
 			}
 			save_scope_as = lepsius_anthropological_guest
 		}
+		random_scope_state = {
+			limit = {
+				has_modifier = lepsius_cave_examination_state_modifier
+			}
+			save_scope_as = lepsius_cave_site
+		}
 	}
 
 	option = {
@@ -23170,6 +23182,15 @@ lepsius.1423 = {
 		lepsius_add_cave_bone_effect = yes
 		lepsius_change_anthropological_rating = {
 			AMOUNT = 5
+		}
+		if = {
+			limit = {
+				is_player = no
+			}
+			set_variable = {
+				name = lepsius_anthropology_invitation_break
+				days = 500
+			}
 		}
 	}
 
@@ -23226,7 +23247,6 @@ lepsius.1424 = {
 		lepsius_add_x_human_fossils_effect = {
 			AMOUNT = 5
 		}
-		lepsius_add_cave_bone_effect = yes
 		lepsius_change_anthropological_rating = {
 			AMOUNT = 10
 		}
@@ -23293,6 +23313,9 @@ lepsius.1424 = {
 	after = {
 		scope:lepsius_anthropological_host = {
 			random_scope_state = {
+				limit = {
+					has_modifier = lepsius_cave_examination_state_modifier
+				}
 				remove_modifier = lepsius_cave_examination_state_modifier
 			}
 			remove_diplomatic_pact = {
@@ -23409,7 +23432,7 @@ lepsius.1501 = {
 	}
 
 	option = {	#Visit special Fossils
-		name = lepsius.1501.h
+		name = lepsius.1501.g
 		default_option = yes
 		trigger = {
 			any_country = {
@@ -23430,7 +23453,7 @@ lepsius.1501 = {
 		}
 	}
 	option = {	#Leave the Fossil Collection
-		name = lepsius.1501.g
+		name = lepsius.1501.h
 		remove_variable =  lepsius_visiting_human_evolution_var
 
 		custom_tooltip = lepsius_leave_human_evolution_tt
@@ -23605,7 +23628,7 @@ lepsius.1502 = {
 		}
 	}
 	option = {	#Leave the Fossil Collection
-		name = lepsius.1501.g
+		name = lepsius.1501.h
 		remove_variable =  lepsius_visiting_human_evolution_var
 
 		custom_tooltip = lepsius_leave_human_evolution_tt

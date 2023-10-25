@@ -33,40 +33,95 @@ building_verrier_observatory = {
 	required_construction = construction_cost_medium
 
 	can_build_government = {
-		error_check = {
-			severity = invalid
-			custom_tooltip = {
-				text = verrier_observatory_can_construct_tt
-				is_capital = yes
-				NOT = {
-					any_scope_building = {
-						is_building_type = building_verrier_observatory
-						level > 0
-					}
+		trigger_if = {
+			limit = {
+				owner = {
+					is_ai = yes
 				}
 			}
-			owner = {
-				OR = {
-					AND = {
-						OR = {
-							has_technology_researched = verrier_astronomy_tech
-							verrier_has_astronomer = yes
-						}
-						any_scope_building = {
-							is_building_type = building_university
+			trigger_if = {
+				limit = {
+					NOT = {
+						owner = {
+							any_scope_building = {
+								is_building_type = building_verrier_observatory
+								level > 0
+							}
 						}
 					}
-					has_variable = verrier_allowed_to_build_observatory
 				}
+				trigger_if = {
+					limit = {
+						owner = {
+							OR = {
+								has_technology_researched = verrier_physics_tech
+								has_variable = verrier_allowed_to_build_observatory
+							}
+						}
+					}
+					trigger_if = {
+						limit = {
+							is_capital = yes
+						}
+						owner = {
+							OR = {
+								AND = {
+									OR = {
+										has_technology_researched = verrier_astronomy_tech
+										verrier_has_astronomer = yes
+									}
+									any_scope_building = {
+										is_building_type = building_university
+									}
+								}
+								has_variable = verrier_allowed_to_build_observatory
+							}
+						}
+					}
+					trigger_else = { always = no }
+				}
+				trigger_else = { always = no }
 			}
+			trigger_else = { always = no }
 		}
+		trigger_else = {
+			custom_tooltip = {
+				text = verrier_observatory_can_construct_capital_tt
+				is_capital = yes
+			}
+			custom_tooltip = {
+				text = verrier_observatory_can_construct_only_observatory_tt
+				NOT = {
+					owner = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							level > 0
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = verrier_observatory_can_construct_technology_or_astronomer_tt
+				owner = {
+					OR = {
+						AND = {
+							OR = {
+								has_technology_researched = verrier_astronomy_tech
+								verrier_has_astronomer = yes
+							}
+							any_scope_building = {
+								is_building_type = building_university
+							}
+						}
+						has_variable = verrier_allowed_to_build_observatory
+					}
+				}
+			}
+		}	
 	}
 
 	can_build_private = {
-		error_check = {
-			severity = potential
-			always = no
-		}
+		always = no
 	}
 
 	ai_value = 10000 # Ai should do it whenever it can
