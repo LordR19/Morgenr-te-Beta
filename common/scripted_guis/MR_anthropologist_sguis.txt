@@ -2,27 +2,6 @@
 
 #by Lord R
 
-#MR_FOSSIL_IDENTIFICATION_BUTTON
-mr_fossil_identification_button = {
-    scope = country
-    is_valid = {
-		lepsius_has_active_anthropologist = yes
-		lepsius_has_unknown_bone = yes
-    }
-    effect = {
-		hidden_effect = {
-			lepsius_set_fossil_identification_progress = yes
-		}
-		lepsius_set_anthropologist_busy_effect = yes
-		add_journal_entry = {
-			type = je_lepsius_fossil_identification
-		}	
-    }
-    ai_chance = {
-		base = 100
-	}
-}
-
 #MR_EXAMINE_CAVE_BUTTON
 mr_examine_cave_button = {
     scope = country
@@ -32,9 +11,15 @@ mr_examine_cave_button = {
 		}
 	}
     is_valid = {
-		lepsius_has_active_anthropologist = yes
-		any_scope_state = {
-			lepsius_has_discovered_cave = yes
+		custom_tooltip = {
+			text = MR_ACTIVE_ANTHROPOLOGIST_TRIGGER_TT
+			lepsius_has_active_anthropologist = yes
+		}
+		custom_tooltip = {
+			text = MR_EXAMINE_CAVE_HAS_CAVE_TRIGGER_TT
+			any_scope_state = {
+				lepsius_has_discovered_cave = yes
+			}
 		}
     }
     effect = {
@@ -60,6 +45,7 @@ mr_recall_anthropologist_button = {
 		has_modifier = lepsius_cave_examination_modifier
 	}
     is_valid = {
+		always = yes
     }
     effect = {
 		lepsius_set_anthropologist_busy_effect = yes
@@ -73,5 +59,26 @@ mr_recall_anthropologist_button = {
     }
     ai_chance = {
 		base = 0
+	}
+}
+
+#MR_FOSSIL_IDENTIFICATION_BUTTON
+mr_fossil_identification_button = {
+    scope = country
+    is_valid = {
+		lepsius_has_active_anthropologist = yes
+		lepsius_has_unknown_bone = yes
+    }
+    effect = {
+		hidden_effect = {
+			lepsius_set_fossil_identification_progress = yes
+		}
+		lepsius_set_anthropologist_busy_effect = yes
+		add_journal_entry = {
+			type = je_lepsius_fossil_identification
+		}	
+    }
+    ai_chance = {
+		base = 100
 	}
 }
