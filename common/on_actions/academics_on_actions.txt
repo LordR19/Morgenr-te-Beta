@@ -10,7 +10,7 @@ on_monthly_pulse_country = {
 	on_actions = {
 		academics_unhappy_academic_random_on_monthly_pulse_country
 		academics_retirement_for_scientists
-		academics_
+		academics_academy_progress_for_player
 	}
 }
 
@@ -35,6 +35,43 @@ academics_retirement_for_scientists = {
 		1 = academics.5
 		1 = academics.6
 		40 = 0
+	}
+}
+
+academics_academy_progress_for_player = {
+	effect = {
+		if = {
+			limit = {
+				is_player = yes
+				NOT = { has_game_rule = academics_no_gui_rule }
+				any_scope_building = {
+					is_building_type = building_university
+					level > 0
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = dubois_academy_progress }
+				}
+				set_variable = {
+					name = dubois_academy_progress
+					value = 0
+				}
+			}
+			if = {
+				limit = {
+					var:dubois_academy_progress >= 360
+				}
+				academics_academic_recruited_effect = yes
+			}
+			trigger_event = academics.50
+			if = {
+				limit = {
+					var:dubois_academy_progress >= 360
+				}
+				academics_academic_recruited_effect = yes
+			}
+		}
 	}
 }
 
