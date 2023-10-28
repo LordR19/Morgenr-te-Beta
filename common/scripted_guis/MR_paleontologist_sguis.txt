@@ -241,6 +241,105 @@ mr_remount_skeleton_button = {
     }
 }
 
+#MR_TRANSFORM_FOSSILS_TO_BONES_BUTTON
+mr_transform_fossils_to_bones_button = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_TRANSFORM_FOSSILS_TO_BONES_TRANSFORMABLE_DINOSAUR_BONE_TRIGGER
+			dubois_has_transformable_dinosaur_bone = yes
+		}
+		custom_tooltip = {
+			text = MR_TRANSFORM_FOSSILS_TO_BONES_FOSSILS_TRIGGER
+			var:dubois_fossil >= 20
+		}
+		custom_tooltip = {
+			text = MR_TRANSFORM_FOSSILS_TO_BONES_PALEONTOLOGIST_TRIGGER
+			trigger_if = {
+				limit = {
+					has_variable = dubois_paleontologist_var
+				}
+				var:dubois_paleontologist_var = {
+					OR = {
+						has_trait = dubois_paleontologist_experienced
+						has_trait = dubois_paleontologist_famous
+					}
+					is_busy = no
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+    }
+    effect = {
+		dubois_fossils_for_transformation_effect = yes
+		scope:dubois_paleontologist_scope = {
+			set_character_busy = yes
+		}
+		random_list = {
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_paleontologist_var = {
+								var:dubois_paleontologist_experience >= 175
+							}
+						}
+						add = 25
+					}
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_paleontologist_var = {
+								var:dubois_paleontologist_experience >= 200
+							}
+						}
+						add = 25
+					}
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_paleontologist_var = {
+								var:dubois_paleontologist_experience >= 250
+							}
+						}
+						add = 50
+					}
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_paleontologist_var = {
+								var:dubois_paleontologist_experience >= 300
+							}
+						}
+						add = 50
+					}
+				}
+				trigger_event = {
+					id = dubois.2042
+					days = { 50 60 }
+				}
+			}
+			50 = {
+				trigger_event = {
+					id = dubois.2043
+					days = { 50 60 }
+				}
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
+    }
+}
+
 #MR_EXTINCTION_CONGRESS_BUTTON
 mr_extinction_congress_button = {
     scope = country
