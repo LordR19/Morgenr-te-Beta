@@ -10,10 +10,9 @@
 
 academics_recruit_foreign_scientist = {
 	requires_approval = yes
-	#should_notify_third_parties = yes
 	show_effect_in_tooltip = yes
 
-	potential = {
+	potential = { #Only Countries that get the Academia JE are allowed to "sell" their scientists
 		scope:target_country = {
 			any_scope_building = {
 				is_building_type = building_university
@@ -32,16 +31,19 @@ academics_recruit_foreign_scientist = {
 	}
 	
 	possible = {
-		custom_tooltip = {
+		custom_tooltip = { #This trigger checks if the country does not belong to the most advanced 30 percent of countries
 			text = academics_smaller_tech_advance_than_best_30_percent_tt
 			var:academics_country_tech_advance_var > 0.3
 		}
 		NOR = { 
 			has_war_with = scope:target_country
-			has_variable = academics_recruit_foreign_scientist_timer_var
+			custom_tooltip = { #Checks if a scientist was recruited in the last 5 years
+				text = academics_recent_foreign_scientist_recruitment_tt
+				has_variable = academics_recruit_foreign_scientist_timer_var
+			}
 		}
 		NOT = {
-			AND = {
+			AND = { #Checks if the country is even able to recruit a new scientist
 				gaudi_has_engineer = yes
 				verrier_has_astronomer = yes
 				dubois_has_naturalist = yes
@@ -49,7 +51,7 @@ academics_recruit_foreign_scientist = {
 				lepsius_has_archaeologist = yes
 				OR = {
 					lepsius_has_anthropologist = yes
-					NOT = { has_technology_researched = lepsius_modern_archaeology_tech }
+					NOT = { has_technology_researched = lepsius_modern_archaeology_tech } #Anthropologist option has the same trigger
 				}
 			}
 		}
@@ -57,7 +59,7 @@ academics_recruit_foreign_scientist = {
 		scope:target_country = {
 			is_revolutionary = no
 		}
-		custom_tooltip = {
+		custom_tooltip = { #Checks if the target country is technologically more advanced
 			text = academics_smaller_tech_advance_than_target_tt
 			scope:target_country = {
 				var:academics_country_tech_advance_var < root.var:academics_country_tech_advance_var
@@ -66,20 +68,23 @@ academics_recruit_foreign_scientist = {
 	}
 
 	accept_effect = {
-		set_variable = {
+		set_variable = { #This is used to keep track of the foreign country
 			name = academics_foreign_scientist_origin_country_var
 			value = scope:target_country 
 		}
-		change_relations = { 
+		change_relations = {
 			country = scope:target_country 
 			value = 5 
 		}
-		trigger_event = academics.60
-		add_treasury = -250000
-		scope:target_country = {
-			add_treasury = 250000
+		trigger_event = { #This is the event to choose the scientist you want.
+			id = academics.60
+			popup = yes
 		}
-		set_variable = {
+		add_treasury = -250000 #Cost of the action
+		scope:target_country = {
+			add_treasury = 250000 #Money gets transfered to foreign country
+		}
+		set_variable = { #Timer to keep track if it has been 5 years since the action was taken last
 			name = academics_recruit_foreign_scientist_timer_var
 			years = 5
 		}
