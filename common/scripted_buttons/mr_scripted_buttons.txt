@@ -789,7 +789,27 @@ mr_remount_skeleton_button = {
 	}
 
 	possible = {
-		dubois_has_active_paleontologist = yes
+		custom_tooltip = {
+			text = mr_remount_skeleton_active_button_trigger
+			NOT = { has_variable = mr_remount_dinosaur_skeleton_button_var }
+		}
+		custom_tooltip = {
+			text = mr_remount_skeleton_paleontologist_trigger
+			trigger_if = {
+				limit = {
+					has_variable = dubois_paleontologist_var
+				}
+				var:dubois_paleontologist_var = {
+					is_busy = no
+					NOT = {
+						has_modifier = dubois_exhausted_paleontologist_modifier
+					}
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
 		custom_tooltip = {
 			text =mr_remount_skeleton_trigger_tt
 			OR = {
@@ -828,11 +848,8 @@ mr_remount_skeleton_button = {
 	}
 
 	effect = {
-		var:dubois_paleontologist_var = {
-			set_character_busy = yes
-		}
 		trigger_event = {
-			id = 
+			id = dubois.2181
 			popup = yes
 		}
 	}
