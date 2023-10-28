@@ -1,0 +1,98 @@
+﻿#################################
+# ACADEMICS DIPLOMATIC ACTIONS  #
+#################################
+
+#by Lord R
+
+############################
+
+#Recruit Foreign Scientist
+
+academics_recruit_foreign_scientist = {
+	requires_approval = yes
+	#should_notify_third_parties = yes
+	show_effect_in_tooltip = yes
+
+	potential = {
+		scope:target_country = {
+			any_scope_building = {
+				is_building_type = building_university
+				level > 0
+			}
+		}
+		hidden_trigger = {
+			OR = {
+				is_player = no
+				AND = {
+					is_player = yes
+					has_diplomatic_relevance = scope:target_country
+				}
+			}
+		}
+	}
+	
+	possible = {
+		custom_tooltip = {
+			text = academics_smaller_tech_advance_than_best_30_percent_tt
+			var:academics_country_tech_advance_var > 0.3
+		}
+		NOR = { 
+			has_war_with = scope:target_country
+			has_variable = academics_recruit_foreign_scientist_timer_var
+		}
+		NOT = {
+			AND = {
+				gaudi_has_engineer = yes
+				verrier_has_astronomer = yes
+				dubois_has_naturalist = yes
+				dubois_has_paleontologist = yes
+				lepsius_has_archaeologist = yes
+				lepsius_has_anthropologist = yes
+			}
+		}
+		is_revolutionary = no
+		scope:target_country = {
+			is_revolutionary = no
+		}
+		custom_tooltip = {
+			text = academics_smaller_tech_advance_than_target_tt
+			scope:target_country = {
+				var:academics_country_tech_advance_var < root.var:academics_country_tech_advance_var
+			}
+		}
+	}
+
+	accept_effect = {
+		set_variable = {
+			name = academics_foreign_scientist_origin_country_var
+			value = scope:target_country 
+		}
+		change_relations = { 
+			country = scope:target_country 
+			value = 5 
+		}
+		trigger_event = academics.60
+		add_treasury = -250000
+		scope:target_country = {
+			add_treasury = 250000
+		}
+		set_variable = {
+			name = academics_recruit_foreign_scientist_timer_var
+			years = 5
+		}
+	}
+	
+	ai = {
+		propose_score = {
+			value = 0
+		}
+	
+		will_propose = {					
+		}	
+		
+		accept_score = {
+			value = 10
+		}
+	}
+}
+
