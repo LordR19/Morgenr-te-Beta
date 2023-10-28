@@ -13,7 +13,7 @@ academics_recruit_foreign_scientist = {
 	show_effect_in_tooltip = yes
 
 	potential = { #Only Countries that get the Academia JE are allowed to "sell" their scientists
-		game_date > START_DATE #Otherwise the missing variables cause errors
+		game_date > 1836.1.1 #If you change the start date/start_date, change this too. It is used to prevent error log spam
 		scope:target_country = {
 			any_scope_building = {
 				is_building_type = building_university
@@ -32,17 +32,22 @@ academics_recruit_foreign_scientist = {
 	}
 	
 	possible = {
+		custom_tooltip = {
+			text = academics_target_country_has_scientist_tt
+			scope:target_country = {
+				OR = {
+					gaudi_has_engineer = yes
+					verrier_has_astronomer = yes
+					dubois_has_naturalist = yes
+					dubois_has_paleontologist = yes
+					lepsius_has_archaeologist = yes
+					lepsius_has_anthropologist = yes
+				}
+			}
+		}
 		custom_tooltip = { #This trigger checks if the country does not belong to the most advanced 30 percent of countries
 			text = academics_smaller_tech_advance_than_best_30_percent_tt
 			var:academics_country_tech_advance_var > 0.3
-		}
-		OR = {
-			gaudi_has_engineer = yes
-			verrier_has_astronomer = yes
-			dubois_has_naturalist = yes
-			dubois_has_paleontologist = yes
-			lepsius_has_archaeologist = yes
-			lepsius_has_anthropologist = yes
 		}
 		NOR = { 
 			has_war_with = scope:target_country
