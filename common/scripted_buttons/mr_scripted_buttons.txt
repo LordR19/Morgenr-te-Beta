@@ -780,6 +780,102 @@ mr_paleontological_expedition_recall_button = {
 
 ######MOUNT/REMOUNT SKELETON######
 
+mr_mount_skeleton_button = {
+	name = "mr_mount_skeleton_button"
+	desc = "mr_mount_skeleton_button_desc"
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = mr_mount_skeleton_active_button_trigger
+			NOT = { has_variable = mr_mount_dinosaur_skeleton_button_var }
+		}
+		custom_tooltip = {
+			text = mr_remount_skeleton_paleontologist_trigger
+			trigger_if = {
+				limit = {
+					has_variable = dubois_paleontologist_var
+				}
+				var:dubois_paleontologist_var = {
+					is_busy = no
+					NOT = {
+						has_modifier = dubois_exhausted_paleontologist_modifier
+					}
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		custom_tooltip = {
+			text = mr_mount_skeleton_trigger_tt
+			OR = {
+				AND = {
+					var:dubois_north_american_dinosaur_bone >= 5
+					NAND = {
+						has_variable = dubois_ankylosaurus_var
+						has_variable = dubois_diplodocus_var
+						has_variable = dubois_triceratops_var
+						has_variable = dubois_tyrannosaurus_var
+						has_variable = dubois_stegosaurus_var
+					}
+				}
+				AND = {
+					var:dubois_south_american_dinosaur_bone >= 5
+					NAND = {
+						has_variable = dubois_antarctosaurus_var
+						has_variable = dubois_argyrosaurus_var
+					}
+				}
+				AND = {
+					var:dubois_european_dinosaur_bone >= 5
+					NAND = {
+						has_variable = dubois_iguanodon_var
+						has_variable = dubois_plateosaurus_var
+					}
+				}
+				AND = {
+					var:dubois_african_dinosaur_bone >= 5
+					NAND = {
+						has_variable = dubois_giraffatitan_var
+						#has_variable = dubois_melanorosaurus_var
+						has_variable = dubois_spinosaurus_var
+					}
+				}
+				AND = {
+					var:dubois_asian_dinosaur_bone >= 5
+					NAND = {
+						has_variable = dubois_psittacosaurus_var
+						has_variable = dubois_velociraptor_var
+					}
+				}
+				AND = {
+					var:dubois_australian_dinosaur_bone >= 5
+					NAND = {
+						has_variable = dubois_muttaburrasaurus_var
+						has_variable = dubois_rhoetosaurus_var
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		set_variable = mr_mount_dinosaur_skeleton_button_var
+		trigger_event = {
+			id = dubois.2171
+			popup = yes
+		}
+	}
+
+	ai_chance = {
+		base = 0
+	}
+}
+
 mr_remount_skeleton_button = {
 	name = "mr_remount_skeleton_button"
 	desc = "mr_remount_skeleton_button_desc"
