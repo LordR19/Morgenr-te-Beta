@@ -87,6 +87,10 @@ namespace = academics
 #Academics 1002: Dr. [Naturalist] requests funding
 #Academics 1003: Dr. [Paleontologist] requests funding
 #Academics 1004: Dr. [Archaeologist] requests funding
+#Academics 1005: Dr. [Anthropologist] requests funding
+
+#Academics 1010: Women that study?
+#Academics 1011: Brilliant female Scientist
 
 ###Missions###
 
@@ -4299,6 +4303,85 @@ academics.1005 = {
 	after = {
 	}
 }
+
+#Academics 1010: Women that study?
+academics.1010 = {
+	type = country_event
+
+	title = academics.1010.t
+	desc = academics.1010.d
+	flavor = academics.1010.f
+
+	placement = ROOT
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	cooldown = {
+		years = 100
+	}
+
+	trigger = {
+		any_scope_building = {
+			is_building_type = building_university
+			level > 0
+		}
+	}
+
+	immediate = {
+		
+	}
+
+	option = { #Let them study!
+		name = academics.1010.g
+		default_option = yes
+
+		trigger = {
+			NOT = { has_law = law_type:law_womens_suffrage }
+		}
+
+		add_radicals = {
+			value = small_radicals
+			interest_group = ig:ig_landowners
+		}
+		add_radicals = {
+			value = small_radicals
+			interest_group = ig:ig_devout
+		}
+	}
+
+	option = { #Wait, they weren't able to study so far?
+		name = academics.1010.i
+
+		trigger = {
+			has_law = law_type:law_womens_suffrage
+		}
+
+	}
+
+	option = { #Women belong at the hearth!
+		name = academics.1010.i
+
+		add_radicals = {
+			value = small_radicals
+			interest_group = ig:ig_intelligentsia
+		}
+		add_radicals = {
+			value = small_radicals
+			interest_group = ig:ig_trade_unions
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 1011: Brilliant female Scientist
 
 #################################################################################
 
