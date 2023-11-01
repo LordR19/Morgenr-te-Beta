@@ -9232,26 +9232,6 @@ dubois.411 = {
 	icon = "gfx/interface/icons/event_icons/event_geology.dds"
 
 	trigger = {
-		dubois_has_unconquered_summit = yes
-		has_technology_researched = prospecting
-		has_technology_researched = nationalism
-		any_scope_character = {
-			has_role = general
-			is_busy = no
-			OR = {
-				has_trait = dubois_mountaineer
-				has_trait = explorer
-				has_trait = mountain_commander
-				has_trait = surveyor
-			}
-		}
-		NOR = {
-			has_modifier = dubois_summit_level_1_modifier
-			has_modifier = dubois_summit_level_2_modifier
-			has_modifier = dubois_summit_level_3_modifier
-			has_modifier = dubois_summit_level_4_modifier
-			has_modifier = dubois_mountaineering_disaster_modifier
-		}
 	}
 
 	immediate = {
@@ -9385,28 +9365,53 @@ dubois.412 = {
 
 	immediate = {
 		set_dubois_mountain_expedition_leader_effect = yes
-		random_scope_state = {
+		random_state = {
 			limit = {
 				dubois_state_has_unconquered_summit = yes
+				OR = {
+					owner = ROOT
+					owner = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
+						}
+					}
+				}
 			}
 			save_scope_as = dubois_summit_1
 		}
-		random_scope_state = {
+		random_state = {
 			limit = {
 				dubois_state_has_unconquered_summit = yes
+				OR = {
+					owner = ROOT
+					owner = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
+						}
+					}
+				}
 				NOT = {
 					this = scope:dubois_summit_1
 				}
 			}
 			save_scope_as = dubois_summit_2
 		}
-		random_scope_state = {
+		random_state = {
 			limit = {
 				dubois_state_has_unconquered_summit = yes
-				NOT = {
-					this = scope:dubois_summit_1
+				OR = {
+					owner = ROOT
+					owner = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
+						}
+					}
 				}
-				NOT = {
+				NOR = {
+					this = scope:dubois_summit_1
 					this = scope:dubois_summit_2
 				}
 			}
@@ -11920,7 +11925,10 @@ dubois.441 = {
 	}
 
 	trigger = {
-		has_variable = dubois_summit_himalayas_mountains_var
+		OR = {
+			has_variable = dubois_summit_kabru_var
+			has_variable = dubois_summit_kamet_var
+		}
 		has_variable = dubois_naturalist_var
 		var:dubois_naturalist_var = {
 			has_variable = dubois_mountain_scientist_var
