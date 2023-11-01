@@ -12,9 +12,9 @@ academics_recruit_foreign_scientist = {
 	requires_approval = yes
 	show_effect_in_tooltip = yes
 
-	potential = { #Only Countries that get the Academia JE are allowed to "sell" their scientists
+	potential = {
 		game_date > 1836.1.1 #If you change the start date/start_date, change this too. It is used to prevent error log spam
-		scope:target_country = {
+		scope:target_country = { #Only Countries that get the Academia JE are allowed to "sell" their scientists
 			any_scope_building = {
 				is_building_type = building_university
 				level > 0
@@ -72,6 +72,7 @@ academics_recruit_foreign_scientist = {
 		is_revolutionary = no
 		scope:target_country = {
 			is_revolutionary = no
+			NOT = { has_modifier = academics_academic_sent_modifier } #The target can only send an academic once every 3 years
 		}
 		custom_tooltip = { #Checks if the target country is technologically advanced
 			text = academics_smaller_tech_advance_than_target_tt
@@ -97,6 +98,10 @@ academics_recruit_foreign_scientist = {
 		add_treasury = -250000 #Cost of the action
 		scope:target_country = {
 			add_treasury = 250000 #Money gets transfered to foreign country
+			add_modifier = {
+				name = academics_academic_sent_modifier
+				years = 3
+			}
 		}
 		set_variable = { #Timer to keep track if it has been 5 years since the action was taken last
 			name = academics_recruit_foreign_scientist_timer_var
