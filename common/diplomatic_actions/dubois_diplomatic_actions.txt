@@ -934,21 +934,33 @@ mountaineering_license = {
 		}
 
 		propose_score = {
-			value = 10 
+			value = 0
 			add = {
 				if = {
 					limit = {
+						country_rank > rank_value:major_power
 						scaled_debt <= 0
 					}
-					value = 30 #AI without debt will be willing to pay
+					value = 100 #Great and Major Powers more interested than Minor Powers
 				}
 			}
 			add = {
 				if = {
 					limit = {
-						has_variable = dubois_naturalist_var
+						NOT = {
+							any_scope_character = {
+								has_role = general
+								is_busy = no
+								OR = {
+									has_trait = dubois_mountaineer
+									has_trait = explorer
+									has_trait = mountain_commander
+									has_trait = surveyor
+								}
+							}
+						}
 					}
-					value = -1000 #AI will never ask for botanical rights without a naturalist
+					value = -1000 #AI will never ask for mountaineering rights without mountaineer
 				}
 			}
 		}
