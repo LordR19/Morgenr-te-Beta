@@ -9250,6 +9250,8 @@ dubois.411 = {
 			has_modifier = dubois_summit_level_2_modifier
 			has_modifier = dubois_summit_level_3_modifier
 			has_modifier = dubois_summit_level_4_modifier
+			has_modifier = dubois_summit_level_5_modifier
+			has_modifier = dubois_summit_level_6_modifier
 			has_modifier = dubois_mountaineering_disaster_modifier
 		}
 	}
@@ -9385,29 +9387,62 @@ dubois.412 = {
 
 	immediate = {
 		set_dubois_mountain_expedition_leader_effect = yes
-		random_scope_state = {
+		random_state = {
 			limit = {
-				dubois_state_has_unconquered_summit = yes
+				OR = {
+					AND = {
+						dubois_state_has_unconquered_summit = yes
+						owner = ROOT
+					}
+					AND = {
+						dubois_state_has_unconquered_summit = yes
+						owner = {
+							has_diplomatic_pact = {
+								who = ROOT
+								type = mountaineering_license
+							}
+						}
+					}
+				}
 			}
 			save_scope_as = dubois_summit_1
 		}
-		random_scope_state = {
+		random_state = {
 			limit = {
-				dubois_state_has_unconquered_summit = yes
-				NOT = {
-					this = scope:dubois_summit_1
+				OR = {
+					AND = {
+						dubois_state_has_unconquered_summit = yes
+						owner = ROOT
+					}
+					AND = {
+						dubois_state_has_unconquered_summit = yes
+						owner = {
+							has_diplomatic_pact = {
+								who = ROOT
+								type = mountaineering_license
+							}
+						}
+					}
 				}
 			}
 			save_scope_as = dubois_summit_2
 		}
 		random_scope_state = {
 			limit = {
-				dubois_state_has_unconquered_summit = yes
-				NOT = {
-					this = scope:dubois_summit_1
-				}
-				NOT = {
-					this = scope:dubois_summit_2
+				OR = {
+					AND = {
+						dubois_state_has_unconquered_summit = yes
+						owner = ROOT
+					}
+					AND = {
+						dubois_state_has_unconquered_summit = yes
+						owner = {
+							has_diplomatic_pact = {
+								who = ROOT
+								type = mountaineering_license
+							}
+						}
+					}
 				}
 			}
 			save_scope_as = dubois_summit_3
@@ -11920,7 +11955,10 @@ dubois.441 = {
 	}
 
 	trigger = {
-		has_variable = dubois_summit_himalayas_mountains_var
+		OR = {
+			has_variable = dubois_summit_kabru_var
+			has_variable = dubois_summit_kamet_var
+		}
 		has_variable = dubois_naturalist_var
 		var:dubois_naturalist_var = {
 			has_variable = dubois_mountain_scientist_var
