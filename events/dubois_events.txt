@@ -9232,28 +9232,6 @@ dubois.411 = {
 	icon = "gfx/interface/icons/event_icons/event_geology.dds"
 
 	trigger = {
-		dubois_has_unconquered_summit = yes
-		has_technology_researched = prospecting
-		has_technology_researched = nationalism
-		any_scope_character = {
-			has_role = general
-			is_busy = no
-			OR = {
-				has_trait = dubois_mountaineer
-				has_trait = explorer
-				has_trait = mountain_commander
-				has_trait = surveyor
-			}
-		}
-		NOR = {
-			has_modifier = dubois_summit_level_1_modifier
-			has_modifier = dubois_summit_level_2_modifier
-			has_modifier = dubois_summit_level_3_modifier
-			has_modifier = dubois_summit_level_4_modifier
-			has_modifier = dubois_summit_level_5_modifier
-			has_modifier = dubois_summit_level_6_modifier
-			has_modifier = dubois_mountaineering_disaster_modifier
-		}
 	}
 
 	immediate = {
@@ -9389,18 +9367,13 @@ dubois.412 = {
 		set_dubois_mountain_expedition_leader_effect = yes
 		random_state = {
 			limit = {
+				dubois_state_has_unconquered_summit = yes
 				OR = {
-					AND = {
-						dubois_state_has_unconquered_summit = yes
-						owner = ROOT
-					}
-					AND = {
-						dubois_state_has_unconquered_summit = yes
-						owner = {
-							has_diplomatic_pact = {
-								who = ROOT
-								type = mountaineering_license
-							}
+					owner = ROOT
+					owner = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
 						}
 					}
 				}
@@ -9409,40 +9382,37 @@ dubois.412 = {
 		}
 		random_state = {
 			limit = {
+				dubois_state_has_unconquered_summit = yes
 				OR = {
-					AND = {
-						dubois_state_has_unconquered_summit = yes
-						owner = ROOT
-					}
-					AND = {
-						dubois_state_has_unconquered_summit = yes
-						owner = {
-							has_diplomatic_pact = {
-								who = ROOT
-								type = mountaineering_license
-							}
+					owner = ROOT
+					owner = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
 						}
 					}
+				}
+				NOT = {
+					this = scope:dubois_summit_1
 				}
 			}
 			save_scope_as = dubois_summit_2
 		}
-		random_scope_state = {
+		random_state = {
 			limit = {
+				dubois_state_has_unconquered_summit = yes
 				OR = {
-					AND = {
-						dubois_state_has_unconquered_summit = yes
-						owner = ROOT
-					}
-					AND = {
-						dubois_state_has_unconquered_summit = yes
-						owner = {
-							has_diplomatic_pact = {
-								who = ROOT
-								type = mountaineering_license
-							}
+					owner = ROOT
+					owner = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = mountaineering_license
 						}
 					}
+				}
+				NOR = {
+					this = scope:dubois_summit_1
+					this = scope:dubois_summit_2
 				}
 			}
 			save_scope_as = dubois_summit_3
