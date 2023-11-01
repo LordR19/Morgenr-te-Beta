@@ -475,6 +475,32 @@ dubois_remove_dinosaur_skeleton_ranking_variables = {
 	remove_global_variable = dubois_dinosaur_skeleton_rank_10_global_var
 }
 
+#This effect creates a a variable to display the rank of each country for Dinosaur Skeletons
+dubois_dinosaur_skeleton_rank_effect = {
+	set_local_variable = { #This is used to keep track of the current rank
+		name = current_rank
+		value = 0
+	}
+	ordered_country = {
+		limit = {
+			is_revolutionary = no
+		}
+		order_by = var:dubois_dinosaur_skeleton
+		max = 1000 #Apparently without this it just takes one country.
+		check_range_bounds = no #prevents errors
+
+		remove_variable = dubois_dinosaur_skeleton_rank_country_var
+		change_local_variable = {
+			name = current_rank
+			add = 1
+		}
+		set_variable = { #uses the current rank to set the rank variable for the country.
+			name = dubois_dinosaur_skeleton_rank_country_var
+			value = local_var:current_rank
+		}
+	}
+}
+
 ### Total Artifacts GLOBAL variables ###
 #Creates a list of the ten countries with the most Total Artifacts.
 #As this effect is called in an effect, it creates the list with GLOBAL variables.
