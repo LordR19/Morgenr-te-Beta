@@ -640,7 +640,7 @@ lepsius_remove_total_artifacts_ranking_variables = {
 	remove_global_variable = lepsius_total_artifacts_rank_10_global_var
 }
 
-#This effect creates a a variable to display the rank of each country for Dinosaur Skeletons
+#This effect creates a a variable to display the rank of each country for Total Artifacts
 lepsius_total_artifacts_rank_effect = {
 	set_local_variable = { #This is used to keep track of the current rank
 		name = current_rank
@@ -803,4 +803,30 @@ lepsius_remove_total_human_fossils_ranking_variables = {
 	remove_global_variable = lepsius_total_human_fossils_rank_8_global_var
 	remove_global_variable = lepsius_total_human_fossils_rank_9_global_var
 	remove_global_variable = lepsius_total_human_fossils_rank_10_global_var
+}
+
+#This effect creates a a variable to display the rank of each country for Human Fossils
+lepsius_total_human_fossil_rank_effect = {
+	set_local_variable = { #This is used to keep track of the current rank
+		name = current_rank
+		value = 0
+	}
+	ordered_country = {
+		limit = {
+			is_revolutionary = no
+		}
+		order_by = var:lepsius_total_human_fossil
+		max = 1000 #Apparently without this it just takes one country.
+		check_range_bounds = no #prevents errors
+
+		remove_variable = lepsius_total_human_fossil_rank_country_var
+		change_local_variable = {
+			name = current_rank
+			add = 1
+		}
+		set_variable = { #uses the current rank to set the rank variable for the country.
+			name = lepsius_total_human_fossil_rank_country_var
+			value = local_var:current_rank
+		}
+	}
 }
