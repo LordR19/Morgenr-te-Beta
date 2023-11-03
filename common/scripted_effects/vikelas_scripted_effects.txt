@@ -10,6 +10,8 @@
 
 #This effect adds all the medals to the correct countries
 vikelas_add_medals_effect = {
+
+	### Countries with best Scores ###
 	set_local_variable = {
 		name = best_three_nations_local_var
 		value = 3
@@ -22,20 +24,20 @@ vikelas_add_medals_effect = {
 		max = 3
 
 		set_variable = {
-			name = vikelas_glod_medals_this_year_var
+			name = vikelas_gold_medals_this_year_var
 			value = local_var:best_three_nations_local_var
 		}
 		if = {
 			limit = {
-				NOT = { has_variable = vikelas_glod_medals_var }
+				NOT = { has_variable = vikelas_gold_medals_var }
 			}
 			set_variable = {
-				name = vikelas_glod_medals_var
+				name = vikelas_gold_medals_var
 				value = 0
 			}
 		}
 		change_variable = {
-			name = vikelas_glod_medals_var
+			name = vikelas_gold_medals_var
 			add = local_var:best_three_nations_local_var
 		}
 		change_local_variable = {
@@ -43,4 +45,95 @@ vikelas_add_medals_effect = {
 			add = -1
 		}
 	}
+
+	### Random participant countries ###
+	while = {
+		count = 4 #Hands out 4 medals
+
+		#Chooses whether all nations have a chance or only smaller nations
+		random_list = {
+			3 = { #All nations
+				random_country = {
+					limit = {  } #TODO add participant limit
+					if = {
+						limit = {
+							NOT = { has_variable = vikelas_gold_medals_this_year_var }
+						}
+						set_variable = {
+							name = vikelas_gold_medals_this_year_var
+							value = 1
+						}
+					}
+					else = {
+						change_variable = {
+							name = vikelas_gold_medals_this_year_var
+							add = 1
+						}
+					}
+					if = {
+						limit = {
+							NOT = { has_variable = vikelas_gold_medals_var }
+						}
+						set_variable = {
+							name = vikelas_gold_medals_var
+							value = 1
+						}
+					}
+					else = {
+						change_variable = {
+							name = vikelas_gold_medals_var
+							add = 1
+						}
+					}
+				}
+			}
+			7 = { #Small nations
+				trigger = {
+					any_country = {
+						#TODO add participant limit
+						country_rank <= rank_value:major_power
+					}
+				}
+
+				random_country = {
+					limit = {
+						#TODO add participant limit
+						country_rank <= rank_value:major_power
+					}
+					if = {
+						limit = {
+							NOT = { has_variable = vikelas_gold_medals_this_year_var }
+						}
+						set_variable = {
+							name = vikelas_gold_medals_this_year_var
+							value = 1
+						}
+					}
+					else = {
+						change_variable = {
+							name = vikelas_gold_medals_this_year_var
+							add = 1
+						}
+					}
+					if = {
+						limit = {
+							NOT = { has_variable = vikelas_gold_medals_var }
+						}
+						set_variable = {
+							name = vikelas_gold_medals_var
+							value = 1
+						}
+					}
+					else = {
+						change_variable = {
+							name = vikelas_gold_medals_var
+							add = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+
 }
