@@ -1,0 +1,46 @@
+﻿############################
+# VIKELAS SCRIPTED EFFECTS #
+############################
+
+#by Lord R
+
+#############################
+
+###Medal Effects###
+
+#This effect adds all the medals to the correct countries
+vikelas_add_medals_effect = {
+	set_local_variable = {
+		name = best_three_nations_local_var
+		value = 3
+	}
+	ordered_country = {
+		limit = {
+			#TODO add a restriction to countries participating at the games
+		}
+		order_by = vikelas_olympic_success_value
+		max = 3
+
+		set_variable = {
+			name = vikelas_glod_medals_this_year_var
+			value = local_var:best_three_nations_local_var
+		}
+		if = {
+			limit = {
+				NOT = { has_variable = vikelas_glod_medals_var }
+			}
+			set_variable = {
+				name = vikelas_glod_medals_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = vikelas_glod_medals_var
+			add = local_var:best_three_nations_local_var
+		}
+		change_local_variable = {
+			name = best_three_nations_local_var
+			add = -1
+		}
+	}
+}
