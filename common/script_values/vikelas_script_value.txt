@@ -6,6 +6,7 @@
 
 #This value is used to create a ranking of the top three winner nations of the Olypics.
 vikelas_olympic_success_value = {
+	#This part basically creates a rough logarithm of the total population
 	if = {
 		limit = {
 			total_population <= 1000000
@@ -33,7 +34,9 @@ vikelas_olympic_success_value = {
 		}
 		value = 9
 	}
+	#The logarithm of the population gets multiplied with the average SOL (higher SOL allows for more free time activities)
 	multiply = average_sol
+	#Laws that allow some degree of child labor have a negative effect on the score.
 	if = {
 		limit = {
 			has_law = law_type:law_child_labor_allowed
@@ -46,7 +49,18 @@ vikelas_olympic_success_value = {
 		}
 		multiply = 0.75
 	}
+	#Adds the total level of sports facilities of the country
 	add = vikelas_sports_facilities_score
+	#In case that the country has an athlete it gets a flat 50 bonus
+	if = {
+		limit = {
+			any_scope_character = {
+				has_trait = vikelas_athlete
+			}
+		}
+		add = 50
+	}
+	#Army laws have a positive influence on the score. National Militia helps the most as it usually means military service for a lot of people.
 	if = {
 		limit = {
 			has_law = law_type:law_professional_army
@@ -65,9 +79,11 @@ vikelas_olympic_success_value = {
 		}
 		multiply = 1.1
 	}
+	#This is used to randomize the result
 	multiply = { 0.9 1.1 }
 }
 
+#This value counts the total level of sports facilities of a country
 vikelas_sports_facilities_score = {
 	value = 0
 	every_scope_building = {
