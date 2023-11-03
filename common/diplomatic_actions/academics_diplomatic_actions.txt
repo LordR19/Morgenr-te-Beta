@@ -117,40 +117,42 @@ academics_recruit_foreign_scientist = {
 						gold_reserves > 250000
 						weekly_net_fixed_income > 2000
 					}
-					value = 100 #AI without debt will be willing to pay
-				}
-			}
-			add = {
-				if = {
-					limit = {
-						NOR = {
-							ig:ig_industrialists = {
-								OR = {
-									is_in_government = yes
-									is_powerful = yes
-								}
-							}
-							ig:ig_intelligentsia = {
-								OR = {
-									is_in_government = yes
-									is_powerful = yes
-								}
-							}
-						}
-					}
-					value = -1000 #AI that has neither Industrialists or Intelligentsia powerful or in government will never propose.
+					value = 500 #AI without debt will be willing to pay
 				}
 			}
 		}
 	
-		will_propose = {					
-		}	
+		will_propose = {
+			OR = {
+				ig:ig_industrialists = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+				ig:ig_intelligentsia = {
+					OR = {
+						is_in_government = yes
+						is_powerful = yes
+					}
+				}
+			}
+		}
 		
 		accept_score = {
-			value = -10
+			value = 0
 			add = {
 				desc = "DIPLOMATIC_ACCEPTANCE_BASE"
-				value = 0
+				value = -10
+			}
+			add = {
+				desc = "They already sold a scientist recently"
+				if = {
+					limit = {
+						has_modifier = academics_academic_sent_modifier
+					}
+					value = -1000
+				}
 			}
 			add = {
 				desc = "DIPLOMATIC_ACCEPTANCE_RELATIONS"			
