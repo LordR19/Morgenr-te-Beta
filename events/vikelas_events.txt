@@ -1,0 +1,1799 @@
+﻿###################
+# SPORTS EVENTS  #
+###################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = vikelas
+
+###################
+
+###Events 10-20: Olympic Statistics###
+
+#Vikelas 10: International Olympic Committee
+
+#################################################################################
+
+###Events 100-199: Olympic Games###
+
+#Events 100-110: First Olympic Games Organisation
+
+#Vikelas 100: IOC Foundation
+#Vikelas 101: First IOC Board Election (hidden)
+#Vikelas 102: IOC meets for the first time
+#Vikelas 105: IOC decides: Greece will host the First Olympic Games
+#Vikelas 106: First Olympic Games begin
+#Vikelas 107: First Olympic Games begin (for player)
+#Vikelas 108: First Olympic Games end
+
+#Events 100-110: Standard Olympic Games Organisation
+
+#Vikelas 111: IOC Board Election (hidden)
+#Vikelas 112: New IOC Board elected
+#Vikelas 113: Next Olympics Location
+#Vikelas 114: IOC decides: $COUNTRY$ will host the next Olympic Games (President)
+#Vikelas 115: IOC decides: $COUNTRY$ will host the next Olympic Games (Player)
+#Vikelas 116: Olympic Games begin
+#Vikelas 117: Olympic Games begin (for player)
+#Vikelas 118: Olympic Games end
+
+#################################################################################
+
+#Vikelas 10: International Olympic Committee
+
+vikelas.10 = {
+	type = country_event
+
+	title = vikelas.10.t
+	desc = vikelas.10.d
+
+	flavor = {
+		desc = vikelas.10.president
+		desc = vikelas.10.board
+		desc = vikelas.10.members
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_ioc_board.dds"
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_founding_country_var
+			}
+			save_scope_as = vikelas_ioc_president_scope
+		}
+		every_country = {
+			limit = { 
+				has_variable = vikelas_ioc_board_member_var 
+			}
+			save_scope_as = vikelas_ioc_board_member_scope
+		}
+		every_country = {
+			limit = { 
+				has_variable = vikelas_ioc_member_var
+			}
+			save_scope_as = vikelas_ioc_member_scope
+		}
+	}
+
+	#TODO: Medal Table
+
+	#Bye
+	option = {
+		name = verrier.100.g
+		default_option = yes
+		remove_variable = vikelas_ioc_statistics_var
+		custom_tooltip = vikelas_leave_ioc_statistics_tt
+	}
+}
+
+#################################################################################
+
+######IOC Events######
+
+#Vikelas 100: IOC Foundation
+
+vikelas.100 = {
+	type = country_event
+
+	title = vikelas.100.t
+	desc = vikelas.100.d
+	flavor = vikelas.100.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:vikelas_ioc_president_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				lepsius_has_archaeologist = yes
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = vikelas_ioc_president_scope
+			}
+		}
+		else_if = {
+			limit = {
+				lepsius_has_anthropologist = yes
+			}
+			var:lepsius_anthropologist_var = {
+				save_scope_as = vikelas_ioc_president_scope
+			}
+		}
+		else_if = {
+			limit = {
+				dubois_has_naturalist = yes
+			}
+			var:dubois_naturalist_var = {
+				save_scope_as = vikelas_ioc_president_scope
+			}
+		}
+		else_if = {
+			limit = {
+				dubois_has_paleontologist = yes
+			}
+			var:dubois_paleontologist_var = {
+				save_scope_as = vikelas_ioc_president_scope
+			}
+		}
+		else_if = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			var:verrier_astronomer_var = {
+				save_scope_as = vikelas_ioc_president_scope
+			}
+		}
+		else_if = {
+			limit = {
+				gaudi_has_engineer = yes
+			}
+			var:gaudi_engineer_var = {
+				save_scope_as = vikelas_ioc_president_scope
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.100.g
+		default_option = yes
+		scope:vikelas_ioc_president_scope = {
+			add_modifier = {
+				name = vikelas_ioc_president_modifier
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = vikelas.101
+			days = { 30 60 }
+		}
+	}
+}
+
+#Vikelas 101: First IOC Board Election (hidden)
+
+vikelas.101 = {
+	type = country_event
+
+	hidden = yes
+
+	#The Board consists of:
+	#The Founder Country
+	#The President Country (if President and Founder are not the same)
+	#Five Greater Powers which are neither Founder nor President
+	#Two Random IOC Members from Europe
+	#Two Random IOC Members from America
+	#Two Random IOC Members from Asia
+	#One Random IOC Member from Africa
+	#One Random IOC Member from Australia&Oceania
+	#A total of 15 Board Members is possible 
+
+	immediate = {
+		###First: We fire every Board Member for a new Board###
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+			}
+			remove_variable = vikelas_ioc_board_member_var
+		}
+		###The Founder has always a seat on the Board###
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_founding_country_var
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###Five Great Powers are part of the Board###
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				NOR = {
+					has_variable = vikelas_ioc_board_member_var
+					has_variable = vikelas_ioc_founding_country_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+			set_variable = vikelas_ioc_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+			set_variable = vikelas_ioc_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+			set_variable = vikelas_ioc_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+			set_variable = vikelas_ioc_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+			set_variable = vikelas_ioc_member_var
+		}
+		###Greece becomes IOC Board Member (only first time)###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				c:GRE ?= this
+			}
+			set_variable = vikelas_ioc_board_member_var
+			set_variable = vikelas_ioc_member_var
+		}
+		###Two Random IOC Members from Europe###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				country_is_in_europe = yes
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				country_is_in_europe = yes
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###Two Random IOC Members from America###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				OR = {
+					country_is_in_north_america = yes
+					country_is_in_central_america = yes
+					country_is_in_south_america = yes
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				OR = {
+					country_is_in_north_america = yes
+					country_is_in_central_america = yes
+					country_is_in_south_america = yes
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###Two Random IOC Members from Asia###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				OR = {
+					country_is_in_middle_east = yes
+					country_is_in_central_asia = yes
+					country_is_in_india = yes
+					country_is_in_east_asia = yes
+					country_is_in_southeast_asia = yes
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				OR = {
+					country_is_in_middle_east = yes
+					country_is_in_central_asia = yes
+					country_is_in_india = yes
+					country_is_in_east_asia = yes
+					country_is_in_southeast_asia = yes
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###One Random IOC Members from Africa###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				country_is_in_africa = yes
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###One Random IOC Members from Australia&Oceania###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				rapanui_country_is_in_oceania = yes
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###Trigger Event###
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+			}
+			trigger_event = {
+				id = vikelas.102
+				days = 1
+			}
+		}
+	}
+
+	after = {
+		
+	}
+}
+
+#Vikelas 102: IOC meets for the first time
+
+vikelas.102 = {
+	type = country_event
+
+	title = vikelas.102.t
+	desc = vikelas.102.d
+	flavor = vikelas.102.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_ioc_board.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.102.g
+		default_option = yes
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = organized_sports
+				}
+				c:GRE ?= this
+			}
+			add_technology_progress = { progress = 16500 technology = organized_sports }
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_technology_researched = organized_sports
+				}
+			}
+			add_technology_progress = { progress = 8500 technology = organized_sports }
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = vikelas.105
+			days = { 7 21 }
+		}
+	}
+}
+
+#Vikelas 105: IOC decides: Greece will host the First Olympic Games
+
+vikelas.105 = {
+	type = country_event
+
+	title = vikelas.105.t
+	desc = vikelas.105.d
+	flavor = vikelas.105.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_ioc_board.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.105.g
+		default_option = yes
+		if = {
+			limit = {
+				c:GRE ?= this
+			}
+			add_modifier = {
+				name = vikelas_olympics_preparation_modifier
+				days = 776
+			}
+			hidden_effect = {
+				trigger_event = {
+					id = vikelas.106
+					popup = yes
+					days = 776
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 106: First Olympic Games begin
+
+vikelas.106 = {
+	type = country_event
+
+	title = vikelas.106.t
+	desc = vikelas.106.d
+	flavor = vikelas.106.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_athens.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.106.g #The Games are coming home!
+		default_option = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = vikelas_olympics_hosting_modifier
+			}
+		}
+		add_journal_entry = {
+			type = je_vikelas_olympic_games_host_greece
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				is_player = yes
+				NOT = { this = ROOT }
+			}
+			trigger_event = {
+				id = vikelas.107
+			}
+		}
+		hidden_effect = {
+			every_country = {
+				limit = {
+					has_variable = vikelas_ioc_member_var
+					NOT = { this = ROOT }
+				}
+				add_journal_entry = {
+					type = je_vikelas_olympic_games_member_greece
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 107: First Olympic Games begin (for player)
+
+vikelas.107 = {
+	type = country_event
+
+	title = vikelas.106.t
+	desc = vikelas.106.d
+	flavor = vikelas.106.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_athens.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_modifier = vikelas_olympics_hosting_modifier
+			}
+			save_scope_as = vikelas_olympic_state
+		}
+	}
+
+	option = {
+		name = vikelas.106.g #The Games are coming home!
+		default_option = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 108: First Olympic Games end
+
+vikelas.108 = {
+	type = country_event
+
+	title = vikelas.108.t
+	desc = vikelas.108.d
+	flavor = vikelas.108.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_athens.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.108.g #Citius, altius, fortius
+		default_option = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 111: IOC Board Election (hidden)
+
+vikelas.111 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		###First: We fire every Board Member for a new Board###
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+			}
+			remove_variable = vikelas_ioc_board_member_var
+		}
+		###The Founder has always a seat on the Board###
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_founding_country_var
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###Five Great Powers which are also IOC Members are part of the Board###
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				has_variable = vikelas_ioc_member_var
+				NOR = {
+					has_variable = vikelas_ioc_board_member_var
+					has_variable = vikelas_ioc_founding_country_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###Two Random IOC Members from Europe###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				country_is_in_europe = yes
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				country_is_in_europe = yes
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###Two Random IOC Members from America###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				OR = {
+					country_is_in_north_america = yes
+					country_is_in_central_america = yes
+					country_is_in_south_america = yes
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				OR = {
+					country_is_in_north_america = yes
+					country_is_in_central_america = yes
+					country_is_in_south_america = yes
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###Two Random IOC Members from Asia###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				OR = {
+					country_is_in_middle_east = yes
+					country_is_in_central_asia = yes
+					country_is_in_india = yes
+					country_is_in_east_asia = yes
+					country_is_in_southeast_asia = yes
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				OR = {
+					country_is_in_middle_east = yes
+					country_is_in_central_asia = yes
+					country_is_in_india = yes
+					country_is_in_east_asia = yes
+					country_is_in_southeast_asia = yes
+				}
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###One Random IOC Members from Africa###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				country_is_in_africa = yes
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###One Random IOC Members from Australia&Oceania###
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				has_variable = vikelas_ioc_member_var
+				rapanui_country_is_in_oceania = yes
+			}
+			set_variable = vikelas_ioc_board_member_var
+		}
+		###Trigger Event###
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_founding_country_var
+			}
+			trigger_event = {
+				id = vikelas.112
+				days = 1
+			}
+			trigger_event = { #This will ensure that the Board will be re-elected every four years
+				id = vikelas.111
+				days = 1460
+			}
+		}
+		###Set Variables###
+		set_global_variable = vikelas_olympics_candidate_1_votes
+		set_global_variable = vikelas_olympics_candidate_2_votes
+		set_global_variable = vikelas_olympics_candidate_3_votes
+		set_global_variable = vikelas_olympics_candidate_4_votes
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 112: New IOC Board elected
+
+vikelas.112 = {
+	type = country_event
+
+	title = vikelas.112.t
+	desc = vikelas.112.d
+	flavor = vikelas.112.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_ioc_board.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.102.g
+		default_option = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+			}
+			trigger_event = {
+				id = vikelas.113
+				days = 90
+			}
+		}
+	}
+}
+
+#Vikelas 113: Next Olympics Location
+
+vikelas.113 = {
+	type = country_event
+
+	title = vikelas.113.t
+	desc = vikelas.113.d
+	flavor = vikelas.113.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_ioc_board.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_modifier = vikelas_olympics_hosted_modifier
+				}
+			}
+			save_scope_as = vikelas_olympics_candidate_1
+			set_variable = vikelas_olympics_candidate_1_var
+		}
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_modifier = vikelas_olympics_hosted_modifier
+				}
+				NOT = {
+					this = scope:vikelas_olympics_candidate_1
+				}
+			}
+			save_scope_as = vikelas_olympics_candidate_2
+			set_variable = vikelas_olympics_candidate_2_var
+		}
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_modifier = vikelas_olympics_hosted_modifier
+				}
+				NOR = {
+					this = scope:vikelas_olympics_candidate_1
+					this = scope:vikelas_olympics_candidate_2
+				}
+			}
+			save_scope_as = vikelas_olympics_candidate_3
+			set_variable = vikelas_olympics_candidate_3_var
+		}
+		random_country = {
+			limit = {
+				has_modifier = vikelas_olympics_bribed_modifier
+			}
+			save_scope_as = vikelas_olympics_candidate_4
+			set_variable = vikelas_olympics_candidate_4_var
+		}
+	}
+
+	option = {
+		name = vikelas.113.g #Candidate 1
+		default_option = yes
+		trigger = {
+			exists = scope:vikelas_olympics_candidate_1
+		}
+		change_global_variable = {
+			name = vikelas_olympics_candidate_1_votes
+			add = 1
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_1 = {
+						infamy > 10
+					}
+				}
+				add = -1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_1 = {
+						infamy > 25
+					}
+				}
+				add = -1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_1 = {
+						infamy > 50
+					}
+				}
+				add = -2
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = rivalry
+						who = scope:vikelas_olympics_candidate_1
+					}
+				}
+				add = -5
+			}	
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_1)" >= relations_threshold:cordial
+				}
+				add = 1
+			}
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_1)" >= relations_threshold:amicable
+				}
+				add = 1
+			}				
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_1)" >= relations_threshold:friendly
+				}
+				add = 1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_1 = { is_subject_of = root }
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = alliance
+						who = scope:vikelas_olympics_candidate_1
+					}
+				}
+				add = 10
+			}
+			
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = defensive_pact
+						who = scope:vikelas_olympics_candidate_1
+					}
+				}
+				add = 5
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = customs_union
+						who = scope:vikelas_olympics_candidate_1
+					}
+				}
+				add = 3
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_1 = ROOT
+				}
+				add = 10000
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.113.h #Candidate 2
+		default_option = yes
+		trigger = {
+			exists = scope:vikelas_olympics_candidate_2
+		}
+		change_global_variable = {
+			name = vikelas_olympics_candidate_2_votes
+			add = 1
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_2 = {
+						infamy > 10
+					}
+				}
+				add = -1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_2 = {
+						infamy > 25
+					}
+				}
+				add = -1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_2 = {
+						infamy > 50
+					}
+				}
+				add = -2
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = rivalry
+						who = scope:vikelas_olympics_candidate_2
+					}
+				}
+				add = -5
+			}	
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_2)" >= relations_threshold:cordial
+				}
+				add = 1
+			}
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_2)" >= relations_threshold:amicable
+				}
+				add = 1
+			}				
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_2)" >= relations_threshold:friendly
+				}
+				add = 1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_2 = { is_subject_of = root }
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = alliance
+						who = scope:vikelas_olympics_candidate_2
+					}
+				}
+				add = 10
+			}
+			
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = defensive_pact
+						who = scope:vikelas_olympics_candidate_2
+					}
+				}
+				add = 5
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = customs_union
+						who = scope:vikelas_olympics_candidate_2
+					}
+				}
+				add = 3
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_2 = ROOT
+				}
+				add = 10000
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.113.i #Candidate 3
+		default_option = yes
+		trigger = {
+			exists = scope:vikelas_olympics_candidate_3
+		}
+		change_global_variable = {
+			name = vikelas_olympics_candidate_3_votes
+			add = 1
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_3 = {
+						infamy > 10
+					}
+				}
+				add = -1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_3 = {
+						infamy > 25
+					}
+				}
+				add = -1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_3 = {
+						infamy > 50
+					}
+				}
+				add = -2
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = rivalry
+						who = scope:vikelas_olympics_candidate_3
+					}
+				}
+				add = -5
+			}	
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_3)" >= relations_threshold:cordial
+				}
+				add = 1
+			}
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_3)" >= relations_threshold:amicable
+				}
+				add = 1
+			}				
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_3)" >= relations_threshold:friendly
+				}
+				add = 1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_3 = { is_subject_of = root }
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = alliance
+						who = scope:vikelas_olympics_candidate_3
+					}
+				}
+				add = 10
+			}
+			
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = defensive_pact
+						who = scope:vikelas_olympics_candidate_3
+					}
+				}
+				add = 5
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = customs_union
+						who = scope:vikelas_olympics_candidate_3
+					}
+				}
+				add = 3
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_3 = ROOT
+				}
+				add = 10000
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.113.j #Candidate 4
+		default_option = yes
+		trigger = {
+			exists = scope:vikelas_olympics_candidate_4
+		}
+		change_global_variable = {
+			name = vikelas_olympics_candidate_4_votes
+			add = 1
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_4 = {
+						infamy > 10
+					}
+				}
+				add = -1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_4 = {
+						infamy > 25
+					}
+				}
+				add = -1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_4 = {
+						infamy > 50
+					}
+				}
+				add = -2
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = rivalry
+						who = scope:vikelas_olympics_candidate_4
+					}
+				}
+				add = -5
+			}	
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_4)" >= relations_threshold:cordial
+				}
+				add = 1
+			}
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_4)" >= relations_threshold:amicable
+				}
+				add = 1
+			}				
+			modifier = {
+				trigger = {
+					"relations(scope:vikelas_olympics_candidate_4)" >= relations_threshold:friendly
+				}
+				add = 1
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_4 = { is_subject_of = root }
+				}
+				add = 15
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = alliance
+						who = scope:vikelas_olympics_candidate_4
+					}
+				}
+				add = 10
+			}
+			
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = defensive_pact
+						who = scope:vikelas_olympics_candidate_4
+					}
+				}
+				add = 5
+			}
+			modifier = {
+				trigger = {
+					has_diplomatic_pact = {
+						type = customs_union
+						who = scope:vikelas_olympics_candidate_4
+					}
+				}
+				add = 3
+			}
+			modifier = {
+				trigger = {
+					scope:vikelas_olympics_candidate_4 = ROOT
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_founding_country_var
+			}
+			trigger_event = {
+				id = vikelas.114
+				days = 90
+			}
+		}
+	}
+}
+
+#Vikelas 114: IOC decides: $COUNTRY$ will host the next Olympic Games (President)
+
+vikelas.114 = {
+	type = country_event
+
+	title = vikelas.114.t
+	desc = vikelas.114.d
+	flavor = vikelas.114.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_ioc_board.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				global_var:vikelas_olympics_candidate_1_votes >= global_var:vikelas_olympics_candidate_2_votes
+				global_var:vikelas_olympics_candidate_1_votes >= global_var:vikelas_olympics_candidate_3_votes
+				global_var:vikelas_olympics_candidate_1_votes >= global_var:vikelas_olympics_candidate_4_votes
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_olympics_candidate_1_var
+				}
+				save_scope_as = vikelas_olympics_candidate
+			}
+		}
+		else_if = {
+			limit = {
+				global_var:vikelas_olympics_candidate_2_votes >= global_var:vikelas_olympics_candidate_1_votes
+				global_var:vikelas_olympics_candidate_2_votes >= global_var:vikelas_olympics_candidate_3_votes
+				global_var:vikelas_olympics_candidate_2_votes >= global_var:vikelas_olympics_candidate_4_votes
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_olympics_candidate_2_var
+				}
+				save_scope_as = vikelas_olympics_candidate
+			}
+		}
+		else_if = {
+			limit = {
+				global_var:vikelas_olympics_candidate_3_votes >= global_var:vikelas_olympics_candidate_1_votes
+				global_var:vikelas_olympics_candidate_3_votes >= global_var:vikelas_olympics_candidate_2_votes
+				global_var:vikelas_olympics_candidate_3_votes >= global_var:vikelas_olympics_candidate_4_votes
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_olympics_candidate_3_var
+				}
+				save_scope_as = vikelas_olympics_candidate
+			}
+		}
+		else_if = {
+			limit = {
+				global_var:vikelas_olympics_candidate_4_votes >= global_var:vikelas_olympics_candidate_1_votes
+				global_var:vikelas_olympics_candidate_4_votes >= global_var:vikelas_olympics_candidate_2_votes
+				global_var:vikelas_olympics_candidate_4_votes >= global_var:vikelas_olympics_candidate_3_votes
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_olympics_candidate_4_var
+				}
+				save_scope_as = vikelas_olympics_candidate
+			}
+		}
+		else = {
+			random_list = {
+				1 = {
+					random_country = {
+						limit = {
+							has_variable = vikelas_olympics_candidate_1_var
+						}
+						save_scope_as = vikelas_olympics_candidate
+					}
+				}
+				1 = {
+					random_country = {
+						limit = {
+							has_variable = vikelas_olympics_candidate_2_var
+						}
+						save_scope_as = vikelas_olympics_candidate
+					}
+				}
+				1 = {
+					random_country = {
+						limit = {
+							has_variable = vikelas_olympics_candidate_3_var
+						}
+						save_scope_as = vikelas_olympics_candidate
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.114.g
+		scope:vikelas_olympics_candidate = {
+			add_modifier = {
+				name = vikelas_olympics_preparation_modifier
+				days = 1200
+			}
+			hidden_effect = {
+				trigger_event = {
+					id = vikelas.116
+					popup = yes
+					days = 1200
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				is_player = yes
+				NOT = { this = ROOT }
+			}
+			trigger_event = {
+				id = vikelas.115
+			}
+		}
+		every_country = {
+			limit = {
+				OR = {
+					has_variable = vikelas_olympics_candidate_1_var
+					has_variable = vikelas_olympics_candidate_2_var
+					has_variable = vikelas_olympics_candidate_3_var
+					has_variable = vikelas_olympics_candidate_4_var
+				}
+			}
+			remove_variable = vikelas_olympics_candidate_1_var
+			remove_variable = vikelas_olympics_candidate_2_var
+			remove_variable = vikelas_olympics_candidate_3_var
+			remove_variable = vikelas_olympics_candidate_4_var
+		}
+		remove_global_variable = vikelas_olympics_candidate_1_votes
+		remove_global_variable = vikelas_olympics_candidate_2_votes
+		remove_global_variable = vikelas_olympics_candidate_3_votes
+		remove_global_variable = vikelas_olympics_candidate_4_votes
+	}
+}
+
+#Vikelas 115: IOC decides: $COUNTRY$ will host the next Olympic Games (Player)
+
+vikelas.115 = {
+	type = country_event
+
+	title = vikelas.114.t
+	desc = vikelas.114.d
+	flavor = vikelas.114.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_ioc_board.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = vikelas_olympics_preparation_modifier
+			}
+			save_scope_as = vikelas_olympics_candidate
+		}
+	}
+
+	option = {
+		name = vikelas.114.g
+		trigger = {
+			NOT = {
+				has_modifier = vikelas_olympics_preparation_modifier
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.115.g
+		default_option = yes
+		trigger = {
+			has_modifier = vikelas_olympics_preparation_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 116: Olympic Games begin
+
+vikelas.116 = {
+	type = country_event
+
+	title = vikelas.116.t
+	desc = vikelas.116.d
+	flavor = vikelas.116.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_begin.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.116.g #Let The Games Begin!
+		default_option = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = vikelas_olympics_hosting_modifier
+			}
+		}
+		add_journal_entry = {
+			type = je_vikelas_olympic_games_host
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				is_player = yes
+				NOT = { this = ROOT }
+			}
+			trigger_event = {
+				id = vikelas.117
+			}
+		}
+		hidden_effect = {
+			every_country = {
+				limit = {
+					has_variable = vikelas_ioc_member_var
+					NOT = { this = ROOT }
+				}
+				add_journal_entry = {
+					type = je_vikelas_olympic_games_member
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 117: Olympic Games begin (for player)
+
+vikelas.117 = {
+	type = country_event
+
+	title = vikelas.116.t
+	desc = vikelas.116.d
+	flavor = vikelas.116.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_begin.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_modifier = vikelas_olympics_hosting_modifier
+			}
+			save_scope_as = vikelas_olympic_state
+		}
+	}
+
+	option = {
+		name = vikelas.116.g #Let The Games Begin!
+		default_option = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 118: Olympic Games end
+
+vikelas.118 = {
+	type = country_event
+
+	title = vikelas.118.t
+	desc = vikelas.118.d
+	flavor = vikelas.118.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_end.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.108.g #Citius, altius, fortius
+		default_option = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
