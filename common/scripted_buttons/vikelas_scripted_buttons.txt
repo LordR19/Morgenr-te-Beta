@@ -1,0 +1,108 @@
+﻿###############################
+# VIKELAS SCRIPTED BUTTONS #
+###############################
+
+#by Marco Dandolo
+
+######################
+
+######SPORTS######
+
+vikelas_ioc_foundation_button = {
+	name = "vikelas_ioc_foundation_button"
+	desc = "vikelas_ioc_foundation_button_desc"
+
+	visible = { 
+		NOT = {
+			has_global_variable = vikelas_ioc_founded_var
+		}
+	}
+
+	possible = {
+		OR = {
+			gaudi_has_engineer = yes
+			verrier_has_astronomer = yes
+			dubois_has_naturalist = yes
+			dubois_has_paleontologist = yes
+			lepsius_has_archaeologist = yes
+			lepsius_has_anthropologist = yes
+		}
+		is_at_war = no
+	}
+
+	effect = {
+		set_global_variable = vikelas_ioc_founded_var
+		set_variable = vikelas_ioc_founding_country_var
+		set_variable = vikelas_ioc_member_var
+		trigger_event = { 
+			id = vikelas.100
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+vikelas_ioc_statistics_button = {
+	name = "vikelas_ioc_statistics_button"
+	desc = "vikelas_ioc_statistics_button_desc"
+
+	visible = { 
+		has_global_variable = vikelas_ioc_founded_var
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = vikelas_ioc_statistics_tt
+			NOT = {
+				has_variable = vikelas_ioc_statistics_var
+			}
+		}
+	}
+
+	effect = {
+		set_variable = vikelas_ioc_statistics_var
+		trigger_event = { 
+			id = vikelas.10
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+vikelas_ioc_member_button = {
+	name = "vikelas_ioc_member_button"
+	desc = "vikelas_ioc_member_button_desc"
+
+	visible = { 
+		has_global_variable = vikelas_ioc_founded_var
+		NOT = {
+			has_variable = vikelas_ioc_member_var
+		}
+	}
+
+	possible = {
+		infamy < 50
+		NOT = {
+			is_country_type = unrecognized
+		}
+		is_at_war = no
+	}
+
+	effect = {
+		set_variable = vikelas_ioc_statistics_var
+		custom_tooltip = {
+			text = vikelas_become_ioc_member_tt
+			set_variable = vikelas_ioc_member_var
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
