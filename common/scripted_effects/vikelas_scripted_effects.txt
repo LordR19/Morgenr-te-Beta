@@ -8,6 +8,13 @@
 
 ###Medal Effects###
 
+#Includes the other seperate effects to hand out the medals and create the ranking.
+vikelas_medals_of_this_olympia_effect = {
+	vikelas_remove_old_medals_effect = yes
+	vikelas_add_medals_effect = yes
+	vikelas_create_medal_ranking_effect = yes
+}
+
 #This effect adds all the medals to the correct countries
 vikelas_add_medals_effect = {
 
@@ -584,5 +591,124 @@ vikelas_remove_old_medals_effect = {
 			has_variable = vikelas_gold_medals_this_year_var
 		}
 		remove_variable = vikelas_gold_medals_this_year_var
+	}
+}
+
+#Creates the Medal table
+vikelas_create_medal_ranking_effect = {
+	#Removes the GLOBAL ranking variables
+	remove_global_variable = vikelas_medal_rank_1_global_var
+	remove_global_variable = vikelas_medal_rank_2_global_var
+	remove_global_variable = vikelas_medal_rank_3_global_var
+	remove_global_variable = vikelas_medal_rank_4_global_var
+	remove_global_variable = vikelas_medal_rank_5_global_var
+	remove_global_variable = vikelas_medal_rank_6_global_var
+	remove_global_variable = vikelas_medal_rank_7_global_var
+	remove_global_variable = vikelas_medal_rank_8_global_var
+	remove_global_variable = vikelas_medal_rank_9_global_var
+	remove_global_variable = vikelas_medal_rank_10_global_var
+
+	ordered_country = {
+		limit = {
+			has_variable = vikelas_gold_medals_this_year_var
+		}
+		order_by = var:vikelas_gold_medals_this_year_var
+		max = 10 #Limits the list to the ten top countries
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_1_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_1_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_2_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_2_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_3_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_3_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_4_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_4_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_5_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_5_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_6_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_6_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_7_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_7_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_8_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_8_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_9_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_9_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_medal_rank_10_global_var }
+			}
+			set_global_variable = {
+				name = vikelas_medal_rank_10_global_var
+				value = this
+			}
+		}
 	}
 }
