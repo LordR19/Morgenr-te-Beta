@@ -145,3 +145,31 @@ verrier_can_build_observatory_alert = {
 	type = important_action
 	alert_group = morgenroete
 }
+
+verrier_can_update_observatory_pms_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/verrier_astronomy_alert.dds"
+
+	valid = {
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			level > 0
+		}
+		any_scope_state = {
+			OR = {
+				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_verrier_modern_telescope }
+				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_verrier_spectroscopy }
+				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_verrier_astro_lab }
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curtiss_early_weather_observation }
+					NOT = { is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curtiss_weather_station } }
+				}
+				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curtiss_weather_station }
+			}
+		}
+	}
+
+	open_panel = production_methods
+	type = important_action
+	alert_group = morgenroete
+}
