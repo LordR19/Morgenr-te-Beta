@@ -29,7 +29,7 @@ namespace = vikelas
 #Vikelas 107: First Olympic Games begin (for player)
 #Vikelas 108: First Olympic Games end
 
-#Events 100-110: Standard Olympic Games Organisation
+#Events 111-120: Standard Olympic Games Organisation
 
 #Vikelas 111: IOC Board Election (hidden)
 #Vikelas 112: New IOC Board elected
@@ -39,6 +39,11 @@ namespace = vikelas
 #Vikelas 116: Olympic Games begin
 #Vikelas 117: Olympic Games begin (for player)
 #Vikelas 118: Olympic Games end
+
+#Events 121-199: Flavor Events during the Olympics
+
+#Vikelas 121: No Sailboats!
+#Vikelas 122: Sailboat Notification (participants)
 
 #################################################################################
 
@@ -1862,3 +1867,78 @@ vikelas.118 = {
 	after = {
 	}
 }
+
+#Vikelas 121: No Sailboats!
+
+vikelas.121 = {
+	type = country_event
+
+	title = vikelas.121.t
+	desc = vikelas.121.d
+	flavor = vikelas.121.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_sailing.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = vikelas.121.g #Buy some sailboats from another town!
+		default_option = yes
+		add_treasury = -50000
+		set_global_variable = {
+			name = vikelas_sailing_saved_global_var
+			months = 4
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				trigger = {
+					gold_reserves > 50000
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.121.g #No sailing this year.
+		set_global_variable = {
+			name = vikelas_no_sailing_global_var
+			months = 4
+		}
+		add_modifier = {
+			name = vikelas_olympics_no_sailing_competition_modifier
+			years = 1
+		}
+
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			trigger_event = vikelas.122
+		}
+	}
+}
+
+#Vikelas 122: Sailboat Notification (participants)
