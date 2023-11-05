@@ -10,17 +10,16 @@
 
 #Includes the other seperate effects to hand out the medals and create the ranking.
 vikelas_medals_of_this_olympia_effect = {
-	set_global_variable = { #This makes sure the effect is only run once per Olympic Games
-		name = vikelas_olympics_effect_timer
-		days = 30
-	}
 	if = {
 		limit = { NOT = { has_global_variable = vikelas_olympics_effect_timer } } #Only triggers once
 		vikelas_remove_old_medals_effect = yes
 		vikelas_add_medals_effect = yes
 		vikelas_create_medal_ranking_effect = yes
 	}
-	vikelas_replace_olympic_prestige_modifier_effect = yes #Triggers for every participating country.
+	set_global_variable = { #This makes sure the effect is only run once per Olympic Games
+		name = vikelas_olympics_effect_timer
+		days = 30
+	}
 }
 
 #This effect adds all the medals to the correct countries
@@ -905,6 +904,6 @@ vikelas_replace_olympic_prestige_modifier_effect = {
 	remove_modifier = vikelas_olympics_medal_prestige_modifier
 	add_modifier = {
 		name = vikelas_olympics_medal_prestige_modifier
-		multiplier = this.var:vikelas_gold_medals_var
+		multiplier = root.var:vikelas_gold_medals_var
 	}
 }
