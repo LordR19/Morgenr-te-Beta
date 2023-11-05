@@ -1900,7 +1900,7 @@ vikelas.121 = {
 		add_treasury = -50000
 		set_global_variable = {
 			name = vikelas_sailing_saved_global_var
-			months = 4
+			years = 1
 		}
 
 		ai_chance = {
@@ -1915,10 +1915,10 @@ vikelas.121 = {
 	}
 
 	option = {
-		name = vikelas.121.g #No sailing this year.
+		name = vikelas.121.h #No sailing this year.
 		set_global_variable = {
 			name = vikelas_no_sailing_global_var
-			months = 4
+			years = 1
 		}
 		add_modifier = {
 			name = vikelas_olympics_no_sailing_competition_modifier
@@ -1942,3 +1942,110 @@ vikelas.121 = {
 }
 
 #Vikelas 122: Sailboat Notification (participants)
+
+vikelas.122 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_sailing_saved_global_var
+			}
+			desc = vikelas.122.t_sailing
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_no_sailing_global_var
+			}
+			desc = vikelas.122.t_no_sailing
+		}
+	}
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_sailing_saved_global_var
+			}
+			desc = vikelas.122.d_sailing
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_no_sailing_global_var
+			}
+			desc = vikelas.122.d_no_sailing
+		}
+	}
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_sailing_saved_global_var
+			}
+			desc = vikelas.122.f_sailing
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_no_sailing_global_var
+			}
+			desc = vikelas.122.f_no_sailing
+		}
+	}
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_sailing.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+		NOT = { has_variable = vikelas_no_more_olympic_flavor_notification_events_var }
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = vikelas.122.g #I hope our athletes win!
+		default_option = yes
+		
+		trigger = {
+			has_global_variable = vikelas_sailing_saved_global_var
+		}
+
+
+	}
+
+	option = {
+		name = vikelas.122.h #What a pitty
+		
+		trigger = {
+			has_global_variable = vikelas_no_sailing_global_var
+		}
+
+	}
+
+	option = {
+		name = vikelas.122.i #I have more important matters to deal with. Leave me alone.
+		
+		trigger = {
+			is_player = yes
+		}
+
+		custom_tooltip = {
+			text = vikelas_no_more_olympic_flavor_notification_events_tt
+			set_variable = vikelas_no_more_olympic_flavor_notification_events_var
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			trigger_event = vikelas.122
+		}
+	}
+}
