@@ -16,7 +16,7 @@ vikelas_medals_of_this_olympia_effect = {
 		vikelas_add_medals_effect = yes
 		vikelas_create_medal_ranking_effect = yes
 	}
-	set_global_variable = { #This makes sure the effect is only run once per Olympic Games
+	set_global_variable = { #This makes sure the effect is only run once per Olympic Games, necessary as the event is fired for every participant
 		name = vikelas_olympics_effect_timer
 		days = 30
 	}
@@ -901,12 +901,12 @@ vikelas_olympic_rank_effect = {
 
 #This effect replaces the current Prestige Modifier
 vikelas_replace_olympic_prestige_modifier_effect = {
-	if = {
+	if = { #The if keepes countries that do not have medals from getting the modifier.
 		limit = { has_variable = vikelas_gold_medals_var }
 		remove_modifier = vikelas_olympics_medal_prestige_modifier
 		add_modifier = {
 			name = vikelas_olympics_medal_prestige_modifier
-			multiplier = root.var:vikelas_gold_medals_var
+			multiplier = root.var:vikelas_gold_medals_var #Multiplies the base prestige per medal (5) with the number of medals
 		}
 	}
 }
