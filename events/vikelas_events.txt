@@ -45,6 +45,7 @@ namespace = vikelas
 #Vikelas 121: No Sailboats! (organizer)
 #Vikelas 122: Sailboat Notification (participants)
 #Vikelas 123: Athlete misses event because of calender (participants)
+#Vikelas 124: Honorable Cyclist (participants)
 
 #################################################################################
 
@@ -2351,6 +2352,51 @@ vikelas.123 = {
 		add_modifier = {
 			name = vikelas_athlete_missed_event_modifier
 			years = 1
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 124: Honorable Cyclist (participants)
+vikelas.124 = {
+	type = country_event
+
+	title = vikelas.124.t
+	desc = vikelas.124.d
+	flavor = vikelas.124.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_bycicle_track_race.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				NOT = { root = this }
+				has_variable = vikelas_ioc_member_var
+			}
+			save_scope_as = vikelas_cyclist_with_problems_country_scope
+		}
+	}
+
+	option = {
+		name = vikelas.124.g #A great gesture!
+		default_option = yes
+		
+		change_relations = {
+			country = scope:vikelas_cyclist_with_problems_country_scope
+			value = 5
 		}
 	}
 
