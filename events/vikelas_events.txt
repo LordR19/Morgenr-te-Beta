@@ -24,10 +24,14 @@ namespace = vikelas
 #Vikelas 100: IOC Foundation
 #Vikelas 101: First IOC Board Election (hidden)
 #Vikelas 102: IOC meets for the first time
+#Vikelas 103: IOC decides: Greece as permanent seat of the Games?
+#Vikelas 104: IOC informs: Greece permanent seat of the Games
 #Vikelas 105: IOC decides: Greece will host the First Olympic Games
 #Vikelas 106: First Olympic Games begin
 #Vikelas 107: First Olympic Games begin (for player)
 #Vikelas 108: First Olympic Games end
+#Vikelas 109: Olympic Games in Greece (Again)
+#Vikelas 110: Olympic Enthusiasm
 
 #Events 111-120: Standard Olympic Games Organisation
 
@@ -60,8 +64,40 @@ vikelas.10 = {
 
 	flavor = {
 		desc = vikelas.10.president
+		desc = vikelas.10.president_nation
 		desc = vikelas.10.board
+		desc = vikelas.10.board_nations
 		desc = vikelas.10.members
+		desc = vikelas.10.members_nations
+		desc = vikelas.10.next_games
+		desc = {
+			triggered_desc = {
+				trigger = {
+					any_country = {
+						has_modifier = vikelas_olympics_preparation_modifier
+					}
+				}
+				desc = vikelas.10.next_games_nation
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						any_country = {
+							has_modifier = vikelas_olympics_preparation_modifier
+						}
+					}
+				}
+				desc = vikelas.10.next_games_nation_undecided
+			}
+			triggered_desc = {
+				trigger = {
+					any_country = {
+						has_modifier = vikelas_our_games_our_rules_modifier
+					}
+				}
+				desc = vikelas.10.next_games_greece
+			}
+		}
 	}
 
 	duration = 3
@@ -79,19 +115,20 @@ vikelas.10 = {
 			}
 			save_scope_as = vikelas_ioc_president_scope
 		}
-		every_country = {
-			limit = { 
-				has_variable = vikelas_ioc_board_member_var 
+		random_country = {
+			limit = {
+				has_modifier = vikelas_olympics_preparation_modifier
 			}
-			save_scope_as = vikelas_ioc_board_member_scope
+			save_scope_as = vikelas_next_games_country_scope
 		}
-		every_country = {
-			limit = { 
-				has_variable = vikelas_ioc_member_var
+		random_country = {
+			limit = {
+				has_modifier = vikelas_our_games_our_rules_modifier
 			}
-			save_scope_as = vikelas_ioc_member_scope
+			save_scope_as = vikelas_next_games_greece_scope
 		}
 		vikelas_calculate_number_participants_effect = yes
+		vikelas_ioc_board_members_effect = yes
 	}
 
 	#Show me the Olympic Medal Table.
@@ -233,6 +270,7 @@ vikelas.100 = {
 		name = vikelas.100.g
 		default_option = yes
 		scope:vikelas_ioc_president_scope = {
+			set_variable = vikelas_pierre_de_coubertin_var
 			add_modifier = {
 				name = vikelas_ioc_president_modifier
 			}
@@ -505,6 +543,12 @@ vikelas.102 = {
 	}
 
 	immediate = {
+		random_character = {
+			limit = {
+				has_variable = vikelas_pierre_de_coubertin_var
+			}
+			save_scope_as = vikelas_ioc_president_scope
+		}
 	}
 
 	option = {
@@ -517,7 +561,7 @@ vikelas.102 = {
 				}
 				c:GRE ?= this
 			}
-			add_technology_progress = { progress = 16500 technology = organized_sports }
+			add_technology_researched = organized_sports
 		}
 		else_if = {
 			limit = {
@@ -564,6 +608,12 @@ vikelas.103 = {
 	}
 
 	immediate = {
+		random_character = {
+			limit = {
+				has_variable = vikelas_pierre_de_coubertin_var
+			}
+			save_scope_as = vikelas_ioc_president_scope
+		}
 	}
 
 	option = {
@@ -651,6 +701,12 @@ vikelas.104 = {
 	}
 
 	immediate = {
+		random_character = {
+			limit = {
+				has_variable = vikelas_pierre_de_coubertin_var
+			}
+			save_scope_as = vikelas_ioc_president_scope
+		}
 	}
 
 	option = {
@@ -755,6 +811,7 @@ vikelas.106 = {
 			name = vikelas_olympic_games_number_global_var
 			value = 1
 		}
+		vikelas_calculate_number_participants_effect = yes
 	}
 
 	option = {
@@ -819,7 +876,7 @@ vikelas.107 = {
 			trigger = {
 				global_var:vikelas_olympic_games_number_global_var >= 2
 			}
-			desc = vikelas.107.d
+			desc = vikelas.109.d
 		}
 	}
 	flavor = {
@@ -833,7 +890,7 @@ vikelas.107 = {
 			trigger = {
 				global_var:vikelas_olympic_games_number_global_var >= 2
 			}
-			desc = vikelas.107.f
+			desc = vikelas.109.f
 		}
 	}
 
@@ -976,6 +1033,85 @@ vikelas.109 = {
 					type = je_vikelas_olympic_games_member
 				}
 			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 110: Olympic Enthusiasm
+
+vikelas.110 = {
+	type = country_event
+
+	title = vikelas.110.t
+	desc = vikelas.110.d
+	flavor = vikelas.110.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:vikelas_olympics_enthusiast_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+		c:GRE ?= {
+			has_modifier = vikelas_olympics_preparation_modifier
+		}
+		OR = {
+			dubois_has_naturalist = yes
+			lepsius_has_archaeologist = yes
+			lepsius_has_anthropologist = yes
+			is_at_war = no
+		}
+		NOT = {
+			is_country_type = unrecognized
+		}
+		has_technology_researched = nationalism
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				lepsius_has_archaeologist = yes
+			}
+			var:lepsius_archaeologist_var = {
+				save_scope_as = vikelas_olympics_enthusiast_scope
+			}
+		}
+		else_if = {
+			limit = {
+				lepsius_has_anthropologist = yes
+			}
+			var:lepsius_anthropologist_var = {
+				save_scope_as = vikelas_olympics_enthusiast_scope
+			}
+		}
+		else_if = {
+			limit = {
+				dubois_has_naturalist = yes
+			}
+			var:dubois_naturalist_var = {
+				save_scope_as = vikelas_olympics_enthusiast_scope
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.110.g
+		default_option = yes
+		custom_tooltip = {
+			text = vikelas_become_ioc_member_tt
+			set_variable = vikelas_ioc_member_var
 		}
 
 		ai_chance = {
@@ -1181,10 +1317,22 @@ vikelas.111 = {
 			}
 		}
 		###Set Variables###
-		set_global_variable = vikelas_olympics_candidate_1_votes
-		set_global_variable = vikelas_olympics_candidate_2_votes
-		set_global_variable = vikelas_olympics_candidate_3_votes
-		set_global_variable = vikelas_olympics_candidate_4_votes
+		set_global_variable = {
+			name = vikelas_olympics_candidate_1_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = vikelas_olympics_candidate_2_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = vikelas_olympics_candidate_3_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = vikelas_olympics_candidate_4_votes
+			value = 0
+		}
 	}
 
 	after = {
@@ -1214,6 +1362,55 @@ vikelas.112 = {
 	}
 
 	immediate = {
+		
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_modifier = vikelas_olympics_hosted_modifier
+				}
+			}
+			set_variable = vikelas_olympics_candidate_1_var
+		}
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_modifier = vikelas_olympics_hosted_modifier
+				}
+				NOT = {
+					has_variable = vikelas_olympics_candidate_1_var
+				}
+			}
+			set_variable = vikelas_olympics_candidate_2_var
+		}
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_modifier = vikelas_olympics_hosted_modifier
+				}
+				NOR = {
+					has_variable = vikelas_olympics_candidate_1_var
+					has_variable = vikelas_olympics_candidate_2_var
+				}
+			}
+			set_variable = vikelas_olympics_candidate_3_var
+		}
+		random_country = {
+			limit = {
+				has_modifier = vikelas_olympics_bribed_modifier
+				NOT = {
+					has_modifier = vikelas_olympics_hosted_modifier
+				}
+				NOR = {
+					has_variable = vikelas_olympics_candidate_1_var
+					has_variable = vikelas_olympics_candidate_2_var
+					has_variable = vikelas_olympics_candidate_3_var
+				}
+			}
+			set_variable = vikelas_olympics_candidate_4_var
+		}
 	}
 
 	option = {
@@ -1233,6 +1430,15 @@ vikelas.112 = {
 			trigger_event = {
 				id = vikelas.113
 				days = 90
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_founding_country_var
+			}
+			trigger_event = {
+				id = vikelas.114
+				days = 200
 			}
 		}
 	}
@@ -1263,47 +1469,27 @@ vikelas.113 = {
 	immediate = {
 		random_country = {
 			limit = {
-				has_variable = vikelas_ioc_member_var
-				NOT = {
-					has_modifier = vikelas_olympics_hosted_modifier
-				}
+				has_variable = vikelas_olympics_candidate_1_var
 			}
 			save_scope_as = vikelas_olympics_candidate_1
-			set_variable = vikelas_olympics_candidate_1_var
 		}
 		random_country = {
 			limit = {
-				has_variable = vikelas_ioc_member_var
-				NOT = {
-					has_modifier = vikelas_olympics_hosted_modifier
-				}
-				NOT = {
-					this = scope:vikelas_olympics_candidate_1
-				}
+				has_variable = vikelas_olympics_candidate_2_var
 			}
 			save_scope_as = vikelas_olympics_candidate_2
-			set_variable = vikelas_olympics_candidate_2_var
 		}
 		random_country = {
 			limit = {
-				has_variable = vikelas_ioc_member_var
-				NOT = {
-					has_modifier = vikelas_olympics_hosted_modifier
-				}
-				NOR = {
-					this = scope:vikelas_olympics_candidate_1
-					this = scope:vikelas_olympics_candidate_2
-				}
+				has_variable = vikelas_olympics_candidate_3_var
 			}
 			save_scope_as = vikelas_olympics_candidate_3
-			set_variable = vikelas_olympics_candidate_3_var
 		}
 		random_country = {
 			limit = {
-				has_modifier = vikelas_olympics_bribed_modifier
+				has_variable = vikelas_olympics_candidate_4_var
 			}
 			save_scope_as = vikelas_olympics_candidate_4
-			set_variable = vikelas_olympics_candidate_4_var
 		}
 	}
 
@@ -1416,7 +1602,6 @@ vikelas.113 = {
 
 	option = {
 		name = vikelas.113.h #Candidate 2
-		default_option = yes
 		trigger = {
 			exists = scope:vikelas_olympics_candidate_2
 		}
@@ -1523,7 +1708,6 @@ vikelas.113 = {
 
 	option = {
 		name = vikelas.113.i #Candidate 3
-		default_option = yes
 		trigger = {
 			exists = scope:vikelas_olympics_candidate_3
 		}
@@ -1736,15 +1920,6 @@ vikelas.113 = {
 	}
 
 	after = {
-		random_country = {
-			limit = {
-				has_variable = vikelas_ioc_founding_country_var
-			}
-			trigger_event = {
-				id = vikelas.114
-				days = 90
-			}
-		}
 	}
 }
 
@@ -1781,7 +1956,7 @@ vikelas.114 = {
 				limit = {
 					has_variable = vikelas_olympics_candidate_1_var
 				}
-				save_scope_as = vikelas_olympics_candidate
+				save_scope_as = vikelas_olympics_candidate_scope
 			}
 		}
 		else_if = {
@@ -1794,7 +1969,7 @@ vikelas.114 = {
 				limit = {
 					has_variable = vikelas_olympics_candidate_2_var
 				}
-				save_scope_as = vikelas_olympics_candidate
+				save_scope_as = vikelas_olympics_candidate_scope
 			}
 		}
 		else_if = {
@@ -1807,7 +1982,7 @@ vikelas.114 = {
 				limit = {
 					has_variable = vikelas_olympics_candidate_3_var
 				}
-				save_scope_as = vikelas_olympics_candidate
+				save_scope_as = vikelas_olympics_candidate_scope
 			}
 		}
 		else_if = {
@@ -1820,7 +1995,7 @@ vikelas.114 = {
 				limit = {
 					has_variable = vikelas_olympics_candidate_4_var
 				}
-				save_scope_as = vikelas_olympics_candidate
+				save_scope_as = vikelas_olympics_candidate_scope
 			}
 		}
 		else = {
@@ -1830,7 +2005,7 @@ vikelas.114 = {
 						limit = {
 							has_variable = vikelas_olympics_candidate_1_var
 						}
-						save_scope_as = vikelas_olympics_candidate
+						save_scope_as = vikelas_olympics_candidate_scope
 					}
 				}
 				1 = {
@@ -1838,7 +2013,7 @@ vikelas.114 = {
 						limit = {
 							has_variable = vikelas_olympics_candidate_2_var
 						}
-						save_scope_as = vikelas_olympics_candidate
+						save_scope_as = vikelas_olympics_candidate_scope
 					}
 				}
 				1 = {
@@ -1846,7 +2021,15 @@ vikelas.114 = {
 						limit = {
 							has_variable = vikelas_olympics_candidate_3_var
 						}
-						save_scope_as = vikelas_olympics_candidate
+						save_scope_as = vikelas_olympics_candidate_scope
+					}
+				}
+				1 = {
+					random_country = {
+						limit = {
+							has_variable = vikelas_olympics_candidate_4_var
+						}
+						save_scope_as = vikelas_olympics_candidate_scope
 					}
 				}
 			}
@@ -1855,7 +2038,7 @@ vikelas.114 = {
 
 	option = {
 		name = vikelas.114.g
-		scope:vikelas_olympics_candidate = {
+		scope:vikelas_olympics_candidate_scope = {
 			add_modifier = {
 				name = vikelas_olympics_preparation_modifier
 				days = 1200
@@ -2038,7 +2221,7 @@ vikelas.117 = {
 	type = country_event
 
 	title = vikelas.106.t
-	desc = vikelas.116.d
+	desc = vikelas.117.d
 	flavor = vikelas.116.f
 
 	duration = 1
@@ -2055,11 +2238,13 @@ vikelas.117 = {
 	}
 
 	immediate = {
-		random_scope_state = {
+		random_country = {
 			limit = {
-				has_modifier = vikelas_olympics_hosting_modifier
+				random_scope_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
 			}
-			save_scope_as = vikelas_olympic_state
+			save_scope_as = vikelas_olympic_country
 		}
 		vikelas_calculate_number_participants_effect = yes
 	}
@@ -2349,7 +2534,7 @@ vikelas.123 = {
 	option = {
 		name = vikelas.123.g #Why do they use another calender?!
 		default_option = yes
-		
+
 		add_modifier = {
 			name = vikelas_athlete_missed_event_modifier
 			years = 1
@@ -2411,7 +2596,7 @@ vikelas.124 = {
 	option = {
 		name = vikelas.124.g #A great gesture!
 		default_option = yes
-		
+
 		change_relations = {
 			country = scope:vikelas_cyclist_with_problems_country_scope
 			value = 5
@@ -2466,7 +2651,7 @@ vikelas.125 = {
 	option = {
 		name = vikelas.125.g #How could this happen?
 		default_option = yes
-		
+
 		set_variable = {
 			name = vikelas_cyclist_with_accident
 			months = 6
