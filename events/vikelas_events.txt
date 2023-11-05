@@ -46,6 +46,7 @@ namespace = vikelas
 #Vikelas 122: Sailboat Notification (participants)
 #Vikelas 123: Athlete misses event because of calender (participants)
 #Vikelas 124: Honorable Cyclist (participants)
+#Vikelas 125: Cyclist hit by a car (participants)
 
 #################################################################################
 
@@ -2422,6 +2423,61 @@ vikelas.124 = {
 			free_character_from_void = no
 		}
 		scope:vikelas_cyclist_with_problems_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Vikelas 125: Cyclist hit by a car (participants)
+vikelas.125 = {
+	type = country_event
+
+	title = vikelas.125.t
+	desc = vikelas.125.d
+	flavor = vikelas.125.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_bycicle_street_race.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+		any_country = {
+			has_technology_researched = combustion_engine
+		}
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = vikelas_cyclist_with_accident_scope
+		}
+		scope:vikelas_cyclist_with_accident_scope = {
+			place_character_in_void = 120
+			add_trait = vikelas_athlete
+		}
+	}
+
+	option = {
+		name = vikelas.125.g #How could this happen?
+		default_option = yes
+		
+		set_variable = {
+			name = vikelas_cyclist_with_accident
+			months = 6
+		}
+		scope:vikelas_cyclist_with_accident_scope = {
+			add_trait = wounded
+		}
+	}
+
+	after = {
+		scope:vikelas_cyclist_with_accident_scope = {
 			free_character_from_void = no
 		}
 	}
