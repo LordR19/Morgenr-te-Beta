@@ -2689,6 +2689,7 @@ vikelas.123 = {
 		name = vikelas.123.g #Why do they use another calender?!
 		default_option = yes
 
+		custom_tooltip = vikelas_negative_influence_on_score_tt
 		add_modifier = {
 			name = vikelas_athlete_missed_event_modifier
 			years = 1
@@ -2806,9 +2807,12 @@ vikelas.125 = {
 		name = vikelas.125.g #How could this happen?
 		default_option = yes
 
-		set_variable = {
-			name = vikelas_cyclist_with_accident
-			months = 6
+		custom_tooltip = {
+			text = vikelas_negative_influence_on_score_tt
+			set_variable = {
+				name = vikelas_cyclist_with_accident_var
+				months = 6
+			}
 		}
 		scope:vikelas_cyclist_with_accident_scope = {
 			add_trait = wounded
@@ -2856,7 +2860,60 @@ vikelas.126 = {
 }
 
 #Vikelas 127: Drunken Cyclist (participants)
+vikelas.127 = {
+	type = country_event
 
+	title = vikelas.127.t
+	desc = vikelas.127.d
+	flavor = vikelas.127.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_bycicle_street_race.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = vikelas_drunken_cyclist_scope
+		}
+		scope:vikelas_drunken_cyclist_scope = {
+			place_character_in_void = 120
+			add_trait = vikelas_athlete
+		}
+	}
+
+	option = {
+		name = vikelas.127.g #What a shameful display!
+		default_option = yes
+
+		custom_tooltip = {
+			text = vikelas_negative_influence_on_score_tt
+			set_variable = {
+				name = vikelas_drunken_cyclist_var
+				months = 6
+			}
+		}
+		
+		scope:vikelas_drunken_cyclist_scope = {
+			add_trait = alcoholic
+		}
+	}
+
+	after = {
+		scope:vikelas_drunken_cyclist_scope = {
+			free_character_from_void = no
+		}
+	}
+}
 
 #Vikelas 128: Free Beer! (participants)
 
