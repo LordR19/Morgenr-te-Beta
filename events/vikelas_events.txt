@@ -57,7 +57,10 @@ namespace = vikelas
 #Vikelas 127: Drunken Cyclist (participants)
 #Vikelas 128: Free Beer! (participants)
 
-#Event 199: The IOC in Switzerland (or others)
+#Vikelas 190: New IOC (hidden)
+#Vikelas 199: The IOC in Switzerland (or others)
+
+###Events 300-399: Football, Baseball, Cricket###
 
 #################################################################################
 
@@ -2917,7 +2920,7 @@ vikelas.127 = {
 
 #Vikelas 128: Free Beer! (participants)
 
-#Event 190: New IOC (hidden)
+#Vikelas 190: New IOC (hidden)
 
 vikelas.190 = {
 	type = country_event
@@ -2976,7 +2979,7 @@ vikelas.190 = {
 	}
 }
 
-#Event 191: The IOC in Switzerland (or others)
+#Vikelas 191: The IOC in Switzerland (or others)
 
 vikelas.191 = {
 	type = country_event
@@ -3016,6 +3019,254 @@ vikelas.191 = {
 
 		ai_chance = {
 			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
+
+#################################################################################
+
+###Events 300-399: Football, Baseball, Cricket###
+
+#Vikelas 301: Football Club in $STATE$
+
+vikelas.301 = {
+	type = country_event
+
+	title = vikelas.301.t
+	desc = vikelas.301.d
+	flavor = vikelas.301.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	cooldown = {
+		years = 15
+	}
+
+	trigger = {
+		OR = {
+			country_is_in_europe = yes
+			country_is_in_south_america = yes
+		}
+		OR = {
+			has_law = law_type:law_protected_speech
+			has_law = law_type:law_right_of_assembly
+		}
+		any_scope_state = {
+			is_homeland_of_country_cultures = owner
+			any_scope_building = {
+				is_building_type = building_government_administration
+				has_active_production_method = pm_vikelas_sports_facilities
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+			}
+			save_scope_as = vikelas_football_club_state_scope
+		}
+	}
+
+	option = {
+		name = vikelas.301.g #A sport worth supporting.
+		default_option = yes
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = vikelas_worker_organized_club_modifier
+				years = 5
+			}
+	    }
+		scope:vikelas_football_club_state_scope = {
+			add_modifier = {
+				name = vikelas_football_club_modifier
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = laborers
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = machinists
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					any_neighbouring_state = {
+						is_homeland_of_country_cultures = owner
+						any_scope_building = {
+							is_building_type = building_government_administration
+							has_active_production_method = pm_vikelas_sports_facilities
+						}
+						NOT = {
+							has_modifier = vikelas_football_club_modifier
+						}
+					}
+				}
+				trigger_event = {
+					id = vikelas.301
+					days = { 30 60 }
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = vikelas.301.h #What a boring game.
+		scope:vikelas_football_club_state_scope = {
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = laborers
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = machinists
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = vikelas_football_is_boring_modifier
+				years = 3
+			}
+	    }
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 302: Rival Football Club in $STATE$
+
+vikelas.302 = {
+	type = country_event
+
+	title = vikelas.302.t
+	desc = vikelas.302.d
+	flavor = vikelas.302.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+			}
+			save_scope_as = vikelas_football_club_state_scope
+		}
+	}
+
+	option = {
+		name = vikelas.302.g #Is this a brewing rivalry?
+		default_option = yes
+		ig:ig_trade_unions = {
+			add_modifier = {
+				name = vikelas_worker_organized_football_modifier
+				years = 5
+			}
+	    }
+		scope:vikelas_football_club_state_scope = {
+			add_modifier = {
+				name = vikelas_football_club_modifier
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = laborers
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = machinists
+			}
+		}
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 303: Football Association founded
+
+vikelas.303 = {
+	type = country_event
+
+	title = vikelas.303.t
+	desc = vikelas.303.d
+	flavor = vikelas.303.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+		any_scope_state = {
+			has_modifier = vikelas_football_club_modifier
+			count >= 2
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.303.g #Is this a brewing rivalry?
+		default_option = yes
+		add_modifier = {
+			name = vikelas_football_culture_modifier
+			years = 10
+		}
+
+		ai_chance = {
+			base = 90
 		}
 	}
 
