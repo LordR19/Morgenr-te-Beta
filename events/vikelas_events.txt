@@ -505,6 +505,17 @@ vikelas.101 = {
 				days = 1
 			}
 		}
+		if_else = {
+			limit = {
+				NOT = {
+					exists = c:GRE
+				}
+			}
+			trigger_event = {
+				id = vikelas.119
+				days = 1
+			}
+		}
 		else = {
 			every_country = {
 				limit = {
@@ -2301,6 +2312,126 @@ vikelas.118 = {
 	option = {
 		name = vikelas.108.g #Citius, altius, fortius
 		default_option = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 119: IOC decides: Olympic Games in $FOUNDATION COUNTRY$
+
+vikelas.119 = {
+	type = country_event
+
+	title = vikelas.119.t
+	desc = vikelas.119.d
+	flavor = vikelas.119.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_ioc_board.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = vikelas_pierre_de_coubertin_var
+			}
+			save_scope_as = vikelas_ioc_president_scope
+		}
+		set_global_variable = {
+			name = vikelas_olympic_games_number_global_var
+			value = 0
+		}
+	}
+
+	option = {
+		name = vikelas.119.g #Then we'll organize the games at our place.
+		default_option = yes
+		add_modifier = {
+			name = vikelas_olympics_preparation_modifier
+			days = 776
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = vikelas.116
+				popup = yes
+				days = 776
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			trigger_event = {
+				id = vikelas.120
+				popup = yes
+			}
+		}
+	}
+}
+
+#Vikelas 120: IOC meets for the first time
+
+vikelas.120 = {
+	type = country_event
+
+	title = vikelas.120.t
+	desc = vikelas.120.d
+	flavor = vikelas.120.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_ioc_board.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = vikelas_pierre_de_coubertin_var
+			}
+			save_scope_as = vikelas_ioc_president_scope
+		}
+	}
+
+	option = {
+		name = vikelas.102.g
+		default_option = yes
+		if = {
+			limit = {
+				NOT = {
+					has_technology_researched = organized_sports
+				}
+			}
+			add_technology_progress = { progress = 8500 technology = organized_sports }
+		}
 
 		ai_chance = {
 			base = 100
