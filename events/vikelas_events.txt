@@ -48,8 +48,6 @@ namespace = vikelas
 
 #Events 121-189: Flavor Events during the Olympics
 
-#Vikelas 121: No Sailboats! (organizer)
-#Vikelas 122: Sailboat Notification (participants)
 #Vikelas 123: Athlete misses event because of calender (participants)
 #Vikelas 124: Honorable Cyclist (participants)
 #Vikelas 125: Cyclist hit by a car (participants)
@@ -58,10 +56,20 @@ namespace = vikelas
 #Vikelas 128: Free Beer! (participants)
 #Vikelas 129: Schwingerkönig wins Wrestling Event (participants)
 
+#Events for Random Characters
+
 #Vikelas 131: The Fencing/Shooting/Riding General (participants)
 #Vikelas 132: The Rowing/Sailing/Swimming Admiral (participants)
 #Vikelas 133: The Boxing/Wrestling/Archery Politician (participants)
 #Vikelas 134: The Champion (participants)
+
+#Events for Organizers
+
+#Vikelas 141: No Sailboats! (organizer)
+
+#Events for Notifications
+
+#Vikelas 151: Sailboat Notification (participants)
 
 #Events 190-199: Other Events to keep the Olympic Games stable
 
@@ -2474,194 +2482,6 @@ vikelas.120 = {
 	}
 }
 
-#Vikelas 121: No Sailboats!
-
-vikelas.121 = {
-	type = country_event
-
-	title = vikelas.121.t
-	desc = vikelas.121.d
-	flavor = vikelas.121.f
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_sailing.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
-
-	cooldown = {
-		years = 7 #blocked for two Olympic Games
-	}
-
-	trigger = {
-	}
-
-	immediate = {
-		
-	}
-
-	option = {
-		name = vikelas.121.g #Buy some sailboats from another town!
-		default_option = yes
-		add_treasury = -50000
-		set_global_variable = {
-			name = vikelas_sailing_saved_global_var
-			years = 1
-		}
-
-		ai_chance = {
-			base = 0
-			modifier = {
-				trigger = {
-					gold_reserves > 50000
-				}
-				add = 100
-			}
-		}
-	}
-
-	option = {
-		name = vikelas.121.h #No sailing this year.
-		set_global_variable = {
-			name = vikelas_no_sailing_global_var
-			years = 1
-		}
-		add_modifier = {
-			name = vikelas_olympics_no_sailing_competition_modifier
-			years = 1
-		}
-
-
-		ai_chance = {
-			base = 1
-		}
-	}
-
-	after = {
-		every_country = {
-			limit = {
-				has_variable = vikelas_ioc_member_var
-				NOT = { ROOT = this }
-			}
-			trigger_event = vikelas.122
-		}
-	}
-}
-
-#Vikelas 122: Sailboat Notification (participants)
-
-vikelas.122 = {
-	type = country_event
-
-	title = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = vikelas_sailing_saved_global_var
-			}
-			desc = vikelas.122.t_sailing
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = vikelas_no_sailing_global_var
-			}
-			desc = vikelas.122.t_no_sailing
-		}
-	}
-	desc = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = vikelas_sailing_saved_global_var
-			}
-			desc = vikelas.122.d_sailing
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = vikelas_no_sailing_global_var
-			}
-			desc = vikelas.122.d_no_sailing
-		}
-	}
-	flavor = {
-		triggered_desc = {
-			trigger = {
-				has_global_variable = vikelas_sailing_saved_global_var
-			}
-			desc = vikelas.122.f_sailing
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = vikelas_no_sailing_global_var
-			}
-			desc = vikelas.122.f_no_sailing
-		}
-	}
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_sailing.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
-
-	trigger = {
-		NOT = { has_variable = vikelas_no_more_olympic_flavor_notification_events_var }
-	}
-
-	immediate = {
-		random_country = {
-			limit = {
-				any_scope_state = {
-					has_modifier = vikelas_olympics_hosting_modifier
-				}
-			}
-			save_scope_as = vikelas_olympics_host_scope
-		}
-	}
-
-	option = {
-		name = vikelas.122.g #I hope our athletes win!
-		default_option = yes
-		
-		trigger = {
-			has_global_variable = vikelas_sailing_saved_global_var
-		}
-
-
-	}
-
-	option = {
-		name = vikelas.122.h #What a pitty
-		
-		trigger = {
-			has_global_variable = vikelas_no_sailing_global_var
-		}
-
-	}
-
-#	option = {
-#		name = vikelas.122.i #I have more important matters to deal with. Leave me alone.
-#		
-#		trigger = {
-#			is_player = yes
-#		}
-#
-#		custom_tooltip = {
-#			text = vikelas_no_more_olympic_flavor_notification_events_tt
-#			set_variable = vikelas_no_more_olympic_flavor_notification_events_var
-#		}
-#	}
-
-	after = {
-	}
-}
-
 #Vikelas 123: Athlete misses event because of calender (participants)
 
 vikelas.123 = {
@@ -3070,6 +2890,10 @@ vikelas.129 = {
 	after = {
 	}
 }
+
+######################################################################
+
+#Events for Random Characters
 
 #Vikelas 131: The Fencing/Shooting/Riding General (participants)
 vikelas.131 = {
@@ -3672,6 +3496,202 @@ vikelas.134 = {
 			}
 		}
 	}
+
+	after = {
+	}
+}
+
+######################################################################
+
+#Events for Organizers
+
+#Vikelas 141: No Sailboats!
+
+vikelas.141 = {
+	type = country_event
+
+	title = vikelas.141.t
+	desc = vikelas.141.d
+	flavor = vikelas.141.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_sailing.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = vikelas.141.g #Buy some sailboats from another town!
+		default_option = yes
+		add_treasury = -50000
+		set_global_variable = {
+			name = vikelas_sailing_saved_global_var
+			years = 1
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				trigger = {
+					gold_reserves > 50000
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.141.h #No sailing this year.
+		set_global_variable = {
+			name = vikelas_no_sailing_global_var
+			years = 1
+		}
+		add_modifier = {
+			name = vikelas_olympics_no_sailing_competition_modifier
+			years = 1
+		}
+
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = { ROOT = this }
+			}
+			trigger_event = vikelas.151
+		}
+	}
+}
+
+######################################################################
+
+#Events for Notification
+
+#Vikelas 151: Sailboat Notification (participants)
+
+vikelas.151 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_sailing_saved_global_var
+			}
+			desc = vikelas.151.t_sailing
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_no_sailing_global_var
+			}
+			desc = vikelas.151.t_no_sailing
+		}
+	}
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_sailing_saved_global_var
+			}
+			desc = vikelas.151.d_sailing
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_no_sailing_global_var
+			}
+			desc = vikelas.151.d_no_sailing
+		}
+	}
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_sailing_saved_global_var
+			}
+			desc = vikelas.151.f_sailing
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = vikelas_no_sailing_global_var
+			}
+			desc = vikelas.151.f_no_sailing
+		}
+	}
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_sailing.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+		NOT = { has_variable = vikelas_no_more_olympic_flavor_notification_events_var }
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				any_scope_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
+			}
+			save_scope_as = vikelas_olympics_host_scope
+		}
+	}
+
+	option = {
+		name = vikelas.151.g #I hope our athletes win!
+		default_option = yes
+		
+		trigger = {
+			has_global_variable = vikelas_sailing_saved_global_var
+		}
+
+
+	}
+
+	option = {
+		name = vikelas.151.h #What a pitty
+		
+		trigger = {
+			has_global_variable = vikelas_no_sailing_global_var
+		}
+
+	}
+
+#	option = {
+#		name = vikelas.152.i #I have more important matters to deal with. Leave me alone.
+#		
+#		trigger = {
+#			is_player = yes
+#		}
+#
+#		custom_tooltip = {
+#			text = vikelas_no_more_olympic_flavor_notification_events_tt
+#			set_variable = vikelas_no_more_olympic_flavor_notification_events_var
+#		}
+#	}
 
 	after = {
 	}
