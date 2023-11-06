@@ -56,7 +56,7 @@ namespace = vikelas
 #Vikelas 126: Mass accident in street race (participants)
 #Vikelas 127: Drunken Cyclist (participants)
 #Vikelas 128: Free Beer! (participants)
-#Vikelas 129: Schwingerkönig at the Olympics (participants)
+#Vikelas 129: Schwingerkönig wins Wrestling Event (participants)
 
 #Vikelas 131: The Fencing/Shooting/Riding General (participants)
 #Vikelas 132: The Rowing/Sailing/Swimming Admiral (participants)
@@ -3013,7 +3013,63 @@ vikelas.128 = {
 	}
 }
 
-#Vikelas 129: Schwingerkönig at the Olympics (participants)
+#Vikelas 129: Schwingerkönig wins Wrestling Event (participants)
+vikelas.129 = {
+	type = country_event
+
+	title = vikelas.129.t
+	desc = vikelas.129.d
+	flavor = vikelas.129.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_wrestling.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+		c:SWI ?= this
+		any_scope_character = {
+			has_trait = dufour_schwingerkonig
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_trait = dufour_schwingerkonig
+			}
+			save_scope_as = vikelas_schwingerkonig_scope 
+		}
+	}
+
+	option = {
+		name = vikelas.129.g #A worthy winner!
+		default_option = yes
+
+		custom_tooltip = {
+			text = vikelas_positive_influence_on_score_tt
+			set_variable = {
+				name = vikelas_schwingerkonig_won_var
+				months = 6
+			}
+		}
+		vikelas_schwingerkonig_scope = {
+			add_trait = vikelas_athlete
+		}
+	}
+
+	after = {
+	}
+}
 
 #Vikelas 131: The Fencing/Shooting/Riding General (participants)
 vikelas.131 = {
