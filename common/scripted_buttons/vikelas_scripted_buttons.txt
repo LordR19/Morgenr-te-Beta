@@ -93,6 +93,11 @@ vikelas_ioc_member_button = {
 			is_country_type = unrecognized
 		}
 		is_at_war = no
+		NOT = {
+			any_state = {
+				has_modifier = vikelas_olympics_hosting_modifier
+			}
+		}
 	}
 
 	effect = {
@@ -100,6 +105,98 @@ vikelas_ioc_member_button = {
 			text = vikelas_become_ioc_member_tt
 			set_variable = vikelas_ioc_member_var
 		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+vikelas_ioc_bribe_button = {
+	name = "vikelas_ioc_bribe_button"
+	desc = "vikelas_ioc_bribe_button_desc"
+
+	visible = { 
+		has_variable = vikelas_ioc_member_var
+		is_player = yes
+	}
+
+	possible = {
+		NOT = {
+			any_state = {
+				has_modifier = vikelas_olympics_hosting_modifier
+			}
+		}
+		NOT = {
+			has_modifier = vikelas_olympics_bribed_modifier
+		}
+	}
+
+	effect = {
+		add_treasury = -1000000
+		add_modifier = {
+			name = vikelas_olympics_bribed_modifier
+			years = 5
+		}
+		change_infamy = 3
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+				NOT = { root = this }
+			}
+			add_treasury = 75000
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = -5
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+vikelas_school_sport_button = {
+	name = "vikelas_school_sport_button"
+	desc = "vikelas_school_sport_button_desc"
+
+	visible = { 
+		NOT = {
+			has_variable = vikelas_school_sport_var
+		}
+	}
+
+	possible = {
+		has_law = law_type:law_public_schools
+		any_interest_group = {
+    		is_in_government = yes
+            leader = {
+                has_trait = vikelas_athlete
+            }
+        }
+		any_scope_building = {
+			is_building_type = building_government_administration
+			has_active_production_method = pm_vikelas_sports_facilities
+		}
+		has_technology_researched = dubois_theory_of_evolution_tech
+	}
+
+	effect = {
+		set_variable = vikelas_school_sport_var
 	}
 
 	ai_chance = {
