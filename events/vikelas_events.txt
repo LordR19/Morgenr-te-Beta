@@ -3249,7 +3249,7 @@ vikelas.303 = {
 	duration = 3
 
 	event_image = {
-		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_association.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -3276,6 +3276,271 @@ vikelas.303 = {
 
 		ai_chance = {
 			base = 90
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 311: Baseball Club in $STATE$
+
+vikelas.311 = {
+	type = country_event
+
+	title = vikelas.311.t
+	desc = vikelas.311.d
+	flavor = vikelas.311.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_baseball_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	cooldown = {
+		years = 15
+	}
+
+	trigger = {
+		c:USA ?= this
+		OR = {
+			has_law = law_type:law_protected_speech
+			has_law = law_type:law_right_of_assembly
+		}
+		any_scope_state = {
+			is_homeland_of_country_cultures = owner
+			any_scope_building = {
+				is_building_type = building_government_administration
+				has_active_production_method = pm_vikelas_sports_facilities
+			}
+			NOT = {
+				has_modifier = vikelas_baseball_club_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+				NOT = {
+					has_modifier = vikelas_baseball_club_modifier
+				}
+			}
+			save_scope_as = vikelas_baseball_club_state_scope
+		}
+	}
+
+	option = {
+		name = vikelas.301.g #A sport worth supporting.
+		default_option = yes
+		ig:ig_petty_bourgeoisie = {
+			add_modifier = {
+				name = vikelas_citizen_organized_club_modifier
+				years = 5
+			}
+	    }
+		scope:vikelas_baseball_club_state_scope = {
+			add_modifier = {
+				name = vikelas_baseball_club_modifier
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = clerks
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = engineers
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = shopkeepers
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = bureaucrats
+			}
+		}
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = vikelas.311.h #What a boring game.
+		scope:vikelas_baseball_club_state_scope = {
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = clerks
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = engineers
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = shopkeepers
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = bureaucrats
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = vikelas_baseball_is_overrated_modifier
+				years = 3
+			}
+	    }
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 321: Cricket Club in $STATE$
+
+vikelas.321 = {
+	type = country_event
+
+	title = vikelas.321.t
+	desc = vikelas.321.d
+	flavor = vikelas.321.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_cricket_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	cooldown = {
+		years = 15
+	}
+
+	trigger = {
+		OR = {
+			has_subject_relation_with = c:GBR
+			country_has_primary_culture = cu:british
+			country_has_primary_culture = cu:irish
+			country_has_primary_culture = cu:scottish
+			country_has_primary_culture = cu:welsh
+			country_has_primary_culture = cu:australian
+			country_has_primary_culture = cu:afro_caribbean
+			country_has_primary_culture = cu:anglo_canadian
+		}
+		OR = {
+			has_law = law_type:law_protected_speech
+			has_law = law_type:law_right_of_assembly
+		}
+		any_scope_state = {
+			is_homeland_of_country_cultures = owner
+			any_scope_building = {
+				is_building_type = building_government_administration
+				has_active_production_method = pm_vikelas_sports_facilities
+			}
+			NOT = {
+				has_modifier = vikelas_cricket_club_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+				NOT = {
+					has_modifier = vikelas_cricket_club_modifier
+				}
+			}
+			save_scope_as = vikelas_cricket_club_state_scope
+		}
+	}
+
+	option = {
+		name = vikelas.301.g #A sport worth supporting.
+		default_option = yes
+		ig:ig_landowners = {
+			add_modifier = {
+				name = vikelas_upper_class_organized_club_modifier
+				years = 5
+			}
+	    }
+		ig:ig_industralists = {
+			add_modifier = {
+				name = vikelas_upper_class_organized_club_modifier
+				years = 5
+			}
+	    }
+		scope:vikelas_cricket_club_state_scope = {
+			add_modifier = {
+				name = vikelas_cricket_club_modifier
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = aristocrats
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = capitalists
+			}
+			add_loyalists_in_state = {
+				value = 0.03
+				pop_type = officers
+			}
+		}
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = vikelas.321.h #What a boring game.
+		scope:vikelas_cricket_club_state_scope = {
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = aristocrats
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = capitalists
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				pop_type = officers
+			}
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = {
+				name = vikelas_cricket_is_pretentious_modifier
+				years = 3
+			}
+	    }
+
+		ai_chance = {
+			base = 10
 		}
 	}
 
