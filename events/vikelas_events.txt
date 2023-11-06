@@ -46,7 +46,7 @@ namespace = vikelas
 #Vikelas 119: IOC decides: Olympic Games in $FOUNDATION COUNTRY$
 #Vikelas 120: IOC meets for the first time in $FOUNDATION COUNTRY$
 
-#Events 121-199: Flavor Events during the Olympics
+#Events 121-189: Flavor Events during the Olympics
 
 #Vikelas 121: No Sailboats! (organizer)
 #Vikelas 122: Sailboat Notification (participants)
@@ -56,11 +56,26 @@ namespace = vikelas
 #Vikelas 126: Mass accident in street race (participants)
 #Vikelas 127: Drunken Cyclist (participants)
 #Vikelas 128: Free Beer! (participants)
+#Vikelas 129: Schwingerkönig at the Olympics (participants)
+
+#Vikelas 131: The Fencing/Shooting/Riding General (participants)
+#Vikelas 132: The Rowing/Sailing/Swimming Admiral (participants)
+#Vikelas 133: The Boxing/Wrestling/Archery Politician (participants)
+#Vikelas 134: The Champion (participants)
+
+#Events 190-199: Other Events to keep the Olympic Games stable
 
 #Vikelas 190: New IOC (hidden)
-#Vikelas 199: The IOC in Switzerland (or others)
+#Vikelas 191: The IOC in Switzerland (or others)
 
 ###Events 300-399: Football, Baseball, Cricket###
+
+#Vikelas 301: Football Club in $STATE$
+#Vikelas 302: Rival Football Club in $STATE$
+#Vikelas 303: Football Association
+
+#Vikelas 311: Baseball Club in $STATE$
+#Vikelas 321: Cricket Club in $STATE$
 
 #################################################################################
 
@@ -2478,6 +2493,10 @@ vikelas.121 = {
 
 	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
 
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
 	trigger = {
 	}
 
@@ -2662,6 +2681,10 @@ vikelas.123 = {
 
 	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
 
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
 	trigger = {
 		OR = {
 			AND = {
@@ -2720,6 +2743,10 @@ vikelas.124 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
 
 	trigger = {
 	}
@@ -2789,6 +2816,10 @@ vikelas.125 = {
 
 	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
 
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
 	trigger = {
 		any_country = {
 			has_technology_researched = combustion_engine
@@ -2847,6 +2878,10 @@ vikelas.126 = {
 
 	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
 
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
 	trigger = {
 	}
 
@@ -2879,6 +2914,10 @@ vikelas.127 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
 
 	trigger = {
 	}
@@ -2919,6 +2958,614 @@ vikelas.127 = {
 }
 
 #Vikelas 128: Free Beer! (participants)
+
+#Vikelas 129: Schwingerkönig at the Olympics (participants)
+
+#Vikelas 131: The Fencing/Shooting/Riding General (participants)
+vikelas.131 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				var:vikelas_fencing_flavor_randomizer_var = 1
+			}
+			desc = vikelas.131.t_fencing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_shooting_flavor_randomizer_var = 2
+			}
+			desc = vikelas.131.t_shooting
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_riding_flavor_randomizer_var = 3
+			}
+			desc = vikelas.131.t_riding
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				var:vikelas_fencing_flavor_randomizer_var = 1
+			}
+			desc = vikelas.131.d_fencing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_shooting_flavor_randomizer_var = 2
+			}
+			desc = vikelas.131.d_shooting
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_riding_flavor_randomizer_var = 3
+			}
+			desc = vikelas.131.d_riding
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:vikelas_fencing_flavor_randomizer_var = 1
+			}
+			desc = vikelas.131.f_fencing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_shooting_flavor_randomizer_var = 2
+			}
+			desc = vikelas.131.f_shooting
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_riding_flavor_randomizer_var = 3
+			}
+			desc = vikelas.131.f_riding
+		}
+	}
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:vikelas_olympic_general_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+		NOT = {
+			has_modifier = vikelas_inspiring_athlete_modifier
+		}
+		any_scope_character = {
+			female = no
+			has_role = general
+			is_busy = no
+			is_ruler = no
+			OR = {
+				has_trait = persistent
+				has_trait = ambitious
+				has_trait = expert_artillery_commander
+				has_trait = expert_offensive_planner
+				has_trait = expert_defensive_strategist
+			}
+			NOR = {
+				has_trait = vikelas_athlete
+				has_trait = hedonist
+				has_trait = sickly
+				has_trait = kidney_stones
+				has_trait = wounded
+				has_trait = shellshocked
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+				has_trait = alcoholic
+			}
+		}
+	}
+
+	immediate = {
+		add_modifier = {
+			name = vikelas_inspiring_athlete_modifier
+			years = 3
+		}
+		random_list = { #randomizes flavor text
+			1 = { 
+				set_variable = {
+					name = vikelas_fencing_flavor_randomizer_var
+					value = 1
+				}
+			}
+			1 = { 
+				set_variable = {
+					name = vikelas_shooting_flavor_randomizer_var
+					value = 2
+				}
+			}
+			1 = { 
+				set_variable = {
+					name = vikelas_riding_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+		random_scope_character = {
+			limit = {
+				female = no
+				has_role = general
+				is_busy = no
+				is_ruler = no
+				OR = {
+					has_trait = persistent
+					has_trait = ambitious
+					has_trait = expert_artillery_commander
+					has_trait = expert_offensive_planner
+					has_trait = expert_defensive_strategist
+				}
+				NOR = {
+					has_trait = vikelas_athlete
+					has_trait = hedonist
+					has_trait = sickly
+					has_trait = kidney_stones
+					has_trait = wounded
+					has_trait = shellshocked
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = alcoholic
+				}
+			}
+			save_scope_as = vikelas_olympic_general_scope
+		}
+	}
+
+	option = {
+		name = vikelas.131.g #An excellent athlete.
+		default_option = yes
+		
+		scope:vikelas_olympic_general_scope = {
+			add_trait = vikelas_athlete
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_fencing_flavor_randomizer_var
+		remove_variable = vikelas_shooting_flavor_randomizer_var
+		remove_variable = vikelas_riding_flavor_randomizer_var
+	}
+}
+
+#Vikelas 132: The Rowing/Sailing/Swimming Admiral (participants)
+vikelas.132 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				var:vikelas_rowing_flavor_randomizer_var = 1
+			}
+			desc = vikelas.132.t_rowing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_sailing_flavor_randomizer_var = 2
+			}
+			desc = vikelas.132.t_sailing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_swimming_flavor_randomizer_var = 3
+			}
+			desc = vikelas.132.t_swimming
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				var:vikelas_rowing_flavor_randomizer_var = 1
+			}
+			desc = vikelas.132.d_rowing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_sailing_flavor_randomizer_var = 2
+			}
+			desc = vikelas.132.d_sailing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_swimming_flavor_randomizer_var = 3
+			}
+			desc = vikelas.132.d_swimming
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:vikelas_rowing_flavor_randomizer_var = 1
+			}
+			desc = vikelas.132.f_rowing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_sailing_flavor_randomizer_var = 2
+			}
+			desc = vikelas.132.f_sailing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_swimming_flavor_randomizer_var = 3
+			}
+			desc = vikelas.132.f_swimming
+		}
+	}
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:vikelas_olympic_admiral_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+		NOT = {
+			has_modifier = vikelas_inspiring_athlete_modifier
+		}
+		any_scope_character = {
+			female = no
+			has_role = admiral
+			is_busy = no
+			is_ruler = no
+			OR = {
+				has_trait = persistent
+				has_trait = ambitious
+				has_trait = expert_naval_commander
+				has_trait = expert_convoy_raider
+				has_trait = celebrity_commander
+			}
+			NOR = {
+				has_trait = vikelas_athlete
+				has_trait = hedonist
+				has_trait = sickly
+				has_trait = kidney_stones
+				has_trait = wounded
+				has_trait = shellshocked
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+				has_trait = alcoholic
+			}
+		}
+	}
+
+	immediate = {
+		add_modifier = {
+			name = vikelas_inspiring_athlete_modifier
+			years = 3
+		}
+		random_list = { #randomizes flavor text
+			1 = { 
+				set_variable = {
+					name = vikelas_rowing_flavor_randomizer_var
+					value = 1
+				}
+			}
+			1 = { 
+				set_variable = {
+					name = vikelas_sailing_flavor_randomizer_var
+					value = 2
+				}
+			}
+			1 = { 
+				set_variable = {
+					name = vikelas_swimming_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+		random_scope_character = {
+			limit = {
+				female = no
+				has_role = admiral
+				is_busy = no
+				is_ruler = no
+				OR = {
+					has_trait = persistent
+					has_trait = ambitious
+					has_trait = expert_naval_commander
+					has_trait = expert_convoy_raider
+					has_trait = celebrity_commander
+				}
+				NOR = {
+					has_trait = vikelas_athlete
+					has_trait = hedonist
+					has_trait = sickly
+					has_trait = kidney_stones
+					has_trait = wounded
+					has_trait = shellshocked
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = alcoholic
+				}
+			}
+			save_scope_as = vikelas_olympic_admiral_scope
+		}
+	}
+
+	option = {
+		name = vikelas.131.g #An excellent athlete.
+		default_option = yes
+		
+		scope:vikelas_olympic_admiral_scope = {
+			add_trait = vikelas_athlete
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_rowing_flavor_randomizer_var
+		remove_variable = vikelas_sailing_flavor_randomizer_var
+		remove_variable = vikelas_swimming_flavor_randomizer_var
+	}
+}
+
+#Vikelas 133: The Boxing/Wrestling/Archery Politician (participants)
+vikelas.133 = {
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				var:vikelas_boxing_flavor_randomizer_var = 1
+			}
+			desc = vikelas.133.t_boxing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_wrestling_flavor_randomizer_var = 2
+			}
+			desc = vikelas.133.t_wrestling
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_archery_flavor_randomizer_var = 3
+			}
+			desc = vikelas.133.t_archery
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				var:vikelas_boxing_flavor_randomizer_var = 1
+			}
+			desc = vikelas.133.d_boxing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_wrestling_flavor_randomizer_var = 2
+			}
+			desc = vikelas.133.d_wrestling
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_archery_flavor_randomizer_var = 3
+			}
+			desc = vikelas.133.d_archery
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:vikelas_boxing_flavor_randomizer_var = 1
+			}
+			desc = vikelas.133.f_boxing
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_wrestling_flavor_randomizer_var = 2
+			}
+			desc = vikelas.133.f_wrestling
+		}
+		triggered_desc = {
+			trigger = {
+				var:vikelas_archery_flavor_randomizer_var = 3
+			}
+			desc = vikelas.133.f_archery
+		}
+	}
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:vikelas_olympic_politician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+		NOT = {
+			has_modifier = vikelas_inspiring_athlete_modifier
+		}
+		any_scope_character = {
+			female = no
+			has_role = politician
+			is_busy = no
+			is_ruler = no
+			OR = {
+				has_trait = persistent
+				has_trait = ambitious
+			}
+			NOR = {
+				has_trait = vikelas_athlete
+				has_trait = hedonist
+				has_trait = sickly
+				has_trait = kidney_stones
+				has_trait = wounded
+				has_trait = shellshocked
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+				has_trait = alcoholic
+			}
+		}
+	}
+
+	immediate = {
+		add_modifier = {
+			name = vikelas_inspiring_athlete_modifier
+			years = 3
+		}
+		random_list = { #randomizes flavor text
+			1 = { 
+				set_variable = {
+					name = vikelas_boxing_flavor_randomizer_var
+					value = 1
+				}
+			}
+			1 = { 
+				set_variable = {
+					name = vikelas_wrestling_flavor_randomizer_var
+					value = 2
+				}
+			}
+			1 = { 
+				set_variable = {
+					name = vikelas_archery_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+		random_scope_character = {
+			limit = {
+				female = no
+				has_role = politician
+				is_busy = no
+				is_ruler = no
+				OR = {
+					has_trait = persistent
+					has_trait = ambitious
+				}
+				NOR = {
+					has_trait = vikelas_athlete
+					has_trait = hedonist
+					has_trait = sickly
+					has_trait = kidney_stones
+					has_trait = wounded
+					has_trait = shellshocked
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = alcoholic
+				}
+			}
+			save_scope_as = vikelas_olympic_politician_scope
+		}
+	}
+
+	option = {
+		name = vikelas.131.g #An excellent athlete.
+		default_option = yes
+		
+		scope:vikelas_olympic_politician_scope = {
+			add_trait = vikelas_athlete
+		}
+	}
+
+	after = {
+		remove_variable = vikelas_boxing_flavor_randomizer_var
+		remove_variable = vikelas_wrestling_flavor_randomizer_var
+		remove_variable = vikelas_archery_flavor_randomizer_var
+	}
+}
+
+#Vikelas 134: The Champion (participants)
+vikelas.134 = {
+	type = country_event
+
+	title = vikelas.134.t
+	desc = vikelas.134.d
+	flavor = vikelas.134.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:vikelas_olympic_champion_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_trait = vikelas_athlete
+			NOT = {
+				has_trait = vikelas_winner
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_trait = vikelas_athlete
+				NOT = {
+					has_trait = vikelas_winner
+				}
+			}
+			save_scope_as = vikelas_olympic_champion_scope
+		}
+	}
+
+	option = {
+		name = vikelas.134.g #A national hero!
+		default_option = yes
+		add_modifier = {
+			name = vikelas_olympic_champion_modifier
+			years = 10
+		}
+		scope:vikelas_olympic_politician_scope = {
+			add_trait = vikelas_winner
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+				NOT = { this = ROOT }
+			}
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
 
 #Vikelas 190: New IOC (hidden)
 
