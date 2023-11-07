@@ -170,6 +170,53 @@ vikelas_ioc_bribe_button = {
 	}
 }
 
+vikelas_olympic_flame_button = {
+	name = "vikelas_olympic_flame_button"
+	desc = "vikelas_olympic_flame_button_desc"
+
+	visible = { 
+		has_variable = vikelas_ioc_member_var
+		NOT = {
+			has_global_variable = vikelas_olympic_flame_var
+		}
+	}
+
+	possible = {
+		has_modifier = vikelas_olympics_preparation_modifier
+		has_technology_researched = elgar_mass_culture_tech
+		lepsius_has_archaeologist = yes
+	}
+
+	effect = {
+		set_global_variable = vikelas_olympic_flame_var
+		change_infamy = -10
+		random_country = {
+			limit = {
+				any_scope_state = {
+					state_region = s:STATE_PELOPONNESE
+				}
+				trigger_event = {
+					id = vikelas.181
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
 vikelas_school_sport_button = {
 	name = "vikelas_school_sport_button"
 	desc = "vikelas_school_sport_button_desc"
