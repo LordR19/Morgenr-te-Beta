@@ -46,7 +46,7 @@ namespace = vikelas
 #Vikelas 119: IOC decides: Olympic Games in $FOUNDATION COUNTRY$
 #Vikelas 120: IOC meets for the first time in $FOUNDATION COUNTRY$
 
-#Events 121-189: Flavor Events during the Olympics
+#Events 121-180: Flavor Events during the Olympics
 
 #Vikelas 123: Athlete misses event because of calender (participants)
 #Vikelas 124: Honorable Cyclist (participants)
@@ -70,6 +70,12 @@ namespace = vikelas
 #Events for Notifications
 
 #Vikelas 151: Sailboat Notification (participants)
+
+#Events 181-189: Other Olympic Events
+
+#Vikelas 181: The Lighting of the Olympic Flame
+#Vikelas 182: Olympic Torch in $COUNTRY$
+#Vikelas 183: The Olympic Flame
 
 #Events 190-199: Other Events to keep the Olympic Games stable
 
@@ -1541,6 +1547,16 @@ vikelas.113 = {
 			}
 			save_scope_as = vikelas_olympics_candidate_4
 		}
+		random_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_modifier = vikelas_olympics_hosted_modifier
+				}
+			}
+			set_variable = vikelas_fallback_candidate_var
+			save_scope_as = vikelas_olympics_candidate_fallback
+		}
 	}
 
 	option = {
@@ -1969,6 +1985,20 @@ vikelas.113 = {
 		}
 	}
 
+	option = {
+		name = vikelas.113.k #Candidate Fallback
+		default_option = yes
+		trigger = {
+			NOR = {
+				exists = scope:vikelas_olympics_candidate_1
+				exists = scope:vikelas_olympics_candidate_2
+				exists = scope:vikelas_olympics_candidate_3
+				exists = scope:vikelas_olympics_candidate_4
+			}
+		}
+		set_global_variable = vikelas_has_fallback_candidate_var
+	}
+
 	after = {
 	}
 }
@@ -1997,6 +2027,17 @@ vikelas.114 = {
 
 	immediate = {
 		if = {
+			limit = {
+				global_variable = vikelas_has_fallback_candidate_var
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_fallback_candidate_var
+				}
+				save_scope_as = vikelas_olympics_candidate_scope
+			}
+		}
+		else_if = {
 			limit = {
 				global_var:vikelas_olympics_candidate_1_votes >= global_var:vikelas_olympics_candidate_2_votes
 				global_var:vikelas_olympics_candidate_1_votes >= global_var:vikelas_olympics_candidate_3_votes
@@ -2131,11 +2172,13 @@ vikelas.114 = {
 			remove_variable = vikelas_olympics_candidate_2_var
 			remove_variable = vikelas_olympics_candidate_3_var
 			remove_variable = vikelas_olympics_candidate_4_var
+			remove_variable = vikelas_fallback_candidate_var
 		}
 		remove_global_variable = vikelas_olympics_candidate_1_votes
 		remove_global_variable = vikelas_olympics_candidate_2_votes
 		remove_global_variable = vikelas_olympics_candidate_3_votes
 		remove_global_variable = vikelas_olympics_candidate_4_votes
+		remove_global_variable = vikelas_has_fallback_candidate_var
 	}
 }
 
@@ -3696,6 +3739,16 @@ vikelas.151 = {
 	after = {
 	}
 }
+
+#################################################################################
+
+#Events 181-189: Other Olympic Events
+
+#Vikelas 181: The Lighting of the Olympic Flame
+#Vikelas 182: Olympic Torch in $COUNTRY$
+#Vikelas 183: The Olympic Flame
+
+#################################################################################
 
 #Vikelas 190: New IOC (hidden)
 
