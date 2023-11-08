@@ -5182,3 +5182,353 @@ vikelas.321 = {
 	after = {
 	}
 }
+
+#Vikelas 401: FIFA World Cup (hidden)
+
+vikelas.401 = {
+	type = country_event
+
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				any_country = { #The Player will win if he has achieved every sports achievement
+					has_variable = vikelas_football_association_var
+					any_scope_building = {
+						is_building_type = building_government_administration
+						has_active_production_method = pm_vikelas_sports_facilities
+					}
+					has_technology_researched = elgar_mass_culture_tech
+					any_scope_character = {
+						OR = {
+							has_trait = vikelas_winner
+							has_trait = vikelas_athlete
+						}
+					}
+					has_variable = vikelas_school_sport_var
+					is_player = yes
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_football_association_var
+					any_scope_building = {
+						is_building_type = building_government_administration
+						has_active_production_method = pm_vikelas_sports_facilities
+					}
+					has_technology_researched = elgar_mass_culture_tech
+					any_scope_character = {
+						OR = {
+							has_trait = vikelas_winner
+							has_trait = vikelas_athlete
+						}
+					}
+					has_variable = vikelas_school_sport_var
+					is_player = yes
+				}
+				add_modifier = {
+					name = vikelas_fifa_champion_modifier
+					years = 4
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_country = { #The AI will win if it has achieved every sports achievement
+					has_variable = vikelas_football_association_var
+					any_scope_building = {
+						is_building_type = building_government_administration
+						has_active_production_method = pm_vikelas_sports_facilities
+					}
+					has_technology_researched = elgar_mass_culture_tech
+					any_scope_character = {
+						OR = {
+							has_trait = vikelas_winner
+							has_trait = vikelas_athlete
+						}
+					}
+					has_variable = vikelas_school_sport_var
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_football_association_var
+					any_scope_building = {
+						is_building_type = building_government_administration
+						has_active_production_method = pm_vikelas_sports_facilities
+					}
+					has_technology_researched = elgar_mass_culture_tech
+					any_scope_character = {
+						OR = {
+							has_trait = vikelas_winner
+							has_trait = vikelas_athlete
+						}
+					}
+					has_variable = vikelas_school_sport_var
+				}
+				add_modifier = {
+					name = vikelas_fifa_champion_modifier
+					years = 4
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_country = { ##Random Country will win if it has at least some achievements
+					has_variable = vikelas_football_association_var
+					any_scope_building = {
+						is_building_type = building_government_administration
+						has_active_production_method = pm_vikelas_sports_facilities
+					}
+					has_technology_researched = elgar_mass_culture_tech
+					OR = {
+						any_scope_character = {
+							OR = {
+								has_trait = vikelas_winner
+								has_trait = vikelas_athlete
+							}
+						}
+						has_variable = vikelas_school_sport_var
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_football_association_var
+					any_scope_building = {
+						is_building_type = building_government_administration
+						has_active_production_method = pm_vikelas_sports_facilities
+					}
+					has_technology_researched = elgar_mass_culture_tech
+					OR = {
+						any_scope_character = {
+							OR = {
+								has_trait = vikelas_winner
+								has_trait = vikelas_athlete
+							}
+						}
+						has_variable = vikelas_school_sport_var
+					}
+				}
+				add_modifier = {
+					name = vikelas_fifa_champion_modifier
+					years = 4
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_country = { #Random Country will win if it has minor achievements
+					has_variable = vikelas_football_association_var
+					OR = {
+						has_technology_researched = elgar_mass_culture_tech
+						any_scope_building = {
+							is_building_type = building_government_administration
+							has_active_production_method = pm_vikelas_sports_facilities
+						}
+						any_scope_character = {
+							OR = {
+								has_trait = vikelas_winner
+								has_trait = vikelas_athlete
+							}
+						}
+						has_variable = vikelas_school_sport_var
+					}
+				}
+			}
+			random_country = {
+				limit = {
+					has_variable = vikelas_football_association_var
+					any_scope_building = {
+						is_building_type = building_government_administration
+						has_active_production_method = pm_vikelas_sports_facilities
+					}
+					OR = {
+						has_technology_researched = elgar_mass_culture_tech
+						any_scope_building = {
+							is_building_type = building_government_administration
+							has_active_production_method = pm_vikelas_sports_facilities
+						}
+						any_scope_character = {
+							OR = {
+								has_trait = vikelas_winner
+								has_trait = vikelas_athlete
+							}
+						}
+						has_variable = vikelas_school_sport_var
+					}
+				}
+				add_modifier = {
+					name = vikelas_fifa_champion_modifier
+					years = 4
+				}
+			}
+		}
+		else = {
+			random_country = { #Ok, please someone wins!
+				limit = {
+					has_variable = vikelas_football_association_var
+				}
+				add_modifier = {
+					name = vikelas_fifa_champion_modifier
+					years = 4
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = {
+				id = vikelas.403
+				days = 1
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 402: FIFA World Cuop in $COUNTRY$
+
+vikelas.402 = {
+	type = country_event
+
+	title = vikelas.402.t
+	desc = vikelas.402.d
+	flavor = vikelas.402.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = vikelas_fifa_worldcup_host_modifier
+			}
+			save_scope_as = vikelas_fifa_host_scope
+		}
+	}
+
+	option = {
+		name = vikelas.402.g #May the better one win!
+		default_option = yes
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 403: FIFA World Cuop in $COUNTRY$ ends
+
+vikelas.403 = {
+	type = country_event
+
+	title = vikelas.403.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = vikelas_fifa_quarterfinals_var
+			}
+			desc = vikelas.403.d_quarter
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = vikelas_fifa_semifinals_var
+			}
+			desc = vikelas.403.d_semi
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = vvikelas_fifa_final_var
+			}
+			desc = vikelas.403.d_final
+		}
+		triggered_desc = {
+			trigger = {
+				has_modifier = vikelas_fifa_champion_modifier
+			}
+			desc = vikelas.403.d_champion
+		}
+	}
+	flavor = vikelas.403.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_association.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					has_modifier = vikelas_fifa_champion_modifier
+				}
+			}
+			random_list = {
+				1 = { set_variable = vikelas_fifa_quarterfinals_var }
+				1 = { set_variable = vikelas_fifa_semifinals_var }
+				1 = { set_variable = vikelas_fifa_final_var }
+			}
+		}
+		random_country = {
+			limit = {
+				has_modifier = vikelas_fifa_worldcup_host_modifier
+			}
+			save_scope_as = vikelas_fifa_host_scope
+		}
+		random_country = {
+			limit = {
+				has_modifier = vikelas_fifa_champion_modifier
+			}
+			save_scope_as = vikelas_fifa_champion_scope
+		}
+	}
+
+	option = {
+		name = vikelas.403.g #This sport has never been important.
+		trigger = {
+			NOT = {
+				has_modifier = vikelas_fifa_champion_modifier
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.403.h #We are the champions.
+		trigger = {
+			has_modifier = vikelas_fifa_champion_modifier
+		}
+		default_option = yes
+		add_loyalists = {
+			value = 0.05
+		}
+	}
+
+	after = {
+	}
+}
