@@ -2154,6 +2154,22 @@ vikelas.114 = {
 					popup = yes
 					days = 1200
 				}
+				if = {
+					limit = {
+						has_global_variable = vikelas_olympic_flame_var
+					}
+					random_country = {
+						limit = {
+							any_scope_state = {
+								state_region = s:STATE_PELOPONNESE
+							}
+							trigger_event = {
+								id = vikelas.181
+								days = 1000
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -2275,6 +2291,7 @@ vikelas.116 = {
 			name = vikelas_olympic_games_number_global_var
 			add = 1
 		}
+		remove_global_variable = vikelas_olympic_torch_var
 	}
 
 	option = {
@@ -2290,6 +2307,17 @@ vikelas.116 = {
 		}
 		add_journal_entry = {
 			type = je_vikelas_olympic_games_host
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					has_global_variable = vikelas_olympic_flame_var
+				}
+				trigger_event = {
+					id = vikelas.183
+					days = 1
+				}
+			}
 		}
 		every_country = {
 			limit = {
@@ -3759,8 +3787,162 @@ vikelas.151 = {
 #Events 181-189: Other Olympic Events
 
 #Vikelas 181: The Lighting of the Olympic Flame
+
+vikelas.181 = {
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = vikelas_olympic_torch_var
+		if = {
+			limit = {
+				any_scope_state = {
+					state_region = s:STATE_PELOPONNESE
+					NOT = {
+						has_modifier = vikelas_fire_of_olympia_modifier
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_PELOPONNESE
+				}
+				add_modifier = {
+					name = vikelas_fire_of_olympia_modifier
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
 #Vikelas 182: Olympic Torch in $COUNTRY$
+
+vikelas.182 = {
+	type = country_event
+
+	title = vikelas.182.t
+	desc = vikelas.182.d
+	flavor = vikelas.182.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympic_torch.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 3
+	}
+
+	trigger = {
+		has_global_variable = vikelas_olympic_torch_var
+		any_scope_state = {
+			any_neighbouring_state = {
+				owner = {
+					has_modifier = vikelas_olympics_preparation_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.182.g #Fine
+		default_option = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_loyalists_in_state = {
+				value = 0.05
+			}
+			add_modifier = {
+				name = vikelas_olympic_torch_modifier
+				days = 100
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
 #Vikelas 183: The Olympic Flame
+
+vikelas.183 = {
+	type = country_event
+
+	title = vikelas.183.t
+	desc = vikelas.183.d
+	flavor = vikelas.183.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympic_flame.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.183.g #The people of our nation see us as a great country
+		default_option = yes
+		add_loyalists = {
+			value = 0.05
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = vikelas.183.h #The nations of the world see us as a great country
+		change_infamy = -5
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
 
 #################################################################################
 
