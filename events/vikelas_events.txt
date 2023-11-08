@@ -1,6 +1,6 @@
-﻿###################fallback
+﻿##################
 # SPORTS EVENTS  #
-###################
+##################
 
 #by Lord R & Marco Dandolo
 
@@ -48,6 +48,8 @@ namespace = vikelas
 
 #Events 121-180: Flavor Events during the Olympics
 
+#Vikelas 121: The Communist Gymnastic athlete
+#Vikelas 122: The Reactionary Tennis Chap
 #Vikelas 123: Athlete misses event because of calender (participants)
 #Vikelas 124: Honorable Cyclist (participants)
 #Vikelas 125: Cyclist hit by a car (participants)
@@ -55,6 +57,7 @@ namespace = vikelas
 #Vikelas 127: Drunken Cyclist (participants)
 #Vikelas 128: Free Beer! (participants)
 #Vikelas 129: Schwingerkönig wins Wrestling Event (participants)
+#Vikelas 130: Tug of war (participants)
 
 #Events for Random Characters
 
@@ -66,6 +69,8 @@ namespace = vikelas
 #Events for Organizers
 
 #Vikelas 141: No Sailboats! (organizer)
+#Vikelas 142: Rigged Football Match? (organizer)
+#Vikelas 143: The New Legend of Marathon (organizer)
 
 #Events for Notifications
 
@@ -2154,6 +2159,22 @@ vikelas.114 = {
 					popup = yes
 					days = 1200
 				}
+				if = {
+					limit = {
+						has_global_variable = vikelas_olympic_flame_var
+					}
+					random_country = {
+						limit = {
+							any_scope_state = {
+								state_region = s:STATE_PELOPONNESE
+							}
+							trigger_event = {
+								id = vikelas.181
+								days = 1000
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -2275,6 +2296,7 @@ vikelas.116 = {
 			name = vikelas_olympic_games_number_global_var
 			add = 1
 		}
+		remove_global_variable = vikelas_olympic_torch_var
 	}
 
 	option = {
@@ -2290,6 +2312,17 @@ vikelas.116 = {
 		}
 		add_journal_entry = {
 			type = je_vikelas_olympic_games_host
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					has_global_variable = vikelas_olympic_flame_var
+				}
+				trigger_event = {
+					id = vikelas.183
+					days = 1
+				}
+			}
 		}
 		every_country = {
 			limit = {
@@ -2539,8 +2572,183 @@ vikelas.120 = {
 	}
 }
 
-#Vikelas 123: Athlete misses event because of calender (participants)
+#Vikelas 121: The Communist Gymnastic athlete
+vikelas.121 = {
+	type = country_event
 
+	title = vikelas.121.t
+	desc = vikelas.121.d
+	flavor = vikelas.121.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_amsterdam.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+		NOR = {
+			has_law = law_type:law_command_economy
+			has_law = law_type:law_council_republic
+		}
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = vikelas_communist_athlete_scope
+		}
+		scope:vikelas_communist_athlete_scope = {
+			place_character_in_void = 120
+			add_trait = vikelas_athlete
+		}
+	}
+
+	option = {
+		name = vikelas.121.g #No matter what he thinks, he should win!
+		default_option = yes
+		custom_tooltip = {
+			text = vikelas_positive_influence_on_score_tt
+			set_variable = {
+				name = vikelas_communist_character_champion_var
+				months = 6
+			}
+		}
+		add_modifier = {
+			name = vikelas_olympic_champion_modifier
+			years = 3
+		}
+		every_interest_group = {
+			limit = {
+				OR = {
+					law_stance = {
+						law = law_type:law_command_economy
+						value > neutral
+					}
+				}
+				OR = {
+					law_stance = {
+						law = law_type:law_council_republic
+						value > neutral
+					}
+				}
+			}
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.121.h #Don't we have another athlete?
+	}
+
+	after = {
+		scope:vikelas_communist_athlete_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Vikelas 122: Reactionary Tennis Player
+vikelas.122 = {
+	type = country_event
+
+	title = vikelas.122.t
+	desc = vikelas.122.d
+	flavor = vikelas.122.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_amsterdam.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+		NOR = {
+			has_law = law_type:law_monarchy
+			has_law = law_type:law_state_religion
+		}
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = vikelas_reactionary_athlete_scope
+		}
+		scope:vikelas_reactionary_athlete_scope = {
+			place_character_in_void = 120
+			add_trait = vikelas_athlete
+		}
+	}
+
+	option = {
+		name = vikelas.121.g #No matter what he thinks, he should win!
+		default_option = yes
+		custom_tooltip = {
+			text = vikelas_positive_influence_on_score_tt
+			set_variable = {
+				name = vikelas_reactionary_character_champion_var
+				months = 6
+			}
+		}
+		add_modifier = {
+			name = vikelas_olympic_champion_modifier
+			years = 3
+		}
+		every_interest_group = {
+			limit = {
+				OR = {
+					law_stance = {
+						law = law_type:law_monarchy
+						value > neutral
+					}
+				}
+				OR = {
+					law_stance = {
+						law = law_type:law_state_religion
+						value > neutral
+					}
+				}
+			}
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.121.h #Don't we have another athlete?
+	}
+
+	after = {
+		scope:vikelas_communist_athlete_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Vikelas 122: The Reactionary Tennis Chap
+
+#Vikelas 123: Athlete misses event because of calender (participants)
 vikelas.123 = {
 	type = country_event
 
@@ -2945,6 +3153,89 @@ vikelas.129 = {
 	}
 
 	after = {
+	}
+}
+
+#Vikelas 130: Tug of War (participants)
+vikelas.130 = {
+	type = country_event
+
+	title = vikelas.130.t
+	desc = vikelas.130.d
+	flavor = vikelas.130.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_tug_of_war.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+		random_rival_country = {
+			has_variable = vikelas_ioc_member_var
+		}
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = vikelas_our_athlete_scope
+		}
+		scope:vikelas_our_leader_scope = {
+			place_character_in_void = 120
+			add_trait = vikelas_athlete
+		}
+		random_rival_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			create_character = {
+				female = no
+				save_scope_as = vikelas_rival_athlete_scope
+			}
+			scope:vikelas_rival_athlete_scope = {
+				place_character_in_void = 120
+				add_trait = vikelas_athlete
+			}
+			save_scope_as = vikelas_rival_country_scope
+		}
+	}
+
+	option = {
+		name = vikelas.130.g #That was unfair!
+		default_option = yes
+		add_modifier = {
+			name = vikelas_disgraced_at_the_olympics_modifier
+			years = 3
+		}
+		change_relations = {
+			country = scope:vikelas_rival_country_scope
+			value = -5
+		}
+		custom_tooltip = {
+			text = vikelas_negative_influence_on_score_tt
+			set_variable = {
+				name = vikelas_lost_tug_of_war_var
+				months = 6
+			}
+		}
+	}
+
+	after = {
+		scope:vikelas_our_athlete_scope = {
+			free_character_from_void = no
+		}
+		scope:vikelas_rival_athlete_scope = {
+			free_character_from_void = no
+		}
 	}
 }
 
@@ -3552,6 +3843,13 @@ vikelas.134 = {
 				value = 5
 			}
 		}
+		custom_tooltip = {
+			text = vikelas_positive_influence_on_score_tt
+			set_variable = {
+				name = vikelas_random_character_champion_var
+				months = 6
+			}
+		}
 	}
 
 	after = {
@@ -3637,6 +3935,77 @@ vikelas.141 = {
 			}
 			trigger_event = vikelas.151
 		}
+	}
+}
+
+#Vikelas 142: Rigged Football Match?
+
+vikelas.142 = {
+	type = country_event
+
+	title = vikelas.142.t
+	desc = vikelas.142.d
+	flavor = vikelas.142.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				NOT = { root = this }
+				has_variable = vikelas_ioc_member_var
+			}
+			save_scope_as = vikelas_olympics_football_country_scope
+		}
+	}
+
+	option = {
+		name = vikelas.142.g #The ball was clearly offside!
+		default_option = yes
+		change_infamy = 1
+		change_relations = {
+			country = scope:vikelas_olympics_football_country_scope
+			value = -5
+		}
+		add_modifier = {
+			name = vikelas_olympic_champion_modifier
+			years = 3
+		}
+
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	option = {
+		name = vikelas.141.h #The other team has won.
+		change_infamy = -1
+		change_relations = {
+			country = scope:vikelas_olympics_football_country_scope
+			value = 5
+		}
+
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	after = {
 	}
 }
 
@@ -3759,8 +4128,178 @@ vikelas.151 = {
 #Events 181-189: Other Olympic Events
 
 #Vikelas 181: The Lighting of the Olympic Flame
+
+vikelas.181 = {
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = vikelas_olympic_torch_var
+		if = {
+			limit = {
+				any_scope_state = {
+					state_region = s:STATE_PELOPONNESE
+					NOT = {
+						has_modifier = vikelas_fire_of_olympia_modifier
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					state_region = s:STATE_PELOPONNESE
+				}
+				add_modifier = {
+					name = vikelas_fire_of_olympia_modifier
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
 #Vikelas 182: Olympic Torch in $COUNTRY$
+
+vikelas.182 = {
+	type = country_event
+
+	title = vikelas.182.t
+	desc = vikelas.182.d
+	flavor = vikelas.182.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympic_torch.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		has_global_variable = vikelas_olympic_torch_var
+		any_scope_state = {
+			any_neighbouring_state = {
+				owner = {
+					has_modifier = vikelas_olympics_preparation_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = capital_scope
+		}
+		immediate = {
+			random_country = {
+				limit = {
+					any_scope_state = {
+						has_modifier = vikelas_olympics_preparation_modifier
+					}
+				}
+				save_scope_as = vikelas_olympic_country
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.182.g #Fine
+		default_option = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_loyalists_in_state = {
+				value = 0.05
+			}
+			add_modifier = {
+				name = vikelas_olympic_torch_modifier
+				days = 100
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
+
 #Vikelas 183: The Olympic Flame
+
+vikelas.183 = {
+	type = country_event
+
+	title = vikelas.183.t
+	desc = vikelas.183.d
+	flavor = vikelas.183.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympic_flame.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.183.g #The people of our nation see us as a great country
+		default_option = yes
+		add_loyalists = {
+			value = 0.05
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = vikelas.183.h #The nations of the world see us as a great country
+		change_infamy = -5
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+	}
+}
 
 #################################################################################
 
