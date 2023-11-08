@@ -71,6 +71,8 @@ namespace = vikelas
 #Vikelas 141: No Sailboats! (organizer)
 #Vikelas 142: Rigged Football Match? (organizer)
 #Vikelas 143: The New Legend of Marathon (organizer)
+#Vikelas 144: Well organized games (organizer)
+#Vikelas 144: A celebrated host (organizer)
 
 #Events for Notifications
 
@@ -2572,7 +2574,7 @@ vikelas.120 = {
 	}
 }
 
-#Vikelas 121: The Communist Gymnastic athlete
+#Vikelas 121: The Communist Gymnastic athlete (participants)
 vikelas.121 = {
 	type = country_event
 
@@ -2659,7 +2661,7 @@ vikelas.121 = {
 	}
 }
 
-#Vikelas 122: Reactionary Tennis Player
+#Vikelas 122: Reactionary Tennis Player (participants)
 vikelas.122 = {
 	type = country_event
 
@@ -4002,6 +4004,234 @@ vikelas.142 = {
 
 		ai_chance = {
 			base = 20
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 143: The New Legend of Marathon (organizer)
+
+vikelas.143 = {
+	type = country_event
+
+	title = vikelas.143.t
+	desc = vikelas.143.d
+	flavor = vikelas.143.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_amsterdam.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 50 #blocked forever
+	}
+
+	trigger = {
+		has_law = law_type:law_monarchy
+		OR = {
+			#Mediterranean Countries
+			country_has_primary_culture = cu:south_italian
+			country_has_primary_culture = cu:north_italian
+			country_has_primary_culture = cu:corsican
+			country_has_primary_culture = cu:occitan
+			country_has_primary_culture = cu:francoprovencal
+			country_has_primary_culture = cu:catalan
+			country_has_primary_culture = cu:basque
+			country_has_primary_culture = cu:spanish
+			country_has_primary_culture = cu:portuguese
+			country_has_primary_culture = cu:galician
+			country_has_primary_culture = cu:croatian
+			country_has_primary_culture = cu:greek
+		}
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = vikelas_olympic_marathon_athlete_scope
+		}
+		scope:vikelas_olympic_marathon_athlete_scope = {
+			place_character_in_void = 120
+			add_trait = vikelas_athlete
+		}
+		random_country = {
+			limit = {
+				NOT = { root = this }
+				has_variable = vikelas_ioc_member_var
+			}
+			create_character = {
+				female = no
+				save_scope_as = vikelas_olympic_rival_athlete_1_scope
+			}
+			scope:vikelas_olympic_rival_athlete_1_scope = {
+				place_character_in_void = 120
+				add_trait = vikelas_athlete
+			}
+			save_scope_as = vikelas_olympic_rival_country_1_scope
+		}
+		random_country = {
+			limit = {
+				NOT = { root = this }
+				NOT = { scope:vikelas_olympic_rival_country_1_scope = this }
+				has_variable = vikelas_ioc_member_var
+			}
+			create_character = {
+				female = no
+				save_scope_as = vikelas_olympic_rival_athlete_2_scope
+			}
+			scope:vikelas_olympic_rival_athlete_1_scope = {
+				place_character_in_void = 120
+				add_trait = vikelas_athlete
+			}
+			save_scope_as = vikelas_olympic_rival_country_2_scope
+		}
+		random_country = {
+			limit = {
+				NOT = { root = this }
+				NOR = { 
+					scope:vikelas_olympic_rival_country_1_scope = this
+					scope:vikelas_olympic_rival_country_2_scope = this
+				}
+				has_variable = vikelas_ioc_member_var
+			}
+			create_character = {
+				female = no
+				save_scope_as = vikelas_olympic_rival_athlete_3_scope
+			}
+			scope:vikelas_olympic_rival_athlete_1_scope = {
+				place_character_in_void = 120
+				add_trait = vikelas_athlete
+			}
+			save_scope_as = vikelas_olympic_rival_country_3_scope
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = vikelas_ruler
+		}
+	}
+
+	option = {
+		name = vikelas.143.g #A true Olympian!
+		default_option = yes
+		add_modifier = {
+			name = vikelas_olympic_marathon_legend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		scope:vikelas_olympic_marathon_athlete_scope = {
+			free_character_from_void = no
+		}
+		scope:vikelas_olympic_rival_athlete_1_scope = {
+			free_character_from_void = no
+		}
+		scope:vikelas_olympic_rival_athlete_2_scope = {
+			free_character_from_void = no
+		}
+		scope:vikelas_olympic_rival_athlete_3_scope = {
+			free_character_from_void = no
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			c:GRE ?= ROOT
+		  	factor = 10
+		}
+	}
+}
+
+#Vikelas 144: Well organized games (organizer)
+
+vikelas.144 = {
+	type = country_event
+
+	title = vikelas.144.t
+	desc = vikelas.144.d
+	flavor = vikelas.144.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_aerial_view.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 50 #blocked forever
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.144.g #Excellent!
+		default_option = yes
+
+		add_modifier = {
+			name = vikelas_olympics_well_organized_modifier
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 145: A celebrated host (organizer)
+
+vikelas.145 = {
+	type = country_event
+
+	title = vikelas.145.t
+	desc = vikelas.145.d
+	flavor = vikelas.145.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_aerial_view.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 50 #blocked forever
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = vikelas.144.g #Excellent!
+		default_option = yes
+
+		add_modifier = {
+			name = vikelas_olympics_celebrated_host_modifier
+			years = 5
 		}
 	}
 
