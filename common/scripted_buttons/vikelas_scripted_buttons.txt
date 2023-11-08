@@ -184,6 +184,7 @@ vikelas_olympic_flame_button = {
 	possible = {
 		has_modifier = vikelas_olympics_preparation_modifier
 		has_technology_researched = elgar_mass_culture_tech
+		has_technology_researched = organized_sports
 		lepsius_has_archaeologist = yes
 	}
 
@@ -242,10 +243,60 @@ vikelas_school_sport_button = {
 			has_active_production_method = pm_vikelas_sports_facilities
 		}
 		has_technology_researched = dubois_theory_of_evolution_tech
+		has_technology_researched = organized_sports
 	}
 
 	effect = {
 		set_variable = vikelas_school_sport_var
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+vikelas_football_worldcup_button = {
+	name = "vikelas_football_worldcup_button"
+	desc = "vikelas_football_worldcup_button_desc"
+
+	visible = { 
+		NOT = {
+			has_global_variable = vikelas_football_worldcup_var
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = vikelas_football_worldcup_tt
+			any_country = {
+				has_variable = vikelas_football_association_var
+				count >= 16
+			}
+		}
+		has_technology_researched = elgar_mass_culture_tech
+		has_technology_researched = organized_sports
+	}
+
+	effect = {
+		set_global_variable = vikelas_football_worldcup_var
+		add_modifier = {
+			name = vikelas_fifa_worldcup_host_modifier
+			days = 120
+		}
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = {
+				id = vikelas.402
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = vikelas.401
+				days = 120
+			}
+		}
 	}
 
 	ai_chance = {
