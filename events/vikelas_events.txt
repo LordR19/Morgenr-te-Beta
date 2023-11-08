@@ -4670,6 +4670,7 @@ vikelas.301 = {
 
 	trigger = {
 		OR = {
+			has_variable = vikelas_football_country_var
 			country_is_in_europe = yes
 			country_is_in_south_america = yes
 		}
@@ -4690,6 +4691,7 @@ vikelas.301 = {
 	}
 
 	immediate = {
+		set_variable = vikelas_football_country_var
 		random_scope_state = {
 			limit = {
 				is_homeland_of_country_cultures = owner
@@ -4871,13 +4873,26 @@ vikelas.303 = {
 	icon = "gfx/interface/icons/event_icons/event_sports.dds"
 
 	trigger = {
-		any_scope_state = {
-			has_modifier = vikelas_football_club_modifier
-			count >= 2
+		OR = {
+			AND = {
+				country_rank <= rank_value:major_power
+				any_scope_state = {
+					has_modifier = vikelas_football_club_modifier
+					count >= 2
+				}
+			}
+			AND = {
+				country_rank = rank_value:great_power
+				any_scope_state = {
+					has_modifier = vikelas_football_club_modifier
+					count >= 3
+				}
+			}
 		}
 	}
 
 	immediate = {
+		set_variable = vikelas_football_association_var
 	}
 
 	option = {
@@ -4921,7 +4936,10 @@ vikelas.311 = {
 	}
 
 	trigger = {
-		c:USA ?= this
+		OR = {
+			c:USA ?= this
+			has_variable = vikelas_baseball_country_var
+		}
 		OR = {
 			has_law = law_type:law_protected_speech
 			has_law = law_type:law_right_of_assembly
@@ -4939,6 +4957,7 @@ vikelas.311 = {
 	}
 
 	immediate = {
+		set_variable = vikelas_baseball_country_var
 		random_scope_state = {
 			limit = {
 				is_homeland_of_country_cultures = owner
@@ -5051,6 +5070,7 @@ vikelas.321 = {
 
 	trigger = {
 		OR = {
+			has_variable = vikelas_cricket_country_var
 			has_subject_relation_with = c:GBR
 			country_has_primary_culture = cu:british
 			country_has_primary_culture = cu:irish
@@ -5077,6 +5097,7 @@ vikelas.321 = {
 	}
 
 	immediate = {
+		set_variable = vikelas_cricket_country_var
 		random_scope_state = {
 			limit = {
 				is_homeland_of_country_cultures = owner
