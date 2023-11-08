@@ -1,6 +1,6 @@
-﻿###################fallback
+﻿##################
 # SPORTS EVENTS  #
-###################
+##################
 
 #by Lord R & Marco Dandolo
 
@@ -55,6 +55,7 @@ namespace = vikelas
 #Vikelas 127: Drunken Cyclist (participants)
 #Vikelas 128: Free Beer! (participants)
 #Vikelas 129: Schwingerkönig wins Wrestling Event (participants)
+#Vikelas 130: Tug of war (participants)
 
 #Events for Random Characters
 
@@ -2567,8 +2568,9 @@ vikelas.120 = {
 	}
 }
 
-#Vikelas 123: Athlete misses event because of calender (participants)
 
+
+#Vikelas 123: Athlete misses event because of calender (participants)
 vikelas.123 = {
 	type = country_event
 
@@ -2973,6 +2975,83 @@ vikelas.129 = {
 	}
 
 	after = {
+	}
+}
+
+#Vikelas 130: Tug of War (participants)
+vikelas.130 = {
+	type = country_event
+
+	title = vikelas.130.t
+	desc = vikelas.130.d
+	flavor = vikelas.130.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_tug_of_war.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+		random_rival_country = {
+			has_variable = vikelas_ioc_member_var
+		}
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = vikelas_our_athlete_scope
+		}
+		scope:vikelas_our_leader_scope = {
+			place_character_in_void = 120
+			add_trait = vikelas_athlete
+		}
+		random_rival_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+			}
+			create_character = {
+				female = no
+				save_scope_as = vikelas_rival_athlete_scope
+			}
+			scope:vikelas_rival_athlete_scope = {
+				place_character_in_void = 120
+				add_trait = vikelas_athlete
+			}
+			save_scope_as = vikelas_rival_country_scope
+		}
+	}
+
+	option = {
+		name = vikelas.130.g #That was unfair!
+		default_option = yes
+		add_modifier = {
+			name = vikelas_disgraced_at_the_olympics_modifier
+			years = 3
+		}
+
+		change_relations = {
+			country = scope:vikelas_rival_country_scope
+			value = -5
+		}
+	}
+
+	after = {
+		scope:vikelas_our_athlete_scope = {
+			free_character_from_void = no
+		}
+		scope:vikelas_rival_athlete_scope = {
+			free_character_from_void = no
+		}
 	}
 }
 
@@ -3665,6 +3744,77 @@ vikelas.141 = {
 			}
 			trigger_event = vikelas.151
 		}
+	}
+}
+
+#Vikelas 142: Rigged Football Match?
+
+vikelas.142 = {
+	type = country_event
+
+	title = vikelas.142.t
+	desc = vikelas.142.d
+	flavor = vikelas.142.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				NOT = { root = this }
+				has_variable = vikelas_ioc_member_var
+			}
+			save_scope_as = vikelas_olympics_football_country_scope
+		}
+	}
+
+	option = {
+		name = vikelas.142.g #The ball was clearly offside!
+		default_option = yes
+		change_infamy = 1
+		change_relations = {
+			country = scope:vikelas_olympics_football_country_scope
+			value = -5
+		}
+		add_modifier = {
+			name = vikelas_olympic_champion_modifier
+			years = 3
+		}
+
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	option = {
+		name = vikelas.141.h #The other team has won.
+		change_infamy = -1
+		change_relations = {
+			country = scope:vikelas_olympics_football_country_scope
+			value = 5
+		}
+
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	after = {
 	}
 }
 
