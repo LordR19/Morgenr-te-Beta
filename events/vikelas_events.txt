@@ -94,6 +94,7 @@ namespace = vikelas
 #Vikelas 301: Football Club in $STATE$
 #Vikelas 302: Rival Football Club in $STATE$
 #Vikelas 303: Football Association
+#Vikelas 304: Football Rivalry
 
 #Vikelas 311: Baseball Club in $STATE$
 #Vikelas 321: Cricket Club in $STATE$
@@ -4305,7 +4306,7 @@ vikelas.151 = {
 	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
 
 	trigger = {
-		NOT = { has_variable = vikelas_no_more_olympic_flavor_notification_events_var }
+	#	NOT = { has_variable = vikelas_no_more_olympic_flavor_notification_events_var }
 	}
 
 	immediate = {
@@ -5039,6 +5040,104 @@ vikelas.303 = {
 
 		ai_chance = {
 			base = 90
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 304: Football Rivalry
+
+vikelas.304 = {
+	type = country_event
+
+	title = vikelas.304.t
+	desc = vikelas.304.d
+	flavor = vikelas.304.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_football_game.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_sports.dds"
+
+	cooldown = {
+		years = { 2 5 }
+	}
+
+	trigger = {
+		has_variable = vikelas_football_association_var
+		any_scope_state = {
+			count >= 2
+			is_homeland_of_country_cultures = owner
+			any_scope_building = {
+				is_building_type = building_government_administration
+				has_active_production_method = pm_vikelas_sports_facilities
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+			}
+			save_scope_as = vikelas_rival_state_1_scope
+		}
+		random_scope_state = {
+			limit = {
+				is_homeland_of_country_cultures = owner
+				any_scope_building = {
+					is_building_type = building_government_administration
+					has_active_production_method = pm_vikelas_sports_facilities
+				}
+				NOT = { this = scope:vikelas_rival_state_1_scope }
+			}
+			save_scope_as = vikelas_rival_state_2_scope
+		}
+	}
+
+	option = {
+		name = vikelas.304.g #[Team 1]
+		default_option = yes
+		
+		scope:vikelas_rival_state_1_scope = {
+			add_loyalists_in_state = {
+				value = 0.7
+				strata = poor
+			}
+		}
+		scope:vikelas_rival_state_2_scope = {
+			add_radicals_in_state = {
+				value = 0.3
+				strata = poor
+			}
+		}
+	}
+
+	option = {
+		name = vikelas.304.h #[Team 2]
+
+		scope:vikelas_rival_state_2_scope = {
+			add_loyalists_in_state = {
+				value = 0.7
+				strata = poor
+			}
+		}
+		scope:vikelas_rival_state_1_scope = {
+			add_radicals_in_state = {
+				value = 0.3
+				strata = poor
+			}
 		}
 	}
 
