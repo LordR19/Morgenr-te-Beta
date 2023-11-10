@@ -438,7 +438,10 @@ vikelas.101 = {
 				NOT = {
 					has_variable = vikelas_ioc_board_member_var
 				}
-				c:GRE ?= this
+				OR = {
+					c:GRE ?= this
+					was_formed_from = GRE
+				}
 			}
 			set_variable = vikelas_ioc_board_member_var
 			set_variable = vikelas_ioc_member_var
@@ -551,8 +554,14 @@ vikelas.101 = {
 		###Trigger Event###
 		if = {
 			limit = {
-				c:GRE ?= {
-					has_variable = vikelas_ioc_founding_country_var
+				OR = {
+					c:GRE ?= {
+						has_variable = vikelas_ioc_founding_country_var
+					}
+					any_country = {
+						was_formed_from = GRE
+						has_variable = vikelas_ioc_founding_country_var
+					}
 				}
 			}
 			trigger_event = {
@@ -562,8 +571,11 @@ vikelas.101 = {
 		}
 		else_if = {
 			limit = {
-				NOT = {
+				NOR = {
 					exists = c:GRE
+					any_country = {
+						was_formed_from = GRE
+					}
 				}
 			}
 			trigger_event = {
@@ -628,7 +640,10 @@ vikelas.102 = {
 				NOT = {
 					has_technology_researched = organized_sports
 				}
-				c:GRE ?= this
+				OR = {
+					c:GRE ?= this
+					was_formed_from = GRE
+				}
 			}
 			add_technology_researched = organized_sports
 		}
@@ -829,7 +844,11 @@ vikelas.105 = {
 		default_option = yes
 		if = {
 			limit = {
-				c:GRE ?= this
+				OR = {
+					c:GRE ?= this
+					was_formed_from = GRE
+				}
+				
 			}
 			add_modifier = {
 				name = vikelas_olympics_preparation_modifier
@@ -1136,8 +1155,14 @@ vikelas.110 = {
 		NOT = {
 			has_variable = vikelas_ioc_member_var
 		}
-		c:GRE ?= {
-			has_modifier = vikelas_olympics_preparation_modifier
+		OR = {
+			c:GRE ?= {
+				has_modifier = vikelas_olympics_preparation_modifier
+			}
+			any_country = {
+				was_formed_from = GRE
+				has_modifier = vikelas_olympics_preparation_modifier
+			}
 		}
 		OR = {
 			dubois_has_active_naturalist = yes
@@ -4159,7 +4184,10 @@ vikelas.143 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			c:GRE ?= ROOT
+			OR = {
+				c:GRE ?= ROOT
+				was_formed_from = GRE
+			}
 		  	factor = 10
 		}
 	}
@@ -4745,12 +4773,27 @@ vikelas.190 = {
 		}
 		else_if = {
 			limit = {
-				exists = c:GRE
-				c:GRE = {
+				OR = {
+					AND = {
+						exists = c:GRE
+						c:GRE = {
+							has_variable = vikelas_ioc_member_var
+						}
+					}
+					any_country = {
+						was_formed_from = GRE
+						has_variable = vikelas_ioc_member_var
+					}
+				}	
+			}
+			random_country = {
+				limit = {
+					OR = {
+						c:GRE ?= this
+						was_formed_from = GRE
+					}
 					has_variable = vikelas_ioc_member_var
 				}
-			}
-			c:GRE = {
 				trigger_event = {
 					id = vikelas.191
 				}
