@@ -81,6 +81,8 @@ namespace = vikelas
 #Events 161-180: More Participant Events
 
 #Vikelas 161: Hitchhiker's Guide to the Marathon (participants)
+#Vikelas 162: A wild Dog appeared (participants)
+#Vikelas 163: Bull's Eye on the wrong Target (participants)
 
 #Events 181-189: Other Olympic Events
 
@@ -4472,6 +4474,62 @@ vikelas.162 = {
 
 	after = {
 		scope:vikelas_chased_by_dogs_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Vikelas 163: Bull's Eye on the wrong Target (participants)
+vikelas.163 = {
+	type = country_event
+
+	title = vikelas.163.t
+	desc = vikelas.163.d
+	flavor = vikelas.163.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_olympics_shooting.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_olympic_games.dds"
+
+	cooldown = {
+		years = 7 #blocked for two Olympic Games
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = vikelas_bad_shooter_scope
+		}
+		scope:vikelas_bad_shooter_scope = {
+			place_character_in_void = 120
+			add_trait = vikelas_athlete
+		}
+	}
+
+	option = {
+		name = vikelas.163.g #What a horrible way to lose!
+		default_option = yes
+
+		custom_tooltip = {
+			text = vikelas_negative_influence_on_score_tt
+			set_variable = {
+				name = vikelas_wrong_target_var
+				months = 6
+			}
+		}
+	}
+
+	after = {
+		scope:vikelas_bad_shooter_scope = {
 			free_character_from_void = no
 		}
 	}
