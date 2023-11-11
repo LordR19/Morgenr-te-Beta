@@ -27,7 +27,9 @@ types sports_view
 							sports_widget_with_character = {
 								blockoverride "role_icon" {
 									texture = "gfx/interface/icons/character_role_icons/curtiss_balloonist_role.dds"
-									tooltip = "[concept_curtiss_balloonist]"
+								}
+								blockoverride "role_tooltip" {
+									tooltip = "[Concept('concept_curtiss_balloonist_role','$concept_curtiss_balloonist_role_only_balloonist$')]"
 								}
 								blockoverride "role_name" {
 									text = "BALLOONIST_HEADER_TEXT"
@@ -43,14 +45,109 @@ types sports_view
 									max = 300
 									value = "[GetPlayer.MakeScope.Var('curtiss_balloonist_var').GetVariable('curtiss_balloonist_experience_var').GetValue]"
 								}
-								blockoverride "tooltip" {
+								blockoverride "experience_tooltip" {
 									tooltip = "MR_BALLOONIST_EXPERIENECE_TT"
 								}
 								blockoverride "small_box_content" {
+									textbox = {
+										position = { 15 10 }
+										{ 280 360 }
 
+										#Ballooning Information
+										text = "MR_BALLOONING_INFORMATION"
+										parentanchor = top|left
+										autoresize = yes
+										using = fontsize_large
+									}
 								}
 								blockoverride "big_box_content" {
-									
+									flowcontainer = {
+										direction = vertical
+										parentanchor = hcenter
+										ignoreinvisible = yes
+										spacing = 8
+										margin = { 25 15 }
+
+										### Other Buttons ###
+										button = {
+											#Recruit Balloonist
+											using = default_button_primary_big_action
+											size = { 250 40 }
+											raw_text = "MR_RECRUIT_BALLOONIST_BUTTON"
+											using = fontsize_medium
+					
+											datacontext = "[GetScriptedGui('mr_sponsor_balloonist_button')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "MR_RECRUIT_BALLOONIST_BUTTON_TT"
+										}
+										button = {
+											#Fire Balloonist
+											using = default_button_primary_big_action
+											size = { 250 40 }
+											raw_text = "MR_FIRE_BALLOONIST_BUTTON"
+											using = fontsize_medium
+					
+											datacontext = "[GetScriptedGui('mr_fire_balloonist_button')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "MR_FIRE_BALLOONIST_BUTTON_TT"
+										}
+										button = {
+											#No more Flight Information
+											using = default_button_primary_big_action
+											size = { 250 40 }
+											raw_text = "MR_NO_MORE_BALLOON_FLIGHT_EVENTS_BUTTON"
+											using = fontsize_medium
+					
+											datacontext = "[GetScriptedGui('mr_ballooning_no_more_flight_information')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "MR_NO_MORE_BALLOON_FLIGHT_EVENTS_BUTTON_TT"
+										}
+										button = {
+											#Show Flight Information
+											using = default_button_primary_big_action
+											size = { 250 40 }
+											raw_text = "MR_SHOW_BALLOON_FLIGHT_EVENTS_BUTTON"
+											using = fontsize_medium
+					
+											datacontext = "[GetScriptedGui('mr_ballooning_flight_information')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "MR_SHOW_BALLOON_FLIGHT_EVENTS_BUTTON_TT"
+										}
+										button = {
+											#No more Death Events
+											using = default_button_primary_big_action
+											size = { 250 40 }
+											raw_text = "MR_NO_MORE_BALLOONIST_DEATH_EVENTS_BUTTON"
+											using = fontsize_medium
+					
+											datacontext = "[GetScriptedGui('mr_ballooning_no_more_death_information')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "MR_NO_MORE_BALLOONIST_DEATH_EVENTS_BUTTON_TT"
+										}
+										button = {
+											#Show Death Events
+											using = default_button_primary_big_action
+											size = { 250 40 }
+											raw_text = "MR_SHOW_BALLOONIST_DEATH_EVENTS_BUTTON"
+											using = fontsize_medium
+					
+											datacontext = "[GetScriptedGui('mr_ballooning_death_information')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "MR_SHOW_BALLOONIST_DEATH_EVENTS_BUTTON_TT"
+										}
+									}
 								}
 							}
 			
@@ -80,11 +177,12 @@ types sports_view
 	type sports_widget_with_character = widget {
 		# Blocks to override:
 		# role_icon
+		# role_tooltip
 		# role_name
 		# character
 		# character_name
 		# values
-		# tooltip
+		# experience_tooltip
 		# small_box_content
 		# big_box_content
 		size = { 900 400 }
@@ -100,6 +198,7 @@ types sports_view
 				block "role_icon" {
 					# texture = ""
 				}
+				block "role_tooltip" {}
 			}
 			textbox = {
 				block "role_name" {
@@ -160,17 +259,14 @@ types sports_view
 					max = 300
 					value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('dubois_academy_progress').GetValue)]"
 				}
+				block "experience_tooltip" {}
 			}
 			textbox = {
 				text = "MR_EXPERIENCE"
-				position = { 0 -3 }
+				position = { 0 -4 }
 				parentanchor = center
 				autoresize = yes
 				using = fontsize_large
-				block "tooltip"
-				{
-					tooltip = "MR_BALLOONIST_EXPERIENECE_TT"
-				}
 			}
 		}
 
