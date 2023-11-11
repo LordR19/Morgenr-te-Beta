@@ -1,48 +1,209 @@
-# By Dementive & Lord R
+# By Lord R
 
 types sports_view
 {
 	type sports_view = widget {
 		size = { 98% 100% }
-		position = { 2% 0 }
+		position = { 2% 8% }
 		alpha = "[TransparentIfFalse(GetVariableSystem.Exists('mr_tabs'))]"
 		visible = "[GetVariableSystem.HasValue('mr_tabs', 'sports_tab')]"
 
-		vbox = {
-			layoutpolicy_vertical = expanding
-			margin_top = 8
+		scrollbox = {
+			size = { 100% 79% }
+			position = { 0 20 }
+			parentanchor = center
 
-			# First Row
-			hbox = {
-				layoutpolicy_horizontal = expanding
-				margin = { 5 5 }
+			blockoverride "scrollbox_content"
+				{
+					vbox = {
+						layoutpolicy_vertical = expanding
+						margin_left = 10
+			
+						# First Row
+						hbox = {
+							layoutpolicy_horizontal = expanding
+							spacing = 15
+							
+							sports_widget_with_character = {
+								blockoverride "role_icon" {
+									texture = "gfx/interface/icons/character_role_icons/curtiss_balloonist_role.dds"
+									tooltip = "[concept_curtiss_balloonist]"
+								}
+								blockoverride "role_name" {
+									text = "BALLOONIST_HEADER_TEXT"
+								}
+								blockoverride "character" {
+									datacontext = "[GetPlayer.MakeScope.Var('curtiss_balloonist_var').GetCharacter]"
+								}
+								blockoverride "character_name" {
+									text = "[GetPlayer.GetCustom('sports_has_balloonist_gui_type')]"
+								}
+								blockoverride "values" {
+									min = 0
+									max = 300
+									value = "[GetPlayer.MakeScope.Var('curtiss_balloonist_var').GetVariable('curtiss_balloonist_experience_var').GetValue]"
+								}
+								blockoverride "tooltip" {
+									tooltip = "MR_BALLOONIST_EXPERIENECE_TT"
+								}
+								blockoverride "small_box_content" {
 
-				margin_widget = {
-					height = 400
-					width = 48%
-					
-					background = {
-						using = entry_bg_simple
+								}
+								blockoverride "big_box_content" {
+									
+								}
+							}
+			
+							sports_placeholder = {
+			
+							}
+						}
+			
+						# Second Row
+						hbox = {
+							layoutpolicy_horizontal = expanding
+							spacing = 15
+			
+							sports_placeholder = {
+			
+							}
+			
+							sports_placeholder = {
+			
+							}
+						}
 					}
-				}
-				
-				margin_widget = {
-					height = 400
-					width = 100
-					
-					background = {
-						using = entry_bg_simple
-					}
+			}
+		}
+	}
+
+	type sports_widget_with_character = widget {
+		# Blocks to override:
+		# role_icon
+		# role_name
+		# character
+		# character_name
+		# values
+		# tooltip
+		# small_box_content
+		# big_box_content
+		size = { 900 400 }
+		background = {
+			using = entry_bg_unit_dark
+		}
+
+		# Character Portrait
+		widget = {
+			position = { 10 10 }
+			icon = {
+				size = { 65 65 }
+				block "role_icon" {
+					# texture = ""
 				}
 			}
+			textbox = {
+				block "role_name" {
+					text = "ARCHAEOLOGY_HEADER_TEXT"
+				}
+				position = { 75 5 }
+				parentanchor = left
+				autoresize = yes
+				using = fontsize_mega
+			}
+		}
+		character_portrait_large_torso = {
+			position = { 30 35 }
+			block "character"
+			{
+				datacontext = "[AccessPlayer.AccessRuler]"
+			}
+			blockoverride "show_hat" {}
+		}
+		default_header_clean_faded = {
+			size = { 250 40 }
+			position = { 14 295 }
+			blockoverride "text" {
+				block "character_name" 
+				{
+					raw_text = "[GetPlayer.GetRuler.GetFirstName]"
+				}
+			}
+		}
+		widget = { #This Icon displays the achievements of the Scientist
+			#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+			#used in the mr_GUI_l_english.yml file to display the correct Achievements.
+			size = { 35 35 }
+			parentanchor = bottom|left
+			position = { 10 -68 }
+									
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/backgrounds/round_button_bg.dds"
+				block "enabled" {}
+			}
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/icons/GUI_icons/GUI_scientist_achievements_button.dds"
+				block "enabled" {}
+				block "scientist_achievement_tooltip" {}
+			}
+		}
 
-			# Second Row
-			hbox = {
-				layoutpolicy_horizontal = expanding
-				margin = { 5 5 }
+		green_progressbar_horizontal = {
+			parentanchor = bottom|left
+			position = { 15 -15 }
+			size = { 250 35 }
+			blockoverride "values" {
+				block "values"
+				{
+					min = 0
+					max = 300
+					value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('dubois_academy_progress').GetValue)]"
+				}
+			}
+			textbox = {
+				text = "MR_EXPERIENCE"
+				position = { 0 -3 }
+				parentanchor = center
+				autoresize = yes
+				using = fontsize_large
+				block "tooltip"
+				{
+					tooltip = "MR_BALLOONIST_EXPERIENECE_TT"
+				}
+			}
+		}
 
+		#Center Box
+		widget = {
+			size = { 290 370 }
+			parentanchor = top
+			position = { 280 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "small_box_content"
+			{
 
 			}
 		}
+
+		#Right Box
+		widget = {
+			size = { 290 370 }
+			parentanchor = right
+			position = { -15 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "big_box_content"
+			{
+				
+			}
+		}
+	}
+
+	type sports_placeholder = widget {
+		size = { 900 400 }
 	}
 }
