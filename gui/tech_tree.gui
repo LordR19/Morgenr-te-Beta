@@ -33,7 +33,7 @@ types tech_tree
 
 				}
 				# MOD
-				on_start = "[GetVariableSystem.Clear('academy_view')]"
+				# on_start = "[GetVariableSystem.Clear('academy_view')]"
 				# on_start = "[GetVariableSystem.Toggle('academy_view')]" # for testing
 				# END MOD
 			}
@@ -274,26 +274,6 @@ types tech_tree
 						tooltip = "TECHNOLOGY_SPREAD_RATE_TOOLTIP"
 					}
 				}
-
-				#### MOD
-				vbox = {
-					margin_bottom = 14
-					margin_right = 2
-					layoutpolicy_horizontal = growing
-					button = {
-						using = expand_button_bg_no_fade
-						size = { 75 75 }
-						icon = {
-							size = { 70 70 }
-							parentanchor = center
-							texture = "gfx/interface/icons/event_icons/event_astronomy.dds"
-						}
-						tooltip = "GUI_ACADEMY_OF_SCIENCE_OPEN_TT"
-						onclick = "[GetVariableSystem.Toggle('academy_view')]"
-						onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-					}
-				}
-				#### END MOD
 			}
 			
 			### TABS
@@ -406,6 +386,81 @@ types tech_tree
 						alpha = 0.5
 					}
 				}
+
+				# MOD
+				
+				#Academic Society
+				blockoverride "fourth_button" {
+					text = "ACADEMY_OF_SCIENCE_VIEW_NAME"
+				}
+				blockoverride "fourth_button_tooltip" {
+					tooltip = "GUI_ACADEMY_OF_SCIENCE_OPEN_TT"
+				}
+				blockoverride "fourth_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+				blockoverride "fourth_button_click" {
+					onclick = "[GetVariableSystem.Toggle('academy_view')]"
+					onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				}
+				blockoverride "fourth_button_visibility" {
+					visible = "[GetVariableSystem.Exists('academy_view')]"
+				}
+				blockoverride "fourth_button_visibility_checked" {
+					visible = "[Not( GetVariableSystem.Exists('academy_view') )]"
+				}
+				blockoverride "fourth_button_selected" {
+					text = "ACADEMY_OF_SCIENCE_VIEW_NAME"
+				}
+				blockoverride "fourth_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+
+				#Sports
+				blockoverride "fifth_button" {
+					text = "SPORTS_OVERVIEW_VIEW_NAME"
+				}
+				blockoverride "fifth_button_tooltip" {
+					tooltip = "GUI_SPORTS_OVERVIEW_VIEW_TT"
+				}
+				blockoverride "fifth_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+				blockoverride "fifth_button_click" {
+					onclick = "[GetVariableSystem.Toggle('sports_view')]"
+					onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				}
+				blockoverride "fifth_button_visibility" {
+					visible = "[GetVariableSystem.Exists('sports_view')]"
+				}
+				blockoverride "fifth_button_visibility_checked" {
+					visible = "[Not( GetVariableSystem.Exists('sports_view') )]"
+				}
+				blockoverride "fifth_button_selected" {
+					text = "SPORTS_OVERVIEW_VIEW_NAME"
+				}
+				blockoverride "fifth_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+				# END MOD
 
 				### ICON SHOWING WHERE TECH IS BEING TECHED.
 				datacontext = "[GetPlayer.GetCurrentlyResearchedTechnology]"

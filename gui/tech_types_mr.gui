@@ -7,27 +7,219 @@ types academy_view
 		alpha = "[TransparentIfFalse(GetVariableSystem.Exists('academy_view'))]"
 		visible = "[GetVariableSystem.Exists('academy_view')]"
 
-		# Close/open button
-		button = {
-			using = expand_button_bg_no_fade
-			parentanchor = right
-			position = { -30 13 }
-			size = { 75 75 }
+		### TABS
+		tab_buttons_fullscreen = {
+			position = { 0 -420 }
+			visible = "[GetVariableSystem.Exists('academy_view')]"
 			
-			icon = {
-				size = { 70 70 }
-				parentanchor = center
-				texture = "gfx/interface/icons/alert_icons/has_no_research.dds"
+			# Production
+			blockoverride "first_button" {
+				text = "PRODUCTION_NO_CONCEPT"
+			}
+			blockoverride "first_button_tooltip" {
+				tooltip = "PRODUCTION_NO_CONCEPT"
+			}
+			blockoverride "first_button_background" {
+				background = {
+					margin = { 0 -2 }
+					using = fade_bottom_entry_fancy_header_colored
+					using = Color_Orange
+					alpha = 0.5
+				}
+			}
+			blockoverride "first_button_click" {
+				onclick = "[InformationPanel.SelectTab('production')]"
+				onclick = "[GetVariableSystem.Toggle('academy_view')]"
+			}
+			blockoverride "first_button_visibility" {
+				visible = "[Not( GetVariableSystem.Exists('academy_view') )]"
+			}
+			blockoverride "first_button_visibility_checked" {
+				visible = "[GetVariableSystem.Exists('academy_view')]"
+			}
+			blockoverride "first_button_selected" {
+				text = "PRODUCTION_NO_CONCEPT"
 			}
 
-			tooltip = "GUI_TECH_VIEW_OPEN_TT"
-			onclick = "[GetVariableSystem.Toggle('academy_view')]"
+			# Military
+			blockoverride "second_button" {
+				text = "MILITARY"
+			}
+			blockoverride "second_button_tooltip" {
+				tooltip = "MILITARY"
+			}
+			blockoverride "second_button_background" {
+				background = {
+					margin = { 0 -2 }
+					using = fade_bottom_entry_fancy_header_colored
+					using = Color_Red
+					alpha = 0.15
+				}
+			}
+			blockoverride "second_button_click" {
+				onclick = "[InformationPanel.SelectTab('military')]"
+				onclick = "[GetVariableSystem.Toggle('academy_view')]"
+			}
+			blockoverride "second_button_visibility" {
+				visible = "[Not( GetVariableSystem.Exists('academy_view') )]"
+			}
+			blockoverride "second_button_visibility_checked" {
+				visible = "[GetVariableSystem.Exists('academy_view')]"
+			}
+			blockoverride "second_button_selected" {
+				text = "MILITARY"
+			}
+			blockoverride "second_button_background_selected" {
+				background = {
+					using = fade_bottom_entry_fancy_header_colored
+					using = Color_Red
+					alpha = 0.15
+				}
+			}
+
+			# Society
+			blockoverride "third_button" {
+				text = "SOCIETY"
+			}
+			blockoverride "third_button_tooltip" {
+				tooltip = "SOCIETY"
+			}
+			blockoverride "third_button_background" {
+				background = {
+					margin = { 0 -2 }
+					using = fade_bottom_entry_fancy_header_colored
+					using = Color_Purple
+					alpha = 0.5
+				}
+			}
+			blockoverride "third_button_click" {
+				onclick = "[InformationPanel.SelectTab('society')]"
+				onclick = "[GetVariableSystem.Toggle('academy_view')]"
+			}
+			blockoverride "third_button_visibility" {
+				visible = "[Not( GetVariableSystem.Exists('academy_view') )]"
+			}
+			blockoverride "third_button_visibility_checked" {
+				visible = "[GetVariableSystem.Exists('academy_view')]"
+			}
+			blockoverride "third_button_selected" {
+				text = "SOCIETY"
+			}
+			blockoverride "third_button_background_selected" {
+				background = {
+					using = fade_bottom_entry_fancy_header_colored
+					using = Color_Purple
+					alpha = 0.5
+				}
+			}
+
+			# MOD
+			
+			#Academic Society
+			blockoverride "fourth_button" {
+				text = "ACADEMY_OF_SCIENCE_VIEW_NAME"
+			}
+			blockoverride "fourth_button_tooltip" {
+				tooltip = "GUI_ACADEMY_OF_SCIENCE_OPEN_TT"
+			}
+			blockoverride "fourth_button_background" {
+				background = {
+					margin = { 0 -2 }
+					using = fade_bottom_entry_fancy_header_colored
+					using = Color_Purple
+					alpha = 0.5
+				}
+			}
+			blockoverride "fourth_button_click" {
+				onclick = "[GetVariableSystem.Toggle('academy_view')]"
+				onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+			}
+			blockoverride "fourth_button_visibility" {
+				visible = "[GetVariableSystem.Exists('academy_view')]"
+			}
+			blockoverride "fourth_button_visibility_checked" {
+				visible = "[Not( GetVariableSystem.Exists('academy_view') )]"
+			}
+			blockoverride "fourth_button_selected" {
+				text = "ACADEMY_OF_SCIENCE_VIEW_NAME"
+			}
+			blockoverride "fourth_button_background_selected" {
+				background = {
+					using = fade_bottom_entry_fancy_header_colored
+					using = Color_Purple
+					alpha = 0.5
+				}
+			}
+
+			### ICON SHOWING WHERE TECH IS BEING TECHED.
+			datacontext = "[GetPlayer.GetCurrentlyResearchedTechnology]"
+
+			# production
+			blockoverride "first_button_icon" {
+
+				container = {
+					parentanchor = vcenter
+					# light bulb
+					visible = "[ObjectsEqual(Technology.GetCategoryName, 'Production')]"
+					
+					icon = {
+						using = rotate_glow_animation_02
+						size = { 60 60 }
+						parentanchor = center
+					}
+					icon = {
+						texture = "gfx/interface/icons/generic_icons/innovation.dds"
+						size = { 30 30 }
+						parentanchor = center
+					}
+				}
+			}
+			# military
+			blockoverride "second_button_icon" {
+				
+				container = {
+					parentanchor = vcenter
+					# light bulb
+					visible = "[ObjectsEqual(Technology.GetCategoryName, 'Military')]"
+					
+					icon = {
+						using = rotate_glow_animation_02
+						size = { 60 60 }
+						parentanchor = center
+					}
+					icon = {
+						texture = "gfx/interface/icons/generic_icons/innovation.dds"
+						size = { 30 30 }
+						parentanchor = center
+					}
+				}
+			}
+			# society
+			blockoverride "third_button_icon" {
+				
+				container = {
+					parentanchor = vcenter
+					# light bulb
+					visible = "[ObjectsEqual(Technology.GetCategoryName, 'Society')]"
+					
+					icon = {
+						using = rotate_glow_animation_02
+						size = { 60 60 }
+						parentanchor = center
+					}
+					icon = {
+						texture = "gfx/interface/icons/generic_icons/innovation.dds"
+						size = { 30 30 }
+						parentanchor = center
+					}
+				}
+			}
 		}
 
 		# Promote science container
 		widget = {
-			size = { 860 250 }
-			position = { 28 10 }
+			size = { 880 235 }
+			position = { 28 54 }
 			background = {
 				using = entry_bg_simple
 			}
@@ -47,7 +239,7 @@ types academy_view
 			}
 			green_progressbar_horizontal = {
 				position = { 20 100 }
-				size = { 820 35 }
+				size = { 840 35 }
 				blockoverride "values" {
 					min = 0
 					max = 360
@@ -65,11 +257,11 @@ types academy_view
 			flowcontainer = {
 				direction = horizontal
 				spacing = 35
-				position = { 55 157 }
+				position = { 135 157 }
 				#Here we would need 6 Buttons with the icon of each Scientist role (see the icons you used below)
 				button_icon_round = {
 					# Promote Engineer: academics_promote_engineer_button in academics_scripted_buttons.txt
-					size = { 75 75 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_promote_engineer')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -84,7 +276,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Promote Astronomer: academics_promote_astronomer_button in academics_scripted_buttons.txt
-					size = { 75 75 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_promote_astronomer')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -99,7 +291,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Promote Naturalist: academics_promote_naturalist_button in academics_scripted_buttons.txt
-					size = { 75 75 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_promote_naturalist')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -114,7 +306,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Promote Paleontologist: academics_promote_paleontologist_button in academics_scripted_buttons.txt
-					size = { 75 75 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_promote_paleontologist')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -129,7 +321,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Promote Archaeologist: academics_promote_archaeologist_button in academics_scripted_buttons.txt
-					size = { 75 75 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_promote_archaeologist')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -144,7 +336,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Promote Anthropologist: academics_promote_anthropologist_button in academics_scripted_buttons.txt
-					size = { 75 75 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_promote_anthropologist')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -160,7 +352,7 @@ types academy_view
 				button_icon_round = {
 					#Additionally it would be great to have another button for this scripted button:
 					# dubois_academy_investment_button --> if active change to --> dubois_cancel_academy_investment_button
-					size = { 75 75 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_academy_investment')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -178,9 +370,9 @@ types academy_view
 
 		# Academic focus container
 		widget = {
-			size = { 860 250 }
+			size = { 880 235 }
 			parentanchor = right
-			position = { -28 10 }
+			position = { -28 54 }
 			background = {
 				using = entry_bg_simple
 			}
@@ -194,11 +386,11 @@ types academy_view
 			flowcontainer = {
 				spacing = 30
 				direction = horizontal
-				position = { 150 55 }
+				position = { 190 55 }
 
 				button_icon_round = {
 					# Avantgarde Intelligentsia
-					size = { 65 65 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_change_to_avantgarde_school')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -213,7 +405,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Practical Academia
-					size = { 65 65 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_change_to_practical_school')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -228,7 +420,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Military-Industrial Complex
-					size = { 65 65 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_change_to_military_school')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -243,7 +435,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Business Schools & Tycoon Capitalism
-					size = { 65 65 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_change_to_business_school')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -258,7 +450,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Sea Power & Merchant Marine
-					size = { 65 65 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_change_to_seapower_school')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -273,7 +465,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Useful Ivory Tower
-					size = { 65 65 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_academics_change_to_useful_school')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -289,7 +481,7 @@ types academy_view
 			}
 			textbox = {
 				text = "ACADEMIC_EXPEDITIONS_TEXT"
-				position = { 0 125 }
+				position = { 0 110 }
 				parentanchor = top|center
 				autoresize = yes
 				using = fontsize_mega
@@ -297,11 +489,11 @@ types academy_view
 			flowcontainer = {
 				spacing = 30
 				direction = horizontal
-				position = { 305 175 }
+				position = { 320 160 }
 
 				button_icon_round = {
 					# Mountain Expedition
-					size = { 65 65 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_mountain_expedition_button')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -316,7 +508,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Zeppelin Expedition
-					size = { 65 65 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_arctica_expedition_button')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -331,7 +523,7 @@ types academy_view
 				}
 				button_icon_round = {
 					# Pacific Expedition
-					size = { 65 65 }
+					size = { 55 55 }
 
 					datacontext = "[GetScriptedGui('mr_pacific_expedition_button')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
@@ -349,22 +541,22 @@ types academy_view
 
 		# Individual science types
 		widget = {
-			size = { 1770 620 }
+			size = { 1770 600 }
 			parentanchor = bottom
 			position = { 28 -10 }
 			background = {
 				using = entry_bg_simple
 			}
 			scrollbox = {
-				size = { 1765 610 }
+				size = { 1765 590 }
 				parentanchor = bottom
-				position = { 0 -5 }
+				position = { 0 0 }
 				blockoverride "scrollbox_background"
 				{}
 				blockoverride "scrollbox_content"
 				{
 					flowcontainer = {
-						spacing = 50
+						spacing = 20
 						flowcontainer = {
 							parentanchor = top|right
 							position = { -20 20 }
