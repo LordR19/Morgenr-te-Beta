@@ -36,28 +36,120 @@ vikelas_ioc_foundation_button = {
 vikelas_ioc_member_button = {
     scope = country
 	is_shown = {
+		has_global_variable = vikelas_ioc_founded_var
 		NOT = {
-			has_global_variable = vikelas_ioc_founded_var
+			has_variable = vikelas_ioc_member_var
 		}
 	}
     is_valid = {
-		OR = {
-			gaudi_has_engineer = yes
-			verrier_has_astronomer = yes
-			dubois_has_naturalist = yes
-			dubois_has_paleontologist = yes
-			lepsius_has_archaeologist = yes
-			lepsius_has_anthropologist = yes
+		infamy < 50
+		NOT = {
+			is_country_type = unrecognized
 		}
 		is_at_war = no
+		NOT = {
+			any_state = {
+				has_modifier = vikelas_olympics_hosting_modifier
+			}
+		}
     }
     effect = {
-		set_global_variable = vikelas_ioc_founded_var
-		set_variable = vikelas_ioc_founding_country_var
-		set_variable = vikelas_ioc_member_var
-		trigger_event = { 
-			id = vikelas.100
-			popup = yes 
+		custom_tooltip = {
+			text = vikelas_become_ioc_member_tt
+			set_variable = vikelas_ioc_member_var
+		}
+    }
+}
+
+#MR_IOC_BRIBE_BUTTON
+vikelas_ioc_bribe_button = {
+    scope = country
+	is_shown = {
+		has_variable = vikelas_ioc_member_var
+	}
+    is_valid = {
+		NOT = {
+			any_state = {
+				has_modifier = vikelas_olympics_hosting_modifier
+			}
+		}
+		NOT = {
+			has_modifier = vikelas_olympics_bribed_modifier
+		}
+    }
+    effect = {
+		add_treasury = -1000000
+		add_modifier = {
+			name = vikelas_olympics_bribed_modifier
+			years = 5
+		}
+		change_infamy = 3
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+				NOT = { root = this }
+			}
+			add_treasury = 75000
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = -5
+			}
+		}
+    }
+}
+
+#MR_IOC_MEMBER_BUTTON
+vikelas_olympic_flame_button = {
+    scope = country
+	is_shown = {
+		has_variable = vikelas_ioc_member_var
+		NOT = {
+			has_global_variable = vikelas_olympic_flame_var
+		}
+	}
+    is_valid = {
+		has_modifier = vikelas_olympics_preparation_modifier
+		has_technology_researched = elgar_mass_culture_tech
+		has_technology_researched = organized_sports
+		lepsius_has_archaeologist = yes
+    }
+    effect = {
+		set_global_variable = vikelas_olympic_flame_var
+		change_infamy = -10
+		hidden_effect = {
+			random_country = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_PELOPONNESE
+					}
+				}
+				trigger_event = {
+					id = vikelas.181
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
 		}
     }
 }
