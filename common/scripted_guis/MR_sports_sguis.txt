@@ -1,0 +1,74 @@
+﻿### SPORTS BUTTONS ###
+
+#by Lord R
+
+#MR_SCHOOL_SPORTS_BUTTON
+mr_school_sport_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = vikelas_school_sport_var
+		}
+	}
+    is_valid = {
+		has_law = law_type:law_public_schools
+		any_interest_group = {
+    		is_in_government = yes
+            leader = {
+                has_trait = vikelas_athlete
+            }
+        }
+		any_scope_building = {
+			is_building_type = building_government_administration
+			has_active_production_method = pm_vikelas_sports_facilities
+		}
+		has_technology_researched = dubois_theory_of_evolution_tech
+		has_technology_researched = organized_sports
+    }
+    effect = {
+		set_variable = vikelas_school_sport_var
+    }
+}
+
+#MR_WORLDCUP_BUTTON
+vikelas_football_worldcup_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = vikelas_football_worldcup_var
+		}
+		has_variable = vikelas_football_country_var
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = vikelas_football_worldcup_tt
+			any_country = {
+				has_variable = vikelas_football_association_var
+				count >= 16
+			}
+		}
+		has_technology_researched = elgar_mass_culture_tech
+		has_technology_researched = organized_sports
+    }
+    effect = {
+		set_global_variable = vikelas_football_worldcup_var
+		add_modifier = {
+			name = vikelas_fifa_worldcup_host_modifier
+			days = 120
+		}
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = {
+				id = vikelas.402
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = vikelas.401
+				days = 120
+			}
+		}
+    }
+}

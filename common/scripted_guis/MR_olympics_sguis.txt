@@ -1,9 +1,9 @@
-﻿### Olympics BUTTONS ###
+﻿### SPORTS BUTTONS ###
 
 #by Lord R
 
 #MR_IOC_FOUNDATION_BUTTON
-vikelas_ioc_foundation_button = {
+mr_ioc_foundation_button = {
     scope = country
 	is_shown = {
 		NOT = {
@@ -11,15 +11,21 @@ vikelas_ioc_foundation_button = {
 		}
 	}
     is_valid = {
-		OR = {
-			gaudi_has_engineer = yes
-			verrier_has_astronomer = yes
-			dubois_has_naturalist = yes
-			dubois_has_paleontologist = yes
-			lepsius_has_archaeologist = yes
-			lepsius_has_anthropologist = yes
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_HAS_ACADEMIC_TRIGGER_TT
+			OR = {
+				gaudi_has_engineer = yes
+				verrier_has_astronomer = yes
+				dubois_has_naturalist = yes
+				dubois_has_paleontologist = yes
+				lepsius_has_archaeologist = yes
+				lepsius_has_anthropologist = yes
+			}
 		}
-		is_at_war = no
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
     }
     effect = {
 		set_global_variable = vikelas_ioc_founded_var
@@ -33,7 +39,7 @@ vikelas_ioc_foundation_button = {
 }
 
 #MR_IOC_MEMBER_BUTTON
-vikelas_ioc_member_button = {
+mr_ioc_member_button = {
     scope = country
 	is_shown = {
 		has_global_variable = vikelas_ioc_founded_var
@@ -42,14 +48,26 @@ vikelas_ioc_member_button = {
 		}
 	}
     is_valid = {
-		infamy < 50
-		NOT = {
-			is_country_type = unrecognized
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_INFAMY_TRIGGER_TT
+			infamy < 50
 		}
-		is_at_war = no
-		NOT = {
-			any_state = {
-				has_modifier = vikelas_olympics_hosting_modifier
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_NOT_UNRECOGNIZED_TRIGGER_TT
+			NOT = {
+				is_country_type = unrecognized
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_NOT_HOSTING_TRIGGER_TT
+			NOT = {
+				any_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
 			}
 		}
     }
@@ -62,15 +80,26 @@ vikelas_ioc_member_button = {
 }
 
 #MR_IOC_BRIBE_BUTTON
-vikelas_ioc_bribe_button = {
+mr_ioc_bribe_button = {
     scope = country
 	is_shown = {
 		has_variable = vikelas_ioc_member_var
 	}
     is_valid = {
-		NOT = {
-			any_state = {
-				has_modifier = vikelas_olympics_hosting_modifier
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_NOT_HOSTING_TRIGGER_TT
+			NOT = {
+				any_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_BRIBE_NOT_BRIBING_ALREADY_TRIGGER_TT
+			NOT = {
+				any_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
 			}
 		}
 		NOT = {
@@ -112,7 +141,7 @@ vikelas_ioc_bribe_button = {
 }
 
 #MR_OLYMPIC_FLAME_BUTTON
-vikelas_olympic_flame_button = {
+mr_olympic_flame_button = {
     scope = country
 	is_shown = {
 		has_variable = vikelas_ioc_member_var
@@ -121,9 +150,19 @@ vikelas_olympic_flame_button = {
 		}
 	}
     is_valid = {
-		has_modifier = vikelas_olympics_preparation_modifier
-		has_technology_researched = elgar_mass_culture_tech
-		has_technology_researched = organized_sports
+		custom_tooltip = {
+			text = MR_IOC_OLYMPIC_FLAME_IS_HOST_TRIGGER_TT
+			has_modifier = vikelas_olympics_preparation_modifier
+		}
+		custom_tooltip = {
+			text = MR_IOC_OLYMPIC_FLAME_MASS_CULTURE_TECH_TRIGGER_TT
+			has_technology_researched = elgar_mass_culture_tech
+		}
+		custom_tooltip = {
+			text = MR_IOC_OLYMPIC_FLAME_ORGANIZED_SPORTS_TECH_TRIGGER_TT
+			has_technology_researched = organized_sports
+		}
+		
 		lepsius_has_archaeologist = yes
     }
     effect = {
