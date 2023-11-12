@@ -19,6 +19,11 @@ types tech_tree
 		name = "tech_tree_panel"
 		enabled = yes
 
+		# MOD
+		### Sports View
+		sports_view = {}
+		# END MOD
+
 		blockoverride "animation_state_block" {
 			state = {
 				name = _show
@@ -33,7 +38,8 @@ types tech_tree
 
 				}
 				# MOD
-				on_start = "[GetVariableSystem.Clear('academy_view')]"
+				# on_start = "[GetVariableSystem.Clear('mr_tabs')]" # for testing
+				# on_start = "[GetVariableSystem.Set('mr_tabs', 'sports_tab')]" # for testing
 				# on_start = "[GetVariableSystem.Toggle('academy_view')]" # for testing
 				# END MOD
 			}
@@ -50,14 +56,269 @@ types tech_tree
 		{
 			# MOD
 			#text = "TECH_TREE"
-			text = "[SelectLocalization( GetVariableSystem.Exists('academy_view'), 'ACADEMY_OF_SCIENCE_VIEW_NAME', 'TECH_TREE' )]"
+			text = "[SelectLocalization(GetVariableSystem.Exists('mr_tabs'), 'MR_TABS_NAME', 'TECH_TREE')]"
 			# END MOD
 		}
 
 		blockoverride "fixed_top" {
+			### TABS
+			# MOD Moved this up here
+			tab_buttons_fullscreen = {
+				# Production
+				blockoverride "first_button" {
+					text = "PRODUCTION_NO_CONCEPT"
+				}
+				blockoverride "first_button_tooltip" {
+					tooltip = "PRODUCTION_NO_CONCEPT"
+				}
+				blockoverride "first_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Orange
+						alpha = 0.5
+					}
+				}
+				blockoverride "first_button_click" {
+					onclick = "[InformationPanel.SelectTab('production')]"
+					onclick = "[GetVariableSystem.Clear('mr_tabs')]"
+				}
+				blockoverride "first_button_visibility" {
+					visible = "[InformationPanel.IsTabSelected('production')]"
+				}
+				blockoverride "first_button_visibility_checked" {
+					visible = "[Not( InformationPanel.IsTabSelected('production') )]"
+				}
+				blockoverride "first_button_selected" {
+					text = "PRODUCTION_NO_CONCEPT"
+				}
+
+				blockoverride "first_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Orange
+						alpha = 0.5
+					}
+				}
+
+				# Military
+				blockoverride "second_button" {
+					text = "MILITARY"
+				}
+				blockoverride "second_button_tooltip" {
+					tooltip = "MILITARY"
+				}
+				blockoverride "second_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Red
+						alpha = 0.15
+					}
+				}
+				blockoverride "second_button_click" {
+					onclick = "[InformationPanel.SelectTab('military')]"
+					onclick = "[GetVariableSystem.Clear('mr_tabs')]"
+				}
+				blockoverride "second_button_visibility" {
+					visible = "[InformationPanel.IsTabSelected('military')]"
+				}
+				blockoverride "second_button_visibility_checked" {
+					visible = "[Not( InformationPanel.IsTabSelected('military') )]"
+				}
+				blockoverride "second_button_selected" {
+					text = "MILITARY"
+				}
+				blockoverride "second_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Red
+						alpha = 0.15
+					}
+				}
+
+				# Society
+				blockoverride "third_button" {
+					text = "SOCIETY"
+				}
+				blockoverride "third_button_tooltip" {
+					tooltip = "SOCIETY"
+				}
+				blockoverride "third_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+				blockoverride "third_button_click" {
+					onclick = "[InformationPanel.SelectTab('society')]"
+					onclick = "[GetVariableSystem.Clear('mr_tabs')]"
+				}
+				blockoverride "third_button_visibility" {
+					visible = "[InformationPanel.IsTabSelected('society')]"
+				}
+				blockoverride "third_button_visibility_checked" {
+					visible = "[Not( InformationPanel.IsTabSelected('society') )]"
+				}
+				blockoverride "third_button_selected" {
+					text = "SOCIETY"
+				}
+				blockoverride "third_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+
+				# MOD
+				
+				#Academic Society
+				blockoverride "fourth_button" {
+					text = "ACADEMY_OF_SCIENCE_VIEW_NAME_NO_CUSTOM"
+				}
+				blockoverride "fourth_button_tooltip" {
+					tooltip = "GUI_ACADEMY_OF_SCIENCE_OPEN_TT"
+				}
+				blockoverride "fourth_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+				blockoverride "fourth_button_click" {
+					onclick = "[GetVariableSystem.Set( 'mr_tabs', 'academic_tab' )]"
+					onclick = "[InformationPanel.SelectTab('null')]"
+					onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				}
+				blockoverride "fourth_button_visibility" {
+					visible = "[GetVariableSystem.HasValue('mr_tabs', 'academic_tab')]"
+				}
+				blockoverride "fourth_button_visibility_checked" {
+					visible = "[Not( GetVariableSystem.HasValue('mr_tabs', 'academic_tab') )]"
+				}
+				blockoverride "fourth_button_selected" {
+					text = "ACADEMY_OF_SCIENCE_VIEW_NAME_NO_CUSTOM"
+				}
+				blockoverride "fourth_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+
+				#Sports
+				blockoverride "fifth_button" {
+					text = "SPORTS_OVERVIEW_VIEW_NAME"
+				}
+				blockoverride "fifth_button_tooltip" {
+					tooltip = "GUI_SPORTS_OVERVIEW_VIEW_TT"
+				}
+				blockoverride "fifth_button_background" {
+					background = {
+						margin = { 0 -2 }
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+				blockoverride "fifth_button_click" {
+					onclick = "[GetVariableSystem.Set( 'mr_tabs', 'sports_tab' )]"
+					onclick = "[InformationPanel.SelectTab('null')]"
+					onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				}
+				blockoverride "fifth_button_visibility" {
+					visible = "[GetVariableSystem.HasValue('mr_tabs', 'sports_tab')]"
+				}
+				blockoverride "fifth_button_visibility_checked" {
+					visible = "[Not( GetVariableSystem.HasValue('mr_tabs', 'sports_tab') )]"
+				}
+				blockoverride "fifth_button_selected" {
+					text = "SPORTS_OVERVIEW_VIEW_NAME"
+				}
+				blockoverride "fifth_button_background_selected" {
+					background = {
+						using = fade_bottom_entry_fancy_header_colored
+						using = Color_Purple
+						alpha = 0.5
+					}
+				}
+				# END MOD
+
+				### ICON SHOWING WHERE TECH IS BEING TECHED.
+				datacontext = "[GetPlayer.GetCurrentlyResearchedTechnology]"
+
+				# production
+				blockoverride "first_button_icon" {
+
+					container = {
+						parentanchor = vcenter
+						# light bulb
+						visible = "[ObjectsEqual(Technology.GetCategoryName, 'Production')]"
+						
+						icon = {
+							using = rotate_glow_animation_02
+							size = { 60 60 }
+							parentanchor = center
+						}
+						icon = {
+							texture = "gfx/interface/icons/generic_icons/innovation.dds"
+							size = { 30 30 }
+							parentanchor = center
+						}
+					}
+				}
+				# military
+				blockoverride "second_button_icon" {
+					
+					container = {
+						parentanchor = vcenter
+						# light bulb
+						visible = "[ObjectsEqual(Technology.GetCategoryName, 'Military')]"
+						
+						icon = {
+							using = rotate_glow_animation_02
+							size = { 60 60 }
+							parentanchor = center
+						}
+						icon = {
+							texture = "gfx/interface/icons/generic_icons/innovation.dds"
+							size = { 30 30 }
+							parentanchor = center
+						}
+					}
+				}
+				# society
+				blockoverride "third_button_icon" {
+					
+					container = {
+						parentanchor = vcenter
+						# light bulb
+						visible = "[ObjectsEqual(Technology.GetCategoryName, 'Society')]"
+						
+						icon = {
+							using = rotate_glow_animation_02
+							size = { 60 60 }
+							parentanchor = center
+						}
+						icon = {
+							texture = "gfx/interface/icons/generic_icons/innovation.dds"
+							size = { 30 30 }
+							parentanchor = center
+						}
+					}
+				}
+			}
+			# MOD this is the end of the moved part
+
 			hbox = {
 				# MOD 
-				visible = "[Not(GetVariableSystem.Exists('academy_view'))]"
+				visible = "[Not(GetVariableSystem.Exists('mr_tabs'))]"
 				# END MOD
 				spacing = 20
 				margin = { 28 10 }
@@ -274,202 +535,6 @@ types tech_tree
 						tooltip = "TECHNOLOGY_SPREAD_RATE_TOOLTIP"
 					}
 				}
-
-				#### MOD
-				vbox = {
-					margin_bottom = 14
-					margin_right = 2
-					layoutpolicy_horizontal = growing
-					button = {
-						using = expand_button_bg_no_fade
-						size = { 75 75 }
-						icon = {
-							size = { 70 70 }
-							parentanchor = center
-							texture = "gfx/interface/icons/event_icons/event_astronomy.dds"
-						}
-						tooltip = "GUI_ACADEMY_OF_SCIENCE_OPEN_TT"
-						onclick = "[GetVariableSystem.Toggle('academy_view')]"
-						onclick = "[GetScriptedGui('mr_ranking_setup_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-					}
-				}
-				#### END MOD
-			}
-			
-			### TABS
-			tab_buttons_fullscreen = {
-				# MOD
-				visible = "[Not(GetVariableSystem.Exists('academy_view'))]"
-				# END MOD
-				# Production
-				blockoverride "first_button" {
-					text = "PRODUCTION_NO_CONCEPT"
-				}
-				blockoverride "first_button_tooltip" {
-					tooltip = "PRODUCTION_NO_CONCEPT"
-				}
-				blockoverride "first_button_background" {
-					background = {
-						margin = { 0 -2 }
-						using = fade_bottom_entry_fancy_header_colored
-						using = Color_Orange
-						alpha = 0.5
-					}
-				}
-				blockoverride "first_button_click" {
-					onclick = "[InformationPanel.SelectTab('production')]"
-				}
-				blockoverride "first_button_visibility" {
-					visible = "[InformationPanel.IsTabSelected('production')]"
-				}
-				blockoverride "first_button_visibility_checked" {
-					visible = "[Not( InformationPanel.IsTabSelected('production') )]"
-				}
-				blockoverride "first_button_selected" {
-					text = "PRODUCTION_NO_CONCEPT"
-				}
-
-				blockoverride "first_button_background_selected" {
-					background = {
-						using = fade_bottom_entry_fancy_header_colored
-						using = Color_Orange
-						alpha = 0.5
-					}
-				}
-
-				# Military
-				blockoverride "second_button" {
-					text = "MILITARY"
-				}
-				blockoverride "second_button_tooltip" {
-					tooltip = "MILITARY"
-				}
-				blockoverride "second_button_background" {
-					background = {
-						margin = { 0 -2 }
-						using = fade_bottom_entry_fancy_header_colored
-						using = Color_Red
-						alpha = 0.15
-					}
-				}
-				blockoverride "second_button_click" {
-					onclick = "[InformationPanel.SelectTab('military')]"
-				}
-				blockoverride "second_button_visibility" {
-					visible = "[InformationPanel.IsTabSelected('military')]"
-				}
-				blockoverride "second_button_visibility_checked" {
-					visible = "[Not( InformationPanel.IsTabSelected('military') )]"
-				}
-				blockoverride "second_button_selected" {
-					text = "MILITARY"
-				}
-				blockoverride "second_button_background_selected" {
-					background = {
-						using = fade_bottom_entry_fancy_header_colored
-						using = Color_Red
-						alpha = 0.15
-					}
-				}
-
-				# Society
-				blockoverride "third_button" {
-					text = "SOCIETY"
-				}
-				blockoverride "third_button_tooltip" {
-					tooltip = "SOCIETY"
-				}
-				blockoverride "third_button_background" {
-					background = {
-						margin = { 0 -2 }
-						using = fade_bottom_entry_fancy_header_colored
-						using = Color_Purple
-						alpha = 0.5
-					}
-				}
-				blockoverride "third_button_click" {
-					onclick = "[InformationPanel.SelectTab('society')]"
-				}
-				blockoverride "third_button_visibility" {
-					visible = "[InformationPanel.IsTabSelected('society')]"
-				}
-				blockoverride "third_button_visibility_checked" {
-					visible = "[Not( InformationPanel.IsTabSelected('society') )]"
-				}
-				blockoverride "third_button_selected" {
-					text = "SOCIETY"
-				}
-				blockoverride "third_button_background_selected" {
-					background = {
-						using = fade_bottom_entry_fancy_header_colored
-						using = Color_Purple
-						alpha = 0.5
-					}
-				}
-
-				### ICON SHOWING WHERE TECH IS BEING TECHED.
-				datacontext = "[GetPlayer.GetCurrentlyResearchedTechnology]"
-
-				# production
-				blockoverride "first_button_icon" {
-
-					container = {
-						parentanchor = vcenter
-						# light bulb
-						visible = "[ObjectsEqual(Technology.GetCategoryName, 'Production')]"
-						
-						icon = {
-							using = rotate_glow_animation_02
-							size = { 60 60 }
-							parentanchor = center
-						}
-						icon = {
-							texture = "gfx/interface/icons/generic_icons/innovation.dds"
-							size = { 30 30 }
-							parentanchor = center
-						}
-					}
-				}
-				# military
-				blockoverride "second_button_icon" {
-					
-					container = {
-						parentanchor = vcenter
-						# light bulb
-						visible = "[ObjectsEqual(Technology.GetCategoryName, 'Military')]"
-						
-						icon = {
-							using = rotate_glow_animation_02
-							size = { 60 60 }
-							parentanchor = center
-						}
-						icon = {
-							texture = "gfx/interface/icons/generic_icons/innovation.dds"
-							size = { 30 30 }
-							parentanchor = center
-						}
-					}
-				}
-				# society
-				blockoverride "third_button_icon" {
-					
-					container = {
-						parentanchor = vcenter
-						# light bulb
-						visible = "[ObjectsEqual(Technology.GetCategoryName, 'Society')]"
-						
-						icon = {
-							using = rotate_glow_animation_02
-							size = { 60 60 }
-							parentanchor = center
-						}
-						icon = {
-							texture = "gfx/interface/icons/generic_icons/innovation.dds"
-							size = { 30 30 }
-							parentanchor = center
-						}
-					}
-				}
 			}
 		}
 		
@@ -511,7 +576,7 @@ types tech_tree
 				tech_tree_graph = {
 					name = "tech_tree_panel_production"
 					# MOD
-					visible = "[And(InformationPanel.IsTabSelected('production'), Not(GetVariableSystem.Exists('academy_view')))]"
+					visible = "[And(InformationPanel.IsTabSelected('production'), Not(GetVariableSystem.Exists('mr_tabs')))]"
 					#visible = "[InformationPanel.IsTabSelected('production')]"
 					# END MOD
 					using = default_content_fade
@@ -549,7 +614,7 @@ types tech_tree
 				tech_tree_graph = {
 					name = "tech_tree_panel_military"
 					# MOD
-					visible = "[And(InformationPanel.IsTabSelected('military'), Not(GetVariableSystem.Exists('academy_view')))]"
+					visible = "[And(InformationPanel.IsTabSelected('military'), Not(GetVariableSystem.Exists('mr_tabs')))]"
 					#visible = "[InformationPanel.IsTabSelected('military')]"
 					# END MOD
 					using = default_content_fade
@@ -587,7 +652,7 @@ types tech_tree
 				tech_tree_graph = {
 					name = "tech_tree_panel_society"
 					# MOD
-					visible = "[And(InformationPanel.IsTabSelected('society'), Not(GetVariableSystem.Exists('academy_view')))]"
+					visible = "[And(InformationPanel.IsTabSelected('society'), Not(GetVariableSystem.Exists('mr_tabs')))]"
 					#visible = "[InformationPanel.IsTabSelected('society')]"
 					# END MOD
 					using = default_content_fade
@@ -625,7 +690,7 @@ types tech_tree
 
 				container = {
 					# MOD
-					visible = "[Not(GetVariableSystem.Exists('academy_view'))]"
+					visible = "[Not(GetVariableSystem.Exists('mr_tabs'))]"
 					# END MOD
 					parentanchor = top|right
 					position = { -10 10 }

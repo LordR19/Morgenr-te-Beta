@@ -1,0 +1,196 @@
+﻿### SPORTS BUTTONS ###
+
+#by Lord R
+
+#MR_IOC_FOUNDATION_BUTTON
+mr_ioc_foundation_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = vikelas_ioc_founded_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_HAS_ACADEMIC_TRIGGER_TT
+			OR = {
+				gaudi_has_engineer = yes
+				verrier_has_astronomer = yes
+				dubois_has_naturalist = yes
+				dubois_has_paleontologist = yes
+				lepsius_has_archaeologist = yes
+				lepsius_has_anthropologist = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+    }
+    effect = {
+		set_global_variable = vikelas_ioc_founded_var
+		set_variable = vikelas_ioc_founding_country_var
+		set_variable = vikelas_ioc_member_var
+		trigger_event = { 
+			id = vikelas.100
+			popup = yes 
+		}
+    }
+}
+
+#MR_IOC_MEMBER_BUTTON
+mr_ioc_member_button = {
+    scope = country
+	is_shown = {
+		has_global_variable = vikelas_ioc_founded_var
+		NOT = {
+			has_variable = vikelas_ioc_member_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_INFAMY_TRIGGER_TT
+			infamy < 50
+		}
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_NOT_UNRECOGNIZED_TRIGGER_TT
+			NOT = {
+				is_country_type = unrecognized
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
+		}
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_NOT_HOSTING_TRIGGER_TT
+			NOT = {
+				any_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = vikelas_become_ioc_member_tt
+			set_variable = vikelas_ioc_member_var
+		}
+    }
+}
+
+#MR_IOC_BRIBE_BUTTON
+mr_ioc_bribe_button = {
+    scope = country
+	is_shown = {
+		has_variable = vikelas_ioc_member_var
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_IOC_MEMBER_NOT_HOSTING_TRIGGER_TT
+			NOT = {
+				any_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_IOC_BRIBE_NOT_BRIBING_ALREADY_TRIGGER_TT
+			NOT = {
+				any_state = {
+					has_modifier = vikelas_olympics_hosting_modifier
+				}
+			}
+		}
+		NOT = {
+			has_modifier = vikelas_olympics_bribed_modifier
+		}
+    }
+    effect = {
+		add_treasury = -1000000
+		add_modifier = {
+			name = vikelas_olympics_bribed_modifier
+			years = 5
+		}
+		change_infamy = 3
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+				NOT = { root = this }
+			}
+			add_treasury = 75000
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_member_var
+				NOT = {
+					has_variable = vikelas_ioc_board_member_var
+				}
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = -5
+			}
+		}
+    }
+}
+
+#MR_OLYMPIC_FLAME_BUTTON
+mr_olympic_flame_button = {
+    scope = country
+	is_shown = {
+		has_variable = vikelas_ioc_member_var
+		NOT = {
+			has_global_variable = vikelas_olympic_flame_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_IOC_OLYMPIC_FLAME_IS_HOST_TRIGGER_TT
+			has_modifier = vikelas_olympics_preparation_modifier
+		}
+		custom_tooltip = {
+			text = MR_IOC_OLYMPIC_FLAME_MASS_CULTURE_TECH_TRIGGER_TT
+			has_technology_researched = elgar_mass_culture_tech
+		}
+		custom_tooltip = {
+			text = MR_IOC_OLYMPIC_FLAME_ORGANIZED_SPORTS_TECH_TRIGGER_TT
+			has_technology_researched = organized_sports
+		}
+		custom_tooltip = {
+			text = MR_ARCHAEOLOGY_HAS_ARCHAEOLOGIST_TRIGGER_TT
+			lepsius_has_archaeologist = yes
+		}
+    }
+    effect = {
+		set_global_variable = vikelas_olympic_flame_var
+		change_infamy = -10
+		hidden_effect = {
+			random_country = {
+				limit = {
+					any_scope_state = {
+						state_region = s:STATE_PELOPONNESE
+					}
+				}
+				trigger_event = {
+					id = vikelas.181
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				has_variable = vikelas_ioc_board_member_var
+				NOT = { root = this }
+			}
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+    }
+}

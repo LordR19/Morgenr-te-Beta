@@ -167,6 +167,30 @@ namespace = dubois
 #Mountaineering
 
 #Dubois 411: General wants to conquer summit
+#Dubois 412: Choose Mountain
+#Dubois 413: Associate Scientist
+#Dubois 414: Mountain Expedition starts
+
+#Dubois 420: The Summit
+#Dubois 421: Mountaineering Disaster
+#Dubois 422: Climb aborted
+#Dubois 423: Mountain Troops
+#Dubois 424: Mountain Symphony
+
+#Dubois 430: An Easy Climb
+#Dubois 431: A Slope
+#Dubois 432: Steep Wall
+#Dubois 433: Avalanche
+#Dubois 434: Abyss
+#Dubois 435: Weather Change
+#Dubois 436: Death Step
+#Dubois 437: Lack of Oxygen
+#Dubois 438: Severe Injuries
+#Dubois 439: Rope Group
+#Dubois 440: Scientist does Science
+#Dubois 441: The Red Panda
+
+#Dubois 450: Mountains of the World (overview window)
 
 ######ZOO######
 
@@ -9634,6 +9658,19 @@ dubois.414 = {
 		set_dubois_summit_location = yes
 		set_dubois_mountain_expedition_scientist_effect = yes
 		set_dubois_mountain_climbing_progress = yes
+		if = {
+			limit = { NOT = { has_variable = dubois_mountain_ascents_var } }
+			set_variable = {
+				name = dubois_mountain_ascents_var
+				value = 1
+			}
+		}
+		else = {
+			change_variable = {
+				name = dubois_mountain_ascents_var
+				add = 1
+			}
+		}
 	}
 
 	option = {
@@ -9770,6 +9807,19 @@ dubois.421 = {
 		ig:ig_armed_forces = {
 			save_scope_as = army_ig
 		}
+		if = {
+			limit = { NOT = { has_variable = dubois_mountain_disasters_var } }
+			set_variable = {
+				name = dubois_mountain_disasters_var
+				value = 1
+			}
+		}
+		else = {
+			change_variable = {
+				name = dubois_mountain_disasters_var
+				add = 1
+			}
+		}
 	}
 
 	option = {
@@ -9868,6 +9918,19 @@ dubois.422 = {
 		set_dubois_summit_location = yes
 		set_dubois_mountain_expedition_scientist_effect = yes
 		set_variable = dubois_mountain_expedition_fail
+		if = {
+			limit = { NOT = { has_variable = dubois_mountain_climbs_aborted_var } }
+			set_variable = {
+				name = dubois_mountain_climbs_aborted_var
+				value = 1
+			}
+		}
+		else = {
+			change_variable = {
+				name = dubois_mountain_climbs_aborted_var
+				add = 1
+			}
+		}
 	}
 
 	option = {
@@ -12022,6 +12085,41 @@ dubois.441 = {
 	}
 
 	after = {
+	}
+}
+
+#Dubois 450: Mountains of the World (overview window)
+
+dubois.450 = {
+	type = country_event
+
+	title = dubois.450.t
+	flavor = dubois.450.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_mountaineering_beginning.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		dubois_conquerer_set_variable_effect = yes
+	}
+
+	option = {
+		name = dubois.450.g #Bring me back!
+		default_option = yes
+	}
+
+	after = {
+		remove_variable = dubois_mountain_table_var
 	}
 }
 

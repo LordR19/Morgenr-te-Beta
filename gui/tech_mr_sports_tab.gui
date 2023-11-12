@@ -1,0 +1,851 @@
+# By Lord R
+
+types sports_view
+{
+	type sports_view = widget {
+		size = { 98% 100% }
+		position = { 2% 8% }
+		alpha = "[TransparentIfFalse(GetVariableSystem.Exists('mr_tabs'))]"
+		visible = "[GetVariableSystem.HasValue('mr_tabs', 'sports_tab')]"
+
+		scrollbox = {
+			size = { 100% 79% }
+			position = { 0 20 }
+			parentanchor = center
+
+			blockoverride "scrollbox_content"
+			{
+				vbox = {
+					layoutpolicy_vertical = expanding
+					margin_left = 10
+		
+					# First Row
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						spacing = 15
+						
+						sports_widget_with_character = {
+							blockoverride "role_icon" {
+								texture = "gfx/interface/icons/character_role_icons/curtiss_balloonist_role.dds"
+							}
+							blockoverride "role_tooltip" {
+								tooltip = "[concept_curtiss_balloonist_role_desc]"
+							}
+							blockoverride "role_name" {
+								text = "BALLOONIST_HEADER_TEXT"
+							}
+							blockoverride "character" {
+								datacontext = "[GetPlayer.MakeScope.Var('curtiss_balloonist_var').GetCharacter]"
+							}
+							blockoverride "character_name" {
+								text = "[GetPlayer.GetCustom('sports_has_balloonist_gui_type')]"
+							}
+							blockoverride "values" {
+								min = 0
+								max = 300
+								value = "[GetPlayer.MakeScope.Var('curtiss_balloonist_var').GetVariable('curtiss_balloonist_experience_var').GetValue]"
+							}
+							blockoverride "experience_tooltip" {
+								tooltip = "MR_BALLOONIST_EXPERIENECE_TT"
+							}
+							blockoverride "small_box_content" {
+								textbox = {
+									position = { 15 10 }
+									#Ballooning Information
+									text = "MR_BALLOONING_INFORMATION"
+									parentanchor = top|left
+									autoresize = yes
+									using = fontsize_large
+								}
+							}
+							blockoverride "big_box_content" {
+								flowcontainer = {
+									direction = vertical
+									parentanchor = hcenter
+									ignoreinvisible = yes
+									spacing = 8
+									margin = { 25 15 }
+
+									### Other Buttons ###
+									button = {
+										#Recruit Balloonist
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_RECRUIT_BALLOONIST_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_sponsor_balloonist_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_RECRUIT_BALLOONIST_BUTTON_TT"
+									}
+									button = {
+										#Fire Balloonist
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_FIRE_BALLOONIST_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_fire_balloonist_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_FIRE_BALLOONIST_BUTTON_TT"
+									}
+									button = {
+										#No more Flight Information
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_NO_MORE_BALLOON_FLIGHT_EVENTS_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_ballooning_no_more_flight_information')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_NO_MORE_BALLOON_FLIGHT_EVENTS_BUTTON_TT"
+									}
+									button = {
+										#Show Flight Information
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_SHOW_BALLOON_FLIGHT_EVENTS_BUTTON"
+										using = fontsize_medium
+					
+										datacontext = "[GetScriptedGui('mr_ballooning_flight_information')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_SHOW_BALLOON_FLIGHT_EVENTS_BUTTON_TT"
+									}
+									button = {
+										#No more Death Events
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_NO_MORE_BALLOONIST_DEATH_EVENTS_BUTTON"
+										using = fontsize_medium
+					
+										datacontext = "[GetScriptedGui('mr_ballooning_no_more_death_information')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_NO_MORE_BALLOONIST_DEATH_EVENTS_BUTTON_TT"
+									}
+									button = {
+										#Show Death Events
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_SHOW_BALLOONIST_DEATH_EVENTS_BUTTON"
+										using = fontsize_medium
+					
+										datacontext = "[GetScriptedGui('mr_ballooning_death_information')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_SHOW_BALLOONIST_DEATH_EVENTS_BUTTON_TT"
+									}
+								}
+							}
+						}
+
+						#Mountaineering
+						sports_widget_character_with_button = {
+							blockoverride "role_icon" {
+								texture = "gfx/interface/icons/timed_modifier_icons/dubois_mountain_modifier.dds"
+							}
+							blockoverride "role_tooltip" {
+								tooltip = "[concept_dubois_mountaineering_desc]"
+							}
+							blockoverride "role_name" {
+								text = "MOUNTAINEERING_HEADER_TEXT"
+							}
+							blockoverride "achievements_icon_visibility" {
+								visible = no
+							} 
+							blockoverride "character" {
+								datacontext = "[GetPlayer.MakeScope.Var('GUI_dubois_mountaineer_var').GetCharacter]"
+							}
+							blockoverride "character_name" {
+								text = "[GetPlayer.GetCustom('sports_has_mountaineer_gui_type')]"
+							}
+							blockoverride "experience_bar_visibility" {
+								visible = no
+							}
+							blockoverride "small_box_content" {
+								widget = { #This Icon allows an overview of the Mountains
+										#The values are set up with scripted_effects from GUI_scripted_effects.txt when the screen is opened
+										#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+										#used in the mr_GUI_l_english.yml file to display the global variables.
+										size = { 30 30 }
+										parentanchor = top|right
+										position = { 5 -5 }
+									
+										icon = {
+											size = { 100% 100% }
+											texture = "gfx/interface/backgrounds/round_button_bg.dds"
+											block "enabled" {}
+										}
+										icon = {
+											size = { 100% 100% }
+											texture = "gfx/interface/buttons/button_icons/list.dds"
+											block "enabled" {}
+											tooltip = "RANKING_TOTAL_MOUNTAIN_ASCENTS_VAR_TT"
+										}
+									}
+
+								textbox = {
+									position = { 15 10 }
+										#Information about Mountaineering
+									text = "MR_MOUNTAINEERING_INFORMATION"
+									parentanchor = top|left
+									autoresize = yes
+									using = fontsize_large
+								}
+							}
+							blockoverride "visit_button" {
+								text = "VISIT_MOUNTAIN_OVERVIEW_BUTTON"
+								datacontext = "[GetScriptedGui('mr_mountain_statistics_button')]"
+								onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								tooltip = "VISIT_MOUNTAIN_OVERVIEW_BUTTON_TT"
+							}
+							blockoverride "big_box_content" {
+								flowcontainer = {
+									direction = vertical
+									parentanchor = hcenter
+									ignoreinvisible = yes
+									spacing = 8
+									margin = { 25 15 }
+
+									flowcontainer = {
+										direction = horizontal
+										parentanchor = hcenter
+										ignoreinvisible = yes
+										spacing = 10
+
+										button_icon_round = {
+											# Mountain Expedition
+											size = { 45 45 }
+						
+											datacontext = "[GetScriptedGui('mr_mountain_expedition_button')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "MR_MOUNTAIN_EXPEDITION_TT"
+											blockoverride "icon" {
+												texture = "gfx/interface/icons/GUI_icons/GUI_expedition_mountain_button.dds"
+											}
+											blockoverride "icon_size" {
+												size = { 75% 75% }
+											}					
+										}
+									}
+								}
+							}
+						}
+					}
+		
+					# Second Row
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						spacing = 15
+
+						#Olympic Games
+						sports_widget_character_with_button = {
+							blockoverride "role_icon" {
+								texture = "gfx/interface/icons/GUI_icons/GUI_olympic_games_with_background.dds"
+							}
+							blockoverride "role_tooltip" {
+								tooltip = "[concept_vikelas_olympic_games_desc]"
+							}
+							blockoverride "role_name" {
+								text = "OLYMPIC_GAMES_HEADER_TEXT"
+							}
+							blockoverride "achievements_icon_visibility" {
+								visible = no
+							} 
+							blockoverride "character" {
+								datacontext = "[GetPlayer.MakeScope.Var('GUI_vikelas_athlete_var').GetCharacter]"
+							}
+							blockoverride "character_name" {
+								text = "[GetPlayer.GetCustom('sports_has_athlete_gui_type')]"
+							}
+							blockoverride "experience_bar_visibility" {
+								visible = no
+							}
+							blockoverride "small_box_content" {
+								widget = {
+									#This Icon allows an overview of the 10 Nations with the most Olympic Medals
+									#The values are set up with scripted_effects from GUI_scripted_effects.txt when the screen is opened
+									#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+									#used in the mr_GUI_l_english.yml file to display the global variables.
+									size = { 30 30 }
+									parentanchor = top|right
+									position = { 5 -5 }
+									
+									icon = {
+										size = { 100% 100% }
+										texture = "gfx/interface/backgrounds/round_button_bg.dds"
+										block "enabled" {}
+									}
+									icon = {
+										size = { 100% 100% }
+										texture = "gfx/interface/buttons/button_icons/list.dds"
+										block "enabled" {}
+										tooltip = "RANKING_TOTAL_GOLD_MEDALS_VAR_TT"
+									}
+								}
+
+								textbox = {
+									position = { 15 10 }
+									#Information about the Olympics and Sports
+									text = "MR_OLYMPICS_INFORMATION"
+									parentanchor = top|left
+									multiline = yes
+									autoresize = yes
+									using = fontsize_large
+								}
+							}
+							blockoverride "visit_button" {
+								text = "VISIT_IOC_BUTTON"
+								datacontext = "[GetScriptedGui('mr_ioc_statistics_button')]"
+								onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								tooltip = "VISIT_IOC_BUTTON_TT"
+							}
+							blockoverride "big_box_content" {
+								flowcontainer = {
+									direction = vertical
+									parentanchor = hcenter
+									ignoreinvisible = yes
+									spacing = 8
+									margin = { 25 15 }
+
+									### Other Buttons ###
+									button = {
+										#Found the IOC
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_IOC_FOUNDATION_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_ioc_foundation_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_IOC_FOUNDATION_BUTTON_TT"
+									}
+									button = {
+										#Join the IOC
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_IOC_MEMBER_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_ioc_member_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_IOC_MEMBER_BUTTON_TT"
+									}
+									button = {
+										#Bribe the IOC
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_IOC_BRIBE_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_ioc_bribe_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_IOC_BRIBE_BUTTON_TT"
+									}
+									button = {
+										#Olympic Flame
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_OLYMPIC_FLAME_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_olympic_flame_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_OLYMPIC_FLAME_BUTTON_TT"
+									}
+									
+									### Other Buttons ###
+									button = {
+										#Introduce School Sports
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_SCHOOL_SPORTS_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_school_sport_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_SCHOOL_SPORTS_BUTTON_TT"
+									}
+									button = {
+										#Found the Football Worldcup
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_WORLDCUP_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('vikelas_football_worldcup_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_WORLDCUP_BUTTON_TT"
+									}
+								}
+							}
+						}
+
+						sports_placeholder = {}
+					}
+				}
+			}
+		}
+	}
+
+	type sports_widget_with_character = widget {
+		# Blocks to override:
+		# role_icon
+		# role_tooltip
+		# role_name
+		# character
+		# character_name
+		# achievements_icon_visibility
+		# experience_bar_visibility
+		# values
+		# experience_tooltip
+		# small_box_content
+		# big_box_content
+		size = { 900 400 }
+		background = {
+			using = entry_bg_unit_dark
+		}
+
+		# Character Portrait
+		widget = {
+			size = { 65 65 }
+			position = { 10 10 }
+			icon = {
+				size = { 100% 100% }
+				block "role_icon" {
+					# texture = ""
+				}
+				block "role_tooltip" {}
+			}
+			textbox = {
+				block "role_name" {
+					text = "ARCHAEOLOGY_HEADER_TEXT"
+				}
+				position = { 70 5 }
+				parentanchor = left
+				autoresize = yes
+				using = fontsize_mega
+			}
+		}
+		character_portrait_large_torso = {
+			position = { 30 35 }
+			block "character"
+			{
+				datacontext = "[AccessPlayer.AccessRuler]"
+			}
+			blockoverride "show_hat" {}
+		}
+		default_header_clean_faded = {
+			size = { 250 40 }
+			position = { 14 295 }
+			blockoverride "text" {
+				block "character_name" 
+				{
+					raw_text = "[GetPlayer.GetRuler.GetFirstName]"
+				}
+			}
+		}
+		widget = { #This Icon displays the achievements of the Scientist
+			#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+			#used in the mr_GUI_l_english.yml file to display the correct Achievements.
+			size = { 35 35 }
+			parentanchor = bottom|left
+			position = { 10 -68 }
+			block "achievements_icon_visibility" {
+				visible = yes
+			}
+									
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/backgrounds/round_button_bg.dds"
+				block "enabled" {}
+			}
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/icons/GUI_icons/GUI_scientist_achievements_button.dds"
+				block "enabled" {}
+				block "scientist_achievement_tooltip" {}
+			}
+		}
+
+		green_progressbar_horizontal = {
+			parentanchor = bottom|left
+			position = { 15 -15 }
+			size = { 250 35 }
+			block "experience_bar_visibility" {
+				visible = yes
+			}
+			blockoverride "values" {
+				block "values"
+				{
+					min = 0
+					max = 300
+					value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('dubois_academy_progress').GetValue)]"
+				}
+				block "experience_tooltip" {}
+			}
+			textbox = {
+				text = "MR_EXPERIENCE"
+				position = { 0 -4 }
+				parentanchor = center
+				autoresize = yes
+				using = fontsize_large
+			}
+		}
+
+		#Center Box
+		widget = {
+			size = { 290 370 }
+			parentanchor = top
+			position = { 280 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "small_box_content"
+			{
+
+			}
+		}
+
+		#Right Box
+		widget = {
+			size = { 290 370 }
+			parentanchor = right
+			position = { -15 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "big_box_content"
+			{
+				
+			}
+		}
+	}
+
+	type sports_widget_character_with_button = widget {
+		# Blocks to override:
+		# role_icon
+		# role_tooltip
+		# role_name
+		# character
+		# character_name
+		# achievements_icon_visibility
+		# experience_bar_visibility
+		# values
+		# experience_tooltip
+		# small_box_content
+		# visit_button
+		# big_box_content
+		size = { 900 400 }
+		background = {
+			using = entry_bg_unit_dark
+		}
+
+		# Character Portrait
+		widget = {
+			size = { 65 65 }
+			position = { 10 10 }
+			icon = {
+				size = { 100% 100% }
+				block "role_icon" {
+					# texture = ""
+				}
+				block "role_tooltip" {}
+			}
+			textbox = {
+				block "role_name" {
+					text = "ARCHAEOLOGY_HEADER_TEXT"
+				}
+				position = { 70 5 }
+				parentanchor = left
+				autoresize = yes
+				using = fontsize_mega
+			}
+		}
+		character_portrait_large_torso = {
+			position = { 30 35 }
+			block "character"
+			{
+				datacontext = "[AccessPlayer.AccessRuler]"
+			}
+			blockoverride "show_hat" {}
+		}
+		default_header_clean_faded = {
+			size = { 250 40 }
+			position = { 14 295 }
+			blockoverride "text" {
+				block "character_name" 
+				{
+					raw_text = "[GetPlayer.GetRuler.GetFirstName]"
+				}
+			}
+		}
+		widget = { #This Icon displays the achievements of the Scientist
+			#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+			#used in the mr_GUI_l_english.yml file to display the correct Achievements.
+			size = { 35 35 }
+			parentanchor = bottom|left
+			position = { 10 -68 }
+			block "achievements_icon_visibility" {
+				visible = yes
+			}
+									
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/backgrounds/round_button_bg.dds"
+				block "enabled" {}
+			}
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/icons/GUI_icons/GUI_scientist_achievements_button.dds"
+				block "enabled" {}
+				block "scientist_achievement_tooltip" {}
+			}
+		}
+
+		green_progressbar_horizontal = {
+			parentanchor = bottom|left
+			position = { 15 -15 }
+			size = { 250 35 }
+			block "experience_bar_visibility" {
+				visible = yes
+			}
+			blockoverride "values" {
+				block "values"
+				{
+					min = 0
+					max = 300
+					value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('dubois_academy_progress').GetValue)]"
+				}
+				block "experience_tooltip" {}
+			}
+			textbox = {
+				text = "MR_EXPERIENCE"
+				position = { 0 -4 }
+				parentanchor = center
+				autoresize = yes
+				using = fontsize_large
+			}
+		}
+
+		#Center Box
+		widget = {
+			size = { 290 310 }
+			parentanchor = top
+			position = { 280 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "small_box_content"
+			{
+
+			}
+		}
+		button = {
+			parentanchor = bottom
+			position = { 280 -15 }
+			using = default_button_primary_big_action
+			size = { 290 50 }
+			block "visit_button"
+			{
+				raw_text = "Visit Museum"
+			}
+			using = fontsize_large
+		}
+
+		#Right Box
+		widget = {
+			size = { 290 370 }
+			parentanchor = right
+			position = { -15 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "big_box_content"
+			{
+				
+			}
+		}
+	}
+
+	type sports_widget_two_boxes = widget {
+		# topic_icon
+		# topic_tooltip
+		# topic_name
+		# small_box_content
+		# big_box_content
+		size = { 900 400 }
+		background = {
+			using = entry_bg_unit_dark
+		}
+		
+		#Title and Icon
+		widget = {
+			position = { -8 -12 }
+			size = { 65 65 }
+			icon = {
+				size = { 100% 100% }
+				block "topic_icon" {
+					# texture = ""
+				}
+				block "topic_tooltip" {}
+			}
+			textbox = {
+				block "topic_name" {
+					text = "ARCHAEOLOGY_HEADER_TEXT"
+				}
+				position = { 75 15 }
+				parentanchor = left
+				autoresize = yes
+				using = fontsize_mega
+			}
+		}
+
+		#Left Box
+		widget = {
+			size = { 560 330 }
+			parentanchor = top
+			position = { 15 55 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "small_box_content"
+			{
+
+			}
+		}
+
+		#Right Box
+		widget = {
+			size = { 290 370 }
+			parentanchor = right
+			position = { -15 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "big_box_content"
+			{
+				
+			}
+		}
+	}
+
+	type sports_widget_three_boxes = widget {
+		# topic_icon
+		# topic_tooltip
+		# topic_name
+		# left_box_content
+		# visit_button
+		# center_box_content
+		# right_box_content
+		size = { 900 400 }
+		background = {
+			using = entry_bg_unit_dark
+		}
+		
+		#Title and Icon
+		widget = {
+			position = { -8 -12 }
+			size = { 65 65 }
+			icon = {
+				size = { 100% 100% }
+				block "topic_icon" {
+					# texture = ""
+				}
+				block "topic_tooltip" {}
+			}
+			textbox = {
+				block "topic_name" {
+					text = "ARCHAEOLOGY_HEADER_TEXT"
+				}
+				position = { 75 15 }
+				parentanchor = left
+				autoresize = yes
+				using = fontsize_mega
+			}
+		}
+
+		#Left Box
+		widget = {
+			size = { 280 270 }
+			parentanchor = top
+			position = { 15 55 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "left_box_content"
+			{
+
+			}
+		}
+
+		button = {
+			parentanchor = bottom
+			position = { 15 -13 }
+			using = default_button_primary_big_action
+			size = { 280 50 }
+			block "visit_button"
+			{
+				raw_text = "Visit Museum"
+			}
+			using = fontsize_large
+		}
+
+		#Center Box
+		widget = {
+			size = { 280 370 }
+			parentanchor = top|center
+			position = { 0 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "center_box_content"
+			{
+
+			}
+		}
+
+		#Right Box
+		widget = {
+			size = { 280 370 }
+			parentanchor = right
+			position = { -15 15 }
+			background = {
+				using = entry_bg_unit_dark
+			}
+			block "right_box_content"
+			{
+				
+			}
+		}
+	}
+
+	type sports_placeholder = widget {
+		size = { 900 400 }
+	}
+}
