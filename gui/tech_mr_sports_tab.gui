@@ -411,7 +411,7 @@ types sports_view
 								texture = "gfx/interface/icons/character_role_icons/curtiss_pilot_role.dds"
 							}
 							blockoverride "role_tooltip" {
-								tooltip = "[concept_curtiss_schneider_trophy]"
+								tooltip = "[concept_curtiss_schneider_trophy_desc]"
 							}
 							blockoverride "role_name" {
 								text = "SCHNEIDER_TROPHY_HEADER_TEXT"
@@ -430,6 +430,85 @@ types sports_view
 							}
 							blockoverride "experience_bar_visibility" {
 								visible = no
+							}
+							blockoverride "small_box_content" {
+								widget = {
+									#This Icon allows an overview of the 10 Nations with the most Schneider Trophy Wins
+									#The values are set up with scripted_effects from GUI_scripted_effects.txt when the screen is opened
+									#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+									#used in the mr_GUI_l_english.yml file to display the global variables.
+									size = { 30 30 }
+									parentanchor = top|right
+									position = { 5 -5 }
+									
+									icon = {
+										size = { 100% 100% }
+										texture = "gfx/interface/backgrounds/round_button_bg.dds"
+										block "enabled" {}
+									}
+									icon = {
+										size = { 100% 100% }
+										texture = "gfx/interface/buttons/button_icons/list.dds"
+										block "enabled" {}
+										tooltip = "RANKING_TOTAL_SCHNEIDER_TROPHY_WINS_VAR_TT"
+									}
+								}
+
+								textbox = {
+									position = { 15 10 }
+									#Information about the Schneider Trophy
+									text = "MR_SCHNEIDER_TROPHY_INFORMATION"
+									parentanchor = top|left
+									multiline = yes
+									autoresize = yes
+									using = fontsize_large
+								}
+							}
+							blockoverride "visit_button" {
+								text = "VISIT_IOC_BUTTON"
+								datacontext = "[GetScriptedGui('mr_ioc_statistics_button')]"
+								onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+								tooltip = "VISIT_IOC_BUTTON_TT"
+							}
+							blockoverride "big_box_content" {
+								flowcontainer = {
+									direction = vertical
+									parentanchor = hcenter
+									ignoreinvisible = yes
+									spacing = 8
+									margin = { 25 15 }
+
+									### Schneider Trophy Buttons ###
+									button = {
+										#Found the IOC
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_curtiss_hold_schneider_trophy_race_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON_TT"
+									}
+									
+									### Other Buttons ###
+									button = {
+										#Found Pilot School
+										using = default_button_primary_big_action
+										size = { 250 40 }
+										raw_text = "MR_CURTISS_FOUND_PILOT_SCHOOL_BUTTON"
+										using = fontsize_medium
+				
+										datacontext = "[GetScriptedGui('mr_curtiss_found_pilot_school_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_CURTISS_FOUND_PILOT_SCHOOL_BUTTON_TT"
+									}
+								}
 							}
 						}
 					}

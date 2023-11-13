@@ -1,0 +1,100 @@
+﻿### SCHNEIDER TROPHY BUTTONS ###
+
+#by Lord R
+
+#MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON
+mr_curtiss_hold_schneider_trophy_race_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = vikelas_school_sport_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_PUBLIC_SCHOOLS_TRIGGER_TT
+			has_law = law_type:law_public_schools
+		}
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_IG_ATHLETE_LEADER_TRIGGER_TT
+			any_interest_group = {
+				is_in_government = yes
+				leader = {
+					has_trait = vikelas_athlete
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_SCHOOL_SPORTS_SPORTS_FACILITIES_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_government_administration
+				has_active_production_method = pm_vikelas_sports_facilities
+			}
+		}
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_EVOLUTION_TRIGGER_TT
+			has_technology_researched = dubois_theory_of_evolution_tech
+		}
+		custom_tooltip = {
+			text = MR_IOC_OLYMPIC_FLAME_ORGANIZED_SPORTS_TECH_TRIGGER_TT
+			has_technology_researched = organized_sports
+		}
+    }
+    effect = {
+		set_variable = vikelas_school_sport_var
+    }
+}
+
+#MR_CURTISS_FOUND_PILOT_SCHOOL_BUTTON
+mr_curtiss_found_pilot_school_button = {
+    scope = country
+	is_shown = {
+	#	has_technology_researched = military_aviation
+		NOT = {
+			has_modifier = curtiss_pilot_school_modifier
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_CURTISS_FOUND_PILOT_SCHOOL_BUTTON_TRIGGER_TT
+			OR = {	
+				any_scope_character = {
+					has_trait = curtiss_pilot_ace
+				}
+				AND = {
+					any_scope_character = {
+						has_modifier = curtiss_schneider_veteran_modifier
+					}
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_war_machine_industry
+							level >= 3
+						}
+					}
+				}
+				AND = {
+					any_scope_character = {
+						has_trait = curtiss_pilot
+					}
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_war_machine_industry
+							level >= 5
+						}
+					}
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_airport
+							level >= 2
+						}
+					}
+				}
+			}
+		}
+    }
+    effect = {
+		add_modifier = {
+			name = curtiss_pilot_school_modifier
+		}
+    }
+}
