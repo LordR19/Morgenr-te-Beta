@@ -1163,6 +1163,25 @@ vikelas_set_member_states_effect = {
 			value = scope:GUI_curtiss_pilot_scope
 		}
 	}
+
+	#Sets the last winning country as a variable
+	if = {
+		limit = {
+			any_country = {
+				has_variable = curtiss_last_trophy_winner_var
+			}
+		}
+		random_country = {
+			limit = {
+				has_variable = curtiss_last_trophy_winner_var
+			}
+			save_scope_as = GUI_curtiss_last_trophy_winner_scope
+		}
+		set_variable = {
+			name = GUI_curtiss_last_trophy_winner_for_gui_var
+			value = scope:GUI_curtiss_last_trophy_winner_scope
+		}
+	}
 }
 
 ### Schneider Trophy Participants GLOBAL variables ###
@@ -1186,6 +1205,7 @@ curtiss_create_schneider_trophy_current_ranking_global_effect = {
 	ordered_country = {
 		limit = {
 			has_variable = schneider_trophy_point
+			has_journal_entry = je_curtiss_schneider_trophy_race
 		}
 		order_by = var:schneider_trophy_point
 		max = 10 #Limits the list to the ten top countires
@@ -1289,7 +1309,7 @@ curtiss_create_schneider_trophy_current_ranking_global_effect = {
 }
 
 #Removes the GLOBAL ranking variables
-curtiss_create_schneider_trophy_current_ranking_variables = {
+curtiss_remove_schneider_trophy_current_ranking_variables = {
 	remove_global_variable = curtiss_create_schneider_trophy_current_rank_1_global_var
 	remove_global_variable = curtiss_create_schneider_trophy_current_rank_2_global_var
 	remove_global_variable = curtiss_create_schneider_trophy_current_rank_3_global_var
