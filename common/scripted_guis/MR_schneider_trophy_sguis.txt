@@ -6,42 +6,60 @@
 mr_curtiss_hold_schneider_trophy_race_button = {
     scope = country
 	is_shown = {
+		curtiss_schneider_trophy_winner = yes
 		NOT = {
-			has_variable = vikelas_school_sport_var
+			has_variable = curtiss_schneider_trophy_host
+		}
+		NOT = {
+			any_country = {
+				has_modifier = curtiss_the_schneider_trophy_modifier
+			}
 		}
 	}
     is_valid = {
 		custom_tooltip = {
-			text = MR_SCHOOL_SPORTS_PUBLIC_SCHOOLS_TRIGGER_TT
-			has_law = law_type:law_public_schools
+			text = MR_IOC_FOUNDATION_PEACE_TRIGGER_TT
+			is_at_war = no
 		}
 		custom_tooltip = {
-			text = MR_SCHOOL_SPORTS_IG_ATHLETE_LEADER_TRIGGER_TT
-			any_interest_group = {
-				is_in_government = yes
-				leader = {
-					has_trait = vikelas_athlete
+			text = MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON_NO_BREAK_TRIGGER_TT
+			NOT = {
+				has_modifier = curtiss_schneider_trophy_break_modifier
+			}
+		}
+		custom_tooltip = {
+			text = MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON_WATER_PORT_TRIGGER_TT
+			OR = {
+				any_scope_state = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_port
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 10
+					}
+				}
+				AND = {
+					exists = c:SWI
+					c:SWI = ROOT
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_urban_center
+							level >= 10
+						}
+					}
 				}
 			}
 		}
-		custom_tooltip = {
-			text = MR_SCHOOL_SPORTS_SPORTS_FACILITIES_TRIGGER_TT
-			any_scope_building = {
-				is_building_type = building_government_administration
-				has_active_production_method = pm_vikelas_sports_facilities
-			}
-		}
-		custom_tooltip = {
-			text = MR_SAFARI_EXPEDITION_EVOLUTION_TRIGGER_TT
-			has_technology_researched = dubois_theory_of_evolution_tech
-		}
-		custom_tooltip = {
-			text = MR_IOC_OLYMPIC_FLAME_ORGANIZED_SPORTS_TECH_TRIGGER_TT
-			has_technology_researched = organized_sports
-		}
     }
     effect = {
-		set_variable = vikelas_school_sport_var
+		remove_global_variable = curtiss_schneider_trophy_race_end
+		add_treasury = -25000
+		trigger_event = { 
+			id = curtiss.102
+			popup = yes 
+		}
     }
 }
 
@@ -49,7 +67,7 @@ mr_curtiss_hold_schneider_trophy_race_button = {
 mr_curtiss_found_pilot_school_button = {
     scope = country
 	is_shown = {
-	#	has_technology_researched = military_aviation
+		has_technology_researched = military_aviation
 		NOT = {
 			has_modifier = curtiss_pilot_school_modifier
 		}
