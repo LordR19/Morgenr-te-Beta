@@ -8,20 +8,6 @@ dubois_add_animal_habitats = {
 	###NORTH AMERICA
 
 	#Grizzly Baer
-	every_state = {
-		limit = {
-			OR = {
-				state_region = s:STATE_MONTANA
-				state_region = s:STATE_WASHINGTON
-				state_region = s:STATE_BRITISH_COLUMBIA
-				state_region = s:STATE_ALBERTA
-				state_region = s:STATE_IDAHO
-			}
-		}
-		add_modifier = {
-			name = dubois_grizzly_habitat_modifier
-		}
-	}
 	every_state_region = {
 		limit = {
 			OR = {
@@ -36,20 +22,6 @@ dubois_add_animal_habitats = {
 	}
 
 	#Bald Eagle
-	every_state = {
-		limit = {
-			OR = {
-				state_region = s:STATE_MAINE
-				state_region = s:STATE_QUEBEC
-				state_region = s:STATE_ONTARIO
-				state_region = s:STATE_NORTH_CAROLINA
-				state_region = s:STATE_SOUTH_CAROLINA
-			}
-		}
-		add_modifier = {
-			name = dubois_eagle_habitat_modifier
-		}
-	}
 	every_state_region = {
 		limit = {
 			OR = {
@@ -64,20 +36,6 @@ dubois_add_animal_habitats = {
 	}
 
 	#American Bison
-	every_state = {
-		limit = {
-			OR = {
-				state_region = s:STATE_WYOMING
-				state_region = s:STATE_COLORADO
-				state_region = s:STATE_NEBRASKA
-				state_region = s:STATE_NORTH_DAKOTA
-				state_region = s:STATE_SOUTH_DAKOTA
-			}
-		}
-		add_modifier = {
-			name = dubois_bison_habitat_modifier
-		}
-	}
 	every_state_region = {
 		limit = {
 			OR = {
@@ -1198,21 +1156,27 @@ dubois_add_colonial_animal_habitats = {
 dubois_remove_habitats_effect = {
 	if = {
 		limit = {
-			has_modifier = dubois_grizzly_habitat_modifier
+			has_state_trait = dubois_state_trait_grizzly_habitat
 		}
-		remove_modifier = dubois_grizzly_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_grizzly_habitat
+		}
 	}
 	if = {
 		limit = {
-			has_modifier = dubois_eagle_habitat_modifier
+			has_state_trait = dubois_state_trait_eagle_habitat
 		}
-		remove_modifier = dubois_eagle_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_eagle_habitat
+		}
 	}
 	if = {
 		limit = {
-			has_modifier = dubois_bison_habitat_modifier
+			has_state_trait = dubois_state_trait_bison_habitat
 		}
-		remove_modifier = dubois_bison_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_bison_habitat
+		}
 	}
 	if = {
 		limit = {
@@ -2401,10 +2365,10 @@ dubois_calculate_catch_animals = {
 	if = {
 		limit = {
 			NOT = {
-				has_variable = dubois_zoo_animal_grizzly
+				has_variable = dubois_zoo_animal_polar
 			}
 			any_scope_state = {
-				has_modifier = dubois_grizzly_habitat_modifier
+				has_state_trait = dubois_state_trait_polar_habitat
 			}
 		}
 		set_variable = dubois_zoo_animal_catch_polar
@@ -2416,7 +2380,7 @@ dubois_calculate_catch_animals = {
 				has_variable = dubois_zoo_animal_grizzly
 			}
 			any_scope_state = {
-				has_modifier = dubois_grizzly_habitat_modifier
+				has_state_trait = dubois_state_trait_grizzly_habitat
 			}
 		}
 		set_variable = dubois_zoo_animal_catch_grizzly
@@ -2428,7 +2392,7 @@ dubois_calculate_catch_animals = {
 				has_variable = dubois_zoo_animal_eagle
 			}
 			any_scope_state = {
-				has_modifier = dubois_eagle_habitat_modifier
+				has_state_trait = dubois_state_trait_eagle_habitat
 			}
 		}
 		set_variable = dubois_zoo_animal_catch_eagle
@@ -2440,7 +2404,7 @@ dubois_calculate_catch_animals = {
 				has_variable = dubois_zoo_animal_bison
 			}
 			any_scope_state = {
-				has_modifier = dubois_bison_habitat_modifier
+				has_state_trait = dubois_state_trait_bison_habitat
 			}
 		}
 		set_variable = dubois_zoo_animal_catch_bison
@@ -3372,7 +3336,9 @@ dubois_state_breeding_add_habitat_effect = {
 				has_variable = dubois_breeding_polar_var
 			}
 		}
-		add_modifier = dubois_polar_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_polar_habitat
+		}
 	}
 	else_if = {
 		limit = {
@@ -3380,7 +3346,9 @@ dubois_state_breeding_add_habitat_effect = {
 				has_variable = dubois_breeding_grizzly_var
 			}
 		}
-		add_modifier = dubois_grizzly_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_grizzly_habitat
+		}
 	}
 	else_if = {
 		limit = {
@@ -3388,7 +3356,9 @@ dubois_state_breeding_add_habitat_effect = {
 				has_variable = dubois_breeding_eagle_var
 			}
 		}
-		add_modifier = dubois_eagle_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_eagle_habitat
+		}
 	}
 	else_if = {
 		limit = {
@@ -3404,7 +3374,9 @@ dubois_state_breeding_add_habitat_effect = {
 				has_variable = dubois_breeding_bison_var
 			}
 		}
-		add_modifier = dubois_bison_habitat_modifier
+		state_region = {
+			add_state_trait = dubois_state_trait_bison_habitat
+		}
 	}
 	else_if = {
 		limit = {
