@@ -50,14 +50,6 @@ dubois_add_animal_habitats = {
 	}
 
 	#Florida Panther
-	every_state = {
-		limit = {
-			state_region = s:STATE_FLORIDA
-		}
-		add_modifier = {
-			name = dubois_panther_habitat_modifier
-		}
-	}
 	every_state_region = {
 		limit = {
 			this = s:STATE_FLORIDA
@@ -66,19 +58,6 @@ dubois_add_animal_habitats = {
 	}
 
 	#Alligator
-	every_state = {
-		limit = {
-			OR = {
-				state_region = s:STATE_MISSISSIPPI
-				state_region = s:STATE_ALABAMA
-				state_region = s:STATE_LOUISIANA
-				state_region = s:STATE_TEXAS
-			}
-		}
-		add_modifier = {
-			name = dubois_alligator_habitat_modifier
-		}
-	}
 	every_state_region = {
 		limit = {
 			OR = {
@@ -92,14 +71,6 @@ dubois_add_animal_habitats = {
 	}
 
 	#Axolotl
-	every_state = {
-		limit = {
-			state_region = s:STATE_MEXICO
-		}
-		add_modifier = {
-			name = dubois_axolotl_habitat_modifier
-		}
-	}
 	every_state_region = {
 		limit = {
 			this = s:STATE_MEXICO
@@ -110,20 +81,6 @@ dubois_add_animal_habitats = {
 	###SOUTH AMERICA
 
 	#Brown-throated sloth
-	every_state = {
-		limit = {
-			OR = {
-				state_region = s:STATE_AMAZONAS
-				state_region = s:STATE_PARA
-				state_region = s:STATE_ACRE
-				state_region = s:STATE_PASTAZA
-				state_region = s:STATE_ANTIOQUIA
-			}
-		}
-		add_modifier = {
-			name = dubois_sloth_habitat_modifier
-		}
-	}
 	every_state_region = {
 		limit = {
 			OR = {
@@ -138,20 +95,6 @@ dubois_add_animal_habitats = {
 	}
 
 	#Jaguar
-	every_state = {
-		limit = {
-			OR = {
-				state_region = s:STATE_YUCATAN
-				state_region = s:STATE_GUATEMALA
-				state_region = s:STATE_HONDURAS
-				state_region = s:STATE_NICARAGUA
-				state_region = s:STATE_PANAMA
-			}
-		}
-		add_modifier = {
-			name = dubois_jaguar_habitat_modifier
-		}
-	}
 	every_state_region = {
 		limit = {
 			OR = {
@@ -1180,33 +1123,43 @@ dubois_remove_habitats_effect = {
 	}
 	if = {
 		limit = {
-			has_modifier = dubois_panther_habitat_modifier
+			has_state_trait = dubois_state_trait_panther_habitat
 		}
-		remove_modifier = dubois_panther_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_panther_habitat
+		}
 	}
 	if = {
 		limit = {
-			has_modifier = dubois_alligator_habitat_modifier
+			has_state_trait = dubois_state_trait_alligator_habitat
 		}
-		remove_modifier = dubois_alligator_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_alligator_habitat
+		}
 	}
 	if = {
 		limit = {
-			has_modifier = dubois_axolotl_habitat_modifier
+			has_state_trait = dubois_state_trait_axolotl_habitat
 		}
-		remove_modifier = dubois_axolotl_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_axolotl_habitat
+		}
 	}
 	if = {
 		limit = {
-			has_modifier = dubois_sloth_habitat_modifier
+			has_state_trait = dubois_state_trait_sloth_habitat
 		}
-		remove_modifier = dubois_sloth_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_sloth_habitat
+		}
 	}
 	if = {
 		limit = {
-			has_modifier = dubois_jaguar_habitat_modifier
+			has_state_trait = dubois_state_trait_jaguar_habitat
 		}
-		remove_modifier = dubois_jaguar_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_jaguar_habitat
+		}
 	}
 	if = {
 		limit = {
@@ -2416,7 +2369,7 @@ dubois_calculate_catch_animals = {
 				has_variable = dubois_zoo_animal_panther
 			}
 			any_scope_state = {
-				has_modifier = dubois_panther_habitat_modifier
+				has_state_trait = dubois_state_trait_panther_habitat
 			}
 		}
 		set_variable = dubois_zoo_animal_catch_panther
@@ -2428,7 +2381,7 @@ dubois_calculate_catch_animals = {
 				has_variable = dubois_zoo_animal_alligator
 			}
 			any_scope_state = {
-				has_modifier = dubois_alligator_habitat_modifier
+				has_state_trait = dubois_state_trait_alligator_habitat
 			}
 		}
 		set_variable = dubois_zoo_animal_catch_alligator
@@ -2440,7 +2393,7 @@ dubois_calculate_catch_animals = {
 				has_variable = dubois_zoo_animal_axolotl
 			}
 			any_scope_state = {
-				has_modifier = dubois_axolotl_habitat_modifier
+				has_state_trait = dubois_state_trait_axolotl_habitat
 			}
 		}
 		set_variable = dubois_zoo_animal_catch_axolotl
@@ -2453,7 +2406,7 @@ dubois_calculate_catch_animals = {
 				has_variable = dubois_zoo_animal_sloth
 			}
 			any_scope_state = {
-				has_modifier = dubois_sloth_habitat_modifier
+				has_state_trait = dubois_state_trait_sloth_habitat
 			}
 		}
 		set_variable = dubois_zoo_animal_catch_sloth
@@ -2465,7 +2418,7 @@ dubois_calculate_catch_animals = {
 				has_variable = dubois_zoo_animal_jaguar
 			}
 			any_scope_state = {
-				has_modifier = dubois_jaguar_habitat_modifier
+				has_state_trait = dubois_state_trait_jaguar_habitat
 			}
 		}
 		set_variable = dubois_zoo_animal_catch_jaguar
@@ -3366,7 +3319,9 @@ dubois_state_breeding_add_habitat_effect = {
 				has_variable = dubois_breeding_panther_var
 			}
 		}
-		add_modifier = dubois_panther_habitat_modifier
+		state_region = {
+			add_state_trait = dubois_state_trait_panther_habitat
+		}
 	}
 	else_if = {
 		limit = {
@@ -3384,7 +3339,9 @@ dubois_state_breeding_add_habitat_effect = {
 				has_variable = dubois_breeding_alligator_var
 			}
 		}
-		add_modifier = dubois_alligator_habitat_modifier
+		state_region = {
+			add_state_trait = dubois_state_trait_alligator_habitat
+		}
 	}
 	else_if = {
 		limit = {
@@ -3392,7 +3349,9 @@ dubois_state_breeding_add_habitat_effect = {
 				has_variable = dubois_breeding_axolotl_var
 			}
 		}
-		add_modifier = dubois_axolotl_habitat_modifier
+		state_region = {
+			remove_state_trait = dubois_state_trait_axolotl_habitat
+		}
 	}
 	#South America
 	else_if = {
@@ -3401,7 +3360,9 @@ dubois_state_breeding_add_habitat_effect = {
 				has_variable = dubois_breeding_sloth_var
 			}
 		}
-		add_modifier = dubois_sloth_habitat_modifier
+		state_region = {
+			add_state_trait = dubois_state_trait_sloth_habitat
+		}
 	}
 	else_if = {
 		limit = {
@@ -3409,7 +3370,9 @@ dubois_state_breeding_add_habitat_effect = {
 				has_variable = dubois_breeding_jaguar_var
 			}
 		}
-		add_modifier = dubois_jaguar_habitat_modifier
+		state_region = {
+			add_state_trait = dubois_state_trait_jaguar_habitat
+		}
 	}
 	else_if = {
 		limit = {
