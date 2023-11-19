@@ -189,3 +189,49 @@ dubois_paleontologist_unused_alert = {
 	type = important_action
 	alert_group = morgenroete
 }
+
+dubois_hippocampus_congress_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/dubois_botanical_expedition_alert.dds"
+
+	valid = {
+		NOT = {
+			has_global_variable = dubois_hippocampus_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = dubois_congress_host_modifier
+			}
+		}
+		country_rank >= rank_value:major_power
+		has_technology_researched = dubois_theory_of_evolution_tech
+		any_scope_building = {
+			is_building_type = building_university
+			level >= 10
+		}
+		any_scope_building = {
+			is_building_type = building_dubois_zoo
+		}
+		dubois_has_naturalist = yes
+		any_country = {
+			dubois_has_naturalist = yes
+			count >= 5
+		}
+		custom_tooltip = {
+			text = mr_hippocampus_congress_specimen_tt
+			var:dubois_specimen >= 20000
+		}
+		custom_tooltip = {
+			text = mr_hippocampus_congress_global_specimen_tt
+			global_var:dubois_global_specimen >= 100000
+		}
+		trigger_if = {
+			limit = { is_ai = yes}
+			global_var:dubois_global_specimen >= 110000
+		}
+	}
+
+	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
