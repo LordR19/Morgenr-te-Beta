@@ -1,0 +1,112 @@
+﻿
+############################
+# MANZONI JOURNAL ENTRIES  #
+############################
+
+#by Marco Dandolo
+
+############################
+
+######FATE OF LUCCA######
+
+je_manzoni_lucca = {
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	group = je_group_historical_content
+
+	is_shown_when_inactive = {
+		exists = c:LUC
+		c:LUC = ROOT
+		is_player = no
+	}
+
+	possible = {
+		exists = c:PAR
+		c:PAR = {
+			has_law = law_type:law_monarchy
+		}
+		exists = c:TUS
+	}
+
+	immediate = {
+	}
+	
+    fail = {
+    }
+
+	on_fail = {
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = maria_luigia_died_tt
+			c:PAR = {
+				ruler = {
+					NOT = { 
+						has_variable = is_maria_luisa_var
+					}
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		ruler = {
+			set_variable = manzoni_duke_of_lucca_var
+			save_scope_as = manzoni_ruler_scope
+			scope:manzoni_ruler_scope = {
+				transfer_character = c:PAR
+			}
+			c:PAR = {
+				scope:manzoni_ruler_scope = {
+					set_character_as_ruler = yes
+				}
+			}
+		}
+		c:PAR = {
+			trigger_event = {
+				id = manzoni.901
+				days = 1
+				popup = yes
+			}
+		}
+		c:TUS = {
+			trigger_event = {
+				id = manzoni.902
+				days = 2
+				popup = yes
+			}
+		}
+	}
+
+	invalid = {
+		OR = {
+			NOT = {
+				exists = c:LUC
+			}
+			NOT = {
+				exists = c:PAR
+			}
+			NOT = {
+				c:PAR = {
+					has_law = law_type:law_monarchy
+				}
+			}
+			NOT = {
+				exists = c:TUS
+			}
+		}
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	progressbar = no
+
+	should_be_pinned_by_default = yes
+
+	weight = 50
+}
