@@ -29,6 +29,10 @@ namespace = gaudi
 #Gaudí 62: Burning Big Ben
 #Gaudí 63: The Destruction of Big Ben
 
+###### COLLAPS OF THE CAMPANILE ######
+
+#Gaudí 70: Il Padron de casa crumbled!
+
 ###### COLOGNE CATHEDRAL ######
 
 #Gaudí 100: A sleeping giant
@@ -837,6 +841,177 @@ gaudi.63 = {
 		scope:gaudi_big_ben_state = {
 			deactivate_building = {
 				building = "building_big_ben"
+			}
+		}
+	}
+}
+
+######COLLAPS OF THE CAMPANILE######
+
+#Gaudí 70: The Campanile has collapsed!
+
+gaudi.70 = {
+	type = country_event
+
+    title = gaudi.70.t
+		
+    desc = gaudi.70.d
+
+	flavor = gaudi.70.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_campanile_collapsed.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	trigger = {
+		game_date >= 1902.1.1
+		any_scope_state = {
+			state_region = s:STATE_VENETIA
+		}
+		NOT = {
+			has_global_variable = gaudi_campanile_collapsed_var
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_VENETIA
+			}
+			save_scope_as = gaudi_campanile_state
+		}
+		set_global_variable = gaudi_campanile_collapsed_var
+	}
+
+	option = { #We are truly going through a valley of tears ...
+		name = gaudi.70.g
+		default_option = yes
+		add_treasury = -50000
+		set_variable = {
+			name = gaudi_campanile_progress
+			value = 0
+		}
+		add_journal_entry = {
+        	type = je_gaudi_rebuild_campanile
+        }
+		add_modifier = {
+			name = gaudi_campanile_cost_modifier
+		}
+		scope:gaudi_campanile_state = {
+			deactivate_building = {
+				building = "building_gaudi_campanile"
+			}
+		}
+	}
+
+	option = { #Build something new!
+		name = gaudi.70.h
+		trigger = {
+			has_technology_researched = elgar_art_nouveau_tech
+		}
+		add_treasury = -100000
+		gaudi_add_1_splendid_architecture = yes
+		scope:gaudi_campanile_state = {
+			remove_building = "building_gaudi_campanile"
+		}
+	}
+
+	option = { #We can't afford that.
+		name = gaudi.70.i
+		scope:gaudi_campanile_state = {
+			remove_building = "building_gaudi_campanile"
+			add_radicals_in_state = {
+				value = 0.2
+				culture = cu:north_italian
+			}
+		}
+		add_modifier = {
+			name = gaudi_no_campanile_modifier
+			years = 10
+		}
+	}
+}
+
+#Gaudí 71: The Campanile rebuild
+
+gaudi.71 = {
+	type = country_event
+
+    title = gaudi.71.t
+		
+    desc = gaudi.71.d
+
+	flavor = gaudi.71.f
+
+	duration = 1
+		
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_campanile_rebuild.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_VENETIA
+			}
+			save_scope_as = gaudi_campanile_state
+		}
+		set_global_variable = gaudi_campanile_finished
+	}
+
+	option = { #The Padron has returned!
+		name = gaudi.71.g
+		default_option = yes
+		remove_modifier = gaudi_campanile_cost_modifier
+		scope:gaudi_campanile_state = {
+			activate_building = {
+				building = "building_gaudi_campanile"
+			}
+			add_loyalists_in_state = {
+				value = 0.1
+				culture = cu:north_italian
+			}
+		}
+	}
+}
+
+#Gaudí 72: Normal building progress
+
+gaudi.72 = {
+	type = country_event
+	
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		change_variable = {
+			name = gaudi_campanile_progress
+			add = 1
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_engineer_var
+			}
+			change_variable = {
+				name = gaudi_campanile_progress
+				add = 1
 			}
 		}
 	}
