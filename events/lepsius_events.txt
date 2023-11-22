@@ -49,6 +49,10 @@ namespace = lepsius
 
 #Lepsius 50: Yearly excavation report
 
+#Lepsius 60: Possible excavation sack
+#Lepsius 61: Sack an archaeological excavation
+#Lepsius 62: Excavation site sacked!
+
 ###Technology Events###
 
 #Lepsius 80: A new Age of Archaeology! (if Early Archaeology is discovered)
@@ -1548,24 +1552,56 @@ lepsius.50 = {
 		if = {
 			limit = {
 				has_modifier = lepsius_upper_egypt_excavation_modifier #Valley of the Kings
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_upper_egypt
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
 				has_modifier = lepsius_lower_egypt_excavation_modifier #The Pyramids
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_lower_egypt
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
 				has_modifier = lepsius_babylonia_excavation_modifier #Babylon
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_babylonia
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1}
 		}
 		if = {
 			limit = {
 				has_modifier = lepsius_assyria_excavation_modifier #Assyria
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_assyria
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1}
 		}
@@ -1573,6 +1609,14 @@ lepsius.50 = {
 			limit = {
 				has_modifier = lepsius_babylonia_excavation_modifier #Babylon
 				has_modifier = lepsius_panbabylonism_modifier  ##Gives +2 excavation artifacts each year
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_babylonia
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1}
 		}
@@ -1580,18 +1624,42 @@ lepsius.50 = {
 			limit = {
 				has_modifier = lepsius_assyria_excavation_modifier #Assyria
 				has_modifier = lepsius_panbabylonism_modifier  ##Gives +2 excavation artifacts each year
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_assyria
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1}
 		}
 		if = {
 			limit = {
 				has_modifier = lepsius_argolis_excavation_modifier #Argolis
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_argolis
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
 				has_modifier = lepsius_crete_excavation_modifier #Crete
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_crete
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
 		}
@@ -1599,6 +1667,14 @@ lepsius.50 = {
 			limit = {
 				has_modifier = lepsius_argolis_excavation_modifier #Argolis
 				has_modifier = lepsius_troy_homeric_modifier ##Gives +2 excavation artifacts each year
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_argolis
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
 		}
@@ -1606,18 +1682,42 @@ lepsius.50 = {
 			limit = {
 				has_modifier = lepsius_crete_excavation_modifier #Crete
 				has_modifier = lepsius_troy_homeric_modifier ##Gives +2 excavation artifacts each year
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_crete
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
 		}
 		if = {
 			limit = {
 				has_modifier = lepsius_yucatan_excavation_modifier #Yucatán
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_yucatan
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1}
 		}
 		if = {
 			limit = {
 				has_modifier = lepsius_peru_excavation_modifier #Peru
+				NOT = {
+					random_state = {
+						limit = {
+							has_state_trait = lepsius_state_trait_peru
+							has_modifier = lepsius_excavation_sacked_state_modifier
+						}
+					}
+				}
 			}
 			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1}
 		}
@@ -1637,6 +1737,474 @@ lepsius.50 = {
 
 	after = {
 		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 60: Sack an archaeological excavation
+lepsius.60 = {
+	type = state_event
+
+	hidden = yes
+
+	cooldown = {
+		days = 100
+	}
+
+	trigger = {
+		OR = {
+			has_state_trait = lepsius_state_trait_upper_egypt
+			has_state_trait = lepsius_state_trait_lower_egypt
+			has_state_trait = lepsius_state_trait_babylonia
+			has_state_trait = lepsius_state_trait_assyria
+			has_state_trait = lepsius_state_trait_argolis
+			has_state_trait = lepsius_state_trait_crete
+			has_state_trait = lepsius_state_trait_yucatan
+			has_state_trait = lepsius_state_trait_peru
+		}
+		owner = ROOT
+		NOT = {
+			controller = ROOT
+		}
+		NOT = {
+			has_modifier = lepsius_excavation_sacked_state_modifier
+		}
+		NOT = {
+			has_modifier = lepsius_excavation_protected_state_modifier
+		}
+		OR = {
+			AND = {
+				has_state_trait = lepsius_state_trait_upper_egypt
+				any_country = {
+					has_modifier = lepsius_upper_egypt_excavation_modifier
+				}
+			}
+			AND = {
+				has_state_trait = lepsius_state_trait_lower_egypt
+				any_country = {
+					has_modifier = lepsius_lower_egypt_excavation_modifier
+				}
+			}
+			AND = {
+				has_state_trait = lepsius_state_trait_babylonia
+				any_country = {
+					has_modifier = lepsius_babylonia_excavation_modifier
+				}
+			}
+			AND = {
+				has_state_trait = lepsius_state_trait_assyria
+				any_country = {
+					has_modifier = lepsius_assyria_excavation_modifier
+				}
+			}
+			AND = {
+				has_state_trait = lepsius_state_trait_argolis
+				any_country = {
+					has_modifier = lepsius_argolis_excavation_modifier
+				}
+			}
+			AND = {
+				has_state_trait = lepsius_state_trait_crete
+				any_country = {
+					has_modifier = lepsius_crete_excavation_modifier
+				}
+			}
+			AND = {
+				has_state_trait = lepsius_state_trait_yucatan
+				any_country = {
+					has_modifier = lepsius_yucatan_excavation_modifier
+				}
+			}
+			AND = {
+				has_state_trait = lepsius_state_trait_peru
+				any_country = {
+					has_modifier = lepsius_peru_excavation_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+		controller = {
+			trigger_event = {
+				id = lepsius.61
+			}
+		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 61: Sack an archaeological excavation
+
+lepsius.61 = {
+	type = country_event
+
+	title = lepsius.61.t
+
+	desc = lepsius.61.d
+
+	flavor = lepsius.61.f
+
+	placement = ROOT
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_franco_tuscan_expedition.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		any_state = {
+			controller = ROOT
+			NOT = {
+				owner = ROOT
+			}
+			NOT = {
+				has_modifier = lepsius_excavation_sacked_state_modifier
+			}
+			NOT = {
+				has_modifier = lepsius_excavation_protected_state_modifier
+			}
+			OR = {
+				AND = {
+					has_state_trait = lepsius_state_trait_upper_egypt
+					any_country = {
+						has_modifier = lepsius_upper_egypt_excavation_modifier
+					}
+				}
+				AND = {
+					has_state_trait = lepsius_state_trait_lower_egypt
+					any_country = {
+						has_modifier = lepsius_lower_egypt_excavation_modifier
+					}
+				}
+				AND = {
+					has_state_trait = lepsius_state_trait_babylonia
+					any_country = {
+						has_modifier = lepsius_babylonia_excavation_modifier
+					}
+				}
+				AND = {
+					has_state_trait = lepsius_state_trait_assyria
+					any_country = {
+						has_modifier = lepsius_assyria_excavation_modifier
+					}
+				}
+				AND = {
+					has_state_trait = lepsius_state_trait_argolis
+					any_country = {
+						has_modifier = lepsius_argolis_excavation_modifier
+					}
+				}
+				AND = {
+					has_state_trait = lepsius_state_trait_crete
+					any_country = {
+						has_modifier = lepsius_crete_excavation_modifier
+					}
+				}
+				AND = {
+					has_state_trait = lepsius_state_trait_yucatan
+					any_country = {
+						has_modifier = lepsius_yucatan_excavation_modifier
+					}
+				}
+				AND = {
+					has_state_trait = lepsius_state_trait_peru
+					any_country = {
+						has_modifier = lepsius_peru_excavation_modifier
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				controller = ROOT
+				NOT = {
+					owner = ROOT
+				}
+				NOT = {
+					has_modifier = lepsius_excavation_sacked_state_modifier
+				}
+				NOT = {
+					has_modifier = lepsius_excavation_protected_state_modifier
+				}
+				OR = {
+					AND = {
+						has_state_trait = lepsius_state_trait_upper_egypt
+						any_country = {
+							has_modifier = lepsius_upper_egypt_excavation_modifier
+						}
+					}
+					AND = {
+						has_state_trait = lepsius_state_trait_lower_egypt
+						any_country = {
+							has_modifier = lepsius_lower_egypt_excavation_modifier
+						}
+					}
+					AND = {
+						has_state_trait = lepsius_state_trait_babylonia
+						any_country = {
+							has_modifier = lepsius_babylonia_excavation_modifier
+						}
+					}
+					AND = {
+						has_state_trait = lepsius_state_trait_assyria
+						any_country = {
+							has_modifier = lepsius_assyria_excavation_modifier
+						}
+					}
+					AND = {
+						has_state_trait = lepsius_state_trait_argolis
+						any_country = {
+							has_modifier = lepsius_argolis_excavation_modifier
+						}
+					}
+					AND = {
+						has_state_trait = lepsius_state_trait_crete
+						any_country = {
+							has_modifier = lepsius_crete_excavation_modifier
+						}
+					}
+					AND = {
+						has_state_trait = lepsius_state_trait_yucatan
+						any_country = {
+							has_modifier = lepsius_yucatan_excavation_modifier
+						}
+					}
+					AND = {
+						has_state_trait = lepsius_state_trait_peru
+						any_country = {
+							has_modifier = lepsius_peru_excavation_modifier
+						}
+					}
+				}
+			}
+			save_scope_as = lepsius_excavation_state
+		}
+	}
+
+	option = { #Plunder the site!
+		name = lepsius.61.g
+		default_option = yes
+		scope:lepsius_excavation_state = {
+			add_modifier = {
+				name = lepsius_excavation_sacked_state_modifier
+				years = 3
+			}
+		}
+		if = {
+			limit = {
+				scope:lepsius_excavation_state = {
+					has_state_trait = lepsius_state_trait_upper_egypt
+				}
+			}
+			lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 5 }
+			every_country = {
+				limit = {
+					has_modifier = lepsius_upper_egypt_excavation_modifier
+				}
+				trigger_event = {
+					id = lepsius.62
+				}
+				change_relations = {
+					country = ROOT 
+					value = -10
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:lepsius_excavation_state = {
+					has_state_trait = lepsius_state_trait_lower_egypt
+				}
+			}
+			lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 5 }
+			every_country = {
+				limit = {
+					has_modifier = lepsius_lower_egypt_excavation_modifier
+				}
+				trigger_event = {
+					id = lepsius.62
+				}
+				change_relations = {
+					country = ROOT 
+					value = -10
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:lepsius_excavation_state = {
+					has_state_trait = lepsius_state_trait_babylonia
+				}
+			}
+			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 5 }
+			every_country = {
+				limit = {
+					has_modifier = lepsius_babylonia_excavation_modifier
+				}
+				trigger_event = {
+					id = lepsius.62
+				}
+				change_relations = {
+					country = ROOT 
+					value = -10
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:lepsius_excavation_state = {
+					has_state_trait = lepsius_state_trait_assyria
+				}
+			}
+			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 5 }
+			every_country = {
+				limit = {
+					has_modifier = lepsius_assyria_excavation_modifier
+				}
+				trigger_event = {
+					id = lepsius.62
+				}
+				change_relations = {
+					country = ROOT 
+					value = -10
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:lepsius_excavation_state = {
+					has_state_trait = lepsius_state_trait_argolis
+				}
+			}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 5 }
+			every_country = {
+				limit = {
+					has_modifier = lepsius_argolis_excavation_modifier
+				}
+				trigger_event = {
+					id = lepsius.62
+				}
+				change_relations = {
+					country = ROOT 
+					value = -10
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:lepsius_excavation_state = {
+					has_state_trait = lepsius_state_trait_crete
+				}
+			}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 5 }
+			every_country = {
+				limit = {
+					has_modifier = lepsius_crete_excavation_modifier
+				}
+				trigger_event = {
+					id = lepsius.62
+				}
+				change_relations = {
+					country = ROOT 
+					value = -10
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:lepsius_excavation_state = {
+					has_state_trait = lepsius_state_trait_yucatan
+				}
+			}
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 5 }
+			every_country = {
+				limit = {
+					has_modifier = lepsius_yucatan_excavation_modifier
+				}
+				trigger_event = {
+					id = lepsius.62
+				}
+				change_relations = {
+					country = ROOT 
+					value = -10
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:lepsius_excavation_state = {
+					has_state_trait = lepsius_state_trait_peru
+				}
+			}
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 5 }
+			every_country = {
+				limit = {
+					has_modifier = lepsius_peru_excavation_modifier
+				}
+				trigger_event = {
+					id = lepsius.62
+				}
+				change_relations = {
+					country = ROOT 
+					value = -10
+				}
+			}
+		}
+	}
+
+	option = { #Remain civilized
+		name = lepsius.61.h
+		change_infamy = -3
+		scope:lepsius_excavation_state = {
+			add_modifier = {
+				name = lepsius_excavation_protected_state_modifier 
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Lepsius 62: Excavation site sacked!
+
+lepsius.62 = {
+	type = country_event
+
+	title = lepsius.62.t
+
+	desc = lepsius.62.d
+
+	flavor = lepsius.62.f
+
+	placement = ROOT
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_franco_tuscan_expedition.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+	}
+
+	option = { #Barbarians!
+		name = lepsius.62.g
+	}
+
+	after = {
 	}
 }
 
@@ -3961,6 +4529,9 @@ lepsius.310 = {
 	option = {
 		name = lepsius.310.h
 		default_option = yes
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "30"
+		}
 		trigger = {
 			has_technology_researched = lepsius_early_archaeology_tech
 			OR = {
@@ -23889,6 +24460,10 @@ lepsius.1601 = {
 			}
 		}
 	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
 }
 
 #Lepsius 1602: A Donation (Landowners, Mesopotamian Artifacts)
@@ -23962,6 +24537,10 @@ lepsius.1602 = {
 				years = 5
 			}
 		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -24037,6 +24616,10 @@ lepsius.1603 = {
 			}
 		}
 	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
 }
 
 #Lepsius 1604: A Donation (Petty Bourgeosie, Precolumbian Artifacts)
@@ -24109,6 +24692,10 @@ lepsius.1604 = {
 				years = 5
 			}
 		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -24183,6 +24770,10 @@ lepsius.1605 = {
 				years = 5
 			}
 		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -24489,6 +25080,10 @@ lepsius.1609 = {
 			}
 		}
 	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
 }
 
 #Lepsius 1610: Archaeological Investment
@@ -24714,6 +25309,7 @@ lepsius.1612 = {
 		scope:lepsius_director_scope = {
 			free_character_from_void = no
 		}
+		lepsius_update_exhibition_effect = yes
 	}
 }
 
@@ -24832,5 +25428,9 @@ lepsius.2101 = {
 
 		lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
 		archaeologist_experience_gain_effect = { AMOUNT = 5 }
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
 	}
 }
