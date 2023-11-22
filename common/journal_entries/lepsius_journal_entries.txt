@@ -265,6 +265,112 @@ je_lepsius_pompeii = {
 	should_be_pinned_by_default = yes
 }
 
+#Batres in Teotihuacán
+
+je_lepsius_teotihuacan = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		exists = c:MEX
+		c:MEX = root
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_MEXICO
+		}
+	}
+
+	complete = {
+		has_technology_researched = nationalism
+		has_technology_researched = lepsius_modern_archaeology_tech
+		gaudi_has_engineer = yes
+		lepsius_has_active_archaeologist = yes
+		custom_tooltip = {
+			text = lepsius_excavation_team_needed_tt
+			var:lepsius_excavation_teams >= 1
+ 		}
+	}
+
+	fail = {
+		game_date >= 1911.1.1
+    }
+
+	on_complete = {
+		add_modifier = {
+			name = lepsius_pyramid_of_the_sun_modifier
+			years = 10
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			add_state_trait = lepsius_state_trait_teotihuacan
+		}
+		trigger_event = { id = lepsius.8 popup = yes }
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+#Discovery of Harappa
+
+je_lepsius_harappa = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		any_scope_state = {
+			state_region = s:STATE_PUNJAB
+		}
+		NOT = {
+			has_global_variable = lepsius_harappa_var
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			state_region = s:STATE_PUNJAB
+		}
+	}
+
+	complete = {
+		has_technology_researched = lepsius_modern_archaeology_tech
+		lepsius_has_active_archaeologist = yes
+		custom_tooltip = {
+			text = lepsius_excavation_team_needed_tt
+			var:lepsius_excavation_teams >= 1
+ 		}
+	}
+
+	fail = {
+		has_global_variable = lepsius_harappa_var
+    }
+
+	on_complete = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_PUNJAB
+			}
+			add_state_trait = lepsius_state_trait_harappa
+		}
+		trigger_event = { id = lepsius.9 popup = yes }
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
 ##################################################################
 
 ######EXPEDITIONS######
