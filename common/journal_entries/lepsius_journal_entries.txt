@@ -368,6 +368,75 @@ je_lepsius_harappa = {
 	should_be_pinned_by_default = yes
 }
 
+#Teh Tomb of the First Emperor
+
+je_lepsius_first_emperor = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		exists = c:CHI
+		c:CHI = root
+		has_technology_researched = lepsius_early_archaeology_tech
+	}
+
+	possible = {
+		has_technology_researched = lepsius_modern_archaeology_tech
+	}
+
+	complete = {
+		any_scope_state = {
+			state_region = s:STATE_XIAN
+		}
+		any_scope_building = {
+			is_building_type = building_lepsius_archaeological_museum
+			level >= 1
+		}
+		lepsius_has_active_famous_archaeologist = yes
+		custom_tooltip = {
+			text = lepsius_4_excavation_team_needed_tt
+			var:lepsius_excavation_teams >= 4
+ 		}
+		 custom_tooltip = {
+			text = je_academics_major_artifact_success
+			lepsius_has_major_artifacts = yes
+		}
+		any_scope_state = {
+			is_capital = yes
+			OR = {
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_large_egyptian_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_large_mesopotamian_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_large_aegean_exhibition
+				}
+				is_production_method_active = {
+					building_type = building_lepsius_archaeological_museum
+					production_method = pm_lepsius_large_precolumbian_exhibition
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		s:STATE_XIAN = {
+			add_state_trait = lepsius_state_trait_emperor
+		}
+		trigger_event = { id = lepsius.70 popup = yes }	
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
 ##################################################################
 
 ######EXPEDITIONS######
