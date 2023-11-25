@@ -33,6 +33,15 @@ namespace = gaudi
 
 #Gaudí 70: Il Padron de casa crumbled!
 
+###### Twenty Thousand Leagues Under the Seas ######
+
+#Gaudí 90: Mysterious Whale sinks ship!
+#Gaudí 91: Mysterious Whale sinks another ship
+#Gaudí 92: Nautilus attacks coast!
+#Gaudí 93: Expedition under NATURALIST starts
+#Gaudí 94: NATURALIST missing!
+#Gaudí 95: NATURALIST washes ashore
+
 ###### COLOGNE CATHEDRAL ######
 
 #Gaudí 100: A sleeping giant
@@ -1013,6 +1022,318 @@ gaudi.72 = {
 				name = gaudi_campanile_progress
 				add = 1
 			}
+		}
+	}
+}
+
+###### Twenty Thousand Leagues Under the Seas ######
+
+#Gaudí 90: Mysterious Whale sinks ship!
+
+gaudi.90 = {
+	type = country_event
+
+    title = gaudi.90.t
+		
+    desc = gaudi.90.d
+
+	flavor = gaudi.90.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_nemo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	trigger = {
+		NOT = {
+			has_game_rule = lepsius_only_historical_rule
+		}
+		is_player = yes
+		game_date >= 1869.1.1
+		game_date < 1879.1.1
+		NOT = {
+			has_global_variable = gaudi_nautilus_var
+		}
+		any_scope_state = {
+			has_building = building_whaling_station
+		}
+		country_rank > rank_value:major_power
+		has_global_variable = american_civil_war
+		any_state = {
+			state_region = s:STATE_SINAI
+			has_building = building_suez_canal
+		}
+	}
+
+	immediate = {
+		set_global_variable = gaudi_nautilus_var
+	}
+
+	option = { #But is it really a whale?
+		name = gaudi.90.g
+		default_option = yes
+		add_treasury = -10000
+		add_journal_entry = {
+        	type = je_gaudi_nemo
+        }
+		add_modifier = {
+			name = gaudi_nautilus_modifier
+		}
+	}
+}
+
+#Gaudí 91: Mysterious Whale sinks another ship
+
+gaudi.91 = {
+	type = country_event
+
+    title = gaudi.91.t
+		
+    desc = gaudi.91.d
+
+	flavor = gaudi.91.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_nemo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = {
+		days = 365
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = gaudi_nautilus_var
+	}
+
+	option = { #This nefarious threat to the peace on the high seas must end!
+		name = gaudi.91.g
+		default_option = yes
+		add_treasury = -10000
+		add_modifier = {
+			name = gaudi_nautilus_strikes_modifier
+			days = 365
+		}
+	}
+}
+
+#Gaudí 92: Nautilus attacks coast!
+
+gaudi.92 = {
+	type = country_event
+
+    title = gaudi.92.t
+		
+    desc = gaudi.92.d
+
+	flavor = gaudi.92.f
+
+	placement = scope:gaudi_nautilus_state
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_nemo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = {
+		days = 730
+	}
+
+	trigger = {
+		any_scope_state = {
+			has_building = building_port
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_building = building_port
+			}
+			save_scope_as = gaudi_nautilus_state
+		}
+	}
+
+	option = { #This nefarious threat to the peace on the high seas must end!
+		name = gaudi.91.g
+		default_option = yes
+		add_treasury = -10000
+		add_modifier = {
+			name = gaudi_nautilus_strikes_modifier
+			days = 365
+		}
+		scope:gaudi_nautilus_state.state_region = {
+			add_devastation = 15
+		}
+	}
+}
+
+#Gaudí 93: Expedition under NATURALIST starts
+
+gaudi.93 = {
+	type = country_event
+
+    title = gaudi.93.t
+		
+    desc = gaudi.93.d
+
+	flavor = gaudi.93.f
+
+	duration = 3
+		
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = { #Good luck!
+		name = gaudi.93.g
+		default_option = yes
+		scope:dubois_naturalist_scope = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = gaudi.94
+			days = { 90 120 }
+		}
+	}
+}
+
+#Gaudí 94: NATURALIST missing!
+
+gaudi.94 = {
+	type = country_event
+
+    title = gaudi.94.t
+		
+    desc = gaudi.94.d
+
+	flavor = gaudi.94.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_arronax.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = { #No! Not Prof. NATURALIST!
+		name = gaudi.94.g
+		default_option = yes
+	}
+
+	after = {
+		trigger_event = {
+			id = gaudi.95
+			days = { 1000 1500 }
+		}
+	}
+}
+
+#Gaudí 95: NATURALIST washes ashore
+
+gaudi.95 = {
+	type = country_event
+
+    title = gaudi.95.t
+		
+    desc = gaudi.95.d
+
+	flavor = gaudi.95.f
+
+	duration = 3
+		
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+		create_character = {
+			dna = mr_pol_mieroslawski_adam
+			first_name = gaudi_captain
+			last_name = gaudi_nemo
+			birth_date = 1808.2.24
+			culture = cu:polish
+			interest_group = ig_armed_forces
+			female = no
+			traits = { 
+				wrathful
+				brave
+				innovative
+				expert_naval_commander
+			}
+			is_admiral = yes
+			on_created = {
+				place_character_in_void = 120
+			}
+	
+			save_scope_as = gaudi_nemo_scope
+		}
+	}
+
+	option = { #But is Captain Nemo really defeated?
+		name = gaudi.95.g
+		default_option = yes
+		remove_modifier = gaudi_nautilus_modifier
+		scope:dubois_naturalist_scope = {
+			set_character_busy_and_immortal = no
+		}
+		naturalist_experience_gain_effect = {
+			AMOUNT = "50"
+		}
+		dubois_large_add_technology = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 5000 }
+	}
+
+	after = {
+		scope:gaudi_nemo_scope = {
+			free_character_from_void = no
 		}
 	}
 }
