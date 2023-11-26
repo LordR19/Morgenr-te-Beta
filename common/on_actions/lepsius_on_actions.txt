@@ -87,6 +87,11 @@ lepsius_on_yearly_pulse_country = {
 
 	#Local Archaeology Events
 	#This uses random_lists to ensure that events get fired equally often no matter how many different archaeological regions you own.
+	#The first random list fires if you have an active archaeologist. It decides whether you find anything this year.
+	#The second random list decides what (of the possible regions you own) you find.
+	#The third random list decides, which specific Event triggers.
+	#Make sure that all Event Triggers are also used somewhere in this construct, otherwise the event will not fire anyways.
+	#E.g. the Roman Tablets event needs Modern Archaeology, if you do not have it, the trigger does not allow that option to be taken.
 	effect = {
 		if = {
 			limit = { lepsius_has_active_archaeologist = yes }
@@ -94,78 +99,44 @@ lepsius_on_yearly_pulse_country = {
 				14 = {}
 				1 = {
 					random_list = {
-						#Roman
-						6 = {
+						2 = { #Roman
 							trigger = {
 								any_scope_state = {
 									lepsius_imperium_romanum_archaeology_region = yes
 								}
 							}
-							trigger_event = lepsius.2101 #Lepsius 2101: Remains of a Roman Battle
-						}
-						10 = {
-							trigger = {
-								any_scope_state = {
-									lepsius_imperium_romanum_archaeology_region = yes
+							random_list = {
+								3 = { trigger_event = lepsius.2101 } #Lepsius 2101: Remains of a Roman Battle
+								5 = { trigger_event = lepsius.2102 } #Lepsius 2102: Villa Rustica discovered
+								1 = {
+									trigger = {
+										has_technology_researched = lepsius_modern_archaeology_tech
+									}
+									trigger_event = lepsius.2103 #Lepsius 2103: Ancient Roman tablets discovered
 								}
+								1 = { trigger_event = lepsius.2104 } #Lepsius 2104: Roman Coin Treasure discovered
 							}
-							trigger_event = lepsius.2102 #Lepsius 2102: Villa Rustica discovered
 						}
-						2 = {
-							trigger = {
-								has_technology_researched = lepsius_modern_archaeology_tech
-								any_scope_state = {
-									lepsius_imperium_romanum_archaeology_region = yes
-								}
-							}
-							trigger_event = lepsius.2103 #Lepsius 2103: Ancient Roman tablets discovered
-						}
-						2 = {
-							trigger = {
-								any_scope_state = {
-									lepsius_imperium_romanum_archaeology_region = yes
-								}
-							}
-							trigger_event = lepsius.2104 #Lepsius 2104: Roman Coin Treasure discovered
-						}
-
-						#Persian
-						6 = {
+						2 = { #Persian
 							trigger = {
 								any_scope_state = {
 									lepsius_persian_archaeology_region = yes
 								}
 							}
-							trigger_event = lepsius.2111 #Lepsius 2111: Ancient Persian Sarcophagus
-						}
-						2 = {
-							trigger = {
-								any_scope_state = {
-									lepsius_persian_archaeology_region = yes
-								}
+							random_list = {
+								3 = { trigger_event = lepsius.2111 } #Lepsius 2111: Ancient Persian Sarcophagus
+								1 = { trigger_event = lepsius.2112 } #Lepsius 2112: Mesopotamian Cuneiform Tablets in Persian Palace
+								1 = { trigger_event = lepsius.2114 } #Lepsius 2113: Egyptian Statue in Persian Tomb
+								1 = { trigger_event = lepsius.2114 } #Lepsius 2114: Monumental Inscription
 							}
-							trigger_event = lepsius.2112 #Lepsius 2112: Mesopotamian Cuneiform Tablets in Persian Palace
 						}
-						2 = {
-							trigger = {
-								any_scope_state = {
-									lepsius_persian_archaeology_region = yes
-								}
+						1 = { #Stone Age
+							random_list = {
+								1 = { trigger_event = lepsius.2121 } #Lepsius 2121: A Prehistoric Bone Flute
+								1 = { trigger_event = lepsius.2122 } #Lepsius 2122: Cave Painting found
+								1 = { trigger_event = lepsius.2123 } #Lepsius 2123: Prehistoric Figurine discovered
 							}
-							trigger_event = lepsius.2113 #Lepsius 2113: Egyptian Statue in Persian Tomb
 						}
-						2 = {
-							trigger = {
-								any_scope_state = {
-									lepsius_persian_archaeology_region = yes
-								}
-							}
-							trigger_event = lepsius.2114 #Lepsius 2114: Monumental Inscription
-						}
-
-						#Stone Age
-						1 = { trigger_event = lepsius.2121 } #Lepsius 2121: A Prehistoric Bone Flute
-						1 = { trigger_event = lepsius.2122 } #Lepsius 2122: Cave Painting found
 					}
 				}
 			}
