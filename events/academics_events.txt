@@ -1575,6 +1575,19 @@ academics.50 = {
 				add = 1
 			}
 		}
+
+		if = { #Academic Purge
+			limit = {
+            	has_modifier = academics_academic_purge_modifier
+        	}
+			dubois_add_x_academy_progress = {
+				AMOUNT = -1
+			}
+			change_variable = {
+				name = academics_estimated_monthly_academy_progress_var
+				add = -1
+			}
+		}
 	}
 }
 
@@ -8429,5 +8442,665 @@ academics.2402 = {
 			name = academics_industrialists_discontent_modifier
 			years = 5
 		}
+	}
+}
+
+#################################################################################
+
+###GOETTINGER SEVEN###
+
+#Academics 3101: The Constitution of Hanover
+
+academics.3101 = {
+	type = country_event
+
+	title = academics.3101.t
+	desc = academics.3101.d
+	flavor = academics.3101.f
+
+	placement = ROOT
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_ruler_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+		#triggered by je_victoria
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = academics_ruler_scope
+		}
+	}
+
+	option = { #Suspend the constitution.
+		name = academics.3101.g
+		activate_law = law_type:law_autocracy
+		add_modifier = {
+			name = academics_royalist_reaction_modifier
+			years = 10
+		}
+		add_modifier = {
+			name = academics_constitution_suspended_modifier
+			years = 10
+		}
+
+		ai_chance = {
+			base = 95
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = academics.3102
+				days = { 14 42 }
+			}
+		}
+	}
+
+	option = { #The king is not above the law.
+		name = academics.3101.h
+		add_modifier = {
+			name = academics_royalist_weakness_modifier
+			years = 10
+		}
+		add_modifier = {
+			name = academics_constitution_confirmed_modifier
+			years = 10
+		}
+		
+		ai_chance = {
+			base = 5
+		}
+	}
+}
+
+#Academics 3102: The Goettinger Seven (Hanover)
+
+academics.3102 = {
+	type = country_event
+
+	title = academics.3102.t
+	desc = academics.3102.d
+	flavor = academics.3102.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_goettinger_seven.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = academics_ruler_scope
+		}
+	}
+
+	option = { #They should be removed from their positions and be banished!
+		name = academics.3102.g
+		add_modifier = {
+			name = academics_academic_purge_modifier
+			years = 10
+		}
+		add_radicals = {
+			value = 0.25
+			pop_type = academics
+		}
+		hidden_effect = {
+			random_country = {
+				limit = {
+					this = c:GBR
+				}
+				trigger_event = {
+					id = academics.3103
+					days = { 7 21 }
+				}
+			}
+			every_country = {
+				limit = {
+					OR = {
+						country_has_primary_culture = cu:south_german
+						country_has_primary_culture = cu:north_german
+					}
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_event = {
+					id = academics.3104
+					days = { 7 21 }
+				}
+			}
+			trigger_event = {
+				id = academics.3105
+				days = { 30 60 }
+			}
+		}
+
+		ai_chance = {
+			base = 95
+		}
+	}
+
+	option = { #Give in to their demands before the situation escalates.
+		name = academics.3102.h
+		activate_law = law_type:law_landed_voting
+		remove_modifier = academics_royalist_reaction_modifier
+		remove_modifier = academics_constitution_suspended_modifier
+		ig:ig_intelligentsia = {
+			add_modifier = manzoni_political_tailwind_modifier
+			years = 10
+		}
+		scope:academics_ruler_scope = {
+			add_modifier = {
+				name = elgar_embarrassed_in_public_modifier
+				years = 10
+			}
+		}
+		add_modifier = {
+			name = academics_royalist_weakness_modifier
+			years = 10
+		}
+		add_modifier = {
+			name = academics_constitution_confirmed_modifier
+			years = 10
+		}
+		add_radicals = {
+			value = 0.15
+			pop_type = aristocrats
+		}
+		add_radicals = {
+			value = 0.15
+			pop_type = officers
+		}
+		add_radicals = {
+			value = 0.1
+			pop_type = soldiers
+		}
+		add_radicals = {
+			value = 0.1
+			pop_type = clergymen
+		}
+		
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Academics 3103: The Goettinger Seven (UK)
+
+academics.3103 = {
+	type = country_event
+
+	title = academics.3102.t
+	desc = academics.3103.d
+	flavor = academics.3103.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_goettinger_seven.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = academics_ruler_scope
+		}
+	}
+
+	option = { #It's so good to be British.
+		name = academics.3103.g
+		add_modifier = {
+			name = academics_good_to_be_british_modifier
+			years = 5
+		}
+
+		ai_chance = {
+			base = 95
+		}
+	}
+}
+
+#Academics 3104: The Goettinger Seven (Germany)
+
+academics.3104 = {
+	type = country_event
+
+	title = academics.3102.t
+	desc = academics.3104.d
+	flavor = academics.3104.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_goettinger_seven.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_character = {
+			limit = {
+				ROOT = c:HAN
+				is_ruler = yes
+			}
+			save_scope_as = academics_ruler_scope
+		}
+	}
+
+	option = { #With all due respect, the king has gone too far.
+		name = academics.3104.g
+		set_variable = academics_goettinger_seven_support_var
+		dubois_add_x_academy_progress = {
+			AMOUNT = 36
+		}
+		add_modifier = {
+			name = academics_supported_goettinger_seven_modifier
+			years = 5
+		}
+		ig:ig_intelligentsia = {
+			add_modifier = manzoni_political_tailwind_modifier
+			years = 5
+		}
+		change_relations = {
+			country = c:HAN
+			value = -5
+		}
+		c:HAN = {
+			change_relations = {
+				country = ROOT 
+				value = -5
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #Prussia historically helped the Goettinger Seven
+				trigger = {
+					ROOT = c:PRU
+				}
+				add = 1
+			}
+			modifier = { #Non-Autocracies will be displeased
+				trigger = {
+					NOT = {
+						has_law = law_type:law_autocracy
+					}
+				}
+				add = 1
+			}
+			modifier = { #Non-Monarchies will be displeased
+				trigger = {
+					NOT = {
+						has_law = law_type:law_monarchy
+					}
+				}
+				add = 1
+			}
+			modifier = { #Governments with other parties than landowners, devout or armed forces will be displeased
+				trigger = {
+					OR = {
+						ig:ig_intelligentsia = {
+							is_in_government = yes
+						}
+						ig:ig_industralists = {
+							is_in_government = yes
+						}
+						ig:ig_petty_bourgeoisie = {
+							is_in_government = yes
+						}
+						ig:ig_trade_unions = {
+							is_in_government = yes
+						}
+					}
+				}
+				add = 1
+			}
+			modifier = { #Countries with universities will try to benefit
+				trigger = {
+					any_scope_building = {
+						is_building_type = building_university
+					}
+				}
+				add = 1
+			}
+		}
+	}
+
+	option = { #This academic rabble has received its just punishment.
+		name = academics.3104.g
+		set_variable = academics_goettinger_seven_no_support_var
+		change_relations = {
+			country = c:HAN
+			value = 5
+		}
+		c:HAN = {
+			change_relations = {
+				country = ROOT 
+				value = 5
+			}
+		}
+		add_modifier = {
+			name = academics_supported_hanover_modifier
+			years = 5
+		}
+		hidden_effect = {
+			random_list = {
+				50 = {}
+				50 = {
+					trigger_event = {
+						id = academics.3106
+						days = { 30 60 }
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #Austria historically helped the Reaction
+				trigger = {
+					ROOT = c:AUS
+				}
+				add = 1
+			}
+			modifier = { #Autocracies will be pleased
+				trigger = {
+					has_law = law_type:law_autocracy
+				}
+				add = 1
+			}
+			modifier = { #Governments which consists only of landowners, devout or armed forces will be pleased
+				trigger = {
+					NOR = {
+						ig:ig_intelligentsia = {
+							is_in_government = yes
+						}
+						ig:ig_industralists = {
+							is_in_government = yes
+						}
+						ig:ig_petty_bourgeoisie = {
+							is_in_government = yes
+						}
+						ig:ig_trade_unions = {
+							is_in_government = yes
+						}
+					}
+				}
+				add = 1
+			}
+		}
+	}
+}
+
+#Academics 3105: A heated debate about Hanover
+
+academics.3105 = {
+	type = country_event
+
+	title = academics.3105.t
+	desc = academics.3105.d
+	flavor = academics.3105.f
+
+	placement = ROOT
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_goettinger_seven.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_character = {
+			limit = {
+				ROOT = c:HAN
+				is_ruler = yes
+			}
+			save_scope_as = academics_ruler_scope
+		}
+		random_country = {
+			limit = {
+				has_modifier = academics_supported_hanover_modifier
+			}
+			save_scope_as = academics_pro_hanover_country
+		}
+		random_country = {
+			limit = {
+				has_modifier = academics_supported_goettinger_seven_modifier
+			}
+			save_scope_as = academics_anti_hanover_country
+		}
+	}
+
+	option = { #That's none of their business!
+		name = academics.3105.g
+	}
+
+	after = {
+		random_country = {
+			limit = {
+				has_modifier = academics_supported_goettinger_seven_modifier
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			save_scope_as = academics_grimm_exile_country
+			trigger_event = {
+				id = academics.3107 #Jacob Grimm
+				days = { 14 28 }
+			}
+		}
+		random_country = {
+			limit = {
+				has_modifier = academics_supported_goettinger_seven_modifier
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			trigger_event = {
+				id = academics.3108 #Wilhelm Eduard Weber
+				days = { 14 28 }
+			}
+		}
+	}
+}
+
+#Academics 3106: Student Propaganda
+
+academics.3106 = {
+	type = country_event
+
+	title = academics.3106.t
+	desc = academics.3106.d
+	flavor = academics.3106.f
+
+	placement = scope:academics_university_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_goettinger_seven.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+		any_scope_building = {
+			is_building_type = building_university
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_building = building_university
+			}
+			save_scope_as = academics_university_state
+		}
+	}
+
+	option = { #This riotous student pack!
+		name = academics.3106.g
+		scope:academics_university_state = {
+			add_radicals_in_state = {
+				value = 0.1
+				pop_type = academics
+			}
+		}
+	}
+}
+
+#Academics 3107: Jacob Grimm in $COUNTRY$
+
+academics.3107 = {
+	type = country_event
+
+	title = academics.3107.t
+	desc = academics.3107.d
+	flavor = academics.3107.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_goettinger_seven.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_jacob_grimm_effect = yes
+	}
+
+	option = { #Welcome, welcome!
+		name = academics.3107.g
+		
+	}
+
+	option = { #We don't need another cranky academic.
+		name = academics.3107.h
+		
+	}
+}
+
+#Academics 3108: Wilhelm Eduard Weber in $COUNTRY$
+
+academics.3108 = {
+	type = country_event
+
+	title = academics.3108.t
+	desc = academics.3108.d
+	flavor = academics.3108.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_goettinger_seven.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		create_weber_wilhelm_eduard_effect = yes
+	}
+
+	option = { #Welcome, welcome!
+		name = academics.3107.g
+		
+	}
+
+	option = { #We don't need another cranky academic.
+		name = academics.3107.h
+		
+	}
+}
+
+#Academics 3111: Deutsches Wörterbuch
+
+academics.3111 = {
+	type = country_event
+
+	title = academics.3111.t
+	desc = academics.3111.d
+	flavor = academics.3111.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_der_grimm.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		
+	}
+
+	option = { #This should be published in every German State!
+		name = academics.3111.g
+		
 	}
 }
