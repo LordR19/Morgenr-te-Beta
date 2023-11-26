@@ -1588,6 +1588,22 @@ academics.50 = {
 				add = -1
 			}
 		}
+
+		if = { #Goettinger Seven Monument
+			limit = {
+				c:GER = ROOT
+            	any_scope_state = {
+					has_modifier = academics_goettinger_seven_monument_modifer 
+				}
+        	}
+			dubois_add_x_academy_progress = {
+				AMOUNT = -1
+			}
+			change_variable = {
+				name = academics_estimated_monthly_academy_progress_var
+				add = -1
+			}
+		}
 	}
 }
 
@@ -8932,10 +8948,10 @@ academics.3105 = {
 				}
 			}
 			save_scope_as = academics_grimm_exile_country
-			trigger_event = {
-				id = academics.3107 #Jacob Grimm
-				days = { 14 28 }
-			}
+			#trigger_event = {
+			#	id = academics.3107 #Jacob Grimm
+			#	days = { 14 28 }
+			#}
 		}
 		random_country = {
 			limit = {
@@ -8944,10 +8960,10 @@ academics.3105 = {
 					is_building_type = building_university
 				}
 			}
-			trigger_event = {
-				id = academics.3108 #Wilhelm Eduard Weber
-				days = { 14 28 }
-			}
+			#trigger_event = {
+			#	id = academics.3108 #Wilhelm Eduard Weber
+			#	days = { 14 28 }
+			#}
 		}
 	}
 }
@@ -9027,7 +9043,12 @@ academics.3107 = {
 
 	option = { #Welcome, welcome!
 		name = academics.3107.g
-		
+		hidden_effect = {
+			trigger_event = {
+				id = academics.3111
+				days = { 3650 7300 }
+			}
+		}
 	}
 
 	option = { #We don't need another cranky academic.
@@ -9073,7 +9094,7 @@ academics.3108 = {
 	}
 }
 
-#Academics 3111: Deutsches Wörterbuch
+#Academics 3111: Deutsches Wörterbuch (Grimm State)
 
 academics.3111 = {
 	type = country_event
@@ -9101,6 +9122,58 @@ academics.3111 = {
 
 	option = { #This should be published in every German State!
 		name = academics.3111.g
+		elgar_medium_add_technology = yes
+		every_country = {
+			limit = {
+				OR = {
+					country_has_primary_culture = cu:south_german
+					country_has_primary_culture = cu:north_german
+				}
+				NOT = {
+					this = ROOT
+				}
+			}
+			change_relations = {
+				country = ROOT 
+				value = 5
+			}
+			hidden_effect = {
+				trigger_event = {
+					id = academics.3112
+				}
+			}
+		}
+	}
+}
+
+#Academics 3112: Deutsches Wörterbuch (German Confederation)
+
+academics.3112 = {
+	type = country_event
+
+	title = academics.3111.t
+	desc = academics.3112.d
+	flavor = academics.3111.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_der_grimm.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
 		
+	}
+
+	option = { #I hoped they made a new fairy tale book instead of this...
+		name = academics.3112.g
+		elgar_small_add_technology = yes
 	}
 }
