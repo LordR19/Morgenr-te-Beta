@@ -152,6 +152,7 @@ namespace = verrier
 #verrier 1022: Eidgenössische Sternwarte (Switzerland)
 
 #verrier 1050: Möbius
+#verrier 1051: Gauß
 
 #verrier 1060: a comet grazing the sun flushes money into Harvard's coffers (William Cranch Bond USA)
 
@@ -6446,7 +6447,8 @@ verrier.1022 = { #verrier 1022: Eidgenössische Sternwarte (Switzerland)
 	}
 }
 
-verrier.1050 = { #verrier 1050: Möbius
+#verrier 1050: Möbius
+verrier.1050 = {
 	type = country_event
 
 	title = verrier.1050.t
@@ -6490,6 +6492,59 @@ verrier.1050 = { #verrier 1050: Möbius
 		ai_chance = {
 			base = 0
 		}
+	}
+}
+
+#verrier 1051: The Return of Gauß
+verrier.1051 = {
+	type = country_event
+
+	title = verrier.1051.t
+	desc = verrier.1051.d
+	flavor = verrier.1051.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_new_astronomer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	duration = 3
+
+	trigger = {
+		NOT = { has_global_variable = mr_gauss_created_global_var }
+		year >= 1844
+		OR = {
+			c:HAN ?= this
+			was_formed_from = HAN
+		}
+	}
+
+	immediate = {
+		create_gauss_effect = yes
+	}
+
+	option = { #He has something to do with bells, right?
+		name = verrier.1051.g
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 5 }
+
+		hidden_effect = {
+			verrier_remove_new_astronomer_effect = yes
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	option = { #He will find new planets!
+		name = verrier.1051.h
+		default_option = yes
+
+		verrier_set_new_astronomer_as_astronomer_effect = yes
 	}
 }
 
