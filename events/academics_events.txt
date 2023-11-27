@@ -9192,3 +9192,232 @@ academics.3112 = {
 		elgar_small_add_technology = yes
 	}
 }
+
+#Academics 3113: Germanistentag 1846 (Frankfurt)
+
+academics.3113 = {
+	type = country_event
+
+	title = academics.3113.t
+	desc = academics.3113.d
+	flavor = academics.3113.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_frankfurt.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		game_date >= 1845.12.31
+		game_date < 1846.1.1
+		exists = c:FRM
+		ROOT = c:FRM
+	}
+
+	immediate = {
+		
+	}
+
+	option = { #Germany is a cultural nation.
+	default_option = yes
+		name = academics.3113.g
+		dubois_add_x_academy_progress = {
+			AMOUNT = 12
+		}
+		elgar_small_add_technology = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #Their liberal ideals serve as a guide for us.
+		name = academics.3113.h
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_protected_speech
+					value > neutral
+				}
+				law_stance = {
+					law = law_type:law_freedom_of_conscience
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = academics_germanistentag_modifier
+				years = 5
+			}
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				OR = {
+					country_has_primary_culture = cu:south_german
+					country_has_primary_culture = cu:north_german
+				}
+				NOT = {
+					this = ROOT
+				}
+			}
+			trigger_event = {
+				id = academics.3114
+			}
+		}
+	}
+}
+
+#Academics 3114: Germanistentag 1846 (German Confederation)
+
+academics.3114 = {
+	type = country_event
+
+	title = academics.3113.t
+	desc = academics.3113.d
+	flavor = academics.3113.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_frankfurt.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		
+	}
+
+	option = { #Germany is a cultural nation.
+	default_option = yes
+		name = academics.3113.g
+		dubois_add_x_academy_progress = {
+			AMOUNT = 12
+		}
+		elgar_small_add_technology = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	option = { #Their liberal ideals serve as a guide for us.
+		name = academics.3113.h
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_protected_speech
+					value > neutral
+				}
+				law_stance = {
+					law = law_type:law_freedom_of_conscience
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = academics_germanistentag_modifier
+				years = 5
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+#Academics 3115: Kneeling Controversy (Bavaria)
+
+academics.3115 = {
+	type = country_event
+
+	title = academics.3115.t
+	desc = academics.3115.d
+	flavor = academics.3115.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_frankfurt.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	cooldown = {
+		years = 100
+	}
+
+	trigger = {
+		game_date >= 1838.1.1
+		game_date <= 1846.1.1
+		exists = c:BAV
+		ROOT = c:BAV
+	}
+
+	immediate = {
+		
+	}
+
+	option = { #We are a Catholic country and people kneel here!
+	default_option = yes
+		name = academics.3115.g
+		add_modifier = {
+			name = academics_kneeling_decree_modifer
+			years = 10
+		}
+		add_radicals = {
+			religion = rel:protestant
+			value = 0.1
+		}
+		add_loyalists = {
+			religion = rel:catholic
+			value = 0.05
+		}
+
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = { #But what about our protestant countrymen?
+		name = academics.3115.h
+		add_radicals = {
+			religion = rel:catholic
+			value = 0.1
+		}
+		add_loyalists = {
+			religion = rel:protestant
+			value = 0.25
+		}
+
+		ai_chance = {
+			base = 10
+		}
+	}
+}
