@@ -19352,7 +19352,7 @@ mr_gre_george_i={
 	entity={ 0 0 }
 }
 
-mr_gauss_carl_friedrich={
+mr_han_gauss_carl_friedrich={
 	type=male
 	id=0
 	age=0.630000
