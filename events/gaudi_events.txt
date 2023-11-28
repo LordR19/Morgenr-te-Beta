@@ -32,6 +32,11 @@ namespace = gaudi
 ###### COLLAPS OF THE CAMPANILE ######
 
 #Gaudí 70: Il Padron de casa crumbled!
+#Gaudí 71: The Campanile rebuild
+
+###### WALHALLA & Others ######
+
+#Gaudí 80: Walhalla
 
 ###### Twenty Thousand Leagues Under the Seas ######
 
@@ -876,7 +881,6 @@ gaudi.70 = {
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
@@ -967,7 +971,6 @@ gaudi.71 = {
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
 
 	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
 
@@ -1023,6 +1026,88 @@ gaudi.72 = {
 				name = gaudi_campanile_progress
 				add = 1
 			}
+		}
+	}
+}
+
+#Gaudí 80: Walhalla
+
+gaudi.80 = {
+	type = country_event
+
+	title = gaudi.80.t
+	desc = gaudi.80.d
+	flavor = gaudi.80.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_walhalla.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	cooldown = {
+		years = 100
+	}
+
+	trigger = {
+		game_date >= 1840.1.1
+		game_date <= 1850.1.1
+		exists = c:BAV
+		ROOT = c:BAV
+		has_technology_researched = nationalism
+		has_technology_researched = romanticism
+		any_scope_state = {
+			state_region = s:STATE_BAVARIA
+		}
+	}
+
+	immediate = {
+		random_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = academics_ruler_scope
+		}
+	}
+
+	option = { #Honor a German composer.
+	default_option = yes
+		name = gaudi.80.g
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 10
+		}
+		elgar_small_add_technology = yes
+		
+		ai_chance = {
+			base = 33
+		}
+	}
+
+	option = { #Honor a German literary.
+		name = gaudi.80.h
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 10
+		}
+		elgar_small_add_technology = yes
+
+		ai_chance = {
+			base = 33
+		}
+	}
+
+	option = { #Honor a German painter.
+		name = gaudi.80.i
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 10
+		}
+		elgar_small_add_technology = yes
+	
+		ai_chance = {
+			base = 33
 		}
 	}
 }
