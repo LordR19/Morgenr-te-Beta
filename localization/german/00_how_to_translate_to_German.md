@@ -7,6 +7,9 @@ To start, there is always an id. The id looks like this usually "lepsius_somethi
 Don't change anything about the id. It is necessary for Vicky 3 to find
 the right localizations.
 
+# Sie oder Du
+We use the Sie form except where it obviously doesn't make sense at all.
+
 # Marking localizations you already checked
 Please mark every id you have changed or checked with a numeral after the ":" like this id:1 "Blablabla" .
 That way every translator knows which files are already set up. 
