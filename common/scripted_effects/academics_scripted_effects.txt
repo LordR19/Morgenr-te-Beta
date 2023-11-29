@@ -6132,6 +6132,37 @@ create_new_archaeologist_effect = {
 
 			set_global_variable = lepsius_da_veiga_created #Makes sure da Veiga is not already created
 		}
+		100 = { #Aureliano Fernández-Guerra, Spain
+			trigger = {
+				NOT = { has_global_variable = lepsius_fernandez_guerra_created }
+					has_state_in_state_region = STATE_TOLEDO
+				NOT = {
+					cu:spanish = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1871.6.16 #Age 55
+				year >= 1853 #Member of the Historical part of the Real Academia Española
+			}
+			create_character = {
+				template = mr_spa_fernandez_guerra_aureliano_character_template
+
+				save_scope_as = lepsius_new_archaeologist_scope
+			}
+			scope:lepsius_new_archaeologist_scope = {
+				set_variable = lepsius_fernandez_guerra_character_var #Unique for Fernández-Guerra, mostly used for clothing
+				set_variable = mr_is_archaeologist_var #Could be used for clothing or a role in the future
+				archaeologist_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = lepsius_new_archaeologist_var #Used to set the scope again
+				value = scope:lepsius_new_archaeologist_scope
+			}
+
+			set_global_variable = lepsius_fernandez_guerra_created #Makes sure Fernández-Guerra is not already created
+		}
 		100 = { #Carl Gustav Bernoulli, Switzerland
 			trigger = {
 				NOT = { has_global_variable = lepsius_bernoulli_created }
