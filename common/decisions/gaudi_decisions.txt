@@ -1132,7 +1132,7 @@ gaudi_sagrada_phase_10_decision = {
 	}
 }
 
-###SAGRADA SUPPORT
+######SAGRADA SUPPORT######
 
 gaudi_sagrada_support_decision = {
 	is_shown = {
@@ -1199,6 +1199,125 @@ gaudi_end_sagrada_support_decision = {
 		base = 0
 	}
 }
+
+##################################################
+
+######NEUSCHWANSTEIN######
+
+gaudi_neuschwanstein_phase_1_decision = {
+	is_shown = {
+		exists = c:BAV
+		ROOT = c:BAV
+		NOT = {
+			has_global_variable = gaudi_neuschwanstein_building_phase_1
+		}
+		NOT = {
+			has_global_variable = gaudi_neuschwanstein_finished
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = gaudi_custom_tt_trigger_neuschwanstein
+			trigger_if = {
+				limit = {
+					exists = c:BAV
+					ROOT = c:BAV
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		any_scope_state = {
+			state_region = s:STATE_BAVARIA
+		}
+		has_technology_researched = elgar_irrationalism_tech
+	}
+	
+	when_taken = {
+		add_treasury = -50000
+		set_global_variable = {
+			name = gaudi_neuschwanstein_progress
+			value = 0
+		}
+		set_global_variable = gaudi_neuschwanstein_building_phase_1
+		trigger_event = {
+			id = gaudi.701
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+		modifier = {
+			trigger = {
+				gold_reserves < 50000
+			}
+			add = -1000
+		}
+	}
+}
+
+gaudi_neuschwanstein_phase_2_decision = {
+	is_shown = {
+		exists = c:BAV
+		ROOT = c:BAV
+		has_global_variable = gaudi_neuschwanstein_finished_phase_1
+		NOT = {
+			has_global_variable = gaudi_neuschwanstein_building_phase_2
+		}
+		NOT = {
+			has_global_variable = gaudi_neuschwanstein_finished
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = gaudi_custom_tt_trigger_neuschwanstein
+			trigger_if = {
+				limit = {
+					exists = c:BAV
+					ROOT = c:BAV
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		any_scope_state = {
+			state_region = s:STATE_BAVARIA
+		}
+		has_technology_researched = elgar_irrationalism_tech
+	}
+	
+	when_taken = {
+		add_treasury = -50000
+		set_global_variable = {
+			name = gaudi_neuschwanstein_progress
+			value = 0
+		}
+		set_global_variable = gaudi_neuschwanstein_building_phase_2
+		trigger_event = {
+			id = gaudi.703
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+		modifier = {
+			trigger = {
+				gold_reserves < 50000
+			}
+			add = -1000
+		}
+	}
+}
+
+##################################################
+
+######SAXON PALACE######
 
 gaudi_activate_saxon_palace_decision = {
 	is_shown = {
