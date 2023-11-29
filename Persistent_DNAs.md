@@ -20165,7 +20165,7 @@ mr_gbr_maudslay_alfred={
 	entity={ 0 0 }
 }
 
-bav_lamont_johann={
+mr_bav_lamont_johann={
 	type=male
 	id=0
 	age=0.565000
