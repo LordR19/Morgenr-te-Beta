@@ -1319,6 +1319,129 @@ gaudi_neuschwanstein_phase_2_decision = {
 
 ##################################################
 
+######PALACIO DE BELLAS ARTES######
+
+gaudi_palacio_phase_1_decision = {
+	is_shown = {
+		exists = c:MEX
+		ROOT = c:MEX
+		NOT = {
+			has_global_variable = gaudi_palacio_building_phase_1
+		}
+		NOT = {
+			has_global_variable = gaudi_palacio_finished
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = gaudi_custom_tt_trigger_palacio
+			trigger_if = {
+				limit = {
+					exists = c:MEX
+					ROOT = c:MEX
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		any_scope_state = {
+			state_region = s:STATE_MEXICO
+		}
+		has_technology_researched = elgar_art_nouveau_tech
+		custom_tooltip = {
+			text = gaudi_palacio_needs_music_tt
+			var:elgar_music_tradition >= 300
+		}
+	}
+	
+	when_taken = {
+		add_treasury = -30000
+		set_global_variable = {
+			name = gaudi_palacio_progress
+			value = 0
+		}
+		set_global_variable = gaudi_palacio_building_phase_1
+		trigger_event = {
+			id = gaudi.801
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+		modifier = {
+			trigger = {
+				gold_reserves < 30000
+			}
+			add = -1000
+		}
+	}
+}
+
+gaudi_palacio_phase_2_decision = {
+	is_shown = {
+		exists = c:MEX
+		ROOT = c:MEX
+		has_global_variable = gaudi_palacio_finished_phase_1
+		NOT = {
+			has_global_variable = gaudi_palacio_building_phase_2
+		}
+		NOT = {
+			has_global_variable = gaudi_palacio_finished
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = gaudi_custom_tt_trigger_palacio
+			trigger_if = {
+				limit = {
+					exists = c:MEX
+					ROOT = c:MEX
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		any_scope_state = {
+			state_region = s:STATE_MEXICO
+		}
+		has_technology_researched = elgar_art_deco_tech
+		custom_tooltip = {
+			text = gaudi_palacio_needs_music_tt
+			var:elgar_music_tradition >= 400
+		}
+	}
+	
+	when_taken = {
+		add_treasury = -60000
+		set_global_variable = {
+			name = gaudi_palacio_progress
+			value = 0
+		}
+		set_global_variable = gaudi_palacio_building_phase_2
+		trigger_event = {
+			id = gaudi.803
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+		modifier = {
+			trigger = {
+				gold_reserves < 60000
+			}
+			add = -1000
+		}
+	}
+}
+
+##################################################
+
 ######SAXON PALACE######
 
 gaudi_activate_saxon_palace_decision = {
