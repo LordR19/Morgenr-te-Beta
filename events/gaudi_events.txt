@@ -2954,8 +2954,11 @@ gaudi.127 = {
 	option = {
 		name = gaudi.127.h #A unique archaeological opportunity.
 		gaudi_sub_12_dombau_progress = yes
+		lepsius_add_x_local_artifacts_effect = { 
+			AMOUNT = 2 
+		}
 		archaeologist_experience_gain_effect = {
-			AMOUNT = "1"
+			AMOUNT = "10"
 		}
 		check_lepsius_archaeologist_rank = yes
 	}
@@ -5900,8 +5903,11 @@ gaudi.413 = {
 	option = {
 		name = gaudi.127.h #A unique archaeological opportunity.
 		gaudi_sub_12_mole_progress = yes
+		lepsius_add_x_local_artifacts_effect = { 
+			AMOUNT = 2
+		}
 		archaeologist_experience_gain_effect = {
-			AMOUNT = "1"
+			AMOUNT = "10"
 		}
 		check_lepsius_archaeologist_rank = yes
 	}
@@ -6284,6 +6290,12 @@ gaudi.421 = {
 				state_region = s:STATE_PIEDMONT
 			}
 			save_scope_as = gaudi_mole_state
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = trade_unions_ig 
+			leader = {
+				save_scope_as = trade_unions_leader
+			}
 		}
 	}
 
@@ -10405,8 +10417,11 @@ gaudi.648 = {
 	option = {
 		name = gaudi.648.h #A unique archaeological opportunity.
 		gaudi_sub_12_sagrada_progress = yes
+		lepsius_add_x_local_artifacts_effect = { 
+			AMOUNT = 2
+		}
 		archaeologist_experience_gain_effect = {
-			AMOUNT = "1"
+			AMOUNT = "10"
 		}
 		check_lepsius_archaeologist_rank = yes
 	}
@@ -11847,6 +11862,556 @@ gaudi.810 = {
 		}
 	}
 }
+
+#Gaudí 811: A Donation
+
+gaudi.811 = {
+	type = country_event
+
+	title = gaudi.811.t
+	desc = gaudi.811.d
+	flavor = gaudi.811.f
+
+	placement = scope:gaudi_palacio_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_government_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	cooldown = {
+		years = 3
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			save_scope_as = gaudi_palacio_state
+		}
+		random_interest_group = {
+			limit = {
+    			is_in_government = no
+	        }
+			save_scope_as = gaudi_government_ig
+			leader = {
+				save_scope_as = gaudi_government_leader
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.811.g #Thank you
+        default_option = yes
+		gaudi_add_x_palacio_progress = {
+			AMOUNT = 6
+		}
+	}
+}
+
+#Gaudí 812: Trade unions unhappy
+
+gaudi.812 = {
+	type = country_event
+
+	title = gaudi.812.t
+	desc = gaudi.812.d
+	flavor = gaudi.812.f
+
+	placement = scope:gaudi_palacio_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:trade_unions_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_modifier = gaudi_palacio_better_worker_conditions_modifier
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			save_scope_as = gaudi_palacio_state
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = trade_unions_ig 
+			leader = {
+				save_scope_as = trade_unions_leader
+			}
+		}
+	}
+
+	option = { 
+		name = gaudi.633.g #Ignore them
+		gaudi_add_x_palacio_progress = {
+			AMOUNT = 1
+		}
+		scope:trade_unions_ig = {
+			add_modifier = {
+				name = ig_not_placated
+				years = 2
+			}
+		}
+	}
+	option = {
+		name = gaudi.633.h #Pay lip service
+        default_option = yes
+		scope:trade_unions_ig = {
+			add_modifier = {
+				name = ig_not_placated
+				years = 1
+			}
+		}
+	}
+	option = {
+		name = gaudi.633.i #Spend money to improve the worker's situation
+		custom_tooltip = gaudi.314.tt
+		gaudi_add_x_palacio_progress = {
+			AMOUNT = -3
+		}
+        add_modifier = {
+			name = gaudi_sagrada_better_worker_conditions_modifier
+			years = 5
+		}
+		scope:trade_unions_ig  = {
+			add_modifier = {
+				name = ig_placated
+				years = 5
+			}
+		}
+	}
+}
+
+#Gaudí 813: Swampy ground
+
+gaudi.813 = {
+	type = country_event
+
+	title = gaudi.813.t
+	desc = gaudi.813.d
+	flavor = gaudi.813.f
+
+	placement = scope:gaudi_palacio_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_palacio_mexico.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	cooldown = {
+		years = 8
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			save_scope_as = gaudi_palacio_state
+		}
+	}
+
+	option = {
+		name = gaudi.813.g #Terrible!
+        default_option = yes
+		add_treasury = -25000
+		gaudi_add_x_palacio_progress = {
+			AMOUNT = -6
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 814: New machines
+
+gaudi.814 = {
+	type = country_event
+
+	title = gaudi.814.t
+	desc = gaudi.814.d
+	flavor = gaudi.814.f
+
+	placement = scope:gaudi_palacio_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_palacio_construction.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	trigger = {
+		NOT = {
+			has_variable = gaudi_palacio_machines
+		}
+		has_technology_researched = elevator
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			save_scope_as = gaudi_palacio_state
+		}
+	}
+
+	option = {
+		name = gaudi.124.g #This is progress!
+        default_option = yes
+		gaudi_add_x_palacio_progress = {
+			"AMOUNT" = 12
+		}
+		set_variable = gaudi_palacio_machines
+	}
+}
+
+#Gaudí 815: Strike
+
+gaudi.815 = {
+	type = country_event
+
+	title = gaudi.815.t
+	desc = gaudi.815.d
+	flavor = gaudi.815.f
+
+	placement = scope:gaudi_palacio_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_palacio_construction.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			save_scope_as = gaudi_palacio_state
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = trade_unions_ig 
+			leader = {
+				save_scope_as = trade_unions_leader
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.421.g #We will not negotiate.
+        default_option = yes
+		gaudi_add_x_palacio_progress = {
+			"AMOUNT" = -12
+		}
+	}
+
+	option = {
+		name = gaudi.421.h #Paying some scabs will do the job.
+		gaudi_add_x_palacio_progress = {
+			"AMOUNT" = -6
+		}
+		add_treasury = -15000
+	}
+
+	option = {
+		name = gaudi.815.i #Call the Carabinieri!
+		gaudi_add_x_palacio_progress = {
+			"AMOUNT" = -3
+		}
+		change_infamy = 1
+		scope:trade_unions_ig = {
+			add_modifier = {
+				name = ig_not_placated
+				years = 2
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.421.j #Negotiate.
+		gaudi_add_x_palacio_progress = {
+			"AMOUNT" = 3
+		}
+		add_modifier = {
+			name = gaudi_mole_better_worker_conditions_modifier
+			years = 5
+		}
+	}
+}
+
+#Gaudí 816: Grave Incident
+
+gaudi.816 = {
+	type = country_event
+
+	title = gaudi.816.t
+	desc = gaudi.816.d
+	flavor = gaudi.816.f
+
+	placement = scope:gaudi_palacio_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_palacio_phase_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	trigger = {
+		NOT = {
+			has_modifier = gaudi_palacio_better_worker_conditions_modifier
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			save_scope_as = gaudi_palacio_state
+		}
+	}
+
+	option = {
+		name = gaudi.720.g #Terrible!
+        default_option = yes
+		add_treasury = -10000
+		gaudi_add_x_palacio_progress = {
+			AMOUNT = -12
+		}
+		scope:gaudi_palacio_state = {
+			add_radicals_in_state = {
+				value = 0.1
+				pop_type = laborers
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 817: Good progress
+
+gaudi.817 = {
+	type = country_event
+
+	title = gaudi.817.t
+	desc = gaudi.817.d
+	flavor = gaudi.817.f
+
+	placement = scope:gaudi_palacio_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_palacio_phase_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	cooldown = {
+		years = 3
+	}
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			save_scope_as = gaudi_palacio_state
+		}
+	}
+
+	option = {
+		name = gaudi.817.g #Great!
+        default_option = yes
+		gaudi_add_x_palacio_progress = {
+			AMOUNT = 6
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 818: Archaeological investigations
+
+gaudi.818 = {
+	type = country_event
+
+	title = gaudi.818.t
+	desc = gaudi.818.d
+	flavor = gaudi.818.f
+
+	placement = scope:gaudi_palacio_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_archaeologist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	trigger = {
+		NOT = {
+			has_variable = gaudi_excavation_mexico
+		}
+		lepsius_has_active_archaeologist = yes
+		global_var:gaudi_palacio_progress >= 12
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			save_scope_as = gaudi_palacio_state
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = gaudi_archaeologist
+		}
+		set_variable = gaudi_excavation_mexico
+	}
+
+	option = {
+		name = gaudi.648.g #We cannot afford such a long halt to construction.
+        default_option = yes
+		gaudi_add_x_palacio_progress = {
+			AMOUNT = 1
+		}
+	}
+
+	option = {
+		name = gaudi.648.h #A unique archaeological opportunity.
+		gaudi_add_x_palacio_progress = {
+			AMOUNT = -12
+		}
+		lepsius_add_x_precolumbian_artifacts_effect = { 
+			AMOUNT = 2
+		}
+		archaeologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+		check_lepsius_archaeologist_rank = yes
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 819: New Jobs
+
+gaudi.819 = {
+	type = country_event
+
+	title = gaudi.819.t
+	desc = gaudi.819.d
+	flavor = gaudi.819.f
+
+	placement = scope:gaudi_palacio_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_palacio_phase_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 1
+
+	trigger = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_MEXICO
+				has_modifier = gaudi_new_jobs_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_MEXICO
+			}
+			save_scope_as = gaudi_palacio_state
+		}
+	}
+
+	option = {
+		name = gaudi.642.g #A big project needs a lot of people.
+        default_option = yes
+		gaudi_add_x_palacio_progress = {
+			AMOUNT = 3
+		}
+		scope:gaudi_palacio_state = {
+			add_modifier = {
+				name = gaudi_new_jobs_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+#Gaudí 822: Artist in Palacio
 
 ###################################################################
 
