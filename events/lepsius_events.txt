@@ -467,6 +467,7 @@ namespace = lepsius
 #Lepsius 2141: Carthaginian shipwreck discovered
 #Lepsius 2142: Stranded Punic warship
 #Lepsius 2143: Punic Port discovered
+#Lepsius 2144: Coins from ancient Carthage discovered
 
 #2500 - 2599 Archaeologist Events (without interactions)
 
@@ -26436,6 +26437,54 @@ lepsius.2143 = {
 
 	option = {
 		name = lepsius.2143.g #An entire unknown port! What a discovery!
+		default_option = yes
+
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
+		archaeologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 2144: Coins from ancient Carthage discovered
+lepsius.2144 = {
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2144.t
+	desc = lepsius.2144.d
+	flavor = lepsius.2144.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_carthage/lepsius_carthage_coins.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			lepsius_carthage_archaeology_region = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				lepsius_carthage_archaeology_region = yes
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2144.g #I am rich now!
 		default_option = yes
 
 		lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
