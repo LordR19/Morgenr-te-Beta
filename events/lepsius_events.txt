@@ -471,6 +471,7 @@ namespace = lepsius
 #Lepsius 2500: New Archaeological Map of [State]
 #Lepsius 2501: An illustrated Chronicle of Archaeology in [Country]
 #Lepsius 2502: New Catalog of all Archaeological finds of [Country]
+#Lepsius 2503: Professor [Archaeologist] stops artifact smuggle
 
 #2600 - 2699 Archaeologist Events with interactions to other Scientists
 
@@ -26441,6 +26442,57 @@ lepsius.2502 = {
 
 		lepsius_small_technology_add = yes
 		archaeologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 2503: Professor [Archaeologist] stops artifact smuggle
+lepsius.2503 = {
+	type = country_event
+
+	title = lepsius.2503.t
+	desc = lepsius.2503.d
+	flavor = lepsius.2503.f
+
+	duration = 3
+
+	cooldown = {
+		years = { 15 25 }
+	}
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+	}
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { #This belongs into a Museum!
+		name = lepsius.2502.g
+		default_option = yes
+
+		random_list = {
+			1 = { lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 } }
+			1 = { lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 1 } }
+			1 = { lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1 } }
+			1 = { lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1 } }
+			1 = { lepsius_add_x_local_artifacts_effect = { AMOUNT = 3 } }
+		}
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
 	}
 
 	after = {
