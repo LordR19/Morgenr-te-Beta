@@ -2828,6 +2828,75 @@ je_gaudi_palacio_phase_2 = {
 	should_be_pinned_by_default = yes
 }
 
+######GYEONGBOKGUNG######
+
+je_gaudi_gyeong_phase_1 = {
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	group = je_group_gaudi_architecture
+
+	on_monthly_pulse = {
+		random_events = {
+			175 = gaudi.910 #Gaudí 810: Normal building progress
+			5 = gaudi.911 #Gaudí 811: Slow Progress
+			5 = gaudi.912 #Gaudí 812: Good Progress
+			5 = gaudi.913 #Gaudí 813: Fire
+			5 = gaudi.914 #Gaudí 814: Artisan strike
+			5 = gaudi.915 #Gaudí 815: More Rooms
+		}
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = gaudi.902
+			popup = yes
+		}
+	}
+
+	fail = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_SEOUL
+			}
+		}
+	}
+
+	on_fail = {
+		remove_global_variable = gaudi_gyeong_building_phase_1
+		remove_modifier = gaudi_gyeong_cost_1_modifier
+		every_state = {
+			limit = {
+				has_modifier = gaudi_gyeong_phase_1_modifier
+			}
+			remove_modifier = gaudi_gyeong_phase_1_modifier
+		}
+		trigger_event = { 
+			id = gaudi.909
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_gyeong_progress
+	}
+
+	goal_add_value = {
+		value = 60
+	}
+
+	progressbar = yes
+
+	weight = 25
+
+	should_be_pinned_by_default = yes
+}
+
 ######CAMPANILE DI SAN MARCO######
 
 je_gaudi_rebuild_campanile = {
