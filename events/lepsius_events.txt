@@ -469,6 +469,7 @@ namespace = lepsius
 ######Archaeologist Events (without interactions)######
 
 #Lepsius 2500: New Archaeological Map of [State]
+#Lepsius 2501: An illustrated Chronicle of Archaeology in [Country]
 
 #2600 - 2699 Archaeologist Events with interactions to other Scientists
 
@@ -476,6 +477,7 @@ namespace = lepsius
 
 #Lepsius 2600: The lost Star
 #Lepsius 2601: Estimating Dates of Historical Events by using astronomical knowledge of Solar Eclipses
+#Lepsius 2602: Overview of the Astronomical Knowledge of past Cultures
 
 ######SETUP EVENTS######
 
@@ -26336,6 +26338,106 @@ lepsius.2500 = {
 		default_option = yes
 
 		lepsius_small_add_technology = yes
+		archaeologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 2501: An Illustrated Archaeological Catalog of [Country]
+lepsius.2501 = {
+	type = country_event
+
+	title = lepsius.2501.t
+	desc = lepsius.2501.d
+	flavor = lepsius.2501.f
+
+	duration = 3
+
+	cooldown = {
+		years = { 15 25 }
+	}
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		var:lepsius_archaeologist_var = {
+			has_trait = klimt_painter
+		}
+	}
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { #A wonderful book!
+		name = lepsius.2501.g
+		default_option = yes
+
+		add_loyalists = {
+			value = 0.01
+		}
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+		var:lepsius_archaeologist_var = {
+			add_modifier = {
+				name = lepsius_illustrated_archaeological_catalog_modifier
+			}
+		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 2502: New Catalog of all Archaeological finds of [Country]
+lepsius.2502 = {
+	type = country_event
+
+	title = lepsius.2502.t
+	desc = lepsius.2502.d
+	flavor = lepsius.2502.f
+
+	duration = 3
+
+	cooldown = {
+		years = { 15 25 }
+	}
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+	}
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { #This will be helpful in the future!
+		name = lepsius.2502.g
+		default_option = yes
+
+		lepsius_small_technology_add = yes
 		archaeologist_experience_gain_effect = { AMOUNT = 15 }
 	}
 
