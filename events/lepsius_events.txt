@@ -464,6 +464,8 @@ namespace = lepsius
 #Lepsius 2133: Aztec Ruins discovered
 #Lepsius 2134: Obsidian Mirror discovered
 
+#Lepsius 2141: Carthaginian shipwreck discovered
+
 #2500 - 2599 Archaeologist Events (without interactions)
 
 ######Archaeologist Events (without interactions)######
@@ -26290,6 +26292,55 @@ lepsius.2134 = {
 		default_option = yes
 
 		lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1 }
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+### Carthage ###
+#Lepsius 2141: Carthaginian shipwreck discovered
+lepsius.2141 = {
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2141.t
+	desc = lepsius.2141.d
+	flavor = lepsius.2141.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_carthage/lepsius_carthage_port.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			lepsius_carthage_archaeology_region = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				lepsius_carthage_archaeology_region = yes
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2141.g #The greatest traders of the Mediterranean!
+		default_option = yes
+
+		lepsius_medium_add_technology = yes
 		archaeologist_experience_gain_effect = { AMOUNT = 10 }
 	}
 
