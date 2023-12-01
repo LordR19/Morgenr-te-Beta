@@ -12415,6 +12415,470 @@ gaudi.819 = {
 
 ###################################################################
 
+######GYEONGBOKGUNG######
+
+#Gaudí 901: Gyeong Phase 1 begins
+
+gaudi.901 = {
+	type = country_event
+
+	title = gaudi.901.t
+	desc = gaudi.901.d
+	flavor = gaudi.901.f
+
+	placement = scope:gaudi_gyeong_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_gyeong_finished.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SEOUL
+			}
+			save_scope_as = gaudi_gyeong_state
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = gaudi_ruler
+		}
+	}
+
+	option = {
+		name = gaudi.801.g
+        default_option = yes
+        scope:gaudi_gyeong_state = {
+        	add_modifier = {
+        		name = gaudi_gyeong_phase_1_modifier
+        	}
+        }
+		add_modifier = {
+			name = gaudi_gyeong_cost_1_modifier
+		}
+        add_journal_entry = {
+        	type = je_gaudi_gyeong_phase_1
+        }
+	}
+}
+
+#Gaudí 902: Gyeong finished
+
+gaudi.902 = {
+	type = country_event
+
+	title = gaudi.902.t
+	desc = gaudi.902.d
+	flavor = gaudi.902.f
+
+	placement = scope:gaudi_gyeong_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_gyeong_finished.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SEOUL
+			}
+			save_scope_as = gaudi_gyeong_state
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = gaudi_ruler
+		}
+		set_global_variable = gaudi_gyeong_finished
+	}
+
+	option = {
+		name = gaudi.902.g
+        default_option = yes
+        scope:gaudi_gyeong_state = {
+        	remove_modifier = gaudi_gyeong_phase_1_modifier
+        }
+		scope:gaudi_gyeong_state = {
+			create_building = {
+ 				building = "building_gaudi_gyeong"
+ 			}
+        }
+		if = {
+			limit = {
+				has_variable = gaudi_gyeong_rooms_var
+			}
+			scope:gaudi_gyeong_state = {
+				add_modifier = {
+					name = gaudi_gyeong_modifier
+				}
+			}
+		}
+		remove_modifier = gaudi_gyeong_cost_1_modifier
+	}
+}
+
+### Building Progress ###
+
+#Gaudí 910: Normal building progress
+
+gaudi.910 = {
+	type = country_event
+	
+	hidden = yes
+
+	trigger = {
+	}
+
+	immediate = {
+		gaudi_add_x_gyeong_progress = {
+			AMOUNT = 1
+		}
+		if = {
+			limit = {
+				has_variable = gaudi_engineer_var
+			}
+			gaudi_add_x_gyeong_progress = {
+				AMOUNT = 1
+			}
+		}
+	}
+}
+
+#Gaudí 911: Slow progress
+
+gaudi.911 = {
+	type = country_event
+
+	title = gaudi.911.t
+	desc = gaudi.911.d
+	flavor = gaudi.911.f
+
+	placement = scope:gaudi_gyeong_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_gyeong_finished.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	cooldown = {
+		years = 3
+	}
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SEOUL
+			}
+			save_scope_as = gaudi_gyeong_state
+		}
+	}
+
+	option = {
+		name = gaudi.911.g #Enforce longer work hours
+        default_option = yes
+		gaudi_add_x_gyeong_progress = {
+			AMOUNT = 6
+		}
+		scope:gaudi_palacio_state = {
+			add_radicals_in_state = {
+				value = 0.05
+				pop_type = laborers
+			}
+		}
+		add_modifier = {
+			name = gaudi_gyeong_defender_modifier
+			years = 3
+		}
+	}
+
+	option = {
+		name = gaudi.911.h #Pay the workers a bonus
+		gaudi_add_x_gyeong_progress = {
+			AMOUNT = 1
+		}
+		add_treasury = -10000
+	}
+
+	option = {
+		name = gaudi.911.i #We wait.
+		gaudi_add_x_gyeong_progress = {
+			AMOUNT = -6
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 912: Good progress
+
+gaudi.912 = {
+	type = country_event
+
+	title = gaudi.912.t
+	desc = gaudi.912.d
+	flavor = gaudi.912.f
+
+	placement = scope:gaudi_gyeong_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_gyeong_finished.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	cooldown = {
+		years = 3
+	}
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SEOUL
+			}
+			save_scope_as = gaudi_gyeong_state
+		}
+	}
+
+	option = {
+		name = gaudi.912.g #Great!
+        default_option = yes
+		gaudi_add_x_gyeong_progress = {
+			AMOUNT = 6
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 913: Fire!
+
+gaudi.913 = {
+	type = country_event
+
+	title = gaudi.913.t
+	desc = gaudi.913.d
+	flavor = gaudi.913.f
+
+	placement = scope:gaudi_gyeong_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_gyeong_finished.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	cooldown = {
+		years = 3
+	}
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SEOUL
+			}
+			save_scope_as = gaudi_gyeong_state
+		}
+	}
+
+	option = {
+		name = gaudi.913.g #Terrible
+        default_option = yes
+		gaudi_add_x_gyeong_progress = {
+			AMOUNT = -9
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 914: More Rooms
+
+gaudi.914 = {
+	type = country_event
+
+	title = gaudi.914.t
+	desc = gaudi.914.d
+	flavor = gaudi.914.f
+
+	placement = scope:gaudi_gyeong_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_gyeong_finished.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SEOUL
+			}
+			save_scope_as = gaudi_gyeong_state
+		}
+	}
+
+	option = {
+		name = gaudi.914.g #Build more rooms
+        default_option = yes
+		custom_tooltip = {
+			text = gaudi_gyeong_rooms_tt
+			set_variable = gaudi_gyeong_rooms_var
+		}
+		add_treasury = -50000
+		gaudi_add_x_gyeong_progress = {
+			AMOUNT = -6
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				trigger = {
+					gold_reserves < 50000
+				}
+				add = -100
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.914.h #Don't add more rooms.
+		gaudi_add_x_gyeong_progress = {
+			AMOUNT = 1
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 915: IG impressed
+
+gaudi.915 = {
+	type = country_event
+
+	title = gaudi.915.t
+	desc = gaudi.915.d
+	flavor = gaudi.915.f
+
+	placement = scope:gaudi_gyeong_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_sycophant_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 3
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SEOUL
+			}
+			save_scope_as = gaudi_gyeong_state
+		}
+		random_interest_group = {
+			save_scope_as = gaudi_sycophant_ig
+			leader = {
+				save_scope_as = gaudi_sycophant_leader
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.915.g #Yes-men everywhere you look.
+        default_option = yes
+		gaudi_add_x_gyeong_progress = {
+			AMOUNT = 3
+		}
+		scope:gaudi_sycophant_ig = {
+			add_modifier = {
+				name = gaudi_gyeong_impressed_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+###################################################################
+
 ###### Historical Engineers ######
 
 #Gaudí 1001: Invention of the Steel Frame (Eiffel)
