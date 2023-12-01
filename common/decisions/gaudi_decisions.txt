@@ -1442,6 +1442,66 @@ gaudi_palacio_phase_2_decision = {
 
 ##################################################
 
+######GYEONGBOKGUNG######
+
+gaudi_gyeong_phase_1_decision = {
+	is_shown = {
+		exists = c:KOR
+		ROOT = c:KOR
+		NOT = {
+			has_global_variable = gaudi_gyeong_building_phase_1
+		}
+		NOT = {
+			has_global_variable = gaudi_gyeong_finished
+		}
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = gaudi_custom_tt_trigger_gyeong
+			trigger_if = {
+				limit = {
+					exists = c:KOR
+					ROOT = c:KOR
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		any_scope_state = {
+			state_region = s:STATE_SEOUL
+		}
+		has_law = law_type:law_monarchy
+		has_technology_researched = elgar_classicim_tech
+	}
+	
+	when_taken = {
+		add_treasury = -100000
+		set_global_variable = {
+			name = gaudi_gyeong_progress
+			value = 0
+		}
+		set_global_variable = gaudi_gyeong_building_phase_1
+		trigger_event = {
+			id = gaudi.901
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 1000
+		modifier = {
+			trigger = {
+				gold_reserves < 100000
+			}
+			add = -1000
+		}
+	}
+}
+
+##################################################
+
 ######SAXON PALACE######
 
 gaudi_activate_saxon_palace_decision = {
