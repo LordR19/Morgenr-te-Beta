@@ -454,6 +454,26 @@ namespace = lepsius
 #Lepsius 2113: Egyptian Statue in Persian Tomb
 #Lepsius 2114: Monumental Inscription
 
+#Lepsius 2121: A Prehistoric Bone Flute
+#Lepsius 2122: Cave Painting found
+#Lepsius 2123: Prehistoric Figurine discovered
+#Lepsius 2124: Bones and Stone Tools recovered
+
+#Lepsius 2131: Skull Fragmets found in Aztect Settlement
+#Lepsius 2132: Aztec Inscription saved by local Scholar
+#Lepsius 2133: Aztec Ruins discovered
+#Lepsius 2134: Obsidian Mirror discovered
+
+#2500 - 2599 Archaeologist Events (without interactions)
+
+######Archaeologist Events (without interactions)######
+
+#Lepsius 2500: New Archaeological Map of [State]
+
+#2600 - 2699 Archaeologist Events with interactions to other Scientists
+
+######Archaeologist Events with interactions to other Scientists######
+
 ######SETUP EVENTS######
 
 #Lepsius 2: Lepsius' letter to Rosellini: Adds state modifiers to Upper and Lower Egypt and thus makes excavations possible
@@ -26263,6 +26283,110 @@ lepsius.2134 = {
 
 		lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1 }
 		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+######Archaeologist Events (without interactions)######
+
+#Lepsius 2500: New Archaeological Map of [State]
+lepsius.2500 = {
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2500.t
+	desc = lepsius.2500.d
+	flavor = lepsius.2500.f
+
+	duration = 3
+
+	cooldown = {
+		years = { 15 25 }
+	}
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+	}
+
+	immediate = {
+		random_scope_state = {
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+	}
+
+	option = { #This will open doors to new finds!
+		name = lepsius.2500.g
+		default_option = yes
+
+		lepsius_small_add_technology = yes
+		archaeologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+######Archaeologist Events with interactions to other Scientists######
+
+#Lepsius 2600: The lost Star
+lepsius.2600 = {
+	type = country_event
+
+	title = lepsius.2600.t
+	desc = lepsius.2600.d
+	flavor = lepsius.2600.f
+
+	duration = 3
+
+	cooldown = {
+		years = { 15 25 }
+	}
+
+	gui_window = event_window_2char
+
+	left_icon = scope:lepsius_archaeologist_scope
+	right_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		verrier_has_astronomer = yes
+	}
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = { #A tremendous scientific discovery!
+		name = lepsius.2600.g
+		default_option = yes
+
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
+		astronomer_experience_gain_effect = { AMOUNT = 10 }
 	}
 
 	after = {
