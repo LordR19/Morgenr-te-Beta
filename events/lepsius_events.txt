@@ -472,6 +472,8 @@ namespace = lepsius
 #Lepsius 2143: Punic Port discovered
 #Lepsius 2144: Coins from ancient Carthage discovered
 
+#Lepsius 2151: Celtic Cauldron discovered
+
 #2500 - 2599 Archaeologist Events (without interactions)
 
 ######Archaeologist Events (without interactions)######
@@ -26551,6 +26553,56 @@ lepsius.2144 = {
 
 		lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
 		archaeologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+### Celts ###
+#Lepsius 2151: Celtic Cauldron discovered
+lepsius.2151 = {
+	type = country_event
+	placement = scope:lepsius_local_archaeological_state_scope
+
+	title = lepsius.2151.t
+	desc = lepsius.2151.d
+	flavor = lepsius.2151.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/lepsius_local_celts/lepsius_celts_cauldron.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		lepsius_has_active_archaeologist = yes
+		any_scope_state = {
+			lepsius_celtic_archaeology_region = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				lepsius_celtic_archaeology_region = yes
+			}
+			save_scope_as = lepsius_local_archaeological_state_scope
+		}
+	}
+
+	option = {
+		name = lepsius.2151.g #I hope no one has fallen into the Magic Cauldron yet!
+		default_option = yes
+
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
+		lepsius_small_add_technology = yes
+		archaeologist_experience_gain_effect = { AMOUNT = 10 }
 	}
 
 	after = {
