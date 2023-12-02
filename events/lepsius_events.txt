@@ -55,6 +55,9 @@ namespace = lepsius
 #Lepsius 62: Excavation site sacked!
 
 #Lepsius 70: The Tomb of the First Emperor
+#Lepsius 71: Tikal, City in the Jungle
+#Lepsius 72: Dreamtime
+#Lepsius 73: Gwanggaeto Stele
 
 ###Technology Events###
 
@@ -2365,6 +2368,65 @@ lepsius.71 = {
 		lepsius_update_exhibition_effect = yes
 	}
 }
+
+#Lepsius 72: Dreamtime
+
+lepsius.72 = {
+	type = country_event
+
+	title = lepsius.72.t
+	desc = lepsius.72.d
+	flavor = lepsius.72.f
+
+	placement = scope:lepsius_australia_state
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:lepsius_archaeologist_scope
+	right_icon = scope:lepsius_anthropologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		var:lepsius_anthropologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NORTHERN_TERRITORY
+			}
+			save_scope_as = lepsius_australia_state
+		}
+	}
+
+	option = {
+		name = lepsius.72.g #We are primarily interested in artifacts.
+		lepsius_small_add_technology = yes
+		lepsius_add_x_local_artifacts_effect = { AMOUNT = 3 }
+		lepsius_add_x_oceanic_artifacts_effect = { AMOUNT = 2 }
+		lepsius_add_x_human_fossils_effect = {
+			AMOUNT = 5
+		}
+		archaeologist_experience_gain_effect = { AMOUNT = 15 }
+		anthropologist_experience_gain_effect = { AMOUNT = 15 }
+		dubois_add_x_academy_progress = {
+			AMOUNT = 36
+		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 73: Gwanggaeto Stele
 
 #################################################################################
 
