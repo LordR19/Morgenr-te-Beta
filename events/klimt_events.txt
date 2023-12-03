@@ -1,0 +1,75 @@
+﻿#################
+# KLIMT EVENTS  #
+#################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = klimt
+
+###################
+
+### Germany ###
+# Klimt 1300: Spitzweg, Der arme Poet
+
+###################
+
+### Germany ###
+
+#Klimt 1300: Spitzweg, Der arme Poet
+klimt.1300 = {
+	type = country_event
+	placement = ROOT
+
+	title = klimt.1300.t
+	desc = klimt.1300.d
+	flavor = klimt.1300.f
+
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_spitzweg.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_BAVARIA
+		}
+		has_technology_researched = romanticism
+		game_date >= 1839.1.1
+		NOT = { 
+			has_global_variable = klimt_spitzweg_var 
+		}
+	}
+
+	immediate = {
+		set_global_variable = klimt_spitzweg_var
+	}
+
+	option = {
+		name = klimt.1300.g #Ahahah, a funny painter!
+		default_option = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 25
+		}
+	}
+
+	option = {
+		name = klimt.1300.h #Wait! Satire against whom?
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 10
+		}
+		add_modifier = {
+			name = klimt_spitzweg_not_funny_modifier
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}
