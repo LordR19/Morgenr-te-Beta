@@ -2453,6 +2453,325 @@ lepsius.72 = {
 
 #Lepsius 73: Gwanggaeto Stele
 
+lepsius.73 = {
+	type = country_event
+
+	title = lepsius.73.t
+	desc = lepsius.73.d
+	flavor = lepsius.73.f
+
+	placement = scope:lepsius_manchuria_state
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+			set_variable = lepsius_gwanggaeto_discoverer
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SOUTHERN_MANCHURIA
+			}
+			save_scope_as = lepsius_manchuria_state
+		}
+	}
+
+	option = {
+		name = lepsius.73.g #An instructive past that is worth deciphering.
+		default_option = yes
+		lepsius_add_x_fareastern_artifacts_effect = { AMOUNT = 1 }
+		lepsius_medium_add_technology = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = 30
+		}
+	}
+
+	option = {
+		name = lepsius.73.h #Goguryeo was an important Chinese state.
+		trigger = {
+			ROOT = c:CHI
+			has_technology_researched = nationalism
+		}
+		scope:lepsius_manchuria_state = {
+			add_modifier = {
+				name = lepsius_gwanggaeto_modifier
+			}
+		}
+		if = {
+			limit = {
+				exists = c:KOR
+			}
+			change_relations = {
+				country = c:KOR 
+				value = -50
+			}
+			c:KOR = {
+				trigger_event = {
+					id = lepsius.74
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = c:JAP
+			}
+			change_relations = {
+				country = c:JAP
+				value = -15
+			}
+			c:JAP = {
+				trigger_event = {
+					id = lepsius.75
+				}
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.73.i #This underlines that this was originally Korean land.
+		trigger = {
+			ROOT = c:KOR
+			has_technology_researched = nationalism
+		}
+		scope:lepsius_manchuria_state = {
+			add_modifier = {
+				name = lepsius_gwanggaeto_modifier
+			}
+		}
+		every_state = {
+			limit = {
+				state_region = s:STATE_SOUTHERN_MANCHURIA
+			}
+			state_region = {
+				add_homeland = cu:korean
+				add_claim = c:KOR
+			}
+		}
+		if = {
+			limit = {
+				exists = c:JAP
+			}
+			c:JAP = {
+				trigger_event = {
+					id = lepsius.75
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = c:CHI
+			}
+			change_relations = {
+				country = c:CHI
+				value = -15
+			}
+		}
+	}
+
+	option = {
+		name = lepsius.73.j #A clue to Japanese influence on Korea.
+		trigger = {
+			ROOT = c:JAP
+			has_technology_researched = nationalism
+		}
+		scope:lepsius_manchuria_state = {
+			add_modifier = {
+				name = lepsius_gwanggaeto_modifier
+			}
+		}
+		every_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_YANGHO
+					state_region = s:STATE_BUSAN
+				}
+			}
+			state_region = {
+				add_claim = c:JAP
+			}
+		}
+		if = {
+			limit = {
+				exists = c:KOR
+			}
+			c:KOR = {
+				trigger_event = {
+					id = lepsius.74
+				}
+			}
+			change_relations = {
+				country = c:KOR
+				value = -50
+			}
+		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 74: Goguryeo - A Korean Empire
+
+lepsius.74 = {
+	type = country_event
+
+	title = lepsius.74.t
+	desc = lepsius.74.d
+	flavor = lepsius.74.f
+
+	placement = scope:lepsius_manchuria_state
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = lepsius_gwanggaeto_discoverer
+			}
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_SOUTHERN_MANCHURIA
+			}
+			save_scope_as = lepsius_manchuria_state
+		}
+	}
+
+	option = {
+		name = lepsius.73.g #An instructive past that is worth deciphering.
+		default_option = yes
+		lepsius_medium_add_technology = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = 30
+		}
+	}
+
+	option = {
+		name = lepsius.73.i #This underlines that this was originally Korean land.
+		trigger = {
+			has_technology_researched = nationalism
+		}
+		every_state = {
+			limit = {
+				state_region = s:STATE_SOUTHERN_MANCHURIA
+			}
+			state_region = {
+				add_homeland = cu:korean
+				add_claim = c:KOR
+			}
+		}
+		if = {
+			limit = {
+				exists = c:CHI
+			}
+			change_relations = {
+				country = c:CHI
+				value = -50
+			}
+		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 75: The invasion of Wa
+
+lepsius.75 = {
+	type = country_event
+
+	title = lepsius.75.t
+	desc = lepsius.75.d
+	flavor = lepsius.75.f
+
+	placement = scope:lepsius_manchuria_state
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = lepsius_gwanggaeto_discoverer
+			}
+			save_scope_as = lepsius_archaeologist_scope
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_SOUTHERN_MANCHURIA
+			}
+			save_scope_as = lepsius_manchuria_state
+		}
+	}
+
+	option = {
+		name = lepsius.73.g #An instructive past that is worth deciphering.
+		default_option = yes
+		lepsius_medium_add_technology = yes
+		dubois_add_x_academy_progress = {
+			AMOUNT = 30
+		}
+	}
+
+	option = {
+		name = lepsius.73.j #A clue to Japanese influence on Korea.
+		trigger = {
+			has_technology_researched = nationalism
+		}
+		every_state = {
+			limit = {
+				OR = {
+					state_region = s:STATE_YANGHO
+					state_region = s:STATE_BUSAN
+				}
+			}
+			state_region = {
+				add_claim = c:JAP
+			}
+		}
+		if = {
+			limit = {
+				exists = c:KOR
+			}
+			change_relations = {
+				country = c:KOR
+				value = -50
+			}
+		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
 #################################################################################
 
 #####################
