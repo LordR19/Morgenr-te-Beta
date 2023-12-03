@@ -2555,3 +2555,97 @@ gaudi_aeronautical_engineering_large_add_technology = {
 		dubois_add_x_academy_progress = { AMOUNT = 6 }
 	}
 }
+
+#This Scripted Effect calculates the Civil Engineering Progress
+gaudi_civil_engineering_progress = {
+	set_variable = {
+		name = gaudi_monthly_civil_engineering_progress_var
+		value = 1 #Base Value
+	}
+	if = { #Has Civil Engineer
+		limit = {
+			gaudi_has_civil_engineer_trigger = yes
+		}
+		change_variable = {
+			name = gaudi_monthly_civil_engineering_progress_var
+			add = 1
+		}
+	}
+	if = { #Experience of the Engineer divided by 100
+		limit = {
+			gaudi_has_civil_engineer_trigger = yes
+		}
+		set_local_variable = {
+			name = engineer_experience_add
+			value = var:gaudi_engineer_var.var:gaudi_civil_engineer_experience
+		}
+		change_local_variable = {
+			name = engineer_experience_add
+			multiply = 0.01
+		}
+		change_variable = {
+			name = gaudi_monthly_civil_engineering_progress_var
+			add = local_var:engineer_experience_add
+		}
+	}
+	if = { #Engineer has Civil Engineer Trait
+		limit = {
+			gaudi_has_civil_engineer_trigger = yes
+			var:gaudi_engineer_var = {
+				has_trait = gaudi_civil_engineer
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_civil_engineering_progress_var
+			add = 1
+		}
+	}
+	if = { #Engineer has Meticulous Trait
+		limit = {
+			gaudi_has_civil_engineer_trigger = yes
+			var:gaudi_engineer_var = {
+				has_trait = meticulous
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_civil_engineering_progress_var
+			add = 0.25
+		}
+	}
+	if = { #Engineer has Persistent Trait
+		limit = {
+			gaudi_has_civil_engineer_trigger = yes
+			var:gaudi_engineer_var = {
+				has_trait = persistent
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_civil_engineering_progress_var
+			add = 0.25
+		}
+	}
+	if = { #Engineer has Innovative Trait
+		limit = {
+			gaudi_has_civil_engineer_trigger = yes
+			var:gaudi_engineer_var = {
+				has_trait = innovative
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_civil_engineering_progress_var
+			add = 0.25
+		}
+	}
+	if = { #Engineer has Surveyor Trait
+		limit = {
+			gaudi_has_civil_engineer_trigger = yes
+			var:gaudi_engineer_var = {
+				has_trait = surveyor
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_civil_engineering_progress_var
+			add = 0.25
+		}
+	}
+}
