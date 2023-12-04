@@ -3255,7 +3255,7 @@ je_gaudi_canal_project = {
 	}
 
 	complete = {
-		custom_tooltip = { #All States need to have a roads modifier to end this journal entry
+		custom_tooltip = { #All States need to have a canals modifier to end this journal entry
 			text = gaudi_states_with_canals_tt
 			var:gaudi_num_states_canals_var = var:gaudi_num_states_var
 		}
@@ -3276,6 +3276,110 @@ je_gaudi_canal_project = {
 	goal_add_value = {
 		#You can change this in gaudi_script_values
 		value = gaudi_canal_progress_cost
+	}
+
+	invalid = {
+		has_variable = gaudi_stop_engineering_project_var
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_stop_engineering_project_var
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_bridge_project = {
+	icon = "gfx/interface/icons/event_icons/paved_roads.dds"
+
+	scripted_button = gaudi_stop_engineering_project_button
+
+	group = je_group_gaudi_engineers
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
+			gaudi_civil_engineering_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = gaudi_civil_engineering_progress_var
+				add = var:gaudi_monthly_civil_engineering_progress_var
+			}
+			if = {
+				#If the Progress reaches the cost, the modifier will be added to a state
+				limit = {
+					var:gaudi_civil_engineering_progress_var > gaudi_bridge_progress_cost
+				}
+				#The state with the least available infrastructure will be chosen
+				ordered_scope_state = {
+					limit = { NOT = { has_modifier = gaudi_new_bridge_modifier } }
+					order_by = gaudi_infrastructure_balance
+					add_modifier = {
+						name = gaudi_new_bridge_modifier
+					}
+				}
+				#The cost will be subtracted from the current progress
+				change_variable = {
+					name = gaudi_civil_engineering_progress_var
+					subtract = gaudi_bridge_progress_cost
+				}
+			}
+			set_variable = {
+				name = gaudi_num_states_var
+				value = root.num_states
+			}
+			set_variable = {
+				name = gaudi_num_states_bridge_var
+				value = gaudi_states_with_bridges_value
+			}
+		}
+	}
+
+	immediate = {
+		#Sets the Civil Engineering Progress at the beginning
+		set_variable = {
+			name = gaudi_civil_engineering_progress_var
+			value = 0
+		}
+		#Sets a variable for the number of states
+		set_variable = {
+			name = gaudi_num_states_var
+			value = root.num_states
+		}
+		#Sets a variable for the number of states with a road modifier
+		set_variable = {
+			name = gaudi_num_states_bridge_var
+			value = gaudi_states_with_bridges_value #See Gaudi Script Values for the calculation
+		}
+		gaudi_civil_engineering_progress = yes #Determines how much Engineering Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = { #All States need to have a bridge modifier to end this journal entry
+			text = gaudi_states_with_bridges_tt
+			var:gaudi_num_states_bridge_var = var:gaudi_num_states_var
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = gaudi.1121
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:gaudi_civil_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = gaudi_bridge_progress_cost
 	}
 
 	invalid = {
