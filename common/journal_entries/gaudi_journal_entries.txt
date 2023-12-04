@@ -3630,3 +3630,120 @@ je_gaudi_railway_project = {
 
 	should_be_pinned_by_default = yes
 }
+
+###################
+
+######ELECTRICAL ENGINEER PROJECTS######
+
+je_gaudi_magnetic_observation = {
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	group = je_group_gaudi_engineers
+
+	on_monthly_pulse = {
+		effect = {
+			change_global_variable = {
+				name = gaudi_magnetic_data
+				add = global_var:gaudi_magnetic_association_members
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	complete = {
+		any_country = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_gaudi_magnetic_observatory
+			}
+			count >= 10
+		}
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		every_country = {
+			limit = {
+				has_variable = gaudi_magnetic_association_member_var
+			}
+			trigger_event = {
+				id = gaudi.1403
+			}
+		}
+	}
+
+	current_value = {
+		value = global_var:gaudi_magnetic_data
+	}
+
+	goal_add_value = {
+		value = 100
+	}
+
+	invalid = {
+	}
+
+	on_invalid = {
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_magnetic_station = {
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	group = je_group_gaudi_engineers
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = gaudi_megnetic_station_progress
+				add = 1
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	complete = {
+		scope:journal_entry = { 
+			is_goal_complete = yes 
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = gaudi.1403
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = var:gaudi_megnetic_station_progress
+	}
+
+	goal_add_value = {
+		value = 24
+	}
+
+	invalid = {
+	}
+
+	on_invalid = {
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
