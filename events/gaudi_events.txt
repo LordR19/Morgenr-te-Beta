@@ -13156,11 +13156,30 @@ gaudi.1004 = {
 
 	immediate = {
 		create_weber_wilhelm_eduard_effect = yes
+		set_global_variable = {
+			name = gaudi_magnetic_association_members
+			value = 1
+		}
+		set_global_variable = {
+			name = gaudi_magnetic_data
+			value = 0
+		}
+		add_journal_entry = {
+			type = je_gaudi_magnetic_observation
+		}
 	}
 
 	option = {
 		name = gaudi.1004.g #Magnets? Electricity? Electromagnetism!
-		default_option = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_verrier_observatory
+			}
+			activate_production_method = {
+				building_type = building_verrier_observatory
+				production_method = pm_gaudi_magnetic_observatory
+			}
+		}
 
 		gaudi_electrical_engineering_medium_add_technology = yes
 
@@ -13174,6 +13193,15 @@ gaudi.1004 = {
 	option = {
 		name = gaudi.1004.h #Sparkling
 		default_option = yes
+		random_scope_state = {
+			limit = {
+				has_building = building_verrier_observatory
+			}
+			activate_production_method = {
+				building_type = building_verrier_observatory
+				production_method = pm_gaudi_magnetic_observatory
+			}
+		}
 		
 		gaudi_set_new_engineer_as_engineer_effect = yes
 
@@ -13376,6 +13404,127 @@ gaudi.1141 = {
 			base = 0
 		}
 	}
+	after = {
+	}
+}
+
+### Electrical Engineering ###
+
+#Gaudí 1401: Admission to the Göttingen Magnetic Association
+
+gaudi.1401 = {
+	type = country_event
+
+	title = gaudi.1401.t
+	desc = gaudi.1401.d
+	flavor = gaudi.1401.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HANNOVER
+			}
+			owner = {
+				save_scope_as = gaudi_goettingen_owner
+			}
+		}
+		change_global_variable = {
+			name = gaudi_magnetic_association_members
+			add = 1
+		}
+		set_variable = gaudi_magnetic_association_member_var
+	}
+
+	option = {
+		name = gaudi.1401.g #We should build a measuring station immediately.
+		default_option = yes
+		gaudi_electrical_engineering_small_add_technology = yes
+		add_journal_entry = {
+			type = je_gaudi_magnetic_station
+		}
+		every_country = {
+			limit = {
+				has_variable = gaudi_magnetic_association_member_var
+				NOT = {
+					ROOT = THIS
+				}
+			}
+			change_relations = {
+				country = ROOT
+				value = 2
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1402: First records of the earth's magnetic field in $COUNTRY$
+
+gaudi.1402 = {
+	type = country_event
+
+	title = gaudi.1402.t
+	desc = gaudi.1402.d
+	flavor = gaudi.1402.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_HANNOVER
+			}
+			owner = {
+				save_scope_as = gaudi_goettingen_owner
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1402.g #We should build a measuring station immediately.
+		default_option = yes
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 5
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_verrier_observatory
+			}
+			activate_production_method = {
+				building_type = building_verrier_observatory
+				production_method = pm_gaudi_magnetic_observatory
+			}
+		}
+	}
+
 	after = {
 	}
 }
