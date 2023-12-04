@@ -2575,17 +2575,28 @@ gaudi_civil_engineering_progress = {
 		limit = {
 			gaudi_has_civil_engineer_trigger = yes
 		}
-		set_local_variable = {
-			name = engineer_experience_add
-			value = var:gaudi_engineer_var.var:gaudi_civil_engineer_experience
+		if = {
+			limit = {
+				var:gaudi_engineer_var.var:gaudi_civil_engineer_experience < 300
+			}
+			set_local_variable = {
+				name = engineer_experience_add
+				value = var:gaudi_engineer_var.var:gaudi_civil_engineer_experience
+			}
+			change_local_variable = {
+				name = engineer_experience_add
+				divide = 300
+			}
+			change_variable = {
+				name = gaudi_monthly_civil_engineering_progress_var
+				add = local_var:engineer_experience_add
+			}
 		}
-		change_local_variable = {
-			name = engineer_experience_add
-			multiply = 0.01
-		}
-		change_variable = {
-			name = gaudi_monthly_civil_engineering_progress_var
-			add = local_var:engineer_experience_add
+		else = {
+			change_variable = {
+				name = gaudi_monthly_civil_engineering_progress_var
+				add = 1
+			}
 		}
 	}
 	if = { #Engineer has Civil Engineer Trait
@@ -2609,7 +2620,7 @@ gaudi_civil_engineering_progress = {
 		}
 		change_variable = {
 			name = gaudi_monthly_civil_engineering_progress_var
-			add = 0.25
+			add = 0.1
 		}
 	}
 	if = { #Engineer has Persistent Trait
@@ -2621,7 +2632,7 @@ gaudi_civil_engineering_progress = {
 		}
 		change_variable = {
 			name = gaudi_monthly_civil_engineering_progress_var
-			add = 0.25
+			add = 0.1
 		}
 	}
 	if = { #Engineer has Innovative Trait
@@ -2633,7 +2644,7 @@ gaudi_civil_engineering_progress = {
 		}
 		change_variable = {
 			name = gaudi_monthly_civil_engineering_progress_var
-			add = 0.25
+			add = 0.1
 		}
 	}
 	if = { #Engineer has Surveyor Trait
@@ -2645,7 +2656,7 @@ gaudi_civil_engineering_progress = {
 		}
 		change_variable = {
 			name = gaudi_monthly_civil_engineering_progress_var
-			add = 0.25
+			add = 0.1
 		}
 	}
 }
