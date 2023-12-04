@@ -58,3 +58,59 @@ gaudi_stop_engineering_project_button = {
 		base = 0 #It's just not worth for you, Mr AI
 	}
 }
+
+######BUILD MAGNETIC STATION######
+
+gaudi_magnetic_station_button = {
+	name = "gaudi_magnetic_station_button"
+	desc = "gaudi_magnetic_station_button_desc"
+
+	visible = { 
+		NOT = {
+			has_variable = gaudi_magnetic_station_var
+		}
+		NOT = {
+			any_scope_state = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_gaudi_magnetic_observatory
+			}
+		}
+	}
+
+	possible = {
+		gaudi_has_engineer = yes
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			level > 0
+		}
+		OR = {
+			AND = {
+				has_technology_researched = verrier_electromagnetism_tech
+				OR = {
+					gaudi_has_mechanical_engineer_trigger = yes
+					gaudi_has_civil_engineer_trigger = yes
+				}
+			}
+			AND = {
+				verrier_has_astronomer = yes
+				OR = {
+					gaudi_has_mechanical_engineer_trigger = yes
+					gaudi_has_civil_engineer_trigger = yes
+				}
+			}
+			gaudi_has_electrical_engineer_trigger = yes
+		}
+	}
+
+	effect = {
+		set_variable = gaudi_magnetic_station_var
+		trigger_event = { 
+			id = gaudi.1401
+			popup = yes
+		}
+	}
+
+	ai_chance = {
+		base = 0 #It's just not worth for you, Mr AI
+	}
+}
