@@ -123,16 +123,17 @@ gaudi_telegraf_network_button = {
 
 	visible = { 
 		NOT = {
-			has_variable = gaudi_building_telegraf_network_var
+			has_modifier = gaudi_building_telegraf_network_modifier
 		}
 		gaudi_has_electrical_engineer_trigger = yes
 	}
 
 	possible = {
 		gaudi_has_electrical_engineer_trigger = yes
-		OR = {
-			has_technology_researched = verrier_electromagnetism_tech
-			has_technology_researched = electric_telegraph
+		has_technology_researched = electric_telegraph
+		any_scope_state = {
+			is_capital = yes
+			has_building = building_railway
 		}
 		NOT = {
 			has_technology_researched = radio
@@ -140,7 +141,9 @@ gaudi_telegraf_network_button = {
 	}
 
 	effect = {
-		set_variable = gaudi_building_telegraf_network_var
+		add_modifier = {
+			name = gaudi_building_telegraf_network_modifier
+		}
 		trigger_event = { 
 			id = gaudi.1411
 			popup = yes
