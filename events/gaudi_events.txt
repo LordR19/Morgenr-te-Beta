@@ -13402,7 +13402,13 @@ gaudi.1141 = {
 	}
 }
 
+##############################################################################################################
+
 ### Electrical Engineering ###
+
+##############################################################################################################
+
+######GEOMAGNETISM######
 
 #Gaudí 1401: Admission to the Göttingen Magnetic Association
 
@@ -13738,6 +13744,157 @@ gaudi.1406 = {
 	option = {
 		name = gaudi.1406.h #This will help him in his theoretical research.
 		verrier_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+######ELECTRIC TELEGRAPH######
+
+#Gaudí 1411: A National Telegraphy Network
+
+gaudi.1411 = {
+	type = country_event
+
+	title = gaudi.1411.t
+	desc = gaudi.1411.d
+	flavor = gaudi.1411.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1411.g #The expansion of telegraphy has the highest priority.
+		default_option = yes
+		scope:gaudi_engineer_scope = {
+			set_character_busy_and_immortal = yes
+		}
+		if = {
+			limit = {
+				any_scope_state = {
+					is_capital = yes
+					NOT = {
+						has_active_production_method = pm_gaudi_telegraph_office
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_railway
+					production_method = pm_gaudi_telegraph_office
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_gaudi_telegraphy_network
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1412: Telegraphy Network stopped
+
+gaudi.1412 = {
+	type = country_event
+
+	title = gaudi.1412.t
+	desc = gaudi.1412.d
+	flavor = gaudi.1412.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_telegraphy_cable.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1412.g #We're finishing construction for now.
+		default_option = yes
+		scope:gaudi_engineer_scope = {
+			set_character_busy_and_immortal = no
+		}
+		remove_modifier = gaudi_building_telegraph_network_modifier
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1413: Telegraphy Network finished
+
+gaudi.1413 = {
+	type = country_event
+
+	title = gaudi.1413.t
+	desc = gaudi.1413.d
+	flavor = gaudi.1413.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_telegraphy_cable.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1413.g #We're finishing construction for now.
+		default_option = yes
+		if = {
+			limit = {
+				NOT = {
+					has_modifier = gaudi_telegraphy_network_modifier
+				}
+			}
+			add_modifier = {
+				name = gaudi_telegraphy_network_modifier
+				years = 15
+			}
+		}
+		scope:gaudi_engineer_scope = {
+			set_character_busy_and_immortal = no
+		}
+		remove_modifier = gaudi_building_telegraph_network_modifier
 	}
 
 	after = {
