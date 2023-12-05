@@ -2693,7 +2693,7 @@ gaudi_civil_engineering_progress = {
 	}
 	if = { #Engineer has Meticulous Trait
 		limit = {
-			gaudi_has_civil_engineer_trigger = yes
+			gaudi_has_engineer = yes
 			var:gaudi_engineer_var = {
 				has_trait = meticulous
 			}
@@ -2705,7 +2705,7 @@ gaudi_civil_engineering_progress = {
 	}
 	if = { #Engineer has Persistent Trait
 		limit = {
-			gaudi_has_civil_engineer_trigger = yes
+			gaudi_has_engineer = yes
 			var:gaudi_engineer_var = {
 				has_trait = persistent
 			}
@@ -2717,7 +2717,7 @@ gaudi_civil_engineering_progress = {
 	}
 	if = { #Engineer has Innovative Trait
 		limit = {
-			gaudi_has_civil_engineer_trigger = yes
+			gaudi_has_engineer = yes
 			var:gaudi_engineer_var = {
 				has_trait = innovative
 			}
@@ -2729,13 +2729,118 @@ gaudi_civil_engineering_progress = {
 	}
 	if = { #Engineer has Surveyor Trait
 		limit = {
-			gaudi_has_civil_engineer_trigger = yes
+			gaudi_has_engineer = yes
 			var:gaudi_engineer_var = {
 				has_trait = surveyor
 			}
 		}
 		change_variable = {
 			name = gaudi_monthly_civil_engineering_progress_var
+			add = 0.1
+		}
+	}
+}
+
+#This Scripted Effect calculates the Mechanical Engineering Progress
+gaudi_mechanical_engineering_progress = {
+	set_variable = {
+		name = gaudi_monthly_mechanical_engineering_progress_var
+		value = 1 #Base Value
+	}
+	if = { #Has Civil Engineer
+		limit = {
+			gaudi_has_civil_engineer_trigger = yes
+		}
+		change_variable = {
+			name = gaudi_monthly_mechanical_engineering_progress_var
+			add = 1
+		}
+	}
+	if = { #Experience of the Engineer divided by 100
+		limit = {
+			gaudi_has_civil_engineer_trigger = yes
+		}
+		if = {
+			limit = {
+				var:gaudi_engineer_var.var:gaudi_mechanical_engineer_experience < 300
+			}
+			set_local_variable = {
+				name = engineer_experience_add
+				value = var:gaudi_engineer_var.var:gaudi_mechanical_engineer_experience
+			}
+			change_local_variable = {
+				name = engineer_experience_add
+				divide = 300
+			}
+			change_variable = {
+				name = gaudi_monthly_mechanical_engineering_progress_var
+				add = local_var:engineer_experience_add
+			}
+		}
+		else = {
+			change_variable = {
+				name = gaudi_monthly_mechanical_engineering_progress_var
+				add = 1
+			}
+		}
+	}
+	if = { #Engineer has Civil Engineer Trait
+		limit = {
+			gaudi_has_mechanical_engineer_trigger = yes
+			var:gaudi_engineer_var = {
+				has_trait = gaudi_mechanical_engineer
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_mechanical_engineering_progress_var
+			add = 1
+		}
+	}
+	if = { #Engineer has Meticulous Trait
+		limit = {
+			gaudi_has_engineer = yes
+			var:gaudi_engineer_var = {
+				has_trait = meticulous
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_mechanical_engineering_progress_var
+			add = 0.1
+		}
+	}
+	if = { #Engineer has Persistent Trait
+		limit = {
+			gaudi_has_engineer = yes
+			var:gaudi_engineer_var = {
+				has_trait = persistent
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_mechanical_engineering_progress_var
+			add = 0.1
+		}
+	}
+	if = { #Engineer has Innovative Trait
+		limit = {
+			gaudi_has_engineer = yes
+			var:gaudi_engineer_var = {
+				has_trait = innovative
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_mechanical_engineering_progress_var
+			add = 0.1
+		}
+	}
+	if = { #Engineer has Surveyor Trait
+		limit = {
+			gaudi_has_engineer = yes
+			var:gaudi_engineer_var = {
+				has_trait = surveyor
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_mechanical_engineering_progress_var
 			add = 0.1
 		}
 	}
