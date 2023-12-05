@@ -13781,7 +13781,7 @@ gaudi.1411 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
 
 	trigger = {
 	}
@@ -13844,7 +13844,7 @@ gaudi.1412 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
 
 	trigger = {
 	}
@@ -13883,19 +13883,16 @@ gaudi.1413 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/electrical_generation.dds"
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
 
 	trigger = {
 	}
 
 	immediate = {
-		var:gaudi_engineer_var = {
-			save_scope_as = gaudi_engineer_scope
-		}
 	}
 
 	option = {
-		name = gaudi.1413.g #We're finishing construction for now.
+		name = gaudi.1413.g #
 		default_option = yes
 		if = {
 			limit = {
@@ -13912,6 +13909,307 @@ gaudi.1413 = {
 			set_character_busy_and_immortal = no
 		}
 		remove_modifier = gaudi_building_telegraph_network_modifier
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1414: Universities connected via Telegraph
+
+gaudi.1414 = {
+	type = country_event
+
+	title = gaudi.1414.t
+	desc = gaudi.1414.d
+	flavor = gaudi.1414.f
+
+	placement = scope:gaudi_university_state_1
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_telegraphy_cable.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = gaudi_university_telegraph_var
+		}
+		any_scope_state = {
+			has_building = building_university
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_gaudi_telegraph_office
+			}
+			count = 2
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_university_telegraph_var
+		random_scope_state = {
+			limit = {
+				has_building = building_university
+				any_scope_building = {
+					is_building_type = building_railway
+					has_active_production_method = pm_gaudi_telegraph_office
+				}
+			}
+			save_scope_as = gaudi_university_state_1
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_university
+				any_scope_building = {
+					is_building_type = building_railway
+					has_active_production_method = pm_gaudi_telegraph_office
+				}
+				NOT = {
+					this = scope:gaudi_university_state_1
+				}
+			}
+			save_scope_as = gaudi_university_state_2
+		}
+	}
+
+	option = {
+		name = gaudi.1414.g #This will strengthen technical research.
+		default_option = yes
+		gaudi_electrical_engineering_small_add_technology = yes
+	}
+
+	option = {
+		name = gaudi.1414.h #This will strengthen nature research.
+		dubois_small_add_technology = yes
+	}
+
+	option = {
+		name = gaudi.1414.i #This will strengthen archaeological research.
+		lepsius_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1415: A Telegram to your Neigbour
+
+gaudi.1415 = {
+	type = country_event
+
+	title = gaudi.1415.t
+	desc = gaudi.1415.d
+	flavor = gaudi.1415.f
+
+	placement = scope:gaudi_our_telegraph_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_telegraphy_cable.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = gaudi_neighbour_telegram_var
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_gaudi_telegraph_office
+			}
+			any_neighbouring_state = {
+				any_scope_building = {
+					is_building_type = building_railway
+					has_active_production_method = pm_gaudi_telegraph_office
+				}
+				owner = {
+					NOT = {
+						this = ROOT
+					}
+					NOT = { 
+						has_war_with = ROOT 
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_neighbour_telegram_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_railway
+					has_active_production_method = pm_gaudi_telegraph_office
+				}
+			}
+			save_scope_as = gaudi_our_telegraph_state
+			set_variable = {
+				name = gaudi_telegram_sender_var
+				days = 20
+			}
+			random_neighbouring_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_railway
+						has_active_production_method = pm_gaudi_telegraph_office
+					}
+					owner = {
+						NOT = {
+							this = ROOT
+						}
+						NOT = { 
+							has_war_with = ROOT 
+						}
+					}
+				}
+				save_scope_as = gaudi_neigbour_telegraph_state
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1415.g #Send a friendly telegram to strengthen our relations.
+		default_option = yes
+		change_infamy = -1
+		
+		scope:gaudi_neigbour_telegraph_state = {
+			owner = {
+				trigger_event = {
+					id = gaudi.1416
+				}
+				change_relations = {
+					country = ROOT
+					value = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1415.h #Send him a joke telegram to annoy him.
+		default_option = yes
+		change_infamy = 1
+		
+		scope:gaudi_neigbour_telegraph_state = {
+			owner = {
+				trigger_event = {
+					id = gaudi.1417
+				}
+				change_relations = {
+					country = ROOT
+					value = -10
+				}
+				add_modifier = {
+					name = gaudi_mocked_by_telegram_modifier
+					years = 2
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1416: A Telegram from our Neigbour
+
+gaudi.1416 = {
+	type = country_event
+
+	title = gaudi.1416.t
+	desc = gaudi.1416.d
+	flavor = gaudi.1416.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_telegraphy_cable.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_neighbouring_state = {
+			limit = {
+				has_variable = gaudi_telegram_sender_var
+			}
+			owner = {
+				save_scope_as = gaudi_telegram_country
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1416.g #A Telegram? For me? We should send one, too!
+		default_option = yes
+		scope:gaudi_telegram_country = {
+			change_relations = {
+				country = ROOT
+				value = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1417: A Telegram from our Neigbour
+
+gaudi.1417 = {
+	type = country_event
+
+	title = gaudi.1416.t
+	desc = gaudi.1417.d
+	flavor = gaudi.1417.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_telegraphy_cable.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_neighbouring_state = {
+			limit = {
+				has_variable = gaudi_telegram_sender_var
+			}
+			owner = {
+				save_scope_as = gaudi_telegram_country
+			}
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = gaudi_ruler
+		}
+	}
+
+	option = {
+		name = gaudi.1417.g #Is this supposed to be a joke telegram?
+		default_option = yes
+		scope:gaudi_telegram_country = {
+			change_relations = {
+				country = ROOT
+				value = -5
+			}
+		}
 	}
 
 	after = {
