@@ -13208,6 +13208,75 @@ gaudi.1004 = {
 	}
 }
 
+#Gaudí 1005: Samuel Morse sends the first Telegram
+
+gaudi.1005 = {
+	type = country_event
+
+	title = gaudi.1005.t
+
+	desc = gaudi.1005.d
+
+	flavor = gaudi.1005.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	trigger = {
+		has_technology_researched = electric_telegraph
+		NOT = {
+			has_global_variable = gaudi_electric_telegraph_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = gaudi_electric_telegraph_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = gaudi_engineer_var
+				}
+			}
+			if = {
+				limit = {
+					c:USA ?= this
+					NOT = {
+						has_global_variable = gaudi_morse_created
+					}
+				}
+				create_morse_samuel_effect = yes
+			}
+			else = {
+				create_new_engineer_effect = yes
+				gaudi_set_new_engineer_as_engineer_effect = yes
+				var:gaudi_engineer_var = {
+					save_scope_as = gaudi_engineer_scope
+				}
+			}
+		}
+		var:gaudi_engineer_var = {
+			set_variable = gaudi_engineer_invented_electric_telegraph_var
+			save_scope_as = gaudi_engineer_scope
+		}
+		set_variable = gaudi_first_invented_electric_telegraph_var
+	}
+
+	option = {
+		name = gaudi.1005.g #What hath God wrought
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
 ###### Engineering Projects ######
 
 ### Civil Engineering ###
