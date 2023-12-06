@@ -4164,7 +4164,7 @@ je_gaudi_new_locomotives_project = {
 		remove_variable = gaudi_num_railway_buildings_var
 		remove_variable = gaudi_num_railway_buildings_with_modifiers_var
 		trigger_event = {
-			id = gaudi.1141
+			id = gaudi.1201
 			popup = yes
 		}
 	}
@@ -4196,6 +4196,188 @@ je_gaudi_new_locomotives_project = {
 	should_be_pinned_by_default = yes
 }
 
+je_gaudi_modernizing_industries_project = {
+	icon = "gfx/interface/icons/event_icons/machinists.dds"
+
+	scripted_button = gaudi_stop_engineering_project_button
+
+	group = je_group_gaudi_engineers
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
+			gaudi_mechanical_engineering_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = gaudi_mechanical_engineering_progress_var
+				add = var:gaudi_monthly_mechanical_engineering_progress_var
+			}
+			if = {
+				limit = { var:gaudi_mechanical_engineering_progress_var > gaudi_industries_progress_cost }
+				if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_throughput_add_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_throughput_add_modifier }
+						}
+						add_modifier = {
+							name = gaudi_building_throughput_add_modifier
+						}
+					}
+					change_variable = {
+						name = gaudi_mechanical_engineering_progress_var
+						subtract = gaudi_industries_progress_cost
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_production_mult_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_production_mult_modifier }
+						}
+						add_modifier = {
+							name = gaudi_building_production_mult_modifier
+						}
+					}
+					change_variable = {
+						name = gaudi_mechanical_engineering_progress_var
+						subtract = gaudi_industries_progress_cost
+					}
+				}
+				else = {
+					random_scope_building = {
+						limit = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_goods_input_mult_modifier }
+						}
+						add_modifier = {
+							name = gaudi_building_goods_input_mult_modifier
+						}
+					}
+					change_variable = {
+						name = gaudi_mechanical_engineering_progress_var
+						subtract = gaudi_industries_progress_cost
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				NOR = {
+					is_building_group = bg_whaling
+					is_building_group = bg_fishing
+					is_building_group = bg_service
+					is_building_group = bg_urban_facilities
+					is_building_group = bg_power
+					is_building_group = bg_government
+					is_building_group = bg_infrastructure
+					is_building_group = bg_military
+					is_building_group = bg_fishing
+				}
+			}
+			order_by = earnings
+			add_modifier = {
+				name = gaudi_engineer_focus_building
+			}
+			root = {
+				set_variable = {
+					name = gaudi_industrial_building_modernizing_var
+					value = prev
+				}
+			}
+		}
+		#Sets the Mechanical Engineering Progress at the beginning
+		set_variable = {
+			name = gaudi_mechanical_engineering_progress_var
+			value = 0
+		}
+		gaudi_mechanical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = gaudi_industrial_building_has_throughput_modifier_tt
+			any_scope_building = {
+				has_modifier = gaudi_engineer_focus_building
+				has_modifier = gaudi_building_throughput_add_modifier
+			}
+		}
+		custom_tooltip = {
+			text = gaudi_industrial_building_has_production_modifier_tt
+			any_scope_building = {
+				has_modifier = gaudi_engineer_focus_building
+				has_modifier = gaudi_building_production_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = gaudi_industrial_building_has_input_modifier_tt
+			any_scope_building = {
+				has_modifier = gaudi_engineer_focus_building
+				has_modifier = gaudi_building_goods_input_mult_modifier
+			}
+		}
+	}
+
+	on_complete = {
+		every_scope_building = {
+			limit = {
+				has_modifier = gaudi_engineer_focus_building
+			}
+			remove_modifier = gaudi_engineer_focus_building
+		}
+		trigger_event = {
+			id = gaudi.1211
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:gaudi_mechanical_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = gaudi_industries_progress_cost
+	}
+
+	invalid = {
+		has_variable = gaudi_stop_engineering_project_var
+	}
+
+	on_invalid = {
+		every_scope_building = {
+			limit = {
+				has_modifier = gaudi_engineer_focus_building
+			}
+			remove_modifier = gaudi_engineer_focus_building
+		}
+		remove_variable = gaudi_stop_engineering_project_var
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
 ###################
 
 ######ELECTRICAL ENGINEER PROJECTS######
@@ -4208,7 +4390,7 @@ je_gaudi_magnetic_observation = {
 	on_monthly_pulse = {
 		effect = {
 			change_global_variable = {
-				name = gaudi_magnetic_data
+				name = gaudi_total_magnetic_data
 				add = global_var:gaudi_magnetic_association_members
 			}
 		}
@@ -4242,7 +4424,7 @@ je_gaudi_magnetic_observation = {
 	}
 
 	current_value = {
-		value = global_var:gaudi_magnetic_data
+		value = global_var:gaudi_total_magnetic_data
 	}
 
 	goal_add_value = {
@@ -4621,7 +4803,10 @@ je_gaudi_transatlantic_cable = {
 	}
 
 	invalid = {
-		has_global_variable = gaudi_transatlantic_cable_var
+		OR = {
+			has_global_variable = gaudi_transatlantic_cable_var
+			has_technology_researched = radio
+		}
 	}
 
 	on_invalid = {
@@ -4644,7 +4829,7 @@ je_gaudi_transatlantic_radio = {
 	is_shown_when_inactive = {
 		OR = {
 			any_scope_state = {
-				state_region = s:STATE_MUNSTER
+				state_region = s:STATE_NEWFOUNDLAND
 			}
 			any_scope_state = {
 				state_region = s:STATE_WEST_COUNTRY
@@ -4653,10 +4838,10 @@ je_gaudi_transatlantic_radio = {
 	}
 
 	possible = {
-		has_technology_researched = electric_telegraph
+		has_technology_researched = radio
 		OR = {
 			any_scope_state = {
-				state_region = s:STATE_MUNSTER
+				state_region = s:STATE_NEWFOUNDLAND
 			}
 			any_scope_state = {
 				state_region = s:STATE_WEST_COUNTRY
@@ -4670,7 +4855,7 @@ je_gaudi_transatlantic_radio = {
 	complete = {
 		gaudi_has_electrical_engineer_trigger = yes
 		any_state = {
-			state_region = s:STATE_MUNSTER
+			state_region = s:STATE_NEWFOUNDLAND
 			any_scope_building = {
 				is_building_type = building_railway
 				has_active_production_method = pm_elgar_radio_stations
@@ -4690,7 +4875,7 @@ je_gaudi_transatlantic_radio = {
 			limit = {
 				OR = {
 					any_scope_state = {
-						state_region = s:STATE_MUNSTER
+						state_region = s:STATE_NEWFOUNDLAND
 					}
 					any_scope_state = {
 						state_region = s:STATE_WEST_COUNTRY
