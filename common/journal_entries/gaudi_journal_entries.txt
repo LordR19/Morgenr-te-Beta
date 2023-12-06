@@ -4436,7 +4436,7 @@ je_gaudi_telegraphy_network = {
 }
 
 je_gaudi_radio_network = {
-	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+	icon = "gfx/interface/icons/event_icons/radio.dds"
 
 	scripted_button = gaudi_stop_engineering_project_button
 
@@ -4534,6 +4534,186 @@ je_gaudi_radio_network = {
 	}
 
 	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_transatlantic_cable = {
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	group = je_group_gaudi_engineers
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_MUNSTER
+			}
+			any_scope_state = {
+				state_region = s:STATE_NEWFOUNDLAND
+			}
+		}
+	}
+
+	possible = {
+		has_technology_researched = electric_telegraph
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_MUNSTER
+			}
+			any_scope_state = {
+				state_region = s:STATE_NEWFOUNDLAND
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	complete = {
+		gaudi_has_electrical_engineer_trigger = yes
+		any_state = {
+			state_region = s:STATE_MUNSTER
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_gaudi_telegraph_office
+			}
+		}
+		any_state = {
+			state_region = s:STATE_NEWFOUNDLAND
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_gaudi_telegraph_office
+			}
+		}
+	}
+
+	on_complete = {
+		every_country = {
+			limit = {
+				OR = {
+					any_scope_state = {
+						state_region = s:STATE_MUNSTER
+					}
+					any_scope_state = {
+						state_region = s:STATE_NEWFOUNDLAND
+					}
+				}
+			}
+			trigger_event = {
+				id = gaudi.1420
+			}
+		}
+		set_global_variable = gaudi_transatlantic_cable_var
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	invalid = {
+		has_global_variable = gaudi_transatlantic_cable_var
+	}
+
+	on_invalid = {
+	}
+
+	progressbar = no
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_transatlantic_radio = {
+	icon = "gfx/interface/icons/event_icons/event_radio.dds"
+
+	group = je_group_gaudi_engineers
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_MUNSTER
+			}
+			any_scope_state = {
+				state_region = s:STATE_WEST_COUNTRY
+			}
+		}
+	}
+
+	possible = {
+		has_technology_researched = electric_telegraph
+		OR = {
+			any_scope_state = {
+				state_region = s:STATE_MUNSTER
+			}
+			any_scope_state = {
+				state_region = s:STATE_WEST_COUNTRY
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	complete = {
+		gaudi_has_electrical_engineer_trigger = yes
+		any_state = {
+			state_region = s:STATE_MUNSTER
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_elgar_radio_stations
+			}
+		}
+		any_state = {
+			state_region = s:STATE_WEST_COUNTRY
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_elgar_radio_stations
+			}
+		}
+	}
+
+	on_complete = {
+		every_country = {
+			limit = {
+				OR = {
+					any_scope_state = {
+						state_region = s:STATE_MUNSTER
+					}
+					any_scope_state = {
+						state_region = s:STATE_WEST_COUNTRY
+					}
+				}
+			}
+			trigger_event = {
+				id = gaudi.1430
+			}
+		}
+		set_global_variable = gaudi_transatlantic_radio_var
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	invalid = {
+		has_global_variable = gaudi_transatlantic_radio_var
+	}
+
+	on_invalid = {
+	}
+
+	progressbar = no
 
 	weight = 30
 
