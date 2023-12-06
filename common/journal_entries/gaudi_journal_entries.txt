@@ -4084,6 +4084,12 @@ je_gaudi_telegraphy_network = {
 				random_scope_state = {
 					limit = {
 						has_building = building_railway
+						NOT = {
+							any_scope_building = {
+								is_building_type = building_railway
+								has_active_production_method = pm_gaudi_telegraph_office
+							}
+						}
 						OR = {
 							any_neighbouring_state = {
 								any_scope_building = {
@@ -4157,6 +4163,112 @@ je_gaudi_telegraphy_network = {
 	on_invalid = {
 		trigger_event = {
 			id = gaudi.1412
+			popup = yes
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+je_gaudi_radio_network = {
+	icon = "gfx/interface/icons/event_icons/event_telegraph.dds"
+
+	scripted_button = gaudi_stop_engineering_project_button
+
+	group = je_group_gaudi_engineers
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
+			gaudi_electrical_engineering_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = gaudi_electrical_engineering_progress_var
+				add = var:gaudi_monthly_electrical_engineering_progress_var
+			}
+			if = {
+				#If the Progress reaches the cost, the PM will be unlocked in a state
+				limit = {
+					var:gaudi_electrical_engineering_progress_var >= 12
+				}
+				#The state with the next available telegraph office will be chosen
+				random_scope_state = {
+					limit = {
+						has_building = building_railway
+						NOT = {
+							any_scope_building = {
+								is_building_type = building_railway
+								has_active_production_method = pm_elgar_radio_stations
+							}
+						}
+					}
+					activate_production_method = {
+						building_type = building_railway
+						production_method = pm_elgar_radio_stations
+					}
+				}
+				#The cost will be subtracted from the current progress
+				change_variable = {
+					name = gaudi_electrical_engineering_progress_var
+					subtract = 12
+				}
+			}
+		}
+
+		events = {
+			#gaudi.1424 #Gaudí 1424: The News
+			#gaudi.1425 #Gaudí 1425: A disturbing Radio Play
+			#gaudi.1426 #Gaudí 1426: Agitation
+			#gaudi.1427 #Gaudí 1427: First Radio License
+		}
+	}
+
+	immediate = {
+		#Sets the Electrical Engineering Progress at the beginning
+		set_variable = {
+			name = gaudi_electrical_engineering_progress_var
+			value = 0
+		}
+		gaudi_electrical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
+	}
+
+	complete = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_elgar_radio_stations
+			}
+			percent >= 1
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = gaudi.1423
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a PM will be unlocked.
+		value = var:gaudi_electrical_engineering_progress_var
+	}
+
+	goal_add_value = {
+		value = 12
+	}
+
+	invalid = {
+		has_variable = gaudi_stop_engineering_project_var
+	}
+
+	on_invalid = {
+		trigger_event = {
+			id = gaudi.1422
 			popup = yes
 		}
 	}
