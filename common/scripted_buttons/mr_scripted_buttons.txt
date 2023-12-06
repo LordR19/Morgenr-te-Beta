@@ -331,7 +331,37 @@ mr_mountain_expedition_button = {
 	name = "mr_mountain_expedition_button"
 	desc = "mr_mountain_expedition_button_desc"
 
-	visible = { always = yes }
+	visible = { 
+		OR = {
+			is_player = yes
+			AND = {
+				any_scope_character = {
+					has_role = general
+					is_busy = no
+					OR = {
+						has_trait = dubois_mountaineer
+						has_trait = explorer
+						has_trait = mountain_commander
+						has_trait = surveyor
+					}
+				}
+				has_technology_researched = nationalism
+				has_technology_researched = prospecting
+				NOR = {
+					has_modifier = dubois_summit_level_1_modifier
+					has_modifier = dubois_summit_level_2_modifier
+					has_modifier = dubois_summit_level_3_modifier
+					has_modifier = dubois_summit_level_4_modifier
+					has_modifier = dubois_summit_level_5_modifier
+					has_modifier = dubois_summit_level_6_modifier
+					has_modifier = dubois_mountaineering_disaster_modifier
+					has_modifier = dubois_mountaineering_disappointment_modifier
+					has_journal_entry = je_dubois_mountain_expedition
+					has_variable = dubois_current_mountain_expedition_var
+				}
+			}
+		}
+	}
 
 	possible = {
 		any_scope_character = {
@@ -346,16 +376,6 @@ mr_mountain_expedition_button = {
 		}
 		has_technology_researched = nationalism
 		has_technology_researched = prospecting
-		OR = {
-			dubois_has_unconquered_summit = yes
-			any_country = {
-				dubois_has_unconquered_summit = yes
-				has_diplomatic_pact = {
-					who = ROOT
-					type = mountaineering_license
-				}
-			}
-		}
 		NOR = {
 			has_modifier = dubois_summit_level_1_modifier
 			has_modifier = dubois_summit_level_2_modifier
@@ -367,6 +387,16 @@ mr_mountain_expedition_button = {
 			has_modifier = dubois_mountaineering_disappointment_modifier
 			has_journal_entry = je_dubois_mountain_expedition
 			has_variable = dubois_current_mountain_expedition_var
+		}
+		OR = {
+			dubois_has_unconquered_summit = yes
+			any_country = {
+				dubois_has_unconquered_summit = yes
+				has_diplomatic_pact = {
+					who = ROOT
+					type = mountaineering_license
+				}
+			}
 		}
 	}
 
