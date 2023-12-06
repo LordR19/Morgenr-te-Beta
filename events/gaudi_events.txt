@@ -14292,7 +14292,7 @@ gaudi.1422 = {
 	flavor = gaudi.1422.f
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_marconi.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_marconi.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -14331,7 +14331,7 @@ gaudi.1423 = {
 	flavor = gaudi.1423.f
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_marconi.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_marconi.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -14363,6 +14363,214 @@ gaudi.1423 = {
 			set_character_busy_and_immortal = no
 		}
 		remove_modifier = gaudi_building_radio_network_modifier
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1424: First Radio Program
+
+gaudi.1424 = {
+	type = country_event
+
+	placement = scope:gaudi_radio_state
+
+	title = gaudi.1424.t
+	desc = gaudi.1424.d
+	flavor = gaudi.1424.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_radio.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/radio.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = gaudi_first_radio_program_var
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_elgar_radio_stations
+			}
+			any_scope_building = {
+				is_building_type = building_electrics_industry
+			}
+			percent >= 0.2
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_first_radio_program_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_railway
+					has_active_production_method = pm_elgar_radio_stations
+				}
+				any_scope_building = {
+					is_building_type = building_electrics_industry
+				}
+			}
+			save_scope_as = gaudi_radio_state
+		}
+	}
+
+	option = {
+		name = gaudi.1424.g #A radio in every house?
+		default_option = yes
+		scope:gaudi_radio_state = {
+			add_modifier = {
+				name = gaudi_radio_mania_modifier
+				years = 10
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1425: Radio Agitation
+
+gaudi.1425 = {
+	type = country_event
+
+	title = gaudi.1425.t
+	desc = gaudi.1425.d
+	flavor = gaudi.1425.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_opposition_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/radio.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = gaudi_radio_agitation_var
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_elgar_radio_stations
+			}
+			percent >= 0.6
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_radio_agitation_var
+		random_interest_group = {
+			limit = {
+    			is_in_government = no
+	        }
+			save_scope_as = gaudi_opposition_ig
+			leader = {
+				save_scope_as = gaudi_opposition_leader
+			}
+		}
+		random_scope_character = {
+			limit = {
+				is_ruler = yes
+			}
+			save_scope_as = gaudi_ruler
+		}
+	}
+
+	option = {
+		name = gaudi.1425.g #Ban this radio station!
+		default_option = yes
+		add_modifier = {
+			name = gaudi_state_intervention_in_broadcasting_modifier
+			years = 5
+		}
+		scope:gaudi_opposition_ig = {
+			add_modifier = {
+				name = gaudi_radio_station_banned_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1425.h #This is a free country, so you can broadcast freely.
+		scope:gaudi_opposition_ig = {
+			add_modifier = {
+				name = gaudi_radio_agitation_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1426: A disturbing Radio Play
+
+gaudi.1426 = {
+	type = country_event
+
+	placement = scope:gaudi_radio_state
+
+	title = gaudi.1426.t
+	desc = gaudi.1426.d
+	flavor = gaudi.1426.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_war_of_the_worlds.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/radio.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = gaudi_war_of_the_worlds_var
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_elgar_radio_stations
+			}
+			percent >= 0.85
+		}
+	}
+
+	immediate = {
+		set_variable = gaudi_war_of_the_worlds_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_railway
+					has_active_production_method = pm_elgar_radio_stations
+				}
+			}
+			save_scope_as = gaudi_radio_state
+		}
+	}
+
+	option = {
+		name = gaudi.1426.g #An alien invasion? And people believed that?
+		default_option = yes
+		scope:gaudi_radio_state = {
+			add_devastation = 5
+		}
+	}
+
+	option = {
+		name = gaudi.1426.h #Good thing we were prepared!
+		trigger = {
+			has_variable = verrier_prepaired_against_martian_thread_var
+		}
 	}
 
 	after = {
