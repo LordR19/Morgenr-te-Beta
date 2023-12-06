@@ -4164,7 +4164,7 @@ je_gaudi_new_locomotives_project = {
 		remove_variable = gaudi_num_railway_buildings_var
 		remove_variable = gaudi_num_railway_buildings_with_modifiers_var
 		trigger_event = {
-			id = gaudi.1141
+			id = gaudi.1201
 			popup = yes
 		}
 	}
@@ -4208,68 +4208,120 @@ je_gaudi_modernizing_industries_project = {
 			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
 			gaudi_mechanical_engineering_progress = yes
 			#Adds the monthly progress to the variable
+			change_variable = {
+				name = gaudi_mechanical_engineering_progress_var
+				add = var:gaudi_monthly_mechanical_engineering_progress_var
+			}
 			if = {
-				limit = { NOT = { var:gaudi_mechanical_engineering_progress_var > gaudi_locomotives_progress_cost } }
-				change_variable = {
-					name = gaudi_mechanical_engineering_progress_var
-					add = var:gaudi_monthly_mechanical_engineering_progress_var
+				limit = { var:gaudi_mechanical_engineering_progress_var > gaudi_industries_progress_cost }
+				if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_throughput_add_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_throughput_add_modifier }
+						}
+						add_modifier = {
+							name = gaudi_building_throughput_add_modifier
+						}
+					}
+					change_variable = {
+						name = gaudi_mechanical_engineering_progress_var
+						subtract = gaudi_industries_progress_cost
+					}
 				}
-			}
-			if = {
-				limit = { has_variable = gaudi_coal_mine_chosen_var }
-				gaudi_industries_add_modifier_effect = { building_type = building_coal_mine }
-			}
-			else_if = {
-				limit = { has_variable = gaudi_iron_mine_chosen_var }
-				gaudi_industries_add_modifier_effect = { building_type = building_iron_mine }
-			}
-			else_if = {
-				limit = { has_variable = gaudi_lead_mine_chosen_var }
-				gaudi_industries_add_modifier_effect = { building_type = building_lead_mine }
-			}
-			set_variable = {
-				name = gaudi_num_railway_buildings_var
-				value = gaudi_num_railway_buildings_value
-			}
-			set_variable = {
-				name = gaudi_num_states_modernized_railway_var
-				value = gaudi_states_with_modernized_railways_value
+				else_if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_production_mult_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_production_mult_modifier }
+						}
+						add_modifier = {
+							name = gaudi_building_production_mult_modifier
+						}
+					}
+					change_variable = {
+						name = gaudi_mechanical_engineering_progress_var
+						subtract = gaudi_industries_progress_cost
+					}
+				}
+				else = {
+					random_scope_building = {
+						limit = {
+							has_modifier = gaudi_engineer_focus_building
+							NOT = { has_modifier = gaudi_building_goods_input_mult_modifier }
+						}
+						add_modifier = {
+							name = gaudi_building_goods_input_mult_modifier
+						}
+					}
+					change_variable = {
+						name = gaudi_mechanical_engineering_progress_var
+						subtract = gaudi_industries_progress_cost
+					}
+				}
 			}
 		}
 	}
 
 	immediate = {
-		gaudi_random_building_type_picker_effect = yes
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				NOR = {
+					is_building_group = bg_whaling
+					is_building_group = bg_fishing
+					is_building_group = bg_service
+					is_building_group = bg_urban_facilities
+					is_building_group = bg_power
+					is_building_group = bg_government
+					is_building_group = bg_infrastructure
+					is_building_group = bg_military
+					is_building_group = bg_fishing
+				}
+			}
+			order_by = earnings
+			add_modifier = {
+				name = gaudi_engineer_focus_building
+			}
+		}
 		#Sets the Mechanical Engineering Progress at the beginning
 		set_variable = {
 			name = gaudi_mechanical_engineering_progress_var
 			value = 0
 		}
-		#Sets a variable for the number of buildings
-		set_variable = {
-			name = gaudi_num_buildings_var
-			value = gaudi_num_buildings_value
-		}
-		#Sets a variable for the number of buildings with the modifiers
-		set_variable = {
-			name = gaudi_num_buildings_with_modifiers_var
-			value = gaudi_num_buildings_with_modifiers_value #See Gaudi Script Values for the calculation
-		}
 		gaudi_mechanical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
 	}
 
 	complete = {
-		custom_tooltip = { #All railways need to have the modifiers to end this journal entry
-			text = gaudi_railways_with_new_locomotives_tt
-			var:gaudi_num_buildings_with_modifiers_var = var:gaudi_num_buildings_var
+		any_scope_building = {
+			has_modifier = gaudi_engineer_focus_building
+			has_modifier = gaudi_building_throughput_add_modifier
+			has_modifier = gaudi_building_production_mult_modifier
+			has_modifier = gaudi_building_goods_input_mult_modifier
 		}
 	}
 
 	on_complete = {
-		remove_variable = gaudi_num_buildings_var
-		remove_variable = gaudi_num_buildings_with_modifiers_var
+		every_scope_building = {
+			limit = {
+				has_modifier = gaudi_engineer_focus_building
+			}
+			remove_modifier = gaudi_engineer_focus_building
+		}
 		trigger_event = {
-			id = gaudi.1141
+			id = gaudi.1211
 			popup = yes
 		}
 	}
@@ -4281,7 +4333,7 @@ je_gaudi_modernizing_industries_project = {
 
 	goal_add_value = {
 		#You can change this in gaudi_script_values
-		value = gaudi_locomotives_progress_cost
+		value = gaudi_industries_progress_cost
 	}
 
 	invalid = {
@@ -4289,8 +4341,12 @@ je_gaudi_modernizing_industries_project = {
 	}
 
 	on_invalid = {
-		remove_variable = gaudi_num_buildings_var
-		remove_variable = gaudi_num_buildings_with_modifiers_var
+		every_scope_building = {
+			limit = {
+				has_modifier = gaudi_engineer_focus_building
+			}
+			remove_modifier = gaudi_engineer_focus_building
+		}
 		remove_variable = gaudi_stop_engineering_project_var
 	}
 
