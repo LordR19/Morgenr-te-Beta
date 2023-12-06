@@ -13894,6 +13894,7 @@ gaudi.1413 = {
 	option = {
 		name = gaudi.1413.g #
 		default_option = yes
+		gaudi_electrical_engineering_medium_add_technology = yes
 		if = {
 			limit = {
 				NOT = {
@@ -14210,6 +14211,158 @@ gaudi.1417 = {
 				value = -5
 			}
 		}
+	}
+
+	after = {
+	}
+}
+
+######WIRELESS TRANSMITION######
+
+#Gaudí 1421: Radio Station Network
+
+gaudi.1421 = {
+	type = country_event
+
+	title = gaudi.1421.t
+	desc = gaudi.1421.d
+	flavor = gaudi.1421.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/radio.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1421.g #A new era of communication begins.
+		default_option = yes
+		scope:gaudi_engineer_scope = {
+			set_character_busy_and_immortal = yes
+		}
+		if = {
+			limit = {
+				NOT = {
+					any_scope_state = {
+						is_capital = yes
+						any_scope_building = {
+							is_building_type = building_railway
+							has_active_production_method = pm_elgar_radio_stations
+						}
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_railway
+					production_method = pm_elgar_radio_stations
+				}
+			}
+		}
+		add_journal_entry = {
+			type = je_gaudi_radio_network
+		}
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1422: Radio Station Network stopped
+
+gaudi.1422 = {
+	type = country_event
+
+	title = gaudi.1422.t
+	desc = gaudi.1422.d
+	flavor = gaudi.1422.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_marconi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/radio.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {
+		name = gaudi.1412.g #We're finishing construction for now.
+		default_option = yes
+		scope:gaudi_engineer_scope = {
+			set_character_busy_and_immortal = no
+		}
+		remove_modifier = gaudi_building_radio_network_modifier
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1423: Radio Station Network finished
+
+gaudi.1423 = {
+	type = country_event
+
+	title = gaudi.1423.t
+	desc = gaudi.1423.d
+	flavor = gaudi.1423.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_marconi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/radio.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = gaudi.1423.g #
+		default_option = yes
+		gaudi_electrical_engineering_medium_add_technology = yes
+		if = {
+			limit = {
+				NOT = {
+					has_modifier = gaudi_radio_network_modifier
+				}
+			}
+			add_modifier = {
+				name = gaudi_radio_network_modifier
+				years = 15
+			}
+		}
+		scope:gaudi_engineer_scope = {
+			set_character_busy_and_immortal = no
+		}
+		remove_modifier = gaudi_building_radio_network_modifier
 	}
 
 	after = {
