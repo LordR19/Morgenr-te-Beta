@@ -3935,6 +3935,259 @@ je_gaudi_mechanical_research_project = {
 	should_be_pinned_by_default = yes
 }
 
+je_gaudi_new_locomotives_project = {
+	icon = "gfx/interface/icons/event_icons/locomotives.dds"
+
+	scripted_button = gaudi_stop_engineering_project_button
+
+	group = je_group_gaudi_engineers
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
+			gaudi_mechanical_engineering_progress = yes
+			#Adds the monthly progress to the variable
+			if = {
+				limit = { NOT = { var:gaudi_mechanical_engineering_progress_var > gaudi_locomotives_progress_cost } }
+				change_variable = {
+					name = gaudi_mechanical_engineering_progress_var
+					add = var:gaudi_monthly_mechanical_engineering_progress_var
+				}
+			}
+			#If the Progress reaches the cost, the modifier will be added to a state
+			else = {
+				if = {
+					limit = {
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+							NOT = { has_modifier = gaudi_locomotive_tier_1_modifier }
+						}
+					}
+					#The railways with the most building levels will be chosen
+					ordered_scope_building = {
+						limit = {
+							NOT = { has_modifier = gaudi_locomotive_tier_1_modifier }
+							is_building_type = building_railway
+							level > 0
+						}
+						order_by = level
+						add_modifier = {
+							name = gaudi_locomotive_tier_1_modifier
+						}
+					}
+					if = {
+						limit = {
+							any_scope_building = {
+								count = all
+								is_building_type = building_railway
+								level > 0
+								NOT = { has_modifier = gaudi_locomotive_tier_1_modifier }
+							}
+						}
+						#The cost will be subtracted from the current progress
+						change_variable = {
+							name = gaudi_mechanical_engineering_progress_var
+							subtract = gaudi_locomotives_progress_cost
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+							NOT = { has_modifier = gaudi_locomotive_tier_2_modifier }
+						}
+					}
+					#The railways with the most building levels will be chosen
+					ordered_scope_building = {
+						limit = {
+							NOT = { has_modifier = gaudi_locomotive_tier_2_modifier }
+							is_building_type = building_railway
+							level > 0
+						}
+						order_by = level
+						add_modifier = {
+							name = gaudi_locomotive_tier_2_modifier
+						}
+					}
+					if = {
+						limit = {
+							any_scope_building = {
+								count = all
+								is_building_type = building_railway
+								level > 0
+								NOT = { has_modifier = gaudi_locomotive_tier_2_modifier }
+							}
+						}
+						#The cost will be subtracted from the current progress
+						change_variable = {
+							name = gaudi_mechanical_engineering_progress_var
+							subtract = gaudi_locomotives_progress_cost
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+							NOT = { has_modifier = gaudi_locomotive_tier_3_modifier }
+						}
+					}
+					#The railways with the most building levels will be chosen
+					ordered_scope_building = {
+						limit = {
+							NOT = { has_modifier = gaudi_locomotive_tier_3_modifier }
+							is_building_type = building_railway
+							level > 0
+						}
+						order_by = level
+						add_modifier = {
+							name = gaudi_locomotive_tier_3_modifier
+						}
+					}
+					if = {
+						limit = {
+							any_scope_building = {
+								count = all
+								is_building_type = building_railway
+								level > 0
+								NOT = { has_modifier = gaudi_locomotive_tier_3_modifier }
+							}
+						}
+						#The cost will be subtracted from the current progress
+						change_variable = {
+							name = gaudi_mechanical_engineering_progress_var
+							subtract = gaudi_locomotives_progress_cost
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+							NOT = { has_modifier = gaudi_locomotive_tier_4_modifier }
+						}
+					}
+					#The railways with the most building levels will be chosen
+					ordered_scope_building = {
+						limit = {
+							NOT = { has_modifier = gaudi_locomotive_tier_4_modifier }
+							is_building_type = building_railway
+							level > 0
+						}
+						order_by = level
+						add_modifier = {
+							name = gaudi_locomotive_tier_4_modifier
+						}
+					}
+					if = {
+						limit = {
+							any_scope_building = {
+								count = all
+								is_building_type = building_railway
+								level > 0
+								NOT = { has_modifier = gaudi_locomotive_tier_4_modifier }
+							}
+						}
+						#The cost will be subtracted from the current progress
+						change_variable = {
+							name = gaudi_mechanical_engineering_progress_var
+							subtract = gaudi_locomotives_progress_cost
+						}
+					}
+				}
+				else = {
+					#The railways with the most building levels will be chosen
+					ordered_scope_building = {
+						limit = {
+							NOT = { has_modifier = gaudi_locomotive_tier_5_modifier }
+							is_building_type = building_railway
+							level > 0
+						}
+						order_by = level
+						add_modifier = {
+							name = gaudi_locomotive_tier_5_modifier
+						}
+					}
+				}
+			}
+			set_variable = {
+				name = gaudi_num_railway_buildings_var
+				value = gaudi_num_railway_buildings_value
+			}
+			set_variable = {
+				name = gaudi_num_states_modernized_railway_var
+				value = gaudi_states_with_modernized_railways_value
+			}
+		}
+	}
+
+	immediate = {
+		#Sets the Mechanical Engineering Progress at the beginning
+		set_variable = {
+			name = gaudi_mechanical_engineering_progress_var
+			value = 0
+		}
+		#Sets a variable for the number of buildings
+		set_variable = {
+			name = gaudi_num_railway_buildings_var
+			value = gaudi_num_railway_buildings_value
+		}
+		#Sets a variable for the number of buildings with the modifiers
+		set_variable = {
+			name = gaudi_num_railway_buildings_with_modifiers_var
+			value = gaudi_num_railway_buildings_with_modifiers_value #See Gaudi Script Values for the calculation
+		}
+		gaudi_mechanical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = { #All railways need to have the modifiers to end this journal entry
+			text = gaudi_states_with_modernized_railway_tt
+			var:gaudi_num_railway_buildings_with_modifiers_var = var:gaudi_num_railway_buildings_var
+		}
+	}
+
+	on_complete = {
+		remove_variable = gaudi_num_railway_buildings_var
+		remove_variable = gaudi_num_railway_buildings_with_modifiers_var
+		trigger_event = {
+			id = gaudi.1141
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:gaudi_mechanical_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = gaudi_locomotives_progress_cost
+	}
+
+	invalid = {
+		has_variable = gaudi_stop_engineering_project_var
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_num_railway_buildings_var
+		remove_variable = gaudi_num_railway_buildings_with_modifiers_var
+		remove_variable = gaudi_stop_engineering_project_var
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
 ###################
 
 ######ELECTRICAL ENGINEER PROJECTS######
