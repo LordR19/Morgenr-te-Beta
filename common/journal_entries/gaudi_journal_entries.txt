@@ -4196,6 +4196,111 @@ je_gaudi_new_locomotives_project = {
 	should_be_pinned_by_default = yes
 }
 
+je_gaudi_modernizing_industries_project = {
+	icon = "gfx/interface/icons/event_icons/locomotives.dds"
+
+	scripted_button = gaudi_stop_engineering_project_button
+
+	group = je_group_gaudi_engineers
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see gaudi_scripted_effects for calculation)
+			gaudi_mechanical_engineering_progress = yes
+			#Adds the monthly progress to the variable
+			if = {
+				limit = { NOT = { var:gaudi_mechanical_engineering_progress_var > gaudi_locomotives_progress_cost } }
+				change_variable = {
+					name = gaudi_mechanical_engineering_progress_var
+					add = var:gaudi_monthly_mechanical_engineering_progress_var
+				}
+			}
+			if = {
+				limit = { has_variable = gaudi_coal_mine_chosen_var }
+				gaudi_industries_add_modifier_effect = { building_type = building_coal_mine }
+			}
+			else_if = {
+				limit = { has_variable = gaudi_iron_mine_chosen_var }
+				gaudi_industries_add_modifier_effect = { building_type = building_iron_mine }
+			}
+			else_if = {
+				limit = { has_variable = gaudi_lead_mine_chosen_var }
+				gaudi_industries_add_modifier_effect = { building_type = building_lead_mine }
+			}
+			set_variable = {
+				name = gaudi_num_railway_buildings_var
+				value = gaudi_num_railway_buildings_value
+			}
+			set_variable = {
+				name = gaudi_num_states_modernized_railway_var
+				value = gaudi_states_with_modernized_railways_value
+			}
+		}
+	}
+
+	immediate = {
+		gaudi_random_building_type_picker_effect = yes
+		#Sets the Mechanical Engineering Progress at the beginning
+		set_variable = {
+			name = gaudi_mechanical_engineering_progress_var
+			value = 0
+		}
+		#Sets a variable for the number of buildings
+		set_variable = {
+			name = gaudi_num_buildings_var
+			value = gaudi_num_buildings_value
+		}
+		#Sets a variable for the number of buildings with the modifiers
+		set_variable = {
+			name = gaudi_num_buildings_with_modifiers_var
+			value = gaudi_num_buildings_with_modifiers_value #See Gaudi Script Values for the calculation
+		}
+		gaudi_mechanical_engineering_progress = yes #Determines how much Engineering Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = { #All railways need to have the modifiers to end this journal entry
+			text = gaudi_railways_with_new_locomotives_tt
+			var:gaudi_num_buildings_with_modifiers_var = var:gaudi_num_buildings_var
+		}
+	}
+
+	on_complete = {
+		remove_variable = gaudi_num_buildings_var
+		remove_variable = gaudi_num_buildings_with_modifiers_var
+		trigger_event = {
+			id = gaudi.1141
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the Engineering Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:gaudi_mechanical_engineering_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in gaudi_script_values
+		value = gaudi_locomotives_progress_cost
+	}
+
+	invalid = {
+		has_variable = gaudi_stop_engineering_project_var
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_num_buildings_var
+		remove_variable = gaudi_num_buildings_with_modifiers_var
+		remove_variable = gaudi_stop_engineering_project_var
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
 ###################
 
 ######ELECTRICAL ENGINEER PROJECTS######
