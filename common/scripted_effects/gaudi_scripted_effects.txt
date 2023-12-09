@@ -2982,3 +2982,127 @@ gaudi_electrical_engineering_progress = {
 		}
 	}
 }
+
+#This Scripted Effect calculates the Aeronautical Engineering Progress
+gaudi_aeronautical_engineering_progress = {
+	set_variable = {
+		name = gaudi_monthly_aeronautical_engineering_progress_var
+		value = 1 #Base Value
+	}
+	if = { #Has Aeronautical Engineer
+		limit = {
+			gaudi_has_aeronautical_engineer_trigger = yes
+		}
+		change_variable = {
+			name = gaudi_monthly_aeronautical_engineering_progress_var
+			add = 1
+		}
+	}
+	if = { #Experience of the Engineer divided by 100
+		limit = {
+			gaudi_has_aeronautical_engineer_trigger = yes
+		}
+		if = {
+			limit = {
+				var:gaudi_engineer_var.var:gaudi_aeronautical_engineer_experience < 300
+			}
+			set_local_variable = {
+				name = engineer_experience_add
+				value = var:gaudi_engineer_var.var:gaudi_aeronautical_engineer_experience
+			}
+			change_local_variable = {
+				name = engineer_experience_add
+				divide = 300
+			}
+			change_variable = {
+				name = gaudi_monthly_aeronautical_engineering_progress_var
+				add = local_var:engineer_experience_add
+			}
+		}
+		else = {
+			change_variable = {
+				name = gaudi_monthly_aeronautical_engineering_progress_var
+				add = 1
+			}
+		}
+	}
+	if = { #Engineer has Aeronautical Engineer Trait
+		limit = {
+			gaudi_has_aeronautical_engineer_trigger = yes
+			var:gaudi_engineer_var = {
+				has_trait = gaudi_aeronautical_engineer
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_aeronautical_engineering_progress_var
+			add = 1
+		}
+	}
+	if = { #Engineer has Meticulous Trait
+		limit = {
+			gaudi_has_engineer = yes
+			var:gaudi_engineer_var = {
+				has_trait = meticulous
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_aeronautical_engineering_progress_var
+			add = 0.1
+		}
+	}
+	if = { #Engineer has Persistent Trait
+		limit = {
+			gaudi_has_engineer = yes
+			var:gaudi_engineer_var = {
+				has_trait = persistent
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_aeronautical_engineering_progress_var
+			add = 0.1
+		}
+	}
+	if = { #Engineer has Innovative Trait
+		limit = {
+			gaudi_has_engineer = yes
+			var:gaudi_engineer_var = {
+				has_trait = innovative
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_aeronautical_engineering_progress_var
+			add = 0.1
+		}
+	}
+	if = { #Engineer has Balloonist Trait
+		limit = {
+			gaudi_has_engineer = yes
+			var:gaudi_engineer_var = {
+				OR = {
+					has_trait = curtiss_balloonist
+					has_trait = curtiss_balloonist_experienced
+					has_trait = curtiss_balloonist_famous
+				}
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_aeronautical_engineering_progress_var
+			add = 0.2
+		}
+	}
+	if = { #Engineer has Pilot Trait
+		limit = {
+			gaudi_has_engineer = yes
+			var:gaudi_engineer_var = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+			}
+		}
+		change_variable = {
+			name = gaudi_monthly_aeronautical_engineering_progress_var
+			add = 0.2
+		}
+	}
+}
