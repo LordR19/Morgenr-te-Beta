@@ -13861,6 +13861,69 @@ gaudi.1301 = {
 	}
 }
 
+#Gaudí 1311: New Tank developed
+
+gaudi.1311 = {
+	type = country_event
+
+	title = gaudi.1311.t
+	desc = gaudi.1311.d
+	flavor = gaudi.1311.f
+
+	event_image = { #Chassot
+		trigger = {
+			var:gaudi_military_engineer_advanced_tanks = 1
+		}
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_military_chassepot_rifle.dds"
+	}
+	event_image = { #M1918
+	trigger = {
+		var:gaudi_military_engineer_advanced_tanks = 2
+	}
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_military_m1918.dds"
+	}
+	event_image = { #Thompson M1928
+	trigger = {
+		var:gaudi_military_engineer_advanced_tanks > 2
+	}
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_military_tommy.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/paved_roads.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = gaudi_military_engineer_advanced_tanks } }
+			set_variable = {
+				name = gaudi_military_engineer_advanced_tanks
+				value = 1
+			}
+		}
+		else = {
+			change_variable = {
+				name = gaudi_military_engineer_advanced_tanks
+				add = 1
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1311.g #A wonder of technology!
+		default_option = yes
+
+		custom_tooltip = gaudi_new_tank_mobilization_option_tt
+		gaudi_military_engineering_medium_add_technology = yes
+		military_engineer_experience_gain_effect = { AMOUNT = 25 }
+	}
+	after = {
+	}
+}
+
 ##############################################################################################################
 
 ### Electrical Engineering ###
