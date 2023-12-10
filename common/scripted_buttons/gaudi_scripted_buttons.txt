@@ -836,3 +836,42 @@ gaudi_aeronautical_research_button = {
 		base = 10
 	}
 }
+
+######AIRPORT PROJECT######
+
+gaudi_airports_project_button = {
+	name = "gaudi_airports_project_button"
+	desc = "gaudi_airports_project_button_desc"
+
+	visible = {
+		gaudi_has_aeronautical_engineer_trigger = yes
+	}
+
+	possible = {
+		gaudi_has_active_engineer = yes
+		any_scope_building = {
+			is_building_type = building_airport
+			level > 0
+			NOR = {
+				has_modifier = gaudi_runway_expansion_mult_modifier
+				has_modifier = gaudi_state_of_the_art_planes_mult_modifier
+				has_modifier = gaudi_efficient_motors_modifier
+			}
+		}
+	}
+
+	effect = {
+		add_journal_entry = { type = je_gaudi_civil_airports_project }
+		add_modifier = {
+			name = gaudi_engineer_project_medium_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	ai_chance = {
+		base = 150
+	}
+}
