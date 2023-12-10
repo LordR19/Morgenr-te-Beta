@@ -126,14 +126,14 @@ gaudi_change_to_aeronautical_engineer_button = {
 
 #MR_CIVIL_ENGINEER_RESEARCH_BUTTON
 mr_civil_engineer_research_button = {
-    scope = country
+	scope = country
 	is_shown = {
 		gaudi_has_civil_engineer_trigger = yes
 	}
-    is_valid = {
+	is_valid = {
 		gaudi_has_active_engineer = yes
-    }
-    effect = {
+	}
+	effect = {
 		add_modifier = {
 			name = gaudi_engineer_project_low_cost_modifier
 			multiplier = money_amount_multiplier_small
@@ -142,5 +142,44 @@ mr_civil_engineer_research_button = {
 		var:gaudi_engineer_var = {
 			set_character_busy_and_immortal = yes
 		}
-    }
+	}
+}
+
+#MR_CIVIL_ENGINEER_INFRASTRUCTURE_BUTTON
+mr_civil_engineer_infrastructure_button = {
+	scope = country
+	is_shown = {
+		gaudi_has_civil_engineer_trigger = yes
+	}
+	is_valid = {
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_CIVIL_ENGINEER_INFRASTRUCTURE_BUTTON
+			any_scope_state = {
+				OR = {
+					NOT = { has_modifier = gaudi_modern_roads_modifier }
+					NOT = { has_modifier = gaudi_canal_systems_modifier }
+					NOT = { has_modifier = gaudi_new_bridge_modifier }
+					NOT = { has_modifier = gaudi_new_tunnel_modifier }
+					AND = {
+						NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
+						any_scope_building = {
+							is_building_type = building_railway
+							level > 0
+						}
+					}
+				}
+			}
+		}
+	}
+	effect = {
+		add_modifier = {
+			name = gaudi_engineer_project_low_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		add_journal_entry = { type = je_gaudi_civil_research_project }
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
 }
