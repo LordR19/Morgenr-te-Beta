@@ -375,3 +375,38 @@ mr_military_engineer_naval_research_button = {
 		}
 	}
 }
+
+#MR_MILITARY_ENGINEER_ADVANCED_WEAPONS_BUTTON
+mr_military_engineer_advanced_weapons_button = {
+	scope = country
+	is_shown = {
+		gaudi_has_military_engineer_trigger = yes
+	}
+	is_valid = {
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_MILITARY_ENGINEER_ADVANCED_WEAPONS_RIFLING_TECHNOLOGY_TRIGGER_TT
+			has_technology_researched = rifling
+		}
+		custom_tooltip = {
+			text = gaudi_not_most_advanced_weapon_trigger_tt
+			trigger_if = {
+				limit = { has_variable = gaudi_military_engineer_advanced_weapon }
+				NOT = { var:gaudi_military_engineer_advanced_weapon > 2 }
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_gaudi_advanced_weapons_project }
+		add_modifier = {
+			name = gaudi_engineer_project_medium_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
