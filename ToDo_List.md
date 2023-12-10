@@ -1,7 +1,7 @@
 #TODO List
 
 #General:
-- Add a list with discoveries / deeds to each academic
+X Add a list with discoveries / deeds to each academic
 - Add more custom locs for the Scientific Society (invented)
 X Make sure that historical academics spawn properly
 - Mission to recruit more Academics
@@ -24,7 +24,7 @@ x Add Events with negative Traits (Alcoholic, etc.)
    x An alcoholic might discover twin stars
    x An alcoholic might find stars that don't exist
 x Add a stress event that either forces you to let the astronomer take a break or adds a negative trait to them
-- Add more discovery events but reduce the chances for them to make them happen about as often
+X Add more discovery events but reduce the chances for them to make them happen about as often
 X Add an event for the classification of the stars with spectroscopy
 
 
