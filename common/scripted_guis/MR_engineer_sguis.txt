@@ -468,3 +468,56 @@ mr_electrical_engineer_research_button = {
 		add_journal_entry = { type = je_gaudi_electrical_research_project }
 	}
 }
+
+#MR_ELECTRICAL_ENGINEER_MAGNETIC_RESEARCH_STATION_BUTTON
+mr_electrical_engineer_magnetic_research_station_button = {
+	scope = country
+	is_shown = {
+		NOT = {
+			has_variable = gaudi_magnetic_station_var
+		}
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_gaudi_magnetic_observatory
+			}
+		}
+	}
+	is_valid = {
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_ELECTRICAL_ENGINEER_MAGNETIC_RESEARCH_STATION_TRIGGER_TT
+			OR = {
+				AND = {
+					has_technology_researched = verrier_electromagnetism_tech
+					OR = {
+						gaudi_has_mechanical_engineer_trigger = yes
+						gaudi_has_civil_engineer_trigger = yes
+					}
+				}
+				AND = {
+					verrier_has_astronomer = yes
+					OR = {
+						gaudi_has_mechanical_engineer_trigger = yes
+						gaudi_has_civil_engineer_trigger = yes
+					}
+				}
+				gaudi_has_electrical_engineer_trigger = yes
+			}
+		}
+	}
+	effect = {
+		set_variable = gaudi_magnetic_station_var
+		trigger_event = { 
+			id = gaudi.1401
+			popup = yes
+		}
+	}
+}
