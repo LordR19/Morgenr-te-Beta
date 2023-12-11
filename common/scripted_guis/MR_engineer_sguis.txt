@@ -687,3 +687,38 @@ mr_aeronautical_engineer_airport_button = {
 		}
 	}
 }
+
+#MR_AERONAUTICAL_ENGINEER_ADVANCED_AIRCRAFTS_BUTTON
+mr_aeronautical_engineer_advanced_aicrafts_button = {
+	scope = country
+	is_shown = {
+		gaudi_has_aeronautical_engineer_trigger = yes
+	}
+	is_valid = {
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_ELECTRICAL_ENGINEER_MILITARY_AVIATION_TECH_TRIGGER_TT
+			has_technology_researched = military_aviation
+		}
+		custom_tooltip = {
+			text = gaudi_not_most_advanced_airplanes_trigger_tt
+			trigger_if = {
+				limit = { has_variable = gaudi_aeronautical_engineer_advanced_aircrafts_var }
+				NOT = { var:gaudi_aeronautical_engineer_advanced_aircrafts_var > 2 }
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_gaudi_advanced_airplanes_project }
+		add_modifier = {
+			name = gaudi_engineer_project_medium_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
