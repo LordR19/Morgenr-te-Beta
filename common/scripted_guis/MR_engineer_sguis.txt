@@ -664,7 +664,7 @@ mr_electrical_engineer_magnetic_ressource_1_button = {
 				NOT = { var:gaudi_magnetic_data > 20 }
 			}
 			trigger_else = {
-				always = yes
+				always = no
 			}
 		}
 	}
@@ -710,7 +710,7 @@ mr_electrical_engineer_magnetic_ressource_2_button = {
 				NOT = { var:gaudi_magnetic_data > 30 }
 			}
 			trigger_else = {
-				always = yes
+				always = no
 			}
 		}
 	}
@@ -718,6 +718,52 @@ mr_electrical_engineer_magnetic_ressource_2_button = {
 		set_variable = gaudi_magnetism_ressource_2_var
 		trigger_event = { 
 			id = gaudi.1408
+			popup = yes
+		}
+	}
+}
+
+#MR_ELECTRICAL_ENGINEER_MAGNETIC_RESSOURCE_3_BUTTON
+mr_electrical_engineer_magnetic_ressource_3_button = {
+	scope = country
+	is_shown = {
+		has_variable = gaudi_magnetism_ressource_2_var
+		NOT = {
+			has_variable = gaudi_magnetism_ressource_3_var
+		}
+		has_variable = gaudi_magnetic_association_member_var
+		any_scope_building = {
+			is_building_type = building_oil_rig
+		}
+	}
+	is_valid = {
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_ELECTRICAL_ENGINEER_PNEUMATIC_TOOLS_TECH_TRIGGER_TT
+			has_technology_researched = pneumatic_tools
+		}
+		custom_tooltip = {
+			text = MR_ELECTRICAL_ENGINEER_OBSERVATORY_WITH_MAGNETIC_OBSERVATORY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_gaudi_magnetic_observatory
+			}
+		}
+		custom_tooltip = {
+			text = gaudi_magnetism_ressource_3_tt
+			trigger_if = {
+				limit = { has_variable = gaudi_magnetic_data }
+				NOT = { var:gaudi_magnetic_data > 50 }
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+	}
+	effect = {
+		set_variable = gaudi_magnetism_ressource_3_var
+		trigger_event = { 
+			id = gaudi.1409
 			popup = yes
 		}
 	}
