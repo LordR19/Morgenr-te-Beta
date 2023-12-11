@@ -488,6 +488,47 @@ gaudi_advanced_tanks_project_button = {
 	}
 }
 
+######ADVANCED DEFENCE PROJECT######
+
+gaudi_advanced_defence_project_button = {
+	name = "gaudi_advanced_defence_project_button"
+	desc = "gaudi_advanced_defence_project_button_desc"
+
+	visible = { 
+		gaudi_has_military_engineer_trigger = yes
+	}
+
+	possible = {
+		gaudi_has_active_engineer = yes
+		has_technology_researched = field_works
+		custom_tooltip = {
+			text = gaudi_not_most_advanced_defence_trigger_tt
+			trigger_if = {
+				limit = { has_variable = gaudi_military_engineer_advanced_defence_var }
+				NOT = { var:gaudi_military_engineer_advanced_defence_var > 2 }
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+	}
+
+	effect = {
+		add_journal_entry = { type = je_gaudi_advanced_defence_project }
+		add_modifier = {
+			name = gaudi_engineer_project_small_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	ai_chance = {
+		base = 150
+	}
+}
+
 ######ELECTRICAL ENGINEERING RESEARCH######
 
 gaudi_electrical_research_button = {
