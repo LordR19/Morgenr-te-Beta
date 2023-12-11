@@ -654,3 +654,36 @@ mr_aeronautical_engineer_research_button = {
 		add_journal_entry = { type = je_gaudi_aviation_research_project }
 	}
 }
+
+#MR_AERONAUTICAL_ENGINEER_AIRPORT_BUTTON
+mr_aeronautical_engineer_airport_button = {
+	scope = country
+	is_shown = {
+		gaudi_has_aeronautical_engineer_trigger = yes
+	}
+	is_valid = {
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_AERONAUTICAL_ENGINEER_AIRPORT_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_airport
+				level > 0
+				NOR = {
+					has_modifier = gaudi_runway_expansion_mult_modifier
+					has_modifier = gaudi_state_of_the_art_planes_mult_modifier
+					has_modifier = gaudi_efficient_motors_modifier
+				}
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_gaudi_civil_airports_project }
+		add_modifier = {
+			name = gaudi_engineer_project_medium_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
