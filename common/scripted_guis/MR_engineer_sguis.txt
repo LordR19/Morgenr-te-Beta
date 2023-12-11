@@ -446,6 +446,41 @@ mr_military_engineer_advanced_tanks_button = {
 	}
 }
 
+#MR_MILITARY_ENGINEER_ADVANCED_DEFENCE_BUTTON
+mr_military_engineer_advanced_defence_button = {
+	scope = country
+	is_shown = {
+		gaudi_has_military_engineer_trigger = yes
+	}
+	is_valid = {
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_MILITARY_ENGINEER_ADVANCED_DEFENCE_FIELD_WORKS_TECHNOLOGY_TRIGGER_TT
+			has_technology_researched = field_works
+		}
+		custom_tooltip = {
+			text = gaudi_not_most_advanced_defence_trigger_tt
+			trigger_if = {
+				limit = { has_variable = gaudi_military_engineer_advanced_defence_var }
+				NOT = { var:gaudi_military_engineer_advanced_defence_var > 2 }
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_gaudi_advanced_defence_project }
+		add_modifier = {
+			name = gaudi_engineer_project_small_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
+
 ### Electrical Engineer Buttons ###
 
 #MR_ELECTRICAL_ENGINEER_RESEARCH_BUTTON
