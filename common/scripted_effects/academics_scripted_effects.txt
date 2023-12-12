@@ -619,6 +619,40 @@ create_new_engineer_effect = {
 
 			set_global_variable = gaudi_brunel_created #Makes sure Brunel is not already created
 		}
+		100 = { #Henry Royce, Great Britain
+			trigger = {
+				NOT = { has_global_variable = gaudi_royce_created }
+				has_state_in_state_region = STATE_LANCASHIRE
+				NOT = {
+					cu:british = {
+						culture_is_discriminated_in = root
+					}	
+				}
+				game_date < 1918.3.27 #Age 55
+				year >= 1878 #Started an electric workshop
+			}
+			create_character = {
+				template = mr_gbr_royce_henry_character_template
+
+				save_scope_as = gaudi_new_engineer_scope
+			}
+			scope:gaudi_new_engineer_scope = {
+				set_variable = gaudi_royce_character_var #Unique for Royce, mostly used for clothing
+				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
+				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				engineer_experience_gain_effect = {
+					AMOUNT = 50
+				}
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = gaudi_new_engineer_var
+				value = scope:gaudi_new_engineer_scope
+			}
+
+			set_global_variable = gaudi_royce_created #Makes sure Royce is not already created
+		}
 		100 = { #Alessandro Antonelli, Italy
 			trigger = {
 				NOT = { has_global_variable = gaudi_alessandro_antonelli_created }
