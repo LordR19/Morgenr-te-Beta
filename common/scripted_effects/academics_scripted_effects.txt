@@ -616,6 +616,40 @@ create_new_engineer_effect = {
 
 			set_global_variable = gaudi_otto_created
 		}
+		50 = { #Hertha Ayrton, Great Britain
+			trigger = {
+				NOT = { has_global_variable = gaudi_ayrton_created }
+				has_state_in_state_region = STATE_HOME_COUNTIES
+				NOT = {
+					has_law = law_type:law_no_womens_rights
+				}
+				NOT = {
+					cu:british = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1909.4.28 #Age 55
+				year >= 1884 #First patent
+			}
+			create_character = {
+				template = mr_gbr_ayrton_hertha_character_template
+
+				save_scope_as = gaudi_new_engineer_scope
+			}
+			scope:gaudi_new_engineer_scope = {
+				set_variable = gaudi_ayrton_character_var #Unique for Ayrton, mostly used for clothing
+				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
+				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
+				place_character_in_void = 1200 #This is needed so the character doesn't disappear
+			}
+
+			set_variable = {
+				name = gaudi_new_engineer_var
+				value = scope:gaudi_new_engineer_scope
+			}
+
+			set_global_variable = gaudi_ayrton_created #Makes sure Ayrton is not already created
+		}
 		100 = { #Isambard Kingdom Brunel, Great Britain
 			trigger = {
 				NOT = { has_global_variable = gaudi_brunel_created }
@@ -671,9 +705,6 @@ create_new_engineer_effect = {
 				set_variable = gaudi_rolls_character_var #Unique for Rolls, mostly used for clothing
 				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
 				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
-				engineer_experience_gain_effect = {
-					AMOUNT = 50
-				}
 				place_character_in_void = 1200 #This is needed so the character doesn't disappear
 			}
 
@@ -705,9 +736,6 @@ create_new_engineer_effect = {
 				set_variable = gaudi_royce_character_var #Unique for Royce, mostly used for clothing
 				set_variable = mr_is_engineer_var #Could be used for clothing or a role in the future
 				engineer_experience_set_up_effect = yes #sets up experience for the character (0 till 30 and then 10 Experience per year)
-				engineer_experience_gain_effect = {
-					AMOUNT = 50
-				}
 				place_character_in_void = 1200 #This is needed so the character doesn't disappear
 			}
 
