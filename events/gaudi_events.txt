@@ -15554,7 +15554,7 @@ gaudi.2101 = {
 	placement = scope:gaudi_eiffel_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_eiffel_finished.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_eiffel_begin.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -15632,6 +15632,12 @@ gaudi.2102 = {
 			save_scope_as = gaudi_ruler
 		}
 		set_global_variable = gaudi_eiffel_finished
+		ig:ig_intelligentsia = {
+			save_scope_as = intelligentsia_ig 
+			leader = {
+				save_scope_as = gaudi_intelligentsia_leader
+			}
+		}
 	}
 
 	option = {
@@ -15646,6 +15652,16 @@ gaudi.2102 = {
  			}
         }
 		remove_modifier = gaudi_eiffel_cost_1_modifier
+		if = {
+			limit = {
+				scope:intelligentsia_ig = {
+					has_modifier = gaudi_revolting_against_eiffel_tower_modifier
+				}
+			}
+			scope:intelligentsia_ig = {
+				remove_modifier = gaudi_revolting_against_eiffel_tower_modifier
+			}
+		}
 	}
 }
 
@@ -15661,7 +15677,7 @@ gaudi.2109 = {
 	placement = scope:gaudi_eiffel_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_eiffel_finished.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_eiffel_begin.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -15714,6 +15730,401 @@ gaudi.2110 = {
 	}
 }
 
+#Gaudí 2111: Elevators
+
+gaudi.2111 = {
+	type = country_event
+
+	title = gaudi.2111.t
+	desc = gaudi.2111.d
+	flavor = gaudi.2111.f
+
+	placement = scope:gaudi_eiffel_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_eiffel_construction_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		has_technology_researched = elevator
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ILE_DE_FRANCE
+			}
+			save_scope_as = gaudi_eiffel_state
+		}
+	}
+
+	option = {
+		name = gaudi.2111.g #Magnifique!
+        default_option = yes
+		gaudi_add_x_eiffel_progress = {
+			AMOUNT = 12
+		}
+	}
+}
+
+#Gaudí 2112: Outcry of the intellectuals
+
+gaudi.2112 = {
+	type = country_event
+
+	title = gaudi.2112.t
+	desc = gaudi.2112.d
+	flavor = gaudi.2112.f
+
+	placement = scope:gaudi_eiffel_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_intelligentsia_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		global_var:gaudi_eiffel_progress >= 12
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ILE_DE_FRANCE
+			}
+			save_scope_as = gaudi_eiffel_state
+		}
+		ig:ig_intelligentsia = {
+			save_scope_as = intelligentsia_ig 
+			leader = {
+				save_scope_as = gaudi_intelligentsia_leader
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.2112.g #Postpone the construction
+        default_option = yes
+		gaudi_add_x_eiffel_progress = {
+			AMOUNT = -12
+		}
+	}
+
+	option = {
+		name = gaudi.2112.h #This protest encourages us to build the tower even faster!
+        default_option = yes
+		gaudi_add_x_eiffel_progress = {
+			AMOUNT = 3
+		}
+		scope:intelligentsia_ig  = {
+			add_modifier = {
+				name = gaudi_revolting_against_eiffel_tower_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+#Gaudí 2113: Industrialists applaud the titan of steel
+
+gaudi.2113 = {
+	type = country_event
+
+	title = gaudi.2113.t
+	desc = gaudi.2113.d
+	flavor = gaudi.2113.f
+
+	placement = scope:gaudi_eiffel_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_industrialists_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ILE_DE_FRANCE
+			}
+			save_scope_as = gaudi_eiffel_state
+		}
+		ig:ig_industrialists = {
+			save_scope_as = industrialists_ig 
+			leader = {
+				save_scope_as = gaudi_industrialists_leader
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.2113.g #Maybe you can help a bit?
+        default_option = yes
+		gaudi_add_x_eiffel_progress = {
+			AMOUNT = 6
+		}
+		add_treasury = 100000
+		scope:industrialists_ig = {
+			add_modifier = {
+				name = gaudi_admires_eiffel_tower_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.2113.h #Thanks to you!
+        gaudi_add_x_eiffel_progress = {
+			AMOUNT = 2
+		}
+		scope:industrialists_ig = {
+			add_modifier = {
+				name = gaudi_eiffel_visionary_modifier
+				years = 5
+			}
+		}
+		scope:industrialists_ig = {
+			add_modifier = {
+				name = gaudi_admires_eiffel_tower_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+#Gaudí 2114: Inferior Steel
+
+gaudi.2114 = {
+	type = country_event
+
+	title = gaudi.2114.t
+	desc = gaudi.2114.d
+	flavor = gaudi.2114.f
+
+	placement = scope:gaudi_eiffel_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_eiffel_construction_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		NOT = {
+			any_scope_state = {
+				state_region = s:STATE_ILE_DE_FRANCE
+				any_scope_building = {
+					is_building_type = building_steel_mills
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ILE_DE_FRANCE
+			}
+			save_scope_as = gaudi_eiffel_state
+		}
+	}
+
+	option = {
+		name = gaudi.2114.g #Buy a new load of steel.
+        default_option = yes
+		gaudi_add_x_eiffel_progress = {
+			AMOUNT = -3
+		}
+		add_treasury = -25000
+	}
+}
+
+#Gaudí 2115: Quality Steel
+
+gaudi.2115 = {
+	type = country_event
+
+	title = gaudi.2115.t
+	desc = gaudi.2115.d
+	flavor = gaudi.2115.f
+
+	placement = scope:gaudi_eiffel_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_eiffel_construction_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_ILE_DE_FRANCE
+			any_scope_building = {
+				is_building_type = building_steel_mills
+				level >= 2
+				OR = {
+					has_active_production_method = pm_open_hearth_process
+					has_active_production_method = pm_electric_arc_process
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ILE_DE_FRANCE
+			}
+			save_scope_as = gaudi_eiffel_state
+		}
+	}
+
+	option = {
+		name = gaudi.2115.g #Buy a new load of steel.
+        default_option = yes
+		gaudi_add_x_eiffel_progress = {
+			AMOUNT = 6
+		}
+		scope:gaudi_eiffel_state = {
+			add_modifier = {
+				name = gaudi_quality_steel_factory_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+#Gaudí 2116: Mathematician predicts collapse
+
+gaudi.2116 = {
+	type = country_event
+
+	title = gaudi.2116.t
+	desc = gaudi.2116.d
+	flavor = gaudi.2116.f
+
+	placement = scope:gaudi_eiffel_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_eiffel_construction_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ILE_DE_FRANCE
+			}
+			save_scope_as = gaudi_eiffel_state
+		}
+		ig:ig_industrialists = {
+			save_scope_as = industrialists_ig 
+		}
+	}
+
+	option = {
+		name = gaudi.2116.g #That's ridiculous.
+        default_option = yes
+		gaudi_add_x_eiffel_progress = {
+			AMOUNT = 3
+		}
+		scope:gaudi_eiffel_state = {
+			add_radicals_in_state = {
+				value = 0.02
+			}
+		}
+		scope:industrialists_ig = {
+			add_modifier = {
+				name = gaudi_faith_in_progress_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.2116.h #Eiffel has to pay if the tower collapses.
+        default_option = yes
+		gaudi_add_x_eiffel_progress = {
+			AMOUNT = -3
+		}
+		scope:gaudi_eiffel_state = {
+			add_loyalists_in_state = {
+				value = 0.01
+			}
+		}
+		scope:industrialists_ig = {
+			add_modifier = {
+				name = gaudi_no_faith_in_progress_modifier
+				years = 5
+			}
+		}
+	}
+}
+
 ###################################################################
 
 ######STATUE OF LIBERTY######
@@ -15730,7 +16141,7 @@ gaudi.2201 = {
 	placement = scope:gaudi_liberty_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_liberty_finished.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_liberty_begin.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -15805,7 +16216,7 @@ gaudi.2202 = {
 			limit = {
 				is_ruler = yes
 			}
-			save_scope_as = gaudi_ruler
+			save_scope_as = gaudi_ruler_scope
 		}
 		set_global_variable = gaudi_liberty_finished
 	}
@@ -15818,7 +16229,7 @@ gaudi.2202 = {
         }
 		scope:gaudi_liberty_state = {
 			create_building = {
- 				building = "building_liberty_tower"
+ 				building = "building_statue_of_liberty"
  			}
         }
 		remove_modifier = gaudi_liberty_cost_1_modifier
@@ -15837,7 +16248,7 @@ gaudi.2209 = {
 	placement = scope:gaudi_liberty_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_liberty_finished.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_liberty_begin.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -15890,6 +16301,457 @@ gaudi.2210 = {
 	}
 }
 
+#Gaudí 2211: Elevators
+
+gaudi.2211 = {
+	type = country_event
+
+	title = gaudi.2211.t
+	desc = gaudi.2211.d
+	flavor = gaudi.2211.f
+
+	placement = scope:gaudi_liberty_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_liberty_construction.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		has_technology_researched = elevator
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NEW_YORK
+			}
+			save_scope_as = gaudi_liberty_state
+		}
+	}
+
+	option = {
+		name = gaudi.2211.g #Great!
+        default_option = yes
+		gaudi_add_x_liberty_progress = {
+			AMOUNT = 12
+		}
+	}
+}
+
+#Gaudí 2213: Intellectuals impressed
+
+gaudi.2213 = {
+	type = country_event
+
+	title = gaudi.2213.t
+	desc = gaudi.2213.d
+	flavor = gaudi.2213.f
+
+	placement = scope:gaudi_liberty_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_intelligentsia_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NEW_YORK
+			}
+			save_scope_as = gaudi_liberty_state
+		}
+		ig:ig_intelligentsia = {
+			save_scope_as = intelligentsia_ig 
+			leader = {
+				save_scope_as = gaudi_intelligentsia_leader
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.2213.g #Maybe you can help a bit?
+        default_option = yes
+		gaudi_add_x_liberty_progress = {
+			AMOUNT = 6
+		}
+		scope:intelligentsia_ig = {
+			add_modifier = {
+				name = gaudi_admires_liberty_statue_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+#Gaudí 2214: An American or a French project?
+
+gaudi.2214 = {
+	type = country_event
+
+	title = gaudi.2214.t
+	desc = gaudi.2214.d
+	flavor = gaudi.2214.f
+
+	placement = scope:gaudi_liberty_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_liberty_begin.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NEW_YORK
+			}
+			save_scope_as = gaudi_liberty_state
+		}
+	}
+
+	option = {
+		name = gaudi.2214.g #This is an American project.
+		gaudi_add_x_liberty_progress = {
+			AMOUNT = 1
+		}
+		add_modifier = {
+			name = gaudi_america_first_modifier
+			years = 5
+		}
+		c:FRA = {
+			change_relations = {
+				country = ROOT 
+				value = -15
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.2214.h #This is a Franco-American project.
+        default_option = yes
+		gaudi_add_x_liberty_progress = {
+			AMOUNT = 2
+		}
+	}
+
+	option = {
+		name = gaudi.2214.g #This is a French project.
+        gaudi_add_x_liberty_progress = {
+			AMOUNT = 1
+		}
+		change_infamy = -5
+		c:FRA = {
+			change_relations = {
+				country = ROOT 
+				value = 15
+			}
+		}
+	}
+}
+
+#Gaudí 2215: Quality Steel
+
+gaudi.2215 = {
+	type = country_event
+
+	title = gaudi.2215.t
+	desc = gaudi.2215.d
+	flavor = gaudi.2215.f
+
+	placement = scope:gaudi_liberty_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_liberty_atelier.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_NEW_YORK
+			any_scope_building = {
+				is_building_type = building_steel_mills
+				level >= 2
+				OR = {
+					has_active_production_method = pm_open_hearth_process
+					has_active_production_method = pm_electric_arc_process
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NEW_YORK
+			}
+			save_scope_as = gaudi_liberty_state
+		}
+	}
+
+	option = {
+		name = gaudi.2215.g #American Steel is the best Steel.
+        default_option = yes
+		gaudi_add_x_liberty_progress = {
+			AMOUNT = 6
+		}
+		scope:gaudi_liberty_state = {
+			add_modifier = {
+				name = gaudi_quality_steel_factory_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+#Gaudí 2216: A Donation
+
+gaudi.2216 = {
+	type = country_event
+
+	title = gaudi.2216.t
+	desc = gaudi.2216.d
+	flavor = gaudi.2216.f
+
+	placement = scope:gaudi_liberty_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_liberty_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NEW_YORK
+			}
+			save_scope_as = gaudi_liberty_state
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+			}
+			save_scope_as = gaudi_liberty_ig
+			leader = {
+				save_scope_as = gaudi_liberty_leader
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.2216.g #Ask for another donation.
+        default_option = yes
+		gaudi_add_x_liberty_progress = {
+			AMOUNT = 9
+		}
+	}
+
+	option = {
+		name = gaudi.2216.h #Praise them!
+        gaudi_add_x_liberty_progress = {
+			AMOUNT = 3
+		}
+		scope:gaudi_liberty_ig = {
+			add_modifier = {
+				name = gaudi_liberty_impressed_modifier
+				years = 5
+			}
+		}
+	}
+}
+
+#Gaudí 2217: Incident
+
+gaudi.2217 = {
+	type = country_event
+
+	title = gaudi.2217.t
+	desc = gaudi.2217.d
+	flavor = gaudi.2217.f
+
+	placement = scope:gaudi_liberty_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_liberty_construction.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NEW_YORK
+			}
+			save_scope_as = gaudi_liberty_state
+		}
+	}
+
+	option = {
+		name = gaudi.2217.g #American Steel is the best Steel.
+        default_option = yes
+		gaudi_add_x_liberty_progress = {
+			AMOUNT = -5
+		}
+	}
+}
+
+#Gaudí 2218: Opposition criticizes Project
+
+gaudi.2218 = {
+	type = country_event
+
+	title = gaudi.2218.t
+	desc = gaudi.2218.d
+	flavor = gaudi.2218.f
+
+	placement = scope:gaudi_liberty_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_opposition_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	cooldown = {
+		years = 3
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_NEW_YORK
+			}
+			save_scope_as = gaudi_liberty_state
+		}
+		random_interest_group = {
+			limit = {
+    			is_in_government = no
+	        }
+			save_scope_as = gaudi_opposition_ig
+			leader = {
+				save_scope_as = gaudi_opposition_leader
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.2218.g #But this project is very important!
+        default_option = yes
+		gaudi_add_x_liberty_progress = {
+			AMOUNT = 3
+		}
+		scope:gaudi_opposition_ig = {
+			add_modifier = {
+				name = ig_not_placated
+				years = 5
+			}
+		}
+		scope:gaudi_liberty_state = {
+			add_radicals_in_state = {
+				value = 0.02
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.2218.h #Maybe there ARE more important things...
+		gaudi_add_x_liberty_progress = {
+			AMOUNT = -12
+		}
+		scope:gaudi_opposition_ig = {
+			add_modifier = {
+				name = ig_placated
+				years = 3
+			}
+		}
+		scope:gaudi_liberty_state = {
+			add_loyalists_in_state = {
+				value = 0.01
+			}
+		}
+	}
+}
+
+
 #######################################################################################################
 
 ######BIG BEN######
@@ -15906,7 +16768,7 @@ gaudi.2301 = {
 	placement = scope:gaudi_ben_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_phase_1.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_begin.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -15957,7 +16819,7 @@ gaudi.2302 = {
 	placement = scope:gaudi_ben_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_phase_1.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_construction.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -16012,7 +16874,7 @@ gaudi.2303 = {
 	placement = scope:gaudi_ben_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_phase_2.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_construction.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -16147,7 +17009,7 @@ gaudi.2309 = {
 	}
 }
 
-#Gaudí 2110: Normal building progress
+#Gaudí 2310: Normal building progress
 
 gaudi.2310 = {
 	type = country_event
