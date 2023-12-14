@@ -336,6 +336,33 @@ namespace = gaudi
 
 #################################################################################
 
+###### SETUP ######
+
+gaudi.1 = {
+	type = country_event
+
+    hidden = yes
+
+	trigger = {
+		has_variable = gaudi_magnetic_association_members
+	}
+
+	###############################################################################
+	# PHYSICS                                                                	  #
+	###############################################################################
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_gaudi_magnetic_observatory
+			}
+		}
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 1
+		}
+	}
+}
+
 ###### ART NOUVEAU & ART DECO ######
 
 #Gaudí 11: CAPITAL_CITY Secession (first)
@@ -16819,7 +16846,7 @@ gaudi.2302 = {
 	placement = scope:gaudi_ben_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_construction.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_commons.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -16981,7 +17008,7 @@ gaudi.2309 = {
 	placement = scope:gaudi_ben_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_finished.dds"
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_begin.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -17031,5 +17058,118 @@ gaudi.2310 = {
 				AMOUNT = 1
 			}
 		}
+	}
+}
+
+#Gaudí 2311: Bad bricks
+
+gaudi.2311 = {
+	type = country_event
+
+	title = gaudi.2311.t
+	desc = gaudi.2311.d
+	flavor = gaudi.2311.f
+
+	placement = scope:gaudi_ben_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_construction.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_HOME_COUNTIES
+			}
+			save_scope_as = gaudi_ben_state
+		}
+	}
+
+	option = {
+		name = gaudi.2311.g #If you want to do it well, it takes longer
+        default_option = yes
+		gaudi_add_x_ben_progress = {
+			AMOUNT = -1
+		}
+		add_treasury = -10000
+	}
+
+	option = {
+		name = gaudi.2311.h #That's okay.
+		gaudi_add_x_ben_progress = {
+			AMOUNT = 3
+		}
+		add_treasury = 20000
+		hidden_effect = {
+			random_list = {
+				35 = {
+					trigger_event = {
+						id = gaudi.2315
+						days = { 14 21 }
+					}
+				}
+				50 = { }
+				15 = {
+					trigger_event = {
+						id = gaudi.2312
+						days = { 14 21 }
+					}
+				}
+			}
+		}
+	}
+}
+
+#Gaudí 2312: Desaster!
+
+gaudi.2312 = {
+	type = country_event
+
+	title = gaudi.2312.t
+	desc = gaudi.2312.d
+	flavor = gaudi.2312.f
+
+	placement = scope:gaudi_mole_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_ben_begin.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_architecture.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_HOME_COUNTIES
+			}
+			save_scope_as = gaudi_ben_state
+		}
+	}
+
+	option = {
+		name = gaudi.112.g #Who could have predicted that?
+        default_option = yes
+		gaudi_add_x_ben_progress = {
+			AMOUNT = -12
+		}
+		add_treasury = -50000
 	}
 }
