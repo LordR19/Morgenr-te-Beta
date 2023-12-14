@@ -24345,3 +24345,13 @@ mr_gre_skalistiris_dimitrios={
 	entity={ 0 0 }
 }
 
+mr_gre_mineyko_zygmut={
+	type=male
+	id=0
+	age=0.260000
+	genes={
+mr_gre_mineyko_zygmut
+	}
+	entity={ 0 0 }
+}
+
