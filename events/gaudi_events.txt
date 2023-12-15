@@ -281,6 +281,7 @@ namespace = gaudi
 #Gaudí 1002: Pavellons Güell (Gaudì)
 #Gaudí 1003: Enzo Ferrari wins on the Savio Circuit
 #Gaudí 1004: Weber
+#Gaudí 1005: Invention of the Electric Telegraph (Morse)
 
 ###### Engineering Projects ######
 
@@ -13053,6 +13054,16 @@ gaudi.1001 = {
 				}
 			}
 		}
+		if = {
+			limit = {
+				var:gaudi_engineer_var = {
+					NOT = { has_trait = gaudi_civil_engineer }
+				}
+			}
+			var:gaudi_engineer_var = {
+				add_trait = gaudi_civil_engineer
+			}
+		}
 		var:gaudi_engineer_var = {
 			set_variable = gaudi_engineer_invented_steel_frame_var
 			save_scope_as = gaudi_engineer_scope
@@ -13335,6 +13346,16 @@ gaudi.1005 = {
 				}
 			}
 		}
+		if = {
+			limit = {
+				var:gaudi_engineer_var = {
+					NOT = { has_trait = gaudi_electrical_engineer }
+				}
+			}
+			var:gaudi_engineer_var = {
+				add_trait = gaudi_electrical_engineer
+			}
+		}
 		var:gaudi_engineer_var = {
 			set_variable = gaudi_engineer_invented_electric_telegraph_var
 			save_scope_as = gaudi_engineer_scope
@@ -13343,6 +13364,93 @@ gaudi.1005 = {
 
 	option = {
 		name = gaudi.1005.g #What hath God wrought
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Gaudí 1006: The first Automobile with an Internal Combustion Engine
+
+gaudi.1006 = {
+	type = country_event
+
+	title = gaudi.1006.t
+
+	desc = gaudi.1006.d
+
+	flavor = gaudi.1006.f
+
+	placement = scope:gaudi_car_state_1_scope
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:gaudi_engineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/automobiles.dds"
+
+	trigger = {
+		has_technology_researched = combustion_engine
+		NOT = {
+			has_global_variable = gaudi_first_car_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = gaudi_steel_frame_var
+		random_scope_state = {
+			save_scope_as = gaudi_car_state_1_scope
+		}
+		scope:gaudi_car_state_1_scope = {
+			random_neighbouring_state = {
+				save_scope_as = gaudi_car_state_2_scope
+			}
+		}
+		if = {
+			limit ={
+				NOT = {
+					has_variable = gaudi_engineer_var
+				}
+			}
+			if = {
+				limit = {
+					has_state_in_state_region = STATE_BADEN
+					NOT = {
+						has_global_variable = gaudi_benz_created_global_var
+					}
+				}
+				create_benz_carl_effect = yes
+			}
+			else = {
+				create_new_engineer_effect = yes
+				gaudi_set_new_engineer_as_engineer_effect = yes
+				var:gaudi_engineer_var = {
+					save_scope_as = gaudi_engineer_scope
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:gaudi_engineer_var = {
+					NOT = { has_trait = gaudi_mechanical_engineer }
+				}
+			}
+			var:gaudi_engineer_var = {
+				add_trait = gaudi_mechanical_engineer
+			}
+		}
+		var:gaudi_engineer_var = {
+			set_variable = gaudi_engineer_invented_automobile_var
+			save_scope_as = gaudi_engineer_scope
+		}
+		set_variable = gaudi_first_car_global_var
+	}
+
+	option = {
+		name = gaudi.1006.g #Vroom!
 		default_option = yes
 	}
 
