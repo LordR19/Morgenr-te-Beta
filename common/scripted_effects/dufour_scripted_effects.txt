@@ -1,0 +1,53 @@
+﻿###########################
+# DUFOUR SCRPITED EFFECTS #
+###########################
+
+######CARTE DUFOUR PROGRESS######
+
+#Effect to add $AMOUNT$ Carte Dufour Progress
+dufour_add_x_carte_dufour_progress_effect = {
+	# Amount = amount of specimens to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = carte_dufour_progress_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = dufour_add_x_carte_dufour_progress_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = dufour_add_x_carte_dufour_progress_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = dufour_add_x_carte_dufour_progress_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = dufour_add_x_carte_dufour_progress_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = dufour_add_x_carte_dufour_progress_plus_x_tt
+	}
+
+	#Yearly Specimenss are used for the botanical report, they are added with each normal specimen
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = dufour_carte_dufour_progress_var
+			}
+		}
+		set_variable = {
+			name = dufour_carte_dufour_progress_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = dufour_carte_dufour_progress_var
+		add = $AMOUNT$
+	}
+}
