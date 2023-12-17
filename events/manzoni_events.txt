@@ -112,6 +112,278 @@ manzoni.902 = {
 	}
 }
 
+#Manzoni 911: An Italian Consciousness
+
+manzoni.911 = {
+	type = country_event
+	placement = scope:united_italian_culture_state
+	
+	title = manzoni.911.t
+	desc = manzoni.911.d
+	flavor = manzoni.911.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_mameli.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			state_region = {
+				OR = {
+					is_homeland = cu:north_italian
+					is_homeland = cu:south_italian
+				}
+			}
+			turmoil <= 0.15
+			OR = {
+				any_scope_building = {
+					OR = {
+						is_building_type = building_naval_base
+						is_building_type = building_barracks
+					}
+					level >= 15
+				}
+				any_scope_building = {
+					is_building_type = building_university
+					level >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_government_administration
+					level >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 5
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				state_region = {
+					OR = {
+						is_homeland = cu:north_italian
+						is_homeland = cu:south_italian
+					}
+				}
+				turmoil <= 0.15
+				OR = {
+					any_scope_building = {
+						OR = {
+							is_building_type = building_naval_base
+							is_building_type = building_barracks
+						}
+						level >= 15
+					}
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 5
+					}
+					any_scope_building = {
+						is_building_type = building_government_administration
+						level >= 5
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 5
+					}
+				}
+			}
+			save_scope_as = united_italian_culture_state
+		}
+	}
+
+	option = {
+		name = manzoni.911.g
+		default_option = yes
+		custom_tooltip = {
+			text = manzoni_italian_consiousness_tt
+			scope:united_italian_culture_state = {
+				every_scope_pop = {
+					limit = {
+						culture = cu:north_italian
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:south_italian
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_italian
+					remove_homeland = cu:north_italian
+					remove_homeland = cu:south_italian
+				}
+			}
+		}
+	}
+}
+
+#Manzoni 912: A Pan-Italian Consciousness
+
+manzoni.912 = {
+	type = country_event
+	
+	title = manzoni.912.t
+	desc = manzoni.912.d
+	flavor = manzoni.912.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_mameli.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = manzoni.912.g #We've made the Italians!
+		default_option = yes
+		custom_tooltip = {
+			text = manzoni_pan_italian_identity_tt
+			every_scope_pop = {
+				limit = {
+					culture = cu:north_italian
+				}
+				change_pop_culture = {
+					target = cu:united_italian
+					value = 1
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:south_italian
+				}
+				change_pop_culture = {
+					target = cu:united_italian
+					value = 1
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					OR = {
+						any_scope_pop = {
+							culture = cu:north_italian
+						}
+						any_scope_pop = {
+							culture = cu:south_italian
+						}
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:north_italian
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:south_italian
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				if = {
+					limit = {
+						is_player = yes
+					}
+					trigger_event = {
+						id = manzoni.913
+					}
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:north_italian
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_italian
+					remove_homeland = cu:north_italian
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:south_italian
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_italian
+					remove_homeland = cu:south_italian
+				}
+			}
+		}
+	}
+}
+
+#Manzoni 913: A Pan-Italian Consciousness (Notification)
+
+manzoni.913 = {
+	type = country_event
+	
+	title = manzoni.912.t
+	desc = manzoni.913.d
+	flavor = manzoni.912.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_mameli.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = manzoni.913.g #Are you saying that there are no differences between a Sicilian fisherman and a Trentino shepherd?
+		default_option = yes
+		custom_tooltip = manzoni_pan_italian_identity_tt
+	}
+}
+
 ###################
 
 ### Great Britain ###
