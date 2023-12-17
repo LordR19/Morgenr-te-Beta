@@ -121,6 +121,9 @@ je_manzoni_italianization = {
 		hidden_trigger = {
 			has_game_rule = manzoni_united_cultures_rule
 		}
+		hidden_trigger = {
+			is_player = no
+		}
 	}
 
 	possible = {
@@ -135,6 +138,117 @@ je_manzoni_italianization = {
 		}
 		hidden_trigger = {
 			has_game_rule = manzoni_united_cultures_rule
+		}
+		hidden_trigger = {
+			is_player = no
+		}
+	}
+
+	immediate = {
+		set_national_identity_vars = yes
+		set_variable = { name = national_identity_progress_var value = 0 }
+		calculate_national_identity_progress = yes
+	}
+
+	on_weekly_pulse = {
+		effect = {
+			calculate_national_identity_progress = yes
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			add_national_identity_progress = yes
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		custom_tooltip = {
+			text = manzoni_italian_consiousness_capital_tt
+			clear_national_identity_vars = yes
+			add_primary_culture = cu:united_italian
+			remove_primary_culture = cu:north_italian
+			remove_primary_culture = cu:south_italian
+			capital.state_region = {
+				add_homeland = cu:united_italian
+				remove_homeland = cu:north_italian
+				remove_homeland = cu:south_italian
+				region_state:ITA = {
+					every_scope_pop = {
+						limit = {
+							culture = cu:north_italian
+						}
+						change_pop_culture = {
+							target = cu:united_italian
+							value = 1
+						}
+					}
+					every_scope_pop = {
+						limit = {
+							culture = cu:south_italian
+						}
+						change_pop_culture = {
+							target = cu:united_italian
+							value = 1
+						}
+					}
+				}
+			}
+			add_journal_entry = {
+				type = je_manzoni_italian_national_identity
+			}
+		}
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = root.var:national_identity_progress_var
+	}
+
+	goal_add_value = {
+		add = 200
+	}
+
+	weight = 100
+
+	progressbar = yes
+
+	should_be_pinned_by_default = yes
+}
+
+je_manzoni_italianization_ai = { #AI should do this more often regarding perfomance issues
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+
+	group = je_group_internal_affairs
+
+	is_shown_when_inactive = {
+		c:ITA ?= ROOT
+		hidden_trigger = {
+			has_game_rule = manzoni_united_cultures_rule
+		}
+		hidden_trigger = {
+			is_player = no
+		}
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+		hidden_trigger = {
+			has_game_rule = manzoni_united_cultures_rule
+		}
+		hidden_trigger = {
+			is_player = no
 		}
 	}
 
