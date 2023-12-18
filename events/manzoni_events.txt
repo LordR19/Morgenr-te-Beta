@@ -384,6 +384,571 @@ manzoni.913 = {
 	}
 }
 
+#Manzoni 914: Character becomes Italian
+
+manzoni.914 = {
+	type = country_event
+	
+	title = manzoni.914.t
+	desc = manzoni.914.d
+	flavor = manzoni.914.f
+	
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_character_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+
+	cooldown = {
+		days = 120
+	}
+	
+	trigger = {
+		any_scope_character = {
+			OR = {
+				has_culture = cu:south_italian
+				has_culture = cu:north_italian
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_culture = cu:south_italian
+					has_culture = cu:north_italian
+				}
+			}
+			save_scope_as = manzoni_character_scope
+		}
+	}
+
+	option = {
+		name = manzoni.914.g #The days of campanilismo are over.
+		default_option = yes
+		scope:manzoni_character_scope = {
+			change_character_culture = cu:united_italian
+		}
+	}
+}
+
+#Manzoni 915: Brigants in $STATE$
+
+manzoni.915 = {
+	type = country_event
+	
+	title = manzoni.915.t
+	desc = manzoni.915.d
+	flavor = manzoni.915.f
+
+	placement = scope:manzoni_brigant_state
+	
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_briganti.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+
+	cooldown = {
+		years = 2
+	}
+	
+	trigger = {
+		institution_investment_level = {
+			institution = institution_social_security
+			value < 2
+		}
+		institution_investment_level = {
+			institution = institution_police
+			value < 2
+		}
+		any_scope_state = {
+			average_sol < 8
+			is_incorporated = yes
+			NOT = {
+				has_modifier = manzoni_brigants_modifier
+			}
+		}
+	}
+
+	immediate = {
+		create_character = {
+			female = no
+			save_scope_as = manzoni_brigant_character
+		}
+		random_scope_state = {
+			limit = {
+				average_sol < 8
+				is_incorporated = yes
+				NOT = {
+					has_modifier = manzoni_brigants_modifier
+				}
+			}
+			save_scope_as = manzoni_brigant_state
+		}
+	}
+
+	option = {
+		name = manzoni.915.g #Another bandit masquerading as Robin Hood!
+		default_option = yes
+		scope:manzoni_brigant_state = {
+			add_modifier = {
+				name = manzoni_brigants_modifier
+				years = 15
+			}
+			add_radicals_in_state = {
+				strata = poor
+				value = 0.05
+			}
+		}
+	}
+}
+
+#Manzoni 916: Fear for regional heritage
+
+manzoni.916 = {
+	type = country_event
+	
+	title = manzoni.916.t
+	desc = manzoni.916.d
+	flavor = manzoni.916.f
+
+	placement = scope:manzoni_regionalist_state
+	
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_rural_leader_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+
+	cooldown = {
+		years = 3
+	}
+	
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level <= 5
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level <= 5
+				}
+			}
+			save_scope_as = manzoni_regionalist_state
+		}
+		ig:ig_rural_folk = {
+			save_scope_as = manzoni_rural_ig_scope
+			leader = {
+				save_scope_as = manzoni_rural_leader_scope
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.916.g #STATE is an Italian region like any other.
+		default_option = yes
+		add_modifier = {
+			name = manzoni_anti_regionalism_country_modifier
+			years = 5
+		}
+		scope:manzoni_rural_ig_scope = {
+			add_modifier = {
+				name = manzoni_anti_regionalism_ig_modifier
+				years = 5
+			}
+		}
+		scope:manzoni_regionalist_state = {
+			add_radicals_in_state = {
+				value = 0.05
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.916.h #We should take this special heritage into account.
+		custom_tooltip = {
+			text = manzoni_lose_20_identity_progress_tt
+			change_variable = { 
+				name = national_identity_progress_var 
+				add = -20
+			}
+		}
+	}
+}
+
+#Manzoni 917: Dialects or languages?
+
+manzoni.917 = {
+	type = country_event
+	
+	title = manzoni.917.t
+	desc = manzoni.917.d
+	flavor = manzoni.917.f
+	
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_intelligentsia_leader_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+
+	cooldown = {
+		years = 10
+	}
+	
+	trigger = {
+	}
+
+	immediate = {
+		ig:ig_intelligentsia = {
+			save_scope_as = manzoni_intelligentsia_ig_scope
+			leader = {
+				save_scope_as = manzoni_intelligentsia_leader_scope
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.917.g #Our linguistic diversity is our prestige.
+		custom_tooltip = {
+			text = manzoni_lose_20_identity_progress_tt
+			change_variable = { 
+				name = national_identity_progress_var 
+				add = -20
+			}
+		}
+		scope:manzoni_intelligentsia_ig_scope = {
+			add_modifier = {
+				name = manzoni_linguistic_impurity_modifier
+				years = 5
+			}
+		}
+		add_loyalists = {
+			strata = poor
+			value = 0.03
+		}
+	}
+
+	option = {
+		name = manzoni.917.h #Speak Italian, speak clear.
+		default_option = yes
+		verrier_small_add_technology = yes
+		lepsius_small_add_technology = yes
+		dubois_small_add_technology = yes
+		elgar_small_add_technology = yes
+		add_radicals = {
+			strata = poor
+			value = 0.05
+		}
+	}
+}
+
+#Manzoni 918: Fate of Foscolo
+
+manzoni.918 = {
+	type = country_event
+	
+	title = manzoni.918.t
+	desc = manzoni.918.d
+	flavor = manzoni.918.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_foscolo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = manzoni_foscolo_var
+		}
+		exists = c:GBR
+	}
+
+	immediate = {
+		set_variable = manzoni_foscolo_var
+	}
+
+	option = {
+		name = manzoni.918.g #Ask them to give us Foscolo.
+		default_option = yes
+		c:GBR = {
+			trigger_event = {
+				id = manzoni.919
+				days = 7
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.918.h #We would be embarrassed if they said no.
+	}
+}
+
+#Manzoni 919: Fate of Foscolo (for Great Britain)
+
+manzoni.919 = {
+	type = country_event
+	
+	title = manzoni.918.t
+	desc = manzoni.919.d
+	flavor = manzoni.918.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_foscolo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = manzoni.919.g #They should have their petty little poet. What was his name again?
+		default_option = yes
+		change_infamy = -2
+		change_relations = {
+			country = c:ITA
+			value = 10
+		}
+		set_global_variable = manzoni_foscolo_returns
+
+		ai_chance = {
+			base = 1
+			modifier = { #Cordial relations
+				trigger = {
+					"relations(c:ITA)" >= relations_threshold:cordial
+				}
+				add = 1
+			}
+			modifier = { #Amicable relations
+				trigger = {
+					"relations(c:ITA)" >= relations_threshold:amicable
+				}
+				add = 1
+			}	
+			modifier = { #Defensive Pact
+				trigger = {
+					has_diplomatic_pact = {
+						who = c:ITA
+						type = defensive_pact
+					}
+				}
+				add = 2
+			}	
+			modifier = { #Customs Union
+				trigger = {
+					has_diplomatic_pact = {
+						who = c:ITA
+						type = customs_union
+					}
+				}
+				add = 2
+			}
+			modifier = { #Alliance
+				trigger = {
+					has_diplomatic_pact = {
+						who = c:ITA
+						type = alliance
+					}
+				}
+				add = 3
+			}							
+		}
+	}
+
+	option = {
+		name = manzoni.919.h #The Fosco-guy stays here.
+		custom_tooltip = manzoni_gbr_hits_ita_prestige_tt
+		change_relations = {
+			country = c:ITA
+			value = -10
+		}
+		ai_chance = {
+			base = 1
+			modifier = { #Poor relations
+				trigger = {
+					"relations(c:ITA)" <= relations_threshold:poor
+				}
+				add = 1
+			}
+			modifier = { #Cold relations
+				trigger = {
+					"relations(c:ITA)" <= relations_threshold:cold
+				}
+				add = 1
+			}	
+			modifier = { #Embargo
+				trigger = {
+					has_diplomatic_pact = {
+						who = c:ITA
+						type = embargo
+					}
+				}
+				add = 5
+			}	
+			modifier = { #Rivalry
+				trigger = {
+					has_diplomatic_pact = {
+						who = c:ITA
+						type = rivalry
+					}
+				}
+				add = 10
+			}							
+		}
+	}
+
+	after = {
+		c:ITA = {
+			trigger_event = {
+				id = manzoni.920
+				days = 7
+			}
+		}
+	}
+}
+
+#Manzoni 920: Foscolo returns/Foscolo denied
+
+manzoni.920 = {
+	type = country_event
+	
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = manzoni_foscolo_returns
+			}
+			desc = manzoni.920.t_foscolo
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = manzoni_foscolo_returns
+				}
+			}
+			desc = manzoni.920.t_no_foscolo
+		}
+	}
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = manzoni_foscolo_returns
+			}
+			desc = manzoni.920.d_foscolo
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = manzoni_foscolo_returns
+				}
+			}
+			desc = manzoni.920.d_no_foscolo
+		}
+	}
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = manzoni_foscolo_returns
+			}
+			desc = manzoni.920.f_foscolo
+		}
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					has_global_variable = manzoni_foscolo_returns
+				}
+			}
+			desc = manzoni.920.f_no_foscolo
+		}
+	}
+	
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_foscolo.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = manzoni_foscolo_var
+	}
+
+	option = {
+		name = manzoni.920.g #A great Italian returns home!
+		default_option = yes
+		trigger = {
+			has_global_variable = manzoni_foscolo_returns
+		}
+		custom_tooltip = {
+			text = manzoni_add_10_identity_progress_tt
+			change_variable = { 
+				name = national_identity_progress_var 
+				add = 10
+			}
+		}
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 10
+		}
+	}
+
+	option = {
+		name = manzoni.920.h #These sons of a one-legged cow are denying us our Foscolo!
+		trigger = {
+			NOT = {
+				has_global_variable = manzoni_foscolo_returns
+			}
+		}
+		add_modifier = {
+			name = manzoni_no_foscolo_modifier
+			years = 5
+		}
+	}
+}
+
 ###################
 
 ### Great Britain ###
