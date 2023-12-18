@@ -442,6 +442,7 @@ manzoni.912 = {
 	}
 
 	immediate = {
+		set_global_variable = manzoni_united_italian_nation_var
 	}
 
 	option = {
@@ -1247,6 +1248,341 @@ manzoni.922 = {
 			add_radicals_in_state = {
 				value = 0.02
 			}
+		}
+	}
+}
+
+#Manzoni 923: An Italian Consciousness
+
+manzoni.923 = {
+	type = country_event
+	placement = scope:united_italian_culture_state
+	
+	title = manzoni.911.t
+	desc = manzoni.911.d
+	flavor = manzoni.911.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_mameli.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			state_region = {
+				OR = {
+					is_homeland = cu:corsican
+					is_homeland = cu:ticinese
+					is_homeland = cu:maltese
+					is_homeland = cu:rumantsch
+				}
+			}
+			turmoil <= 0.15
+			OR = {
+				any_scope_building = {
+					OR = {
+						is_building_type = building_naval_base
+						is_building_type = building_barracks
+					}
+					level >= 15
+				}
+				any_scope_building = {
+					is_building_type = building_university
+					level >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_government_administration
+					level >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 5
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				state_region = {
+					OR = {
+						is_homeland = cu:corsican
+						is_homeland = cu:ticinese
+						is_homeland = cu:maltese
+						is_homeland = cu:rumantsch
+					}
+				}
+				turmoil <= 0.15
+				OR = {
+					any_scope_building = {
+						OR = {
+							is_building_type = building_naval_base
+							is_building_type = building_barracks
+						}
+						level >= 15
+					}
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 5
+					}
+					any_scope_building = {
+						is_building_type = building_government_administration
+						level >= 5
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 5
+					}
+				}
+			}
+			save_scope_as = united_italian_culture_state
+		}
+	}
+
+	option = {
+		name = manzoni.911.g
+		default_option = yes
+		custom_tooltip = {
+			text = manzoni_italian_consiousness_2_tt
+			scope:united_italian_culture_state = {
+				every_scope_pop = {
+					limit = {
+						culture = cu:corsican
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:ticinese
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:maltese
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:rumantsch
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_italian
+					remove_homeland = cu:corsican
+					remove_homeland = cu:ticinese
+					remove_homeland = cu:maltese
+					remove_homeland = cu:rumantsch
+				}
+			}
+		}
+	}
+}
+
+#Manzoni 924: Lingua del Sì
+
+manzoni.924 = {
+	type = country_event
+	
+	title = manzoni.924.t
+	desc = manzoni.924.d
+	flavor = manzoni.924.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_dante.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = manzoni.924.g #Italy is now also linguistically united!
+		default_option = yes
+		custom_tooltip = {
+			text = manzoni_pan_italian_identity_tt
+			every_character = {
+				limit = {
+					OR = {
+						has_culture = cu:corsican
+						has_culture = cu:ticinese
+						has_culture = cu:maltese
+						has_culture = cu:rumantsch
+					}
+				}
+				change_character_culture = cu:united_italian
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:corsican
+				}
+				change_pop_culture = {
+					target = cu:united_italian
+					value = 1
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:ticinese
+				}
+				change_pop_culture = {
+					target = cu:united_italian
+					value = 1
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:maltese
+				}
+				change_pop_culture = {
+					target = cu:united_italian
+					value = 1
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:rumantsch
+				}
+				change_pop_culture = {
+					target = cu:united_italian
+					value = 1
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					OR = {
+						any_scope_pop = {
+							culture = cu:corsican
+						}
+						any_scope_pop = {
+							culture = cu:ticinese
+						}
+						any_scope_pop = {
+							culture = cu:maltese
+						}
+						any_scope_pop = {
+							culture = cu:rumantsch
+						}
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:corsican
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:ticinese
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:maltese
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:rumantsch
+					}
+					change_pop_culture = {
+						target = cu:united_italian
+						value = 1
+					}
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:corsican
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_italian
+					remove_homeland = cu:corsican
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:ticinese
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_italian
+					remove_homeland = cu:ticinese
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:maltese
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_italian
+					remove_homeland = cu:maltese
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:rumantsch
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_italian
+					remove_homeland = cu:rumantsch
+				}
+			}
+		}
+		add_loyalists = {
+			culture = cu:united_italian
+			value = 0.05
 		}
 	}
 }
