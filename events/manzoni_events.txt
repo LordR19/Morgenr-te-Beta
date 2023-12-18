@@ -531,6 +531,10 @@ manzoni.912 = {
 				}
 			}
 		}
+		add_loyalists = {
+			culture = cu:united_italian
+			value = 0.05
+		}
 	}
 }
 
@@ -613,6 +617,9 @@ manzoni.914 = {
 	option = {
 		name = manzoni.914.g #The days of campanilismo are over.
 		default_option = yes
+		manzoni_add_x_national_identity_progress_effect = {
+			AMOUNT = 3
+		}
 		scope:manzoni_character_scope = {
 			change_character_culture = cu:united_italian
 		}
@@ -682,6 +689,9 @@ manzoni.915 = {
 	option = {
 		name = manzoni.915.g #Another bandit masquerading as Robin Hood!
 		default_option = yes
+		manzoni_add_x_national_identity_progress_effect = {
+			AMOUNT = -3
+		}
 		scope:manzoni_brigant_state = {
 			add_modifier = {
 				name = manzoni_brigants_modifier
@@ -771,12 +781,8 @@ manzoni.916 = {
 
 	option = {
 		name = manzoni.916.h #We should take this special heritage into account.
-		custom_tooltip = {
-			text = manzoni_lose_20_identity_progress_tt
-			change_variable = { 
-				name = national_identity_progress_var 
-				add = -20
-			}
+		manzoni_add_x_national_identity_progress_effect = {
+			AMOUNT = -20
 		}
 	}
 }
@@ -818,12 +824,8 @@ manzoni.917 = {
 
 	option = {
 		name = manzoni.917.g #Our linguistic diversity is our prestige.
-		custom_tooltip = {
-			text = manzoni_lose_20_identity_progress_tt
-			change_variable = { 
-				name = national_identity_progress_var 
-				add = -20
-			}
+		manzoni_add_x_national_identity_progress_effect = {
+			AMOUNT = -20
 		}
 		scope:manzoni_intelligentsia_ig_scope = {
 			add_modifier = {
@@ -1105,12 +1107,8 @@ manzoni.920 = {
 		trigger = {
 			has_global_variable = manzoni_foscolo_returns
 		}
-		custom_tooltip = {
-			text = manzoni_add_10_identity_progress_tt
-			change_variable = { 
-				name = national_identity_progress_var 
-				add = 10
-			}
+		manzoni_add_x_national_identity_progress_effect = {
+			AMOUNT = 10
 		}
 		manzoni_add_x_literary_tradition_effect = {
 			AMOUNT = 10
@@ -1127,6 +1125,119 @@ manzoni.920 = {
 		add_modifier = {
 			name = manzoni_no_foscolo_modifier
 			years = 5
+		}
+	}
+}
+
+#Manzoni 921: Italian Music Culture
+
+manzoni.921 = {
+	type = country_event
+	
+	title = manzoni.921.t
+	desc = manzoni.921.d
+	flavor = manzoni.921.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_verdi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = manzoni_opera_culture_var
+		}
+	}
+
+	immediate = {
+		set_variable = manzoni_opera_culture_var
+	}
+
+	option = {
+		name = manzoni.921.g #Italy has a rich musical history.
+		default_option = yes
+		manzoni_add_x_national_identity_progress_effect = {
+			AMOUNT = 5
+		}
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	option = {
+		name = manzoni.921.h #The future belongs to Italian musical culture!
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Manzoni 922: Dante Cult
+
+manzoni.922 = {
+	type = country_event
+	
+	title = manzoni.922.t
+	desc = manzoni.922.d
+	flavor = manzoni.922.f
+
+	placement = scope:manzoni_dante_state
+	
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_dante.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = manzoni_dante_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_TUSCANY
+		}
+	}
+
+	immediate = {
+		set_variable = manzoni_dante_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_TUSCANY
+			}
+			save_scope_as = manzoni_dante_state
+		}
+	}
+
+	option = {
+		name = manzoni.922.g #Support the Dante cult and build a monument in Florence.
+		default_option = yes
+		add_treasury = -100000
+		manzoni_add_x_national_identity_progress_effect = {
+			AMOUNT = 5
+		}
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 10
+		}
+		scope:manzoni_dante_state = {
+			add_loyalists_in_state = {
+				value = 0.05
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.922.h #And torture future generations with tercets?
+		scope:manzoni_dante_state = {
+			add_radicals_in_state = {
+				value = 0.02
+			}
 		}
 	}
 }
