@@ -112,6 +112,188 @@ manzoni.902 = {
 	}
 }
 
+#Manzoni 910: Roma Aeterna
+
+manzoni.910 = {
+	type = country_event
+	placement = scope:manzoni_new_capital_scope
+	
+	title = manzoni.910.t
+	desc = manzoni.910.d
+	flavor = manzoni.910.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/manzoni_roma.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+	
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = manzoni_old_capital_scope
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_LAZIO
+			}
+			save_scope_as = manzoni_new_capital_scope
+		}
+	}
+
+	option = {
+		name = manzoni.910.g #Viva Roma!
+		default_option = yes
+		if = {
+			limit = {
+				scope:manzoni_old_capital_scope = {
+					has_building = building_lepsius_archaeological_museum
+				}
+				NOT = {
+					scope:manzoni_new_capital_scope = {
+						has_building = building_lepsius_archaeological_museum
+					}
+				}
+			}
+			scope:manzoni_old_capital_scope = {
+				remove_building = building_lepsius_archaeological_museum
+			}
+			scope:manzoni_new_capital_scope = {
+				create_building = {
+					building = "building_lepsius_archaeological_museum"
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:manzoni_old_capital_scope = {
+					has_building = building_dubois_zoo
+				}
+				NOT = {
+					scope:manzoni_new_capital_scope = {
+						has_building = building_dubois_zoo
+					}
+				}
+			}
+			scope:manzoni_old_capital_scope = {
+				remove_building = building_dubois_zoo
+			}
+			scope:manzoni_new_capital_scope = {
+				create_building = {
+					building = "building_dubois_zoo"
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:manzoni_old_capital_scope = {
+					has_building = building_verrier_observatory
+				}
+				NOT = {
+					scope:manzoni_new_capital_scope = {
+						has_building = building_verrier_observatory
+					}
+				}
+			}
+			scope:manzoni_old_capital_scope = {
+				remove_building = building_verrier_observatory
+			}
+			scope:manzoni_new_capital_scope = {
+				create_building = {
+					building = "building_verrier_observatory"
+				}
+			}
+		}
+		set_capital = STATE_LAZIO
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+		if = {
+			limit = {
+				has_variable = dubois_zoo_fourth_extension
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_5
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = dubois_zoo_third_extension
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_4
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = dubois_zoo_second_extension
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_3
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = dubois_zoo_first_extension
+			}
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_2
+				}
+			}
+		}
+		else = {
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_1
+				}
+			}
+		}
+		remove_variable = manzoni_roma_aeterna_var
+	}
+}
+
 #Manzoni 911: An Italian Consciousness
 
 manzoni.911 = {
