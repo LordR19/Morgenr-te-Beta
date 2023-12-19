@@ -1,0 +1,350 @@
+﻿###########################
+# NATIONALIZATION EVENTS  #
+###########################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = nationalization
+
+###################
+
+#NOTE: Italian Nationalization under Manzoni
+
+### Germany ###
+#Nationalization 101: A German Consciousness
+#Nationalization 102: A Pan-German Consciousness
+
+###################
+
+#Nationalization 101: A German Consciousness
+
+nationalization.101 = {
+	type = country_event
+	placement = scope:united_german_culture_state
+	
+	title = nationalization.101.t
+	desc = nationalization.101.d
+	flavor = nationalization.101.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_fallersleben.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_germany.dds"
+	
+	duration = 3
+	
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			state_region = {
+				OR = {
+					is_homeland = cu:north_german
+					is_homeland = cu:south_german
+					is_homeland = cu:alemannic
+				}
+			}
+			turmoil <= 0.15
+			OR = {
+				any_scope_building = {
+					OR = {
+						is_building_type = building_naval_base
+						is_building_type = building_barracks
+					}
+					level >= 15
+				}
+				any_scope_building = {
+					is_building_type = building_university
+					level >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_government_administration
+					level >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 5
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				state_region = {
+					OR = {
+						is_homeland = cu:north_german
+						is_homeland = cu:south_german
+						is_homeland = cu:alemannic
+					}
+				}
+				turmoil <= 0.15
+				OR = {
+					any_scope_building = {
+						OR = {
+							is_building_type = building_naval_base
+							is_building_type = building_barracks
+						}
+						level >= 15
+					}
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 5
+					}
+					any_scope_building = {
+						is_building_type = building_government_administration
+						level >= 5
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 5
+					}
+				}
+			}
+			save_scope_as = united_german_culture_state
+		}
+	}
+
+	option = {
+		name = nationalization.101.g
+		default_option = yes
+		custom_tooltip = {
+			text = nationalization_german_consiousness_tt
+			scope:united_german_culture_state = {
+				every_scope_pop = {
+					limit = {
+						culture = cu:north_german
+					}
+					change_pop_culture = {
+						target = cu:united_german
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:south_german
+					}
+					change_pop_culture = {
+						target = cu:united_german
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:alemannic
+					}
+					change_pop_culture = {
+						target = cu:united_german
+						value = 1
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_german
+					remove_homeland = cu:north_german
+					remove_homeland = cu:south_german
+					remove_homeland = cu:alemannic
+				}
+			}
+		}
+	}
+}
+
+#Nationalization 102: A Pan-German Consciousness
+
+nationalization.102 = {
+	type = country_event
+	
+	title = nationalization.102.t
+	desc = nationalization.102.d
+	flavor = nationalization.102.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_fallersleben.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_germany.dds"
+	
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+		#set_global_variable = nationalization_united_german_nation_var
+	}
+
+	option = {
+		name = nationalization.102.g #We Germans fear God and nothing else!
+		default_option = yes
+		custom_tooltip = {
+			text = nationalization_pan_german_identity_tt
+			every_character = {
+				limit = {
+					OR = {
+						has_culture = cu:south_german
+						has_culture = cu:north_german
+						has_culture = cu:alemannic
+					}
+				}
+				change_character_culture = cu:united_german
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:north_german
+				}
+				change_pop_culture = {
+					target = cu:united_german
+					value = 1
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:south_german
+				}
+				change_pop_culture = {
+					target = cu:united_german
+					value = 1
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:alemannic
+				}
+				change_pop_culture = {
+					target = cu:united_german
+					value = 1
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					OR = {
+						any_scope_pop = {
+							culture = cu:north_german
+						}
+						any_scope_pop = {
+							culture = cu:south_german
+						}
+						any_scope_pop = {
+							culture = cu:alemannic
+						}
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:north_german
+					}
+					change_pop_culture = {
+						target = cu:united_german
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:south_german
+					}
+					change_pop_culture = {
+						target = cu:united_german
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:alemannic
+					}
+					change_pop_culture = {
+						target = cu:united_german
+						value = 1
+					}
+				}
+				if = {
+					limit = {
+						is_player = yes
+					}
+					trigger_event = {
+						id = nationalization.103
+					}
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:north_german
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_german
+					remove_homeland = cu:north_german
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:south_german
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_german
+					remove_homeland = cu:south_german
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:alemannic
+					}
+				}
+				state_region = {
+					add_homeland = cu:united_german
+					remove_homeland = cu:alemannic
+				}
+			}
+		}
+		add_loyalists = {
+			culture = cu:united_german
+			value = 0.05
+		}
+	}
+}
+
+#Nationalization 103: A Pan-German Consciousness (Notification)
+
+nationalization.103 = {
+	type = country_event
+	
+	title = nationalization.102.t
+	desc = nationalization.103.d
+	flavor = nationalization.102.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_fallersleben.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_germany.dds"
+	
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = nationalization.103.g #But could this invention be dangerous for humanity?
+		default_option = yes
+		custom_tooltip = manzoni_pan_german_identity_tt
+	}
+}
