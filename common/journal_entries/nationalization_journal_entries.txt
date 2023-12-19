@@ -1,0 +1,165 @@
+﻿
+####################################
+# NATIONALIZATION JOURNAL ENTRIES  #
+####################################
+
+#by Marco Dandolo
+
+############################
+
+#NOTE: Italian Nationalization under Manzoni
+
+
+#####GERMANIZATION######
+
+je_nationalization_germanization = {
+	icon = "gfx/interface/icons/event_icons/event_germany.dds"
+
+	group = je_group_internal_affairs
+
+	is_shown_when_inactive = {
+		c:GER ?= ROOT
+		hidden_trigger = {
+			has_game_rule = manzoni_united_cultures_rule
+		}
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+	}
+
+	immediate = {
+		set_national_identity_vars = yes
+		set_variable = { name = national_identity_progress_var value = 0 }
+		calculate_national_identity_progress = yes
+	}
+
+	on_weekly_pulse = {
+		effect = {
+			calculate_national_identity_progress = yes
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			add_national_identity_progress = yes
+		}
+
+		random_events = {
+			120 = 0
+			#25 = nationalization.111 #Nationalization 111: Character becomes German
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		custom_tooltip = {
+			text = nationalization_german_consiousness_capital_tt
+			clear_national_identity_vars = yes
+			add_primary_culture = cu:united_german
+			remove_primary_culture = cu:north_german
+			remove_primary_culture = cu:south_german
+			capital.state_region = {
+				add_homeland = cu:united_german
+				remove_homeland = cu:north_german
+				remove_homeland = cu:south_german
+				region_state:GER = {
+					every_scope_pop = {
+						limit = {
+							culture = cu:north_german
+						}
+						change_pop_culture = {
+							target = cu:united_german
+							value = 1
+						}
+					}
+					every_scope_pop = {
+						limit = {
+							culture = cu:south_german
+						}
+						change_pop_culture = {
+							target = cu:united_german
+							value = 1
+						}
+					}
+				}
+			}
+			add_journal_entry = {
+				type = je_nationalization_german_national_identity
+			}
+		}
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = root.var:national_identity_progress_var
+	}
+
+	goal_add_value = {
+		add = 250
+	}
+
+	weight = 100
+
+	progressbar = yes
+
+	should_be_pinned_by_default = yes
+}
+
+je_nationalization_german_national_identity = {
+	icon = "gfx/interface/icons/event_icons/event_germany.dds"
+
+	group = je_group_internal_affairs
+
+	immediate = {
+	}
+
+	on_yearly_pulse = {
+		events = {
+			nationalization.101 #Nationalization 101: A German Consciousness
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_nationalization_german_national_identity_goal
+			NOR = {
+				any_state = {
+					state_region = {
+						is_homeland = cu:alemannic
+					}
+				}
+				any_state = {
+					state_region = {
+						is_homeland = cu:south_german
+					}
+				}
+				any_state = {
+					state_region = {
+						is_homeland = cu:north_german
+					}
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = nationalization.102 #Nationalization 102: A Pan-German Consciousness
+		}
+	}
+
+	weight = 100
+
+	should_be_pinned_by_default = yes
+}
