@@ -46,6 +46,54 @@ namespace = dufour
 
 ###################
 
+#Dufour 800: Voices grow to bring back the Ibex
+
+dufour.800 = {
+	type = country_event
+	placement = scope:east_switzerland_state_scope
+
+    title = dufour.800.t
+    desc = dufour.800.d
+    flavor = dufour.800.f
+
+    event_image = {
+		texture = "gfx/event_pictures/cow_italian_flavor/ibex_extinct.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_ibex.dds"
+
+    duration = 3
+
+	cooldown = -1
+	
+	trigger = {
+		dubois_has_naturalist = yes
+		has_state_in_state_region = STATE_EAST_SWITZERLAND	
+		has_technology_researched = nationalism
+		has_technology_researched = dubois_theory_of_evolution_tech
+		NOT = { has_variable = voices_to_bring_back_ibex_var }
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = { state_region = s:STATE_EAST_SWITZERLAND }
+			save_scope_as = east_switzerland_state_scope
+		}
+
+		set_variable = voices_to_bring_back_ibex_var
+	}
+	
+	option = { #build the park directly
+		name = dufour.800.g
+		trigger_event = { id = swiss_flavor_events.103 popup = yes }
+		set_variable = {
+			name = can_build_wildpark_var #used to make the construction of a Zoo possible
+		}
+	}
+}
+
 #Dufour 900: Carte Dufour
 
 dufour.900 = {
