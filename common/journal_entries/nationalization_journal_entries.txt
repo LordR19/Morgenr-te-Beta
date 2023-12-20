@@ -154,3 +154,59 @@ je_nationalization_german_national_identity = {
 
 	should_be_pinned_by_default = yes
 }
+
+######FRENCHIZATION######
+
+je_nationalization_frenchization = {
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+
+	group = je_group_internal_affairs
+
+	is_shown_when_inactive = {
+		c:FRA ?= ROOT
+		hidden_trigger = {
+			has_game_rule = manzoni_united_cultures_rule
+		}
+	}
+
+	possible = {
+		has_technology_researched = pan-nationalism
+		#institution_investment_level = {
+		#	institution = institution_schools
+		#	value >= 3
+		#}
+	}
+
+	immediate = {
+	}
+
+	on_yearly_pulse = {
+		events = {
+			nationalization.201 #Nationalization 201: Frenchization
+			nationalization.204 #Nationalization 204: Occitan integrated
+			nationalization.205 #Nationalization 205: Franco-Provencal integrated
+			nationalization.206 #Nationalization 206: Breton integrated
+			nationalization.207 #Nationalization 207: Walloon integrated
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_nationalization_french_national_identity_tt
+			has_variable = nationalization_occitan_integrated_var
+			has_variable = nationalization_francoprovencal_integrated_var
+			has_variable = nationalization_breton_integrated_var
+			has_variable = nationalization_wallonian_integrated_var
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = nationalization.202 #Nationalization 202: Frenchization completed
+		}
+	}
+
+	weight = 100
+
+	should_be_pinned_by_default = yes
+}
