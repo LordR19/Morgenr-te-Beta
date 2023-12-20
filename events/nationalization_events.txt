@@ -786,3 +786,670 @@ nationalization.113 = {
 		}
 	}
 }
+
+########################################################################
+
+######FRENCHIZATION######
+
+#Nationalization 201: Frenchization
+
+nationalization.201 = {
+	type = country_event
+	placement = scope:frenchization_state
+	
+	title = nationalization.201.t
+	desc = nationalization.201.d
+	flavor = nationalization.201.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_delacroix.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	duration = 3
+	
+	trigger = {
+		any_scope_state = {
+			is_incorporated = yes
+			state_region = {
+				OR = {
+					is_homeland = cu:occitan
+					is_homeland = cu:francoprovencal
+					is_homeland = cu:breton
+					is_homeland = cu:wallonian
+				}
+			}
+			turmoil <= 0.15
+			OR = {
+				any_scope_building = {
+					OR = {
+						is_building_type = building_naval_base
+						is_building_type = building_barracks
+					}
+					level >= 15
+				}
+				any_scope_building = {
+					is_building_type = building_university
+					level >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_government_administration
+					level >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 5
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				state_region = {
+					OR = {
+						is_homeland = cu:occitan
+						is_homeland = cu:francoprovencal
+						is_homeland = cu:breton
+						is_homeland = cu:wallonian
+					}
+				}
+				turmoil <= 0.15
+				OR = {
+					any_scope_building = {
+						OR = {
+							is_building_type = building_naval_base
+							is_building_type = building_barracks
+						}
+						level >= 15
+					}
+					any_scope_building = {
+						is_building_type = building_university
+						level >= 5
+					}
+					any_scope_building = {
+						is_building_type = building_government_administration
+						level >= 5
+					}
+					any_scope_building = {
+						is_building_type = building_urban_center
+						level >= 5
+					}
+				}
+			}
+			save_scope_as = frenchization_state
+		}
+	}
+
+	option = {
+		name = nationalization.201.g
+		default_option = yes
+		custom_tooltip = {
+			text = nationalization_frenchization_tt
+			scope:frenchization_state = {
+				every_scope_pop = {
+					limit = {
+						culture = cu:occitan
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:francoprovencal
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:breton
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:wallonian
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+				state_region = {
+					add_homeland = cu:french
+					remove_homeland = cu:occitan
+					remove_homeland = cu:francoprovencal
+					remove_homeland = cu:breton
+					remove_homeland = cu:wallonian
+				}
+			}
+		}
+	}
+}
+
+#Nationalization 202: Frenchization completed
+
+nationalization.202 = {
+	type = country_event
+	
+	title = nationalization.202.t
+	desc = nationalization.202.d
+	flavor = nationalization.202.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_delacroix.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	duration = 3
+	
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = nationalization.202.g #
+		default_option = yes
+		custom_tooltip = {
+			text = nationalization_pan_french_identity_tt
+			every_character = {
+				limit = {
+					OR = {
+						has_culture = cu:occitan
+						has_culture = cu:francoprovencal
+						has_culture = cu:breton
+						has_culture = cu:wallonian
+					}
+				}
+				change_character_culture = cu:french
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:occitan
+				}
+				change_pop_culture = {
+					target = cu:french
+					value = 1
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:francoprovencal
+				}
+				change_pop_culture = {
+					target = cu:french
+					value = 1
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:breton
+				}
+				change_pop_culture = {
+					target = cu:french
+					value = 1
+				}
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:wallonian
+				}
+				change_pop_culture = {
+					target = cu:wallonian
+					value = 1
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					OR = {
+						any_scope_pop = {
+							culture = cu:occitan
+						}
+						any_scope_pop = {
+							culture = cu:francoprovencal
+						}
+						any_scope_pop = {
+							culture = cu:breton
+						}
+						any_scope_pop = {
+							culture = cu:wallonian
+						}
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:occitan
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:francoprovencal
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:breton
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:wallonian
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:occitan
+					}
+				}
+				state_region = {
+					add_homeland = cu:french
+					remove_homeland = cu:occitan
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:francoprovencal
+					}
+				}
+				state_region = {
+					add_homeland = cu:french
+					remove_homeland = cu:francoprovencal
+				}
+			}
+			every_state = {
+				limit = {
+					state_region = {
+						is_homeland = cu:breton
+					}
+				}
+				state_region = {
+					add_homeland = cu:french
+					remove_homeland = cu:breton
+				}
+			}
+		}
+		add_loyalists = {
+			culture = cu:french
+			value = 0.05
+		}
+	}
+}
+
+#Nationalization 204: Occitan integrated
+
+nationalization.204 = {
+	type = country_event
+	
+	title = nationalization.204.t
+	desc = nationalization.204.d
+	flavor = nationalization.204.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_delacroix.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = nationalization_occitan_integrated_var
+		}
+		NOT = {
+			any_state = {
+				region = sr:region_occitania
+				state_region = {
+					is_homeland = cu:occitan
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = nationalization_occitan_integrated_var
+	}
+
+	option = {
+		name = nationalization.204.g #
+		default_option = yes
+		hidden_effect = {
+			every_character = {
+				limit = {
+					has_culture = cu:occitan
+				}
+				change_character_culture = cu:french
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:occitan
+				}
+				change_pop_culture = {
+					target = cu:french
+					value = 1
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					any_scope_pop = {
+						culture = cu:occitan
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:occitan
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+			}
+			every_state = {
+				state_region = {
+					remove_homeland = cu:occitan
+				}
+			}
+		}
+	}
+}
+
+#Nationalization 205: Francoprovencal integrated
+
+nationalization.205 = {
+	type = country_event
+	
+	title = nationalization.205.t
+	desc = nationalization.205.d
+	flavor = nationalization.204.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_delacroix.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = nationalization_francoprovencal_integrated_var
+		}
+		NOT = {
+			any_state = {
+				OR = {
+					region = sr:region_occitania
+					region = sr:region_south_germany
+				}
+				state_region = {
+					is_homeland = cu:francoprovencal
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = nationalization_francoprovencal_integrated_var
+	}
+
+	option = {
+		name = nationalization.204.g #
+		default_option = yes
+		hidden_effect = {
+			every_character = {
+				limit = {
+					has_culture = cu:francoprovencal
+				}
+				change_character_culture = cu:french
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:francoprovencal
+				}
+				change_pop_culture = {
+					target = cu:french
+					value = 1
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					any_scope_pop = {
+						culture = cu:francoprovencal
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:francoprovencal
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+			}
+			every_state = {
+				state_region = {
+					remove_homeland = cu:francoprovencal
+				}
+			}
+		}
+	}
+}
+
+#Nationalization 206: Breton integrated
+
+nationalization.206 = {
+	type = country_event
+	
+	title = nationalization.206.t
+	desc = nationalization.206.d
+	flavor = nationalization.204.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_delacroix.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = nationalization_breton_integrated_var
+		}
+		NOT = {
+			any_state = {
+				region = sr:region_france
+				state_region = {
+					is_homeland = cu:breton
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = nationalization_breton_integrated_var
+	}
+
+	option = {
+		name = nationalization.204.g #
+		default_option = yes
+		hidden_effect = {
+			every_character = {
+				limit = {
+					has_culture = cu:breton
+				}
+				change_character_culture = cu:french
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:breton
+				}
+				change_pop_culture = {
+					target = cu:french
+					value = 1
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					any_scope_pop = {
+						culture = cu:breton
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:breton
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+			}
+			every_state = {
+				state_region = {
+					remove_homeland = cu:breton
+				}
+			}
+		}
+	}
+}
+
+#Nationalization 207: Wallonian integrated
+
+nationalization.207 = {
+	type = country_event
+	
+	title = nationalization.207.t
+	desc = nationalization.207.d
+	flavor = nationalization.204.f
+	
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_delacroix.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/waving_flag.dds"
+	
+	duration = 3
+	
+	trigger = {
+		NOT = {
+			has_variable = nationalization_wallonian_integrated_var
+		}
+		NOT = {
+			any_state = {
+				region = sr:region_rhine
+				state_region = {
+					is_homeland = cu:wallonian
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = nationalization_wallonian_integrated_var
+	}
+
+	option = {
+		name = nationalization.204.g #
+		default_option = yes
+		hidden_effect = {
+			every_character = {
+				limit = {
+					has_culture = cu:wallonian
+				}
+				change_character_culture = cu:french
+			}
+			every_scope_pop = {
+				limit = {
+					culture = cu:wallonian
+				}
+				change_pop_culture = {
+					target = cu:french
+					value = 1
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					any_scope_pop = {
+						culture = cu:wallonian
+					}
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:wallonian
+					}
+					change_pop_culture = {
+						target = cu:french
+						value = 1
+					}
+				}
+			}
+			every_state = {
+				state_region = {
+					remove_homeland = cu:wallonian
+				}
+			}
+		}
+	}
+}
