@@ -107,7 +107,9 @@ namespace = vikelas
 #Vikelas 311: Baseball Club in $STATE$
 #Vikelas 321: Cricket Club in $STATE$
 
-#Vikelas 503: [Scope] is now a famous Racer
+#Events 500-499: Auto Race
+
+#Vikelas 501: Automobile Club founded
 
 #################################################################################
 
@@ -6213,6 +6215,127 @@ vikelas.403 = {
 	}
 }
 
+#################################################################################
+
+######AUTO RACE######
+
+#Vikelas 501: Automobile Club founded
+
+vikelas.501 = {
+	type = country_event
+
+	title = vikelas.501.t
+	desc = vikelas.501.d
+	flavor = vikelas.501.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:vikelas_racer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:vikelas_racer_var = {
+			save_scope_as = vikelas_racer_scope
+		}
+	}
+
+	option = {
+		name = vikelas.501.g #We need experienced engineers.
+		trigger = {
+			gaudi_has_engineer = yes
+		}
+		mechanical_engineer_experience_gain_effect = {
+			AMOUNT = 50
+		}
+	}
+
+	option = {
+		name = vikelas.501.h #We need advanced technology.
+		default_option = yes
+		gaudi_mechanical_engineering_small_add_technology = yes
+	}
+
+	option = {
+		name = vikelas.501.i #We need more cars.
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_motor_industry
+				has_active_production_method = pm_automobile_production
+			}
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_motor_industry
+					has_active_production_method = pm_automobile_production
+				}
+			}
+			add_modifier = {
+				name = vikelas_automobile_euphoria_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 502: First Grand Prix Race
+
+vikelas.502 = {
+	type = country_event
+
+	title = vikelas.502.t
+	desc = vikelas.502.d
+	flavor = vikelas.502.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_france.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = vikelas.502.g #
+		
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				NOT = {
+					this = ROOT
+				}
+				has_technology_researched = combustion_engine
+				is_player = yes
+			}
+			trigger_event = {
+				id = vikelas.504
+			}
+		}
+	}
+}
+
 #Vikelas 503: [Scope] is now a famous Racer
 
 vikelas.503 = {
@@ -6249,5 +6372,81 @@ vikelas.503 = {
 			remove_trait = vikelas_racer
 			add_trait = vikelas_racer_champion
 		}
+	}
+}
+
+#Vikelas 504: First Grand Prix Race (notification)
+
+vikelas.504 = {
+	type = country_event
+
+	title = vikelas.502.t
+	desc = vikelas.504.d
+	flavor = vikelas.502.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_france.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = vikelas_grand_prix_found_modifier
+			}
+			save_scope_as = vikelas_gp_founder_scope
+		}
+	}
+
+	option = {
+		name = vikelas.502.g #
+	}
+
+	after = {
+	}
+}
+
+#Vikelas 511: Long Distance Race
+
+vikelas.511 = {
+	type = country_event
+
+	title = vikelas.511.t
+	desc = vikelas.511.d
+	flavor = vikelas.511.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/vikelas_pictures/vikelas_autorace_continental.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = vikelas.511.g #
+		add_journal_entry = {
+			type = je_vikelas_long_distance_race
+		}
+	}
+
+	after = {
 	}
 }
