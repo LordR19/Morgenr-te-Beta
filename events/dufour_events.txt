@@ -10,7 +10,7 @@ namespace = dufour
 
 ###################
 
-### Dufour 900 - 999: Event related to Journal Entries ### 
+### Dufour 900 - 919: Carte Dufour ### 
 
 #Dufour 900: Carte Dufour
 #Dufour 901: Locals disturbed by survey
@@ -30,6 +30,8 @@ namespace = dufour
 #Dufour 915: New Sheets published: Fribourg and Bern
 #Dufour 916: New Sheets published: Zürich and Aargau
 #Dufour 917: New Sheets published: Vaud and Valais
+
+### Dufour 920 - 999: Return of the Ibex ###
 
 ### Dufour 1000 - 1999: Minor Political Swiss Events ###
 
@@ -88,6 +90,8 @@ dufour.900 = {
 		}
 	}
 }
+
+### Dufour 900 - 919: Carte Dufour ### 
 
 #Dufour 901: Locals disturbed by survey
 
@@ -803,9 +807,86 @@ dufour.917 = {
 	}
 }
 
+### Dufour 920 - 999: Return of the Ibex ###
+
+
+#Voices grow to bring back the ibex
+dufour.920 = {
+	type = country_event
+	placement = scope:east_switzerland_state_scope
+
+    title = dufour.920.t
+    desc = dufour.920.d
+    flavor = dufour.920.f
+
+    event_image = {
+		texture = "gfx/event_pictures/dufour_pictures/dufour_ibex/dufour_ibex_extinct.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/world_fair"
+
+	icon = "gfx/interface/icons/event_icons/event_ibex.dds"
+
+    duration = 3
+
+	trigger = {
+		NOR = {
+			has_variable = dufour_bring_back_ibex_var
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		OR = {
+			c:SWI ?= this
+			was_formed_from = SWI
+			any_primary_culture = {
+				has_discrimination_trait = swiss
+			}
+		}
+		has_state_in_state_region = STATE_EAST_SWITZERLAND	
+		has_technology_researched = nationalism
+	}
+	
+	immediate = {
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_EAST_SWITZERLAND
+			}
+			save_scope_as = east_switzerland_state_scope
+		}
+
+		set_variable = {
+			name = dufour_bring_back_ibex_var
+		}
+	}
+	
+	option = { #We will return the Ibex!
+		name = dufour.920.a
+		default_option = yes
+		
+#		add_journal_entry = {
+#			type = je_dufour_wildpark_mission
+#		}
+	}
+
+	option = { #What a waste of time!
+		name = dufour.920.b
+		
+		scope:east_switzerland_state_scope = {
+			add_radicals_in_state = {
+				value = 0.02
+			}
+		}
+	}
+}
+
+
 ### Dufour 1000 - 1999: Minor Political Swiss Events ###
 
 #Dufour 1000: The two Appenzells do not implement the women's suffrage
+
 dufour.1000 = { 
 	type = country_event
 	placement = scope:east_switzerland_state
