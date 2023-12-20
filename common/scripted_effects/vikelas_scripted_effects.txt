@@ -2,7 +2,7 @@
 # VIKELAS SCRIPTED EFFECTS #
 ############################
 
-#by Lord R
+#by Lord R & Marco Dandolo
 
 #############################
 
@@ -1088,6 +1088,8 @@ vikelas_ioc_board_members_effect = {
 	}
 }
 
+######################################################################
+
 ######Racer######
 
 #This effect kills the current racer
@@ -1275,6 +1277,89 @@ racer_experience_gain_effect = { #adds XP to the Racer
 					}
 				}
 			}
+		}
+	}
+}
+
+######################################################################
+
+######AUTO RACES######
+
+#This determines the three fastest racers
+vikelas_grand_prix_winner_effect = {
+	#Removes the GLOBAL ranking variables
+	remove_global_variable = vikelas_grand_prix_place_1_global_var 
+	remove_global_variable = vikelas_grand_prix_place_2_global_var 
+	remove_global_variable = vikelas_grand_prix_place_3_global_var 
+
+	ordered_country = {
+		limit = {
+			has_variable = vikelas_automobile_club_var
+			has_technology_researched = organized_sports
+		}
+		order_by = var:vikelas_grand_prix_success_value
+		max = 3 #Limits the list to the three top countries
+		check_range_bounds = no #prevents errors
+
+		#This part checks one after another whether the the first, second, etc. ranked countries are saved already.
+		#Luckily the ordered_country effect iterates through the countries one after another.
+		#So the first country gets saved to the first variable but as that variable now is set,
+		# the second country gets saved to the second variable and so on.
+		if = {
+			limit = {
+				NOT = { 
+					has_global_variable = vikelas_grand_prix_place_1_global_var 
+				}
+			}
+			set_global_variable = {
+				name = vikelas_grand_prix_place_1_global_var 
+				value = this
+			}
+			save_scope_as = vikelas_first_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_grand_prix_place_2_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_grand_prix_place_2_global_var
+				value = this
+			}
+			save_scope_as = vikelas_second_winner_scope
+		}
+		else_if = {
+			limit = {
+				NOT = { has_global_variable = vikelas_grand_prix_place_3_global_var  }
+			}
+			set_global_variable = {
+				name = vikelas_grand_prix_place_3_global_var
+				value = this
+			}
+			save_scope_as = vikelas_third_winner_scope
+		}
+	}
+}
+
+#This effect adds the Grand Prix victory
+vikelas_add_grand_prix_victory_effect = {
+	change_variable = {
+		name = vikelas_grand_prix_victories_var
+		add = 1
+	}
+	custom_tooltip = vikelas_add_grand_prix_victory_effect_tt
+	hidden_effect = {
+		vikelas_replace_grand_prix_prestige_modifier_effect = yes
+	}
+}
+
+#This effect replaces the current Prestige Modifier
+vikelas_replace_grand_prix_prestige_modifier_effect = {
+	if = { #The if keepes countries that do not have victories from getting the modifier.
+		limit = { has_variable = vikelas_grand_prix_victories_var }
+		remove_modifier = vikelas_grand_prix_prestige_modifier
+		add_modifier = {
+			name = vikelas_grand_prix_prestige_modifier
+			multiplier = root.var:vikelas_grand_prix_victories_var #Multiplies the base prestige per victory (15) with the number of victories
 		}
 	}
 }
