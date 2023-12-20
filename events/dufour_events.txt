@@ -19,6 +19,7 @@ namespace = dufour
 #Dufour 904: Equipment lost!
 #Dufour 905: Blüemlisalp or Frau?
 #Dufour 906: Surveyor accelerates work on Map
+#Dufour 907: Mathematician helps with Calculations
 
 #Dufour 910: First Sheets published: Jura and Basel
 #Dufour 911: New Sheets published: Schaffhausen, Thurgau and St. Gallen
@@ -359,6 +360,68 @@ dufour.906 = {
 
 	option = { #Great Work!
 		name = dufour.906.g
+		default_option = yes
+
+		dufour_add_x_carte_dufour_progress_effect = { AMOUNT = 10 }
+	}
+}
+
+#Dufour 907: Mathematician helps with Calculations
+
+dufour.907 = {
+	type = country_event
+
+	title = dufour.907.t
+	desc = dufour.907.d
+	flavor = dufour.907.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:mathematician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_map.dds"
+
+	cooldown = { years = 5 }
+
+	duration = 3
+
+	trigger = {
+		OR = {
+			any_scope_character = {
+				has_trait = verrier_mathematician
+			}
+			mr_special_character_has_trait = { TRAIT_NAME = verrier_mathematician }
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				mr_special_character_has_trait = { TRAIT_NAME = verrier_mathematician }
+			}
+			random_character_in_void = {
+				limit = {
+					mr_is_special_character = yes
+					owner = root
+					has_trait = verrier_mathematician
+				}
+				save_scope_as = mathematician_scope
+			}
+		}
+		else = {
+			random_scope_character = {
+				limit = {
+					has_trait = verrier_mathematician
+				}
+				save_scope_as = mathematician_scope
+			}
+		}
+	}
+
+	option = { #Good thing we have Mathematicians!
+		name = dufour.907.g
 		default_option = yes
 
 		dufour_add_x_carte_dufour_progress_effect = { AMOUNT = 10 }
