@@ -1087,3 +1087,172 @@ vikelas_ioc_board_members_effect = {
 		}
 	}
 }
+
+######Racer######
+
+#This effect kills the current racer
+kill_racer_effect = {
+	var:vikelas_racer_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_racer_var
+}
+
+# Creates a new Racer without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_racer_effect = {
+	random_list = {
+		1 = { #Random Racer
+			create_character = {
+				save_scope_as = vikelas_new_racer_scope
+				age = { 18 30 }
+			}
+
+			scope:vikelas_new_racer_scope = {
+				add_trait = vikelas_racer
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+		}
+	}
+
+	var:vikelas_new_racer_var = {
+		save_scope_as = vikelas_new_racer_scope
+	}
+}
+
+# Set new Racer as official Racer
+vikelas_set_new_racer_as_racer_effect = {
+	custom_tooltip = {
+		text = vikelas_replaceracer_with_new_racer_tt
+	
+		if = {
+			limit = {
+				has_variable = vikelas_racer_var
+			}
+			var:vikelas_racer_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = vikelas_racer_var
+			value = scope:vikelas_new_racer_scope
+		}
+
+		remove_variable = vikelas_new_racer_var
+	}
+}
+
+# Remove new Racer
+vikelas_remove_new_racer_effect = {
+	scope:vikelas_new_racer_scope = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_new_racer_var
+}
+
+# Used to set up the Experience of a character 
+racer_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = vikelas_racer_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 20
+			}
+			set_variable = {
+				name = vikelas_racer_experience
+				value = age
+			}
+			change_variable = {
+				name = vikelas_racer_experience
+				subtract = 20
+			}
+			change_variable = {
+				name = vikelas_racer_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = vikelas_racer_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Famous Racer Trait if Experience is above 150
+			limit = {
+				var:vikelas_racer_experience >= 150
+				NOT = {
+					has_trait = vikelas_racer_champion
+				}
+			}
+			remove_trait = vikelas_racer
+			add_trait = vikelas_racer_champion
+		}
+	}
+}
+
+#Racer Experience gain
+racer_experience_gain_effect = { #adds XP to the Racer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = vikelas_racer_var #should only add experience if there actually is a Painter
+		}
+		custom_tooltip = {
+			text = vikelas_racer_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:vikelas_racer_var = { #Fallback to make sure there are no errors if the Painter does not have the variable yet
+							has_variable = vikelas_racer_experience
+						}
+					}
+				}
+				var:vikelas_racer_var = { #Sets the experience in case it was not set yet
+					racer_experience_set_up_effect = yes
+				}
+			}
+			var:vikelas_racer_var = {
+				change_variable = {
+					name = vikelas_racer_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:vikelas_racer_var = {
+			if = {
+				limit = {
+					var:vikelas_racer_experience >= 150
+					NOT = {
+						has_trait = vikelas_racer_champion
+					}
+				}
+				root = {
+					trigger_event = {
+						id = artists.103
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
