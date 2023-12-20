@@ -304,3 +304,176 @@ vikelas_football_worldcup_button = {
 		base = 100
 	}
 }
+
+######AUTO RACING######
+
+vikelas_autoracing_found_automobile_club_button = {
+	name = "vikelas_autoracing_found_automobile_club_button"
+	desc = "vikelas_autoracing_found_automobile_club_button_desc"
+
+	visible = { 
+		NOT = {
+			has_variable = vikelas_automobile_club_var
+		}
+	}
+
+	possible = {
+		has_technology_researched = combustion_engine
+	}
+
+	effect = {
+		set_variable = vikelas_automobile_club_var
+		trigger_event = {
+			id = vikelas.501
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+vikelas_autoracing_long_distance_button = {
+	name = "vikelas_autoracing_long_distance_button"
+	desc = "vikelas_autoracing_long_distance_button_desc"
+
+	visible = {
+		has_variable = vikelas_automobile_club_var
+	}
+
+	possible = {
+		has_technology_researched = combustion_engine
+		has_technology_researched = organized_sports
+		NOR = {
+			has_modifier = vikelas_recent_autorace_modifier
+			has_modifier = vikelas_ongoing_autorace_modifier
+		}
+		any_scope_state = {
+			count >= 2
+		}
+	}
+
+	effect = {
+		add_modifier = {
+			name = vikelas_ongoing_autorace_modifier
+		}
+		trigger_event = {
+			id = vikelas.511
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+vikelas_autoracing_found_grand_prix_button = {
+	name = "vikelas_autoracing_found_grand_prix_button"
+	desc = "vikelas_autoracing_found_grand_prix_button_desc"
+
+	visible = { 
+		NOT = {
+			has_global_variable = vikelas_autoracing_grand_prix_founded_var
+		}
+		has_variable = vikelas_automobile_club_var
+	}
+
+	possible = {
+		has_technology_researched = combustion_engine
+		has_technology_researched = organized_sports
+		has_technology_researched = elgar_mass_culture_tech
+		custom_tooltip = {
+			text = vikelas_autoracing_found_grand_prix_tt
+			any_country = {
+				has_variable = vikelas_automobile_club_var
+				has_technology_researched = organized_sports
+				count >= 5
+			}
+		}
+	}
+
+	effect = {
+		set_global_variable = vikelas_autoracing_grand_prix_founded_var
+		add_modifier = {
+			name = vikelas_grand_prix_found_modifier
+			years = 5
+		}
+		trigger_event = {
+			id = vikelas.502
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+vikelas_autoracing_race_track_button = {
+	name = "vikelas_autoracing_race_track_button"
+	desc = "vikelas_autoracing_race_track_button_desc"
+
+	visible = { 
+		NOT = {
+			any_scope_state = {
+				has_modifier = vikelas_race_track_modifier
+			}
+		}
+		has_variable = vikelas_automobile_club_var
+		has_global_variable = vikelas_autoracing_grand_prix_founded_var
+	}
+
+	possible = {
+		has_technology_researched = combustion_engine
+		has_technology_researched = organized_sports
+		has_technology_researched = paved_roads
+		any_scope_character = {
+			has_trait = vikelas_racer
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 15
+			}
+		}
+		gaudi_has_engineer = yes
+	}
+
+	effect = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 15
+				}
+			}
+			add_modifier = {
+				name = vikelas_race_track_modifier
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
+#vikelas_autoracing_construct_race_car_button = {
+#	name = "vikelas_autoracing_construct_race_car_button"
+#	desc = "vikelas_autoracing_construct_race_car_button_desc"
+#
+#	visible = {
+#		has_variable = vikelas_automobile_club_var
+#	}
+#
+#	possible = {
+#		has_technology_researched = combustion_engine
+#		has_technology_researched = organized_sports
+#	}
+#
+#	effect = {
+#	}
+#
+#	ai_chance = {
+#		base = 100
+#	}
+#}
