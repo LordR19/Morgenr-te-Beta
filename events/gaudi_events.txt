@@ -13212,18 +13212,53 @@ gaudi.1003 = {
 		gaudi_remove_new_engineer_effect = yes
 
 		ai_chance = {
-			base = 1
+			base = 0
 		}
 	}
 
 	option = {
-		name = gaudi.1003.h #He is meant for greater things!
+		name = gaudi.1003.h #He seems to be a great mechanic!
 		default_option = yes
 		
 		gaudi_set_new_engineer_as_engineer_effect = yes
 
 		ai_chance = {
 			base = 0
+			modifier = {
+				trigger = {
+					NOT = { has_variable = gaudi_engineer_var }
+				}
+				add = 100
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1003.i #An incredible racing talent!
+		default_option = yes
+		
+		custom_tooltip = {
+			text = vikelas_replace_racer_with_ferrari_tt
+		
+			if = {
+				limit = {
+					has_variable = vikelas_racer_var
+				}
+				var:vikelas_racer_var = {
+					free_character_from_void = no
+				}
+			}
+	
+			set_variable = {
+				name = vikelas_racer_var
+				value = scope:gaudi_new_engineer_scope
+			}
+	
+			remove_variable = gaudi_new_engineer_var
+		}
+
+		ai_chance = {
+			base = 100
 		}
 	}
 
