@@ -6660,7 +6660,11 @@ vikelas.591 = {
 		name = vikelas.591.g
 		default_option = yes
 
-		kill_and_replace_racer_effect = yes
+		custom_tooltip = {
+			text = vikelas.591.new_racer_tt
+			kill_racer_effect = yes
+			vikelas_set_new_racer_as_racer_effect = yes
+		}
 	}
 
 	option = {	#He would make a great engineer
@@ -6675,24 +6679,26 @@ vikelas.591 = {
 			}
 		}
 
-		var:vikelas_racer_var ?= {
-			OR = {
-				add_trait = engineer
-				add_trait = gaudi_mechanical_engineer
+		custom_tooltip = {
+			text = vikelas.591.racer_to_engineer_tt
+			var:vikelas_racer_var ?= {
+				OR = {
+					add_trait = engineer
+					add_trait = gaudi_mechanical_engineer
+				}
+				save_scope_as = gaudi_new_engineer_scope
+				set_variable = gaudi_is_mechanical_engineer_var
+				engineer_experience_set_up_effect = yes
 			}
-			save_scope_as = gaudi_new_engineer_scope
-			engineer_experience_set_up_effect = yes
+			set_variable = {
+				name = gaudi_engineer_var
+				value = scope:gaudi_new_engineer_scope
+			}
+	
+			remove_variable = vikelas_racer_var
+	
+			vikelas_set_new_racer_as_racer_effect = yes
 		}
-		set_variable = {
-			name = gaudi_new_engineer_var
-			value = scope:gaudi_new_engineer_scope
-		}
-		gaudi_set_new_engineer_as_engineer_effect = yes
-
-		remove_variable = vikelas_racer_var
-
-		vikelas_set_new_racer_as_racer_effect = yes
-		gaudi_set_mechanical_engineer_effect = yes
 	}
 }
 
