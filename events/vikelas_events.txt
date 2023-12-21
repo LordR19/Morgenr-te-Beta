@@ -117,6 +117,8 @@ namespace = vikelas
 #Vikelas 511: Long Distance Race
 
 #Vikelas 590: [Scope] is now a famous Racer
+#Vikelas 591: Racer retires
+#Vikelas 592: Our Racer died
 
 #################################################################################
 
@@ -6588,7 +6590,7 @@ vikelas.590 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
 
 	trigger = {
 	}
@@ -6607,5 +6609,125 @@ vikelas.590 = {
 			remove_trait = vikelas_racer
 			add_trait = vikelas_racer_champion
 		}
+	}
+}
+
+#Vikelas 591: Racer retires
+vikelas.591 = {
+	type = country_event
+
+	title = vikelas.591.t
+
+	desc = vikelas.591.d
+
+#	flavor = vikelas.591.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:vikelas_retired_racer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_autorace.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_variable = vikelas_racer_var
+		var:vikelas_racer_var ?= {
+			age >= 40
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:vikelas_racer_var ?= {
+				age >= 45
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:vikelas_racer_var = {
+			save_scope_as = vikelas_retired_racer_scope
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = vikelas.591.g
+		default_option = yes
+
+		kill_and_replace_racer_effect = yes
+	}
+
+	option = {	#He would make a great engineer
+		name = vikelas.591.h
+
+		trigger = {
+			var:vikelas_racer_var ?= {
+				OR = {
+					has_trait = gaudi_engineer
+					has_trait = gaudi_mechanical_engineer
+				}
+			}
+		}
+
+		var:vikelas_racer_var ?= {
+			OR = {
+				add_trait = gaudi_engineer
+				add_trait = gaudi_mechanical_engineer
+			}
+			save_scope_as = gaudi_new_engineer_scope
+			engineer_experience_set_up_effect = yes
+		}
+		set_variable = {
+			name = gaudi_new_engineer_var
+			value = scope:gaudi_new_engineer_scope
+		}
+		gaudi_set_new_engineer_as_engineer_effect = yes
+
+		remove_variable = vikelas_racer_var
+
+		create_new_racer_effect = yes
+		vikelas_set_new_racer_as_racer_effect = yes
+		gaudi_set_mechanical_engineer_effect = yes
+	}
+}
+
+#Vikelas 592: Our Racer died
+vikelas.592 = {
+	type = country_event
+
+	title = vikelas.592.t
+
+	desc = vikelas.592.d
+
+#	flavor = vikelas.592.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		kill_and_replace_racer_effect = yes
+	}
+
+	option = {	#A Tragedy!
+		name = vikelas.592.g
+		default_option = yes
+
+		custom_tooltip = vikelas.592_tt
 	}
 }
