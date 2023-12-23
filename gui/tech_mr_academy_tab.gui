@@ -1951,7 +1951,210 @@ types academy_view
 										}
 									}
 			
-									sports_placeholder = {
+									#Anthropologist
+									academics_widget_character_with_button = {
+										blockoverride "role_icon" {
+											texture = "gfx/interface/icons/character_role_icons/lepsius_anthropologist_role.dds"
+										}
+										blockoverride "role_tooltip" {
+											tooltip = "[concept_lepsius_anthropologist_desc]"
+										}
+										blockoverride "role_name" {
+											text = "ANTHRAPOLOGY_HEADER_TEXT"
+										}
+										blockoverride "character" {
+											datacontext = "[GetPlayer.MakeScope.Var('lepsius_anthropologist_var').GetCharacter]"
+										}
+										blockoverride "character_name" {
+											text = "[GetPlayer.GetCustom('academics_has_anthropologist_gui_type')]"
+										}
+										blockoverride "achievements_icon_visibility" = {
+											visible = yes
+										}
+										blockoverride "scientist_achievement_tooltip" {
+											tooltip = "MR_ANTHROPOLOGIST_ACHIEVEMENTS_TT"
+										}
+										blockoverride "experience_bar_visibility" {
+											visible = yes
+										}
+										blockoverride "values" {
+											min = 0
+											max = 300
+											value = "[GetPlayer.MakeScope.Var('lepsius_anthropologist_var').GetVariable('lepsius_anthropologist_experience').GetValue]"
+										}
+										blockoverride "experience_tooltip" {
+										#	tooltip = "MR_BALLOONIST_EXPERIENECE_TT"
+										}
+										blockoverride "small_box_content" {
+											widget = { #This Icon allows an overview of the 10 Nations with the most Total Artifacts
+												#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
+												#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+												#used in the mr_GUI_l_english.yml file to display the global variables.
+												size = { 30 30 }
+												parentanchor = top|right
+												position = { 5 -5 }
+											
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/backgrounds/round_button_bg.dds"
+													block "enabled" {}
+												}
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/buttons/button_icons/list.dds"
+													block "enabled" {}
+													tooltip = "RANKING_TOTAL_HUMAN_FOSSILS_VAR_TT"
+												}
+											}
+
+											flowcontainer = {
+												direction = vertical
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 7 }
+
+												textbox = {
+													#Known Human Fossils
+													text = "TOTAL_HUMAN_FOSSILS_VAR"
+													parentanchor = top|left
+													autoresize = yes
+													using = fontsize_xl
+													tooltip = "TOTAL_HUMAN_FOSSILS_VAR_TT"
+												}
+												textbox = {
+													#Unknown Human Fossils
+													text = "UNKNOWN_HUMAN_FOSSILS_VAR"
+													parentanchor = top|left
+													autoresize = yes
+													using = fontsize_xl
+													tooltip = "UNKNOWN_HUMAN_FOSSILS_VAR_TT"
+												}
+												textbox = {
+													#Cro-Magnon
+													text = "CROMAGNON_VAR"
+													parentanchor = top|left
+													autoresize = yes
+													using = fontsize_xl
+													tooltip = "CROMAGNON_VAR_TT"
+												}	
+												textbox = {
+													#Neanderthaler
+													text = "NEANDERTHALER_VAR"
+													parentanchor = top|left
+													autoresize = yes
+													using = fontsize_xl
+													tooltip = "NEANDERTHALER_VAR_TT"
+												}
+												textbox = {
+													#Homo Erectus
+													text = "ERECTUS_VAR"
+													parentanchor = top|left
+													autoresize = yes
+													using = fontsize_xl
+													tooltip = "ERECTUS_VAR_TT"
+												}
+												textbox = {
+													#Australopithecus
+													text = "AUSTRALOPITHECUS_VAR"
+													parentanchor = top|left
+													autoresize = yes
+													using = fontsize_xl
+													tooltip = "AUSTRALOPITHECUS_VAR_TT"
+												}
+												textbox = {
+													#Paranthropus
+													text = "PARANTHROPUS_VAR"
+													parentanchor = top|left
+													autoresize = yes
+													using = fontsize_xl
+													tooltip = "PARANTHROPUS_VAR_TT"
+												}		
+											}
+										}
+										blockoverride "visit_button" {
+											text = "VISIT_ANTHROPOLOGICAL_COLLECTION_BUTTON"
+											datacontext = "[GetScriptedGui('mr_visit_anthropological_collection')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "VISIT_ANTHROPOLOGICAL_COLLECTION_BUTTON_TT"
+										}
+										blockoverride "big_box_content" {
+											flowcontainer = {
+												direction = vertical
+												parentanchor = hcenter
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 15 }
+		
+												### Expeditions ###
+												flowcontainer = {
+													direction = horizontal
+													parentanchor = hcenter
+													ignoreinvisible = yes
+													spacing = 10
+		
+													button_icon_round = {
+														# Examine Cave
+														size = { 45 45 }
+		
+														datacontext = "[GetScriptedGui('mr_examine_cave_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_EXAMINE_CAVE_BUTTON_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_examine_cave_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 75% 75% }
+														}					
+													}
+													button_icon_round = {
+														# Recall Anthropologist
+														size = { 45 45 }
+									
+														datacontext = "[GetScriptedGui('mr_recall_anthropologist_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_RECALL_ANTHROPOLOGIST_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_lepsius_examine_cave_recall_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 75% 75% }
+														}					
+													}
+												}
+		
+												### Other Buttons ###
+												button = {
+													#Origin Congress
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_ORIGIN_CONGRESS_BUTTON"
+													using = fontsize_medium
+							
+													datacontext = "[GetScriptedGui('mr_origin_congress_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_ORIGIN_CONGRESS_BUTTON_TT"
+												}
+												button = {
+													#Fossil Identification
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_FOSSIL_IDENTIFICATION_BUTTON"
+													using = fontsize_medium
+							
+													datacontext = "[GetScriptedGui('mr_fossil_identification_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_FOSSIL_IDENTIFICATION_BUTTON_TT"
+												}
+											}
+										}
 									}
 								}
 							}	
