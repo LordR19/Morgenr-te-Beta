@@ -171,10 +171,10 @@ je_nationalization_frenchization = {
 
 	possible = {
 		has_technology_researched = pan-nationalism
-		#institution_investment_level = {
-		#	institution = institution_schools
-		#	value >= 3
-		#}
+		institution_investment_level = {
+			institution = institution_schools
+			value >= 3
+		}
 	}
 
 	immediate = {
@@ -203,6 +203,196 @@ je_nationalization_frenchization = {
 	on_complete = {
 		trigger_event = {
 			id = nationalization.202 #Nationalization 202: Frenchization completed
+		}
+	}
+
+	weight = 100
+
+	should_be_pinned_by_default = yes
+}
+
+######SWITZERLAND######
+
+je_nationalization_swissiziation = {
+	icon = "gfx/interface/icons/event_icons/event_swiss_cross.dds"
+
+	group = je_group_internal_affairs
+
+	is_shown_when_inactive = {
+		c:SWI ?= ROOT
+		hidden_trigger = {
+			has_game_rule = manzoni_united_cultures_rule
+		}
+	}
+
+	possible = {
+		#has_variable = dufour_bundesverfassungs_var
+		has_technology_researched = nationalism
+		OR = {
+			institution_investment_level = {
+				institution = institution_schools
+				value >= 2
+			}
+			has_law = law_type:law_national_militia
+			has_law = law_type:law_mass_conscription
+		}
+	}
+
+	immediate = {
+		set_national_identity_vars = yes
+		set_variable = { name = national_identity_progress_var value = 0 }
+		calculate_national_identity_progress = yes
+	}
+
+	on_weekly_pulse = {
+		effect = {
+			calculate_national_identity_progress = yes
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			add_national_identity_progress = yes
+		}
+
+		random_events = {
+			120 = 0
+			#25 = nationalization.311 #Nationalization 311: Character becomes Swiss
+			15 = nationalization.312 #Nationalization 312: Tell Monument
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		custom_tooltip = {
+			text = nationalization_swiss_consiousness_capital_tt
+			clear_national_identity_vars = yes
+			add_primary_culture = cu:united_swiss
+			remove_primary_culture = cu:alemannic
+			remove_primary_culture = cu:francoprovencal
+			remove_primary_culture = cu:ticinese
+			remove_primary_culture = cu:rumantsch
+			capital.state_region = {
+				add_homeland = cu:united_swiss
+				remove_homeland = cu:francoprovencal
+				remove_homeland = cu:ticinese
+				remove_homeland = cu:rumantsch
+				region_state:SWI = {
+					every_scope_pop = {
+						limit = {
+							culture = cu:alemannic
+						}
+						change_pop_culture = {
+							target = cu:united_swiss
+							value = 1
+						}
+					}
+					every_scope_pop = {
+						limit = {
+							culture = cu:francoprovencal
+						}
+						change_pop_culture = {
+							target = cu:united_swiss
+							value = 1
+						}
+					}
+					every_scope_pop = {
+						limit = {
+							culture = cu:ticinese
+						}
+						change_pop_culture = {
+							target = cu:united_swiss
+							value = 1
+						}
+					}
+					every_scope_pop = {
+						limit = {
+							culture = cu:ticinese
+						}
+						change_pop_culture = {
+							target = cu:rumantsch
+							value = 1
+						}
+					}
+				}
+			}
+			add_journal_entry = {
+				type = je_nationalization_swiss_national_identity
+			}
+		}
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = root.var:national_identity_progress_var
+	}
+
+	goal_add_value = {
+		add = 50
+	}
+
+	weight = 100
+
+	progressbar = yes
+
+	should_be_pinned_by_default = yes
+}
+
+je_nationalization_swiss_national_identity = {
+	icon = "gfx/interface/icons/event_icons/event_swiss_cross.dds"
+
+	group = je_group_internal_affairs
+
+	immediate = {
+	}
+
+	on_yearly_pulse = {
+		events = {
+			nationalization.301 #Nationalization 101: A Swiss Consciousness
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_nationalization_swiss_national_identity_tt
+			NOR = {
+				any_scope_state = {
+					state_region = {
+						is_homeland = cu:alemannic
+					}
+				}
+				any_scope_state = {
+					state_region = {
+						is_homeland = cu:francoprovencal
+					}
+				}
+				any_scope_state = {
+					state_region = {
+						is_homeland = cu:ticinese
+					}
+				}
+				any_scope_state = {
+					state_region = {
+						is_homeland = cu:rumantsch
+					}
+				}
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = nationalization.302 #Nationalization 302: A Pan-Swiss Consciousness
 		}
 	}
 
