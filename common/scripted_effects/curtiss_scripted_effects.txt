@@ -1291,120 +1291,118 @@ curtiss_balloon_country_time_record_experience_only_world_record_effect = { #onl
 }
 
 ###Create Balloonist###
-create_balloonist_effect = {	
-	if = {
-		limit = {
-			has_law = law_type:law_womens_suffrage
-		}
-		random_list = {
-			60 = {
-				set_variable = curtiss_male_balloonist_variable
+create_balloonist_effect = {
+	random_list = {
+		1 = {
+			trigger = {
+				c:GBR ?= this
+				NOT = { has_global_variable = curtiss_fogg_created_global_var }
 			}
-			40 = {}
-		}
-	}
-	else_if = {
-		limit = {
-			has_law = law_type:law_women_in_the_workplace
-		}
-		random_list = {
-			75 = {	
-				set_variable = curtiss_male_balloonist_variable
-			}
-			25 = {}
-		}
-	}
-	else_if = {
-		limit = {
-			has_law = law_type:law_women_own_property
-		}
-		
-		random_list = {
-			90 = {	
-				set_variable = curtiss_male_balloonist_variable
-			}
-			10 = {}
-		}
-	}
-	else = {
-		random_list = {
-			99 = {
-				set_variable = curtiss_male_balloonist_variable
-			}
-			1 = {}
-		}
-	}
 
-	if = {
-		limit = {
-			NOT = {
-				has_variable = curtiss_phileas_fogg_var
+			create_character = {
+				age = { 20 30 }
+				template = mr_gbr_fogg_phileas_character_template
+	
+				save_scope_as = curtiss_balloonist_scope
 			}
-			this ?= c:GBR
-		}
-		random_list = {
-			5 = {
-				set_variable = curtiss_phileas_fogg_var
+
+			scope:curtiss_balloonist_scope = {
+				add_trait = curtiss_balloonist
+				set_variable = mr_is_balloonist_var
+				place_character_in_void = 1200
+				set_variable = {
+					name = curtiss_balloonist_experience_var
+					value = 0
+				}
 			}
-			95 = {}
-		}
-	}
+			set_variable = {
+				name = curtiss_balloonist_var
+				value = scope:curtiss_balloonist_scope
+			}
 
-	if = {
-		limit = {
-			has_variable = curtiss_phileas_fogg_var
-			NOT = {
-				var:curtiss_phileas_fogg_var = 1
+			set_global_variable = curtiss_fogg_created_global_var
+		}
+		25 = { #Random Anthropologist (fallback and to make it uncertain for historical once to appear)
+			random_list = {
+				5 = {
+					create_character = {
+						age = { 20 30 }
+						female = yes
+						trait_generation = {}
+						save_scope_as = curtiss_balloonist_scope
+					}
+					scope:curtiss_balloonist_scope = {
+						add_trait = curtiss_balloonist
+						set_variable = mr_is_balloonist_var
+						place_character_in_void = 1200
+						set_variable = {
+							name = curtiss_balloonist_experience_var
+							value = 0
+						}
+					}
+					set_variable = {
+						name = curtiss_balloonist_var
+						value = scope:curtiss_balloonist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 5
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 15
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 25
+						}
+					}
+				}
+				95 = {
+					create_character = {
+						age = { 20 30 }
+						trait_generation = {}
+						save_scope_as = curtiss_balloonist_scope
+					}
+					scope:curtiss_balloonist_scope = {
+						add_trait = curtiss_balloonist
+						set_variable = mr_is_balloonist_var
+						place_character_in_void = 1200
+						set_variable = {
+							name = curtiss_balloonist_experience_var
+							value = 0
+						}
+					}
+					set_variable = {
+						name = curtiss_balloonist_var
+						value = scope:curtiss_balloonist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -5
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -15
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -25
+						}
+					}
+				}
 			}
 		}
-		create_character = {
-			template = mr_gbr_fogg_phileas_character_template
-
-			save_scope_as = curtiss_balloonist_scope
-		}
-
-		set_variable = {
-			name = curtiss_phileas_fogg_var
-			value = 1
-		}
-	}
-	else_if = {
-		limit = {
-			has_variable = curtiss_male_balloonist_variable
-		}
-		create_character = {
-			save_scope_as = curtiss_balloonist_scope
-		}
-	}
-	else = {
-		create_character = {
-			female = yes
-			save_scope_as = curtiss_balloonist_scope
-		}
-	}
-
-	remove_variable = curtiss_male_balloonist_variable
-		
-	scope:curtiss_balloonist_scope = {
-		add_trait = curtiss_balloonist
-		set_variable = mr_is_balloonist_var
-		place_character_in_void = 1200
-		set_variable = {
-			name = curtiss_balloonist_experience_var
-			value = 0
-		}
-	}
-		
-	set_variable = {
-		name = curtiss_balloonist_var
-		value = scope:curtiss_balloonist_scope
 	}
 
 	set_variable = {
 		name = curtiss_balloon_name_randomizer_var
 		value = { 1 25 }
 	}
-
 	round_variable = {
 		name = curtiss_balloon_name_randomizer_var
 		nearest = 1
