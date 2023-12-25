@@ -4582,6 +4582,44 @@ je_gaudi_mechanical_research_project = {
 					name = gaudi_mechanical_engineering_progress_var
 					subtract = gaudi_research_progress_cost
 				}
+				#If any other project is available, this project will be stopped.
+				if = {
+					limit = {
+						OR = {
+							any_scope_building = {
+								is_building_type = building_railway
+								level > 0
+								NOR = {
+									has_modifier = gaudi_locomotive_tier_1_modifier
+									has_modifier = gaudi_locomotive_tier_2_modifier
+									has_modifier = gaudi_locomotive_tier_3_modifier
+									has_modifier = gaudi_locomotive_tier_4_modifier
+									has_modifier = gaudi_locomotive_tier_5_modifier
+								}
+							}
+							any_scope_building = {
+								NOR = {
+									is_building_group = bg_whaling
+									is_building_group = bg_fishing
+									is_building_group = bg_service
+									is_building_group = bg_urban_facilities
+									is_building_group = bg_power
+									is_building_group = bg_government
+									is_building_group = bg_infrastructure
+									is_building_group = bg_military
+									is_building_type = building_elgar_opera
+								}
+								level > 0
+								NOR = {
+									has_modifier = gaudi_building_throughput_add_modifier
+									has_modifier = gaudi_building_production_mult_modifier
+									has_modifier = gaudi_building_goods_input_mult_modifier
+								}
+							}
+						}
+					}
+					set_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
 	}
@@ -5191,6 +5229,56 @@ je_gaudi_military_research_project = {
 					name = gaudi_military_engineering_progress_var
 					subtract = gaudi_research_progress_cost
 				}
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_weapon }
+									var:gaudi_military_engineer_advanced_weapon < 3
+								}
+								has_technology_researched = rifling
+								text = gaudi_not_most_advanced_weapon_trigger_tt
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_weapon }
+									NOT = { var:gaudi_military_engineer_advanced_weapon > 2 }
+								}
+								trigger_else = {
+									always = yes
+								}
+							}
+							AND = {
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_tanks }
+									var:gaudi_military_engineer_advanced_tanks < 3
+								}
+								has_technology_researched = mobile_armor
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_tanks }
+									NOT = { var:gaudi_military_engineer_advanced_tanks > 2 }
+								}
+								trigger_else = {
+									always = yes
+								}
+							}
+							AND = {
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_defence_var }
+									var:gaudi_military_engineer_advanced_defence_var < 3
+								}
+								has_technology_researched = field_works
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_defence_var }
+									NOT = { var:gaudi_military_engineer_advanced_defence_var > 2 }
+								}
+								trigger_else = {
+									always = yes
+								}
+							}
+						}
+					}
+					set_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
 	}
@@ -5281,6 +5369,56 @@ je_gaudi_naval_research_project = {
 				change_variable = {
 					name = gaudi_military_engineering_progress_var
 					subtract = gaudi_research_progress_cost
+				}
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_weapon }
+									var:gaudi_military_engineer_advanced_weapon < 3
+								}
+								has_technology_researched = rifling
+								text = gaudi_not_most_advanced_weapon_trigger_tt
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_weapon }
+									NOT = { var:gaudi_military_engineer_advanced_weapon > 2 }
+								}
+								trigger_else = {
+									always = yes
+								}
+							}
+							AND = {
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_tanks }
+									var:gaudi_military_engineer_advanced_tanks < 3
+								}
+								has_technology_researched = mobile_armor
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_tanks }
+									NOT = { var:gaudi_military_engineer_advanced_tanks > 2 }
+								}
+								trigger_else = {
+									always = yes
+								}
+							}
+							AND = {
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_defence_var }
+									var:gaudi_military_engineer_advanced_defence_var < 3
+								}
+								has_technology_researched = field_works
+								trigger_if = {
+									limit = { has_variable = gaudi_military_engineer_advanced_defence_var }
+									NOT = { var:gaudi_military_engineer_advanced_defence_var > 2 }
+								}
+								trigger_else = {
+									always = yes
+								}
+							}
+						}
+					}
+					set_variable = gaudi_stop_engineering_project_var
 				}
 			}
 		}
@@ -5672,6 +5810,83 @@ je_gaudi_electrical_research_project = {
 				change_variable = {
 					name = gaudi_electrical_engineering_progress_var
 					subtract = gaudi_research_progress_cost
+				}
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								NOR = {
+									has_variable = gaudi_magnetic_station_var
+									any_scope_building = {
+										is_building_type = building_verrier_observatory
+										has_active_production_method = pm_gaudi_magnetic_observatory
+										level > 0
+									}
+								}
+								OR = {
+									AND = {
+										has_technology_researched = verrier_electromagnetism_tech
+										OR = {
+											gaudi_has_mechanical_engineer_trigger = yes
+											gaudi_has_civil_engineer_trigger = yes
+										}
+									}
+									AND = {
+										verrier_has_astronomer = yes
+										OR = {
+											gaudi_has_mechanical_engineer_trigger = yes
+											gaudi_has_civil_engineer_trigger = yes
+										}
+									}
+									gaudi_has_electrical_engineer_trigger = yes
+								}
+							}
+							AND = {
+								has_technology_researched = electric_telegraph
+								NOR = {
+									has_modifier = gaudi_building_telegraph_network_modifier
+									has_technology_researched = radio
+									any_scope_state = {
+										any_scope_building = {
+											is_building_type = building_railway
+											has_active_production_method = pm_gaudi_telegraph_office
+										}
+										percent >= 1
+									}
+								}
+								any_scope_state = {
+									is_capital = yes
+									has_building = building_railway
+								}
+								any_scope_state = {
+									has_building = building_railway
+									percent >= 0.65
+								}
+							}
+							AND = {
+								has_technology_researched = radio
+								NOR = {
+									has_modifier = gaudi_building_radio_network_modifier
+									any_scope_state = {
+										any_scope_building = {
+											is_building_type = building_railway
+											has_active_production_method = pm_elgar_radio_stations
+										}
+										percent >= 1
+									}
+								}
+								any_scope_state = {
+									is_capital = yes
+									has_building = building_railway
+								}
+								any_scope_state = {
+									has_building = building_railway
+									percent >= 0.65
+								}
+							}
+						}
+					}
+					set_variable = gaudi_stop_engineering_project_var
 				}
 			}
 		}
@@ -6322,6 +6537,38 @@ je_gaudi_aviation_research_project = {
 				change_variable = {
 					name = gaudi_aeronautical_engineering_progress_var
 					subtract = gaudi_research_progress_cost
+				}
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								any_scope_building = {
+									is_building_type = building_airport
+									level > 0
+									NOR = {
+										has_modifier = gaudi_runway_expansion_mult_modifier
+										has_modifier = gaudi_state_of_the_art_planes_mult_modifier
+										has_modifier = gaudi_efficient_motors_modifier
+									}
+								}
+							}
+							AND = {
+								trigger_if = {
+									limit = { has_variable = gaudi_aeronautical_engineer_advanced_aircrafts_var }
+									var:gaudi_aeronautical_engineer_advanced_aircrafts_var < 3
+								}
+								has_technology_researched = military_aviation
+								trigger_if = {
+									limit = { has_variable = gaudi_aeronautical_engineer_advanced_aircrafts_var }
+									NOT = { var:gaudi_aeronautical_engineer_advanced_aircrafts_var > 2 }
+								}
+								trigger_else = {
+									always = yes
+								}
+							}
+						}
+					}
+					set_variable = gaudi_stop_engineering_project_var
 				}
 			}
 		}
