@@ -3408,6 +3408,45 @@ je_gaudi_civil_research_project = {
 					name = gaudi_civil_engineering_progress_var
 					subtract = gaudi_research_progress_cost
 				}
+
+				#If any other project is available, this project will be stopped.
+				if = {
+					limit = {
+						OR = {
+							any_scope_state = {
+								OR = {
+									NOT = { has_modifier = gaudi_modern_roads_modifier }
+									NOT = { has_modifier = gaudi_canal_systems_modifier }
+									NOT = { has_modifier = gaudi_new_bridge_modifier }
+									NOT = { has_modifier = gaudi_new_tunnel_modifier }
+									AND = {
+										NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
+										any_scope_building = {
+											is_building_type = building_railway
+											level > 0
+										}
+									}
+								}
+							}
+							any_scope_building = {
+								is_building_type = building_construction_sector
+								level > 0
+								NOR = {
+									has_modifier = gaudi_new_construction_methods_modifier
+									has_modifier = gaudi_faster_construction_methods_modifier
+									has_modifier = gaudi_efficient_construction_methods_modifier
+								}
+							}
+							AND = {
+								any_scope_state = {
+									NOT = { has_modifier = gaudi_topographic_state_map_modifier }
+								}
+								NOT = { has_journal_entry = je_dufour_carte_dufour }
+							}
+						}
+					}
+					set_variable = gaudi_stop_engineering_project_var
+				}
 			}
 		}
 	}
