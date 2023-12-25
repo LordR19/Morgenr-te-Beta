@@ -3471,20 +3471,68 @@ create_new_astronomer_effect = {
 			set_global_variable = verrier_mitchell_created_global_var
 		}
 		1 = { #Random Astronomer
-			create_character = {
-				save_scope_as = verrier_new_astronomer_scope
-			}
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						save_scope_as = verrier_new_astronomer_scope
+					}
+					scope:verrier_new_astronomer_scope = {
+						add_trait = verrier_astronomer
+						set_variable = mr_is_astronomer_var
+						astronomer_experience_set_up_effect = yes
+						place_character_in_void = 1200	
+					}
+					set_variable = {
+						name = verrier_new_astronomer_var
+						value = scope:verrier_new_astronomer_scope
+					}
 
-			scope:verrier_new_astronomer_scope = {
-				add_trait = verrier_astronomer
-				set_variable = mr_is_astronomer_var
-				astronomer_experience_set_up_effect = yes
-				place_character_in_void = 1200	
-			}
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						save_scope_as = verrier_new_astronomer_scope
+					}
+					scope:verrier_new_astronomer_scope = {
+						add_trait = verrier_astronomer
+						set_variable = mr_is_astronomer_var
+						astronomer_experience_set_up_effect = yes
+						place_character_in_void = 1200	
+					}
+					set_variable = {
+						name = verrier_new_astronomer_var
+						value = scope:verrier_new_astronomer_scope
+					}
 
-			set_variable = {
-				name = verrier_new_astronomer_var
-				value = scope:verrier_new_astronomer_scope
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
 			}
 		}
 	}
