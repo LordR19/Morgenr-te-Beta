@@ -1,0 +1,85 @@
+﻿#####################################
+# TRAIT GENERATION SCRPITED EFFECTS #
+#####################################
+
+#by Lord R & Marco Dandolo
+
+############################################################################
+
+#These effect add Traits to the Academics after their creation
+
+#Engineer
+mr_trait_generation_engineer_effect = {
+	random_list = {
+		10 = { add_trait = curie_physicist }
+		20 = { add_trait = verrier_mathematician }
+		40 = { add_trait = erudite }
+		20 = { add_trait = persistent }
+		10 = { add_trait = meticulous }
+	}
+	add_random_trait = personality
+	if = {
+		limit = { has_trait = gaudi_civil_engineer }
+		random_list = {
+			1 = { add_trait = surveyor }
+			1 = { add_trait = master_bureaucrat }
+		}
+	}
+	else_if = {
+		limit = { has_trait = gaudi_mechanical_engineer }
+		random_list = {
+			1 = {
+				trigger = { has_technology_researched = curtiss_early_aviation_tech }
+				add_trait = curtiss_pilot
+			}
+			1 = {
+				trigger = { has_technology_researched = combustion_engine }
+				add_trait = vikelas_racer
+			}
+			1 = {
+				add_random_trait = skill
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				interest_group = ig_armed_forces
+				has_trait = gaudi_military_engineer
+			}
+		}
+		random_list = {
+			4 = { add_trait = basic_offensive_planner }
+			4 = { add_trait = basic_defensive_planner }
+			1 = { add_trait = experienced_offensive_planner }
+			1 = { add_trait = experienced_defensive_planner }
+		}
+	}
+	else_if = {
+		limit = { has_trait = gaudi_aeronautical_engineer }
+		random_list = {
+			1 = {
+				trigger = { has_technology_researched = curtiss_early_aviation_tech }
+				add_trait = curtiss_pilot
+			}
+			1 = {
+				trigger = { has_technology_researched = curtiss_montgolfier_balloon_tech }
+				add_trait = curtiss_balloonist
+			}
+			1 = {
+				add_random_trait = skill
+			}
+		}
+	}
+	else = {
+		random_list = {
+			1 = { add_trait = innovatve }
+			2 = { add_trait = surveyor }
+			7 = { add_random_trait = skill }
+		}
+	}
+	random_list = {
+		10 = { add_random_trait = condition }
+		90 = {}
+	}
+}
