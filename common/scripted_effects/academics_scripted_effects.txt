@@ -6285,21 +6285,69 @@ create_new_paleontologist_effect = {
 
 			set_global_variable = dubois_marsh_created #Makes sure Marsh is not already created
 		}
-		1 = { #Random Paleontologist (fallback and to make it uncertain for historical once to appear)
-			create_character = {
-				save_scope_as = dubois_new_paleontologist_scope
-			}
+		1 = { #Random Paleontologist (fallback and to make it uncertain for historical ones to appear)
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						save_scope_as = dubois_new_paleontologist_scope
+					}
+					scope:dubois_new_paleontologist_scope = {
+						add_trait = dubois_paleontologist
+						set_variable = mr_is_paleontologist_var
+						paleontologist_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = dubois_new_paleontologist_var
+						value = scope:dubois_new_paleontologist_scope
+					}
 
-			scope:dubois_new_paleontologist_scope = {
-				add_trait = dubois_paleontologist
-				set_variable = mr_is_paleontologist_var
-				paleontologist_experience_set_up_effect = yes
-				place_character_in_void = 1200
-			}
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						save_scope_as = dubois_new_paleontologist_scope
+					}
+					scope:dubois_new_paleontologist_scope = {
+						add_trait = dubois_paleontologist
+						set_variable = mr_is_paleontologist_var
+						paleontologist_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = dubois_new_paleontologist_var
+						value = scope:dubois_new_paleontologist_scope
+					}
 
-			set_variable = {
-				name = dubois_new_paleontologist_var
-				value = scope:dubois_new_paleontologist_scope
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
 			}
 		}
 	}
