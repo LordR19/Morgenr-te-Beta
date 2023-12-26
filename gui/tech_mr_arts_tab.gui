@@ -480,12 +480,15 @@ types arts_view
 											layoutpolicy_vertical = expanding
 											layoutpolicy_horizontal = expanding
 
-											hbox = {
-
+											textbox = {
+												text = "MR_AVAILABLE_COMPOSERS"
+												autoresize = yes
+												using = fontsize_mega
 											}
+
 											fullscreen_scrollarea = {
 												layoutpolicy_vertical = expanding
-												maximumsize = { 720 320 }
+												maximumsize = { 720 420 }
 									
 												scrollbarpolicy_horizontal = as_needed
 												
@@ -495,13 +498,15 @@ types arts_view
 
 												blockoverride "scrollarea_content" {
 													hbox = {
-														spacing = 30
-														margin = { 20 10 }
+														spacing = 20
+														margin = { 10 10 }
 														datamodel = "[GetPlayer.MakeScope.GetList('mr_travelling_composer_list')]"
 													
 														item = {
-															flowcontainer = {
-																direction = vertical
+															vbox = {
+																spacing = 10
+																margin = { 10 10 }
+																minimumsize = { 220 340 }
 																datacontext = "[Scope.GetCharacter]"
 																using = entry_bg_fancy
 		
@@ -515,28 +520,15 @@ types arts_view
 													
 																#Name
 																default_header_clean_faded = {
-																	size = { 150 45 }
+																	size = { 160 40 }
 																	blockoverride "text" {
 																		text = "[Character.GetLastName]"
 																	}
 																}
-																
-																#Age
-																textbox = {
-																	text = "Age: [Character.GetAge|V]"
-																	parentanchor = top|center
-																	autoresize = yes
-																	using = fontsize_xl
-																}
 
 																#Experience
 																green_progressbar_horizontal = {
-																	parentanchor = center
-																	position = { 25 -15 }
-																	size = { 150 25 }
-																	block "experience_bar_visibility" {
-																		visible = yes
-																	}
+																	size = { 160 25 }
 																	blockoverride "values" {
 																		block "values"
 																		{
@@ -546,6 +538,20 @@ types arts_view
 																		}
 																		block "experience_tooltip" {}
 																	}
+																}
+
+																button = {
+																	#Invite Composer
+																	using = default_button_primary_big_action
+																	size = { 170 40 }
+																	raw_text = "MR_GREAT_DEBATE_CONGRESS_BUTTON"
+																	using = fontsize_medium
+											
+																#	datacontext = "[GetScriptedGui('mr_great_debate_congress_button')]"
+																#	onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+																#	visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+																#	enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+																#	tooltip = "MR_GREAT_DEBATE_CONGRESS_BUTTON_TT"
 																}
 															}
 														}
