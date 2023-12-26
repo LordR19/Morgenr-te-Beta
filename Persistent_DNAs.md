@@ -27129,7 +27129,7 @@ mr_ita_verdi_giuseppe={
 	entity={ 0 0 }
 }
 
-mr_rus_tchaikovski_pyotr={
+mr_rus_tchaikovsky_pyotr={
 	type=male
 	id=0
 	age=0.280000
