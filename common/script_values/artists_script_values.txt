@@ -111,3 +111,33 @@ artists_composer_experience_set_up_value = {
 		add = 5
 	}
 }
+
+#Calculation of Buildings for the Artistic Progress
+# {(Total Number of Arts Academies + Opera Houses) : [(Total Population + 5.000.000) : 1.000.000]} x 20
+buildings_for_artistic_progress_value = {
+	value = 0
+
+	every_scope_building = {
+		limit = {
+			OR = {
+				is_building_type = building_arts_academy
+				is_building_type = building_elgar_opera
+			}
+			level > 0
+		}
+		add = this.level
+	}
+
+	divide = population_for_artistic_progress_value
+
+	multiply = 20
+
+	round = yes
+}
+
+#Calculation for the Population part of the Buildings for the Artistic Progress
+population_for_artistic_progress_value = {
+	value = total_population
+	add = 5000000
+	divide = 1000000
+}
