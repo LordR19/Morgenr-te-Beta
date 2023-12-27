@@ -68,20 +68,72 @@ create_new_composer_effect = {
 			set_global_variable = elgar_elgar_created_global_var
 		}
 		1 = { #Random Composer
-			create_character = {
-				save_scope_as = elgar_new_composer_scope
-			}
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						#trait_generation = {}
+						save_scope_as = elgar_new_composer_scope
+					}
+					scope:elgar_new_composer_scope = {
+						add_trait = elgar_composer
+						set_variable = mr_is_composer_var
+						composer_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = elgar_new_composer_var
+						value = scope:elgar_new_composer_scope
+					}
 
-			scope:elgar_new_composer_scope = {
-				add_trait = elgar_composer
-				set_variable = mr_is_composer_var
-				composer_experience_set_up_effect = yes
-				place_character_in_void = 1200
-			}
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						#trait_generation = {}
+						save_scope_as = elgar_new_composer_scope
+					}
+					scope:elgar_new_composer_scope = {
+						add_trait = elgar_composer
+						set_variable = mr_is_composer_var
+						composer_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = elgar_new_composer_var
+						value = scope:elgar_new_composer_scope
+					}
 
-			set_variable = {
-				name = elgar_new_composer_var
-				value = scope:elgar_new_composer_scope
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
 			}
 		}
 	}
