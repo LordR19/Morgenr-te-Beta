@@ -30,6 +30,32 @@ mr_on_monthly_pulse_country = {
 			}
 			mr_copy_percentage_of_variables_commune_effect = yes
 		}
+		if = {
+			limit = { NOT = { has_global_variable = mr_on_monthly_no_more_global_var } }
+			set_global_variable = mr_on_monthly_no_more_global_var
+			every_character_in_void = {
+				limit = {
+					has_variable = mr_is_composer_var
+					NOT = { exists = owner }
+					OR = {
+						var:elgar_composer_experience >= 400
+						is_historical = yes
+					}
+				}
+				add_trait = elgar_travelling_composer
+				remove_variable = mr_is_composer_var
+				set_variable = mr_is_travelling_composer_var
+			}
+			every_character_in_void = {
+				limit = {
+					NOR = {
+						exists = owner
+						has_variable = mr_is_travelling_composer_var
+					}
+				}
+				free_character_from_void = no
+			}
+		}
 	}
 }
 
