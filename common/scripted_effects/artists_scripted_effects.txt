@@ -9,6 +9,126 @@
 # mr_is_writer_var		-->	Writer
 # mr_is_painter_var		-->	Painter
 
+######Artistic Progress######
+
+#This effect is used to add the monthly Artistic Progress
+artists_monthly_artistic_progress_effect = {
+	if = { #Effect only gets executed if there is either an Arts Academy or an Opera
+		limit = {
+			any_scope_building = {
+				OR = {
+					is_building_type = building_arts_academy
+					is_building_type = building_elgar_opera
+				}
+				level >= 1
+			}
+		}
+
+		#Set up
+		if = {
+			limit = { NOT = { has_variable = artists_artistic_progress_var } }
+			set_variable = {
+				name = artists_artistic_progress_var
+				value = 0
+			}
+		}
+
+		### Actual calculation ###
+		set_variable = { #Basic Progress
+			name = artists_estimated_monthly_artistic_progress_var
+			value = 1
+		}
+
+		#Interest Groups
+		if = { #Powerful Intelligentsia
+			limit = {
+				ig:ig_intelligentsia = {
+					is_powerful = yes
+				}
+			}
+			change_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				add = 1
+			}
+		}
+		if = { #Marginalized Intelligentsia
+			limit = {
+				ig:ig_intelligentsia = {
+					is_marginal = yes
+				}
+			}
+			change_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				add = -1
+			}
+		}
+
+		#SOL
+		if = { #SOL 10 or higher
+			limit = {
+				standard_of_living >= 10
+			}
+			change_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				add = 1
+			}
+		}
+		if = { #SOL 20 or higher
+			limit = {
+				standard_of_living >= 20
+			}
+			change_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				add = 1
+			}
+		}
+		if = { #SOL 40 or higher
+			limit = {
+				standard_of_living >= 40
+			}
+			change_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				add = 1
+			}
+		}
+
+		#Literacy
+		if = { #SOL 10 or higher
+			limit = {
+				literacy_rate >= 30
+			}
+			change_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				add = 0.5
+			}
+		}
+		if = { #SOL 20 or higher
+			limit = {
+				standard_of_living >= 20
+			}
+			change_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				add = 1
+			}
+		}
+		if = { #SOL 40 or higher
+			limit = {
+				standard_of_living >= 40
+			}
+			change_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				add = 1
+			}
+		}
+	}
+	else = {
+		set_variable = {
+			name = artists_estimated_monthly_artistic_progress_var
+			value = 0
+		}
+	}
+}
+
 ######COMPOSER######
 
 #This effect kills the current composer
