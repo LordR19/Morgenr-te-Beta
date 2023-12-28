@@ -321,13 +321,13 @@ mr_artists_promote_painter_sgui = {
 mr_patron_of_the_arts = {
     scope = country
 
-    is_valid = {
-        custom_tooltip = {
-            text = MR_PATRON_OF_THE_ARTS_TRIGGER_TT
-            NOT = {
-                has_modifier = artists_patron_of_the_arts_modifier
-            }
+    is_shown = {
+        NOT = {
+            has_modifier = artists_patron_of_the_arts_modifier
         }
+    }
+
+    is_valid = {
         custom_tooltip = {
             text = MR_OPERA_OR_ARTS_ACADEMY_TRIGGER_TT
             any_scope_building = {
@@ -350,7 +350,31 @@ mr_patron_of_the_arts = {
 		add_modifier = {
 			name = artists_patron_of_the_arts_modifier
 			multiplier = money_amount_multiplier_small
-			years = 10
 		}
+    }
+}
+
+mr_deactivate_patron_of_the_arts = {
+    scope = country
+
+    is_shown = {
+        has_modifier = artists_patron_of_the_arts_modifier
+    }
+
+    is_valid = {
+        custom_tooltip = {
+            text = MR_DEACTIVATE_PATRON_OF_THE_ARTS_TRIGGER_TT
+            NOT = {
+                has_variable = patron_of_the_arts_cooldown_var
+            }
+        }
+    }
+
+    effect = {
+        remove_modifier = artists_patron_of_the_arts_modifier
+        set_variable = {
+            name = patron_of_the_arts_cooldown_var
+            months = 12
+        }
     }
 }
