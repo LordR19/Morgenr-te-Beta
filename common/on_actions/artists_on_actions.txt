@@ -61,44 +61,10 @@ artists_on_monthly_pulse_country = {
 		#This effect is used to add the artistic progress to all countries
 		artists_monthly_artistic_progress_effect = yes
 
-		#This effect is used to purge the travelling composers as there shouldn't be too many.
-		if = {
-			#This part is used to limit the effect to only one country
-			limit = {
-				NOT = { has_global_variable = artists_travelling_composer_purge_global_var }
-			}
-			set_global_variable = {
-				name = artists_travelling_composer_purge_global_var
-				days = 15
-			}
+		#This effect is used to remove the travelling composers as there shouldn't be too many.
+		artists_remove_travelling_composer_from_void_effect = yes
 
-			#This is used to keep track of the current number
-			set_local_variable = {
-				name = current_number
-				value = 0
-			}
-			
-			#This part gets the travelling composers ordered by experience.
-			# The Composers that are not historical and are over the limit will be deleted.
-			ordered_character_in_void = {
-				limit = { has_variable = mr_is_travelling_composer_var }
-				order_by = var:elgar_composer_experience
-				max = 1000
-				check_range_bounds = no
-
-				change_local_variable = {
-					name = current_number
-					add = 1
-				}
-
-				if = {
-					limit = {
-						local_var:current_number > 20
-						is_historical = no
-					}
-					free_character_from_void = no
-				}
-			}
-		}
+		#This effect is used to set up the list of travelling composers
+		artists_set_up_travelling_composer_list_effect = yes
 	}
 }
