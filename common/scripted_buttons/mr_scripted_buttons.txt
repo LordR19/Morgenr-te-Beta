@@ -3761,13 +3761,12 @@ mr_patron_of_arts_button = {
 	desc = "mr_patron_of_arts_button_desc"
 
 	visible = { 
-		has_law = law_type:law_traditionalism
+		NOT = {
+			has_modifier = artists_patron_of_the_arts_modifier
+		}
 	}
 
 	possible = {
-		NOT = {
-			has_modifier = elgar_patron_of_arts_modifier
-		}
 		OR = {
 			any_scope_building = {
 				is_building_type = building_arts_academy
@@ -3779,13 +3778,64 @@ mr_patron_of_arts_button = {
 	}
 
 	effect = {
+		set_variable = {
+            name = patron_of_the_arts_cooldown_var
+            months = 12
+        }
+        if = {
+			limit = {
+				has_modifier = artists_patron_of_the_arts_modifier
+			}
+			remove_modifier = artists_patron_of_the_arts_modifier
+		}
 		add_modifier = {
-			name = elgar_patron_of_arts_modifier
+			name = artists_patron_of_the_arts_modifier
+			multiplier = money_amount_multiplier_small
 		}
 	}
 
 	ai_chance = {
-		base = 1000
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income > money_amount_multiplier_small
+				gold_reserves > 0
+			}
+			add = 1000
+		}
+	}
+}
+
+mr_remove_patron_of_arts_button = {
+	name = "mr_remove_patron_of_arts_button"
+	desc = "mr_remove_patron_of_arts_button_desc"
+
+	visible = { 
+		has_modifier = artists_patron_of_the_arts_modifier
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = MR_DEACTIVATE_PATRON_OF_THE_ARTS_TRIGGER_TT
+			NOT = {
+				has_variable = patron_of_the_arts_cooldown_var
+			}
+		}
+	}
+
+	effect = {
+		remove_modifier = artists_patron_of_the_arts_modifier
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				weekly_net_fixed_income < money_amount_multiplier_small
+				gold_reserves < 0
+			}
+			add = 1000
+		}
 	}
 }
 
