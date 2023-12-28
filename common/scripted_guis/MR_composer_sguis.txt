@@ -37,3 +37,83 @@ mr_going_on_a_music_tour_button = {
 		#TODO add Effect	
     }
 }
+
+#MR_CREATE_A_MASTERPIECE_BUTTON
+mr_create_a_masterpiece_button = {
+    scope = country
+    is_valid = {
+		elgar_has_active_great_composer = yes
+		#TODO add more Triggers if necessary
+    }
+    effect = {
+		#TODO add Effect	
+    }
+}
+
+#MR_MOZART_MONUMENT_BUTTON
+mr_mozart_monument_button = {
+    scope = country
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_TYROL
+		}
+		is_player = yes
+		NOT = {
+			has_global_variable = elgar_mozart_monument_var
+		}
+	}
+    is_valid = {
+		is_at_war = no
+		any_scope_state = {
+			state_region = s:STATE_TYROL
+		}
+		has_technology_researched = romanticism
+		any_scope_building = {
+			is_building_type = building_elgar_opera
+			level >= 4
+		}	
+		custom_tooltip = {
+			text = elgar_mozart_monument_decision_tt
+			var:elgar_music_tradition >= 50
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = elgar.111
+			popup = yes
+		}
+		set_global_variable = elgar_mozart_monument_var
+    }
+}
+
+#MR_BEETHOVEN_MONUMENT_BUTTON
+mr_beethoven_monument_button = {
+    scope = country
+	is_shown = {
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		has_variable = elgar_beethoven_sponsor_var
+		NOT = {
+			has_global_variable = elgar_beethoven_monument_var
+		}
+	}
+    is_valid = {
+		is_at_war = no
+		any_scope_state = {
+			state_region = s:STATE_NORTH_RHINE
+		}
+		has_technology_researched = elgar_irrationalism_tech
+		custom_tooltip = {
+			text = elgar_beethoven_monument_decision_tt
+			var:elgar_music_tradition >= 100
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = elgar.102
+			popup = yes
+		}
+		set_global_variable = elgar_beethoven_monument_var
+    }
+}
