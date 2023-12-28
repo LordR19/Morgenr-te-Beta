@@ -435,6 +435,40 @@ composer_experience_gain_effect = { #adds XP to the Composer
 	}
 }
 
+#Void Composer Experience gain
+void_composer_experience_gain_effect = { #adds XP to the Composer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+	save_scope_as = elgar_travelling_composer_scope
+
+	custom_tooltip = {
+		text = elgar_void_composer_experience_gain_tt
+		if = {
+			limit = {
+				NOT = { has_variable = elgar_composer_experience }
+			}
+			composer_experience_set_up_effect = yes
+		}
+		change_variable = {
+			name = elgar_composer_experience
+			add = $AMOUNT$
+		}
+	}
+	if = {
+		limit = {
+			var:elgar_composer_experience >= 500
+			NOT = {
+				has_trait = elgar_great_composer
+			}
+		}
+		remove_trait = elgar_composer
+		add_trait = elgar_great_composer
+	}
+}
+
 ######Writer######
 
 #This effect kills the current writer
