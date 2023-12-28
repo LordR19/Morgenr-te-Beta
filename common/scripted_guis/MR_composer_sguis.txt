@@ -142,26 +142,76 @@ mr_invite_composer_button = {
             }
 		}
 		trigger_if = {
-			limit = { scope:chosen_composer.var:elgar_composer_experience >= 50 }
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 500 }
 			custom_tooltip = {
-				text = MR_OPERA_LEVEL_2_HIGHER_TRIGGER_TT
+				text = MR_OPERA_LEVEL_15_HIGHER_TRIGGER_TT
 				any_scope_building = {
 					is_building_type = building_elgar_opera
-					level >= 2
+					level >= 15
 				}
 			}
 		}
-		trigger_if = {
-			limit = { scope:chosen_composer.var:elgar_composer_experience >= 100 }
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 450 }
 			custom_tooltip = {
-				text = MR_OPERA_LEVEL_3_HIGHER_TRIGGER_TT
+				text = MR_OPERA_LEVEL_10_HIGHER_TRIGGER_TT
 				any_scope_building = {
 					is_building_type = building_elgar_opera
-					level >= 3
+					level >= 10
 				}
 			}
 		}
-		trigger_if = {
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 400 }
+			custom_tooltip = {
+				text = MR_OPERA_LEVEL_9_HIGHER_TRIGGER_TT
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 9
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 350 }
+			custom_tooltip = {
+				text = MR_OPERA_LEVEL_8_HIGHER_TRIGGER_TT
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 8
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 300 }
+			custom_tooltip = {
+				text = MR_OPERA_LEVEL_7_HIGHER_TRIGGER_TT
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 7
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 250 }
+			custom_tooltip = {
+				text = MR_OPERA_LEVEL_6_HIGHER_TRIGGER_TT
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 6
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 200 }
+			custom_tooltip = {
+				text = MR_OPERA_LEVEL_5_HIGHER_TRIGGER_TT
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 5
+				}
+			}
+		}
+		trigger_else_if = {
 			limit = { scope:chosen_composer.var:elgar_composer_experience >= 150 }
 			custom_tooltip = {
 				text = MR_OPERA_LEVEL_4_HIGHER_TRIGGER_TT
@@ -171,13 +221,27 @@ mr_invite_composer_button = {
 				}
 			}
 		}
-		trigger_if = {
-			limit = { scope:chosen_composer.var:elgar_composer_experience >= 200 }
+		trigger_else_if = {
+			limit = { scope:chosen_composer.var:elgar_composer_experience >= 100 }
 			custom_tooltip = {
-				text = MR_OPERA_LEVEL_5_HIGHER_TRIGGER_TT
+				text = MR_OPERA_LEVEL_3_HIGHER_TRIGGER_TT
 				any_scope_building = {
 					is_building_type = building_elgar_opera
-					level >= 5
+					level >= 3
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = {
+				scope:chosen_composer = {
+					var:elgar_composer_experience >= 50
+				}
+			}
+			custom_tooltip = {
+				text = MR_OPERA_LEVEL_2_HIGHER_TRIGGER_TT
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 2
 				}
 			}
 		}
@@ -188,23 +252,29 @@ mr_invite_composer_button = {
 				has_technology_researched = romanticism
 			}
 		}
-		
     }
     effect = {
-		set_variable = {
-			name = elgar_composer_var
-			value = scope:chosen_composer
-		}
+		custom_tooltip = {
+			text = MR_INVITE_COMPOSER_BUTTON_EFFECT_TT
+			set_variable = {
+				name = elgar_composer_var
+				value = scope:chosen_composer
+			}
 
-		var:elgar_composer_var = {
-			free_character_from_void = yes
-			transfer_character = root
-			remove_variable = mr_is_travelling_composer_var
-			remove_trait = elgar_travelling_composer
-			set_variable = mr_is_composer_var
-			place_character_in_void = 1200
+			set_local_variable = mr_invite_composer_button_local_var #Used fro Error prevention
+			if = { #Used for error prevention
+				limit = { has_local_variable = mr_invite_composer_button_local_var }
+				var:elgar_composer_var = {
+					free_character_from_void = yes
+					transfer_character = root
+					remove_variable = mr_is_travelling_composer_var
+					remove_trait = elgar_travelling_composer
+					set_variable = mr_is_composer_var
+					place_character_in_void = 1200
+				}
+		
+				artists_set_up_travelling_composer_list_effect = yes
+			}
 		}
-
-		artists_set_up_travelling_composer_list_effect = yes
     }
 }
