@@ -129,26 +129,26 @@ mr_beethoven_monument_button = {
 
 #MR_INVITE_COMPOSER_BUTTON
 mr_invite_composer_button = {
-    scope = character
+    scope = country
 	saved_scopes = {
-        country
+        chosen_composer
     }
     is_valid = {
 		always = yes
     }
     effect = {
-		debug_log_scopes = yes
-		remove_variable = mr_is_travelling_composer_var
-		remove_trait = elgar_travelling_composer
-		set_variable = mr_is_composer_var
-		set_home_country = scope:country
-
-		scope:country = {
-			set_variable = {
-				name = elgar_composer_var
-				value = root
-			}
-			artists_set_up_travelling_composer_list_effect = yes
+		set_variable = {
+			name = elgar_composer_var
+			value = scope:chosen_composer
 		}
+
+		transfer_character = scope:chosen_composer
+		var:elgar_composer_var = {
+			remove_variable = mr_is_travelling_composer_var
+			remove_trait = elgar_travelling_composer
+			set_variable = mr_is_composer_var
+		}
+
+		artists_set_up_travelling_composer_list_effect = yes
     }
 }
