@@ -515,6 +515,366 @@ elgar_composer_character_set_up_cost_effect = {
 	}
 }
 
+#Effect used by the AI to hire a Travelling Composer
+#!!! If you change this Effect, make sure to change it for the "mr_invite_composer_button" Button too !!!
+elgar_ai_hire_composer_effect = {
+	if = {
+		limit = {
+			NAND = {
+				has_variable = elgar_composer_var
+				has_modifier = elgar_recently_hired_travelling_composer_modifier
+			}
+			any_scope_building = {
+				is_building_type = building_elgar_opera
+				level >= 1
+			}
+		}
+
+		#This if construct chooses the experience level of possible Composers
+		if = { #All Composers possible
+			limit = {
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 10
+				}
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_arts_academy
+						production_method = pm_artists_arts_academy_conservatory
+					}
+				}
+				OR = {
+					has_technology_researched = elgar_impressionism_tech
+					has_technology_researched = elgar_expressionism_tech
+					has_technology_researched = elgar_art_nouveau_tech
+				}
+				var:elgar_music_tradition >= 300
+				country_rank >= rank_value:great_power
+			}
+			ordered_character_in_void = {
+				order_by = var:elgar_composer_experience
+				check_range_bounds = no
+
+				limit = {
+					has_variable = mr_is_travelling_composer_var
+					trigger_if = {
+						limit = { has_trait = elgar_national_composer }
+						culture = {
+							shares_non_heritage_trait_with_any_primary_culture = root
+							shares_heritage_trait_with_any_primary_culture = root
+						}
+					}
+				}
+				
+				save_scope_as = chosen_composer
+
+				root = {
+					set_variable = {
+						name = elgar_composer_var
+						value = scope:chosen_composer
+					}
+				}
+				
+				free_character_from_void = yes
+				transfer_character = root
+				remove_variable = mr_is_travelling_composer_var
+				remove_trait = elgar_travelling_composer
+				set_variable = mr_is_composer_var
+				place_character_in_void = 1200
+	
+				root = {
+					add_modifier = {
+						name = elgar_recently_hired_travelling_composer_modifier
+						years = 3
+					}
+				}
+				scope:chosen_composer = {
+					elgar_composer_character_set_up_cost_effect = yes
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 5
+				}
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_arts_academy
+						production_method = pm_artists_arts_academy_conservatory
+					}
+				}
+				OR = {
+					has_technology_researched = elgar_impressionism_tech
+					has_technology_researched = elgar_expressionism_tech
+					has_technology_researched = elgar_art_nouveau_tech
+				}
+				var:elgar_music_tradition >= 300
+				country_rank >= rank_value:great_power
+			}
+
+			ordered_character_in_void = {
+				order_by = var:elgar_composer_experience
+				check_range_bounds = no
+
+				limit = {
+					has_variable = mr_is_travelling_composer_var
+					var:elgar_composer_experience < 500
+					trigger_if = {
+						limit = { has_trait = elgar_national_composer }
+						culture = {
+							shares_non_heritage_trait_with_any_primary_culture = root
+							shares_heritage_trait_with_any_primary_culture = root
+						}
+					}
+				}
+				
+				save_scope_as = chosen_composer
+
+				root = {
+					set_variable = {
+						name = elgar_composer_var
+						value = scope:chosen_composer
+					}
+				}
+				
+				free_character_from_void = yes
+				transfer_character = root
+				remove_variable = mr_is_travelling_composer_var
+				remove_trait = elgar_travelling_composer
+				set_variable = mr_is_composer_var
+				place_character_in_void = 1200
+	
+				root = {
+					add_modifier = {
+						name = elgar_recently_hired_travelling_composer_modifier
+						years = 3
+					}
+				}
+				scope:chosen_composer = {
+					elgar_composer_character_set_up_cost_effect = yes
+				}
+			}			
+		}
+		else_if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 4
+				}
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_arts_academy
+						production_method = pm_artists_arts_academy_conservatory
+					}
+				}
+				has_technology_researched = realism
+				has_technology_researched = elgar_irrationalism_tech
+				var:elgar_music_tradition >= 200
+				country_rank >= rank_value:major_power
+			}
+
+			ordered_character_in_void = {
+				order_by = var:elgar_composer_experience
+				check_range_bounds = no
+
+				limit = {
+					has_variable = mr_is_travelling_composer_var
+					var:elgar_composer_experience < 450
+					trigger_if = {
+						limit = { has_trait = elgar_national_composer }
+						culture = {
+							shares_non_heritage_trait_with_any_primary_culture = root
+							shares_heritage_trait_with_any_primary_culture = root
+						}
+					}
+				}
+				
+				save_scope_as = chosen_composer
+
+				root = {
+					set_variable = {
+						name = elgar_composer_var
+						value = scope:chosen_composer
+					}
+				}
+				
+				free_character_from_void = yes
+				transfer_character = root
+				remove_variable = mr_is_travelling_composer_var
+				remove_trait = elgar_travelling_composer
+				set_variable = mr_is_composer_var
+				place_character_in_void = 1200
+	
+				root = {
+					add_modifier = {
+						name = elgar_recently_hired_travelling_composer_modifier
+						years = 3
+					}
+				}
+				scope:chosen_composer = {
+					elgar_composer_character_set_up_cost_effect = yes
+				}
+			}			
+		}
+		else_if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 3
+				}
+				OR = {
+					has_technology_researched = realism
+					has_technology_researched = elgar_irrationalism_tech
+				}
+				var:elgar_music_tradition >= 100
+			}
+
+			ordered_character_in_void = {
+				order_by = var:elgar_composer_experience
+				check_range_bounds = no
+
+				limit = {
+					has_variable = mr_is_travelling_composer_var
+					var:elgar_composer_experience < 350
+					trigger_if = {
+						limit = { has_trait = elgar_national_composer }
+						culture = {
+							shares_non_heritage_trait_with_any_primary_culture = root
+							shares_heritage_trait_with_any_primary_culture = root
+						}
+					}
+				}
+				
+				save_scope_as = chosen_composer
+
+				root = {
+					set_variable = {
+						name = elgar_composer_var
+						value = scope:chosen_composer
+					}
+				}
+				
+				free_character_from_void = yes
+				transfer_character = root
+				remove_variable = mr_is_travelling_composer_var
+				remove_trait = elgar_travelling_composer
+				set_variable = mr_is_composer_var
+				place_character_in_void = 1200
+	
+				root = {
+					add_modifier = {
+						name = elgar_recently_hired_travelling_composer_modifier
+						years = 3
+					}
+				}
+				scope:chosen_composer = {
+					elgar_composer_character_set_up_cost_effect = yes
+				}
+			}			
+		}
+		else_if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					level >= 2
+				}
+				has_technology_researched = romanticism
+			}
+
+			ordered_character_in_void = {
+				order_by = var:elgar_composer_experience
+				check_range_bounds = no
+
+				limit = {
+					has_variable = mr_is_travelling_composer_var
+					var:elgar_composer_experience < 250
+					trigger_if = {
+						limit = { has_trait = elgar_national_composer }
+						culture = {
+							shares_non_heritage_trait_with_any_primary_culture = root
+							shares_heritage_trait_with_any_primary_culture = root
+						}
+					}
+				}
+				
+				save_scope_as = chosen_composer
+
+				root = {
+					set_variable = {
+						name = elgar_composer_var
+						value = scope:chosen_composer
+					}
+				}
+				
+				free_character_from_void = yes
+				transfer_character = root
+				remove_variable = mr_is_travelling_composer_var
+				remove_trait = elgar_travelling_composer
+				set_variable = mr_is_composer_var
+				place_character_in_void = 1200
+	
+				root = {
+					add_modifier = {
+						name = elgar_recently_hired_travelling_composer_modifier
+						years = 3
+					}
+				}
+				scope:chosen_composer = {
+					elgar_composer_character_set_up_cost_effect = yes
+				}
+			}			
+		}
+		else = {
+			ordered_character_in_void = {
+				order_by = var:elgar_composer_experience
+				check_range_bounds = no
+
+				limit = {
+					has_variable = mr_is_travelling_composer_var
+					var:elgar_composer_experience < 150
+					trigger_if = {
+						limit = { has_trait = elgar_national_composer }
+						culture = {
+							shares_non_heritage_trait_with_any_primary_culture = root
+							shares_heritage_trait_with_any_primary_culture = root
+						}
+					}
+				}
+				
+				save_scope_as = chosen_composer
+
+				root = {
+					set_variable = {
+						name = elgar_composer_var
+						value = scope:chosen_composer
+					}
+				}
+				
+				free_character_from_void = yes
+				transfer_character = root
+				remove_variable = mr_is_travelling_composer_var
+				remove_trait = elgar_travelling_composer
+				set_variable = mr_is_composer_var
+				place_character_in_void = 1200
+	
+				root = {
+					add_modifier = {
+						name = elgar_recently_hired_travelling_composer_modifier
+						years = 3
+					}
+				}
+				scope:chosen_composer = {
+					elgar_composer_character_set_up_cost_effect = yes
+				}
+			}			
+		}
+	}
+
+	artists_set_up_travelling_composer_list_effect = yes
+}
+
 ######Writer######
 
 #This effect kills the current writer
