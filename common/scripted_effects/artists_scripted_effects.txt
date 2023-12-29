@@ -575,9 +575,6 @@ elgar_ai_hire_composer_effect = {
 				is_building_type = building_elgar_opera
 				level >= 1
 			}
-			any_character_in_void = {
-				has_variable = mr_is_travelling_composer_var
-			}
 		}
 
 		#This if construct chooses the experience level of possible Composers
@@ -835,7 +832,6 @@ elgar_ai_hire_composer_effect = {
 #This Effect is used to either directly choose a Travelling Composer or replace an existing one.
 elgar_hire_travelling_composer_effect = {
 	# EXPERIENCE = maximum experience of the composer
-
 	if = {
 		limit = { has_variable = elgar_composer_var }
 		if = {
@@ -885,40 +881,48 @@ elgar_hire_travelling_composer_effect = {
 		}
 	}
 	else = {
-		ordered_character_in_void = {
-			order_by = var:elgar_composer_experience
-			check_range_bounds = no
-
+		if = {
 			limit = {
-				has_variable = mr_is_travelling_composer_var
-				var:elgar_composer_experience < $EXPERIENCE$
-				elgar_national_composer_trigger = yes
-			}
-			
-			save_scope_as = chosen_composer
-
-			root = {
-				set_variable = {
-					name = elgar_composer_var
-					value = scope:chosen_composer
+				any_character_in_void = {
+					has_variable = mr_is_travelling_composer_var
+					var:elgar_composer_experience < $EXPERIENCE$
 				}
 			}
-			
-			free_character_from_void = yes
-			transfer_character = root
-			remove_variable = mr_is_travelling_composer_var
-			remove_trait = elgar_travelling_composer
-			set_variable = mr_is_composer_var
-			place_character_in_void = 1200
-
-			root = {
-				add_modifier = {
-					name = elgar_recently_hired_travelling_composer_modifier
-					years = 3
+			ordered_character_in_void = {
+				order_by = var:elgar_composer_experience
+				check_range_bounds = no
+	
+				limit = {
+					has_variable = mr_is_travelling_composer_var
+					var:elgar_composer_experience < $EXPERIENCE$
+					elgar_national_composer_trigger = yes
 				}
-			}
-			scope:chosen_composer = {
-				elgar_travelling_composer_character_set_up_cost_effect = yes
+				
+				save_scope_as = chosen_composer
+	
+				root = {
+					set_variable = {
+						name = elgar_composer_var
+						value = scope:chosen_composer
+					}
+				}
+				
+				free_character_from_void = yes
+				transfer_character = root
+				remove_variable = mr_is_travelling_composer_var
+				remove_trait = elgar_travelling_composer
+				set_variable = mr_is_composer_var
+				place_character_in_void = 1200
+	
+				root = {
+					add_modifier = {
+						name = elgar_recently_hired_travelling_composer_modifier
+						years = 3
+					}
+				}
+				scope:chosen_composer = {
+					elgar_travelling_composer_character_set_up_cost_effect = yes
+				}
 			}
 		}
 	}
