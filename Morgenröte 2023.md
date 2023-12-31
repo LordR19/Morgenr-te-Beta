@@ -1,6 +1,6 @@
 Characters: 228
 Character Types: 7
-Events: 1838
+Events: 1862
 Animals: 43
 Active Dev: 2
 Real Planets to discover: 2 (Go Pluto!)
