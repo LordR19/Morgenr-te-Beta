@@ -81,6 +81,10 @@ je_academics_academy = {
 		custom_tooltip = {
 			text = je_academics_academy_success
 			academics_academic_recruited_effect = yes
+			trigger_event = {
+				id = academics.80
+				days = 5
+			}
 		}
 	}
 
@@ -92,7 +96,14 @@ je_academics_academy = {
 	}
 
 	goal_add_value = {
-		add = 360
+		value = 360 #value you want the variable to reach
+		subtract = var:dubois_academy_progress #current value of the variable
+		if = { #prevents the value of the goal_add_value to be below one
+			limit = {
+				var:dubois_academy_progress >= 360
+			}
+			value = 1
+		}
 	}
 
 	progressbar = yes
