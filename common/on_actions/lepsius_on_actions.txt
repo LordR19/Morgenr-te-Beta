@@ -257,27 +257,22 @@ lepsius_on_monthly_pulse_country = {
 		lepsius.1308 #Vézère Valley (Cro-Magnon)
 
 	}
-	effect = { #Deactivates Archaeological Museums if there is more than 1
+	effect = { #Removes Archaeological Museums if there is more than 1
 		if = {
 			limit = {
 				any_scope_state = {
-					is_capital = yes
 					has_building = building_lepsius_archaeological_museum
-					NOT = {
-						has_active_building = building_lepsius_archaeological_museum
-					}
+				}
+				capital = {
+					NOT = { has_building = building_lepsius_archaeological_museum }
 				}
 			}
-			capital = {
-				activate_building = {
-					building = building_lepsius_archaeological_museum
-				}
-			}
+			trigger_event = lepsius.99
 		}
 		if = {
 			limit = {
 				any_scope_state = {
-					has_active_building = building_lepsius_archaeological_museum
+					has_building = building_lepsius_archaeological_museum
 					count > 1
 				}
 			}
@@ -285,68 +280,24 @@ lepsius_on_monthly_pulse_country = {
 				limit = {
 					any_scope_state = {
 						is_capital = yes
-						has_active_building = building_lepsius_archaeological_museum
+						has_building = building_lepsius_archaeological_museum
 					}
 				}
 				every_scope_state= {
 					limit = {
 						is_capital = no
-						has_active_building = building_lepsius_archaeological_museum
+						has_building = building_lepsius_archaeological_museum
 					}
-					deactivate_building = {
-						building = building_lepsius_archaeological_museum
-					}
-				}
-			}
-			else = {
-				while = {
-					limit = {
-						any_scope_state = {
-							has_active_building = building_lepsius_archaeological_museum
-							count > 1
-						}
-					}
-					random_scope_state = {
-						deactivate_building = {
-							building = building_lepsius_archaeological_museum
-						}
-					}
+					remove_building = "building_lepsius_archaeological_museum"
 				}
 			}
 		}
-		if = {
+		every_scope_state = { #Just in case there is a deactivated one
 			limit = {
-				any_scope_building = {
-					is_building_type = building_lepsius_archaeological_museum
-				}
-				NOT = {
-					any_scope_state = {
-						has_active_building = building_lepsius_archaeological_museum
-					}
-				}
+				has_building = building_lepsius_archaeological_museum
 			}
-			if = {
-				limit = {
-					any_scope_state = {
-						is_capital = yes
-						has_building = building_lepsius_archaeological_museum
-					}
-				}
-				capital = {
-					activate_building = {
-						building = building_lepsius_archaeological_museum
-					}
-				}
-			}
-			else = {
-				random_scope_state = {
-					limit = {
-						has_building = building_lepsius_archaeological_museum
-					}
-					activate_building = {
-						building = building_lepsius_archaeological_museum
-					}
-				}
+			activate_building = {
+				building = building_lepsius_archaeological_museum
 			}
 		}
 	}
