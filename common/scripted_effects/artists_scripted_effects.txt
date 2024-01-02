@@ -34,11 +34,20 @@ artists_monthly_artistic_progress_effect = {
 		}
 
 		### Actual calculation done in script_value ###
-		set_variable = {
-			name = artists_estimated_monthly_artistic_progress_var
-			value = monthly_artistic_progress_gain_value
+		if = {
+			limit = { monthly_artistic_progress_gain_value > 0 }
+			set_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				value = monthly_artistic_progress_gain_value
+			}
 		}
-
+		else = {
+			set_variable = {
+				name = artists_estimated_monthly_artistic_progress_var
+				value = 0
+			}
+		}
+		
 		#Add monthly variable to the total variable
 		if = {
 			limit = { var:artists_estimated_monthly_artistic_progress_var > 0 }
@@ -110,9 +119,18 @@ artists_monthly_artistic_progress_effect = {
 #Version for GUI
 artists_monthly_artistic_progress_GUI_effect = {
 	#Set up
-	set_variable = {
-		name = artists_estimated_monthly_artistic_progress_var
-		value = monthly_artistic_progress_gain_value
+	if = {
+		limit = { monthly_artistic_progress_gain_value > 0 }
+		set_variable = {
+			name = artists_estimated_monthly_artistic_progress_var
+			value = monthly_artistic_progress_gain_value
+		}
+	}
+	else = {
+		set_variable = {
+			name = artists_estimated_monthly_artistic_progress_var
+			value = 0
+		}
 	}
 }
 

@@ -129,8 +129,10 @@ monthly_artistic_progress_gain_value = {
 		}
 		value = 1
 
-		#Interest Groups
-		if = { #Powerful Intelligentsia
+		### Interest Groups ###
+
+		#Powerful Intelligentsia
+		if = {
 			limit = {
 				ig:ig_intelligentsia = {
 					is_powerful = yes
@@ -138,7 +140,9 @@ monthly_artistic_progress_gain_value = {
 			}
 			add = 1
 		}
-		if = { #Marginalized Intelligentsia
+
+		#Marginalized Intelligentsia
+		if = {
 			limit = {
 				ig:ig_intelligentsia = {
 					is_marginal = yes
@@ -147,66 +151,86 @@ monthly_artistic_progress_gain_value = {
 			subtract = 1
 		}
 
-		#SOL
-		if = { #SOL 10 or higher
+		### SOL ###
+
+		#SOL 10 or higher
+		if = {
 			limit = {
 				average_sol >= 10
 			}
 			add = 1
 		}
-		if = { #SOL 20 or higher
+
+		#SOL 20 or higher
+		if = {
 			limit = {
 				average_sol >= 20
 			}
 			add = 1
 		}
-		if = { #SOL 40 or higher
+
+		#SOL 40 or higher
+		if = {
 			limit = {
 				average_sol >= 40
 			}
 			add = 1
 		}
 
-		#Literacy
-		if = { #Literacy 30 or higher
+		### Literacy ###
+
+		#Literacy 30 or higher
+		if = {
 			limit = {
 				literacy_rate >= 0.3
 			}
 			add = 0.5
 		}
-		if = { #Literacy 60 or higher
+
+		#Literacy 60 or higher
+		if = {
 			limit = {
 				literacy_rate >= 0.6
 			}
 			add = 0.5
 		}
-		if = { #Literacy 90 or higher
+
+		#Literacy 90 or higher
+		if = {
 			limit = {
 				literacy_rate >= 0.9
 			}
 			add = 0.5
 		}
 
-		#Technology
-		if = { #Classicism
+		### Technology ###
+
+		#Classicism
+		if = {
 			limit = {
 				has_technology_researched = elgar_classicism_tech
 			}
 			add = 0.5
 		}
-		if = { #Romanticism
+
+		#Romanticism
+		if = {
 			limit = {
 				has_technology_researched = romanticism
 			}
 			add = 0.5
 		}
-		if = { #Irrationalism
+
+		#Irrationalism
+		if = {
 			limit = {
 				has_technology_researched = elgar_irrationalism_tech
 			}
 			add = 1
 		}
-		if = { #Impressionism, Expressionism, Art Nouveau
+
+		#Impressionism, Expressionism, Art Nouveau
+		if = {
 			limit = {
 				OR = {
 					has_technology_researched = elgar_impressionism_tech
@@ -216,7 +240,9 @@ monthly_artistic_progress_gain_value = {
 			}
 			add = 1
 		}
-		if = { #Neoclassicism, New Objectivity, Art Deco
+
+		#Neoclassicism, New Objectivity, Art Deco
+		if = {
 			limit = {
 				OR = {
 					has_technology_researched = elgar_neoclassicism_tech
@@ -228,7 +254,7 @@ monthly_artistic_progress_gain_value = {
 		}
 
 		#Buildings to population Ratio
-		if = { #Classicism
+		if = {
 			limit = {
 				buildings_for_artistic_progress_value >= 5
 			}
@@ -238,8 +264,10 @@ monthly_artistic_progress_gain_value = {
 			add = buildings_for_artistic_progress_value
 		}
 
-		#Laws
-		if = { #Traditionalism + powerful Landowner/devout
+		### Laws ###
+
+		#Traditionalism + powerful Landowner/devout
+		if = {
 			limit = {
 				has_law = law_type:law_traditionalism
 				OR = {
@@ -253,7 +281,9 @@ monthly_artistic_progress_gain_value = {
 			}
 			add = 1
 		}
-		if = { #Laissez Faire + powerful Industrialists
+
+		#Laissez Faire + powerful Industrialists
+		if = {
 			limit = {
 				has_law = law_type:law_laissez_faire
 				ig:ig_industrialists = {
@@ -262,7 +292,9 @@ monthly_artistic_progress_gain_value = {
 			}
 			add = 1
 		}
-		if = { #Cooperative Ownership + powerful Trade Unions
+
+		#Cooperative Ownership + powerful Trade Unions
+		if = {
 			limit = {
 				has_law = law_type:law_cooperative_ownership
 				ig:ig_trade_unions = {
@@ -271,15 +303,18 @@ monthly_artistic_progress_gain_value = {
 			}
 			add = 1
 		}
-		if = { #Protected Speech
+
+		#Protected Speech
+		if = {
 			limit = {
 				has_law = law_type:law_protected_speech
 			}
 			add = 1
 		}
 
-		#Promoting
-		if = { #Promoting Composer
+		### Promoting ###
+		#Promoting Composer
+		if = {
 			limit = {
 				has_variable = artists_promote_composer_active_var
 				any_scope_state = {
@@ -291,7 +326,9 @@ monthly_artistic_progress_gain_value = {
 			}
 			add = 1
 		}
-		if = { #Promoting Writer
+
+		#Promoting Writer
+		if = {
 			limit = {
 				has_variable = artists_promote_writer_active_var
 				any_scope_state = {
@@ -303,7 +340,9 @@ monthly_artistic_progress_gain_value = {
 			}
 			add = 1
 		}
-		if = { #Promoting Painter
+
+		#Promoting Painter
+		if = {
 			limit = {
 				has_variable = artists_promote_painter_active_var
 				any_scope_state = {
@@ -315,11 +354,27 @@ monthly_artistic_progress_gain_value = {
 			}
 			add = 1
 		}
-		if = { #Patron of the Arts
+
+		### Other ###
+
+		#Patron of the Arts
+		if = {
 			limit = {
 				has_modifier = artists_patron_of_the_arts_modifier
 			}
 			add = 1
+		}
+		
+		#Artistic Confusion
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_arts_academy
+					level > 0
+					has_modifier = pm_artist_artistic_confusion_modifier
+				}
+			}
+			add = artists_negative_impact_confussion_value
 		}
 	}
 }
@@ -353,6 +408,51 @@ population_for_artistic_progress_value = {
 	add = 5000000
 	divide = 1000000
 }
+
+#Calculation for the amount of Arts Academies in the country
+artists_negative_impact_confussion_value = {
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				level > 0
+				has_modifier = pm_artist_artistic_confusion_modifier
+			}
+		}
+		value = artists_number_confused_arts_academies_value
+		divide = artists_number_arts_academies_value
+		multiply = -10
+		ceiling = yes
+		divide = 10
+	}
+	else = {
+		value = 0
+	}
+}
+
+artists_number_arts_academies_value = {
+	value = 0
+	every_scope_building = {
+		limit = {
+			is_building_type = building_arts_academy
+			level > 0
+		}
+		add = 1
+	}
+}
+
+artists_number_confused_arts_academies_value = {
+	value = 0
+	every_scope_building = {
+		limit = {
+			is_building_type = building_arts_academy
+			level > 0
+			has_modifier = pm_artist_artistic_confusion_modifier
+		}
+		add = 1
+	}
+}
+
 
 #This Value is used to see if another Composer has 50 Reputation more
 elgar_compser_experience_plus_50_value = {
