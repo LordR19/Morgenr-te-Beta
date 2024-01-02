@@ -94,7 +94,10 @@ academics_negative_impact_confussion_value = {
 academics_number_universities_value = {
 	value = 0
 	every_scope_building = {
-		limit = { is_building_type = building_university }
+		limit = {
+			is_building_type = building_university
+			level > 0
+		}
 		add = 1
 	}
 }
@@ -104,6 +107,7 @@ academics_number_confused_universities_value = {
 	every_scope_building = {
 		limit = {
 			is_building_type = building_university
+			level > 0
 			has_modifier = pm_dubois_academic_confusion_modifier
 		}
 		add = 1
@@ -279,6 +283,17 @@ academics_academic_progress_add_value = {
 			has_modifier = lepsius_troy_myth_modifier
 		}
 		add = 1
+	}
+
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_university
+				level > 0
+				has_modifier = pm_dubois_academic_confusion_modifier
+			}
+		}
+		subtract = academics_negative_impact_confussion_value
 	}
 
 	if = { #Academic Purge
