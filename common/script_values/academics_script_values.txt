@@ -86,9 +86,23 @@ number_of_academics = {
 }
 
 academics_negative_impact_confussion_value = {
-	value = academics_number_confused_universities_value
-	divide = academics_number_universities_value
-	multiply = 3
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_university
+				level > 0
+				has_modifier = pm_dubois_academic_confusion_modifier
+			}
+		}
+		value = academics_number_confused_universities_value
+		divide = academics_number_universities_value
+		multiply = -10
+		ceiling = yes
+		divide = 10
+	}
+	else = {
+		value = 0
+	}
 }
 
 academics_number_universities_value = {
@@ -293,14 +307,14 @@ academics_academic_progress_add_value = {
 				has_modifier = pm_dubois_academic_confusion_modifier
 			}
 		}
-		subtract = academics_negative_impact_confussion_value
+		add = academics_negative_impact_confussion_value
 	}
 
 	if = { #Academic Purge
 		limit = {
 			has_modifier = academics_academic_purge_modifier
 		}
-		subtract = 1
+		add = 1
 	}
 
 	if = { #Goettinger Seven Monument
