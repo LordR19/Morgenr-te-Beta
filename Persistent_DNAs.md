@@ -27949,7 +27949,7 @@ mr_aus_strauss_i_johann={
 	entity={ 0 0 }
 }
 
-mr_bav_lachener_franz={
+mr_bav_lachner_franz={
 	type=male
 	id=0
 	age=0.320000
