@@ -9,12 +9,14 @@
 
 ######ACADEMY######
 
+#This JE is now mostly used to allow the AI to press the buttons.
+#All the effects are executed in the "academics_academy_progress" on_action
 je_academics_academy = {
 	icon = "gfx/interface/icons/event_icons/event_academy.dds"
 
 	group = je_group_academics_academia
 
-	can_deactivate = yes
+	can_deactivate = yes #This is necessary, if the AI does no longer meet the requirements
 
 	is_shown_when_inactive = {
 		OR = {
@@ -35,12 +37,6 @@ je_academics_academy = {
 		}
 	}
 
-	on_monthly_pulse = {
-		effect = {
-			academics_academic_progress_gain_effect = yes
-		}
-	}
-	
 	immediate = {
 		if = {
 			limit = { NOT = { has_variable = dubois_academy_progress } }
@@ -51,7 +47,6 @@ je_academics_academy = {
 		}
 	}
 
-	
     fail = {
     }
 
@@ -69,6 +64,7 @@ je_academics_academy = {
 	scripted_button = dubois_cancel_academy_investment_button
 
 	complete = {
+		#The JE can never complete, as it is not supposed to.
 		custom_tooltip = {
 			text = je_academics_academy_goal
 			always = no
@@ -76,6 +72,7 @@ je_academics_academy = {
 	}
 
 	on_complete = {
+		#Nothing happens on complete, but that way it displays the Tooltip
 		custom_tooltip = {
 			text = je_academics_academy_success
 		}
@@ -90,13 +87,6 @@ je_academics_academy = {
 
 	goal_add_value = {
 		value = academics_academic_progress_goal #value you want the variable to reach
-		subtract = var:dubois_academy_progress #current value of the variable
-		if = { #prevents the value of the goal_add_value to be below one
-			limit = {
-				var:dubois_academy_progress >= academics_academic_progress_goal
-			}
-			value = 1
-		}
 	}
 
 	progressbar = yes
