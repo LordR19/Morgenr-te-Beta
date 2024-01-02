@@ -9078,10 +9078,32 @@ set_variables_nthropologist_test = {
 
 ###
 
-academics_academic_recruited_effect = {
-	set_variable = {
+academics_academic_progress_gain_effect = {
+	if = {
+		limit = {
+			NOT = { has_variable = dubois_academy_progress }
+		}
+		set_variable = {
+			name = dubois_academy_progress
+			value = 0
+		}
+	}
+	change_variable = {
 		name = dubois_academy_progress
-		value = 0
+		add = academics_academic_progress_add_value
+	}
+	if = {
+		limit = {
+			var:dubois_academy_progress >= academics_academic_progress_goal
+		}
+		academics_academic_recruited_effect = yes
+	}
+}
+
+academics_academic_recruited_effect = {
+	change_variable = {
+		name = dubois_academy_progress
+		subtract = academics_academic_progress_goal
 	}
 	if = {
 		limit = {

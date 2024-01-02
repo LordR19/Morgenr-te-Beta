@@ -109,3 +109,184 @@ academics_number_confused_universities_value = {
 		add = 1
 	}
 }
+
+### Academic Progress ###
+
+academics_academic_progress_goal = {
+	value = 360
+}
+
+academics_academic_progress_add_value = {
+	value = 0
+	
+	#Base Progress
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_university
+				level > 0
+			}
+		}
+		add = 1
+	}
+
+	if = { #Literacy 25%
+		limit = {
+			literacy_rate >= 0.25
+		}
+		add = 1
+	}
+	if = { #Literacy 50%
+		limit = {
+			literacy_rate >= 0.5
+		}
+		add = 1
+	}
+	if = { #Literacy 75%
+		limit = {
+			literacy_rate >= 0.75
+		}
+		add = 1
+	}
+	if = { #Academics at least 0.5%
+		limit = {
+			pop_type_percent_country = {
+				pop_type = academics
+				percent >= 0.005
+			}
+		}
+		add = 1
+	}
+	if = { #Academics at least 1%
+		limit = {
+			pop_type_percent_country = {
+				pop_type = academics
+				percent >= 0.01
+			}
+		}
+		add = 1
+	}
+	if = { #Academics at least 2%
+		limit = {
+			pop_type_percent_country = {
+				pop_type = academics
+				percent >= 0.02
+			}
+		}
+		add = 1
+	}
+	if = { #Institution Level 2
+		limit = {
+			institution_investment_level = {
+				institution	= institution_schools
+				value >= 2
+			}
+		}
+		add = 1
+	}
+	if = { #Institution Level 4
+		limit = {
+			institution_investment_level = {
+				institution	= institution_schools
+				value >= 4
+			}
+		}
+		add = 1
+	}
+	if = { #Intelligentsia is content
+		limit = {
+			ig:ig_intelligentsia = {
+				ig_approval >= 5
+			}
+		}
+		add = 1
+	}
+	if = { #Special Tech School
+		limit = {
+			OR = {
+				has_modifier = academics_avantgarde_intelligentsia_modifier
+				has_modifier = academics_practical_academia_modifier
+				has_modifier = academics_useful_ivory_tower_modifier
+			}
+		}
+		add = 1
+	}
+
+	if = { #Observatory gives mathematical advantage
+		limit = {
+			OR = {
+				has_variable = academics_promote_astronomer_active
+				has_variable = academics_promote_engineer_active
+			}
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+			}
+		}
+		add = 1
+	}
+
+	if = { #Zoo gives naturalistic advantage
+		limit = {
+			OR = {
+				has_variable = academics_promote_naturalist_active
+				has_variable = academics_promote_paleontologist_active
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+			}
+		}
+		add = 1
+	}
+
+	if = { #Archaoelogical Museum gives anthropological advantage
+		limit = {
+			OR = {
+				has_variable = academics_promote_archaeologist_active
+				has_variable = academics_promote_anthropologist_active
+			}
+			any_scope_building = {
+				is_building_type = building_lepsius_archaeological_museum
+			}
+		}
+		add = 1
+	}
+
+	if = { #Academy Investment
+		limit = {
+			has_modifier = dubois_academy_investment_modifier
+		}
+		add = 1
+	}
+
+	if = { #Exodus Congress
+		limit = {
+			has_modifier = lepsius_historical_materialistic_school_modifier
+		}
+		add = 1
+	}
+
+	if = { #Troy Congress
+		limit = {
+			has_modifier = lepsius_troy_myth_modifier
+		}
+		add = 1
+	}
+
+	if = { #Academic Purge
+		limit = {
+			has_modifier = academics_academic_purge_modifier
+		}
+		subtract = -1
+	}
+
+	if = { #Goettinger Seven Monument
+		limit = {
+			exists = c:GER
+			c:GER = ROOT
+			any_scope_state = {
+				has_modifier = academics_goettinger_seven_monument_modifier
+			}
+		}
+		subtract = -1
+	}
+}
