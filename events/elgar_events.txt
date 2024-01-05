@@ -4837,7 +4837,7 @@ elgar.204 = { #TODO: Figure out how to handle this event with the character
 
 #Elgar 211: Schubert, Fifth Symphony [Wien, 1841] +50
 
-elgar.211 = { #TODO: Add character to Event
+elgar.211 = {
 	type = country_event
 
     title = elgar.211.t
@@ -5487,11 +5487,38 @@ elgar.227 = {
 	}
 
 	immediate = {
+		create_respighi_ottorino_effect = yes
 	}
 
 	option = { #The Trevi Fountain is clearly distinguished from the rest.
 		name = elgar.227.g
 		elgar_add_50_music_tradition = yes
+		set_new_composer_travelling_composer_effect = yes
+
+		ai_chance = { #Should usually take this option except if they have no composer.
+			base = 100
+			modifier = {
+				trigger = { 
+					NOT = { has_variable = elgar_composer_var }
+				}
+				add = -10000
+			}
+		}
+	}
+
+	option = {
+		name = elgar.202.h
+		elgar_set_new_composer_as_composer_effect = yes
+
+		ai_chance = { #Should usually not take this option except if they have no composer.
+			base = 0
+			modifier = {
+				trigger = { 
+					NOT = { has_variable = elgar_composer_var }
+				}
+				add = 10000
+			}
+		}
 	}
 }
 
