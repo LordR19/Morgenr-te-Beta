@@ -5170,7 +5170,7 @@ elgar.221 = {
 
 #Elgar 222: Verdi, Nabucco [ITA/AUS, 1842] +50
 
-elgar.222 = {
+elgar.222 = { #TODO: add character
 	type = country_event
 
     title = elgar.222.t
@@ -5419,11 +5419,38 @@ elgar.226 = {
 	}
 
 	immediate = {
+		create_mascagni_pietro_effect = yes
 	}
 
 	option = { #I like the Intermezzo
 		name = elgar.226.g
 		elgar_add_50_music_tradition = yes
+		set_new_composer_travelling_composer_effect = yes
+
+		ai_chance = { #Should usually take this option except if they have no composer.
+			base = 100
+			modifier = {
+				trigger = { 
+					NOT = { has_variable = elgar_composer_var }
+				}
+				add = -10000
+			}
+		}
+	}
+
+	option = {
+		name = elgar.202.h
+		elgar_set_new_composer_as_composer_effect = yes
+
+		ai_chance = { #Should usually not take this option except if they have no composer.
+			base = 0
+			modifier = {
+				trigger = { 
+					NOT = { has_variable = elgar_composer_var }
+				}
+				add = 10000
+			}
+		}
 	}
 }
 
