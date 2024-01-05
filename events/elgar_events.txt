@@ -5063,11 +5063,38 @@ elgar.214 = {
 
 	immediate = {
 		set_global_variable = elgar_schoenberg_var
+		create_schoenberg_arnold_effect = yes
 	}
 
 	option = { #Ah, my ears are bleeding! Give me the damn bonus and turn the music off!
 		name = elgar.214.g
 		elgar_add_50_music_tradition = yes
+		set_new_composer_travelling_composer_effect = yes
+
+		ai_chance = { #Should usually take this option except if they have no composer.
+			base = 100
+			modifier = {
+				trigger = { 
+					NOT = { has_variable = elgar_composer_var }
+				}
+				add = -10000
+			}
+		}
+	}
+
+	option = {
+		name = elgar.202.h
+		elgar_set_new_composer_as_composer_effect = yes
+
+		ai_chance = { #Should usually not take this option except if they have no composer.
+			base = 0
+			modifier = {
+				trigger = { 
+					NOT = { has_variable = elgar_composer_var }
+				}
+				add = 10000
+			}
+		}
 	}
 }
 
