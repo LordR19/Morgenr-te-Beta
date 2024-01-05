@@ -369,6 +369,11 @@ set_new_composer_travelling_composer_effect = {
 		add_trait = elgar_travelling_composer
 		remove_variable = mr_is_composer_var
 		set_variable = mr_is_travelling_composer_var
+		set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
+			name = elgar_composer_unavailable_for_this_var
+			value = root
+			years = 5
+		}
 	}
 
 	remove_variable = elgar_new_composer_var
@@ -645,6 +650,10 @@ elgar_hire_travelling_composer_effect = {
 					has_variable = mr_is_travelling_composer_var
 					var:elgar_composer_experience < $EXPERIENCE$
 					var:elgar_composer_experience >= elgar_compser_experience_plus_50_value
+					NOT = {
+						has_variable = elgar_composer_unavailable_for_this_var
+						var:elgar_composer_unavailable_for_this_var = root
+					}
 				}
 			}
 			ordered_character_in_void = {
@@ -655,6 +664,10 @@ elgar_hire_travelling_composer_effect = {
 					has_variable = mr_is_travelling_composer_var
 					var:elgar_composer_experience < $EXPERIENCE$
 					elgar_national_composer_trigger = yes
+					NOT = {
+						has_variable = elgar_composer_unavailable_for_this_var
+						var:elgar_composer_unavailable_for_this_var = root
+					}
 				}
 
 				save_scope_as = chosen_composer
@@ -691,6 +704,10 @@ elgar_hire_travelling_composer_effect = {
 				any_character_in_void = {
 					has_variable = mr_is_travelling_composer_var
 					var:elgar_composer_experience < $EXPERIENCE$
+					NOT = {
+						has_variable = elgar_composer_unavailable_for_this_var
+						var:elgar_composer_unavailable_for_this_var = root
+					}
 				}
 			}
 			ordered_character_in_void = {
@@ -701,6 +718,10 @@ elgar_hire_travelling_composer_effect = {
 					has_variable = mr_is_travelling_composer_var
 					var:elgar_composer_experience < $EXPERIENCE$
 					elgar_national_composer_trigger = yes
+					NOT = {
+						has_variable = elgar_composer_unavailable_for_this_var
+						var:elgar_composer_unavailable_for_this_var = root
+					}
 				}
 				
 				save_scope_as = chosen_composer
