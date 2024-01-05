@@ -29,17 +29,27 @@ je_verrier_neptune = {
 	}
 
 	current_value = {
-		value = var:verrier_astronomical_objects
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_astronomical_objects #value or variable you use to meassure progress
+		}
 	}
 
 	goal_add_value = {
-		value = 100 #value you want the variable to reach
-		subtract = var:verrier_astronomical_objects #current value of the variable
-		if = { #prevents the value of the goal_add_value to be below one
-			limit = {
-				var:verrier_astronomical_objects >= 100
-			}
-			value = 1
+		value = 100
+	}
+
+	immediate = {
+		set_variable = {
+			name = je_verrier_neptune_var
+			days = 1
 		}
 	}
 
@@ -63,6 +73,9 @@ je_verrier_neptune = {
 			scope:journal_entry = {
 				is_goal_complete = yes
 			}
+		}
+		hidden_trigger = {
+			NOT = { has_variable = je_verrier_neptune_var }
 		}
 	}
 
@@ -109,19 +122,29 @@ je_verrier_pluto = {
 		}
 	}
 
+	immediate = {
+		set_variable = {
+			name = je_verrier_pluto_var
+			days = 1
+		}
+	}
+
 	current_value = {
-		value = var:verrier_astronomical_objects
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_astronomical_objects #value or variable you use to meassure progress
+		}
 	}
 
 	goal_add_value = {
-		value = 1500 #value you want the variable to reach
-		subtract = var:verrier_astronomical_objects #current value of the variable
-		if = { #prevents the value of the goal_add_value to be below one
-			limit = {
-				var:verrier_astronomical_objects >= 1500
-			}
-			value = 1
-		}
+		value = 1500
 	}
 
 	complete = {
@@ -134,6 +157,9 @@ je_verrier_pluto = {
 			scope:journal_entry = {
 				is_goal_complete = yes
 			}
+		}
+		hidden_trigger = {
+			NOT = { has_variable = je_verrier_pluto_var }
 		}
 	}
 
@@ -183,6 +209,13 @@ je_verrier_charter_moon = {
 		has_technology_researched = camera
 	}
 
+	immediate = {
+		set_variable = {
+			name = je_verrier_charter_moon_var
+			days = 1
+		}
+	}
+
 	on_yearly_pulse = {
 		random_events = {
 			80 = 0
@@ -195,11 +228,21 @@ je_verrier_charter_moon = {
 	}
 
 	current_value = {
-		value = var:verrier_moon_photo
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_moon_photo #value or variable you use to meassure progress
+		}
 	}
 
 	goal_add_value = {
-		add = 10
+		value = 10
 	}
 
 	complete = {
@@ -208,6 +251,9 @@ je_verrier_charter_moon = {
 			scope:journal_entry = {
 				is_goal_complete = yes
 			}
+		}
+		hidden_trigger = {
+			NOT = { has_variable = je_verrier_charter_moon_var }
 		}
 	}
 
@@ -241,19 +287,29 @@ je_verrier_astro_physics = {
 		has_technology_researched = verrier_astronomy_tech
 	}
 
+	immediate = {
+		set_variable = {
+			name = je_verrier_astro_physics_var
+			days = 1
+		}
+	}
+
 	current_value = {
-		value = var:verrier_astronomical_objects
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_astronomical_objects #value or variable you use to meassure progress
+		}
 	}
 
 	goal_add_value = {
-		value = 750 #value you want the variable to reach
-		subtract = var:verrier_astronomical_objects #current value of the variable
-		if = { #prevents the value of the goal_add_value to be below one
-			limit = {
-				var:verrier_astronomical_objects >= 750
-			}
-			value = 1
-		}
+		value = 750
 	}
 
 	complete = {
@@ -263,6 +319,9 @@ je_verrier_astro_physics = {
 			scope:journal_entry = {
 				is_goal_complete = yes
 			}
+		}
+		hidden_trigger = {
+			NOT = { has_variable = je_verrier_astro_physics_var }
 		}
 	}
 
@@ -356,14 +415,14 @@ je_verrier_tara_wali_kothi = {
 	scripted_button = verrier_kothe_employ_physics_teachers_button
 	scripted_button = verrier_kothe_employ_foreign_engineers_button
 
-	current_value = {
-		value = var:verrier_tara_wali_kothi_progress
-	}
-
 	immediate = {
 		set_variable = { #This variable tracks the progress of the construction
 			name = verrier_tara_wali_kothi_progress
 			value = 0
+		}
+		set_variable = {
+			name = je_verrier_tara_wali_kothi_var
+			days = 1
 		}
 	}
 
@@ -376,15 +435,22 @@ je_verrier_tara_wali_kothi = {
 		}
 	}
 
-	goal_add_value = {
-		value = 100 #value you want the variable to reach
-		subtract = var:verrier_tara_wali_kothi_progress #current value of the variable
-		if = { #prevents the value of the goal_add_value to be below one
+	current_value = {
+		if = {
 			limit = {
-				var:verrier_tara_wali_kothi_progress >= 100
+				scope:journal_entry = {
+					goal_value = 0
+				}
 			}
-			value = 1
+			value = 0
 		}
+		else = {
+			value = var:verrier_tara_wali_kothi_progress #value or variable you use to meassure progress
+		}
+	}
+
+	goal_add_value = {
+		value = 100
 	}
 
 	complete = {
@@ -393,6 +459,9 @@ je_verrier_tara_wali_kothi = {
 			scope:journal_entry = {
 				is_goal_complete = yes
 			}
+		}
+		hidden_trigger = {
+			NOT = { has_variable = je_verrier_tara_wali_kothi_var }
 		}
 	}
 

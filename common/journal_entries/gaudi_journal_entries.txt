@@ -373,12 +373,19 @@ je_gaudi_splendid_architecture = {
 				name = gaudi_splendid_architecture
 				value = 0
 			}
-		}		 
+		}
+		set_variable = {
+			name = je_gaudi_splendid_architecture_var
+			days = 1
+		}
 	}
 
 	complete = {
 		scope:journal_entry = { 
 			is_goal_complete = yes 
+		}
+		hidden_trigger = {
+			has_variable = je_gaudi_splendid_architecture_var
 		}
 	}
 
@@ -390,7 +397,17 @@ je_gaudi_splendid_architecture = {
 	}
 
 	current_value = {
-		value = var:gaudi_splendid_architecture
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:gaudi_splendid_architecture #value or variable you use to meassure progress
+		}
 	}
 
 	goal_add_value = {

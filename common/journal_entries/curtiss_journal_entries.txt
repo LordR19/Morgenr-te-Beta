@@ -13,6 +13,13 @@ je_curtiss_found_schneider_trophy = {
 
 	group = je_group_curtiss_aviation
 
+	immediate = {
+		set_variable = {
+			name = je_curtiss_found_schneider_trophy_var
+			days = 1
+		}
+	}
+
 	complete = {
 		scope:journal_entry = { 
 			is_goal_complete = yes 
@@ -26,6 +33,9 @@ je_curtiss_found_schneider_trophy = {
 				is_building_type = building_urban_center
 				level >= 15
 			}
+		}
+		hidden_trigger = {
+			NOT = { has_variable = je_curtiss_found_schneider_trophy_var }
 		}
 	}
 
@@ -43,18 +53,21 @@ je_curtiss_found_schneider_trophy = {
 	}
 
 	current_value = {
-		value = global_var:curtiss_seaplane_nations
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:curtiss_seaplane_nations #value or variable you use to meassure progress
+		}
 	}
 
 	goal_add_value = {
-		value = 5 #value you want the variable to reach
-		subtract = global_var:curtiss_seaplane_nations #current value of the variable
-		if = { #prevents the value of the goal_add_value to be below one
-			limit = {
-				global_var:curtiss_seaplane_nations >= 5
-			}
-			value = 1
-		}
+		value = 5
 	}
 
 	progressbar = yes
