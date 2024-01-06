@@ -222,7 +222,7 @@ set_composer_travelling_composer_effect = {
 #Therefore a Variable is set to save the scope again. then gets deleted
 create_new_composer_effect = {
 	random_list = {
-		4 = {
+		4 = { #Hans Christian Lumbye, Denmark
 			trigger = {
 				NOT = { has_global_variable = elgar_lumbye_created_global_var }
 				has_state_in_state_region = STATE_ZEALAND
@@ -251,7 +251,7 @@ create_new_composer_effect = {
 
 			set_global_variable = elgar_lumbye_created_global_var
 		}
-		4 = {
+		4 = { #Giacomo Puccini, Italy
 			trigger = {
 				NOT = { has_global_variable = elgar_puccini_created_global_var }
 				has_technology_researched = elgar_impressionism_tech
@@ -275,6 +275,35 @@ create_new_composer_effect = {
 			}
 
 			set_global_variable = elgar_puccini_created_global_var
+		}
+		3 = { #Teresa Carreño
+			trigger = {
+				NOT = { has_global_variable = elgar_carreno_created_global_var }
+				has_state_in_state_region = STATE_MIRANDA
+				NOT = {
+					cu:venezuelan = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1908.12.22 #Age 55
+				year >= 1872 #Started Concert Tours around that time
+			}
+			create_character = {
+				template = mr_vnz_carreno_teresa_character_template
+				save_scope_as = elgar_new_composer_scope
+			}
+			scope:elgar_new_composer_scope = {
+				set_variable = mr_is_composer_var
+				composer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = elgar_new_composer_var
+				value = scope:elgar_new_composer_scope
+			}
+
+			set_global_variable = elgar_carreno_created_global_var
 		}
 		1 = { #Random Composer
 			random_list = {
