@@ -207,14 +207,22 @@ kill_composer_effect = {
 
 #This effect makes the current composer a travelling Composer
 set_composer_travelling_composer_effect = {
-	var:elgar_composer_var = {
-		add_trait = elgar_travelling_composer
-		remove_variable = mr_is_composer_var
-		set_variable = mr_is_travelling_composer_var
-	}
+	if = {
+		limit = { has_variable = elgar_composer_var }
 
-	remove_variable = elgar_composer_var
-	artists_set_up_travelling_composer_list_effect = yes
+		custom_tooltip = {
+			text = elgar_set_composer_travelling_composer_tt
+	
+			var:elgar_composer_var = {
+				add_trait = elgar_travelling_composer
+				remove_variable = mr_is_composer_var
+				set_variable = mr_is_travelling_composer_var
+			}
+		
+			remove_variable = elgar_composer_var
+			artists_set_up_travelling_composer_list_effect = yes
+		}
+	}
 }
 
 # Creates a new Composer without losing the old one
@@ -894,19 +902,23 @@ elgar_remove_new_composer_effect = {
 
 #This effect makes the new composer a travelling Composer
 set_new_composer_travelling_composer_effect = {
-	scope:elgar_new_composer_scope = {
-		add_trait = elgar_travelling_composer
-		remove_variable = mr_is_composer_var
-		set_variable = mr_is_travelling_composer_var
-		set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
-			name = elgar_composer_unavailable_for_this_var
-			value = root
-			years = 5
-		}
-	}
+	custom_tooltip = {
+		text = elgar_set_new_composer_travelling_composer_tt
 
-	remove_variable = elgar_new_composer_var
-	artists_set_up_travelling_composer_list_effect = yes
+		scope:elgar_new_composer_scope = {
+			add_trait = elgar_travelling_composer
+			remove_variable = mr_is_composer_var
+			set_variable = mr_is_travelling_composer_var
+			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
+				name = elgar_composer_unavailable_for_this_var
+				value = root
+				years = 5
+			}
+		}
+	
+		remove_variable = elgar_new_composer_var
+		artists_set_up_travelling_composer_list_effect = yes
+	}
 }
 
 # Used to set up the Experience of a character 
@@ -1024,45 +1036,33 @@ void_composer_experience_gain_effect = { #adds XP to the Composer
 #Use it in the character scope with root being a country.
 elgar_composer_character_set_up_cost_effect = {
 	if = {
-		limit = { var:elgar_composer_experience >= 500 }
-		root = {
-			add_treasury = -25000 #TODO change cost
-			#TODO add modifier with cost
-		}
+		limit = { scope:elgar_new_composer_scope.var:elgar_composer_experience >= 500 }
+		add_treasury = -25000 #TODO change cost
+		#TODO add modifier with cost
 	}
 	else_if = {
-		limit = { var:elgar_composer_experience >= 450 }
-		root = {
-			add_treasury = -20000 #TODO change cost
-			#TODO add modifier with cost
-		}
+		limit = { scope:elgar_new_composer_scope.var:elgar_composer_experience >= 450 }
+		add_treasury = -20000 #TODO change cost
+		#TODO add modifier with cost
 	}
 	else_if = {
-		limit = { var:elgar_composer_experience >= 350 }
-		root = {
-			add_treasury = -15000 #TODO change cost
-			#TODO add modifier with cost	
-		}
+		limit = { scope:elgar_new_composer_scope.var:elgar_composer_experience >= 350 }
+		add_treasury = -15000 #TODO change cost
+		#TODO add modifier with cost
 	}
 	else_if = {
-		limit = { var:elgar_composer_experience >= 250 }
-		root = {
-			add_treasury = -10000 #TODO change cost
-			#TODO add modifier with cost
-		}
+		limit = { scope:elgar_new_composer_scope.var:elgar_composer_experience >= 250 }
+		add_treasury = -10000 #TODO change cost
+		#TODO add modifier with cost
 	}
 	else_if = {
-		limit = { var:elgar_composer_experience >= 150 }
-		root = {
-			add_treasury = -5000 #TODO change cost
+		limit = { scope:elgar_new_composer_scope.var:elgar_composer_experience >= 150 }
+		add_treasury = -5000 #TODO change cost
 			#TODO add modifier with cost
-		}
 	}
 	else = {
-		root = {
-			add_treasury = -2500 #TODO change cost
-			#TODO add modifier with cost
-		}
+		add_treasury = -2500 #TODO change cost
+		#TODO add modifier with cost
 	}
 }
 
