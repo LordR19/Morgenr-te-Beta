@@ -137,19 +137,19 @@ artists_monthly_artistic_progress_GUI_effect = {
 #This effect is used to set up the list of travelling composers
 artists_set_up_travelling_composer_list_effect = {
 	clear_global_variable_list = mr_travelling_composer_global_list
-		ordered_character_in_void = {
-			max = 1000
-			order_by = var:elgar_composer_experience
-			check_range_bounds = no
+	ordered_character_in_void = {
+		max = 1000
+		order_by = var:elgar_composer_experience
+		check_range_bounds = no
 
-			limit = {
-				has_variable = mr_is_travelling_composer_var
-			}
-			add_to_global_variable_list = {
-				name = mr_travelling_composer_global_list
-				target = this
-			}
+		limit = {
+			has_variable = mr_is_travelling_composer_var
 		}
+		add_to_global_variable_list = {
+			name = mr_travelling_composer_global_list
+			target = this
+		}
+	}
 }
 
 #This effect is used to remove the travelling composers as there shouldn't be too many.
@@ -190,6 +190,24 @@ artists_remove_travelling_composer_from_void_effect = {
 				}
 				free_character_from_void = no
 			}
+		}
+	}
+}
+
+#This effect is used to set up the list of free writers
+artists_set_up_free_writer_list_effect = {
+	clear_global_variable_list = mr_free_writers_global_list
+	ordered_character_in_void = {
+		max = 1000
+		order_by = var:manzoni_writer_experience
+		check_range_bounds = no
+
+		limit = {
+			has_variable = mr_is_free_writer_var
+		}
+		add_to_global_variable_list = {
+			name = mr_free_writers_global_list
+			target = this
 		}
 	}
 }
@@ -2127,6 +2145,25 @@ kill_writer_effect = {
 	remove_variable = manzoni_writer_var
 }
 
+#This effect makes the current writer a free writer
+set_writer_free_writer_effect = {
+	if = {
+		limit = { has_variable = manzoni_writer_var }
+
+		custom_tooltip = {
+			text = manzoni_set_writer_free_writer_tt
+	
+			var:manzoni_writer_var = {
+				remove_variable = mr_is_writer_var
+				set_variable = mr_is_free_writer_var
+			}
+		
+			remove_variable = manzoni_writer_var
+			artists_set_up_free_writer_list_effect = yes
+		}
+	}
+}
+
 # Creates a new Writer without losing the old one
 #This one was a little harder as the scope was only valid in the random_list
 #Therefore a Variable is set to save the scope again. then gets deleted
@@ -2186,6 +2223,26 @@ manzoni_remove_new_writer_effect = {
 	}
 
 	remove_variable = manzoni_new_writer_var
+}
+
+#This effect makes the new writer a travelling writer
+manzoni_set_new_writer_free_writer_effect = {
+	custom_tooltip = {
+		text = manzoni_set_new_writer_free_writer_tt
+
+		scope:manzoni_new_writer_scope = {
+			remove_variable = mr_is_writer_var
+			set_variable = mr_is_free_writer_var
+			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
+				name = manzoni_writer_unavailable_for_this_var
+				value = root
+				years = 5
+			}
+		}
+	
+		remove_variable = manzoni_new_writer_var
+		artists_set_up_free_writer_list_effect = yes
+	}
 }
 
 # Used to set up the Experience of a character 
