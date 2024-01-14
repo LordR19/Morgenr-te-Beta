@@ -633,6 +633,37 @@ elgar_on_yearly_pulse_country = {
 				}
 			}
 
+			#Death Event for Strauss I
+			if = {
+				limit = {
+					year >= 1849
+					year < 1842
+					any_character_in_void = {
+						has_template = mr_aus_strauss_i_johann_character_template
+					}
+				}
+				random_character_in_void = {
+					limit = {
+						has_template = mr_aus_strauss_i_johann_character_template
+					}
+					if = {
+						limit = {
+							owner ?= {
+								var:elgar_composer_var ?= {
+									has_template = mr_aus_strauss_i_johann_character_template
+								}
+							}
+						}
+						owner = {
+							trigger_event = elgar.611 #Elgar 611: Strauss I Death
+						}
+					}
+					else = { #Otherwise he just dies.
+						kill_character = yes
+					}
+				}
+			}
+
 			#This is used to keep the effect from getting executed by multiple countries
 			set_global_variable = {
 				name = elgar_character_death_limiter_global_var
