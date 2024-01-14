@@ -313,6 +313,49 @@ elgar_on_yearly_pulse_country = {
 		1 = elgar.315 #Elgar 315: Private Concert
 		1 = elgar.316 #Elgar 316: A talented pupil
 	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = { has_global_variable = elgar_character_death_limiter_global_var }
+			}
+
+			if = {
+				limit = {
+				#	year >= 1847
+					year < 1850
+					any_character_in_void = {
+						has_template = mr_sax_mendelssohn_bartholdy_felix_character_template
+					}
+				}
+				random_character_in_void = {
+					limit = {
+						has_template = mr_sax_mendelssohn_bartholdy_felix_character_template
+					}
+					if = {
+						limit = {
+							owner ?= {
+								var:elgar_composer_var ?= {
+									has_template = mr_sax_mendelssohn_bartholdy_felix_character_template
+								}
+							}
+						}
+						owner = {
+							trigger_event = elgar.601 #Elgar 601: Mendelssohn Death
+						}
+					}
+					else = {
+						kill_character = yes
+					}
+				}
+			}
+
+			set_global_variable = {
+				name = elgar_character_death_limiter_global_var
+				months = 6
+			}
+		}
+	}
 }
 
 elgar_on_acquired_technology = {
