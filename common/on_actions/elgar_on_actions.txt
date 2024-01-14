@@ -314,17 +314,21 @@ elgar_on_yearly_pulse_country = {
 		1 = elgar.316 #Elgar 316: A talented pupil
 	}
 
+	#Effects applied to Composers in the Void
 	effect = {
 		if = {
-			limit = {
+			limit = { #Should only be executed once and not by every country. Global var checks for that.
 				NOT = { has_global_variable = elgar_character_death_limiter_global_var }
 			}
 
+			#Death Event for Mendelssohn
+			# General note: on_yearly_pulse_character, etc. does not affect Void-Characters.
+			# Therefore we use effects like these.
 			if = {
 				limit = {
-				#	year >= 1847
-					year < 1850
-					any_character_in_void = {
+					year >= 1847
+					year < 1850 #Should only check before 1850 so it doesn't have to check the limits multiple times.
+					any_character_in_void = { #Does Mendelssohn exist?
 						has_template = mr_sax_mendelssohn_bartholdy_felix_character_template
 					}
 				}
@@ -332,7 +336,7 @@ elgar_on_yearly_pulse_country = {
 					limit = {
 						has_template = mr_sax_mendelssohn_bartholdy_felix_character_template
 					}
-					if = {
+					if = { #If Mendelssohn is a composer of a country, the country gets an event
 						limit = {
 							owner ?= {
 								var:elgar_composer_var ?= {
@@ -344,12 +348,13 @@ elgar_on_yearly_pulse_country = {
 							trigger_event = elgar.601 #Elgar 601: Mendelssohn Death
 						}
 					}
-					else = {
+					else = { #Otherwise he just dies.
 						kill_character = yes
 					}
 				}
 			}
 
+			#This is used to keep the effect from getting executed by multiple countries
 			set_global_variable = {
 				name = elgar_character_death_limiter_global_var
 				months = 6
