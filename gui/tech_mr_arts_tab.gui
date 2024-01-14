@@ -507,7 +507,269 @@ types arts_view
 									}
 								}
 
-								artist_placeholder = {}
+								#Writer
+								artist_widget_character_with_button = {
+									blockoverride "role_icon" {
+										texture = "gfx/interface/icons/character_role_icons/manzoni_writer_role.dds"
+									}
+									blockoverride "role_tooltip" {
+										tooltip = "[concept_manzoni_writer_desc]"
+									}
+									blockoverride "role_name" {
+										text = "WRITER_HEADER_TEXT"
+									}
+									blockoverride "character" {
+										datacontext = "[GetPlayer.MakeScope.Var('elgar_composer_var').GetCharacter]"
+									}
+									blockoverride "character_name" {
+										text = "[GetPlayer.GetCustom('artists_has_composer_gui_type')]"
+									}
+									blockoverride "achievements_icon_visibility" {
+										visible = yes
+									}
+									blockoverride "scientist_achievement_tooltip" {
+									#	tooltip = "MR_ASTRONOMER_ACHIEVEMENTS_TT"
+									}
+									blockoverride "experience_bar_visibility" {
+										visible = yes
+									}
+									blockoverride "values" {
+										min = 0
+										max = 500
+										value = "[GetPlayer.MakeScope.Var('elgar_composer_var').GetVariable('elgar_composer_experience').GetValue]"
+									}
+									blockoverride "experience_tooltip" {
+										tooltip = "[GetPlayer.GetCustom('GUI_elgar_composer_experience_type')]"
+									}
+									blockoverride "experience_bar_text" {
+										text = "[GetPlayer.GetCustom('GUI_elgar_composer_experience_text_type')]"
+									}
+									blockoverride "small_box_content" {
+										widget = { #This Icon allows an overview of the 10 Nations with the most Astronomical Objects
+											#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
+											#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+											#used in the mr_GUI_l_english.yml file to display the global variables.
+											size = { 30 30 }
+											parentanchor = top|right
+											position = { 5 -5 }
+										
+											icon = {
+												size = { 100% 100% }
+												texture = "gfx/interface/backgrounds/round_button_bg.dds"
+												block "enabled" {}
+											}
+											icon = {
+												size = { 100% 100% }
+												texture = "gfx/interface/buttons/button_icons/list.dds"
+												block "enabled" {}
+												tooltip = "RANKING_MUSICAL_TRADITION_VAR_TT"
+											}
+										}
+										flowcontainer = {
+											direction = vertical
+											maximumsize = { 350 360 }
+											spacing = 8
+											margin = { 25 15 }
+
+											textbox = {
+												#Astronomical Objects of Total Astronomical Objects
+												text = "MUSICAL_TRADITION_VAR"
+												parentanchor = top|left
+												maximumsize = { 325 360 }
+												autoresize = yes
+												multiline = yes
+												using = fontsize_xl
+												tooltip = "MUSICAL_TRADITION_VAR_TT"
+											}
+											expand = {}
+										}
+									}
+									blockoverride "visit_button" {
+										text = "MR_VISIT_OPERA_BUTTON"
+										datacontext = "[GetScriptedGui('mr_visit_opera_gui_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_VISIT_OPERA_BUTTON_TT"
+									}
+									blockoverride "big_box_content" {
+										flowcontainer = {
+											direction = vertical
+											parentanchor = hcenter
+											ignoreinvisible = yes
+											spacing = 8
+											margin = { 25 15 }
+	
+											button = {
+												#Compose a Musical Work
+												using = default_button_primary_big_action
+												size = { 300 45 }
+												raw_text = "MR_COMPOSE_A_WORK_BUTTON"
+												using = fontsize_medium
+						
+												datacontext = "[GetScriptedGui('mr_compose_a_work_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_COMPOSE_A_WORK_BUTTON_TT"
+											}
+											button = {
+												#Conduct a season
+												using = default_button_primary_big_action
+												size = { 300 45 }
+												raw_text = "MR_CONDUCT_A_SEASON_BUTTON"
+												using = fontsize_medium
+						
+												datacontext = "[GetScriptedGui('mr_conduct_a_season_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_CONDUCT_A_SEASON_BUTTON_TT"
+											}
+											button = {
+												#Go on a Music Tour
+												using = default_button_primary_big_action
+												size = { 300 45 }
+												raw_text = "MR_GO_ON_A_MUSIC_TOUR_BUTTON"
+												using = fontsize_medium
+						
+												datacontext = "[GetScriptedGui('mr_go_on_a_music_tour_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_GO_ON_A_MUSIC_TOUR_BUTTON_TT"
+											}
+											button = {
+												#Create a Masterpiece
+												using = default_button_primary_big_action
+												size = { 300 45 }
+												raw_text = "MR_CREATE_A_MASTERPIECE_BUTTON"
+												using = fontsize_medium
+						
+												datacontext = "[GetScriptedGui('mr_create_a_masterpiece_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_CREATE_A_MASTERPIECE_BUTTON_TT"
+											}
+											button = {
+												#Mozart Monument
+												using = default_button_primary_big_action
+												size = { 300 45 }
+												raw_text = "MR_MOZART_MONUMENT_BUTTON"
+												using = fontsize_medium
+						
+												datacontext = "[GetScriptedGui('mr_mozart_monument_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_MOZART_MONUMENT_BUTTON_TT"
+											}
+											button = {
+												#Beethoven Monument
+												using = default_button_primary_big_action
+												size = { 300 45 }
+												raw_text = "MR_BEETHOVEN_MONUMENT_BUTTON"
+												using = fontsize_medium
+
+												datacontext = "[GetScriptedGui('mr_beethoven_monument_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_BEETHOVEN_MONUMENT_BUTTON_TT"
+											}
+										}
+									}
+									blockoverride "right_box_content" {
+										vbox = {
+											layoutpolicy_vertical = expanding
+											layoutpolicy_horizontal = expanding
+
+											textbox = {
+												text = "MR_TRAVELLING_COMPOSERS"
+												autoresize = yes
+												using = fontsize_mega
+											}
+
+											fullscreen_scrollarea = {
+												maximumsize = { 720 420 }
+									
+												scrollbarpolicy_horizontal = as_needed
+												
+												scrollbar_horizontal = {
+													using = Scrollbar_Horizontal
+												}
+
+												blockoverride "scrollarea_content" {
+													hbox = {
+														spacing = 20
+														margin = { 10 10 }
+														datamodel = "[GetGlobalList('mr_travelling_composer_global_list')]"
+													
+														item = {
+															vbox = {
+																spacing = 10
+																margin = { 10 10 }
+																minimumsize = { 220 340 }
+																datacontext = "[Scope.GetCharacter]"
+																using = entry_bg_fancy
+		
+																# Character Portrait
+																character_portrait_medium_torso = {
+																	blockoverride "show_hat" {}
+																	blockoverride "tooltip" {} #TODO Remove when Tooltip doesn't cause error anymore
+																	blockoverride "portrait_icons" {} #TODO Remove when Tooltip doesn't cause error anymore
+																	blockoverride "portrait_button" {} #TODO Remove when Tooltip doesn't cause error anymore
+																}
+													
+																#Name
+																default_header_clean_faded = {
+																	size = { 160 40 }
+																	blockoverride "text" {
+																		text = "[Character.GetLastName]"
+																	}
+																}
+
+																#Experience
+																green_progressbar_horizontal = {
+																	size = { 160 25 }
+																	blockoverride "values" {
+																		block "values"
+																		{
+																			min = 0
+																			max = 500
+																			value = "[FixedPointToFloat(Character.MakeScope.GetVariable('elgar_composer_experience').GetValue)]"
+																		}
+																	}
+																	tooltip = "MR_TRAVELLING_COMPOSER_EXPERIENCE_TOOLTIP"
+																	textbox = {
+																		text = "[Character.GetCustom('GUI_elgar_travelling_composer_experience_text_type')]"
+																		position = { 0 -5 }
+																		parentanchor = center
+																		autoresize = yes
+																		using = fontsize_large
+																	}
+																}
+
+																button = {
+																	#Invite Composer
+																	using = default_button_primary_big_action
+																	size = { 170 40 }
+																	raw_text = "MR_INVITE_COMPOSER_BUTTON"
+																	using = fontsize_medium
+											
+																	datacontext = "[GetScriptedGui('mr_invite_composer_button')]"
+																	onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_composer', Scope.GetCharacter.MakeScope ).End)]"
+																	enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_composer', Scope.GetCharacter.MakeScope ).End)]"
+																	tooltip = "MR_INVITE_COMPOSER_BUTTON_TT"
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
 							}	
 						}
 					}
