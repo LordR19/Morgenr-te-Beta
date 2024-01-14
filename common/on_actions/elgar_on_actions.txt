@@ -602,6 +602,37 @@ elgar_on_yearly_pulse_country = {
 				}
 			}
 
+			#Death Event for Spohr
+			if = {
+				limit = {
+					year >= 1859
+					year < 1862
+					any_character_in_void = {
+						has_template = mr_hek_spohr_louis_character_template
+					}
+				}
+				random_character_in_void = {
+					limit = {
+						has_template = mr_hek_spohr_louis_character_template
+					}
+					if = {
+						limit = {
+							owner ?= {
+								var:elgar_composer_var ?= {
+									has_template = mr_hek_spohr_louis_character_template
+								}
+							}
+						}
+						owner = {
+							trigger_event = elgar.610 #Elgar 610: Spohr Death
+						}
+					}
+					else = { #Otherwise he just dies.
+						kill_character = yes
+					}
+				}
+			}
+
 			#This is used to keep the effect from getting executed by multiple countries
 			set_global_variable = {
 				name = elgar_character_death_limiter_global_var
