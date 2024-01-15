@@ -1,0 +1,63 @@
+﻿### WRITER BUTTONS ###
+
+#by Lord R
+
+#MR_INVITE_COMPOSER_BUTTON
+mr_invite_composer_button = {
+	#!!!If you change any Trigger or effects here, change them in the AI version too (elgar_ai_hire_composer_effect)!!!
+    scope = country
+	saved_scopes = {
+        chosen_writer
+    }
+    is_valid = {
+		#not hired a Travelling Composer recently
+		custom_tooltip = {
+			text = MR_NOT_HIRED_TRAVELLING_COMPOSER_RECENTLY_TRIGGER_TT
+			NOT = {
+				has_modifier = elgar_recently_hired_travelling_composer_modifier
+			}
+		}
+
+		#This Composer was not recently sent away
+		custom_tooltip = {
+			text = MR_COMPOSER_WAS_NOT_RECENTLY_SENT_AWAY_TT
+			NOT = {
+				scope:chosen_writer = {
+					AND = {
+						has_variable = elgar_composer_unavailable_for_this_var
+						var:elgar_composer_unavailable_for_this_var = root
+					}				
+				}
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = MR_INVITE_WRITER_BUTTON_EFFECT_TT
+
+			set_writer_local_writer_effect = yes
+			set_variable = {
+				name = manzoni_writer_var
+				value = scope:chosen_writer
+			}
+
+			set_local_variable = mr_invite_writer_button_local_var #Used for Error prevention
+			if = { #Used for error prevention
+				limit = { has_local_variable = mr_invite_writer_button_local_var }
+				var:manzoni_writer_var = {
+					free_character_from_void = yes
+					remove_variable = mr_is_local_writer_var
+					set_variable = mr_is_writer_var
+					place_character_in_void = 1200
+				}
+		
+				artists_set_up_local_writer_list_effect = yes
+			}
+		}
+
+		add_modifier = {
+			name = elgar_recently_hired_travelling_composer_modifier
+			years = 3
+		}
+    }
+}
