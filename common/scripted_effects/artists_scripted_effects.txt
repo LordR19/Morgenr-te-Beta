@@ -194,19 +194,19 @@ artists_remove_travelling_composer_from_void_effect = {
 	}
 }
 
-#This effect is used to set up the list of free writers
-artists_set_up_free_writer_list_effect = {
-	clear_global_variable_list = mr_free_writers_global_list
+#This effect is used to set up the list of local writers
+artists_set_up_local_writer_list_effect = {
+	clear_variable_list = mr_local_writers_list
 	ordered_character_in_void = {
 		max = 1000
 		order_by = var:manzoni_writer_experience
 		check_range_bounds = no
 
 		limit = {
-			has_variable = mr_is_free_writer_var
+			has_variable = mr_is_local_writer_var
 		}
 		add_to_global_variable_list = {
-			name = mr_free_writers_global_list
+			name = mr_local_writers_list
 			target = this
 		}
 	}
@@ -2145,21 +2145,21 @@ kill_writer_effect = {
 	remove_variable = manzoni_writer_var
 }
 
-#This effect makes the current writer a free writer
-set_writer_free_writer_effect = {
+#This effect makes the current writer a local writer
+set_writer_local_writer_effect = {
 	if = {
 		limit = { has_variable = manzoni_writer_var }
 
 		custom_tooltip = {
-			text = manzoni_set_writer_free_writer_tt
+			text = manzoni_set_writer_local_writer_tt
 	
 			var:manzoni_writer_var = {
 				remove_variable = mr_is_writer_var
-				set_variable = mr_is_free_writer_var
+				set_variable = mr_is_local_writer_var
 			}
 		
 			remove_variable = manzoni_writer_var
-			artists_set_up_free_writer_list_effect = yes
+			artists_set_up_local_writer_list_effect = yes
 		}
 	}
 }
@@ -2226,13 +2226,13 @@ manzoni_remove_new_writer_effect = {
 }
 
 #This effect makes the new writer a travelling writer
-manzoni_set_new_writer_free_writer_effect = {
+manzoni_set_new_writer_local_writer_effect = {
 	custom_tooltip = {
-		text = manzoni_set_new_writer_free_writer_tt
+		text = manzoni_set_new_writer_local_writer_tt
 
 		scope:manzoni_new_writer_scope = {
 			remove_variable = mr_is_writer_var
-			set_variable = mr_is_free_writer_var
+			set_variable = mr_is_local_writer_var
 			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
 				name = manzoni_writer_unavailable_for_this_var
 				value = root
@@ -2241,7 +2241,7 @@ manzoni_set_new_writer_free_writer_effect = {
 		}
 	
 		remove_variable = manzoni_new_writer_var
-		artists_set_up_free_writer_list_effect = yes
+		artists_set_up_local_writer_list_effect = yes
 	}
 }
 
@@ -2348,7 +2348,7 @@ void_writer_experience_gain_effect = { #adds XP to the Writer
 		name = xp_amount
 		value = $AMOUNT$
 	}
-	save_scope_as = manzoni_free_writer_scope
+	save_scope_as = manzoni_local_writer_scope
 
 	custom_tooltip = {
 		text = manzoni_void_writer_experience_gain_tt
