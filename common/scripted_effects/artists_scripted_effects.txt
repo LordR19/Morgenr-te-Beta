@@ -204,10 +204,15 @@ artists_set_up_local_writer_list_effect = {
 
 		limit = {
 			has_variable = mr_is_local_writer_var
+			var:mr_is_local_writer_var = {
+				this = root
+			}
 		}
-		add_to_global_variable_list = {
-			name = mr_local_writers_list
-			target = this
+		root = {
+			add_to_variable_list = {
+				name = mr_local_writers_list
+				target = prev
+			}
 		}
 	}
 }
@@ -2155,7 +2160,10 @@ set_writer_local_writer_effect = {
 	
 			var:manzoni_writer_var = {
 				remove_variable = mr_is_writer_var
-				set_variable = mr_is_local_writer_var
+				set_variable = {
+					name = mr_is_local_writer_var
+					value = root
+				}
 			}
 		
 			remove_variable = manzoni_writer_var
@@ -2225,14 +2233,17 @@ manzoni_remove_new_writer_effect = {
 	remove_variable = manzoni_new_writer_var
 }
 
-#This effect makes the new writer a travelling writer
+#This effect makes the new writer a local writer
 manzoni_set_new_writer_local_writer_effect = {
 	custom_tooltip = {
 		text = manzoni_set_new_writer_local_writer_tt
 
 		scope:manzoni_new_writer_scope = {
 			remove_variable = mr_is_writer_var
-			set_variable = mr_is_local_writer_var
+			set_variable = {
+				name = mr_is_local_writer_var
+				value = root
+			}
 			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
 				name = manzoni_writer_unavailable_for_this_var
 				value = root
