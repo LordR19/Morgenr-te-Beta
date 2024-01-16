@@ -4,7 +4,6 @@
 
 #Exile Local Writer
 mr_exile_local_writer_button = {
-	#!!!If you change any Trigger or effects here, change them in the AI version too (elgar_ai_hire_composer_effect)!!!
     scope = country
 	saved_scopes = {
         chosen_writer
@@ -30,8 +29,13 @@ mr_exile_local_writer_button = {
 		custom_tooltip = {
 			text = MR_EXILE_LOCAL_WRITER_BUTTON_EFFECT_TT
 
+			set_variable = {
+				name = manzoni_recently_exiled_writer_var
+				years = 5
+			}
+
 			scope:chosen_writer = {
-				renove_variable = mr_is_local_writer_var
+				remove_variable = mr_is_local_writer_var
 				set_variable = mr_is_exiled_writer_var
 
 				add_to_global_variable_list = {
@@ -68,12 +72,20 @@ mr_invite_writer_button = {
 			}
 		}
     }
-	
+
     effect = {
+		if = {
+			limit = { has_variable = manzoni_writer_var }
+
+			custom_tooltip = {
+				text = MR_REPLACE_CURRENT_WRITER_TT
+
+				set_writer_local_writer_effect = yes
+			}
+		}
 		custom_tooltip = {
 			text = MR_INVITE_WRITER_BUTTON_EFFECT_TT
 
-			set_writer_local_writer_effect = yes
 			set_variable = {
 				name = manzoni_writer_var
 				value = scope:chosen_writer
