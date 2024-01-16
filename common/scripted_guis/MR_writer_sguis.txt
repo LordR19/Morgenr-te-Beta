@@ -12,49 +12,33 @@ mr_exile_local_writer_button = {
     is_valid = {
 		#not changed national writer recently
 		custom_tooltip = {
-			text = MR_NOT_CHANGED_NATIONAL_WRITER_RECENTLY_TRIGGER_TT
+			text = MR_NOT_PROTECTED_SPEECH_LAW_TRIGGER_TT
 			NOT = {
-				has_modifier = manzoni_recently_changed_national_writer_modifier
+				has_law = law_type:law_protected_speech
 			}
 		}
-		#This Writer was not recently sent away
+		#Has not recently exiled an author
 		custom_tooltip = {
-			text = MR_WRITER_WAS_NOT_RECENTLY_REFUSED_TT
+			text = MR_NOT_RECENTLY_EXILED_WRITER_TT
 			NOT = {
-				scope:chosen_writer = {
-					has_variable = manzoni_writer_unavailable_var				
-				}
+				has_variable = manzoni_recently_exiled_writer_var
 			}
 		}
     }
 	
     effect = {
 		custom_tooltip = {
-			text = MR_INVITE_WRITER_BUTTON_EFFECT_TT
+			text = MR_EXILE_LOCAL_WRITER_BUTTON_EFFECT_TT
 
-			set_writer_local_writer_effect = yes
-			set_variable = {
-				name = manzoni_writer_var
-				value = scope:chosen_writer
-			}
+			scope:chosen_writer = {
+				renove_variable = mr_is_local_writer_var
+				set_variable = mr_is_exiled_writer_var
 
-			set_local_variable = mr_invite_writer_button_local_var #Used for Error prevention
-			if = { #Used for error prevention
-				limit = { has_local_variable = mr_invite_writer_button_local_var }
-				var:manzoni_writer_var = {
-					free_character_from_void = yes
-					remove_variable = mr_is_local_writer_var
-					set_variable = mr_is_writer_var
-					place_character_in_void = 1200
+				add_to_global_variable_list = {
+					name = manzoni_exiled_writer_global_list
+					target = this
 				}
-		
-				artists_set_up_local_writer_list_effect = yes
 			}
-		}
-
-		add_modifier = {
-			name = manzoni_recently_changed_national_writer_modifier
-			years = 3
 		}
     }
 }
