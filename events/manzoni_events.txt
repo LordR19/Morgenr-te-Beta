@@ -14,7 +14,7 @@ namespace = manzoni
 #Manzoni 100: [Book Title], a true masterwork
 #Manzoni 101: [Book Title] lauded by critics!
 #Manzoni 102: [Book Title] published
-#Manzoni 102: [Book Title] ripped apart by critics
+#Manzoni 103: [Book Title] ripped apart by critics
 
 ### Great Britain ###
 # Manzoni 1000: Sherlock Holmes published
@@ -74,10 +74,24 @@ manzoni.100 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			factor = {
-				value = var:manzoni_writer_var.var:manzoni_writer_experience
-				divide = 100
-			}
+			var:manzoni_writer_var.var:manzoni_writer_experience > 100
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 200
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 300
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 400
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience >= 500
+			factor = 1.5
 		}
 		modifier = {
 			var:manzoni_writer_var = {
@@ -153,17 +167,31 @@ manzoni.101 = {
 		name = manzoni.101.g
 		default_option = yes
 
-		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
-		writer_experience_gain_effect = { AMOUNT = 50 }
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
+		writer_experience_gain_effect = { AMOUNT = 25 }
 	}
 
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			factor = {
-				value = var:manzoni_writer_var.var:manzoni_writer_experience
-				divide = 150
-			}
+			var:manzoni_writer_var.var:manzoni_writer_experience > 100
+			factor = 1.25
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 200
+			factor = 1.25
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 300
+			factor = 1.25
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 400
+			factor = 1.25
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience >= 500
+			factor = 1.25
 		}
 		modifier = {
 			var:manzoni_writer_var = {
@@ -211,10 +239,138 @@ manzoni.101 = {
 }
 
 #Manzoni 102: [Book Title] published
+manzoni.102 = {
+	type = country_event
+	placement = ROOT
 
+	title = manzoni.102.t
+	desc = manzoni.102.d
+	flavor = manzoni.102.f
 
-#Manzoni 102: [Book Title] ripped apart by critics
+	duration = 3
 
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_ruler_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Not bad.
+		name = manzoni.102.g
+		default_option = yes
+
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 5 }
+		writer_experience_gain_effect = { AMOUNT = 10 }
+	}
+}
+
+#Manzoni 103: [Book Title] ripped apart by critics
+manzoni.103 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.103.t
+	desc = manzoni.103.d
+	flavor = manzoni.103.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_ruler_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Reading this was a waste of time...
+		name = manzoni.103.g
+		default_option = yes
+
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 1 }
+		writer_experience_gain_effect = { AMOUNT = -20 }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 100
+			factor = 0.75
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 200
+			factor = 0.75
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 300
+			factor = 0.75
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 400
+			factor = 0.75
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience >= 500
+			factor = 0.75
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = meticulous
+			}
+			factor = 0.9
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = innovative
+			}
+			factor = 0.9
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = persistent
+			}
+			factor = 0.95
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = erudite
+			}
+			factor = 0.95
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = arrogant
+			}
+			factor = 2
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = psychological_affliction
+					has_trait = senile
+				}
+			}
+			factor = 10
+		}
+	}
+}
 
 #Manzoni 901: The Fate of Lucca (for Parma)
 
