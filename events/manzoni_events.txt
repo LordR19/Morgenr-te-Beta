@@ -10,11 +10,14 @@ namespace = manzoni
 
 ###################
 
-### Writer Works Events ###
+### National Writer Events ###
 #Manzoni 100: [Work Title], a true masterwork
 #Manzoni 101: [Work Title] lauded by critics!
 #Manzoni 102: [Work Title] published
 #Manzoni 103: [Work Title] ripped apart by critics
+
+### Local Writer Events ###
+#Manzoni 200: A [Work Title] by [Local Author]
 
 ### Great Britain ###
 # Manzoni 1000: Sherlock Holmes published
@@ -380,6 +383,113 @@ manzoni.103 = {
 				}
 			}
 			factor = 10
+		}
+	}
+}
+
+### Local Writer Events ###
+#Manzoni 200: A [Work Title] by [Local Author]
+manzoni.200 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.200.t
+	desc = manzoni.200.d
+	flavor = manzoni.200.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_local_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_in_list = {
+			variable = mr_local_writers_list
+			save_scope_as = manzoni_local_writer_scope
+		}
+	}
+
+	option = { #A good read!
+		name = manzoni.200.g
+		default_option = yes
+
+		scope:manzoni_local_writer_scope = {
+			void_writer_experience_gain_effect = { AMOUNT = 20 }
+		}
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 100
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 200
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 300
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience > 400
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var.var:manzoni_writer_experience >= 500
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = meticulous
+			}
+			factor = 2
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = innovative
+			}
+			factor = 2
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = persistent
+			}
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = erudite
+			}
+			factor = 1.5
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				has_trait = arrogant
+			}
+			factor = 0.8
+		}
+		modifier = {
+			var:manzoni_writer_var = {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = psychological_affliction
+					has_trait = senile
+				}
+			}
+			factor = 0.2
 		}
 	}
 }
