@@ -2178,20 +2178,76 @@ set_writer_local_writer_effect = {
 create_new_writer_effect = {
 	random_list = {
 		1 = { #Random Writer
-			create_character = {
-				save_scope_as = manzoni_new_writer_scope
-			}
+			random_list = {
+				5 = {
+					create_character = {
+						female = yes
+						age = { 18 30 }
+						trait_generation = {}
+						save_scope_as = manzoni_new_writer_scope
+					}
+					scope:manzoni_new_writer_scope = {
+						add_trait = literary
+						mr_trait_generation_writer_effect = yes
+						set_variable = mr_is_writer_var
+						writer_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = manzoni_new_writer_var
+						value = scope:manzoni_new_writer_scope
+					}
 
-			scope:manzoni_new_writer_scope = {
-				add_trait = literary
-				set_variable = mr_is_writer_var
-				writer_experience_set_up_effect = yes
-				place_character_in_void = 1200
-			}
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 5
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 15
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 30
+						}
+					}
+				}
+				95 = {
+					create_character = {
+						age = { 18 30 }
+						trait_generation = {}
+						save_scope_as = manzoni_new_writer_scope
+					}
+					scope:manzoni_new_writer_scope = {
+						add_trait = literary
+						mr_trait_generation_writer_effect = yes
+						set_variable = mr_is_writer_var
+						writer_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
 
-			set_variable = {
-				name = manzoni_new_writer_var
-				value = scope:manzoni_new_writer_scope
+					set_variable = {
+						name = manzoni_new_writer_var
+						value = scope:manzoni_new_writer_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -5
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -15
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -30
+						}
+					}
+				}
 			}
 		}
 	}
