@@ -100,11 +100,11 @@ manzoni_on_yearly_pulse_country_writers = {
 		19 = manzoni.101 #Manzoni 101: [Book Title] lauded by critics!
 		70 = manzoni.102 #Manzoni 102: [Book Title] published
 		10 = manzoni.103 #Manzoni 103: [Book Title] ripped apart by critics
+	}
 
-		effect = {
-			manzoni_add_x_literary_tradition_effect = {
-				AMOUNT = 1
-			}
+	effect = {
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 1
 		}
 	}
 }
@@ -161,6 +161,8 @@ manzoni_on_yearly_pulse_country_local_writers = {
 			manzoni_add_x_literary_tradition_effect = {
 				AMOUNT = 3
 			}
+
+			#This part removes writers if there are more than 3
 			set_local_variable = {
 				name = counter_local_var
 				value = 0
@@ -183,6 +185,15 @@ manzoni_on_yearly_pulse_country_local_writers = {
 					}
 				}
 			}
+		}
+
+		#This part adds or removes a random amount of reputation
+		ordered_in_list = {
+			variable = mr_local_writers_list
+			max = 3
+			check_range_bounds = no
+
+			writer_experience_gain_effect = { AMOUNT = { -10 15 } }
 		}
 	}
 }
