@@ -507,7 +507,223 @@ types arts_view
 									}
 								}
 
-								artist_placeholder = {}
+								#Writer
+								artist_widget_character_with_button = {
+									blockoverride "role_icon" {
+										texture = "gfx/interface/icons/character_role_icons/manzoni_writer_role.dds"
+									}
+									blockoverride "role_tooltip" {
+										tooltip = "[concept_manzoni_writer_desc]"
+									}
+									blockoverride "role_name" {
+										text = "WRITER_HEADER_TEXT"
+									}
+									blockoverride "character" {
+										datacontext = "[GetPlayer.MakeScope.Var('manzoni_writer_var').GetCharacter]"
+									}
+									blockoverride "character_name" {
+										text = "[GetPlayer.GetCustom('artists_has_writer_gui_type')]"
+									}
+									blockoverride "achievements_icon_visibility" {
+										visible = no
+									}
+									blockoverride "scientist_achievement_tooltip" {
+									#	tooltip = "MR_ASTRONOMER_ACHIEVEMENTS_TT"
+									}
+									blockoverride "experience_bar_visibility" {
+										visible = yes
+									}
+									blockoverride "values" {
+										min = 0
+										max = 500
+										value = "[GetPlayer.MakeScope.Var('manzoni_writer_var').GetVariable('manzoni_writer_experience').GetValue]"
+									}
+									blockoverride "experience_tooltip" {
+										tooltip = "[GetPlayer.GetCustom('GUI_manzoni_writer_experience_type')]"
+									}
+									blockoverride "experience_bar_text" {
+										text = "[GetPlayer.GetCustom('GUI_manzoni_writer_experience_text_type')]"
+									}
+									blockoverride "small_box_content" {
+										widget = { #This Icon allows an overview of the 10 Nations with the most Astronomical Objects
+											#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
+											#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+											#used in the mr_GUI_l_english.yml file to display the global variables.
+											size = { 30 30 }
+											parentanchor = top|right
+											position = { 5 -5 }
+										
+											icon = {
+												size = { 100% 100% }
+												texture = "gfx/interface/backgrounds/round_button_bg.dds"
+												block "enabled" {}
+											}
+											icon = {
+												size = { 100% 100% }
+												texture = "gfx/interface/buttons/button_icons/list.dds"
+												block "enabled" {}
+												tooltip = "RANKING_LITERARY_TRADITION_VAR_TT"
+											}
+										}
+										flowcontainer = {
+											direction = vertical
+											maximumsize = { 350 360 }
+											spacing = 8
+											margin = { 25 15 }
+
+											textbox = {
+												#Literary Tradition
+												text = "LITERARY_TRADITION_VAR"
+												parentanchor = top|left
+												maximumsize = { 325 360 }
+												autoresize = yes
+												multiline = yes
+												using = fontsize_xl
+												tooltip = "LITERARY_TRADITION_VAR_TT"
+											}
+											expand = {}
+										}
+									}
+									blockoverride "visit_button" {
+										text = "MR_VISIT_OPERA_BUTTON"
+										datacontext = "[GetScriptedGui('mr_visit_opera_gui_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_VISIT_OPERA_BUTTON_TT"
+									}
+									blockoverride "big_box_content" {
+										flowcontainer = {
+											direction = vertical
+											parentanchor = hcenter
+											ignoreinvisible = yes
+											spacing = 8
+											margin = { 25 15 }
+	
+											button = {
+												#Compose a Musical Work
+												using = default_button_primary_big_action
+												size = { 300 45 }
+												raw_text = "MR_COMPOSE_A_WORK_BUTTON"
+												using = fontsize_medium
+						
+												datacontext = "[GetScriptedGui('mr_compose_a_work_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_COMPOSE_A_WORK_BUTTON_TT"
+											}
+										}
+									}
+									blockoverride "right_box_content" {
+										vbox = {
+											layoutpolicy_vertical = expanding
+											layoutpolicy_horizontal = expanding
+
+											textbox = {
+												text = "MR_LOCAL_WRITERS"
+												autoresize = yes
+												using = fontsize_mega
+											}
+
+											fullscreen_scrollarea = {
+												maximumsize = { 720 420 }
+									
+												scrollbarpolicy_horizontal = as_needed
+												
+												scrollbar_horizontal = {
+													using = Scrollbar_Horizontal
+												}
+
+												blockoverride "scrollarea_content" {
+													hbox = {
+														spacing = 20
+														margin = { 10 10 }
+														datamodel = "[GetPlayer.MakeScope.GetList('mr_local_writers_list')]"
+													
+														item = {
+															vbox = {
+																spacing = 10
+																margin = { 10 10 }
+																minimumsize = { 220 340 }
+																datacontext = "[Scope.GetCharacter]"
+																using = entry_bg_fancy
+		
+																container = {
+																	button_icon_round = {
+																		# Exile local Writer
+																		size = { 30 30 }
+																		position = { 130 5 }
+													
+																		datacontext = "[GetScriptedGui('mr_exile_local_writer_button')]"
+																		onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_writer', Scope.GetCharacter.MakeScope ).End)]"
+																		enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_writer', Scope.GetCharacter.MakeScope ).End)]"
+																		tooltip = "MR_EXILE_LOCAL_WRITER_TT"
+																		blockoverride "icon" {
+																			texture = "gfx/interface/icons/GUI_icons/GUI_booting_button.dds"
+																		}
+																		blockoverride "icon_size" {
+																			size = { 75% 75% }
+																		}					
+																	}
+	
+																	# Character Portrait
+																	character_portrait_medium_torso = {
+																		blockoverride "show_hat" {}
+																		blockoverride "tooltip" {} #TODO Remove when Tooltip doesn't cause error anymore
+																		blockoverride "portrait_icons" {} #TODO Remove when Tooltip doesn't cause error anymore
+																		blockoverride "portrait_button" {} #TODO Remove when Tooltip doesn't cause error anymore
+																	}
+																}
+													
+																#Name
+																default_header_clean_faded = {
+																	size = { 160 40 }
+																	blockoverride "text" {
+																		text = "[Character.GetLastName]"
+																	}
+																}
+
+																#Experience
+																green_progressbar_horizontal = {
+																	size = { 160 25 }
+																	blockoverride "values" {
+																		block "values"
+																		{
+																			min = 0
+																			max = 500
+																			value = "[FixedPointToFloat(Character.MakeScope.GetVariable('manzoni_writer_experience').GetValue)]"
+																		}
+																	}
+																	tooltip = "MR_LOCAL_WRITER_EXPERIENCE_TOOLTIP"
+																	textbox = {
+																		text = "[Character.GetCustom('GUI_manzoni_local_writer_experience_text_type')]"
+																		position = { 0 -5 }
+																		parentanchor = center
+																		autoresize = yes
+																		using = fontsize_large
+																	}
+																}
+
+																button = {
+																	#Invite Writer
+																	using = default_button_primary_big_action
+																	size = { 170 40 }
+																	raw_text = "MR_INVITE_WRITER_BUTTON"
+																	using = fontsize_medium
+											
+																	datacontext = "[GetScriptedGui('mr_invite_writer_button')]"
+																	onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_writer', Scope.GetCharacter.MakeScope ).End)]"
+																	enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_writer', Scope.GetCharacter.MakeScope ).End)]"
+																	tooltip = "MR_INVITE_WRITER_BUTTON_TT"
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
 							}	
 						}
 					}

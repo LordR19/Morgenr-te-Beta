@@ -1,0 +1,115 @@
+﻿### WRITER BUTTONS ###
+
+#by Lord R
+
+#Exile Local Writer
+mr_exile_local_writer_button = {
+    scope = country
+	saved_scopes = {
+        chosen_writer
+    }
+    is_valid = {
+		#not changed national writer recently
+		custom_tooltip = {
+			text = MR_NOT_PROTECTED_SPEECH_LAW_TRIGGER_TT
+			NOT = {
+				has_law = law_type:law_protected_speech
+			}
+		}
+		#Has not recently exiled an author
+		custom_tooltip = {
+			text = MR_NOT_RECENTLY_EXILED_WRITER_TT
+			NOT = {
+				has_variable = manzoni_recently_exiled_writer_var
+			}
+		}
+    }
+	
+    effect = {
+		custom_tooltip = {
+			text = MR_EXILE_LOCAL_WRITER_BUTTON_EFFECT_TT
+
+			set_variable = {
+				name = manzoni_recently_exiled_writer_var
+				years = 5
+			}
+
+			scope:chosen_writer = {
+				remove_variable = mr_is_local_writer_var
+				set_variable = mr_is_exiled_writer_var
+
+				add_to_global_variable_list = {
+					name = manzoni_exiled_writer_global_list
+					target = this
+				}
+			}
+
+			artists_set_up_local_writer_list_effect = yes
+		}
+    }
+}
+
+#MR_INVITE_WRITER_BUTTON
+mr_invite_writer_button = {
+	#!!!If you change any Trigger or effects here, change them in the AI version too (elgar_ai_hire_composer_effect)!!!
+    scope = country
+	saved_scopes = {
+        chosen_writer
+    }
+    is_valid = {
+		#not changed national writer recently
+		custom_tooltip = {
+			text = MR_NOT_CHANGED_NATIONAL_WRITER_RECENTLY_TRIGGER_TT
+			NOT = {
+				has_modifier = manzoni_recently_changed_national_writer_modifier
+			}
+		}
+		#This Writer was not recently sent away
+		custom_tooltip = {
+			text = MR_WRITER_WAS_NOT_RECENTLY_REFUSED_TT
+			NOT = {
+				scope:chosen_writer = {
+					has_variable = manzoni_writer_unavailable_var				
+				}
+			}
+		}
+    }
+
+    effect = {
+		if = {
+			limit = { has_variable = manzoni_writer_var }
+
+			custom_tooltip = {
+				text = MR_REPLACE_CURRENT_WRITER_TT
+
+				set_writer_local_writer_effect = yes
+			}
+		}
+		custom_tooltip = {
+			text = MR_INVITE_WRITER_BUTTON_EFFECT_TT
+
+			set_variable = {
+				name = manzoni_writer_var
+				value = scope:chosen_writer
+			}
+
+			set_local_variable = mr_invite_writer_button_local_var #Used for Error prevention
+			if = { #Used for error prevention
+				limit = { has_local_variable = mr_invite_writer_button_local_var }
+				var:manzoni_writer_var = {
+					free_character_from_void = yes
+					remove_variable = mr_is_local_writer_var
+					set_variable = mr_is_writer_var
+					place_character_in_void = 1200
+				}
+		
+				artists_set_up_local_writer_list_effect = yes
+			}
+		}
+
+		add_modifier = {
+			name = manzoni_recently_changed_national_writer_modifier
+			years = 3
+		}
+    }
+}

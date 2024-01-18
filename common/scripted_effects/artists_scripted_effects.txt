@@ -92,12 +92,12 @@ artists_monthly_artistic_progress_effect = {
 							popup = yes
 						}
 					}
-				#	1 = {
-				#		trigger_event = {
-				#			id = artists.52
-				#			popup = yes
-				#		}
-				#	}
+					1 = {
+						trigger_event = {
+							id = artists.52
+							popup = yes
+						}
+					}
 				#	1 = {
 				#		trigger_event = {
 				#			id = artists.53
@@ -137,19 +137,19 @@ artists_monthly_artistic_progress_GUI_effect = {
 #This effect is used to set up the list of travelling composers
 artists_set_up_travelling_composer_list_effect = {
 	clear_global_variable_list = mr_travelling_composer_global_list
-		ordered_character_in_void = {
-			max = 1000
-			order_by = var:elgar_composer_experience
-			check_range_bounds = no
+	ordered_character_in_void = {
+		max = 1000
+		order_by = var:elgar_composer_experience
+		check_range_bounds = no
 
-			limit = {
-				has_variable = mr_is_travelling_composer_var
-			}
-			add_to_global_variable_list = {
-				name = mr_travelling_composer_global_list
-				target = this
-			}
+		limit = {
+			has_variable = mr_is_travelling_composer_var
 		}
+		add_to_global_variable_list = {
+			name = mr_travelling_composer_global_list
+			target = this
+		}
+	}
 }
 
 #This effect is used to remove the travelling composers as there shouldn't be too many.
@@ -189,6 +189,29 @@ artists_remove_travelling_composer_from_void_effect = {
 					is_historical = no
 				}
 				free_character_from_void = no
+			}
+		}
+	}
+}
+
+#This effect is used to set up the list of local writers
+artists_set_up_local_writer_list_effect = {
+	clear_variable_list = mr_local_writers_list
+	ordered_character_in_void = {
+		max = 1000
+		order_by = var:manzoni_writer_experience
+		check_range_bounds = no
+
+		limit = {
+			has_variable = mr_is_local_writer_var
+			var:mr_is_local_writer_var = {
+				this = root
+			}
+		}
+		root = {
+			add_to_variable_list = {
+				name = mr_local_writers_list
+				target = prev
 			}
 		}
 	}
@@ -258,6 +281,36 @@ create_new_composer_effect = {
 			}
 
 			set_global_variable = mr_sechter_created_global_var
+		}
+		4 = { #Henri Vieuxtemps, Austria
+			trigger = {
+				NOT = { has_global_variable = mr_vieuxtemps_created_global_var }
+				has_state_in_state_region = STATE_WALLONIA
+				NOT = {
+					cu:wallonian = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1875.2.17 #Age 55
+				year >= 1836 #First Composition
+				age >= 16
+			}
+			create_character = {
+				template = mr_bel_vieuxtemps_henri_character_template
+				save_scope_as = elgar_new_composer_scope
+			}
+			scope:elgar_new_composer_scope = {
+				set_variable = mr_is_composer_var
+				composer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = elgar_new_composer_var
+				value = scope:elgar_new_composer_scope
+			}
+
+			set_global_variable = mr_vieuxtemps_created_global_var
 		}
 		4 = { #Asger Hamerik, Denmark
 			trigger = {
@@ -2097,26 +2150,104 @@ kill_writer_effect = {
 	remove_variable = manzoni_writer_var
 }
 
+#This effect makes the current writer a local writer
+set_writer_local_writer_effect = {
+	if = {
+		limit = { has_variable = manzoni_writer_var }
+
+		custom_tooltip = {
+			text = manzoni_set_writer_local_writer_tt
+	
+			var:manzoni_writer_var = {
+				remove_variable = mr_is_writer_var
+				set_variable = {
+					name = mr_is_local_writer_var
+					value = root
+				}
+			}
+		
+			remove_variable = manzoni_writer_var
+			artists_set_up_local_writer_list_effect = yes
+		}
+	}
+}
+
 # Creates a new Writer without losing the old one
 #This one was a little harder as the scope was only valid in the random_list
 #Therefore a Variable is set to save the scope again. then gets deleted
 create_new_writer_effect = {
 	random_list = {
 		1 = { #Random Writer
-			create_character = {
-				save_scope_as = manzoni_new_writer_scope
-			}
+			random_list = {
+				5 = {
+					create_character = {
+						female = yes
+						age = { 18 45 }
+						trait_generation = {}
+						save_scope_as = manzoni_new_writer_scope
+					}
+					scope:manzoni_new_writer_scope = {
+						add_trait = literary
+						mr_trait_generation_writer_effect = yes
+						set_variable = mr_is_writer_var
+						writer_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = manzoni_new_writer_var
+						value = scope:manzoni_new_writer_scope
+					}
 
-			scope:manzoni_new_writer_scope = {
-				add_trait = literary
-				set_variable = mr_is_writer_var
-				writer_experience_set_up_effect = yes
-				place_character_in_void = 1200
-			}
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 5
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 15
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 30
+						}
+					}
+				}
+				95 = {
+					create_character = {
+						age = { 18 45 }
+						trait_generation = {}
+						save_scope_as = manzoni_new_writer_scope
+					}
+					scope:manzoni_new_writer_scope = {
+						add_trait = literary
+						mr_trait_generation_writer_effect = yes
+						set_variable = mr_is_writer_var
+						writer_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
 
-			set_variable = {
-				name = manzoni_new_writer_var
-				value = scope:manzoni_new_writer_scope
+					set_variable = {
+						name = manzoni_new_writer_var
+						value = scope:manzoni_new_writer_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -5
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -15
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -30
+						}
+					}
+				}
 			}
 		}
 	}
@@ -2156,6 +2287,28 @@ manzoni_remove_new_writer_effect = {
 	}
 
 	remove_variable = manzoni_new_writer_var
+}
+
+#This effect makes the new writer a local writer
+manzoni_set_new_writer_local_writer_effect = {
+	custom_tooltip = {
+		text = manzoni_set_new_writer_local_writer_tt
+
+		scope:manzoni_new_writer_scope = {
+			remove_variable = mr_is_writer_var
+			set_variable = {
+				name = mr_is_local_writer_var
+				value = root
+			}
+			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
+				name = manzoni_writer_unavailable_var
+				years = 3
+			}
+		}
+	
+		remove_variable = manzoni_new_writer_var
+		artists_set_up_local_writer_list_effect = yes
+	}
 }
 
 # Used to set up the Experience of a character 
@@ -2251,6 +2404,40 @@ writer_experience_gain_effect = { #adds XP to the Writer
 				}
 			}
 		}
+	}
+}
+
+#Void Writer Experience gain
+void_writer_experience_gain_effect = { #adds XP to the Writer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+	save_scope_as = manzoni_local_writer_scope
+
+	custom_tooltip = {
+		text = manzoni_void_writer_experience_gain_tt
+		if = {
+			limit = {
+				NOT = { has_variable = manzoni_writer_experience }
+			}
+			writer_experience_set_up_effect = yes
+		}
+		change_variable = {
+			name = manzoni_writer_experience
+			add = $AMOUNT$
+		}
+	}
+	if = {
+		limit = {
+			var:manzoni_writer_experience >= 500
+			NOT = {
+				has_trait = manzoni_great_writer
+			}
+		}
+		remove_trait = literary
+		add_trait = manzoni_great_writer
 	}
 }
 
