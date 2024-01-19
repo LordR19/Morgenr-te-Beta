@@ -266,6 +266,118 @@ je_dubois_fossil = {
 	weight = 100
 }
 
+###PALEONTOLOGICAL EXPEDITION###
+
+je_dubois_paleontological_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	group = je_group_dubois_nature
+
+	on_yearly_pulse = {
+		random_events = {
+			chance_to_happen = 100
+			chance_of_no_event = {
+				value = 80
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							var:dubois_paleontologist_experience >= 100
+						}
+					}
+					subtract = 2
+				}
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							var:dubois_paleontologist_experience >= 200
+						}
+					}
+					subtract = 3
+				}
+				if = {
+					limit = {
+						var:dubois_paleontologist_var = {
+							var:dubois_paleontologist_experience >= 300
+						}
+					}
+					subtract = 5
+				}
+			}
+			
+			#Random Formation Events
+			30 = dubois.202 #Dubois 202: Shark Tooth
+			20 = dubois.203 #Dubois 203: Dinosaur Footprints
+			20 = dubois.204 #Dubois 204: Palaeosinopa
+			20 = dubois.205 #Dubois 205: Bones in the mineshaft
+			15 = dubois.206 #Dubois 206: Composita
+			15 = dubois.207 #Dubois 207: Trilobite
+			15 = dubois.208 #Dubois 208: Ammonites
+			30 = dubois.209 #Dubois 209: Farns
+			5 = dubois.210 #Dubois 210: Dinosauria Eggs
+
+			#Special Fossils
+
+			10 = dubois.221 #Dubois 221: Eusthenopteron
+			10 = dubois.222 #Dubois 222: Archaeopteryx
+			10 = dubois.223 #Dubois 223: Megatherium
+			10 = dubois.224 #Dubois 224: Ichthyosaurus
+			10 = dubois.225 #Dubois 225: Smilodon
+			10 = dubois.226 #Dubois 226: Pterodactylus
+
+			#Human Fossils
+
+			10 = dubois.251 #Dubois 251: Unknown Human Bone (Neanderthalensis)
+			5 = dubois.252 #Dubois 252: Unknown Human Bone (Erectus)
+		}
+	}
+	
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+		if = {
+			limit = {
+				NOT = { has_variable = dubois_dinosaur_excavation_localization_progress }
+			}
+			set_variable = {
+				name = dubois_dinosaur_excavation_localization_progress
+				value = 0
+			}
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_paleontological_expedition_goal
+			always = no
+		}
+	}
+
+	on_complete = {
+	}
+
+	invalid = {
+		OR = {
+			dubois_has_paleontologist = no
+			NOT = {
+				has_modifier = dubois_paleontological_research_modifier
+			}
+		}
+	}
+
+	current_value = {
+		value = var:dubois_dinosaur_excavation_localization_progress
+	}
+
+	goal_add_value = {
+		value = 300
+	}
+
+	progressbar = yes
+
+	weight = 25
+}
+
 ###DINOSAUR EXCAVATION######
 
 je_dubois_dinosaur_excavation = {
