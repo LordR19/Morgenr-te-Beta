@@ -52,10 +52,6 @@ namespace = dubois
 #Dubois 72: Normal Formation discovered
 #Dubois 73: Great Formation discovered
 
-#Paleontology
-
-#Dubois 81: Yearly paleontological report
-
 ######ZOOLOGY######
 
 #Dubois 101-199: Zoology
@@ -4655,93 +4651,6 @@ dubois.73 = {
 					name = dubois_great_australian_formation_modifier
 				}
 			}
-		}
-	}
-}
-
-######PALEONTOLOGY
-
-#Dubois 81: Yearly paleontological report
-
-dubois.81 = {
-	type = country_event
-		
-	hidden = yes
-
-	trigger = {
-		NOT = {
-			has_variable = dubois_paleontological_report_cooldown_var
-		}
-		dubois_paleontological_research = yes
-	}
-
-	immediate = {
-		set_variable = {
-			name = dubois_paleontological_report_cooldown_var
-			days = 365
-		}
-		dubois_add_x_fossils_effect = { AMOUNT = 1 } #base fossils
-
-		#Additional yearly fossils
-		if = {
-			limit = {
-				has_technology_researched = dubois_paleontology_tech
-			}
-			dubois_add_x_fossils_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				any_scope_building = {
-					is_building_type = building_university
-					has_active_production_method = pm_dubois_university_natural_history
-				}
-			}
-			dubois_add_x_fossils_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				var:dubois_paleontologist_var = {
-					var:dubois_paleontologist_experience >= 100
-				}
-			}
-			dubois_add_x_fossils_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				var:dubois_paleontologist_var = {
-					var:dubois_paleontologist_experience >= 200
-				}
-			}
-			dubois_add_x_fossils_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				var:dubois_paleontologist_var = {
-					var:dubois_paleontologist_experience >= 300
-				}
-			}
-			dubois_add_x_fossils_effect = { AMOUNT = 1 }
-		}
-		if = {
-			limit = {
-				has_variable = dubois_yearly_fossils_var
-			}
-			set_variable = {
-				name = dubois_fossils_notification_var
-				value = var:dubois_yearly_fossils_var
-			}
-			set_variable = {
-				name = dubois_yearly_fossils_var
-				value = 0
-			}
-		}
-
-		#Notification
-		if = {
-			limit = {
-				dubois_paleontological_research = yes
-			}
-			post_notification = dubois_paleontological_report_notification
 		}
 	}
 }
