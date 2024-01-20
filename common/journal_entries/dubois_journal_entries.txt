@@ -335,31 +335,40 @@ je_dubois_paleontological_expedition = {
 		effect = {
 			if = {
 				limit = {
-					NOT = { has_modifier = dubois_paleontologist_travell_to_location_modifier }
+					NOR = { #The Progress should only be granted if the paleontologist is not currently travelling or excavating
+						has_modifier = dubois_paleontologist_travell_to_location_modifier
+						has_journal_entry = je_dubois_dinosaur_excavation
+					}
 				}
+
+				#Triggers the event if the excavation progress is big enough
 				if = {
 					limit = {
-						dubois_dinosaur_excavation_localization_progress >= 300
+						dubois_dinosaur_excavation_finding_progress >= dubois_dinosaur_excavation_finding_progress_goal_value
 						dubois_has_potential_dinosaur_bone = yes
 					}
 					change_variable = {
-						name = dubois_dinosaur_excavation_localization_progress
-						subtract = 300
+						name = dubois_dinosaur_excavation_finding_progress
+						subtract = dubois_dinosaur_excavation_finding_progress_goal_value
 					}
 					trigger_event = dubois.211
 				}
+
+				#The monthly amount gets added
 				change_variable = {
-					name = dubois_dinosaur_excavation_localization_progress
+					name = dubois_dinosaur_excavation_finding_progress
 					add = 5 #TODO change this to a script_value
 				}
+
+				#Triggers the event if the excavation progress is big enough
 				if = {
 					limit = {
-						dubois_dinosaur_excavation_localization_progress >= 300
+						dubois_dinosaur_excavation_finding_progress >= dubois_dinosaur_excavation_finding_progress_goal_value
 						dubois_has_potential_dinosaur_bone = yes
 					}
 					change_variable = {
-						name = dubois_dinosaur_excavation_localization_progress
-						subtract = 300
+						name = dubois_dinosaur_excavation_finding_progress
+						subtract = dubois_dinosaur_excavation_finding_progress_goal_value
 					}
 					trigger_event = dubois.211
 				}
@@ -373,10 +382,10 @@ je_dubois_paleontological_expedition = {
 		}
 		if = {
 			limit = {
-				NOT = { has_variable = dubois_dinosaur_excavation_localization_progress }
+				NOT = { has_variable = dubois_dinosaur_excavation_finding_progress }
 			}
 			set_variable = {
-				name = dubois_dinosaur_excavation_localization_progress
+				name = dubois_dinosaur_excavation_finding_progress
 				value = 0
 			}
 		}
@@ -402,11 +411,11 @@ je_dubois_paleontological_expedition = {
 	}
 
 	current_value = {
-		value = var:dubois_dinosaur_excavation_localization_progress
+		value = var:dubois_dinosaur_excavation_finding_progress
 	}
 
 	goal_add_value = {
-		value = 300
+		value = dubois_dinosaur_excavation_finding_progress_goal_value
 	}
 
 	progressbar = yes
