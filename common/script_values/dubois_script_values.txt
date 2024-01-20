@@ -55,3 +55,102 @@ dubois_breeding_multiplier = {
 
 #This is used as the goal value for the paleontological excavation progress
 dubois_dinosaur_excavation_finding_progress_goal_value = 240
+
+dubois_dinosaur_excavation_find_monthly_progress_value = {
+	#Experience of the Paleontologist divided by 100
+	if = {
+		limit = { var:dubois_paleontologist_var.var:dubois_paleontologist_experience >= 300 }
+		add = 3
+	}
+	else = {
+		add = var:dubois_paleontologist_var.var:dubois_paleontologist_experience
+	}
+
+	#Base Value for Paleontologist
+	value = 1	
+
+	#Paleontology tech
+	if = {
+		limit = {
+			has_technology_researched = dubois_paleontology_tech
+		}
+		add =1
+	}
+
+	### Traits of Paleontologist ###
+	#Geologist
+	if = {
+		limit = {
+			var:dubois_paleontologist_var = {
+				has_trait = dubois_geologist
+			}
+		}
+		add = 0.5
+	}
+
+	#Surveyor
+	if = {
+		limit = {
+			var:dubois_paleontologist_var = {
+				has_trait = surveyor
+			}
+		}
+		add = 0.25
+	}
+
+	#Innovative
+	if = {
+		limit = {
+			var:dubois_paleontologist_var = {
+				has_trait = innovative
+			}
+		}
+		add = 0.1
+	}
+
+	#Meticulous
+	if = {
+		limit = {
+			var:dubois_paleontologist_var = {
+				has_trait = meticulous
+			}
+		}
+		add = 0.1
+	}
+
+	#Persistent
+	if = {
+		limit = {
+			var:dubois_paleontologist_var = {
+				has_trait = persistent
+			}
+		}
+		add = 0.1
+	}
+
+	#Reckless
+	if = {
+		limit = {
+			var:dubois_paleontologist_var = {
+				has_trait = reckless
+			}
+		}
+		add = -0.1
+	}
+
+	#Bad Trait
+	if = {
+		limit = {
+			var:dubois_paleontologist_var = {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = psychological_affliction
+					has_trait = senile
+				}
+			}
+		}
+		add = -0.5
+	}
+}
