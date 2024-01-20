@@ -59,17 +59,18 @@ dubois_dinosaur_excavation_finding_progress_goal_value = 240
 dubois_dinosaur_excavation_find_monthly_progress_value = {
 	if = { #Checks if Dinosaur Bones are even possible
 		limit = { dubois_has_potential_dinosaur_bone = yes }
+
+		#Base Value for Paleontologist
+		value = 1
+
 		#Experience of the Paleontologist divided by 100
 		if = {
 			limit = { var:dubois_paleontologist_var.var:dubois_paleontologist_experience >= 300 }
 			add = 3
 		}
 		else = {
-			add = var:dubois_paleontologist_var.var:dubois_paleontologist_experience
+			add = dubois_paleontologist_experience_divided_100_value
 		}
-
-		#Base Value for Paleontologist
-		value = 1	
 
 		#Paleontology tech
 		if = {
@@ -162,5 +163,13 @@ dubois_dinosaur_excavation_find_monthly_progress_value = {
 	else = {
 		value = 0
 	}
-	
+}
+
+#Divides the experience of the paleontologist by 100
+dubois_paleontologist_experience_divided_100_value = {
+	if = {
+		limit = { has_variable = dubois_paleontologist_var }
+		value = var:dubois_paleontologist_var.var:dubois_paleontologist_experience
+		divide = 100
+	}
 }
