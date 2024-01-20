@@ -329,6 +329,28 @@ je_dubois_paleontological_expedition = {
 			10 = dubois.251 #Dubois 251: Unknown Human Bone (Neanderthalensis)
 			5 = dubois.252 #Dubois 252: Unknown Human Bone (Erectus)
 		}
+
+		effect = {
+			#Paleontological Report: adds regular fossils and notifies the player about the total amount of yearly fossils.
+			dubois_add_x_fossils_effect = { AMOUNT = dubois_yearly_regular_fossils_value }
+			#Sets the variable for the notification
+			if = {
+				limit = {
+					has_variable = dubois_yearly_fossils_var
+				}
+				set_variable = {
+					name = dubois_fossils_notification_var
+					value = var:dubois_yearly_fossils_var
+					months = 2
+				}
+				set_variable = {
+					name = dubois_yearly_fossils_var
+					value = 0
+				}
+			}
+			#Actual Notification
+			post_notification = dubois_paleontological_report_notification
+		}
 	}
 
 	on_monthly_pulse = {
@@ -379,6 +401,13 @@ je_dubois_paleontological_expedition = {
 					}
 					trigger_event = dubois.211
 				}
+			}
+
+			#estimates the amount of fossils that will be found this year
+			set_variable = {
+				name = dubois_estimated_regular_fossils_year_var
+				value = dubois_yearly_regular_fossils_value
+				days = 40
 			}
 		}
 	}

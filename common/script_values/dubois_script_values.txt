@@ -173,3 +173,59 @@ dubois_paleontologist_experience_divided_100_value = {
 		divide = 100
 	}
 }
+
+#Calculates the regular amount of fosills the country should get
+dubois_yearly_regular_fossils_value = {
+	if = {
+		limit = {
+			dubois_paleontological_research = yes
+		}
+
+		#base fossils
+		value = 1
+
+		#Additional yearly fossils
+		if = {
+			limit = {
+				has_technology_researched = dubois_paleontology_tech
+			}
+			add = 1
+		}
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_university
+					has_active_production_method = pm_dubois_university_natural_history
+				}
+			}
+			add = 1
+		}
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					var:dubois_paleontologist_experience >= 100
+				}
+			}
+			add = 1
+		}
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					var:dubois_paleontologist_experience >= 200
+				}
+			}
+			add = 1
+		}
+		if = {
+			limit = {
+				var:dubois_paleontologist_var = {
+					var:dubois_paleontologist_experience >= 300
+				}
+			}
+			add = 1
+		}
+	}
+	else = {
+		value = 0
+	}
+}
