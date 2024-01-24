@@ -451,15 +451,23 @@ manzoni.210 = {
 	trigger = {
 	}
 
+	cancellation_trigger = {
+		NOT = {
+			currently_enacting_law = scope:manzoni_current_law_scope
+		}
+	}
+
 	immediate = {
 		random_in_list = {
 			variable = mr_local_writers_list
 
 			save_scope_as = manzoni_local_writer_scope
-
 			interest_group = {
 				save_scope_as = manzoni_local_writer_ig_scope
 			}
+		}
+		currently_enacting_law = {
+			save_scope_as = manzoni_current_law_scope
 		}
 	}
 
@@ -467,12 +475,23 @@ manzoni.210 = {
 		name = manzoni.210.g
 		default_option = yes
 
-		scope:manzoni_local_writer_ig_scope = {
-			add_modifier = {
-				name = manzoni_writer_party_boost_modifier
-				multiplier = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier
-				years = 10
-				is_decaying = yes
+		if = {
+			limit = {
+				scope:manzoni_local_writer_scope = {
+					law_stance = {
+						law = owner.currently_enacting_law.type
+						value < neutral
+					}
+				}
+			}
+			add_enactment_modifier = {
+				name = popular_rejection_for_law
+				multiplier = 
+			}
+		}
+		else = {
+			add_enactment_modifier = {
+				name = popular_rejection_for_law
 			}
 		}
 	}
