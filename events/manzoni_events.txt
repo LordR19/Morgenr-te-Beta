@@ -426,75 +426,54 @@ manzoni.200 = {
 		}
 		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
 	}
+}
 
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 100
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 200
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 300
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 400
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience >= 500
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = meticulous
+#Manzoni 210: [Local Writer]'s Works strengthen [Interest Group]
+manzoni.210 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.210.t
+	desc = manzoni.210.d
+	flavor = manzoni.210.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_local_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_in_list = {
+			variable = mr_local_writers_list
+
+			save_scope_as = manzoni_local_writer_scope
+
+			interest_group = {
+				save_scope_as = manzoni_local_writer_ig_scope
 			}
-			factor = 2
 		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = innovative
+	}
+
+	option = { #An interesting development!
+		name = manzoni.210.g
+		default_option = yes
+
+		scope:manzoni_local_writer_ig_scope = {
+			add_modifier = {
+				name = manzoni_writer_party_boost_modifier
+				multiplier = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier
 			}
-			factor = 2
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = persistent
-			}
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = erudite
-			}
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = arrogant
-			}
-			factor = 0.8
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				OR = {
-					has_trait = alcoholic
-					has_trait = opium_addiction
-					has_trait = cocaine_addiction
-					has_trait = psychological_affliction
-					has_trait = senile
-				}
-			}
-			factor = 0.2
 		}
 	}
 }
-
-
 
 #Manzoni 901: The Fate of Lucca (for Parma)
 
