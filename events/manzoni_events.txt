@@ -497,6 +497,78 @@ manzoni.210 = {
 	}
 }
 
+#Manzoni 220: [Local Writer] disapproves of new law
+manzoni.220 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.220.t
+	desc = manzoni.220.d
+	flavor = manzoni.220.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_local_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		any_in_list = {
+			variable = mr_local_writers_list
+
+			interest_group = {
+				law_stance = {
+					law = owner.currently_enacting_law.type
+					value < neutral
+				}
+			}
+			NOT = { has_variable = manzoni_writer_influenced_law }
+		}
+	}
+
+	cancellation_trigger = {
+		NOT = { currently_enacting_law = scope:manzoni_current_neg_law_scope }
+	}
+
+	immediate = {
+		currently_enacting_law = {
+			save_scope_as = manzoni_current_neg_law_scope
+		}
+		random_in_list = {
+			variable = mr_local_writers_list
+			limit = {
+				interest_group = {
+					law_stance = {
+						law = owner.currently_enacting_law.type
+						value < neutral
+					}
+				}
+				NOT = { has_variable = manzoni_writer_influenced_law }
+			}
+
+			save_scope_as = manzoni_local_writer_scope
+			set_variable = {
+				name = manzoni_writer_influenced_law
+				years = 3
+			}
+		}
+	}
+
+	option = { #The pen is mightier than the sword!
+		name = manzoni.220.g
+		default_option = yes
+
+		add_enactment_modifier = {
+			name = manzoni_writer_rejects_law_modifier
+			multiplier = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_no_ig_value
+		}
+	}
+}
+
 #Manzoni 901: The Fate of Lucca (for Parma)
 
 manzoni.901 = {
