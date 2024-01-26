@@ -1171,79 +1171,83 @@ curtiss.23 = {
 
 #Curtiss 31: Der Rote Baron
 
-#curtiss.31 = {
-#	type = country_event
-#	
-#	title = curtiss.31.t
-#	desc = curtiss.31.d
-#	flavor = curtiss.31.f
-#	
-#	event_image = { 
-#		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_richthofen.dds"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
-#
-#	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
-#	
-#	duration = 3
-#
-#	trigger = {
-#		exists = c:GER
-#		c:GER = root
-#		game_date >= 1914.1.1
-#		NOT = {
-#			has_global_variable = curtiss_manfred_von_richthofen
-#		}
-#		any_scope_war = {
-#			any_scope_front = {
-#				any_scope_character = {
-#					owner = ROOT
-#					commander_pm_usage = {
-#						target = ROOT
-#						production_method = pm_aerial_recon
-#						value > 0.5
-#					}
-#				}
-#			}
-#		}
-#	}
-#
-#	immediate = {
-#		set_global_variable = curtiss_manfred_von_richthofen
-#		create_character = {
-#			first_name = mr_manfred
-#	  		last_name = mr_von_richthofen
-#	   		culture = cu:north_german
-#    		female = no
-#   		religion = protestant
-#	   		ideology = ideology_royalist
-#   		interest_group = ig_armed_forces
-#			dna = mr_ger_richthofen
-#			is_general = yes
-#   		birth_date = 1892.5.2
-#			historical = yes
-#	   		traits = { 
-#				curtiss_pilot_ace
-#				brave
-#				charismatic
-#				resupply_commander
-#			}
-#			save_scope_as = curtiss_richthofen
-#		}
-#	}
-#
-#	option = { #A legend is born.
-#		name = curtiss.31.g
-#		default_option = yes
-#		scope:curtiss_richthofen = {
-#			add_modifier = {
-#				name = curtiss_red_baron_modifier
-#			}
-#		}
-#	}
-#}
+curtiss.31 = {
+	type = country_event
+	
+	title = curtiss.31.t
+	desc = curtiss.31.d
+	flavor = curtiss.31.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_richthofen.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	trigger = {
+		exists = c:GER
+		c:GER = root
+		game_date >= 1914.1.1
+		NOT = {
+			has_global_variable = curtiss_manfred_von_richthofen
+		}
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_general = {
+					owner = ROOT
+					this.commander_military_formation = {
+						OR = {
+							has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+							has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+						}
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = curtiss_manfred_von_richthofen
+		create_character = {
+			first_name = mr_manfred
+			last_name = mr_von_richthofen
+			culture = cu:north_german
+			female = no
+			religion = protestant
+			ideology = ideology_royalist
+			interest_group = ig_armed_forces
+			dna = mr_ger_richthofen
+			is_general = yes
+			birth_date = 1892.5.2
+			historical = yes
+			traits = { 
+				curtiss_pilot_ace
+				brave
+				charismatic
+				resupply_commander
+			}
+			save_scope_as = curtiss_richthofen
+		}
+	}
+
+	option = { #A legend is born.
+		name = curtiss.31.g
+		default_option = yes
+		scope:curtiss_richthofen = {
+			add_modifier = {
+				name = curtiss_red_baron_modifier
+			}
+		}
+	}
+}
 
 #Curtiss 40: Transatlantic Flight (Generic)
 
@@ -10487,185 +10491,212 @@ curtiss.298 = {
 
 #Curtiss 311: A new pilot
 
-#curtiss.311 = {
-#	type = country_event
-#	
-#	title = curtiss.311.t
-#	desc = curtiss.311.d
-#	flavor = curtiss.311.f
-#	
-#	event_image = { 
-#		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_1.dds"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
-#
-#	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
-#	
-#	duration = 3
-#
-#	trigger = {
-#		NOT = {
-#			has_variable = curtiss_pilot_cooldown
-#		}
-#		any_scope_war = {
-#			any_scope_front = {
-#				any_scope_character = {
-#					owner = ROOT
-#					commander_pm_usage = {
-#						target = ROOT
-#						production_method = pm_aerial_recon
-#						value > 0.5
-#					}
-#				}
-#			}
-#		}
-#	}
-#
-#	immediate = {
-#		create_character = {
-#			interest_group = ig_armed_forces
-#			ideology = ideology_ethno_nationalist
-#			traits = {
-#				curtiss_pilot
-#				charismatic
-#				brave
-#			}
-#			is_general = yes
-#			save_scope_as = curtiss_new_pilot
-#		}
-#		random_scope_war = {
-#			limit = {
-#				any_scope_front = {
-#					any_scope_general = {
-#						owner = ROOT
-#						commander_pm_usage = {
-#							target = ROOT
-#							production_method = pm_aerial_recon
-#							value > 0.5
-#						}
-#					}
-#				}
-#			}
-#			save_scope_as = flying_circus_war
-#		}
-#	}
-#
-#	option = { #This will be the beginning of a unique career.
-#		name = curtiss.311.g
-#		default_option = yes
-#		scope:curtiss_new_pilot = {
-#			add_character_role = general
-#		}
-#		set_variable = {
-#			name = curtiss_pilot_cooldown
-#			days = 1000
-#		}
-#	}
-#	option = { #We need him for domestic propaganda.
-#		name = curtiss.311.h
-#		scope:flying_circus_war = {
-#			add_war_war_support = {
-#				target = scope:flying_circus_home
-#				value = 10
-#			}
-#		}
-#		scope:curtiss_new_pilot = {
-#			kill_character = yes
-#		}
-#	}
-#}
+curtiss.311 = {
+	type = country_event
+	
+	title = curtiss.311.t
+	desc = curtiss.311.d
+	flavor = curtiss.311.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	trigger = {
+		NOT = {
+			has_variable = curtiss_pilot_cooldown
+		}
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_general = {
+					owner = ROOT
+					this.commander_military_formation = {
+						OR = {
+							has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+							has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+						}
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		create_character = {
+			interest_group = ig_armed_forces
+			ideology = ideology_ethno_nationalist
+			traits = {
+				curtiss_pilot
+				charismatic
+				brave
+			}
+			is_general = yes
+			save_scope_as = curtiss_new_pilot
+		}
+		random_scope_war = {
+			limit = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+					}
+				}
+			}
+			save_scope_as = flying_circus_war
+		}
+	}
+
+	option = { #This will be the beginning of a unique career.
+		name = curtiss.311.g
+		default_option = yes
+		scope:curtiss_new_pilot = {
+			add_character_role = general
+		}
+		set_variable = {
+			name = curtiss_pilot_cooldown
+			days = 1000
+		}
+	}
+	option = { #We need him for domestic propaganda.
+		name = curtiss.311.h
+		scope:flying_circus_war = {
+			add_war_war_support = {
+				target = scope:flying_circus_home
+				value = 10
+			}
+		}
+		scope:curtiss_new_pilot = {
+			kill_character = yes
+		}
+	}
+}
 
 #Curtiss 312: Flying Ace
 
-#curtiss.312 = {
-#	type = country_event
-#	
-#	title = curtiss.312.t
-#	desc = curtiss.312.d
-#	flavor = curtiss.312.f
-#	
-#	event_image = { 
-#		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_2.dds"
-#	}
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
-#
-#	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
-#
-#	cooldown = { 
-#		years = 3
-#	}
-#	
-#	duration = 3
-#
-#	trigger = {
-#		any_scope_war = {
-#			any_scope_front = {
-#				any_scope_general = {
-#					owner = ROOT
-#					commander_pm_usage = {
-#						target = ROOT
-#						production_method = pm_aerial_recon
-#						value > 0.5
-#					}
-#					has_trait = curtiss_pilot
-#				}
-#			}
-#		}
-#	}
-#
-#	immediate = {
-#		random_scope_war = {
-#			limit = {
-#				any_scope_front = {
-#					any_scope_general = {
-#						owner = ROOT
-#						commander_pm_usage = {
-#							target = ROOT
-#							production_method = pm_aerial_recon
-#							value > 0.5
-#						}
-#					}
-#				}
-#			}
-#			random_scope_front = {
-#				limit = {
-#					any_scope_general = {
-#						owner = ROOT
-#						commander_pm_usage = {
-#							target = ROOT
-#							production_method = pm_aerial_recon
-#							value > 0.5
-#						}
-#					}
-#				}
-#				random_scope_general = {
-#					limit = {
-#						owner = ROOT
-#						commander_pm_usage = {
-#							target = ROOT
-#							production_method = pm_aerial_recon
-#							value > 0.5
-#						}
-#					}
-#					save_scope_as = curtiss_ace
-#				}
-#			}
-#		}
-#	}
-#
-#	option = { #A new national hero!
-#		name = curtiss.312.g
-#		default_option = yes
-#		scope:curtiss_ace = {
-#			remove_trait = curtiss_pilot
-#			add_trait = curtiss_pilot_ace
-#		}
-#	}
-#}
+curtiss.312 = {
+	type = country_event
+	
+	title = curtiss.312.t
+	desc = curtiss.312.d
+	flavor = curtiss.312.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+	
+	duration = 3
+
+	trigger = {
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_general = {
+					owner = ROOT
+					this.commander_military_formation = {
+						OR = {
+							has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+							has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+						}
+					}
+					has_trait = curtiss_pilot
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_war = {
+			limit = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+						has_trait = curtiss_pilot
+					}
+				}
+			}
+			random_scope_front = {
+				limit = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+						has_trait = curtiss_pilot
+					}
+				}
+				random_scope_general = {
+					limit = {
+						owner = ROOT
+						this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+						has_trait = curtiss_pilot
+					}
+					save_scope_as = curtiss_ace
+				}
+			}
+		}
+	}
+
+	option = { #A new national hero!
+		name = curtiss.312.g
+		default_option = yes
+		scope:curtiss_ace = {
+			remove_trait = curtiss_pilot
+			add_trait = curtiss_pilot_ace
+		}
+	}
+}
 
 #Curtiss 313: Enemy airfield captured!
 
