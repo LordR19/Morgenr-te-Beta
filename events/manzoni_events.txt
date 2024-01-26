@@ -429,16 +429,14 @@ manzoni.201 = {
 	}
 }
 
-
-
-#Manzoni 212: [Local Author] riles up the public
-manzoni.211 = {
+#Manzoni 210: [Local Writer]'s Works strengthen [Interest Group]
+manzoni.210 = {
 	type = country_event
 	placement = ROOT
 
-	title = manzoni.211.t
-	desc = manzoni.211.d
-	flavor = manzoni.211.f
+	title = manzoni.210.t
+	desc = manzoni.210.d
+	flavor = manzoni.210.f
 
 	duration = 3
 
@@ -456,9 +454,56 @@ manzoni.211 = {
 	immediate = {
 		random_in_list = {
 			variable = mr_local_writers_list
+
 			save_scope_as = manzoni_local_writer_scope
+
+			interest_group = {
+				save_scope_as = manzoni_local_writer_ig_scope
+			}
 		}
-		scope:manzoni_local_writer_scope = {
+	}
+
+	option = { #The Pen is mightier than the sword!
+		name = manzoni.210.g
+		default_option = yes
+
+		scope:manzoni_local_writer_ig_scope = {
+			add_modifier = {
+				name = manzoni_writer_party_boost_modifier
+				multiplier = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier
+			}
+		}
+	}
+}
+
+#Manzoni 212: [Local Author] riles up the public
+manzoni.212 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.212.t
+	desc = manzoni.212.d
+	flavor = manzoni.212.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_local_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_in_list = {
+			variable = mr_local_writers_list
+
+			save_scope_as = manzoni_local_writer_scope
+
 			interest_group = {
 				save_scope_as = manzoni_local_writer_ig_scope
 			}
@@ -466,13 +511,60 @@ manzoni.211 = {
 	}
 
 	option = { #A good read!
-		name = manzoni.211.g
+		name = manzoni.212.g
 		default_option = yes
 
-		scope:manzoni_local_writer_scope = {
-			void_writer_experience_gain_effect = { AMOUNT = 20 }
+		if = {
+			limit = {
+				scope:manzoni_local_writer_ig_scope = {
+					ig_approval >= 5
+				}
+			}
+			add_loyalists = {
+				value = {
+					value = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_value
+					divide = 100
+				}
+				interest_group = scope:manzoni_local_writer_ig_scope
+			}
 		}
-		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
+		else_if = {
+			limit = {
+				scope:manzoni_local_writer_ig_scope = {
+					ig_approval >= 0
+				}
+			}
+			add_loyalists = {
+				value = {
+					value = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_value
+					divide = 200
+				}
+				interest_group = scope:manzoni_local_writer_ig_scope
+			}
+		}
+		else_if = {
+			limit = {
+				scope:manzoni_local_writer_ig_scope = {
+					ig_approval >= -5
+				}
+			}
+			add_radicals = {
+				value = {
+					value = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_value
+					divide = 200
+				}
+				interest_group = scope:manzoni_local_writer_ig_scope
+			}
+		}
+		else = {
+			add_radicals = {
+				value = {
+					value = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_value
+					divide = 100
+				}
+				interest_group = scope:manzoni_local_writer_ig_scope
+			}
+		}
 	}
 }
 
