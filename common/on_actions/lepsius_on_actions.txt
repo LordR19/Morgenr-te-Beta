@@ -9,6 +9,9 @@
 on_yearly_pulse_country = { 
 	on_actions = {
 		lepsius_on_yearly_pulse_country
+		lepsius_on_yearly_pulse_local_excavation_events
+		lepsius_on_yearly_pulse_cave_expedtion_events
+		lepsius_on_yearly_pulse_local_archaeology_events
 		lepsius_archaeologists_on_yearly_pulse_country
 		delay = { days = { 45 330 } }
 	}
@@ -62,6 +65,9 @@ lepsius_on_yearly_pulse_country = {
 		5 = lepsius.732 #Diskos of Phaistos
 		5 = lepsius.733 #Snake Goddess
 	}
+}
+
+lepsius_on_yearly_pulse_local_excavation_events = {
 	#Local Excavation Events
 	random_events = {
 		120 = 0
@@ -72,7 +78,9 @@ lepsius_on_yearly_pulse_country = {
 		10 = lepsius.1214 #Human Bones
 		20 = lepsius.1215 #An ambitious successor
 	}
+}
 
+lepsius_on_yearly_pulse_cave_expedtion_events = {
 	#Cave Exploration Events
 	random_events = {
 		120 = 0
@@ -85,142 +93,89 @@ lepsius_on_yearly_pulse_country = {
 		5 = lepsius.1416 #Lepsius 1416: Drawings
 		10 = lepsius.1417 #Lepsius 1417: Altamira Paintings
 	}
+}
 
-	#Local Archaeology Events
-	#This uses random_lists to ensure that events get fired equally often no matter how many different archaeological regions you own.
-	#The first random list fires if you have an active archaeologist. It decides whether you find anything this year.
-	#The second random list decides what (of the possible regions you own) you find.
-	#The third random list decides, which specific Event triggers.
-	#Make sure that all Event Triggers are also used somewhere in this construct, otherwise the event will not fire anyways.
-	#E.g. the Roman Tablets event needs Modern Archaeology, if you do not have it, the trigger does not allow that option to be taken.
-	effect = {
-		if = {
-			limit = { lepsius_has_active_archaeologist = yes }
-			random_list = {
-				14 = {}
-				1 = {
-					random_list = {
-						2 = { #Aegean
-							trigger = {
-								any_scope_state = {
-									lepsius_aegean_archaeology_region = yes
-								}
-							}
-							random_list = {
-								3 = { trigger_event = lepsius.2161 } #Lepsius 2161: Aegean Fresco found
-								3 = { trigger_event = lepsius.2162 } #Lepsius 2162: Aegean Ruins discovered
-								1 = { trigger_event = lepsius.2163 } #Lepsius 2163: Aegean Jewelry unearthed
-								1 = { trigger_event = lepsius.2164 } #Lepsius 2164: Golden Cup of Aegean Origin
-							}
-						}
-						2 = { #Aztec
-							trigger = {
-								any_scope_state = {
-									lepsius_atztec_empire_archaeology_region = yes
-								}
-							}
-							random_list = {
-								2 = { trigger_event = lepsius.2131 } #Lepsius 2131: Skull Fragmets found in Aztect Settlement
-								2 = { trigger_event = lepsius.2132 } #Lepsius 2132: Aztec Inscription saved by local Scholar
-								5 = { trigger_event = lepsius.2133 } #Lepsius 2133: Aztec Ruins discovered
-								1 = { trigger_event = lepsius.2134 } #Lepsius 2134: Obsidian Mirror discovered
-							}
-						}
-						2 = { #Carthage
-							trigger = {
-								any_scope_state = {
-									lepsius_carthage_archaeology_region = yes
-								}
-							}
-							random_list = {
-								2 = { trigger_event = lepsius.2141 } #Lepsius 2141: Carthaginian shipwreck discovered
-								2 = { trigger_event = lepsius.2142 } #Lepsius 2142: Stranded Punic warship
-								1 = { trigger_event = lepsius.2143 } #Lepsius 2143: Punic Port discovered
-								2 = { trigger_event = lepsius.2144 } #Lepsius 2144: Coins from ancient Carthage discovered
-							}
-						}
-						2 = { #Celts
-							trigger = {
-								any_scope_state = {
-									lepsius_celtic_archaeology_region = yes
-								}
-							}
-							random_list = {
-								1 = { trigger_event = lepsius.2151 } #Lepsius 2151: Celtic Cauldron discovered
-								1 = { trigger_event = lepsius.2152 } #Lepsius 2152: Celtic Bronze Shield Cover found
-								1 = { trigger_event = lepsius.2153 } #Lepsius 2153: Celtic Bronze Helmet recovered
-								2 = { trigger_event = lepsius.2154 } #Lepsius 2154: Ancient Menhir discovered
-							}
-						}
-						2 = { #Egypt
-							trigger = {
-								any_scope_state = {
-									lepsius_ancient_egypt_archaeology_region = yes
-								}
-							}
-							random_list = {
-								2 = { trigger_event = lepsius.2171 } #Lepsius 2171: Egyptian Wall Paintings
-								2 = { trigger_event = lepsius.2172 } #Lepsius 2172: Ancient Egyptian Temple unearthed
-								1 = { trigger_event = lepsius.2173 } #Lepsius 2173: Egyptian Statue retrieved
-								2 = { trigger_event = lepsius.2174 } #Lepsius 2174: Egyptian Mummy discovered
-							}
-						}
-						2 = { #Hellenic
-							trigger = {
-								any_scope_state = {
-									lepsius_hellenistic_sphere_archaeology_region = yes
-								}
-							}
-							random_list = {
-								1 = { trigger_event = lepsius.2181 } #Lepsius 2181: Hellenic Battle Site discovered
-								1 = { trigger_event = lepsius.2182 } #Lepsius 2182: Hellenic Coins found
-								1 = { trigger_event = lepsius.2183 } #Lepsius 2183 Hellenic Ruins excavated
-								1 = { trigger_event = lepsius.2184 } #Lepsius 2184 Depiction of a Greek God
-							}
-						}
-						2 = { #Persian
-							trigger = {
-								any_scope_state = {
-									lepsius_persian_archaeology_region = yes
-								}
-							}
-							random_list = {
-								3 = { trigger_event = lepsius.2111 } #Lepsius 2111: Ancient Persian Sarcophagus
-								1 = { trigger_event = lepsius.2112 } #Lepsius 2112: Mesopotamian Cuneiform Tablets in Persian Palace
-								1 = { trigger_event = lepsius.2113 } #Lepsius 2113: Egyptian Statue in Persian Tomb
-								1 = { trigger_event = lepsius.2114 } #Lepsius 2114: Monumental Inscription
-							}
-						}
-						2 = { #Roman
-							trigger = {
-								any_scope_state = {
-									lepsius_imperium_romanum_archaeology_region = yes
-								}
-							}
-							random_list = {
-								3 = { trigger_event = lepsius.2101 } #Lepsius 2101: Remains of a Roman Battle
-								5 = { trigger_event = lepsius.2102 } #Lepsius 2102: Villa Rustica discovered
-								1 = {
-									trigger = {
-										has_technology_researched = lepsius_modern_archaeology_tech
-									}
-									trigger_event = lepsius.2103 #Lepsius 2103: Ancient Roman tablets discovered
-								}
-								1 = { trigger_event = lepsius.2104 } #Lepsius 2104: Roman Coin Treasure discovered
-							}
-						}
-						1 = { #Stone Age
-							random_list = {
-								1 = { trigger_event = lepsius.2121 } #Lepsius 2121: A Prehistoric Bone Flute
-								1 = { trigger_event = lepsius.2122 } #Lepsius 2122: Cave Painting found
-								1 = { trigger_event = lepsius.2123 } #Lepsius 2123: Prehistoric Figurine discovered
-								1 = { trigger_event = lepsius.2124 } #Lepsius 2124: Bones and Stone Tools recovered
-							}
-						}
-					}
+#Local Archaeology Events
+lepsius_on_yearly_pulse_local_archaeology_events = {
+	trigger = { lepsius_has_active_archaeologist = yes }
+
+	random_events = {
+		chance_to_happen = 100
+		chance_of_no_event = {
+			value = 93.3
+			if = {
+				limit = {
+					var:lepsius_archaeologist_var.var:lepsius_archaeologist_experience >= 100
 				}
+				subtract = 1
+			}
+			else_if = {
+				limit = {
+					var:lepsius_archaeologist_var.var:lepsius_archaeologist_experience >= 200
+				}
+				subtract = 2.3
+			}
+			else_if = {
+				limit = {
+					var:lepsius_archaeologist_var.var:lepsius_archaeologist_experience >= 300
+				}
+				subtract = 4.3
 			}
 		}
+
+		#Aegean
+		6 = lepsius.2161 #Lepsius 2161: Aegean Fresco found
+		6 = lepsius.2162 #Lepsius 2162: Aegean Ruins discovered
+		2 = lepsius.2163 #Lepsius 2163: Aegean Jewelry unearthed
+		2 = lepsius.2164 #Lepsius 2164: Golden Cup of Aegean Origin
+
+		#Atztec
+		4 = lepsius.2131 #Lepsius 2131: Skull Fragmets found in Aztect Settlement
+		4 = lepsius.2132 #Lepsius 2132: Aztec Inscription saved by local Scholar
+		10 = lepsius.2133 #Lepsius 2133: Aztec Ruins discovered
+		2 = lepsius.2134 #Lepsius 2134: Obsidian Mirror discovered
+
+		#Carthage
+		4 = lepsius.2141 #Lepsius 2141: Carthaginian shipwreck discovered
+		4 = lepsius.2142 #Lepsius 2142: Stranded Punic warship
+		2 = lepsius.2143 #Lepsius 2143: Punic Port discovered
+		4 = lepsius.2144 #Lepsius 2144: Coins from ancient Carthage discovered
+
+		#Celts
+		2 = lepsius.2151 #Lepsius 2151: Celtic Cauldron discovered
+		2 = lepsius.2152 #Lepsius 2152: Celtic Bronze Shield Cover found
+		2 = lepsius.2153 #Lepsius 2153: Celtic Bronze Helmet recovered
+		4 = lepsius.2154 #Lepsius 2154: Ancient Menhir discovered
+
+		#Egypt
+		4 = lepsius.2171 #Lepsius 2171: Egyptian Wall Paintings
+		4 = lepsius.2172 #Lepsius 2172: Ancient Egyptian Temple unearthed
+		2 = lepsius.2173 #Lepsius 2173: Egyptian Statue retrieved
+		4 = lepsius.2174 #Lepsius 2174: Egyptian Mummy discovered
+
+		#Hellenic
+		2 = lepsius.2181 #Lepsius 2181: Hellenic Battle Site discovered
+		2 = lepsius.2182 #Lepsius 2182: Hellenic Coins found
+		2 = lepsius.2183 #Lepsius 2183 Hellenic Ruins excavated
+		2 = lepsius.2184 #Lepsius 2184 Depiction of a Greek God
+
+		#Persian
+		6 = lepsius.2111 #Lepsius 2111: Ancient Persian Sarcophagus
+		2 = lepsius.2112 #Lepsius 2112: Mesopotamian Cuneiform Tablets in Persian Palace
+		2 = lepsius.2113 #Lepsius 2113: Egyptian Statue in Persian Tomb
+		2 = lepsius.2114 #Lepsius 2114: Monumental Inscription
+
+		#Roman
+		6 = lepsius.2101 #Lepsius 2101: Remains of a Roman Battle
+		10 = lepsius.2102 #Lepsius 2102: Villa Rustica discovered
+		2 = lepsius.2103 #Lepsius 2103: Ancient Roman tablets discovered
+		2 = lepsius.2104 #Lepsius 2104: Roman Coin Treasure discovered
+
+		#Stone Age
+		1 = lepsius.2121 #Lepsius 2121: A Prehistoric Bone Flute
+		1 = lepsius.2122 #Lepsius 2122: Cave Painting found
+		1 = lepsius.2123 #Lepsius 2123: Prehistoric Figurine discovered
+		1 = lepsius.2124 #Lepsius 2124: Bones and Stone Tools recovered
 	}
 }
 
