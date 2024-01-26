@@ -17,8 +17,8 @@ namespace = manzoni
 #Manzoni 103: [Work Title] ripped apart by critics
 
 ### Local Writer Events ###
-#Manzoni 200: A [Work Title] by [Local Author]
-#Manzoni 210: [Local Writer]'s Works strengthen [Interest Group]
+#Manzoni 201: A [Work Title] by [Local Author]
+#Manzoni 211: [Local Writer]'s Works strengthen [Interest Group]
 
 ### Great Britain ###
 # Manzoni 1000: Sherlock Holmes published
@@ -390,13 +390,13 @@ manzoni.103 = {
 
 ### Local Writer Events ###
 #Manzoni 200: A [Work Title] by [Local Author]
-manzoni.200 = {
+manzoni.201 = {
 	type = country_event
 	placement = ROOT
 
-	title = manzoni.200.t
-	desc = manzoni.200.d
-	flavor = manzoni.200.f
+	title = manzoni.201.t
+	desc = manzoni.201.d
+	flavor = manzoni.201.f
 
 	duration = 3
 
@@ -419,7 +419,54 @@ manzoni.200 = {
 	}
 
 	option = { #A good read!
-		name = manzoni.200.g
+		name = manzoni.201.g
+		default_option = yes
+
+		scope:manzoni_local_writer_scope = {
+			void_writer_experience_gain_effect = { AMOUNT = 20 }
+		}
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
+	}
+}
+
+
+
+#Manzoni 212: [Local Author] riles up the public
+manzoni.211 = {
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.211.t
+	desc = manzoni.211.d
+	flavor = manzoni.211.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_local_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_in_list = {
+			variable = mr_local_writers_list
+			save_scope_as = manzoni_local_writer_scope
+		}
+		scope:manzoni_local_writer_scope = {
+			interest_group = {
+				save_scope_as = manzoni_local_writer_ig_scope
+			}
+		}
+	}
+
+	option = { #A good read!
+		name = manzoni.211.g
 		default_option = yes
 
 		scope:manzoni_local_writer_scope = {
