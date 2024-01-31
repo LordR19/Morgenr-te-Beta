@@ -2948,6 +2948,33 @@ mr_recall_anthropologist_button = {
 
 ######THE ARTS######
 
+###Composer###
+
+mr_composer_button = {
+	name = "mr_composer_button"
+	desc = "mr_composer_button_desc"
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		elgar_has_composer = yes
+	}
+
+	effect = {
+		set_variable = elgar_visiting_opera_var
+		trigger_event = { 
+			id = elgar.30
+			popup = yes 
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
 ###Monuments###
 
 mr_mozart_monument_button = {
@@ -3110,213 +3137,6 @@ mr_musikverein_button = {
 			popup = yes
 		}
 		set_global_variable = elgar_musikverein_var
-	}
-
-	ai_chance = {
-		base = 1000
-	}
-}
-
-###National and Historical Conservatories###
-
-mr_national_conservatory_button = {
-	name = "mr_national_conservatory_button"
-	desc = "mr_national_conservatory_button_desc"
-
-	visible = { 
-		elgar_has_conservatory = no
-		NOT = {
-			any_scope_state = {
-				state_region = s:STATE_LAZIO
-			}
-		}
-		NAND = {
-			any_scope_state = {
-				state_region = s:STATE_SAXONY
-			}
-			c:SAX ?= this
-		}
-		NOT = {
-			any_scope_state = {
-				state_region = s:STATE_INGRIA
-			}
-		}
-	}
-
-	possible = {
-		has_technology_researched = elgar_irrationalism_tech
-		any_scope_building = {
-			is_building_type = building_elgar_opera
-			level >= 5
-		}
-		any_scope_character = {
-			has_modifier = elgar_conductor_modifier
-		}
-		custom_tooltip = {
-			text = elgar_national_conservatory_decision_tt
-			var:elgar_music_tradition >= 500
-		}
-	}
-
-	effect = {
-		random_scope_state = {
-			limit = {
-				is_capital = yes
-			}
-			add_modifier = {
-				name = elgar_national_conservatory_modifier
-			}
-		}
-	}
-
-	ai_chance = {
-		base = 1000
-	}
-}
-
-mr_santa_cecilia_button = {
-	name = "mr_santa_cecilia_button"
-	desc = "mr_santa_cecilia_button_desc"
-
-	visible = { 
-		any_scope_state = {
-			state_region = s:STATE_LAZIO
-		}
-		c:PAP ?= this
-		NOT = {
-			any_state = {
-				has_modifier = elgar_rome_conservatory_modifier
-			}
-		}
-		NOT = {
-			any_scope_state = {
-				has_modifier = elgar_national_conservatory_modifier
-			}
-		}
-	}
-
-	possible = {
-		any_scope_state = {
-			state_region = s:STATE_LAZIO
-		}
-		custom_tooltip = {
-			text = elgar_santa_cecilia_decision_tt
-			var:elgar_music_tradition >= 100
-		}
-	}
-
-	effect = {
-		every_state = {
-			limit = {
-				state_region = s:STATE_LAZIO
-			}
-			add_modifier = {
-				name = elgar_rome_conservatory_modifier
-			}
-		}
-	}
-
-	ai_chance = {
-		base = 1000
-	}
-}
-
-mr_leipzig_conservatory_button = {
-	name = "mr_leipzig_conservatory_button"
-	desc = "mr_leipzig_conservatory_button_desc"
-
-	visible = { 
-		any_scope_state = {
-			state_region = s:STATE_SAXONY
-		}
-		c:SAX ?= this
-		NOT = {
-			any_state = {
-				has_modifier = elgar_leipzig_conservatory_modifier
-			}
-		}
-		NOT = {
-			any_scope_state = {
-				has_modifier = elgar_national_conservatory_modifier
-			}
-		}
-	}
-
-	possible = {
-		any_scope_state = {
-			state_region = s:STATE_SAXONY
-		}
-		any_scope_building = {
-			is_building_type = building_elgar_opera
-			level >= 2
-		}
-		custom_tooltip = {
-			text = elgar_leipzig_conservatory_decision_tt
-			var:elgar_music_tradition >= 250
-		}
-	}
-
-	effect = {
-		every_state = {
-			limit = {
-				state_region = s:STATE_SAXONY
-				owner = c:SAX
-			}
-			add_modifier = {
-				name = elgar_leipzig_conservatory_modifier
-			}
-		}
-	}
-
-	ai_chance = {
-		base = 1000
-	}
-}
-
-mr_petrograd_conservatory_button = {
-	name = "mr_petrograd_conservatory_button"
-	desc = "mr_petrograd_conservatory_button_desc"
-
-	visible = { 
-		any_scope_state = {
-			state_region = s:STATE_INGRIA
-		}
-		country_has_primary_culture = cu:russian
-		NOT = {
-			any_state = {
-				has_modifier = elgar_petrograd_conservatory_modifier
-			}
-		}
-		NOT = {
-			any_scope_state = {
-				has_modifier = elgar_national_conservatory_modifier
-			}
-		}
-	}
-
-	possible = {
-		any_scope_state = {
-			state_region = s:STATE_INGRIA
-		}
-		any_scope_building = {
-			is_building_type = building_elgar_opera
-			level >= 3
-		}
-		custom_tooltip = {
-			text = elgar_petrograd_conservatory_decision_tt
-			var:elgar_music_tradition >= 350
-		}
-	}
-
-	effect = {
-		every_state = {
-			limit = {
-				state_region = s:STATE_INGRIA
-			}
-			add_modifier = {
-				name = elgar_petrograd_conservatory_modifier
-			}
-		}
 	}
 
 	ai_chance = {
