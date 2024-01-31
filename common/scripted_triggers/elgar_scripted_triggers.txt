@@ -12,38 +12,87 @@ had_5_composers = {
 	var:elgar_had_composers >= 5
 }
 
-elgar_has_great_composer = {
-	OR = {
-		has_modifier = elgar_donizetti_contract_modifier
-		has_modifier = elgar_berlioz_contract_modifier
-		has_modifier = elgar_liszt_contract_modifier
-		has_modifier = elgar_wagner_contract_modifier
-		has_modifier = elgar_grieg_contract_modifier
-		has_modifier = elgar_brahms_contract_modifier
-		has_modifier = elgar_delius_contract_modifier
-		has_modifier = elgar_mahler_contract_modifier
-		has_modifier = elgar_rachmaninov_contract_modifier
-		has_modifier = elgar_prokofiev_contract_modifier
+elgar_has_composer = {
+	custom_tooltip = {
+		text = elgar_has_composer_tt
+		trigger_if = {
+			limit = { has_variable = elgar_composer_var }
+		}
+		trigger_else = {
+			always = no
+		}
 	}
 }
 
-elgar_has_composer = {
-	any_scope_character = {
-		has_trait = elgar_composer
+elgar_has_active_composer = {
+	custom_tooltip = {
+		text = elgar_has_active_composer_tt
+		trigger_if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				is_busy = no
+			}
+		}
+		trigger_else = {
+			always = no
+		}
+	}
+}
+
+elgar_has_great_composer = {
+	custom_tooltip = {
+		text = elgar_has_great_composer_tt
+		has_variable = elgar_composer_var
+		var:elgar_composer_var = {
+			has_trait = elgar_great_composer
+		}
+	}
+}
+
+elgar_has_active_great_composer = {
+	custom_tooltip = {
+		text = elgar_has_active_great_composer_tt
+		trigger_if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				is_busy = no
+				has_trait = elgar_great_composer
+			}
+		}
+		trigger_else = {
+			always = no
+		}
 	}
 }
 
 elgar_has_conductor = {
-	any_scope_character = {
-		has_modifier = elgar_conductor_modifier
+	custom_tooltip = {
+		text = elgar_has_onductor_tt
+		trigger_if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				has_trait = elgar_conductor
+			}
+		}
+		trigger_else = {
+			always = no
+		}
 	}
 }
 
-elgar_has_musician = {
-	OR = {
-		elgar_has_great_composer = yes
-		elgar_has_composer = yes
-		elgar_has_conductor = yes
+elgar_has_active_conductor = {
+	custom_tooltip = {
+		text = elgar_has_active_conductor_tt
+		trigger_if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				has_trait = elgar_conductor
+				is_busy = no
+			}
+		}
+		trigger_else = {
+			always = no
+		}
 	}
 }
 
