@@ -7974,144 +7974,73 @@ elgar.321 = {
 
 ######Conductors######
 
-#Elgar 401: New Chief Conductor appointed
+#Elgar 401: New Chief Conductor appointed 'REMOVED'
 
-elgar.401 = {
+#Elgar 402: Conductor retires 'REMOVED'
+
+#Elgar 403: Conductor available again 'REMOVED'
+
+#Elgar 406: Composer dies
+
+elgar.406 = {
 	type = country_event
 
-	title = elgar.401.t
-	desc = elgar.401.d
-	flavor = elgar.401.f
+	title = elgar.406.t
 
-	duration = 1
+	desc = elgar.406.d
 
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:elgar_conductor
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
-
-	immediate = {
-		random_scope_character = {
-			limit = {
-				has_trait = elgar_composer
-			}
-			save_scope_as = elgar_conductor
-		}
-	}
-
-	#Congratulations!
-	option = {
-		name = elgar.401.g
-		remove_variable = elgar_appointing_conductor_var
-		scope:elgar_conductor = {
-			add_modifier = {
-				name = elgar_conductor_modifier
-			}
-			set_variable = memento_mori_immunity
-		}
-		hidden_effect = {
-			trigger_event = { 
-				id = elgar.402
-				years = { 12 15 }
-				popup = yes
-			}
-		}
-	}
-}
-
-#Elgar 402: Conductor retires
-
-elgar.402 = {
-	type = country_event
-
-	title = elgar.402.t
-	desc = elgar.402.d
-	flavor = elgar.402.f
-
-	duration = 1
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:elgar_conductor
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
-
-	immediate = {
-		random_scope_character = {
-			limit = {
-				has_modifier = elgar_conductor_modifier
-			}
-			save_scope_as = elgar_conductor
-		}
-	}
-
-	#Farewell
-	option = {
-		name = elgar.401.g
-		scope:elgar_conductor = {
-			remove_modifier = elgar_conductor_modifier
-			remove_variable = memento_mori_immunity
-		}
-		hidden_effect = {
-			scope:elgar_conductor = {
-				kill_character = yes
-			}
-		}
-	}
-}
-
-#Elgar 403: Conductor available again
-
-elgar.403 = {
-	type = country_event
+	flavor = elgar.406.f
 	
-	title = elgar.403.t
-	desc = elgar.403.d
-	flavor = elgar.403.f
+	duration = 3
 
-	duration = 1
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
 
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:elgar_conductor
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
+		var:elgar_composer_var = {
+			age > 50 #Bellini (33), Mozart (35), Mendelssohn (38) and Chopin (39) were younger ...
+		}
 	}
 
 	immediate = {
-		set_variable = {
-            name = elgar_composer_progress
-            value = 0
-		}
-		remove_modifier = elgar_conductor_conducts_modifier
-		remove_modifier = elgar_conductor_composes_modifier
-		remove_modifier = elgar_conductor_touring_modifier
-		random_scope_character = {
-			limit = {
-				has_modifier = elgar_conductor_modifier
-			}
-			save_scope_as = elgar_conductor
-			remove_modifier = elgar_conductor_conducts_modifier
-			remove_modifier = elgar_conductor_composes_modifier
-			remove_modifier = elgar_conductor_touring_modifier
-		}
+		kill_composer_effect = yes
 	}
 
-	option = { #Build the opera house
-		name = elgar.403.g
-		scope:elgar_conductor = {
-			set_character_busy_and_immortal = no
+	option = {	#But who should write his requiem now?
+		name = elgar.406.g
+		default_option = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:elgar_composer_var ?= {
+				age >= 60
+			}
+			factor = 2
+		}
+		modifier = {
+			var:elgar_composer_var ?= {
+				age >= 70
+			}
+			factor = 5
+		}
+		modifier = {
+			var:elgar_composer_var ?= {
+				age >= 80
+			}
+			factor = 10
+		}
+		modifier = {
+			var:elgar_composer_var ?= {
+				age >= 90
+			}
+			factor = 10
 		}
 	}
 }
@@ -8139,9 +8068,6 @@ elgar.407 = {
 	}
 
 	immediate = {
-		remove_modifier = elgar_conductor_conducts_modifier
-		remove_modifier = elgar_conductor_composes_modifier
-		remove_modifier = elgar_conductor_touring_modifier
 		var:elgar_composer_var = {
 			save_scope_as = elgar_conductor
 			remove_modifier = elgar_conductor_conducts_modifier
@@ -8517,7 +8443,7 @@ elgar.417 = {
 		}
 		hidden_effect = {
 			trigger_event = {
-				id = elgar.404
+				id = elgar.407
 				days = 7
 			}
 		}
@@ -8989,7 +8915,7 @@ elgar.431 = {
 		}
 		hidden_effect = {
 			trigger_event = {
-				id = elgar.404
+				id = elgar.407
 				days = 7
 			}
 		}
@@ -9035,7 +8961,7 @@ elgar.432 = {
 		}
 		hidden_effect = {
 			trigger_event = {
-				id = elgar.404
+				id = elgar.407
 				days = 7
 			}
 		}
@@ -9081,7 +9007,7 @@ elgar.433 = {
 		}
 		hidden_effect = {
 			trigger_event = {
-				id = elgar.404
+				id = elgar.407
 				days = 7
 			}
 		}
