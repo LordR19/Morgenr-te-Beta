@@ -2232,33 +2232,25 @@ elgar.30 = {
 		}
 		triggered_desc = {
 			trigger = {
-				var:elgar_composer_var = {
-					has_modifier = elgar_conductor_exhausted_modifier
-				}
+				has_modifier = elgar_conductor_exhausted_modifier
 			}
 			desc = elgar.30.exhausted
 		}
 		triggered_desc = {
 			trigger = {
-				var:elgar_composer_var = {
-					has_modifier = elgar_conductor_conducts_modifier
-				}
+				has_modifier = elgar_conductor_conducts_modifier
 			}
 			desc = elgar.30.conducting
 		}
 		triggered_desc = {
 			trigger = {
-				var:elgar_composer_var = {
-					has_modifier = elgar_conductor_composes_modifier
-				}
+				has_modifier = elgar_conductor_composes_modifier
 			}
 			desc = elgar.30.composing
 		}
 		triggered_desc = {
 			trigger = {
-				var:elgar_composer_var = {
-					has_modifier = elgar_conductor_touring_modifier
-				}
+				has_modifier = elgar_conductor_touring_modifier
 			}
 			desc = elgar.30.touring
 		}
@@ -8077,6 +8069,52 @@ elgar.403 = {
 		name = elgar.403.g
 		scope:elgar_conductor = {
 			set_character_busy_and_immortal = no
+		}
+	}
+}
+
+#Elgar 407: Conductor finishes commission
+
+elgar.407 = {
+	type = country_event
+	
+	title = elgar.407.t
+	desc = elgar.407.d
+	flavor = elgar.407.f
+
+	duration = 1
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:elgar_conductor
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_modifier = elgar_conductor_conducts_modifier
+		remove_modifier = elgar_conductor_composes_modifier
+		remove_modifier = elgar_conductor_touring_modifier
+		var:elgar_composer_var = {
+			save_scope_as = elgar_conductor
+			remove_modifier = elgar_conductor_conducts_modifier
+			remove_modifier = elgar_conductor_composes_modifier
+			remove_modifier = elgar_conductor_touring_modifier
+		}
+	}
+
+	option = { #He greatly deserves a rest.
+		name = elgar.407.g
+		scope:elgar_conductor = {
+			set_character_busy_and_immortal = no
+		}
+		add_modifier = {
+			name = elgar_conductor_exhausted_modifier
+			days = elgar_conductor_exhaution_value
 		}
 	}
 }
