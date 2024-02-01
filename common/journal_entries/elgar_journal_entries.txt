@@ -375,14 +375,14 @@ je_elgar_composer_conducting = {
 
 	on_monthly_pulse = {
 		random_events = {
-			35 = elgar.421 #Elgar 421: Composer progress
+			340 = elgar.421 #Elgar 421: Composer progress
 			
-			1 = elgar.411 #Elgar 411: Superb concerto
-			1 = elgar.412 #Elgar 412: Mediocre Concerto
-			1 = elgar.413 #Elgar 413: Poor Concerto
-			1 = elgar.414 #Elgar 414: Ambassador in audience
-			1 = elgar.415 #Elgar 415: Ballet
-			1 = elgar.416 #Elgar 416: Film music
+			10 = elgar.411 #Elgar 411: Superb concerto
+			10 = elgar.412 #Elgar 412: Mediocre Concerto
+			10 = elgar.413 #Elgar 413: Poor Concerto
+			10 = elgar.414 #Elgar 414: Ambassador in audience
+			10 = elgar.415 #Elgar 415: Ballet
+			10 = elgar.416 #Elgar 416: Film music
 		}
 	}
 
@@ -391,7 +391,7 @@ je_elgar_composer_conducting = {
 	}
 
 	goal_add_value = {
-		add = 24
+		add = 30
 	}
 
 	complete = {
@@ -402,17 +402,12 @@ je_elgar_composer_conducting = {
 
 	on_complete = {
 		trigger_event = {
-			id = elgar.403
+			id = elgar.417
 			popup = yes
 		}
 	}
 
 	fail = {
-		NOT = {
-			any_scope_character = {
-				has_modifier = elgar_conductor_modifier
-			}
-		}
 	}
 
 	on_fail = {
@@ -434,16 +429,16 @@ je_elgar_composer_composing = {
 
 	on_monthly_pulse = {
 		random_events = {
-			35 = elgar.421 #Elgar 421: Composer progress
+			320 = elgar.421 #Elgar 421: Composer progress
 			
-			1 = elgar.422 #Elgar 422: No inspiration
-			1 = elgar.423 #Elgar 423: A walk
-			1 = elgar.424 #Elgar 424: Disturbances
-			1 = elgar.425 #Elgar 425: Not enough comfort
-			1 = elgar.426 #Elgar 426: Sea Shanty
-			1 = elgar.427 #Elgar 427: March
-			1 = elgar.428 #Elgar 428: Kunstlied
-			1 = elgar.429 #Elgar 429: Sonata for Piano
+			10 = elgar.422 #Elgar 422: No inspiration
+			10 = elgar.423 #Elgar 423: A walk
+			10 = elgar.424 #Elgar 424: Disturbances
+			10 = elgar.425 #Elgar 425: Not enough comfort
+			10 = elgar.426 #Elgar 426: Sea Shanty
+			10 = elgar.427 #Elgar 427: March
+			10 = elgar.428 #Elgar 428: Kunstlied
+			10 = elgar.429 #Elgar 429: Sonata for Piano
 		}
 	}
 
@@ -452,7 +447,7 @@ je_elgar_composer_composing = {
 	}
 
 	goal_add_value = {
-		add = 42
+		add = 30
 	}
 
 	complete = {
@@ -479,11 +474,6 @@ je_elgar_composer_composing = {
 	}
 
 	fail = {
-		NOT = {
-			any_scope_character = {
-				has_modifier = elgar_conductor_modifier
-			}
-		}
 	}
 
 	on_fail = {
@@ -516,7 +506,7 @@ je_elgar_composer_touring = {
 	}
 
 	goal_add_value = {
-		add = 36
+		add = 30
 	}
 
 	complete = {
@@ -533,11 +523,60 @@ je_elgar_composer_touring = {
 	}
 
 	fail = {
-		NOT = {
-			any_scope_character = {
-				has_modifier = elgar_conductor_modifier
-			}
+	}
+
+	on_fail = {
+		set_variable = {
+            name = elgar_composer_progress
+            value = 0
 		}
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
+je_elgar_composer_masterpiece = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	on_monthly_pulse = {
+		random_events = {
+			60 = elgar.421 #Elgar 421: Composer progress
+			
+			10 = elgar.422 #Elgar 422: No inspiration
+			10 = elgar.423 #Elgar 423: A walk
+			10 = elgar.424 #Elgar 424: Disturbances
+			10 = elgar.425 #Elgar 425: Not enough comfort
+
+			1 = elgar.451 #Elgar 451: Composer dies
+		}
+	}
+
+	current_value = {
+		value = var:elgar_composer_progress
+	}
+
+	goal_add_value = {
+		add = 60
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = elgar.403
+			popup = yes
+		}
+	}
+
+	fail = {
 	}
 
 	on_fail = {
