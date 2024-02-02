@@ -2379,13 +2379,18 @@ elgar.30 = {
 		}
 		owner = {
 			add_modifier = {
-				name = elgar_conductor_touring_modifier
+				name = elgar_composer_on_tour_modifier
 			}
 		}
 		owner = {
 			set_elgar_composer_progress = yes
 			add_journal_entry = {
 				type = je_elgar_composer_touring
+			}
+			hidden_effect = {
+				trigger_event = {
+					id = elgar.451
+				}
 			}
 			remove_variable = elgar_visiting_opera_var
 		}
@@ -8907,6 +8912,7 @@ elgar.431 = {
 
 	option = { #Bravissimo
 		name = elgar.1061.g
+		elgar_add_elgar_composer_num_compositions_effect = yes
 		composer_experience_gain_effect = {
 			AMOUNT = 10
 		}
@@ -8953,6 +8959,7 @@ elgar.432 = {
 
 	option = { #Bravissimo
 		name = elgar.1061.g
+		elgar_add_elgar_composer_num_compositions_effect = yes
 		composer_experience_gain_effect = {
 			AMOUNT = 15
 		}
@@ -8999,6 +9006,7 @@ elgar.433 = {
 
 	option = { #Bravissimo
 		name = elgar.1061.g
+		elgar_add_elgar_composer_num_compositions_effect = yes
 		composer_experience_gain_effect = {
 			AMOUNT = 20
 		}
@@ -9016,16 +9024,28 @@ elgar.433 = {
 
 ###Touring###
 
-#Elgar 441: Conductor travels to Neighbour Country
+#Elgar 441: Conductor travels to Neighbour Country 'REMOVED'
 
-elgar.441 = {
+#Elgar 442: Conductor in Neighbour Country 'REMOVED'
+
+#Elgar 443: Successful Conductor 'REMOVED'
+
+#Elgar 444: Unsccessful Conductor 'REMOVED'
+
+
+
+###Composer Tour###
+
+#Elgar 451: Composer travels to Neighbour Country
+
+elgar.451 = {
 	type = country_event
 
-    title = elgar.441.t
+    title = elgar.451.t
 		
-    desc = elgar.441.d
+    desc = elgar.451.d
 
-	flavor = elgar.441.f
+	flavor = elgar.451.f
 
 	duration = 1
 		
@@ -9039,94 +9059,148 @@ elgar.441 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	trigger = {
-		NOT = {
-			has_variable = elgar_conductor_is_on_tour
-		}
-		any_country = {
-			is_adjacent_to_country = ROOT
-			has_technology_researched = romanticism
-			any_scope_building = {
-				is_building_type = building_elgar_opera
-			}
-			NOT = {
-				has_variable = elgar_had_conductor_visit
-			}
-			NOT = {
-				has_war_with = ROOT
-			}
-		}
 	}
 
 	immediate = {
-		elgar_add_1_composer_progress = yes
-		random_country = {
-			limit = {
-				is_adjacent_to_country = ROOT
-				has_technology_researched = romanticism
-				any_scope_building = {
-					is_building_type = building_elgar_opera
-				}
-				NOT = {
-					has_variable = elgar_had_conductor_visit
-				}
-			}
-			save_scope_as = elgar_tour_country
-		}
-		random_scope_character = {
-			limit = {
-				has_modifier = elgar_conductor_modifier
-			}
-			save_scope_as = elgar_conductor
-		}
+		elgar_composer_destination_effect = yes
+		set_elgar_composer_scope_effect = yes
 	}
 
-	option = { #Prepare 
-		name = elgar.441.g
+	option = { #Farewell!
+		name = elgar.452.g
 		default_option = yes
-		scope:elgar_tour_country = {
+		scope:elgar_composer_destination_scope = {
 			change_relations = {
 				country = ROOT
 				value = 3
 			}
 		}
 		hidden_effect = {
-			scope:elgar_tour_country = {
+			scope:elgar_composer_destination_scope = {
 				trigger_event = {
-					id = elgar.442
-					days = 1
+					id = elgar.452
 				}
+			}
+		}
+	}
+}
+
+#Elgar 452: Composer arrives in Neighbour Country
+
+elgar.452 = {
+	type = country_event
+
+    title = elgar.452.t
+		
+    desc = elgar.452.d
+
+	flavor = elgar.452.f
+
+	duration = 3
+		
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:elgar_composer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+		any_country = {
+			elgar_has_composer = yes
+			has_modifier = elgar_composer_on_tour_modifier
+		}
+	}
+
+	immediate = {
+		set_elgar_tour_composer_scope_effect = yes
+		add_modifier = {
+			name = elgar_composer_tour_performance_modifier
+			days = 90
+		}
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = elgar_composer_tour_state_performance_modifier
+				days = 90
 			}
 		}
 		hidden_effect = {
-			set_variable = {
-				name = elgar_conductor_is_on_tour
-				days = 150
+			trigger_event = {
+				id = elgar.453
+				days = 90
 			}
 		}
-		set_variable = elgar_conductor_country
 	}
 
-	option = { #He should rethink his destination
-		name = elgar.441.h
-
-		ai_chance = {
-			base = 0
+	option = { #Welcome!
+		name = elgar.452.g
+		default_option = yes
+		if = {
+			limit = {
+				elgar_opera_building_score >= 20
+			}
+			elgar_add_x_music_tradition_effect = {
+				AMOUNT = 20
+			}
+			hidden_effect = {
+				elgar_composer_lotto_1 = yes
+				elgar_composer_lotto_2 = yes
+				elgar_composer_lotto_3 = yes
+			}
+		}
+		else_if = {
+			limit = {
+				elgar_opera_building_score >= 10
+				elgar_opera_building_score < 20
+			}
+			elgar_add_x_music_tradition_effect = {
+				AMOUNT = 15
+			}
+			hidden_effect = {
+				elgar_composer_lotto_1 = yes
+				elgar_composer_lotto_2 = yes
+			}
+		}
+		else_if = {
+			limit = {
+				elgar_opera_building_score >= 5
+				elgar_opera_building_score < 10
+			}
+			elgar_add_x_music_tradition_effect = {
+				AMOUNT = 10
+			}
+			hidden_effect = {
+				elgar_composer_lotto_1 = yes
+			}
+		}
+		else = {
+			limit = {
+				elgar_opera_building_score < 5
+			}
+			elgar_add_x_music_tradition_effect = {
+				AMOUNT = 5
+			}
 		}
 	}
 }
 
-#Elgar 442: Conductor in Neighbour Country
+#Elgar 452: Composer arrives in Neighbour Country
 
-elgar.442 = {
+elgar.453 = {
 	type = country_event
 
-    title = elgar.442.t
+    title = elgar.453.t
 		
-    desc = elgar.442.d
+    desc = elgar.453.d
 
-	flavor = elgar.441.f
+	flavor = elgar.453.f
 
-	duration = 1
+	duration = 3
 		
 	event_image = { 
 		texture = "gfx/event_pictures/elgar_pictures/elgar_conductor.dds"
@@ -9141,169 +9215,57 @@ elgar.442 = {
 	}
 
 	immediate = {
-		random_country = {
-			limit = {
-				has_variable = elgar_conductor_country
-			}
-			save_scope_as = elgar_conductor_country
-		}
-	}
-
-	option = { #We enjoyed it 
-		name = elgar.442.g
-		default_option = yes
-		elgar_add_15_music_tradition = yes
-		scope:elgar_conductor_country = {
-			trigger_event = {
-				id = elgar.443
-				days = { 30 40 }
-			}
-		}
-
-		ai_chance = {
-			base = 50
-		}
-	}
-
-	option = { #Our musicians are better
-		name = elgar.442.h
-		elgar_add_5_music_tradition = yes
-		scope:elgar_conductor_country = {
-			change_relations = {
-				country = ROOT
-				value = -5
-			}
-		}
-		scope:elgar_conductor_country = {
-			trigger_event = {
-				id = elgar.444
-				days = { 30 40 }
-			}
-		}
-
-		ai_chance = {
-			base = 50
-			modifier = {
-				trigger = {
-					has_diplomatic_pact = {
-						who = scope:elgar_conductor_country
-						type = alliance 
-					}
-				}
-				add = -50
-			}
-			modifier = {
-				trigger = {
-					has_diplomatic_pact = {
-						who = scope:elgar_conductor_country
-						type = defensive_pact 
-					}
-				}
-				add = -35
-			}
-			modifier = {
-				trigger = {
-					has_diplomatic_pact = {
-						who = scope:elgar_conductor_country
-						type = customs_union 
-					}
-				}
-				add = -25
-			}
-			modifier = {
-				trigger = {
-					has_diplomatic_pact = {
-						who = scope:elgar_conductor_country
-						type = trade_agreement 
-					}
-				}
-				add = -15
-			}
-			modifier = {
-				trigger = {
-					has_diplomatic_pact = {
-						who = scope:elgar_conductor_country
-						type = embargo
-					}
-				}
-				add = 50
-			}
-			modifier = {
-				trigger = {
-					has_diplomatic_pact = {
-						who = scope:elgar_conductor_country
-						type = rivalry 
-					}
-				}
-				add = 100
-			}
-		}
-	}
-
-	after = {
-		random_country = {
-			limit = {
-				has_variable = elgar_conductor_country
-			}
-			remove_variable = elgar_conductor_country
-		}
-		set_variable = {
-			name = elgar_had_conductor_visit
-			days = 730
-		}
-	}
-}
-
-#Elgar 443: Successful Conductor
-
-elgar.443 = {
-	type = country_event
-
-    title = elgar.443.t
-		
-    desc = elgar.443.d
-
-	flavor = elgar.443.f
-
-	duration = 1
-		
-	event_image = { 
-		texture = "gfx/event_pictures/elgar_pictures/elgar_conductor.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-	}
-
-	option = { #We enjoyed it 
-		name = elgar.443.g
-		default_option = yes
 		add_modifier = {
-			name = elgar_successful_conductor_on_tour_modifier
-			days = 365
+			name = elgar_had_composer_tour_performance_modifier
+			years = 2
+		}
+	}
+
+	option = { #Farewell
+		name = elgar.453.g
+		default_option = yes
+	}
+}
+
+#Elgar 454: Composer destination (hidden)
+
+elgar.454 = {
+	type = country_event
+
+    hidden = yes
+
+	trigger = {
+		OR = {
+			var:elgar_composer_progress = 6
+			var:elgar_composer_progress = 12
+			var:elgar_composer_progress = 18
+			var:elgar_composer_progress = 24
+		}
+	}
+
+	immediate = {
+		elgar_composer_destination_effect = yes
+		scope:elgar_composer_destination_scope = {
+			trigger_event = {
+				id = elgar.452
+				days = 7
+			}
 		}
 	}
 }
 
-#Elgar 444: Unsccessful Conductor
+#Elgar 455: Composer returns from Tour
 
-elgar.444 = {
+elgar.455 = {
 	type = country_event
 
-    title = elgar.444.t
+    title = elgar.455.t
 		
-    desc = elgar.444.d
+    desc = elgar.455.d
 
-	flavor = elgar.444.f
+	flavor = elgar.455.f
 
-	duration = 1
+	duration = 3
 		
 	event_image = { 
 		texture = "gfx/event_pictures/elgar_pictures/elgar_conductor.dds"
@@ -9318,15 +9280,25 @@ elgar.444 = {
 	}
 
 	immediate = {
+		set_elgar_composer_scope_effect = yes
+		elgar_add_elgar_composer_num_tours_effect = yes
 	}
 
-	option = { #Disappointing 
-		name = elgar.444.g
+	option = { #He has earned the respect of the world.
+		name = elgar.455.g
 		default_option = yes
+		remove_modifier = elgar_composer_on_tour_modifier
+		composer_experience_gain_effect = {
+			AMOUNT = elgar_tour_score
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = elgar.407
+				days = 7
+			}
+		}
 	}
 }
-
-
 
 ###Historical Events for Music###
 
