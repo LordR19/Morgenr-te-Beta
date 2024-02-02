@@ -21,3 +21,191 @@ elgar_conductor_exhaution_value = {
     divide = 10
     round = yes
 }
+
+#This value determines how interesting a location is for a composer on tour
+elgar_composer_destination_score = {
+	value = elgar_opera_building_score #The opera houses of a country count as musical infrastructure
+
+	######CONSERVATORY######
+	if = {
+		limit = {
+			elgar_has_conservatory = yes
+		}
+		add = 5 #Composers value conservatories
+	}
+	######OTHER COMPOSERS######
+	if = {
+		limit = {
+			elgar_has_composer = no
+		}
+		add = 5 #Composers don't like to interfere, they will prefer to tour to countries without rivals
+	}
+	######CENTER OF ART######
+	if = {
+		limit = {
+			elgar_has_center_of_art = yes
+		}
+		add = 20 #Cradle of Impressionism, Expressionism and Art Nouveau are considered global cultural hubs
+	}
+	######CULTURE TECHS######
+	if = {
+		limit = {
+			has_technology_researched = elgar_irrationalism_tech
+		}
+		add = 5 #Composers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_irrationalism_tech
+		}
+		add = 5 #Composers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_impressionism_tech
+		}
+		add = 10 #Composers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_expressionism_tech
+		}
+		add = 10 #Composers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_art_nouveau_tech
+		}
+		add = 10 #Composers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_neoclassicism_tech
+		}
+		add = 15 #Composers like avantgarde culture
+	}
+	######LAWS######
+	if = {
+		limit = {
+			has_law = law_type:law_protected_speech
+		}
+		add = 5 #Freedom of speech is important for composers
+	}
+	######NEAR&FAR######
+	if = {
+		limit = {
+			NOT = {
+				is_adjacent_to_country = ROOT
+			}
+			NOR = {
+				has_technology_researched = elgar_impressionism_tech
+				has_technology_researched = elgar_expressionism_tech
+				has_technology_researched = elgar_art_nouveau_tech
+			}
+		}
+		add = -50 #Before advanced culture techs, composers will not travel too far
+	}
+	######NO GO######
+	if = {
+		limit = {
+			has_modifier = elgar_composer_on_tour_modifier
+		}
+		multiply = 0 #Never go to another country which has also a touring composer
+	}
+}
+
+elgar_tour_score = {
+	value = elgar_composer_work_score
+
+	add = { 3 7 } #random success
+
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = elgar_virtuoso #Virtuoso can play other works and is still considered a genius
+			}
+		}
+		add = 10
+	}
+
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = elgar_conductor #A composer who conducts his own works is admired
+			}
+		}
+		multiply = 2
+	}
+
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = innovative #Positive traits will influence the outcome
+			}
+		}
+		add = 4
+	}
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = meticulous #Positive traits will influence the outcome
+			}
+		}
+		add = 3
+	}
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = ambitious #Positive traits will influence the outcome
+			}
+		}
+		add = 3
+	}
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = charismatic #Positive traits will influence the outcome
+			}
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = imposing #Positive traits will influence the outcome
+			}
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = tactful #Positive traits will influence the outcome
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = romantic #Positive traits will influence the outcome
+			}
+		}
+		add = 1
+	}
+
+	add = 30
+}
+
+elgar_composer_work_score = {
+	value = 0
+	var:elgar_composer_var = {
+		add = var:elgar_composer_num_seasons_var
+	}
+	var:elgar_composer_var = {
+		add = var:elgar_composer_num_compositions_var
+	}
+	var:elgar_composer_var = {
+		add = var:elgar_composer_num_tours_var
+	}
+}
