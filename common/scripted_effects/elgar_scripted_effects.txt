@@ -374,6 +374,81 @@ elgar_composer_lotto_3 = {
 	}
 }
 
+elgar_liszt_lotto = {
+
+	if = {
+		limit = {
+			elgar_has_great_composer = yes
+		}
+		trigger_event = {
+			id = elgar.321 #Elgar 321: Great Composer meet
+			days = 7
+		}
+	}
+	random_list = {
+		2 = { 
+			trigger_event = {
+				id = elgar.305 #Elgar 305: Sold out!
+				days = { 14 21 }
+			}
+		}
+		2 = { 
+			trigger_event = {
+				id = elgar.307 #Elgar 307: Musical friendship
+				days = { 14 21 }
+			}
+		}
+		2 = { 
+			trigger_event = {
+				id = elgar.308 #Elgar 308: Musical rivalry
+				days = { 14 21 }
+			}
+		}
+		2 = { 
+			trigger_event = {
+				id = elgar.309 #Elgar 309: Inspirations
+				days = { 14 21 }
+			}
+		}
+		4 = { 
+			trigger_event = {
+				id = elgar.310 #Elgar 310: Mania
+				days = { 14 21 }
+			}
+		}
+		2 = { 
+			trigger_event = {
+				id = elgar.311 #Elgar 311: Music brings people together
+				days = { 14 21 }
+			}
+		}
+		2 = { 
+			trigger_event = {
+				id = elgar.315 #Elgar 315: A private concert
+				days = { 14 21 }
+			}
+		}
+		2 = { 
+			trigger_event = {
+				id = elgar.303 #Elgar 303: An amorous dedication
+				days = { 14 21 }
+			}
+		}
+		2 = { 
+			trigger_event = {
+				id = elgar.304 #Elgar 304: An evening reception (Monarchy)
+				days = { 14 21 }
+			}
+		}
+		1 = { 
+			trigger_event = {
+				id = elgar.313 #Elgar 313: A minor work
+				days = { 14 21 }
+			}
+		}
+	}
+}
+
 #############################
 
 ###Music tradition###
@@ -1066,6 +1141,9 @@ elgar_composer_destination_effect = {
 				}
 			}
 			NOT = {
+				this = ROOT
+			}
+			NOT = {
 				has_war_with = ROOT
 			}
 			NOT = {
@@ -1088,5 +1166,27 @@ set_elgar_tour_composer_scope_effect = {
 		var:elgar_composer_var = {
 			save_scope_as = elgar_composer_scope
 		}
+	}
+}
+
+#Sends Liszt to the next country
+elgar_liszt_destination_effect = {
+	ordered_country = {
+		limit = {
+			has_technology_researched = romanticism
+			country_is_in_europe = yes
+			NOT = {
+				this = ROOT
+			}
+			NOT = {
+				any_scope_state = {
+					has_modifier = elgar_liszt_was_here_modifier
+				}
+			}
+		}
+		order_by = elgar_liszt_destination_score
+		max = 1
+		check_range_bounds = no
+		save_scope_as = elgar_liszt_destination_scope
 	}
 }
