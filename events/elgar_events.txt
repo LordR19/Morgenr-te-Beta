@@ -1468,6 +1468,35 @@ elgar.30 = {
 		}
 	}
 
+	#Concentrate on composing
+	option = {
+		name = elgar.30.h
+		trigger = {
+			NOR = {
+				has_modifier = elgar_conductor_conducts_modifier
+				has_modifier = elgar_conductor_composes_modifier
+				has_modifier = elgar_conductor_touring_modifier
+				owner = {
+					has_modifier = elgar_conductor_exhausted_modifier
+				}
+			}
+		}
+		set_character_busy_and_immortal = yes
+		add_modifier = {
+			name = elgar_conductor_composes_modifier
+		}
+		owner = {
+			set_elgar_composer_progress = yes
+			add_journal_entry = {
+				type = je_elgar_composer_composing
+			}
+			remove_variable = elgar_visiting_opera_var
+		}
+		ai_chance = {
+			base = 25
+		}
+	}
+
 	#Conduct the next seasons
 	option = {
 		name = elgar.30.g
@@ -1508,8 +1537,9 @@ elgar.30 = {
 			}
 			remove_variable = elgar_visiting_opera_var
 		}
+
 		ai_chance = {
-			base = 20
+			base = 25
 			modifier = { #Should try to get trait for concert tour
 				trigger = {
 					NOT = {
@@ -1518,35 +1548,12 @@ elgar.30 = {
 				}
 				add = 20
 			}
-		}
-	}
-
-	#Concentrate on composing
-	option = {
-		name = elgar.30.h
-		trigger = {
-			NOR = {
-				has_modifier = elgar_conductor_conducts_modifier
-				has_modifier = elgar_conductor_composes_modifier
-				has_modifier = elgar_conductor_touring_modifier
-				owner = {
-					has_modifier = elgar_conductor_exhausted_modifier
+			modifier = { #A reserved character can not go on tour, so the composer should try to compose
+				trigger = {
+					has_trait = reserved
 				}
+				add = -15
 			}
-		}
-		set_character_busy_and_immortal = yes
-		add_modifier = {
-			name = elgar_conductor_composes_modifier
-		}
-		owner = {
-			set_elgar_composer_progress = yes
-			add_journal_entry = {
-				type = je_elgar_composer_composing
-			}
-			remove_variable = elgar_visiting_opera_var
-		}
-		ai_chance = {
-			base = 20
 		}
 	}
 
@@ -1595,7 +1602,13 @@ elgar.30 = {
 		}
 
 		ai_chance = {
-			base = 60 #Should prefer tour when possible
+			base = 50 #Should prefer tour when possible
+			modifier = {
+				trigger = {
+					has_trait = elgar_great_composer
+				}
+				add = -1000 #Should never go on tour when having 500 reputation
+			}
 		}
 	}
 
