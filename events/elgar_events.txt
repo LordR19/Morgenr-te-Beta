@@ -3843,9 +3843,17 @@ elgar.132 = {
 
 	trigger = {
 		game_date < 1848.1.1
+		NOT = {
+			any_country = {
+				var:elgar_composer_var ?= {
+					has_template = mr_aus_liszt_franz_character_template
+				}
+			}
+		}
 	}
 
 	immediate = {
+		create_liszt_franz_effect = yes
 	}
 
 	option = { #Welcome!
@@ -3861,13 +3869,14 @@ elgar.132 = {
 			}
 		}
 		hidden_effect = {
+			scope:elgar_new_composer_scope = {
+				kill_character = yes
+			}
+			elgar_liszt_lotto = yes
 			trigger_event = {
 				id = elgar.133
 				days = 60
 			}
-		}
-		hidden_effect = {
-			elgar_liszt_lotto = yes
 		}
 		if = {
 			limit = {
@@ -3910,6 +3919,36 @@ elgar.132 = {
 				AMOUNT = 5
 			}
 		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { #Hire this brilliant man!
+		name = elgar.701.h
+		trigger = {
+			any_scope_building = {
+				is_building_type = building_elgar_opera
+				level >= 10
+			}
+			has_technology_researched = elgar_irrationalism_tech
+			elgar_has_conservatory = yes
+		}
+		elgar_set_new_composer_as_composer_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #Only take Liszt if you don't have a composer
+				trigger = { 
+					NOT = { has_variable = elgar_composer_var }
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
 	}
 }
 
@@ -9487,10 +9526,7 @@ elgar.706 = {
 			base = 0
 			modifier = { #Only take Mahler if you didn't take Brahms
 				trigger = { 
-					has_variable = elgar_composer_var
-					var:elgar_composer_var = {
-						age <= 70
-					}
+					NOT = { has_variable = elgar_composer_var }
 				}
 				add = 10000
 			}
@@ -9551,10 +9587,7 @@ elgar.707 = {
 			base = 0
 			modifier = { #Only take Rachmaninoff if you don't have a composer
 				trigger = { 
-					has_variable = elgar_composer_var
-					var:elgar_composer_var = {
-						age <= 70
-					}
+					NOT = { has_variable = elgar_composer_var }
 				}
 				add = 10000
 			}
@@ -9615,10 +9648,7 @@ elgar.708 = {
 			base = 0
 			modifier = { #Only take Prokofiev if you don't have a composer
 				trigger = { 
-					has_variable = elgar_composer_var
-					var:elgar_composer_var = {
-						age <= 70
-					}
+					NOT = { has_variable = elgar_composer_var }
 				}
 				add = 10000
 			}
@@ -9958,10 +9988,7 @@ elgar.714 = {
 			base = 0
 			modifier = { #Only take Dvořák if you don't have a composer
 				trigger = { 
-					has_variable = elgar_composer_var
-					var:elgar_composer_var = {
-						age <= 70
-					}
+					NOT = { has_variable = elgar_composer_var }
 				}
 				add = 10000
 			}
@@ -10023,10 +10050,7 @@ elgar.715 = {
 			base = 0
 			modifier = { #Only take Debussy if you don't have a composer
 				trigger = { 
-					has_variable = elgar_composer_var
-					var:elgar_composer_var = {
-						age <= 70
-					}
+					NOT = { has_variable = elgar_composer_var }
 				}
 				add = 10000
 			}
