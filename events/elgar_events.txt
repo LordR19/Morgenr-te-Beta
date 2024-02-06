@@ -3009,6 +3009,7 @@ elgar.117 = {
 	}
 }
 
+#################################################################################
 
 ######ALLGEMEINER DEUTSCHER MUSIKVEREIN######
 
@@ -3765,8 +3766,216 @@ elgar.126 = {
 		
 	}
 }
+#################################################################################
 
-######Random Cosmopolitain Composer Events######
+######LISZTOMANIA######
+
+#Elgar 131: Liszt starts his tour
+elgar.131 = {
+	type = country_event
+
+    title = elgar.131.t
+		
+    desc = elgar.131.d
+
+	flavor = elgar.131.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_liszt_young.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+		game_date >= 1839.1.1
+		NOT = {
+			game_date >= 1840.1.1
+		}
+		any_scope_state = {
+			state_region = s:STATE_EAST_SWITZERLAND
+		}
+	}
+
+	immediate = {
+		elgar_liszt_destination_effect = yes
+	}
+
+	option = { #We wish him all the best
+		name = elgar.131.g
+		default_option = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 15
+		}
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = elgar_liszt_was_here_modifier
+				years = 5
+			}
+		}
+		hidden_effect = {
+			scope:elgar_liszt_destination_scope = {
+				trigger_event = {
+					id = elgar.132
+					days = 30
+				}
+			}
+		}
+	}
+}
+
+#Elgar 132: Liszt arrives in $COUNTRY$
+elgar.132 = {
+	type = country_event
+
+    title = elgar.132.t
+		
+    desc = elgar.132.d
+
+	flavor = elgar.131.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_liszt_young.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+		game_date < 1848.1.1
+	}
+
+	immediate = {
+	}
+
+	option = { #Welcome!
+		name = elgar.132.g
+		default_option = yes
+		elgar_small_add_technology = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			add_modifier = {
+				name = elgar_liszt_performance_modifier
+			}
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = elgar.133
+				days = 60
+			}
+		}
+		hidden_effect = {
+			elgar_liszt_lotto = yes
+		}
+		if = {
+			limit = {
+				elgar_opera_building_score >= 20
+			}
+			elgar_add_x_music_tradition_effect = {
+				AMOUNT = 25
+			}
+		}
+		else_if = {
+			limit = {
+				elgar_opera_building_score >= 10
+				elgar_opera_building_score < 20
+			}
+			elgar_add_x_music_tradition_effect = {
+				AMOUNT = 20
+			}
+		}
+		else_if = {
+			limit = {
+				elgar_opera_building_score >= 5
+				elgar_opera_building_score < 10
+			}
+			elgar_add_x_music_tradition_effect = {
+				AMOUNT = 15
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+				}
+			}
+			elgar_add_x_music_tradition_effect = {
+				AMOUNT = 10
+			}
+		}
+		else = {
+			elgar_add_x_music_tradition_effect = {
+				AMOUNT = 5
+			}
+		}
+	}
+}
+
+#Elgar 133: Liszt departs
+elgar.133 = {
+	type = country_event
+
+    title = elgar.133.t
+		
+    desc = elgar.133.d
+
+	flavor = elgar.133.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_liszt_young.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		elgar_liszt_destination_effect = yes
+	}
+
+	option = { #Farewell
+		name = elgar.131.g
+		default_option = yes
+		random_scope_state = {
+			limit = {
+				has_modifier = elgar_liszt_performance_modifier
+			}
+			remove_modifier = elgar_liszt_performance_modifier
+			add_modifier = {
+				name = elgar_liszt_was_here_modifier
+				years = 5
+			}
+		}
+		hidden_effect = {
+			scope:elgar_liszt_destination_scope = {
+				trigger_event = {
+					id = elgar.132
+					days = 30
+				}
+			}
+		}
+	}
+}
+
+#########################################################################################################################
+
+######Random Travelling Composer Events######
 
 #Elgar 301: Good rehearsals
 elgar.301 = {
@@ -3958,7 +4167,7 @@ elgar.305 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				elgar_has_performance = yes
+				is_capital = yes
 			}
 			save_scope_as = elgar_riot_state
 		}
@@ -4653,7 +4862,7 @@ elgar.321 = {
 }
 
 
-######Conductors######
+#########################################################################################################################
 
 #Elgar 406: Composer dies
 elgar.406 = {
@@ -7998,7 +8207,7 @@ elgar.533 = {
 	}
 }
 
-######Cosmopolitan Composers######
+#########################################################################################################################
 
 ######Composer Deaths######
 
@@ -8478,7 +8687,7 @@ elgar.613 = {
     desc = elgar.601.d
 	flavor = elgar.613.f
 
-	duration = 
+	duration = 3
 		
 	gui_window = event_window_1char_tabloid
 
@@ -8959,6 +9168,8 @@ elgar.626 = {
 		kill_composer_effect = yes
 	}
 }
+
+#########################################################################################################################
 
 ######Composer Creation######
 
@@ -9832,11 +10043,9 @@ elgar.715 = {
 	}
 }
 
-#####################################################
+#########################################################################################################################
 
 ######MASTERPIECES######
-
-#BIG TWENTY
 
 ###Donizetti###
 
