@@ -374,6 +374,15 @@ je_elgar_composer_composing = {
 	group = je_group_elgar_music
 
 	on_yearly_pulse = {
+		effect = {
+			composer_experience_gain_effect = { AMOUNT = 5 }
+			var:elgar_composer_var = {
+				change_variable = {
+					name = elgar_composer_num_compositions_var
+					add = { 1 4 }
+				}
+			}
+		}
 		random_events = {
 			300 = 0
 			
@@ -407,8 +416,6 @@ je_elgar_composer_composing = {
 				text = je_stopped_composing_tt
 				has_variable = elgar_stopped_composing_var
 			}
-		}
-		OR = {
 			custom_tooltip = {
 				text = je_composer_dies_tt
 				NOT = {
@@ -416,9 +423,6 @@ je_elgar_composer_composing = {
 				}
 			}
 		}
-	}
-
-	on_fail = {
 	}
 
 	scripted_button = elgar_stop_composing_button
@@ -476,9 +480,6 @@ je_elgar_composer_conducting = {
 		}
 	}
 
-	on_fail = {
-	}
-
 	progressbar = yes
 
 	weight = 50
@@ -526,9 +527,6 @@ je_elgar_composer_touring = {
 		}
 	}
 
-	on_fail = {
-	}
-
 	progressbar = yes
 
 	weight = 50
@@ -539,7 +537,7 @@ je_elgar_composer_masterpiece = {
 
 	group = je_group_elgar_music
 
-	on_yearly_pulse = {
+	on_monthly_pulse = {
 		random_events = {
 			600 = elgar.421 #Elgar 421: Composer progress
 			
@@ -615,9 +613,278 @@ je_elgar_composer_masterpiece = {
 	}
 
 	on_complete = {
-		trigger_event = {
-			id = elgar.407
-			popup = yes
+		custom_tooltip = {
+			text = je_elgar_composer_masterpiece_work_tt
+			elgar_add_elgar_composer_num_masterworks_effect = yes
+			###Donizetti###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_ita_donizetti_gaetano_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.1011 #Don Pasquale
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1012 #Dom Sébastian
+							popup = yes
+						}
+					}
+				}
+			}
+			###Berlioz###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_fra_berlioz_hector_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.1021 #Les Troyens
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1022 #La damnation de Faust
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1023 #Traite Instrumental
+							popup = yes
+						}
+					}
+				}
+			}
+			###Liszt###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_aus_liszt_franz_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.1031 #Les Preludes
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1032 #Hungarian Rhapsodies
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1033 #Dante Symphony
+							popup = yes
+						}
+					}
+				}
+			}
+			###Wagner###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_ger_wagner_richard_composer_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.1041 #Die Meistersinger von Nürnberg
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1042 #Die Walküre
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1043 #Parsifal
+							popup = yes
+						}
+					}
+				}
+			}
+			###Grieg###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_nor_grieg_edvard_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.1051 #Peer Gynt
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1052 #Lyric Pieces
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1053 #Norwegian Dances
+							popup = yes
+						}
+					}
+				}
+			}
+			###Brahms###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_ger_brahms_johannes_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.1061 #Deutsches Requiem
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1062 #Hungarian Dances
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1063 #Symphony No. 4
+							popup = yes
+						}
+					}
+				}
+			}
+			###Mahler###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_aus_mahler_gustav_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.1071 #Symphony No. 5
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1072 #Lied von der Erde
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1073 #Kindertotenlieder
+							popup = yes
+						}
+					}
+				}
+			}
+			###Rachmaninov###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_rus_rachmaninov_sergei_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.1081 #Piano Concerto No. 3
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1082 #Rhapsody on a Theme of Paganini
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1083 #Symphony No. 3
+							popup = yes
+						}
+					}
+				}
+			}
+			###Prokofiev###
+			if = {
+				limit = {
+					var:elgar_composer_var ?= {
+						has_template = mr_rus_prokofiev_sergei_character_template
+					}
+				}
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.1091 #Romeo and Juliet
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1092 #Lieutenant Kijé
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.1093 #Peter and the Wolf
+							popup = yes
+						}
+					}
+				}
+			}
+			###Generic Masterpieces###
+			else = {
+				random_list = {
+					1 = { 
+						trigger_event = {
+							id = elgar.431 #Concerto
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.432 #Symphony
+							popup = yes
+						}
+					}
+					1 = { 
+						trigger_event = {
+							id = elgar.433 #Opera
+							popup = yes
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -627,8 +894,6 @@ je_elgar_composer_masterpiece = {
 				text = je_stopped_composing_tt
 				has_variable = elgar_stopped_composing_var
 			}
-		}
-		OR = {
 			custom_tooltip = {
 				text = je_composer_dies_tt
 				NOT = {
@@ -636,9 +901,6 @@ je_elgar_composer_masterpiece = {
 				}
 			}
 		}
-	}
-
-	on_fail = {
 	}
 
 	scripted_button = elgar_stop_composing_button
