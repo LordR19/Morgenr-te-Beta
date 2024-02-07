@@ -15,6 +15,7 @@ elgar_opera_building_score = {
 	}
 }
 
+#This value determines the exhaution of a composer - the older he gets, the more time he needs
 elgar_conductor_exhaution_value = {
     value = var:elgar_composer_var.age
     multiply = var:elgar_composer_var.age
@@ -50,7 +51,7 @@ elgar_composer_destination_score = {
 	######CULTURE TECHS######
 	if = {
 		limit = {
-			has_technology_researched = elgar_irrationalism_tech
+			has_technology_researched = realism
 		}
 		add = 5 #Composers like avantgarde culture
 	}
@@ -114,6 +115,7 @@ elgar_composer_destination_score = {
 	}
 }
 
+#This value determines how much reputation a composer on tour gets
 elgar_tour_score = {
 	value = elgar_composer_work_score
 
@@ -134,7 +136,7 @@ elgar_tour_score = {
 				has_trait = elgar_conductor #A composer who conducts his own works is admired
 			}
 		}
-		multiply = 2
+		multiply = 1.3
 	}
 
 	if = {
@@ -194,15 +196,78 @@ elgar_tour_score = {
 		add = 1
 	}
 
-	add = 30
+	add = 10
 }
 
+#Count the total compositions of a composer
 elgar_composer_work_score = {
 	value = 0
 	var:elgar_composer_var = {
+		add = var:elgar_composer_num_masterworks_var
+	}
+	multiply = 2
+	var:elgar_composer_var = {
 		add = var:elgar_composer_num_compositions_var
 	}
-	var:elgar_composer_var = {
-		add = var:elgar_composer_num_tours_var
+}
+
+#This value determines how interesting a location is for Franz Liszt
+elgar_liszt_destination_score = {
+	value = elgar_opera_building_score #The opera houses of a country count as musical infrastructure
+
+	######CONSERVATORY######
+	if = {
+		limit = {
+			elgar_has_conservatory = yes
+		}
+		add = 5 #Composers value conservatories
+	}
+	######OTHER COMPOSERS######
+	if = {
+		limit = {
+			elgar_has_composer = no
+		}
+		add = 5 #Composers don't like to interfere, they will prefer to tour to countries without rivals
+	}
+	######CULTURE TECHS######
+	if = {
+		limit = {
+			has_technology_researched = elgar_irrationalism_tech
+		}
+		add = 5 #Composers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = realism
+		}
+		add = 5 #Composers like avantgarde culture
+	}
+	######Culture######
+	if = {
+		limit = {
+			country_has_primary_culture = cu:french
+		}
+		add = -20 #Liszt has made bad experiences
+	}
+	if = {
+		limit = {
+			OR = {
+				country_has_primary_culture = cu:north_german
+				country_has_primary_culture = cu:south_german
+				country_has_primary_culture = cu:united_german
+				country_has_primary_culture = cu:alemannic
+			}
+		}
+		add = 10 #Liszt prefers German sphere
+	}
+	if = {
+		limit = {
+			OR = {
+				country_has_primary_culture = cu:north_italian
+				country_has_primary_culture = cu:south_italian
+				country_has_primary_culture = cu:united_italian
+			}
+		}
+		add = 5 #Liszt likes Italian culture
 	}
 }

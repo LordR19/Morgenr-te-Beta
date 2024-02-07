@@ -27,14 +27,9 @@ elgar_has_composer = {
 elgar_has_active_composer = {
 	custom_tooltip = {
 		text = elgar_has_active_composer_tt
-		trigger_if = {
-			limit = { has_variable = elgar_composer_var }
-			var:elgar_composer_var = {
-				is_busy = no
-			}
-		}
-		trigger_else = {
-			always = no
+		has_variable = elgar_composer_var
+		var:elgar_composer_var ?= {
+			is_busy = no
 		}
 	}
 }
@@ -65,15 +60,10 @@ elgar_has_great_composer = {
 elgar_has_active_great_composer = {
 	custom_tooltip = {
 		text = elgar_has_active_great_composer_tt
-		trigger_if = {
-			limit = { has_variable = elgar_composer_var }
-			var:elgar_composer_var = {
-				is_busy = no
-				has_trait = elgar_great_composer
-			}
-		}
-		trigger_else = {
-			always = no
+		has_variable = elgar_composer_var
+		var:elgar_composer_var ?= {
+			is_busy = no
+			has_trait = elgar_great_composer
 		}
 	}
 }
@@ -192,9 +182,9 @@ elgar_has_special_building = {
 elgar_has_center_of_art = {
 	any_scope_state = {
 		OR = {
-			has_modifier = elgar_impressionism_center_modifier
-			has_modifier = elgar_expressionism_center_modifier
-			has_modifier = elgar_art_nouveau_center_modifier
+			has_state_trait = elgar_state_trait_center_impressionism
+			has_state_trait = elgar_state_trait_center_expressionism
+			has_state_trait = elgar_state_trait_center_art_nouveau
 		}
 	}
 }
@@ -220,244 +210,6 @@ elgar_has_radio_station = {
 	any_scope_building = {
 		is_building_type = building_urban_center
 		has_active_production_method = pm_elgar_radio_stations
-	}
-}
-
-############################
-
-elgar_berlioz_on_tour = {
-	OR = {
-		has_global_variable = elgar_berlioz_ng_tour_var
-		has_global_variable = elgar_berlioz_sg_tour_var
-		has_global_variable = elgar_berlioz_gb_tour_var
-		has_global_variable = elgar_berlioz_rs_tour_var
-		has_global_variable = elgar_berlioz_sp_tour_var
-	}
-}
-
-elgar_liszt_on_tour = {
-	OR = {
-		has_global_variable = elgar_liszt_it_tour_var
-		has_global_variable = elgar_liszt_ge_tour_var
-		has_global_variable = elgar_liszt_sp_tour_var
-		has_global_variable = elgar_liszt_we_tour_var
-		has_global_variable = elgar_liszt_ee_tour_var
-		has_global_variable = elgar_liszt_gt_tour_var
-	}
-}
-
-elgar_wagner_on_tour = {
-	has_global_variable = elgar_wagner_tour_var
-}
-
-elgar_grieg_on_tour = {
-	OR = {
-		has_global_variable = elgar_grieg_sc_tour_var
-		has_global_variable = elgar_grieg_ne_tour_var
-		has_global_variable = elgar_grieg_we_tour_var
-	}
-}
-
-############################
-
-elgar_donizetti_minimum = {
-	has_technology_researched = romanticism
-	var:elgar_music_tradition >= 50
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 3
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_donizetti_contract_modifier
-		}
-	}
-}
-
-elgar_berlioz_minimum = {
-	has_technology_researched = romanticism
-	var:elgar_music_tradition >= 100
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 5
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_berlioz_contract_modifier
-		}
-	}
-}
-
-elgar_liszt_minimum = {
-	has_technology_researched = elgar_irrationalism_tech
-	var:elgar_music_tradition >= 150
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 5
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_liszt_contract_modifier
-		}
-	}
-}
-
-elgar_wagner_minimum = {
-	OR = {
-		country_has_primary_culture = cu:south_german
-		country_has_primary_culture = cu:north_german
-		country_has_primary_culture = cu:united_german
-		country_has_primary_culture = cu:alemannic
-		country_has_primary_culture = cu:united_swiss
-	}
-	has_technology_researched = elgar_irrationalism_tech
-	var:elgar_music_tradition >= 300
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 10
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_wagner_contract_modifier
-		}
-	}
-}
-
-elgar_grieg_minimum = {
-	OR = {
-		country_has_primary_culture = cu:danish
-		country_has_primary_culture = cu:swedish
-		country_has_primary_culture = cu:norwegian
-	}
-	has_technology_researched = realism
-	has_technology_researched = elgar_irrationalism_tech
-	var:elgar_music_tradition >= 250
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 8
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_grieg_contract_modifier
-		}
-	}
-}
-
-elgar_brahms_minimum = {
-	has_technology_researched = realism
-	has_technology_researched = elgar_irrationalism_tech
-	var:elgar_music_tradition >= 400
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 10
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_brahms_contract_modifier
-		}
-	}
-}
-
-elgar_delius_minimum = {
-	OR = {
-		has_technology_researched = elgar_art_nouveau_tech
-		has_technology_researched = elgar_impressionism_tech
-		has_technology_researched = elgar_expressionism_tech
-	}
-	var:elgar_music_tradition >= 600
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 15
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_delius_contract_modifier
-		}
-	}
-}
-
-elgar_mahler_minimum = {
-	OR = {
-		has_technology_researched = elgar_art_nouveau_tech
-		has_technology_researched = elgar_impressionism_tech
-		has_technology_researched = elgar_expressionism_tech
-	}
-	var:elgar_music_tradition >= 800
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 15
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_mahler_contract_modifier
-		}
-	}
-}
-
-elgar_rachmaninov_minimum = {
-	OR = {
-		has_technology_researched = elgar_art_deco_tech
-		has_technology_researched = elgar_neoclassicism_tech
-		has_technology_researched = elgar_new_objectivity_tech
-	}
-	var:elgar_music_tradition >= 1000
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 20
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_rachmaninov_contract_modifier
-		}
-	}
-}
-
-elgar_prokofiev_minimum = {
-	OR = {
-		has_technology_researched = elgar_art_deco_tech
-		has_technology_researched = elgar_neoclassicism_tech
-		has_technology_researched = elgar_new_objectivity_tech
-	}
-	var:elgar_music_tradition >= 1000
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		level >= 20
-	}
-	elgar_has_great_composer = no
-	NOT = {
-		any_country = {
-			has_modifier = elgar_prokofiev_contract_modifier
-		}
-	}
-}
-
-elgar_has_active_composer = {
-	custom_tooltip = {
-		text = elgar_has_active_composer_tt
-		has_variable = elgar_composer_var
-		var:elgar_composer_var ?= {
-			is_busy = no
-		}
-	}
-}
-
-elgar_has_active_great_composer = {
-	custom_tooltip = {
-		text = elgar_has_active_great_composer_tt
-		has_variable = elgar_composer_var
-		var:elgar_composer_var ?= {
-			is_busy = no
-			has_trait = elgar_great_composer
-		}
 	}
 }
 
