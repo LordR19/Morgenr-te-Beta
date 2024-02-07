@@ -271,3 +271,216 @@ elgar_liszt_destination_score = {
 		add = 5 #Liszt likes Italian culture
 	}
 }
+
+#This value calculates the next yearly musical tradition gain
+elgar_yearly_musical_tradition_value = {
+	value = 0
+
+	### Technology ###
+	if = {
+		limit = { has_technology_researched = elgar_classicism_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = romanticism }
+		add = 2
+	}
+	if = {
+		limit = { has_technology_researched = realism }
+		add = 2
+	}
+	if = {
+		limit = { has_technology_researched = elgar_irrationalism_tech }
+		add = 2
+	}
+	if = {
+		limit = { has_technology_researched = elgar_impressionism_tech }
+		add = 3
+	}
+	if = {
+		limit = { has_technology_researched = elgar_neoclassicism_tech }
+		add = 3
+	}
+	if = {
+		limit = { has_technology_researched = elgar_expressionism_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = elgar_new_objectivity_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = elgar_art_nouveau_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = elgar_art_deco_tech }
+		add = 1
+	}
+
+	### Buildings ###
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_elgar_opera
+				level >= 1
+			}
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			var:elgar_opera_building_score_var > 2
+			NOT = {
+				var:elgar_opera_building_score_var > 4
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			var:elgar_opera_building_score_var > 4
+			NOT = {
+				var:elgar_opera_building_score_var > 9
+			}
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			var:elgar_opera_building_score_var > 4
+			NOT = {
+				var:elgar_opera_building_score_var > 9
+			}
+		}
+		add = 3
+	}
+	if = {
+		limit = {
+			var:elgar_opera_building_score_var > 9
+			NOT = {
+				var:elgar_opera_building_score_var > 19
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:elgar_opera_building_score_var > 19
+			NOT = {
+				var:elgar_opera_building_score_var > 29
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:elgar_opera_building_score_var > 29
+			NOT = {
+				var:elgar_opera_building_score_var > 49
+			}
+		}
+		add = 15
+	}
+	if = {
+		limit = {
+			var:elgar_opera_building_score_var > 49
+		}
+		add = 20
+	}
+
+	### Composer ###
+	if = {
+		limit = {
+			has_variable = elgar_composer_var
+		}
+		add = {
+			value = var:elgar_composer_var.var:elgar_composer_experience
+			divide = 50
+			floor = yes
+			max = 10
+		}
+	}
+	if = {
+		limit = { elgar_composer_composes = yes }
+		add = 5
+	}
+
+	### Center of Art ###
+	if = {
+		limit = {
+			any_scope_state = {
+				has_state_trait = elgar_state_trait_center_impressionism
+			}
+		}
+		add = 3
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_state_trait = elgar_state_trait_center_expressionism
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_state_trait = elgar_state_trait_center_art_nouveau
+			}
+		}
+		add = 1
+	}
+
+	### Special Buildings ###
+	if = {
+		limit = {
+			elgar_has_special_building = yes
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = elgar_beethoven_monument_modifier
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = elgar_mozart_monument_modifier
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = elgar_mozart_foundation_modifier
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = { has_modifier = elgar_neudeutsche_musikschule_modifier }
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = elgar_wagner_bayreuth_modifier
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = elgar_london_proms_modifier
+			}
+		}
+		add = 1
+	}
+}
