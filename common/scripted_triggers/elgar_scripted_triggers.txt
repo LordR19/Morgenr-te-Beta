@@ -6,12 +6,9 @@
 
 ############################
 
-#Great Composer/Composer
+###Composer Existence###
 
-had_5_composers = {
-	var:elgar_had_composers >= 5
-}
-
+#Trigger if a Composer exists
 elgar_has_composer = {
 	custom_tooltip = {
 		text = elgar_has_composer_tt
@@ -24,6 +21,7 @@ elgar_has_composer = {
 	}
 }
 
+#Trigger if an unoccupied Composer exists
 elgar_has_active_composer = {
 	custom_tooltip = {
 		text = elgar_has_active_composer_tt
@@ -34,19 +32,7 @@ elgar_has_active_composer = {
 	}
 }
 
-elgar_composer_not_exhausted = {
-	trigger_if = {
-		limit = { has_variable = elgar_composer_var }
-
-		custom_tooltip = {
-			text = elgar_composer_not_exhausted_tt
-			NOT = {
-				has_modifier = elgar_conductor_exhausted_modifier
-			}
-		}
-	}
-}
-
+#Trigger if a Great Composer exists
 elgar_has_great_composer = {
 	custom_tooltip = {
 		text = elgar_has_great_composer_tt
@@ -57,6 +43,7 @@ elgar_has_great_composer = {
 	}
 }
 
+#Trigger if an unoccupied Great Composer exists
 elgar_has_active_great_composer = {
 	custom_tooltip = {
 		text = elgar_has_active_great_composer_tt
@@ -68,6 +55,20 @@ elgar_has_active_great_composer = {
 	}
 }
 
+############################
+
+###Composer Count###
+
+#This is used primarily for the Swiss Elgar Achievement
+had_5_great_composers = {
+	var:elgar_had_great_composers >= 5
+}
+
+############################
+
+###Conductor & Virtuoso###
+
+#Trigger if the Composer is also a Conductor
 elgar_has_conductor = {
 	custom_tooltip = {
 		text = elgar_has_conductor_tt
@@ -83,6 +84,7 @@ elgar_has_conductor = {
 	}
 }
 
+#Trigger if the Composer is a Conductor and unoccupied
 elgar_has_active_conductor = {
 	custom_tooltip = {
 		text = elgar_has_active_conductor_tt
@@ -99,6 +101,74 @@ elgar_has_active_conductor = {
 	}
 }
 
+#Trigger if the Composer is a Conductor or Virtuoso
+elgar_composer_virtuoso_or_conductor_trigger = {
+	trigger_if = {
+		limit = { has_variable = elgar_composer_var }
+		custom_tooltip = {
+			text = elgar_composer_virtuoso_or_conductor_trigger_tt
+
+			var:elgar_composer_var = {
+				OR = {
+					has_trait = elgar_conductor
+					has_trait = elgar_virtuoso
+				}
+			}
+		}
+	}
+}
+
+############################
+
+###Composer Status###
+
+#Trigger if the Composer is not exhausted
+elgar_composer_not_exhausted = {
+	trigger_if = {
+		limit = { has_variable = elgar_composer_var }
+
+		custom_tooltip = {
+			text = elgar_composer_not_exhausted_tt
+			NOT = {
+				has_modifier = elgar_conductor_exhausted_modifier
+			}
+		}
+	}
+}
+
+#Trigger if the Composer composes
+elgar_composer_composes = {
+	var:elgar_composer_var ?= {
+		has_modifier = elgar_conductor_composes_modifier
+	}
+}
+
+#Trigger if the Composer conducts
+elgar_composer_conducts = {
+	var:elgar_composer_var ?= {
+		has_modifier = elgar_conductor_conducts_modifier
+	}
+}
+
+#Trigger if the Composer is on tour
+elgar_composer_on_tour = {
+	var:elgar_composer_var ?= {
+		has_modifier = elgar_conductor_touring_modifier
+	}
+}
+
+#Trigger if the Composer writes a masterpiece
+elgar_composer_writes_masterpiece = {
+	var:elgar_composer_var ?= {
+		has_modifier = elgar_conductor_masterpiece_modifier
+	}
+}
+
+############################
+
+###Composer Triggers for action###
+
+#Trigger if the Composer has at least 100 Reputation (to get on tour)
 elgar_composer_experience_100_or_more_trigger = {
 	trigger_if = {
 		limit = { has_variable = elgar_composer_var }
@@ -110,6 +180,7 @@ elgar_composer_experience_100_or_more_trigger = {
 	}
 }
 
+#Trigger if the Composer has less than 3 masterpieces (to write one)
 elgar_composer_less_than_3_masterpieces_trigger = {
 	trigger_if = {
 		limit = { has_variable = elgar_composer_var }
@@ -128,37 +199,49 @@ elgar_composer_less_than_3_masterpieces_trigger = {
 	}
 }
 
-elgar_composer_virtuoso_or_conductor_trigger = {
-	trigger_if = {
-		limit = { has_variable = elgar_composer_var }
-		custom_tooltip = {
-			text = elgar_composer_virtuoso_or_conductor_trigger_tt
+############################
 
-			var:elgar_composer_var = {
-				OR = {
-					has_trait = elgar_conductor
-					has_trait = elgar_virtuoso
-				}
-			}
+###Buildings###
+
+#Trigger if a center of art (impressionism, expressionism, art nouveau) exists in the country
+elgar_has_center_of_art = {
+	any_scope_state = {
+		OR = {
+			has_state_trait = elgar_state_trait_center_impressionism
+			has_state_trait = elgar_state_trait_center_expressionism
+			has_state_trait = elgar_state_trait_center_art_nouveau
 		}
 	}
 }
 
-elgar_has_performance = {
-	OR = {
-		has_modifier = elgar_donizetti_performance_modifier
-		has_modifier = elgar_berlioz_performance_modifier
-		has_modifier = elgar_liszt_performance_modifier
-		has_modifier = elgar_wagner_performance_modifier
-		has_modifier = elgar_grieg_performance_modifier
-		has_modifier = elgar_brahms_performance_modifier
-		has_modifier = elgar_delius_performance_modifier
-		has_modifier = elgar_mahler_performance_modifier
-		has_modifier = elgar_rachmaninov_performance_modifier
-		has_modifier = elgar_prokofiev_performance_modifier
+#Trigger if an art academy with conservatory exists in the country
+elgar_has_conservatory = {
+	any_scope_building = {
+		has_active_production_method = pm_artists_arts_academy_conservatory
 	}
 }
 
+#Trigger if an opera house with ballet exists in the country
+elgar_has_ballet = {
+	any_scope_building = {
+		is_building_type = building_elgar_opera
+		OR = {
+			has_active_production_method = pm_elgar_impressionistic_ballet
+			has_active_production_method = pm_elgar_expressionistic_ballet
+			has_active_production_method = pm_elgar_avantgarde_ballet
+		}
+	}
+}
+
+#Trigger if a railway with radio station exists in the country
+elgar_has_radio_station = {
+	any_scope_building = {
+		is_building_type = building_urban_center
+		has_active_production_method = pm_elgar_radio_stations
+	}
+}
+
+#This is a special condition which checks if the player has achieved other special things to get yearly music tradition
 elgar_has_special_building = {
 	OR = {
 		any_scope_state = {
@@ -179,37 +262,23 @@ elgar_has_special_building = {
 	}
 }
 
-elgar_has_center_of_art = {
-	any_scope_state = {
-		OR = {
-			has_state_trait = elgar_state_trait_center_impressionism
-			has_state_trait = elgar_state_trait_center_expressionism
-			has_state_trait = elgar_state_trait_center_art_nouveau
-		}
-	}
-}
+############################
 
-elgar_has_conservatory = {
-	any_scope_building = {
-		has_active_production_method = pm_artists_arts_academy_conservatory
-	}
-}
+###Other###
 
-elgar_has_ballet = {
-	any_scope_building = {
-		is_building_type = building_elgar_opera
-		OR = {
-			has_active_production_method = pm_elgar_impressionistic_ballet
-			has_active_production_method = pm_elgar_expressionistic_ballet
-			has_active_production_method = pm_elgar_avantgarde_ballet
-		}
-	}
-}
-
-elgar_has_radio_station = {
-	any_scope_building = {
-		is_building_type = building_urban_center
-		has_active_production_method = pm_elgar_radio_stations
+#Trigger if a performance of one of the "Big 10" takes place ein a country (mostly outdated)
+elgar_has_performance = {
+	OR = {
+		has_modifier = elgar_donizetti_performance_modifier
+		has_modifier = elgar_berlioz_performance_modifier
+		has_modifier = elgar_liszt_performance_modifier
+		has_modifier = elgar_wagner_performance_modifier
+		has_modifier = elgar_grieg_performance_modifier
+		has_modifier = elgar_brahms_performance_modifier
+		has_modifier = elgar_delius_performance_modifier
+		has_modifier = elgar_mahler_performance_modifier
+		has_modifier = elgar_rachmaninov_performance_modifier
+		has_modifier = elgar_prokofiev_performance_modifier
 	}
 }
 
