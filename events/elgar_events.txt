@@ -1494,6 +1494,30 @@ elgar.30 = {
 		}
 		ai_chance = {
 			base = 25
+			modifier = { #Don't compose too much
+				trigger = {
+					var:elgar_composer_var = {
+						var:elgar_composer_num_compositions_var >= 30
+					}
+				}
+				add = -5
+			}
+			modifier = { #Don't compose too much
+				trigger = {
+					var:elgar_composer_var = {
+						var:elgar_composer_num_compositions_var >= 40
+					}
+				}
+				add = -5
+			}
+			modifier = { #Don't compose too much
+				trigger = {
+					var:elgar_composer_var = {
+						var:elgar_composer_num_compositions_var >= 50
+					}
+				}
+				add = -5
+			}
 		}
 	}
 
@@ -1776,6 +1800,83 @@ elgar.40 = {
 	}
 }
 
+#################################################################################
+
+######Historical Opera Houses######
+
+#Elgar 91: Glass Hall (Tivoli Gardens)
+elgar.91 = {
+	type = country_event
+
+	title = elgar.91.t
+	desc = elgar.91.d
+	flavor = elgar.91.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_denmark.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+		any_scope_state = {
+			state_region = s:STATE_ZEALAND
+			NOT = {
+				has_building = building_elgar_opera
+			}
+		}
+		game_date >= 1863.1.1
+		NOT = {
+			game_date >= 1864.1.1
+		}
+		NOT = {
+			has_global_variable = elgar_tivoli_glass_hall_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = elgar_tivoli_glass_hall_var
+	}
+
+	option = { #Build the opera house
+		name = elgar.90.g
+		default_option = yes
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_ZEALAND
+			}
+			create_building = {
+ 				building = "building_elgar_opera"
+ 			}
+			activate_building = {
+				building = "building_elgar_opera"
+			}
+		}
+		if = {
+			limit = {
+				elgar_has_composer = yes
+			}
+			elgar_add_x_music_tradition_effect = { AMOUNT = 10 }
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+	
+	option = { #We should concentrate our efforts
+		name = elgar.90.h
+		elgar_add_x_music_tradition_effect = { AMOUNT = 25 }
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
 
 #Elgar 92: Gran Teatro Nacional
 elgar.92 = {
@@ -1828,6 +1929,12 @@ elgar.92 = {
 			activate_building = {
 				building = "building_elgar_opera"
 			}
+		}
+		if = {
+			limit = {
+				elgar_has_composer = yes
+			}
+			elgar_add_x_music_tradition_effect = { AMOUNT = 10 }
 		}
 
 		ai_chance = {
@@ -1895,6 +2002,12 @@ elgar.93 = {
 			activate_building = {
 				building = "building_elgar_opera"
 			}
+		}
+		if = {
+			limit = {
+				elgar_has_composer = yes
+			}
+			elgar_add_x_music_tradition_effect = { AMOUNT = 10 }
 		}
 
 		ai_chance = {
