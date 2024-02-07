@@ -368,6 +368,66 @@ je_elgar_mass_culture = {
 
 ######COMPOSER######
 
+je_elgar_composer_composing = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	on_yearly_pulse = {
+		random_events = {
+			300 = 0
+			
+			10 = elgar.426 #Elgar 426: Sea Shanty
+			10 = elgar.427 #Elgar 427: March
+			10 = elgar.428 #Elgar 428: Kunstlied
+			10 = elgar.429 #Elgar 429: Sonata for Piano
+
+			1 = elgar.406 #Elgar 406: Composer dies
+		}
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+	}
+
+	fail = {
+		OR = {
+			custom_tooltip = {
+				text = je_stopped_composing_tt
+				has_variable = elgar_stopped_composing_var
+			}
+		}
+		OR = {
+			custom_tooltip = {
+				text = je_composer_dies_tt
+				NOT = {
+					has_variable = elgar_composer_var
+				}
+			}
+		}
+	}
+
+	on_fail = {
+	}
+
+	scripted_button = elgar_stop_composing_button
+
+	progressbar = no
+
+	weight = 50
+}
+
 je_elgar_composer_conducting = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
@@ -404,108 +464,6 @@ je_elgar_composer_conducting = {
 		trigger_event = {
 			id = elgar.417
 			popup = yes
-		}
-	}
-
-	fail = {
-		custom_tooltip = {
-			text = je_composer_dies_tt
-			NOT = {
-				has_variable = elgar_composer_var
-			}
-		}
-	}
-
-	on_fail = {
-	}
-
-	progressbar = yes
-
-	weight = 50
-}
-
-je_elgar_composer_composing = {
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
-
-	group = je_group_elgar_music
-
-	on_monthly_pulse = {
-		random_events = {
-			320 = elgar.421 #Elgar 421: Composer progress
-			
-			10 = elgar.422 #Elgar 422: No inspiration
-			10 = elgar.423 #Elgar 423: A walk
-			10 = elgar.424 #Elgar 424: Disturbances
-			10 = elgar.425 #Elgar 425: Not enough comfort
-			10 = elgar.426 #Elgar 426: Sea Shanty
-			10 = elgar.427 #Elgar 427: March
-			10 = elgar.428 #Elgar 428: Kunstlied
-			10 = elgar.429 #Elgar 429: Sonata for Piano
-
-			1 = elgar.406 #Elgar 406: Composer dies
-		}
-	}
-
-	current_value = {
-		value = var:elgar_composer_progress
-	}
-
-	goal_add_value = {
-		add = 30
-	}
-
-	complete = {
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		custom_tooltip = {
-			text = je_elgar_composer_composing_work_tt
-			if = {
-				limit = {
-					var:elgar_composer_var = {
-						var:elgar_composer_num_compositions_var >= 3
-					}
-				}
-				random_list = {
-					33 = {
-						trigger_event = {
-							id = elgar.431 #Concerto
-							popup = yes
-						}
-					}
-					33 = {
-						trigger_event = {
-							id = elgar.432 #Symphony
-							popup = yes
-						}
-					}
-					33 = {
-						trigger_event = {
-							id = elgar.433 #Opera
-							popup = yes
-						}
-					}
-				}
-			}
-			else = {
-				random_list = {
-					50 = {
-						trigger_event = {
-							id = elgar.431 #Concerto
-							popup = yes
-						}
-					}
-					50 = {
-						trigger_event = {
-							id = elgar.432 #Symphony
-							popup = yes
-						}
-					}
-				}
-			}
 		}
 	}
 
@@ -581,7 +539,7 @@ je_elgar_composer_masterpiece = {
 
 	group = je_group_elgar_music
 
-	on_monthly_pulse = {
+	on_yearly_pulse = {
 		random_events = {
 			600 = elgar.421 #Elgar 421: Composer progress
 			
@@ -599,7 +557,55 @@ je_elgar_composer_masterpiece = {
 	}
 
 	goal_add_value = {
-		add = 60
+		value = 24 #A Great Composer with 500 Reputation will create a masterpiece in 2 years
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 500
+				}
+			}
+			add = 12 #At this point, 3 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 450
+				}
+			}
+			add = 24 #At this point, 5 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 400
+				}
+			}
+			add = 36 #At this point, 8 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 350
+				}
+			}
+			add = 48 #At this point, 12 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 300
+				}
+			}
+			add = 60 #At this point, 17 years
+		}
+		if = {
+			limit = {
+				var:elgar_composer_var = {
+					var:elgar_composer_experience < 250
+				}
+			}
+			add = 96 #At this point, 25 years. Do you really want to try?
+		}
 	}
 
 	complete = {
@@ -616,16 +622,26 @@ je_elgar_composer_masterpiece = {
 	}
 
 	fail = {
-		custom_tooltip = {
-			text = je_composer_dies_tt
-			NOT = {
-				has_variable = elgar_composer_var
+		OR = {
+			custom_tooltip = {
+				text = je_stopped_composing_tt
+				has_variable = elgar_stopped_composing_var
+			}
+		}
+		OR = {
+			custom_tooltip = {
+				text = je_composer_dies_tt
+				NOT = {
+					has_variable = elgar_composer_var
+				}
 			}
 		}
 	}
 
 	on_fail = {
 	}
+
+	scripted_button = elgar_stop_composing_button
 
 	progressbar = yes
 
