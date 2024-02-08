@@ -4987,8 +4987,9 @@ elgar.321 = {
 	}
 }
 
-
 #########################################################################################################################
+
+###General Composer Events###
 
 #Elgar 406: Composer dies
 elgar.406 = {
@@ -5054,7 +5055,7 @@ elgar.406 = {
 	}
 }
 
-#Elgar 407: Conductor finishes commission
+#Elgar 407: Composer finishes commission
 elgar.407 = {
 	type = country_event
 	
@@ -5093,6 +5094,8 @@ elgar.407 = {
 	}
 }
 
+#################################################################################
+
 ###Conducting###
 
 #Elgar 411: Superb Concerto
@@ -5119,7 +5122,6 @@ elgar.411 = {
 	}
 
 	immediate = {
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
 		set_elgar_conductor_scope_effect = yes
 	}
 
@@ -5155,7 +5157,6 @@ elgar.412 = {
 	}
 
 	immediate = {
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
 		set_elgar_conductor_scope_effect = yes
 	}
 
@@ -5191,7 +5192,6 @@ elgar.413 = {
 	}
 
 	immediate = {
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
 		set_elgar_conductor_scope_effect = yes
 	}
 
@@ -5227,7 +5227,6 @@ elgar.414 = {
 	}
 
 	immediate = {
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
 		set_elgar_conductor_scope_effect = yes
 		random_country = {
 			limit = {
@@ -5288,7 +5287,6 @@ elgar.415 = {
 	}
 
 	immediate = {
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
 		set_elgar_conductor_scope_effect = yes
 	}
 
@@ -5329,7 +5327,6 @@ elgar.416 = {
 	}
 
 	immediate = {
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
 		set_elgar_conductor_scope_effect = yes
 	}
 
@@ -5444,26 +5441,17 @@ elgar.417 = {
 	}
 }
 
-###Composing###
+#################################################################################
 
-#Elgar 421: Composer progress
+###Masterpiece creation###
+
+#Elgar 421: No inspiration
 elgar.421 = {
-	type = country_event
-	
-	hidden = yes
-
-	immediate = {
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
-	}
-}
-
-#Elgar 422: No inspiration
-elgar.422 = {
 	type = country_event
 
     title = elgar.314.t
 		
-    desc = elgar.422.d
+    desc = elgar.421.d
 
 	flavor = elgar.314.f
 
@@ -5494,15 +5482,15 @@ elgar.422 = {
 	}
 }
 
-#Elgar 423: A walk
-elgar.423 = {
+#Elgar 422: A walk
+elgar.422 = {
 	type = country_event
 
-    title = elgar.423.t
+    title = elgar.422.t
 		
-    desc = elgar.423.d
+    desc = elgar.422.d
 
-	flavor = elgar.423.f
+	flavor = elgar.422.f
 
 	duration = 3
 		
@@ -5522,8 +5510,56 @@ elgar.423 = {
 	}
 
 	option = { #In the footsteps of Beethoven!
-		name = elgar.423.g
+		name = elgar.422.g
 		elgar_add_x_composer_progress = { AMOUNT = 3 }
+	}
+}
+
+#Elgar 423: Not enough comfort
+elgar.423 = {
+	type = country_event
+
+    title = elgar.423.t
+		
+    desc = elgar.423.d
+
+	flavor = elgar.423.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_conductor.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+		NOT = {
+			has_modifier = elgar_composer_comfort_modifier
+		}
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+	}
+
+	option = { #Give him comfort
+		name = elgar.423.g
+		default_option = yes
+		elgar_add_x_composer_progress = { AMOUNT = 3 }
+		add_treasury = -10000
+		add_modifier = {
+			name = elgar_composer_comfort_modifier
+			multiplier = money_amount_multiplier_small
+			days = 500
+		}
+	}
+
+	option = { #He has to live with it
+		name = elgar.424.h
+		elgar_add_x_composer_progress = { AMOUNT = -1 }
 	}
 }
 
@@ -5597,261 +5633,9 @@ elgar.424 = {
 	}
 }
 
-#Elgar 425: Not enough comfort
-elgar.425 = {
-	type = country_event
+#################################################################################
 
-    title = elgar.425.t
-		
-    desc = elgar.425.d
-
-	flavor = elgar.425.f
-
-	duration = 3
-		
-	event_image = { 
-		texture = "gfx/event_pictures/elgar_pictures/elgar_conductor.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
-
-	trigger = {
-		NOT = {
-			has_modifier = elgar_composer_comfort_modifier
-		}
-	}
-
-	immediate = {
-		set_elgar_conductor_scope_effect = yes
-	}
-
-	option = { #Give him comfort
-		name = elgar.425.g
-		default_option = yes
-		elgar_add_x_composer_progress = { AMOUNT = 3 }
-		add_treasury = -10000
-		add_modifier = {
-			name = elgar_composer_comfort_modifier
-			multiplier = money_amount_multiplier_small
-			days = 500
-		}
-	}
-
-	option = { #He has to live with it
-		name = elgar.424.h
-		elgar_add_x_composer_progress = { AMOUNT = -1 }
-	}
-}
-
-#Elgar 426: Sea Shanty
-elgar.426 = {
-	type = country_event
-
-    title = elgar.426.t
-		
-    desc = elgar.426.d
-
-	flavor = elgar.426.f
-
-	duration = 3
-		
-	gui_window = event_window_2char
-
-	left_icon = scope:elgar_conductor
-	right_icon = scope:elgar_admiral
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
-
-	cooldown = {
-		years = 5
-	}
-
-	trigger = {
-		any_scope_character = {
-			has_role = admiral
-			OR = {
-				has_trait = expert_naval_commander
-				has_trait = expert_convoy_raider
-				has_trait = celebrity_commander
-			}
-		}
-	}
-
-	immediate = {
-		set_elgar_conductor_scope_effect = yes
-		random_scope_character = {
-			limit = {
-				has_role = admiral
-				OR = {
-					has_trait = expert_naval_commander
-					has_trait = expert_convoy_raider
-					has_trait = celebrity_commander
-				}
-			}
-			save_scope_as = elgar_admiral
-		}
-	}
-
-	option = { #Yoho!
-		name = elgar.426.g
-		elgar_add_elgar_composer_num_compositions_effect = yes
-		elgar_add_x_music_tradition_effect = {
-			AMOUNT = 5
-		}
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
-	}
-}
-
-#Elgar 427: March
-elgar.427 = {
-	type = country_event
-
-    title = elgar.427.t
-		
-    desc = elgar.427.d
-
-	flavor = elgar.427.f
-
-	duration = 3
-		
-	left_icon = scope:elgar_conductor
-	right_icon = scope:elgar_general
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
-
-	cooldown = {
-		years = 5
-	}
-
-	trigger = {
-		any_scope_character = {
-			has_role = general
-			OR = {
-				has_trait = expert_artillery_commander
-				has_trait = defense_in_depth_specialist
-				has_trait = expert_offensive_planner
-				has_trait = expert_defensive_strategist
-			}
-		}
-	}
-
-	immediate = {
-		set_elgar_conductor_scope_effect = yes
-		random_scope_character = {
-			limit = {
-				has_role = general
-				OR = {
-					has_trait = expert_artillery_commander
-					has_trait = defense_in_depth_specialist
-					has_trait = expert_offensive_planner
-					has_trait = expert_defensive_strategist
-				}
-			}
-			save_scope_as = elgar_general
-		}
-	}
-
-	option = { #New material for the army
-		name = elgar.427.g
-		elgar_add_elgar_composer_num_compositions_effect = yes
-		elgar_add_x_music_tradition_effect = {
-			AMOUNT = 5
-		}
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
-	}
-}
-
-#Elgar 428: Kunstlied
-elgar.428 = {
-	type = country_event
-
-    title = elgar.428.t
-		
-    desc = elgar.428.d
-
-	flavor = elgar.428.f
-
-	duration = 3
-		
-	event_image = { 
-		texture = "gfx/event_pictures/elgar_pictures/elgar_private.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
-
-	cooldown = {
-		years = 5
-	}
-
-	trigger = {
-		OR = {
-			has_technology_researched = elgar_impressionism_tech
-			has_technology_researched = elgar_expressionism_tech
-		}
-	}
-
-	immediate = {
-		set_elgar_conductor_scope_effect = yes
-	}
-
-	option = { #Couldn't it have been something else...?
-		name = elgar.428.g
-		elgar_add_elgar_composer_num_compositions_effect = yes
-		elgar_add_x_music_tradition_effect = {
-			AMOUNT = 10
-		}
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
-	}
-}
-
-#Elgar 429: Sonata for Piano
-elgar.429 = {
-	type = country_event
-
-    title = elgar.429.t
-		
-    desc = elgar.429.d
-
-	flavor = elgar.429.f
-
-	duration = 3
-		
-	event_image = { 
-		texture = "gfx/event_pictures/elgar_pictures/elgar_private.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_music.dds"
-
-	cooldown = {
-		years = 5
-	}
-
-	trigger = {
-	}
-
-	immediate = {
-		set_elgar_conductor_scope_effect = yes
-	}
-
-	option = { #A classic.
-		name = elgar.429.g
-		elgar_add_elgar_composer_num_compositions_effect = yes
-		elgar_add_x_music_tradition_effect = {
-			AMOUNT = 10
-		}
-		elgar_add_x_composer_progress = { AMOUNT = 1 }
-	}
-}
+###Masterpiece publication###
 
 #Elgar 431: Concerto
 elgar.431 = {
@@ -6042,6 +5826,218 @@ elgar.433 = {
 		remove_variable = elgar_opera_name_randomizer_var
 	}
 }
+
+#################################################################################
+
+###Composing###
+
+#Elgar 441: Sea Shanty
+elgar.441 = {
+	type = country_event
+
+    title = elgar.441.t
+		
+    desc = elgar.441.d
+
+	flavor = elgar.441.f
+
+	duration = 3
+		
+	gui_window = event_window_2char
+
+	left_icon = scope:elgar_conductor
+	right_icon = scope:elgar_admiral
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_role = admiral
+			OR = {
+				has_trait = expert_naval_commander
+				has_trait = expert_convoy_raider
+				has_trait = celebrity_commander
+			}
+		}
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+		random_scope_character = {
+			limit = {
+				has_role = admiral
+				OR = {
+					has_trait = expert_naval_commander
+					has_trait = expert_convoy_raider
+					has_trait = celebrity_commander
+				}
+			}
+			save_scope_as = elgar_admiral
+		}
+	}
+
+	option = { #Yoho!
+		name = elgar.441.g
+		elgar_add_elgar_composer_num_compositions_effect = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 5
+		}
+	}
+}
+
+#Elgar 442: March
+elgar.442 = {
+	type = country_event
+
+    title = elgar.442.t
+		
+    desc = elgar.442.d
+
+	flavor = elgar.442.f
+
+	duration = 3
+
+	gui_window = event_window_2char
+		
+	left_icon = scope:elgar_conductor
+	right_icon = scope:elgar_general
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_role = general
+			OR = {
+				has_trait = expert_artillery_commander
+				has_trait = defense_in_depth_specialist
+				has_trait = expert_offensive_planner
+				has_trait = expert_defensive_strategist
+			}
+		}
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+		random_scope_character = {
+			limit = {
+				has_role = general
+				OR = {
+					has_trait = expert_artillery_commander
+					has_trait = defense_in_depth_specialist
+					has_trait = expert_offensive_planner
+					has_trait = expert_defensive_strategist
+				}
+			}
+			save_scope_as = elgar_general
+		}
+	}
+
+	option = { #New material for the army
+		name = elgar.442.g
+		elgar_add_elgar_composer_num_compositions_effect = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 5
+		}
+	}
+}
+
+#Elgar 443: Kunstlied
+elgar.443 = {
+	type = country_event
+
+    title = elgar.443.t
+		
+    desc = elgar.443.d
+
+	flavor = elgar.443.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_private.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		OR = {
+			has_technology_researched = elgar_impressionism_tech
+			has_technology_researched = elgar_expressionism_tech
+		}
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+	}
+
+	option = { #Couldn't it have been something else...?
+		name = elgar.443.g
+		elgar_add_elgar_composer_num_compositions_effect = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 10
+		}
+	}
+}
+
+#Elgar 444: Sonata for Piano
+elgar.444 = {
+	type = country_event
+
+    title = elgar.444.t
+		
+    desc = elgar.444.d
+
+	flavor = elgar.444.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_private.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_elgar_conductor_scope_effect = yes
+	}
+
+	option = { #A classic.
+		name = elgar.444.g
+		elgar_add_elgar_composer_num_compositions_effect = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 10
+		}
+	}
+}
+
+#################################################################################
 
 ###Composer Tour###
 
