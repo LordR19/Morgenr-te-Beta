@@ -1,0 +1,84 @@
+﻿############################
+# ARTISTS JOURNAL ENTRIES  #
+############################
+
+#by Marco Dandolo and Lord R
+
+###################
+
+######Biennale######
+
+je_artists_biennale = {
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+	
+	group = je_group_elgar_culture
+
+	is_shown_when_inactive = {
+		elgar_has_center_of_art = yes
+		NOT = {
+			has_global_variable = artists_biennale_founded_var
+		}
+	}
+
+	possible = {
+		elgar_has_center_of_art = yes
+	}
+	
+	can_deactivate = yes
+
+	immediate = {
+	}
+
+	complete = {
+		any_scope_state = {
+			has_building = building_elgar_opera
+			has_building = building_arts_academy
+		}
+		OR = {
+			has_technology_researched = elgar_neoclassicism_tech
+			has_technology_researched = elgar_new_objectivity_tech
+			has_technology_researched = elgar_art_deco_tech
+		}
+	}
+
+	on_complete = {
+		set_global_variable = artists_biennale_founded_var
+		if = {
+			limit = {
+				any_scope_state = {
+					state_region = s:STATE_VENETIA
+				}
+			}
+			state_region = {
+				add_state_trait = artists_state_trait_biennale
+			}
+		}
+		else = {
+			random_scope_state = {
+				limit = {
+					has_building = building_elgar_opera
+					has_building = building_arts_academy
+				}
+				state_region = {
+					add_state_trait = artists_state_trait_biennale
+				}
+			}
+		}
+		trigger_event = {
+			id = artists.1001
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_artists_biennale_fail_tt
+			has_global_variable = artists_biennale_founded_var
+		}
+	}
+
+	weight = 100
+
+	should_be_pinned_by_default = no
+}
