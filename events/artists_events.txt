@@ -471,3 +471,161 @@ artists.103 = {
 		}
 	}
 }
+
+############################################################################################
+
+######BIENNALE######
+
+#Artists 1001: Biennale founded
+artists.1001 = {
+	type = country_event
+
+    title = artists.1001.t
+		
+    desc = artists.1001.d
+
+	flavor = artists.1001.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_biennale.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_state_trait = artists_state_trait_biennale
+			}
+			save_scope_as = artists_biennale_city
+		}
+	}
+
+	option = { #We'll prepare the first Biennale.
+		name = artists.1001.g
+		elgar_medium_add_technology = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 100
+		}
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 100
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 100
+		}
+	}
+}
+
+#Artists 1002: Biennale of $YEAR$
+artists.1002 = {
+	type = country_event
+
+    title = artists.1002.t
+
+    desc = artists.1002.d
+
+	flavor = artists.1002.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_biennale.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		has_global_variable = artists_biennale_founded_var
+		any_scope_state = {
+			has_state_trait = artists_state_trait_biennale
+		}
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_state_trait = artists_state_trait_biennale
+			}
+			save_scope_as = artists_biennale_city
+		}
+		artists_biennale_winner_effect = yes
+	}
+
+	option = { #Let's enjoy art.
+		name = artists.1002.g
+		elgar_small_add_technology = yes
+		
+		hidden_effect = {
+			scope:artists_biennale_first_winner_scope = {
+				trigger_event = {
+					id = artists.1003
+					days = 30
+				}
+			}
+		}
+	}
+}
+
+#Artists 1003: Biennale of $YEAR$
+artists.1003 = {
+	type = country_event
+
+    title = artists.1002.t
+
+    desc = artists.1003.d
+
+	flavor = artists.1003.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_biennale.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_state = {
+			limit = {
+				has_state_trait = artists_state_trait_biennale
+			}
+			save_scope_as = artists_biennale_city
+		}
+		artists_biennale_winner_effect = yes
+	}
+
+	option = { #This is only the dawn of our culture.
+		name = artists.1003.g
+		add_modifier = {
+			name = artists_biennale_triumph_modifier
+			years = 5
+		}
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 50
+		}
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 50
+		}
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 50
+		}
+	}
+}
