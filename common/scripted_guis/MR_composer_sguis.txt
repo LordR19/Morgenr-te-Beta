@@ -13,6 +13,9 @@ mr_has_composer_sgui = {
 #MR_COMPOSE_A_WORK_BUTTON
 mr_compose_a_work_button = {
     scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_elgar_composer_composing }
+	}
     is_valid = {
 		elgar_has_active_composer = yes
 		elgar_composer_not_exhausted = yes
@@ -33,6 +36,36 @@ mr_compose_a_work_button = {
 		set_elgar_composer_progress = yes
 		add_journal_entry = {
 			type = je_elgar_composer_composing
+		}
+    }
+}
+
+#MR_STOP_COMPOSING_A_WORK_BUTTON
+mr_stop_composing_a_work_button = {
+    scope = country
+	is_shown = {
+		has_journal_entry = je_elgar_composer_composing
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = elgar_stopped_composing_tt
+			NOT = {
+				has_variable = elgar_stopped_composing_var
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = elgar_stopped_composing_tt
+			set_variable = {
+				name = elgar_stopped_composing_var
+				days = 30
+			}
+		}
+		hidden_effect = {
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = no
+			}
 		}
     }
 }
@@ -145,6 +178,9 @@ mr_go_on_a_music_tour_button = {
 #MR_CREATE_A_MASTERPIECE_BUTTON
 mr_create_a_masterpiece_button = {
     scope = country
+	is_shown = {
+		NOT = { has_journal_entry = je_elgar_composer_masterpiece }
+	}
     is_valid = {
 		elgar_has_active_composer = yes
 		elgar_composer_not_exhausted = yes
@@ -170,6 +206,36 @@ mr_create_a_masterpiece_button = {
 		set_elgar_composer_progress = yes
 		add_journal_entry = {
 			type = je_elgar_composer_masterpiece
+		}
+    }
+}
+
+#MR_STOP_CREATING_MASTERWORK_BUTTON
+mr_stop_creating_masterwork_button = {
+    scope = country
+	is_shown = {
+		has_journal_entry = je_elgar_composer_masterpiece
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = elgar_stopped_composing_tt
+			NOT = {
+				has_variable = elgar_stopped_composing_var
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = elgar_stopped_composing_tt
+			set_variable = {
+				name = elgar_stopped_composing_var
+				days = 30
+			}
+		}
+		hidden_effect = {
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = no
+			}
 		}
     }
 }
