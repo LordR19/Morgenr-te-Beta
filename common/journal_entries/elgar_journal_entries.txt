@@ -1185,3 +1185,60 @@ je_elgar_composer_masterpiece = {
 
 	weight = 50
 }
+
+je_je_elgar_composer_duel = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_music
+
+	immediate = {
+	}
+
+	current_value = {
+		value = var:elgar_composer_var.var:elgar_composer_experience
+	}
+
+	goal_add_value = {
+		add = 100
+	}
+
+	complete = {
+		OR = {
+			custom_tooltip = {
+				text = je_elgar_composer_duel_success
+				var:verrier_astronomical_objects > scope:target.var:verrier_astronomical_objects
+			}
+			var:je_rival_composer_country_var = {
+				is_country_alive = no
+			}
+		}
+	}
+
+	on_complete = {
+		add_modifier = {
+			name = elgar_composer_duel_victory_modifier
+			years = 5
+		}
+		trigger_event = { 
+			id = elgar.449
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			var:je_rival_composer_country_var = {
+				has_modifier = elgar_composer_duel_victory_modifier
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = { 
+			id = academics.2011
+			popup = yes 
+		}
+	}
+
+	weight = 50
+}
