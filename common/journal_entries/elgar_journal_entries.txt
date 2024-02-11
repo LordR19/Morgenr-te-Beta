@@ -1186,12 +1186,17 @@ je_elgar_composer_masterpiece = {
 	weight = 50
 }
 
-je_je_elgar_composer_duel = {
+je_elgar_composer_duel = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	group = je_group_elgar_music
 
 	immediate = {
+		scope:target = {
+			var:elgar_composer_var = {
+				save_scope_as = rival_composer_scope
+			}
+		}
 	}
 
 	current_value = {
@@ -1206,10 +1211,18 @@ je_je_elgar_composer_duel = {
 		OR = {
 			custom_tooltip = {
 				text = je_elgar_composer_duel_success
-				var:verrier_astronomical_objects > scope:target.var:verrier_astronomical_objects
+				scope:journal_entry = {
+					is_goal_complete = yes
+				}
 			}
-			var:je_rival_composer_country_var = {
+			scope:target = {
 				is_country_alive = no
+			}
+			custom_tooltip = {
+				text = je_elgar_composer_duel_rival_death
+				scope:target = {
+					elgar_has_composer = no
+				}
 			}
 		}
 	}
@@ -1227,7 +1240,8 @@ je_je_elgar_composer_duel = {
 
 	fail = {
 		custom_tooltip = {
-			var:je_rival_composer_country_var = {
+			text = je_elgar_composer_duel_fail
+			scope:target = {
 				has_modifier = elgar_composer_duel_victory_modifier
 			}
 		}
@@ -1235,10 +1249,12 @@ je_je_elgar_composer_duel = {
 
 	on_fail = {
 		trigger_event = { 
-			id = academics.2011
+			id = elgar.450
 			popup = yes 
 		}
 	}
+
+	progressbar = yes
 
 	weight = 50
 }
