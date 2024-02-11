@@ -5927,18 +5927,22 @@ elgar.448 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	cooldown = {
-		years = 15
+		years = 10
 	}
 
 	trigger = {
 		NOT = {
 			has_journal_entry = je_elgar_composer_duel
+			has_modifier = elgar_composer_duel_victory_modifier
+			var:elgar_composer_var.var:elgar_composer_experience >= 400
 		}
 		any_country = {
 			OR = {
 				NOT = {
 					this = ROOT
 					has_journal_entry = je_elgar_composer_duel
+					has_modifier = elgar_composer_duel_victory_modifier
+					var:elgar_composer_var.var:elgar_composer_experience >= 400
 				}
 				has_diplomatic_pact = {
 					who = ROOT
@@ -5982,6 +5986,9 @@ elgar.448 = {
 
 	option = { #We accept the challenge.
 		name = elgar.448.g
+		add_journal_entry = {
+			type = je_elgar_composer_duel
+		}
 		elgar_add_x_music_tradition_effect = {
 			AMOUNT = 5
 		}
