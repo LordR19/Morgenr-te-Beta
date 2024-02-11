@@ -5909,18 +5909,18 @@ elgar.447 = {
 elgar.448 = {
 	type = country_event
 
-    title = elgar.449.t
+    title = elgar.448.t
 		
-    desc = elgar.449.d
+    desc = elgar.448.d
 
-	flavor = elgar.449.f
+	flavor = elgar.448.f
 
 	duration = 3
 		
 	gui_window = event_window_2char
 
 	left_icon = scope:elgar_conductor
-	right_icon = scope:elgar_rival_composer_scope
+	right_icon = scope:rival_composer_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -5934,16 +5934,22 @@ elgar.448 = {
 		NOT = {
 			has_journal_entry = je_elgar_composer_duel
 			has_modifier = elgar_composer_duel_victory_modifier
-			var:elgar_composer_var.var:elgar_composer_experience >= 400
+			var:elgar_composer_var = {
+				var:elgar_composer_experience >= 400
+			}
 		}
 		any_country = {
-			OR = {
-				NOT = {
-					this = ROOT
-					has_journal_entry = je_elgar_composer_duel
-					has_modifier = elgar_composer_duel_victory_modifier
-					var:elgar_composer_var.var:elgar_composer_experience >= 400
+			elgar_has_composer = yes
+			is_ai = yes
+			NOT = {
+				this = ROOT
+				has_journal_entry = je_elgar_composer_duel
+				has_modifier = elgar_composer_duel_victory_modifier
+				var:elgar_composer_var = {
+					var:elgar_composer_experience >= 400
 				}
+			}
+			OR = {
 				has_diplomatic_pact = {
 					who = ROOT
 					type = rivalry
@@ -5951,7 +5957,6 @@ elgar.448 = {
 				has_truce_with = ROOT
 				has_war_with = ROOT
 			}
-			elgar_has_composer = yes
 		}
 	}
 
@@ -5959,9 +5964,15 @@ elgar.448 = {
 		set_elgar_conductor_scope_effect = yes
 		random_country = {
 			limit = {
+				elgar_has_composer = yes
+				is_ai = yes
 				NOT = {
 					this = ROOT
 					has_journal_entry = je_elgar_composer_duel
+					has_modifier = elgar_composer_duel_victory_modifier
+					var:elgar_composer_var = {
+						var:elgar_composer_experience >= 400
+					}
 				}
 				OR = {
 					has_diplomatic_pact = {
@@ -5971,7 +5982,6 @@ elgar.448 = {
 					has_truce_with = ROOT
 					has_war_with = ROOT
 				}
-				elgar_has_composer = yes
 			}
 			save_scope_as = rival_composer_country_scope
 			var:elgar_composer_var = {
@@ -5988,12 +5998,19 @@ elgar.448 = {
 		name = elgar.448.g
 		add_journal_entry = {
 			type = je_elgar_composer_duel
+			target = scope:rival_composer_country_scope
 		}
 		elgar_add_x_music_tradition_effect = {
 			AMOUNT = 5
 		}
+		scope:rival_composer_country_scope = {
+			add_journal_entry = {
+				type = je_elgar_composer_duel
+				target = ROOT
+			}
+		}
 	}
-	option = { #He should concentrate on high culture instead of dealing with organ grinder music.
+	option = { #We cannot survive this duel.
 		name = elgar.448.h
 		elgar_add_x_music_tradition_effect = {
 			AMOUNT = -10
@@ -6034,7 +6051,7 @@ elgar.449 = {
 	}
 
 	option = { #It is now clear which country is the dominant cultural nation!
-		name = elgar.449.h
+		name = elgar.449.g
 		elgar_medium_add_technology = yes
 		elgar_add_x_music_tradition_effect = {
 			AMOUNT = 40
@@ -6047,14 +6064,14 @@ elgar.449 = {
 }
 
 #Elgar 450: Composer Duel Lost
-elgar.449 = {
+elgar.450 = {
 	type = country_event
 
-    title = elgar.449.t
+    title = elgar.450.t
 		
-    desc = elgar.449.d
+    desc = elgar.450.d
 
-	flavor = elgar.449.f
+	flavor = elgar.450.f
 
 	duration = 3
 		
@@ -6080,7 +6097,7 @@ elgar.449 = {
 	}
 
 	option = { #It is now clear which country is the dominant cultural nation ...
-		name = elgar.449.h
+		name = elgar.450.g
 		elgar_add_x_music_tradition_effect = {
 			AMOUNT = -40
 		}
