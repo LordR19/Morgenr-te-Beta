@@ -1098,27 +1098,28 @@ elgar.30 = {
 			base = 25
 			modifier = { #Don't compose too much
 				trigger = {
-					var:elgar_composer_var ?= {
-						var:elgar_composer_num_compositions_var >= 30
-					}
+					var:elgar_composer_num_compositions_var >= 35
 				}
 				add = -5
 			}
 			modifier = { #Don't compose too much
 				trigger = {
-					var:elgar_composer_var ?= {
-						var:elgar_composer_num_compositions_var >= 40
-					}
+					var:elgar_composer_num_compositions_var >= 45
 				}
 				add = -5
 			}
 			modifier = { #Don't compose too much
 				trigger = {
-					var:elgar_composer_var ?= {
-						var:elgar_composer_num_compositions_var >= 50
-					}
+					var:elgar_composer_num_compositions_var >= 50
 				}
 				add = -5
+			}
+			modifier = {
+				trigger = {
+					var:elgar_composer_experience >= 450
+					var:elgar_composer_num_masterworks_var < 3
+				}
+				add = -1000 #Should not compose when able to do masterpiece
 			}
 		}
 	}
@@ -1128,9 +1129,7 @@ elgar.30 = {
 		name = elgar.30.g
 		trigger = {
 			NOR = {
-				var:elgar_composer_var ?= {
-					is_busy = no
-				}
+				is_busy = no
 				owner = {
 					has_modifier = elgar_conductor_exhausted_modifier
 				}
@@ -1179,6 +1178,13 @@ elgar.30 = {
 					has_trait = reserved
 				}
 				add = -15
+			}
+			modifier = {
+				trigger = {
+					var:elgar_composer_experience >= 450
+					var:elgar_composer_num_masterworks_var < 3
+				}
+				add = -1000 #Should not conduct when able to do masterpiece
 			}
 		}
 	}
@@ -1235,6 +1241,19 @@ elgar.30 = {
 				}
 				add = -1000 #Should never go on tour when having 500 reputation
 			}
+			modifier = {
+				trigger = {
+					var:elgar_composer_num_compositions_var <= 25
+				}
+				add = -1000 #Should never go on tour when having less than 25 compositions
+			}
+			modifier = { #
+				trigger = {
+					var:elgar_composer_experience < 450
+					var:elgar_composer_num_masterworks_var < 3
+				}
+				add = -1000 #Should not go on tour when able to do masterpiece
+			}
 		}
 	}
 
@@ -1250,7 +1269,7 @@ elgar.30 = {
 					has_modifier = elgar_conductor_exhausted_modifier
 				}
 			}
-			var:elgar_composer_num_masterworks_var <= 3
+			var:elgar_composer_num_masterworks_var < 3
 		}
 		set_character_busy_and_immortal = yes
 		add_modifier = {
@@ -1273,9 +1292,7 @@ elgar.30 = {
 			base = 0 #Shouldn't do this if the composer is bad
 			modifier = { #Don't compose too much
 				trigger = {
-					var:elgar_composer_var ?= {
-						var:elgar_composer_experience < 450
-					}
+					var:elgar_composer_experience >= 450
 				}
 				add = 1000000 #Should do this if the composer is good
 			}
@@ -4673,6 +4690,7 @@ elgar.407 = {
 			remove_modifier = elgar_conductor_conducts_modifier
 			remove_modifier = elgar_conductor_composes_modifier
 			remove_modifier = elgar_conductor_touring_modifier
+			remove_modifier = elgar_conductor_masterpiece_modifier
 		}
 	}
 
