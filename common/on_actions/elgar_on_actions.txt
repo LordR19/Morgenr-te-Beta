@@ -56,7 +56,6 @@ elgar_on_yearly_pulse_country = {
 		elgar.510 #Elgar 510: Poliuto, 1838 [Sicily may keep Donizetti. AI won't do this]
 		elgar.511 #Elgar 511: Les Martyres, 1840
 		elgar.512 #Elgar 512: Stabat Mater, 1842
-		elgar.513 #Elgar 513: Donizetti's illness, 1845 [will not be cured in 80 % of games]
 		elgar.516 #Elgar 516: Thalberg vs. Liszt, 1837
 		elgar.517 #Elgar 517: Von der Wiege zum Grabe, 1882
 		elgar.518 #Elgar 518: Lohengrin, Weimar 1850
@@ -70,8 +69,7 @@ elgar_on_yearly_pulse_country = {
 		elgar.527 #Elgar 527: The composing orange plantation owner, 1885
 		elgar.528 #Elgar 528: An Austrian in New York, 1908
 		elgar.529 #Elgar 529: Skythian Suite, 1916
-		elgar.530 #Elgar 531: #Elgar 530: Schumann, Rheinische, Düsseldorf, 1851
-		elgar.531 #Elgar 531: Schumann's illness, 1854 [will not be cured in 80 % of games]
+		elgar.530 #Elgar 531: Schumann, Rheinische, Düsseldorf, 1851
 		elgar.534 #Elgar 534: Tango, Mi noche triste, 1917
 
 		#Composer Creation
@@ -349,11 +347,11 @@ elgar_on_yearly_pulse_country = {
 				}
 			}
 
-			#Death Event for Lachner
+			#Lachner resigns
 			if = {
 				limit = {
-					year >= 1890
-					year < 1893
+					year >= 1868
+					year < 1871
 					any_character_in_void = {
 						has_template = mr_bav_lachner_franz_character_template
 					}
@@ -371,7 +369,7 @@ elgar_on_yearly_pulse_country = {
 							}
 						}
 						owner = {
-							trigger_event = elgar.609 #Elgar 609: Lachner Death
+							trigger_event = elgar.609 #Elgar 609: Lachner resigns
 						}
 					}
 					else = { #Otherwise he just dies.
@@ -473,9 +471,12 @@ elgar_on_yearly_pulse_country = {
 				}
 			}
 
-			#Death Event for Donizetti [historical death, will only occur when not under contract]
+			#Illnes Event for Donizetti [historical death, will only occur when not under contract]
 			if = {
 				limit = {
+					NOT = {
+						has_global_variable = elgar_donizetti_illness_happened
+					}
 					year >= 1845
 					year < 1848
 					any_character_in_void = {
@@ -488,15 +489,18 @@ elgar_on_yearly_pulse_country = {
 					}
 					if = {
 						limit = {
-							NOT = {
-								owner ?= {
-									var:elgar_composer_var ?= {
-										has_template = mr_ita_donizetti_gaetano_character_template
-									}
+							owner ?= {
+								var:elgar_composer_var ?= {
+									has_template = mr_ita_donizetti_gaetano_character_template
 								}
 							}
 						}
-						kill_character = yes #Kill the character if he is only a travelling composer
+						owner = {
+							trigger_event = elgar.513 #Elgar 513: Donizetti's illness, 1845 [will not be cured in 80 % of games]
+						}
+					}
+					else = { #Otherwise he just dies.
+						kill_character = yes
 					}
 				}
 			}
@@ -780,9 +784,12 @@ elgar_on_yearly_pulse_country = {
 				}
 			}
 
-			#Death Event for Schumann [historical death, will only occur when not under contract]
+			#Schumann's Illness
 			if = {
 				limit = {
+					NOT = {
+						has_global_variable = elgar_schumann_illness_happened
+					}
 					year >= 1854
 					year < 1857
 					any_character_in_void = {
@@ -795,15 +802,18 @@ elgar_on_yearly_pulse_country = {
 					}
 					if = {
 						limit = {
-							NOT = {
-								owner ?= {
-									var:elgar_composer_var ?= {
-										has_template = mr_ger_schumann_robert_character_template
-									}
+							owner ?= {
+								var:elgar_composer_var ?= {
+									has_template = mr_ger_schumann_robert_character_template
 								}
 							}
 						}
-						kill_character = yes #Kill the character if he is only a travelling composer
+						owner = {
+							trigger_event = elgar.531 #Elgar 531: Schumann's illness, 1854 [will not be cured in 80 % of games]
+						}
+					}
+					else = { #Otherwise he just dies.
+						kill_character = yes
 					}
 				}
 			}
