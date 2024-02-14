@@ -1096,14 +1096,22 @@ elgar.30 = {
 		remove_variable = elgar_visiting_opera_var
 
 		ai_chance = {
-			base = 25
+			base = 5
+			modifier = { #As a bgeinne,r compose as much as possible
+				trigger = {
+					scope:elgar_conductor = {
+						var:elgar_composer_num_compositions_var < 25
+					}
+				}
+				add = 10
+			}
 			modifier = { #Don't compose too much
 				trigger = {
 					scope:elgar_conductor = {
 						var:elgar_composer_num_compositions_var >= 35
 					}
 				}
-				add = -5
+				add = -1
 			}
 			modifier = { #Don't compose too much
 				trigger = {
@@ -1111,7 +1119,7 @@ elgar.30 = {
 						var:elgar_composer_num_compositions_var >= 45
 					}
 				}
-				add = -5
+				add = -1
 			}
 			modifier = { #Don't compose too much
 				trigger = {
@@ -1119,7 +1127,7 @@ elgar.30 = {
 						var:elgar_composer_num_compositions_var >= 50
 					}
 				}
-				add = -5
+				add = -1
 			}
 			modifier = {
 				trigger = {
@@ -1177,7 +1185,7 @@ elgar.30 = {
 		remove_variable = elgar_visiting_opera_var
 
 		ai_chance = {
-			base = 25
+			base = 5
 			modifier = { #Should try to get trait for concert tour
 				trigger = {
 					scope:elgar_conductor = {
@@ -1187,7 +1195,7 @@ elgar.30 = {
 						}
 					}
 				}
-				add = 20
+				add = 2
 			}
 			modifier = { #A reserved character can not go on tour, so the composer should try to compose
 				trigger = {
@@ -1195,7 +1203,17 @@ elgar.30 = {
 						has_trait = reserved
 					}
 				}
-				add = -15
+				add = -5
+			}
+			modifier = { #A reserved character can not go on tour, however, it is the only way to improve.
+				trigger = {
+					scope:elgar_conductor = {
+						has_trait = reserved
+						var:elgar_composer_experience < 400
+						age < 40
+					}
+				}
+				add = 2
 			}
 			modifier = {
 				trigger = {
@@ -1275,14 +1293,14 @@ elgar.30 = {
 		remove_variable = elgar_visiting_opera_var
 
 		ai_chance = {
-			base = 50 #Should prefer tour when possible
+			base = 3 #Should prefer tour when possible
 			modifier = {
 				trigger = {
 					scope:elgar_conductor = {
-						has_trait = elgar_great_composer
+						var:elgar_composer_experience >= 450
 					}
 				}
-				add = -1000 #Should never go on tour when having 500 reputation
+				add = -1000 #Should never go on tour when having 450 reputation. From 450 on, the composer should do masterpieces. After that, he will not need to improve anymore.
 			}
 			modifier = {
 				trigger = {
@@ -1291,15 +1309,6 @@ elgar.30 = {
 					}
 				}
 				add = -1000 #Should never go on tour when having less than 25 compositions
-			}
-			modifier = { #
-				trigger = {
-					scope:elgar_conductor = {
-						var:elgar_composer_experience < 450
-						var:elgar_composer_num_masterworks_var < 3
-					}
-				}
-				add = -1000 #Should not go on tour when able to do masterpiece
 			}
 		}
 	}
@@ -1337,7 +1346,7 @@ elgar.30 = {
 
 		ai_chance = {
 			base = 0 #Shouldn't do this if the composer is bad
-			modifier = { #Don't compose too much
+			modifier = {
 				trigger = {
 					scope:elgar_conductor = {
 						var:elgar_composer_experience >= 450
@@ -7336,6 +7345,9 @@ elgar.513 = {
 
 	immediate = {
 		set_global_variable = elgar_donizetti_illness_happened
+		var:elgar_composer_var ?= {
+			add_trait = psychological_affliction
+		}
 	}
 
 	option = { #Maybe it's better that way.
@@ -7483,6 +7495,9 @@ elgar.515 = {
 	trigger = {
 		var:elgar_composer_var ?= {
 			has_template = mr_ita_donizetti_gaetano_character_template
+		}
+		var:elgar_composer_var ?= {
+			remove_trait = psychological_affliction
 		}
 	}
 
@@ -8370,6 +8385,9 @@ elgar.531 = {
 
 	immediate = {
 		set_global_variable = elgar_schumann_illness_happened
+		var:elgar_composer_var ?= {
+			add_trait = psychological_affliction
+		}
 	}
 
 	option = { #There is nothing we can do.
@@ -8508,6 +8526,9 @@ elgar.533 = {
 	trigger = {
 		var:elgar_composer_var ?= {
 			has_template = mr_ger_schumann_robert_character_template
+		}
+		var:elgar_composer_var ?= {
+			remove_trait = psychological_affliction
 		}
 	}
 
