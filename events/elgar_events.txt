@@ -917,11 +917,9 @@ elgar.10 = {
 			elgar_has_composer = yes
 		}
 		hidden_effect = {
-			var:elgar_composer_var = {
-				trigger_event = { 
-					id = elgar.30
-					popup = yes
-				}
+			trigger_event = { 
+				id = elgar.30
+				popup = yes
 			}
 		}
 	}
@@ -1004,7 +1002,7 @@ elgar.21 = {
 
 #Elgar 30: Composer
 elgar.30 = {
-	type = character_event
+	type = country_event
 
 	title = elgar.30.t
 
@@ -1014,9 +1012,10 @@ elgar.30 = {
 		triggered_desc = {
 			trigger = {
 				NOR = {
-					has_modifier = elgar_conductor_conducts_modifier
-					has_modifier = elgar_conductor_composes_modifier
-					has_modifier = elgar_conductor_touring_modifier
+					has_modifier = elgar_composer_on_conducting_modifier
+					has_modifier = elgar_composer_on_composing_modifier
+					has_modifier = elgar_composer_on_tour_modifier
+					has_modifier = elgar_composer_on_masterpiece_modifier
 					has_modifier = elgar_conductor_exhausted_modifier
 				}
 			}
@@ -1024,33 +1023,31 @@ elgar.30 = {
 		}
 		triggered_desc = {
 			trigger = {
-				owner = {
-					has_modifier = elgar_conductor_exhausted_modifier
-				}
+				has_modifier = elgar_conductor_exhausted_modifier
 			}
 			desc = elgar.30.exhausted
 		}
 		triggered_desc = {
 			trigger = {
-				has_modifier = elgar_conductor_conducts_modifier
+				has_modifier = elgar_composer_on_conducting_modifier
 			}
 			desc = elgar.30.conducting
 		}
 		triggered_desc = {
 			trigger = {
-				has_modifier = elgar_conductor_composes_modifier
+				has_modifier = elgar_composer_on_composing_modifier
 			}
 			desc = elgar.30.composing
 		}
 		triggered_desc = {
 			trigger = {
-				has_modifier = elgar_conductor_touring_modifier
+				has_modifier = elgar_composer_on_tour_modifier
 			}
 			desc = elgar.30.touring
 		}
 		triggered_desc = {
 			trigger = {
-				has_modifier = elgar_conductor_masterpiece_modifier
+				has_modifier = elgar_composer_on_masterpiece_modifier
 			}
 			desc = elgar.30.masterpiece
 		}
@@ -1065,63 +1062,71 @@ elgar.30 = {
 	icon = "gfx/interface/icons/event_icons/event_music.dds"
 
 	immediate = {
-		ROOT = {
-			save_scope_as = elgar_conductor
-		}
+		set_elgar_conductor_scope_effect = yes
 	}
 
 	#Concentrate on composing
 	option = {
 		name = elgar.30.h
+		default_option = yes
 		trigger = {
-			NOR = {
-				var:elgar_composer_var ?= {
-					is_busy = no
-				}
-				owner = {
-					has_modifier = elgar_conductor_exhausted_modifier
+			elgar_has_active_composer = yes
+			elgar_composer_not_exhausted = yes
+		}
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
+				add_modifier = {
+					name = elgar_conductor_composes_modifier
 				}
 			}
 		}
-		set_character_busy_and_immortal = yes
+		else = {
+			custom_tooltip = elgar_composer_becomes_busy_tt
+		}
 		add_modifier = {
-			name = elgar_conductor_composes_modifier
+			name = elgar_composer_on_composing_modifier
+			multiplier = money_amount_multiplier_very_small
 		}
-		owner = {
-			add_modifier = {
-				name = elgar_composer_on_composing_modifier
-				multiplier = money_amount_multiplier_very_small
-			}
-			set_elgar_composer_progress = yes
-			add_journal_entry = {
-				type = je_elgar_composer_composing
-			}
-			remove_variable = elgar_visiting_opera_var
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_composing
 		}
+		remove_variable = elgar_visiting_opera_var
+
 		ai_chance = {
 			base = 25
 			modifier = { #Don't compose too much
 				trigger = {
-					var:elgar_composer_num_compositions_var >= 35
+					scope:elgar_conductor = {
+						var:elgar_composer_num_compositions_var >= 35
+					}
 				}
 				add = -5
 			}
 			modifier = { #Don't compose too much
 				trigger = {
-					var:elgar_composer_num_compositions_var >= 45
+					scope:elgar_conductor = {
+						var:elgar_composer_num_compositions_var >= 45
+					}
 				}
 				add = -5
 			}
 			modifier = { #Don't compose too much
 				trigger = {
-					var:elgar_composer_num_compositions_var >= 50
+					scope:elgar_conductor = {
+						var:elgar_composer_num_compositions_var >= 50
+					}
 				}
 				add = -5
 			}
 			modifier = {
 				trigger = {
-					var:elgar_composer_experience >= 450
-					var:elgar_composer_num_masterworks_var < 3
+					scope:elgar_conductor = {
+						var:elgar_composer_experience >= 450
+						var:elgar_composer_num_masterworks_var < 3
+					}
 				}
 				add = -1000 #Should not compose when able to do masterpiece
 			}
@@ -1132,69 +1137,72 @@ elgar.30 = {
 	option = {
 		name = elgar.30.g
 		trigger = {
-			NOR = {
-				is_busy = no
-				owner = {
-					has_modifier = elgar_conductor_exhausted_modifier
-				}
-			}
-			owner = {
-				any_scope_building = {
-					is_building_type = building_elgar_opera
-				}
-			}
+			elgar_has_active_composer = yes
+			elgar_composer_not_exhausted = yes
+			elgar_can_composer_conduct_trigger = yes
+			elgar_has_opera_size_x_tooltip_trigger = { LEVEL = 1 }
 		}
-		set_character_busy_and_immortal = yes
-		add_modifier = {
-			name = elgar_conductor_conducts_modifier
-			years = 2
-		}
-		owner = {
-			random_scope_state = {
-				limit = {
-					has_building = building_elgar_opera
-					NOT = {
-						has_modifier = elgar_music_production_modifier
-					}
-				}
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
 				add_modifier = {
-					name = elgar_music_production_modifier
-					years = 5
+					name = elgar_conductor_conducts_modifier
 				}
 			}
 		}
-		owner = {
-			add_modifier = {
-				name = elgar_composer_on_conducting_modifier
-				multiplier = money_amount_multiplier_very_small
-			}
-			set_elgar_composer_progress = yes
-			add_journal_entry = {
-				type = je_elgar_composer_conducting
-			}
-			remove_variable = elgar_visiting_opera_var
+		else = {
+			custom_tooltip = elgar_composer_becomes_busy_tt
 		}
+		random_scope_state = {
+			limit = {
+				has_building = building_elgar_opera
+				NOT = {
+					has_modifier = elgar_music_production_modifier
+				}
+			}
+			add_modifier = {
+				name = elgar_music_production_modifier
+				years = 5
+			}
+		}
+		add_modifier = {
+			name = elgar_composer_on_conducting_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_conducting
+		}
+		remove_variable = elgar_visiting_opera_var
 
 		ai_chance = {
 			base = 25
 			modifier = { #Should try to get trait for concert tour
 				trigger = {
-					NOT = {
-						has_trait = elgar_conductor
+					scope:elgar_conductor = {
+						NOR = {
+							has_trait = elgar_conductor
+							has_trait = elgar_virtuoso
+						}
 					}
 				}
 				add = 20
 			}
 			modifier = { #A reserved character can not go on tour, so the composer should try to compose
 				trigger = {
-					has_trait = reserved
+					scope:elgar_conductor = {
+						has_trait = reserved
+					}
 				}
 				add = -15
 			}
 			modifier = {
 				trigger = {
-					var:elgar_composer_experience >= 450
-					var:elgar_composer_num_masterworks_var < 3
+					scope:elgar_conductor = {
+						var:elgar_composer_experience >= 450
+						var:elgar_composer_num_masterworks_var < 3
+					}
 				}
 				add = -1000 #Should not conduct when able to do masterpiece
 			}
@@ -1205,62 +1213,91 @@ elgar.30 = {
 	option = {
 		name = elgar.30.i
 		trigger = {
-			NOR = {
-				var:elgar_composer_var ?= {
-					is_busy = no
+			elgar_has_active_composer = yes
+			elgar_composer_not_exhausted = yes
+			elgar_can_composer_tour_trigger = yes
+			elgar_composer_experience_100_or_more_trigger = yes
+			elgar_composer_virtuoso_or_conductor_trigger = yes
+			trigger_if = {
+				limit = {
+					has_variable = elgar_composer_var
 				}
-				owner = {
-					has_modifier = elgar_conductor_exhausted_modifier
+				custom_tooltip = {
+					text = MR_COMPOSER_YOUNGER_THAN_65_TRIGGER_TT
+					var:elgar_composer_var.age < 65
 				}
 			}
-			var:elgar_composer_experience >= 100
-			OR = {
-				has_trait = elgar_conductor
-				has_trait = elgar_virtuoso
+			trigger_else = {
+				hidden_trigger = { always = no }
 			}
-			NOT = {
-				has_trait = reserved
+			trigger_if = {
+				limit = {
+					has_variable = elgar_composer_var
+				}
+				custom_tooltip = {
+					text = MR_COMPOSER_NOT_RESERVED_TRIGGER_TT
+					NOT = {
+						var:elgar_composer_var = {
+							has_trait = reserved
+						}
+					}
+				}
 			}
-			age < 65
+			trigger_else = {
+				hidden_trigger = { always = no }
+			}
+			#TODO add more Triggers if necessary
 		}
-		set_character_busy_and_immortal = yes
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
+				add_modifier = {
+					name = elgar_conductor_touring_modifier
+				}
+			}
+		}
+		else = {
+			custom_tooltip = elgar_composer_becomes_busy_tt
+		}
 		add_modifier = {
-			name = elgar_conductor_touring_modifier
+			name = elgar_composer_on_tour_modifier
 		}
-		owner = {
-			add_modifier = {
-				name = elgar_composer_on_tour_modifier
-			}
-			set_elgar_composer_progress = yes
-			add_journal_entry = {
-				type = je_elgar_composer_touring
-			}
-			hidden_effect = {
-				trigger_event = {
-					id = elgar.451
-				}
-			}
-			remove_variable = elgar_visiting_opera_var
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_touring
 		}
+		hidden_effect = {
+			trigger_event = {
+				id = elgar.451
+			}
+		}
+		remove_variable = elgar_visiting_opera_var
 
 		ai_chance = {
 			base = 50 #Should prefer tour when possible
 			modifier = {
 				trigger = {
-					has_trait = elgar_great_composer
+					scope:elgar_conductor = {
+						has_trait = elgar_great_composer
+					}
 				}
 				add = -1000 #Should never go on tour when having 500 reputation
 			}
 			modifier = {
 				trigger = {
-					var:elgar_composer_num_compositions_var <= 25
+					scope:elgar_conductor = {
+						var:elgar_composer_num_compositions_var <= 25
+					}
 				}
 				add = -1000 #Should never go on tour when having less than 25 compositions
 			}
 			modifier = { #
 				trigger = {
-					var:elgar_composer_experience < 450
-					var:elgar_composer_num_masterworks_var < 3
+					scope:elgar_conductor = {
+						var:elgar_composer_experience < 450
+						var:elgar_composer_num_masterworks_var < 3
+					}
 				}
 				add = -1000 #Should not go on tour when able to do masterpiece
 			}
@@ -1271,37 +1308,40 @@ elgar.30 = {
 	option = {
 		name = elgar.30.j
 		trigger = {
-			NOR = {
-				var:elgar_composer_var ?= {
-					is_busy = no
-				}
-				owner = {
-					has_modifier = elgar_conductor_exhausted_modifier
+			elgar_has_active_composer = yes
+			elgar_composer_not_exhausted = yes
+			elgar_can_composer_create_masterpiece_trigger = yes
+			elgar_composer_less_than_3_masterpieces_trigger = yes
+		}
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
+				add_modifier = {
+					name = elgar_conductor_masterpiece_modifier
 				}
 			}
-			var:elgar_composer_num_masterworks_var < 3
 		}
-		set_character_busy_and_immortal = yes
+		else = {
+			custom_tooltip = elgar_composer_becomes_busy_tt
+		}
 		add_modifier = {
-			name = elgar_conductor_masterpiece_modifier
+			name = elgar_composer_on_masterpiece_modifier
+			multiplier = money_amount_multiplier_very_small
 		}
-		owner = {
-			add_modifier = {
-				name = elgar_composer_on_masterpiece_modifier
-				multiplier = money_amount_multiplier_very_small
-			}
-			set_elgar_composer_progress = yes
-			add_journal_entry = {
-				type = je_elgar_composer_masterpiece
-			}
-			remove_variable = elgar_visiting_opera_var
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_masterpiece
 		}
+		remove_variable = elgar_visiting_opera_var
 
 		ai_chance = {
 			base = 0 #Shouldn't do this if the composer is bad
 			modifier = { #Don't compose too much
 				trigger = {
-					var:elgar_composer_experience >= 450
+					scope:elgar_conductor = {
+						var:elgar_composer_experience >= 450
+					}
 				}
 				add = 1000000 #Should do this if the composer is good
 			}
@@ -1311,18 +1351,15 @@ elgar.30 = {
 	option = { #Back to the opera hall.
 		name = elgar.20.g
 		trigger = {
-			owner = {
-				any_scope_building = {
-					is_building_type = building_elgar_opera
-				}
+			is_ai = no
+			any_scope_building = {
+				is_building_type = building_elgar_opera
 			}
 		}
 		hidden_effect = {
-			owner = {
-				trigger_event = {
-					id = elgar.10
-					popup = yes
-				}
+			trigger_event = {
+				id = elgar.10
+				popup = yes
 			}
 		}
 
@@ -1333,10 +1370,10 @@ elgar.30 = {
 
 	option = { #Bye
 		name = elgar.10.g
-		default_option = yes
-		owner = {
-			remove_variable = elgar_visiting_opera_var
+		trigger = {
+			is_ai = no
 		}
+		remove_variable = elgar_visiting_opera_var
 
 		ai_chance = { #Should alawys take choice
 			base = 0
