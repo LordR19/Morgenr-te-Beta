@@ -1,0 +1,279 @@
+﻿#########################
+# KLIMT SCRPIT VALUES #
+#########################
+
+############################################################################
+
+#This value counts the total level of academy of arts in the country
+klimt_arts_academy_score = {
+	value = 0
+	every_scope_building = {
+		limit = {
+			is_building_type = building_arts_academy
+		}
+		add = level
+	}
+}
+
+#This value calculates the next yearly painting tradition gain
+klimt_yearly_painting_tradition_value = {
+	value = 0
+
+	### Technology ###
+	if = {
+		limit = { has_technology_researched = elgar_classicism_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = romanticism }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = realism }
+		add = 3
+	}
+	if = {
+		limit = { has_technology_researched = elgar_irrationalism_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = elgar_impressionism_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = elgar_neoclassicism_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = elgar_expressionism_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = elgar_new_objectivity_tech }
+		add = 1
+	}
+	if = {
+		limit = { has_technology_researched = elgar_art_nouveau_tech }
+		add = 3
+	}
+	if = {
+		limit = { has_technology_researched = elgar_art_deco_tech }
+		add = 3
+	}
+
+	### Buildings ###
+	if = {
+		limit = { klimt_has_gallery = yes }
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				level >= 1
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			klimt_arts_academy_score >= 5
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			klimt_arts_academy_score >= 10
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			klimt_arts_academy_score >= 25
+		}
+		add = 1
+	}
+
+	### Goods ###
+	if = {
+		limit = {
+			leading_producer_of = g:fine_art
+		}
+		add = 2
+	}
+
+	### Painter ###
+	if = {
+		limit = {
+			has_variable = klimt_painter_var
+		}
+		add = {
+			value = var:klimt_painter_var.var:klimt_painter_experience
+			divide = 50
+			floor = yes
+			max = 10
+		}
+	}
+
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = klimt_classic_school
+			}
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = klimt_romantic_school
+			}
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = klimt_realistic_school
+			}
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = klimt_impressionistic_school
+			}
+			add = 2
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = klimt_expressionistic_school
+			}
+			add = 2
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = klimt_art_nouveau_school
+			}
+			add = 2
+		}
+	}
+
+	### Center of Art ###
+	if = {
+		limit = {
+			any_scope_state = {
+				has_state_trait = artists_state_trait_center_classicism
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_state_trait = artists_state_trait_center_romanticism
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_state_trait = artists_state_trait_center_realism
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_state_trait = artists_state_trait_center_impressionism
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_state_trait = artists_state_trait_center_expressionism
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_state_trait = artists_state_trait_center_art_nouveau
+			}
+		}
+		add = 3
+	}
+}
+
+#This value determines they yearly paintings of a painter
+klimt_yearly_paintings_value = {
+	value = 2 #at least 2
+
+	### Painter ###
+
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = innovative
+			}
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = ambitious
+			}
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = persistent
+			}
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				has_trait = hedonist
+			}
+			add = -1
+		}
+	}
+	if = {
+		limit = {
+			root.var:klimt_painter_var = {
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones
+				}
+			}
+			add = -1
+		}
+	}
+}
