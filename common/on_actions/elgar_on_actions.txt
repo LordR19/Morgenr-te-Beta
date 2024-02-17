@@ -92,6 +92,12 @@ elgar_on_yearly_pulse_country = {
 				NOT = { has_global_variable = elgar_character_death_limiter_global_var }
 			}
 
+			#This is used to keep the effect from getting executed by multiple countries
+			set_global_variable = {
+				name = elgar_character_death_limiter_global_var
+				months = 11
+			}
+
 			#Death Event for Mendelssohn
 			# General note: on_yearly_pulse_character, etc. does not affect Void-Characters.
 			# Therefore we use effects like these.
@@ -968,10 +974,27 @@ elgar_on_yearly_pulse_country = {
 				}
 			}
 
-			#This is used to keep the effect from getting executed by multiple countries
-			set_global_variable = {
-				name = elgar_character_death_limiter_global_var
-				months = 6
+			### Travelling Composer Effects ###
+			#Those effects change the experience of the travelling composers and give them the trait if necessary
+			artists_set_up_travelling_composer_list_effect = yes
+			every_in_global_list = {
+				variable = mr_travelling_composer_global_list
+
+				change_variable = {
+					name = mr_travelling_composer_year_counter_var
+					add = 1
+				}
+				if = {
+					limit = {
+						var:mr_travelling_composer_year_counter_var >= 5
+						NOT = { has_trait = elgar_travelling_composer }
+					}
+					add_trait = elgar_travelling_composer
+				}
+				change_variable = {
+					name = elgar_composer_experience
+					add = { -2 4 }
+				}
 			}
 		}
 	}

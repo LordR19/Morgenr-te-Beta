@@ -238,9 +238,17 @@ set_composer_travelling_composer_effect = {
 			text = elgar_set_composer_travelling_composer_tt
 	
 			var:elgar_composer_var = {
-				add_trait = elgar_travelling_composer
 				remove_variable = mr_is_composer_var
 				set_variable = mr_is_travelling_composer_var
+				if = {
+					limit = {
+						NOT = { has_variable = mr_travelling_composer_year_counter_var }
+					}
+					set_variable = {
+						name = mr_travelling_composer_year_counter_var
+						value = 0
+					}
+				}
 			}
 		
 			remove_variable = elgar_composer_var
@@ -2570,9 +2578,17 @@ set_new_composer_travelling_composer_effect = {
 		text = elgar_set_new_composer_travelling_composer_tt
 
 		scope:elgar_new_composer_scope = {
-			add_trait = elgar_travelling_composer
 			remove_variable = mr_is_composer_var
 			set_variable = mr_is_travelling_composer_var
+				if = {
+					limit = {
+						NOT = { has_variable = mr_travelling_composer_year_counter_var }
+					}
+					set_variable = {
+						name = mr_travelling_composer_year_counter_var
+						value = 0
+					}
+				}
 			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
 				name = elgar_composer_unavailable_for_this_var
 				value = root
@@ -2919,7 +2935,6 @@ elgar_hire_travelling_composer_effect = {
 					transfer_character = root
 				}
 				remove_variable = mr_is_travelling_composer_var
-				remove_trait = elgar_travelling_composer
 				set_variable = mr_is_composer_var
 				place_character_in_void = 1200
 	
@@ -2977,7 +2992,6 @@ elgar_hire_travelling_composer_effect = {
 					transfer_character = root
 				}
 				remove_variable = mr_is_travelling_composer_var
-				remove_trait = elgar_travelling_composer
 				set_variable = mr_is_composer_var
 				place_character_in_void = 1200
 	
