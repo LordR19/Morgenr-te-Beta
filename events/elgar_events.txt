@@ -6177,6 +6177,57 @@ elgar.455 = {
 		composer_experience_gain_effect = {
 			AMOUNT = elgar_tour_score
 		}
+		
+		#Gives the Travelling Composer Trait under certain conditions
+		if = {
+			limit = {
+				var:elgar_composer_var ?= {
+					NOT = {
+						has_trait = elgar_travelling_composer
+					}
+					var:elgar_composer_num_tours_var >= 3
+				}
+			}
+			var:elgar_composer_var = {
+				add_trait = elgar_travelling_composer
+			}
+		}
+		else_if = {
+			limit = {
+				var:elgar_composer_var ?= {
+					NOT = {
+						has_trait = elgar_travelling_composer
+					}
+					var:elgar_composer_num_tours_var = 2
+				}
+			}
+			random_list = {
+				50 = {
+					var:elgar_composer_var = {
+						add_trait = elgar_travelling_composer
+					}
+				}
+				50 = {}
+			}
+		}
+		else = {
+			limit = {
+				var:elgar_composer_var ?= {
+					NOT = {
+						has_trait = elgar_travelling_composer
+					}
+					var:elgar_composer_num_tours_var = 1
+				}
+			}
+			random_list = {
+				25 = {
+					var:elgar_composer_var = {
+						add_trait = elgar_travelling_composer
+					}
+				}
+				75 = {}
+			}
+		}
 		hidden_effect = {
 			trigger_event = {
 				id = elgar.407
