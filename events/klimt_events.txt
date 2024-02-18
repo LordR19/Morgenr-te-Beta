@@ -437,14 +437,14 @@ klimt.403 = {
 	}
 
 	option = { #I hope he used his time well.
-		name = klimt.401.g
+		name = klimt.403.g
 		default_option = yes
 		painter_experience_gain_effect = {
 			AMOUNT = 30
 		}
 		klimt_set_art_school_trait_effect = yes
 		var:klimt_painter_var = {
-			set_character_busy_and_immortal = yes
+			set_character_busy_and_immortal = no
 		}
 	}
 
@@ -566,8 +566,8 @@ klimt.421 = {
 
 	option = { #He should paint, not daydream!
 		name = klimt.421.h
-		klimt_add_x_painting_tradition_effect = {
-			AMOUNT = 5
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 2
 		}
 	}
 }
@@ -614,7 +614,7 @@ klimt.422 = {
 	option = { #From the life of a good-for-nothing...
 		name = klimt.422.g
 		default_option = yes
-		klimt_add_x_artist_progress = { AMOUNT = -6 }
+		klimt_add_x_painter_progress = { AMOUNT = -6 }
 		var:klimt_painter_var = {
 			add_trait = romantic
 		}
@@ -680,7 +680,9 @@ klimt.423 = {
 	option = { #I hope this isn't a cheesy picture of the Madonna.
 		name = klimt.423.g
 		default_option = yes
-		klimt_add_x_paintings_effect = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
 		var:klimt_painter_var = {
 			add_trait = pious
 		}
@@ -756,7 +758,7 @@ klimt.424 = {
 		name = klimt.424.g
 		default_option = yes
 		add_treasury = -25000
-		klimt_add_x_artist_progress = { AMOUNT = -12 }
+		klimt_add_x_painter_progress = { AMOUNT = -12 }
 		var:klimt_painter_var = {
 			add_trait = meticulous
 		}
@@ -844,7 +846,82 @@ klimt.425 = {
 	}
 }
 
-#Klimt 426: An Artist's Life
+#Klimt 426: An Artist's Life (Hedonist)
+klimt.426 = {
+	type = country_event
+
+    title = klimt.426.t
+		
+    desc = klimt.426.d
+
+	flavor = klimt.426.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_absinth.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		OR = {
+			klimt_painter_trip_realistic = yes
+			klimt_painter_trip_impressionistic = yes
+			klimt_painter_trip_expressionistic = yes
+			klimt_painter_trip_art_nouveau = yes
+		}
+		NOR = {
+			root.var:klimt_painter_var = {
+				has_trait = hedonist
+			}
+			root.var:klimt_painter_var = {
+				has_trait = pious
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #If that inspires his art, then he should do it.
+		name = klimt.426.g
+		default_option = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 5
+		}
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 3
+		}
+		random_list = {
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = hedonist
+				}
+			}
+			1 = {
+			}
+		}
+	}
+
+	option = { #Then it just takes longer.
+		name = klimt.426.h
+		klimt_add_x_painter_progress = { AMOUNT = -6 }		
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
 
 #Klimt 427: An Artist's Vice (Addiction)
 klimt.427 = {
@@ -873,6 +950,7 @@ klimt.427 = {
 	}
 
 	trigger = {
+		var:klimt_painter_progress < 9
 		root.var:klimt_painter_var = {
 			has_trait = hedonist
 		}
@@ -913,14 +991,320 @@ klimt.427 = {
 		}
 	}
 
-	option = { #We have to intervene! He should start his return journey immediately!
+	option = { #We have to intervene!
 		name = klimt.427.h
+		custom_tooltip = klimt.427.tt
+		remove_klimt_painter_trip_variables = yes
+		add_treasury = -10000
 		painter_experience_gain_effect = {
-			AMOUNT = 10
+			AMOUNT = -10
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.428
+				days = { 170 190 }
+			}
 		}
 
 		ai_chance = {
 			base = 0
+		}
+	}
+}
+
+#Klimt 428: Painter Return without success
+klimt.428 = {
+	type = country_event
+
+	title = klimt.428.t
+
+	desc = klimt.428.d
+
+	flavor = klimt.428.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		var:klimt_painter_var ?= {
+			save_scope_as = klimt_painter
+		}
+	}
+
+	option = { #Hopefully things will return to normal now.
+		name = klimt.428.g
+		default_option = yes
+		var:klimt_painter_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+	}
+}
+
+#Klimt 431: Veduta
+klimt.431 = {
+	type = country_event
+
+    title = klimt.431.t
+		
+    desc = klimt.431.d
+
+	flavor = klimt.431.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_veduta.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #A splendid idea.
+		name = klimt.431.g
+		default_option = yes
+		klimt_add_x_paintings_effect = {
+			AMOUNT = 1
+		}
+		klimt_add_x_painter_progress = { AMOUNT = -3 }
+	}
+
+	option = { #Concentrate on studying.
+		name = klimt.431.h
+		klimt_add_x_painter_progress = { AMOUNT = 2 }
+	}
+}
+
+#Klimt 432: Painting Circle
+klimt.432 = {
+	type = country_event
+
+    title = klimt.432.t
+		
+    desc = klimt.432.d
+
+	flavor = klimt.432.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_balcony.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #We need the recognition of the painting world.
+		name = klimt.432.g
+		default_option = yes
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+	}
+}
+
+#Klimt 433: Quick Comprehension
+klimt.433 = {
+	type = country_event
+
+	title = klimt.433.t
+
+	desc = klimt.433.d
+
+	flavor = klimt.433.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	event_image = { #Classic
+		trigger = {
+			klimt_painter_trip_classic = yes
+		}
+		texture = "gfx/event_pictures/klimt_pictures/klimt_classicism.dds"
+	}
+
+	event_image = { #Romantic
+		trigger = {
+			klimt_painter_trip_romantic = yes
+		}
+		texture = "gfx/event_pictures/klimt_pictures/klimt_romanticism.dds"
+	}
+
+	event_image = { #Realistic
+		trigger = {
+			klimt_painter_trip_realistic = yes
+		}
+		texture = "gfx/event_pictures/klimt_pictures/klimt_realism.dds"
+	}
+
+	event_image = { #Impressionistic
+		trigger = {
+			klimt_painter_trip_impressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_impressionism.dds"
+	}
+
+	event_image = { #Expressionistic
+		trigger = {
+			klimt_painter_trip_expressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_expressionism.dds"
+	}
+
+	event_image = { #Art Nouveau
+		trigger = {
+			klimt_painter_trip_art_nouveau = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_art_nouveau.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	#You can see talent at first glance.
+	option = {
+		name = klimt.433.g
+		default_option = yes
+		klimt_add_x_painter_progress = { AMOUNT = 3 }
+	}
+}
+
+#Klimt 434: Art Dealer
+klimt.434 = {
+	type = country_event
+
+    title = klimt.434.t
+		
+    desc = klimt.434.d
+
+	flavor = klimt.434.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_balcony.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #Buy some paintings.
+		name = klimt.434.g
+		default_option = yes
+		add_treasury = -25000
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 10
+		}
+	}
+
+	option = { #We don't need second-rate foreign goods.
+		name = klimt.434.h
+	}
+}
+
+#Klimt 435: The latest Fashion
+klimt.435 = {
+	type = country_event
+
+    title = klimt.435.t
+		
+    desc = klimt.435.d
+
+	flavor = klimt.435.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_balcony.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #The fresh breath of new culture.
+		name = klimt.435.g
+		default_option = yes
+		elgar_small_add_technology = yes
+	}
+
+	option = { #But is it really right to just follow the zeitgeist?
+		name = klimt.435.h
+		default_option = yes
+		random_list = {
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = hedonist
+				}
+			}
+			1 = {
+			}
 		}
 	}
 }
