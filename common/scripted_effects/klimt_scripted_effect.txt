@@ -439,3 +439,85 @@ klimt_add_variables = {
 	}
 	set_variable = klimt_variables_var
 }
+
+##############################
+
+###Top 5 Ranking for Painters###
+
+#Adds the 5 best Painters as global variables
+klimt_create_painter_ranking_effect = {
+	remove_global_variable = klimt_painter_rank_1_global_var
+	remove_global_variable = klimt_painter_rank_2_global_var
+	remove_global_variable = klimt_painter_rank_3_global_var
+	remove_global_variable = klimt_painter_rank_4_global_var
+	remove_global_variable = klimt_painter_rank_5_global_var
+
+	ordered_character_in_void = {
+		limit = {
+			OR = {
+				has_variable = mr_is_composer_var
+				has_variable = mr_is_travelling_composer_var
+			}
+		}
+
+		order_by = var:klimt_painter_experience
+		max = 5
+		check_range_bounds = no
+
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = klimt_painter_rank_1_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_painter_rank_1_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = klimt_painter_rank_2_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_painter_rank_2_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = klimt_painter_rank_3_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_painter_rank_3_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = klimt_painter_rank_4_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_painter_rank_4_global_var
+				value = this
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable =klimt_painter_rank_5_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_painter_rank_5_global_var
+				value = this
+			}
+		}
+	}
+}
