@@ -10,6 +10,12 @@ namespace = klimt
 
 ###################
 
+###########################################################################################
+
+######EDUCATIONAL JOURNEY######
+
+###Basic Educational Journey###
+
 #Klimt 401: Painter Destination
 klimt.401 = {
 	type = country_event
@@ -339,11 +345,11 @@ klimt.402 = {
 
 	title = klimt.402.t
 
-	placement = scope:klimt_center_of_art_scope
-
 	desc = klimt.402.d
 
 	flavor = klimt.402.f
+
+	placement = scope:klimt_center_of_art_scope
 
 	event_image = { #Classic
 		trigger = {
@@ -393,81 +399,16 @@ klimt.402 = {
 
 	immediate = {
 		set_klimt_painter_progress = yes
-		if = {
-			limit = {
-				klimt_painter_trip_classic = yes
-			}
-			random_state = {
-				limit = {
-					has_state_trait = artists_state_trait_center_classicism
-				}
-				save_scope_as = klimt_center_of_art_scope
-			}
-		}
-		if = {
-			limit = {
-				klimt_painter_trip_romantic = yes
-			}
-			random_state = {
-				limit = {
-					has_state_trait = artists_state_trait_center_romanticism
-				}
-				save_scope_as = klimt_center_of_art_scope
-			}
-		}
-		if = {
-			limit = {
-				klimt_painter_trip_realistic = yes
-			}
-			random_state = {
-				limit = {
-					has_state_trait = artists_state_trait_center_realism
-				}
-				save_scope_as = klimt_center_of_art_scope
-			}
-		}
-		if = {
-			limit = {
-				klimt_painter_trip_impressionistic = yes
-			}
-			random_state = {
-				limit = {
-					has_state_trait = artists_state_trait_center_impressionism
-				}
-				save_scope_as = klimt_center_of_art_scope
-			}
-		}
-		if = {
-			limit = {
-				klimt_painter_trip_expressionistic = yes
-			}
-			random_state = {
-				limit = {
-					has_state_trait = artists_state_trait_center_expressionism
-				}
-				save_scope_as = klimt_center_of_art_scope
-			}
-		}
-		if = {
-			limit = {
-				klimt_painter_trip_art_nouveau = yes
-			}
-			random_state = {
-				limit = {
-					has_state_trait = artists_state_trait_center_art_nouveau
-				}
-				save_scope_as = klimt_center_of_art_scope
-			}
-		}
+		set_klimt_center_of_art_scope = yes
 	}
 
 	#Ah, $CENTEROFART$ City ...
 	option = {
 		name = klimt.402.g
 		default_option = yes
-		#add_journal_entry = {
-		#	type = je_klimt_painter_trip
-		#}
+		add_journal_entry = {
+			type = je_klimt_painter_trip
+		}
 	}
 }
 
@@ -509,6 +450,478 @@ klimt.403 = {
 
 	after = {
 		remove_klimt_painter_trip_variables = yes
+	}
+}
+
+###Educational Journey Events###
+
+#Klimt 411: Fellow painters among themselves
+klimt.411 = {
+	type = country_event
+
+    title = klimt.411.t
+		
+    desc = klimt.411.d
+
+	flavor = klimt.411.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	gui_window = event_window_2char
+
+	left_icon = scope:klimt_painter
+	right_icon = scope:klimt_fellow_painter
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:klimt_painter_var ?= {
+			save_scope_as = klimt_painter
+		}
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #They should exchange their artistic knowledge.
+		name = klimt.411.g
+		default_option = yes
+		elgar_small_add_technology = yes
+	}
+
+	option = { #They can certainly learn from each other's techniques.
+		name = klimt.411.h
+		default_option = yes
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 30
+		}
+	}
+
+	option = { #The acquaintance will be useful in the art world to support each other.
+		name = klimt.411.i
+		default_option = yes
+		painter_experience_gain_effect = {
+			AMOUNT = 20
+		}
+	}
+}
+
+#Klimt 421: In the Footsteps of Giants (Ambitious)
+klimt.421 = {
+	type = country_event
+
+    title = klimt.421.t
+		
+    desc = klimt.421.d
+
+	flavor = klimt.421.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_classicism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		klimt_painter_trip_classic = yes
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = ambitious
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #He should take his time and emulate Michelangelo and Raphael.
+		name = klimt.421.g
+		default_option = yes
+		add_treasury = -10000
+		klimt_add_x_painter_progress = { AMOUNT = -9 }
+		var:klimt_painter_var = {
+			add_trait = ambitious
+		}
+	}
+
+	option = { #He should paint, not daydream!
+		name = klimt.421.h
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 5
+		}
+	}
+}
+
+#Klimt 422: Spirit of the Romantics (Romantic)
+klimt.422 = {
+	type = country_event
+
+    title = klimt.422.t
+		
+    desc = klimt.422.d
+
+	flavor = klimt.422.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_romanticism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		klimt_painter_trip_romantic = yes
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = romantic
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #From the life of a good-for-nothing...
+		name = klimt.422.g
+		default_option = yes
+		klimt_add_x_artist_progress = { AMOUNT = -6 }
+		var:klimt_painter_var = {
+			add_trait = romantic
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			game_date <= 1848.1.1
+			factor = 2
+		}
+		modifier = {
+			NOT = {
+				has_technology_researched = realism
+			}
+			factor = 2
+		}
+	}
+}
+
+#Klimt 423: Conversion (Pious)
+klimt.423 = {
+	type = country_event
+
+    title = klimt.423.t
+		
+    desc = klimt.423.d
+
+	flavor = klimt.423.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_sixtina.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		OR = {
+			klimt_painter_trip_classic = yes
+			klimt_painter_trip_romantic = yes
+		}
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = pious
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #I hope this isn't a cheesy picture of the Madonna.
+		name = klimt.423.g
+		default_option = yes
+		klimt_add_x_paintings_effect = yes
+		var:klimt_painter_var = {
+			add_trait = pious
+		}
+		custom_tooltip = {
+			text = klimt.423.tt
+			var:klimt_painter_var = {
+				add_trait = pious
+				remove_trait = hedonist
+				remove_trait = alcoholic
+				remove_trait = opium_addiction
+				remove_trait = cocaine_addiction
+				change_character_religion = rel:catholic
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:klimt_painter_var = {
+				OR = {
+					has_trait = hedonist
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+				}
+			}
+			factor = 2
+		}
+	}
+}
+
+#Klimt 424: Attention to detail (Meticulous)
+klimt.424 = {
+	type = country_event
+
+    title = klimt.424.t
+		
+    desc = klimt.424.d
+
+	flavor = klimt.424.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_realism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		klimt_painter_trip_realistic = yes
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = meticulous
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #This may take some time, but it's worth it.
+		name = klimt.424.g
+		default_option = yes
+		add_treasury = -25000
+		klimt_add_x_artist_progress = { AMOUNT = -12 }
+		var:klimt_painter_var = {
+			add_trait = meticulous
+		}
+	}
+
+	option = { #He should rather concentrate on gaining recognition from the master.
+		name = klimt.424.h
+		painter_experience_gain_effect = {
+			AMOUNT = 15
+		}
+	}
+}
+
+#Klimt 425: Inspiration without limits (Innovative)
+klimt.425 = {
+	type = country_event
+
+    title = klimt.425.t
+		
+    desc = klimt.425.d
+
+	flavor = klimt.425.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = { #Impressionistic
+		trigger = {
+			klimt_painter_trip_impressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_impressionism.dds"
+	}
+
+	event_image = { #Expressionistic
+		trigger = {
+			klimt_painter_trip_expressionistic = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_expressionism.dds"
+	}
+
+	event_image = { #Art Nouveau
+		trigger = {
+			klimt_painter_trip_art_nouveau = yes
+		}
+		texture = "gfx/event_pictures/elgar_pictures/elgar_art_nouveau.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		OR = {
+			klimt_painter_trip_impressionistic = yes
+			klimt_painter_trip_expressionistic = yes
+			klimt_painter_trip_art_nouveau = yes
+		}
+		NOT = {
+			root.var:klimt_painter_var = {
+				has_trait = innovative
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #These new ideas will inspire him to create numerous paintings.
+		name = klimt.425.g
+		default_option = yes
+		var:klimt_painter_var = {
+			add_trait = innovative
+		}
+	}
+
+	option = { #These new ideas should inspire our culture at home.
+		name = klimt.425.h
+		elgar_medium_add_technology = yes
+	}
+}
+
+#Klimt 426: An Artist's Life
+
+#Klimt 427: An Artist's Vice (Addiction)
+klimt.427 = {
+	type = country_event
+
+    title = klimt.427.t
+		
+    desc = klimt.427.d
+
+	flavor = klimt.427.f
+
+	placement = scope:klimt_center_of_art_scope
+
+	duration = 3
+		
+	event_image = {
+		texture = "gfx/event_pictures/klimt_pictures/klimt_absinth.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		root.var:klimt_painter_var = {
+			has_trait = hedonist
+		}
+		root.var:klimt_painter_var = {
+			NOR = {
+				has_trait = alcoholic
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+			}
+		}
+	}
+
+	immediate = {
+		set_klimt_center_of_art_scope = yes
+	}
+
+	option = { #Every artist has a vice.
+		name = klimt.427.g
+		default_option = yes
+		random_list = {
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = alcoholic
+				}
+			}
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = opium_addiction
+				}
+			}
+			1 = {
+				var:klimt_painter_var = {
+					add_trait = cocaine_addiction
+				}
+			}
+			1 = {
+			}
+		}
+	}
+
+	option = { #We have to intervene! He should start his return journey immediately!
+		name = klimt.427.h
+		painter_experience_gain_effect = {
+			AMOUNT = 10
+		}
+
+		ai_chance = {
+			base = 0
+		}
 	}
 }
 
