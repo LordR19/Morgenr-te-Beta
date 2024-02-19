@@ -955,6 +955,91 @@ klimt_update_collection_effect = {
 
 ##############################
 
+###Prize of $CITY$
+
+#Adds the 5 best Painters as global variables
+klimt_create_priz_winners_effect = {
+	remove_global_variable = klimt_prize_winner_1_global_var
+	remove_global_variable = klimt_prize_winner_2_global_var
+	remove_global_variable = klimt_prize_winner_3_global_var
+	remove_global_variable = klimt_prize_winner_4_global_var
+	remove_global_variable = klimt_prize_winner_5_global_var
+
+	ordered_country = {
+		limit = {
+			klimt_has_active_painter = yes
+			klimt_has_great_painter = no
+		}
+
+		order_by = klimt_painter_value
+		max = 5
+		check_range_bounds = no
+
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = klimt_prize_winner_1_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_prize_winner_1_global_var
+				value = this
+			}
+			save_scope_as = klimt_first_winner_scope # +100 Reputation
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = klimt_prize_winner_2_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_prize_winner_2_global_var
+				value = this
+			}
+			save_scope_as = klimt_second_winner_scope # +80 Reputation
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = klimt_prize_winner_3_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_prize_winner_3_global_var
+				value = this
+			}
+			save_scope_as = klimt_third_winner_scope # +60 Reputation
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = klimt_prize_winner_4_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_prize_winner_4_global_var
+				value = this
+			}
+			save_scope_as = klimt_fourth_winner_scope # +40 Reputation
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = klimt_prize_winner_5_global_var
+				}
+			}
+			set_global_variable = {
+				name = klimt_prize_winner_5_global_var
+				value = this
+			}
+			save_scope_as = klimt_fifth_winner_scope # +20 Reputation
+		}
+	}
+}
+
+##############################
+
 ###Klimt Variables###
 
 #Add variables
@@ -1038,7 +1123,7 @@ klimt_create_painter_ranking_effect = {
 		else_if = {
 			limit = {
 				NOT = {
-					has_global_variable =klimt_painter_rank_5_global_var
+					has_global_variable = klimt_painter_rank_5_global_var
 				}
 			}
 			set_global_variable = {
