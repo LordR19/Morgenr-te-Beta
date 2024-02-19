@@ -12,6 +12,131 @@ namespace = klimt
 
 ###########################################################################################
 
+######SETUP######
+
+#Klimt 1: Yearly painting tradition
+klimt.1 = {
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_painting_tradition_cooldown_var
+		}
+		has_technology_researched = elgar_classicism_tech
+	}
+
+	immediate = {
+		set_variable = {
+			name = klimt_painting_tradition_cooldown_var
+			days = 365
+		}
+
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = klimt_yearly_painting_tradition_value
+		}
+		###Painter Specialization###
+		if = {
+			limit = {
+				klimt_has_active_painter = yes
+				var:klimt_painter_var ?= {
+					age >= 40
+					klimt_painter_has_specialization = no
+				}
+			}
+			trigger_event = {
+				id = klimt.2
+			}
+		}
+		###Chance for Great Painting###
+		if = {
+			limit = {
+				klimt_has_active_painter = yes
+				var:klimt_painter_var ?= {
+					klimt_painter_has_specialization = yes
+				}
+			}
+			random_list = {
+				1 = {
+					modifier = {
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = meticulous #quality of painting
+								}
+							}
+							add = 1
+						}
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = innovative #creativity of painting
+								}
+							}
+							add = 1
+						}
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = ambitious #will of painting
+								}
+							}
+							add = 1
+						}
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = romantic #sensivity of painting
+								}
+							}
+							add = 1
+						}
+					}
+					#trigger_event = {
+					#	id = klimt.3
+					#}
+				}
+				5 = {}
+			}
+		}
+	}
+}
+
+#Klimt 2: Painter Specialization
+klimt.2 = {
+	type = country_event
+
+	title = klimt.2.t
+
+	desc = klimt.2.d
+
+	flavor = klimt.2.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_painter
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		var:klimt_painter_var ?= {
+			save_scope_as = klimt_painter
+		}
+	}
+
+	option = { #The painting style is now mature.
+		name = klimt.2.g
+		default_option = yes
+		klimt_add_painter_specialization_effect = yes
+		painter_experience_gain_effect = {
+			AMOUNT = 25
+		}
+	}
+}
+
 ######EDUCATIONAL JOURNEY######
 
 ###Basic Educational Journey###
