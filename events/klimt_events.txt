@@ -137,8 +137,7 @@ klimt.2 = {
 	}
 }
 
-#Klimt 10: Zoo inauguration
-
+#Klimt 10: Gallery inauguration
 klimt.10 = {
 	type = country_event
 
@@ -182,6 +181,138 @@ klimt.10 = {
 	}
 
 	after = {
+	}
+}
+
+######PRIZE OF $CITY$######
+
+#Klimt 301: The Prize of $CITY$
+klimt.301 = {
+	type = country_event
+
+	title = klimt.301.t
+
+	desc = klimt.301.d
+
+	flavor = klimt.301.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_gallery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = klimt_art_capital
+		}
+	}
+
+	option = {
+		name = klimt.301.g #We should organize an art competition
+		default_option = yes
+		add_treasury = -25000
+		klimt_add_x_painting_tradition_effect = {
+			AMOUNT = 25
+		}
+		set_global_variable = {
+			name = klimt_art_prize_host_var
+			value = this
+			days = 365
+		}
+	}
+
+	option = {
+		name = klimt.301.h #What a waste of money!
+
+		ai_chance = {
+			base = 0 #AI should do this, especially as France ...
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = klimt.302
+				days = { 90 120 }
+			}
+		}
+	}
+}
+
+#Klimt 302: The Prize of $CITY$
+klimt.302 = {
+	type = country_event
+
+	title = klimt.302.t
+
+	desc = klimt.302.d
+
+	flavor = klimt.302.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_gallery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		klimt_create_priz_winners_effect = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = klimt_art_capital
+		}
+	}
+
+	option = {
+		name = klimt.302.g #Award the winners.
+		hidden_effect = {
+			scope:klimt_first_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 100
+				}
+				post_notification = klimt_art_prize_1_notification
+			}
+			scope:klimt_second_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 80
+				}
+				post_notification = klimt_art_prize_2_notification
+			}
+			scope:klimt_third_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 60
+				}
+				post_notification = klimt_art_prize_3_notification
+			}
+			scope:klimt_fourth_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 40
+				}
+				post_notification = klimt_art_prize_4_notification
+			}
+			scope:klimt_fifth_winner_scope = {
+				painter_experience_gain_effect = {
+					AMOUNT = 20
+				}
+				post_notification = klimt_art_prize_5_notification
+			}
+		}
 	}
 }
 
