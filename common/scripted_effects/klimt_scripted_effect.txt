@@ -356,6 +356,79 @@ set_klimt_center_of_art_scope = {
 
 ##############################
 
+###Painter Specialization###
+
+klimt_add_painter_specialization_effect = {
+	if = {
+		limit = {
+			var:klimt_painter_var = {
+				has_trait = klimt_art_nouveau_school
+			}
+		}
+		var:klimt_painter_var = {
+			add_trait = klimt_art_nouveau_painter #Painter will always become Art Nouveau Painter when he has studied this school. This is considered the latest one.
+		}
+	}
+	else_if = {
+		limit = {
+			var:klimt_painter_var = {
+				has_trait = klimt_expressionistic_school
+				NOT = {
+					has_trait = klimt_impressionistic_school
+				}
+			}
+		}
+		var:klimt_painter_var = {
+			add_trait = klimt_expressionistic_painter #Painter will become Expressionist if he did neither study Impressionism or Art Noveau.
+		}
+	}
+	else_if = {
+		limit = {
+			var:klimt_painter_var = {
+				has_trait = klimt_impressionistic_school
+				NOT = {
+					has_trait = klimt_expressionistic_school
+				}
+			}
+		}
+		var:klimt_painter_var = {
+			add_trait = klimt_impressionistic_painter #Vice-versa, Painter will become Impressionist if he did neither study Expressionism or Art Noveau.
+		}
+	}
+	else_if = {
+		limit = {
+			var:klimt_painter_var = {
+				has_trait = klimt_realistic_school
+				NOR = {
+					has_trait = klimt_impressionistic_school
+					has_trait = klimt_expressionistic_school
+					has_trait = klimt_art_nouveau_school
+				}
+			}
+		}
+		var:klimt_painter_var = {
+			add_trait = klimt_realistic_painter #Painter will become Realist if he did neither study Impressionism, Expressionism or Art Noveau.
+		}
+	}
+	else_if = {
+		limit = {
+			var:klimt_painter_var = {
+				has_trait = klimt_romantic_school
+			}
+		}
+		var:klimt_painter_var = {
+			add_trait = klimt_romantic_painter #Painter will become Romantic if he did not study anything above this.
+		}
+	}
+	else = {
+		var:klimt_painter_var = {
+			add_trait = klimt_classic_painter #Classic Painter as fallback.
+		}
+	}
+}
+
+##############################
+
 ###Painter Progress###
 
 #Set Painter Progress to 0
