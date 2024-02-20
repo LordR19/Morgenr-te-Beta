@@ -2818,45 +2818,16 @@ elgar_composer_character_set_up_cost_effect = {
 #Effect used to set the cost of the travelling composer
 #Use it in the character scope with root being a country.
 elgar_travelling_composer_character_set_up_cost_effect = {
-	if = {
-		limit = { var:elgar_composer_experience >= 500 }
-		root = {
-			add_treasury = -50000 #TODO change cost
-			#TODO add modifier with cost
-		}
-	}
-	else_if = {
-		limit = { var:elgar_composer_experience >= 450 }
-		root = {
-			add_treasury = -40000 #TODO change cost
-			#TODO add modifier with cost
-		}
-	}
-	else_if = {
-		limit = { var:elgar_composer_experience >= 350 }
-		root = {
-			add_treasury = -30000 #TODO change cost
-			#TODO add modifier with cost	
-		}
-	}
-	else_if = {
-		limit = { var:elgar_composer_experience >= 250 }
-		root = {
-			add_treasury = -20000 #TODO change cost
-			#TODO add modifier with cost
-		}
-	}
-	else_if = {
-		limit = { var:elgar_composer_experience >= 150 }
-		root = {
-			add_treasury = -10000 #TODO change cost
-			#TODO add modifier with cost
-		}
-	}
-	else = {
-		root = {
-			add_treasury = -5000 #TODO change cost
-			#TODO add modifier with cost
+	root = {
+		add_treasury = {
+			value = prev.var:elgar_composer_experience
+			divide = 5
+			multiply = money_amount_multiplier_small
+			max = {
+				value = prev.var:klimt_painter_experience
+				multiply = 10000
+			}
+			multiply = -1
 		}
 	}
 }
@@ -3652,6 +3623,23 @@ painter_experience_gain_effect = { #adds XP to the Painter
 					}
 				}
 			}
+		}
+	}
+}
+
+#Effect used to set the cost of the independent painter
+#Use it in the character scope with root being a country.
+klimt_independent_painter_character_set_up_cost_effect = {
+	root = {
+		add_treasury = {
+			value = prev.var:klimt_painter_experience
+			divide = 2
+			multiply = money_amount_multiplier_small
+			max = {
+				value = prev.var:klimt_painter_experience
+				multiply = 10000
+			}
+			multiply = -1
 		}
 	}
 }
