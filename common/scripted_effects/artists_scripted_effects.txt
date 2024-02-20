@@ -3404,6 +3404,28 @@ kill_painter_effect = {
 	remove_variable = klimt_painter_var
 }
 
+#This effect makes the current painter an independent painter
+set_painter_independent_painter_effect = {
+	if = {
+		limit = { has_variable = klimt_painter_var }
+
+		custom_tooltip = {
+			text = set_painter_independent_painter_effect_tt
+	
+			var:klimt_painter_var = {
+				remove_variable = mr_is_painter_var
+				set_variable = mr_is_independent_painter
+				add_to_global_variable_list = {
+					name = mr_independent_painter_global_list
+					target = this
+				}
+			}
+		
+			remove_variable = klimt_painter_var
+		}
+	}
+}
+
 # Creates a new Painter without losing the old one
 #This one was a little harder as the scope was only valid in the random_list
 #Therefore a Variable is set to save the scope again. then gets deleted
@@ -3500,6 +3522,11 @@ klimt_set_new_painter_as_independent_painter_effect = {
 
 		scope:klimt_new_painter_scope = {
 			set_variable = mr_is_independent_painter
+			set_variable = { #Is used to prevent a country from getting that composer immediately afterwards
+				name = klimt_painter_unavailable_for_this_var
+				value = root
+				years = 5
+			}
 		}
 
 		remove_variable = klimt_new_painter_var

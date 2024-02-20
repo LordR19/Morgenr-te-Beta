@@ -22,3 +22,66 @@ mr_independent_painter_visible_sgui = {
 		}
 	}
 }
+
+#MR_INVITE_INDEPENDENT_PAINTER
+mr_invite_painter_button = {
+	#!!!If you change any Trigger or effects here, change them in the AI version too (elgar_ai_hire_composer_effect)!!!
+    scope = country
+	saved_scopes = {
+        chosen_painter
+    }
+    is_valid = {
+		#not hired an independent painter recently
+		custom_tooltip = {
+			text = MR_NOT_HIRED_INDEPENDENT_PAINTER_RECENTLY_TRIGGER_TT
+			NOT = {
+				has_modifier = klimt_recently_hired_independent_painter_modifier
+			}
+		}
+
+		#This Painter was not recently sent away
+		custom_tooltip = {
+			text = MR_PAINTER_WAS_NOT_RECENTLY_SENT_AWAY_TT
+			NOT = {
+				scope:chosen_painter = {
+					AND = {
+						has_variable = klimt_painter_unavailable_for_this_var
+						var:klimt_painter_unavailable_for_this_var = root
+					}				
+				}
+			}
+		}
+    }
+    effect = {
+		custom_tooltip = {
+			text = MR_INVITE_INDEPENDENT_PAINTER_EFFECT_TT
+
+			set_painter_independent_painter_effect = yes
+			set_variable = {
+				name = klimt_painter_var
+				value = scope:chosen_painter
+			}
+
+			set_local_variable = mr_invite_painter_button_local_var #Used for Error prevention
+			if = { #Used for error prevention
+				limit = { has_local_variable = mr_invite_painter_button_local_var }
+				var:klimt_painter_var = {
+					free_character_from_void = yes
+					transfer_character = root
+					remove_variable = mr_is_independent_painter_var
+					set_variable = mr_is_painter_var
+					remove_from_list = mr_independent_painter_global_list
+					place_character_in_void = 1200
+				}
+			}
+		}
+
+		add_modifier = {
+			name = klimt_recently_hired_independent_painter_modifier
+			years = 3
+		}
+		scope:chosen_painter = {
+		#	elgar_travelling_composer_character_set_up_cost_effect = yes
+		}
+    }
+}
