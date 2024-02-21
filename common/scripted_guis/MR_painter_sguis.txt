@@ -165,3 +165,63 @@ mr_invite_painter_button = {
 		}
     }
 }
+
+#MR_PAINTER_TRIP_BUTTON
+mr_painter_trip_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = klimt_trip_destination_var
+		}
+	}
+    is_valid = {
+		klimt_has_active_painter = yes
+		klimt_painter_trip_possible = yes
+    }
+    effect = {
+		set_variable = klimt_trip_destination_var
+		if = {
+			limit = {
+				klimt_has_active_painter = yes
+			}
+			trigger_event = { 
+				id = klimt.401
+				popup = yes
+			}
+		}
+    }
+}
+
+#MR_ACQUIRE_MASTERWORK_BUTTON
+mr_acquire_masterwork_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = klimt_acquire_masterwork_var
+		}
+	}
+    is_valid = {
+		klimt_can_acquire_masterwork = yes
+		klimt_has_gallery_tooltip_trigger = yes
+    }
+    effect = {
+		set_variable = klimt_acquire_masterwork_var
+		trigger_event = { 
+			id = klimt.110
+			popup = yes
+		}
+    }
+}
+
+#Decides whether the independent painter is visible
+mr_independent_painter_visible_sgui = {
+	scope = country
+	is_shown = {
+		scope:chosen_painter = {
+			culture = {
+				shares_non_heritage_trait_with_any_primary_culture = root
+				shares_heritage_trait_with_any_primary_culture = root
+			}
+		}
+	}
+}
