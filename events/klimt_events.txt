@@ -471,6 +471,7 @@ klimt.101 = {
 		name = klimt.101.g #This belongs in a ... Gallery!
 		default_option = yes
 		klimt_add_classic_masterwork_effect = yes
+		klimt_save_classic_masterwork_year = yes
 		klimt_add_x_painting_tradition_effect = {
 			AMOUNT = 100
 		}
@@ -524,6 +525,7 @@ klimt.102 = {
 		name = klimt.101.g #This belongs in a ... Gallery!
 		default_option = yes
 		klimt_add_romantic_masterwork_effect = yes
+		klimt_save_romantic_masterwork_year = yes
 		klimt_add_x_painting_tradition_effect = {
 			AMOUNT = 100
 		}
@@ -577,6 +579,7 @@ klimt.103 = {
 		name = klimt.101.g #This belongs in a ... Gallery!
 		default_option = yes
 		klimt_add_realistic_masterwork_effect = yes
+		klimt_save_realistic_masterwork_year = yes
 		klimt_add_x_painting_tradition_effect = {
 			AMOUNT = 100
 		}
@@ -639,6 +642,7 @@ klimt.104 = {
 		name = klimt.101.g #This belongs in a ... Gallery!
 		default_option = yes
 		klimt_add_impressionistic_masterwork_effect = yes
+		klimt_save_impressionistic_masterwork_year = yes
 		klimt_add_x_painting_tradition_effect = {
 			AMOUNT = 100
 		}
@@ -692,6 +696,7 @@ klimt.105 = {
 		name = klimt.101.g #This belongs in a ... Gallery!
 		default_option = yes
 		klimt_add_expressionistic_masterwork_effect = yes
+		klimt_save_expressionistic_masterwork_year = yes
 		klimt_add_x_painting_tradition_effect = {
 			AMOUNT = 100
 		}
@@ -745,12 +750,177 @@ klimt.106 = {
 		name = klimt.101.g #This belongs in a ... Gallery!
 		default_option = yes
 		klimt_add_art_nouveau_masterwork_effect = yes
+		klimt_save_art_nouveau_masterwork_year = yes
 		klimt_add_x_painting_tradition_effect = {
 			AMOUNT = 100
 		}
 		painter_experience_gain_effect = {
 			AMOUNT = 100
 		}
+	}
+
+	after = {
+		klimt_update_collection_effect = yes
+	}
+}
+
+#Klimt 110: Acquire Masterwork
+klimt.110 = {
+	type = country_event
+
+	title = klimt.110.t
+
+	desc = klimt.110.d
+
+	flavor = klimt.110.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:klimt_art_dealer
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	immediate = {
+		create_character = {
+			save_scope_as = klimt_art_dealer
+		}
+		scope:klimt_art_dealer = {
+			place_character_in_void = 120
+			add_trait = grifter
+			add_trait = erudite
+		}
+	}
+
+	option = { #Classic Masterwork
+		name = klimt.101.g
+		trigger = {
+			klimt_can_aquire_classic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_classic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+	}
+
+	option = { #Romantic Masterwork
+		name = klimt.101.h
+		trigger = {
+			klimt_can_aquire_romantic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_romantic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+	}
+
+	option = { #Realistic Masterwork
+		name = klimt.101.i
+		trigger = {
+			klimt_can_aquire_realistic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_realistic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+	}
+
+	option = { #Impressionistic Masterwork
+		name = klimt.101.j
+		trigger = {
+			klimt_can_aquire_impressionistic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_impressionistic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+	}
+
+	option = { #Expressionistic Masterwork
+		name = klimt.101.k
+		trigger = {
+			klimt_can_aquire_expressionistic_masterwork = yes
+		}
+		klimt_art_dealer_acquires_expressionistic_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+	}
+
+	option = { #Art Nouveau Masterwork
+		name = klimt.101.l
+		trigger = {
+			klimt_can_aquire_art_nouveau_masterwork = yes
+		}
+		klimt_art_dealer_acquires_art_nouveau_masterwork_effect = yes
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = -100
+		}
+	}
+
+	option = { #Nevermind
+		name = klimt.401.m
+		default_option = yes
+		remove_variable = klimt_acquire_masterwork_var
+		trigger = {
+			is_ai = no
+		}
+
+		ai_chance = { #Should never use
+			base = 0
+		}
+	}
+
+	after = {
+		scope:klimt_art_dealer = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Klimt 111: Acquired Masterwork Classicism
+klimt.111 = {
+	type = country_event
+
+	title = klimt.111.t
+
+	desc = klimt.111.d
+
+	flavor = klimt.111.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_masterwork_classicism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = klimt_classicism_masterwork_happened_var
+		}
+	}
+
+	immediate = {
+		set_variable = klimt_classicism_masterwork_happened_var
+		set_variable = {
+			name = klimt_painting_classicism_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = klimt_painting_classicism_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = klimt.111.g #Another art treasure for our collection!
+		default_option = yes
+		klimt_add_classic_masterwork_effect = yes
+		klimt_save_classic_masterwork_year = yes
+		remove_variable = klimt_acquire_masterwork_var
 	}
 
 	after = {
