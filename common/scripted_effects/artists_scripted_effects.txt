@@ -2822,7 +2822,7 @@ elgar_ai_hire_composer_effect = {
 			NOR = {
 				has_modifier = elgar_recently_hired_travelling_composer_modifier
 				has_modifier = elgar_music_repression_modifier
-				has_variable = elgar_composer_var
+			#	has_variable = elgar_composer_var
 			}
 			has_technology_researched = elgar_classicism_tech
 			elgar_has_opera_size_x_trigger = { LEVEL = 1 }
@@ -3707,5 +3707,200 @@ set_start_painter_stats_effect = {
 	set_variable = {
 		name = klimt_painter_num_paintings_var
 		value = { 1 10 }
+	}
+}
+
+#Effect used by the AI to hire an Independent Painter
+#!!! If you change this Effect, make sure to change it for the "mr_invite_painter_button" Button too !!!
+klimt_ai_hire_painter_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_modifier = klimt_recently_hired_independent_painter_modifier
+			}
+			has_technology_researched = elgar_classicism_tech
+			elgar_has_opera_size_x_trigger = { LEVEL = 1 }
+		}
+
+		#This if construct chooses the experience level of possible Composers
+		if = { #All Composers possible
+			limit = {
+				klimt_tier_5_painter_trigger = yes
+			}
+			klimt_hire_independent_painter_effect = { EXPERIENCE = 10000 }
+		}
+		else_if = { #Up to 500 Reputation
+			limit = {
+				klimt_tier_4_painter_trigger = yes
+			}
+
+			klimt_hire_independent_painter_effect = { EXPERIENCE = 400 }			
+		}
+		else_if = { #Up to 450 Reputation
+			limit = {
+				klimt_tier_3_painter_trigger = yes
+			}
+
+			klimt_hire_independent_painter_effect = { EXPERIENCE = 300 }		
+		}
+		else_if = { #Up to 350 Reputation
+			limit = {
+				klimt_tier_2_painter_trigger = yes
+			}
+
+			klimt_hire_independent_painter_effect = { EXPERIENCE = 200 }		
+		}
+		else_if = { #Up to 250 Reputation
+			limit = {
+				klimt_tier_1_painter_trigger = yes
+			}
+
+			klimt_hire_independent_painter_effect = { EXPERIENCE = 100 }		
+		}
+	}
+}
+
+#This Effect is used to either directly choose a Independent Painter or replace an existing one.
+klimt_hire_independent_painter_effect = {
+	# EXPERIENCE = maximum experience of the composer
+	if = {
+		limit = { has_variable = klimt_painter_var }
+		if = {
+			limit = {
+				any_character_in_void = {
+					has_variable = mr_is_independent_painter
+					var:klimt_painter_experience < $EXPERIENCE$
+					var:klimt_painter_experience >= klimt_painter_experience_plus_50_value
+					culture = { #This limits Painters to countries with primary cultures
+						shares_non_heritage_trait_with_any_primary_culture = root
+						shares_heritage_trait_with_any_primary_culture = root
+					}
+					NOT = {
+						var:klimt_painter_unavailable_for_this_var ?= root
+					}
+				}
+			}
+			ordered_character_in_void = {
+				order_by = var:klimt_painter_experience
+				check_range_bounds = no
+
+				limit = {
+					has_variable = mr_is_independent_painter
+					var:klimt_painter_experience < $EXPERIENCE$
+					culture = { #This limits Painters to countries with primary cultures
+						shares_non_heritage_trait_with_any_primary_culture = root
+						shares_heritage_trait_with_any_primary_culture = root
+					}
+					NOT = {
+						var:klimt_painter_unavailable_for_this_var ?= root
+					}
+				}
+
+				save_scope_as = chosen_painter
+
+				root = {
+					set_painter_independent_painter_effect = yes
+					set_variable = {
+						name = klimt_painter_var
+						value = scope:chosen_painter
+					}
+				}
+
+				free_character_from_void = yes
+				if = {
+					limit = {
+						NOT = {
+							owner ?= root
+						}
+					}
+					transfer_character = root
+				}
+				remove_variable = mr_is_independent_painter
+				set_variable = mr_is_painter_var
+				remove_list_global_variable = {
+					name = mr_independent_painter_global_list
+					target = this
+				}
+				place_character_in_void = 1200
+	
+				root = {
+					add_modifier = {
+						name = klimt_recently_hired_independent_painter_modifier
+						years = 3
+					}
+				}
+				
+				klimt_independent_painter_character_set_up_cost_effect = yes
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = {
+				any_character_in_void = {
+					has_variable = mr_is_independent_painter
+					var:klimt_painter_experience < $EXPERIENCE$
+					culture = { #This limits Painters to countries with primary cultures
+						shares_non_heritage_trait_with_any_primary_culture = root
+						shares_heritage_trait_with_any_primary_culture = root
+					}
+					NOT = {
+						var:klimt_painter_unavailable_for_this_var ?= root
+					}
+				}
+			}
+			ordered_character_in_void = {
+				order_by = var:klimt_painter_experience
+				check_range_bounds = no
+	
+				limit = {
+					has_variable = mr_is_independent_painter
+					var:klimt_painter_experience < $EXPERIENCE$
+					culture = { #This limits Painters to countries with primary cultures
+						shares_non_heritage_trait_with_any_primary_culture = root
+						shares_heritage_trait_with_any_primary_culture = root
+					}
+					NOT = {
+						var:klimt_painter_unavailable_for_this_var ?= root
+					}
+				}
+				
+				save_scope_as = chosen_painter
+	
+				root = {
+					set_variable = {
+						name = klimt_painter_var
+						value = scope:chosen_painter
+					}
+				}
+				
+				free_character_from_void = yes
+				if = {
+					limit = {
+						NOT = {
+							owner ?= root
+						}
+					}
+					transfer_character = root
+				}
+				remove_variable = mr_is_in
+				set_variable = mr_is_composer_var
+				remove_list_global_variable = {
+					name = mr_independent_painter_global_list
+					target = this
+				}
+				place_character_in_void = 1200
+	
+				root = {
+					add_modifier = {
+						name = klimt_recently_hired_independent_painter_modifier
+						years = 3
+					}
+				}
+				scope:chosen_composer = {
+					klimt_independent_painter_character_set_up_cost_effect = yes
+				}
+			}
+		}
 	}
 }
