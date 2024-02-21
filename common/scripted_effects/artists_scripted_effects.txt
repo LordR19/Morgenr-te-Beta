@@ -2675,9 +2675,42 @@ composer_experience_set_up_effect = {
 				has_variable = elgar_composer_experience
 			}
 		}
-		set_variable = {
+		#Age: 2 Reputation for each year older than 25
+		if = {
+			limit = {
+				age > 25
+			}
+			set_variable = {
+				name = elgar_composer_experience
+				value = age
+			}
+			change_variable = {
+				name = elgar_composer_experience
+				add = -25
+			}
+			change_variable = {
+				name = elgar_composer_experience
+				multiply = 2
+			}
+		}
+		else = {
+			set_variable = {
+				name = elgar_composer_experience
+				value = 0
+			}
+		}
+		#Random Reputation factor
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 25 50 }
+		}
+		change_variable = {
 			name = elgar_composer_experience
-			value = artists_composer_experience_set_up_value
+			add = local_var:random_amount_local_var
+		}
+		change_variable = {
+			name = elgar_composer_experience
+			add = artists_composer_experience_set_up_value
 		}
 		if = { #Adds the Famous Composer Trait if Experience is above 500
 			limit = {
