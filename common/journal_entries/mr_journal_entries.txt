@@ -130,6 +130,53 @@ je_mr_morgenrote_introduction = {
 				}
 				trigger_event = artists.13
 			}
+
+			#Effects to remove dead people from lists
+			if = {
+				limit = {
+					NOT = { has_global_variable = mr_list_checker_timer_global_var }
+				}
+
+				set_global_variable = {
+					name = mr_list_checker_timer_global_var
+					days = 6
+				}
+
+				if = {
+					limit = {
+						any_in_global_list = {
+							variable = mr_independent_painter_global_list
+							is_character_alive = no
+						}
+					}
+					every_in_global_list = {
+						variable = mr_independent_painter_global_list
+						limit = { is_character_alive = no }
+						
+						remove_list_global_variable = {
+							name = mr_independent_painter_global_list
+							target = this
+						}
+					}
+				}
+				if = {
+					limit = {
+						any_in_global_list = {
+							variable = mr_travelling_composer_global_list
+							is_character_alive = no
+						}
+					}
+					every_in_global_list = {
+						variable = mr_travelling_composer_global_list
+						limit = { is_character_alive = no }
+						
+						remove_list_global_variable = {
+							name = mr_travelling_composer_global_list
+							target = this
+						}
+					}
+				}
+			}
 		}
 	}
 
