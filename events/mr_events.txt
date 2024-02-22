@@ -376,6 +376,161 @@ mr.5 = {
 	}
 }
 
+#Check Art Academy PMs
+
+mr.6 = {
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		is_player = no
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_arts_academy
+				production_method = pm_artists_arts_academy_standard
+			}
+		}
+		OR = {
+			AND = {
+				has_technology_researched = lepsius_antiquarianism_tech
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_arts_academy
+							production_method = pm_artists_arts_academy_conservatory
+						}
+					}
+				}
+			}
+			AND = {
+				has_technology_researched = dubois_theory_of_evolution_tech
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_arts_academy
+							production_method = pm_artists_arts_academy_studio
+						}
+					}
+				}
+			}
+			AND = {
+				has_technology_researched = atmospheric_engine
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_arts_academy
+							production_method = pm_artists_arts_academy_salon
+						}
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				has_technology_researched = elgar_irrationalism_tech
+				NOT = {
+					NOR = {
+						state_region = s:STATE_FRANCONIA Reserved for Painter
+						state_region = s:STATE_LAZIO Reserved for Painter
+					}
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_arts_academy
+							production_method = pm_artists_arts_academy_salon
+						}
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					NOR = {
+						state_region = s:STATE_FRANCONIA Reserved for Painter
+						state_region = s:STATE_LAZIO Reserved for Painter
+					}
+					is_production_method_active = {
+						building_type = building_arts_academy
+						production_method = pm_artists_arts_academy_standard
+					}
+				}
+				activate_production_method = {
+					building_type = building_arts_academy
+					production_method = pm_artists_arts_academy_salon
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_technology_researched = realism
+				NOT = {
+					state_region = s:STATE_HOME_COUNTIES #Reserved for Writer
+				}
+				NOT = {
+					any_scope_state = {
+						is_production_method_active = {
+							building_type = building_arts_academy
+							production_method = pm_artists_arts_academy_studio
+						}
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					NOT = {
+						state_region = s:STATE_HOME_COUNTIES #Reserved for Writer
+					}
+					is_production_method_active = {
+						building_type = building_arts_academy
+						production_method = pm_artists_arts_academy_standard
+					}
+				}
+				activate_production_method = {
+					building_type = building_arts_academy
+					production_method = pm_artists_arts_academy_studio
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_technology_researched = romanticism
+				NOT = {
+					any_scope_state = {
+						NOR = {
+							state_region = s:STATE_FRANCONIA #Reserved for Painter
+							state_region = s:STATE_LAZIO #Reserved for Painter
+							state_region = s:STATE_HOME_COUNTIES #Reserved for Writer
+						}
+						is_production_method_active = {
+							building_type = building_arts_academy
+							production_method = pm_artists_arts_academy_conservatory
+						}
+					}
+				}
+			}
+			random_scope_state = {
+				limit = {
+					NOR = {
+						state_region = s:STATE_FRANCONIA #Reserved for Painter
+						state_region = s:STATE_LAZIO #Reserved for Painter
+						state_region = s:STATE_HOME_COUNTIES #Reserved for Writer
+					}
+					is_production_method_active = {
+						building_type = building_arts_academy
+						production_method = pm_artists_arts_academy_standard
+					}
+				}
+				activate_production_method = {
+					building_type = building_arts_academy
+					production_method = pm_artists_arts_academy_conservatory
+				}
+			}
+		}
+	}
+}
+
 mr.7 = { #Sets up variables for countries that are created with the create_country effect
 	type = country_event
 
