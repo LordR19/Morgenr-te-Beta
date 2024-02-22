@@ -70,8 +70,10 @@ dubois_on_building_built = {
 					}
 				}
 			}
-			remove_modifier = dubois_habitat_endangered_modifier
-			remove_modifier = dubois_habitat_endangered_timer_modifier
+			state = {
+				remove_modifier = dubois_habitat_endangered_modifier
+				remove_modifier = dubois_habitat_endangered_timer_modifier
+			}
 		}
 	}
 }
@@ -147,10 +149,31 @@ dubois_on_yearly_pulse_habitat_destruction = {
 		}
 		every_scope_state = {
 			limit = {
+				AND = {
+					OR = {
+						has_modifier = dubois_habitat_endangered_modifier
+						has_modifier = dubois_habitat_endangered_timer_modifier
+					}
+					has_building = building_dubois_national_park
+				}
+			}
+			state_region = {
+				every_scope_state = {
+					remove_modifier = dubois_habitat_endangered_modifier
+					remove_modifier = dubois_habitat_endangered_timer_modifier
+				}
+			}
+		}
+		every_scope_state = {
+			limit = {
 				has_modifier = dubois_habitat_endangered_modifier
 				NOT = {
 					has_modifier = dubois_habitat_endangered_timer_modifier
-					has_building = building_dubois_national_park
+					state_region = {
+						any_scope_state = {
+							has_building = building_dubois_national_park
+						}
+					}
 				}
 			}
 			trigger_event = dubois.1211 #Dubois 1211: [Scope Animal] in [Scope State] is extinct
