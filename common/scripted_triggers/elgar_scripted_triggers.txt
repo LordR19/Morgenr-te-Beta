@@ -183,16 +183,19 @@ elgar_composer_experience_100_or_more_trigger = {
 #Trigger if the Composer has less than 3 masterpieces (to write one)
 elgar_composer_less_than_3_masterpieces_trigger = {
 	trigger_if = {
-		limit = { has_variable = elgar_composer_var }
+		limit = {
+			has_variable = elgar_composer_var
+		}
 		custom_tooltip = {
 			text = elgar_composer_less_than_3_masterpieces_trigger_tt
 
-			trigger_if = {
-				limit = {
-					var:elgar_composer_var = {
+			var:elgar_composer_var ?= {
+				trigger_if = {
+					limit = {
 						has_variable = elgar_composer_num_masterworks_var
 					}
-					var:elgar_composer_var.var:elgar_composer_num_masterworks_var <= 3
+	
+					var:elgar_composer_num_masterworks_var <= 3
 				}
 			}
 		}
