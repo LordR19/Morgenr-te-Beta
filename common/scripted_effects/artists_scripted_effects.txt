@@ -3599,9 +3599,10 @@ painter_experience_set_up_effect = {
 				has_variable = klimt_painter_experience
 			}
 		}
+		#Age: 5 Reputation per year over 25
 		if = {
 			limit = {
-				age > 30
+				age > 25
 			}
 			set_variable = {
 				name = klimt_painter_experience
@@ -3609,17 +3610,35 @@ painter_experience_set_up_effect = {
 			}
 			change_variable = {
 				name = klimt_painter_experience
-				subtract = 30
+				subtract = 25
 			}
 			change_variable = {
 				name = klimt_painter_experience
-				multiply = 10
+				multiply = 5
 			}
 		}
 		else = {
 			set_variable = {
 				name = klimt_painter_experience
 				value = 0
+			}
+		}
+		#Random Reputation factor
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 25 50 }
+		}
+		change_variable = {
+			name = klimt_painter_experience
+			add = local_var:random_amount_local_var
+		}
+		if = {
+			limit = {
+				klimt_has_gallery = yes
+			}
+			change_variable = {
+				name = klimt_painter_experience
+				add = 20
 			}
 		}
 		if = { #Adds the Great Painter Trait if Experience is above 500
