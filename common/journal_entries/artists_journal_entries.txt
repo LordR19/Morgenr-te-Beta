@@ -11,7 +11,7 @@
 #Realism (CoA)
 
 je_artists_realism = {
-	icon = "gfx/interface/icons/event_icons/realism.dds"
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
 
 	group = je_group_elgar_culture
 
@@ -101,6 +101,108 @@ je_artists_realism = {
 		custom_tooltip = {
 			text = je_artists_realism_fail
 			has_global_variable = artists_center_of_art_realism_founded_var
+		}
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
+#Irrationalism (CoA)
+
+je_artists_irrationalism = {
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	group = je_group_elgar_culture
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		NOT = {
+			has_global_variable = artists_center_of_art_irrationalism_founded_var
+		}
+		has_technology_researched = romanticism
+	}
+
+	possible = {
+		custom_tooltip = {
+			text = je_artists_irrationalism_trigger
+			NOT = {
+				has_global_variable = artists_center_of_art_irrationalism_founded_var
+			}
+		}
+		has_technology_researched = elgar_irrationalism_tech
+	}
+
+	immediate = {
+		set_variable = {
+			name = je_artists_irrationalism_var
+			days = 1
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:elgar_music_tradition_var #value or variable you use to meassure progress
+		}
+	}
+
+	goal_add_value = {
+		value = 500 #value you want the variable to reach
+		subtract = var:elgar_music_tradition_var #current value of the variable
+		if = { #prevents the value of the goal_add_value to be below one
+			limit = {
+				var:elgar_music_tradition_var >= 500
+			}
+			value = 1
+		}
+	}
+
+	complete = {
+		elgar_has_great_composer = yes
+		any_scope_building = {
+			OR = {
+				has_active_production_method = pm_elgar_mid_romantic_orchestra
+				has_active_production_method = pm_elgar_late_romantic_orchestra
+				has_active_production_method = pm_elgar_cinema_orchestra
+				has_active_production_method = pm_elgar_public_orchestra
+			}
+		}
+		ig:ig_intelligentsia = {
+			ig_approval >= 5
+	    }
+		custom_tooltip = {
+			text = je_artists_irrationalism_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+		hidden_trigger = {
+			NOT = { has_variable = je_artists_irrationalism_var }
+		}
+	}
+
+	on_complete = {
+		set_variable = elgar_wagnerism_achievement
+		trigger_event = {
+			id = artists.2008
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_artists_irrationalism_fail
+			has_global_variable = artists_center_of_art_irrationalism_founded_var
 		}
 	}
 
