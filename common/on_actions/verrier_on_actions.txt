@@ -28,13 +28,6 @@ on_yearly_pulse_country = {
 	}
 }
 
-on_monthly_pulse_country = { 
-	on_actions = {
-		verrier_on_monthly_pulse_country
-		delay = { days = { 1 30 } }
-	}
-}
-
 on_building_built = {
 	on_actions = {
 		verrier_on_building_built
@@ -155,6 +148,7 @@ verrier_on_yearly_pulse_country = {
 
 		verrier.1001 #Verrier 1001: Construction of the Tara Wali Kothi (Awadh)
 
+		verrier.1013 #verrier 1013: Othóneion Panepistímion opened in Athens (Greece)
 		verrier.1051 #verrier 1051: The Return of Gauß
 	}
 
@@ -193,15 +187,6 @@ verrier_on_yearly_moon= {
 	}
 }
 
-verrier_on_monthly_pulse_country = {
-	events = {
-		verrier.1011 #verrier 1011: Construction of the Ethniko Asterosokopio Athinon started (Greece)
-		verrier.1012 #verrier 1012: Construction of the Ethniko Asterosokopio Athinon finished (Greece)
-		verrier.1013 #verrier 1013: Othóneion Panepistímion opened in Athens (Greece)
-		verrier.1022 #verrier 1021: Eidgenössische Sternwarte (Switzerland)
-	}
-}
-
 verrier_on_building_built = {
 	effect = {
 		if = {
@@ -218,6 +203,34 @@ verrier_on_building_built = {
 					id = verrier.5 #Verrier 5: Observatory inauguration
 					popup = yes
 				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = asterosokopio_athinon_global_var
+				}
+				is_building_type = building_verrier_observatory
+				owner = {
+					c:GRE ?= this
+				}
+			}
+			owner = {
+				trigger_event = verrier.1012 #verrier 1012: Construction of the Ethniko Asterosokopio Athinon finished (Greece)
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = eidgenossische_sternwarte_var
+				}
+				is_building_type = building_verrier_observatory
+				owner = {
+					c:SWI ?= this
+				}
+			}
+			owner = {
+				trigger_event = verrier.1022 #verrier 1021: Eidgenössische Sternwarte (Switzerland)
 			}
 		}
 	}
