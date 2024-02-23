@@ -152,83 +152,132 @@ types arts_view
 								}
 							}
 						}
+						
 						# Cultural Tradition
 						widget = {
 							size = { 900 235 }
 							background = {
 								using = entry_bg_simple
 							}
-							textbox = {
-								text = "CULTURAL_TRADITION_TEXT"
-								position = { 0 5 }
-								parentanchor = top|center
-								autoresize = yes
-								using = fontsize_mega
-							}
-							
-							#Musical Tradition
-							green_progressbar_horizontal = {
-								position = { 30 60 }
-								size = { 840 40 }
-								blockoverride "values" {
-									min = 0
-									max = 1000
-									value = "[FixedPointToFloat(GetPlayer.MakeScope.Var('elgar_music_tradition').GetValue)]"
-								}
-							#	tooltip = "MR_MUSIC_TRADITION_BAR_TT" #TODO add tooltip
-							}
-							textbox = {
-								text = "MR_MUSIC_TRADITION_VALUES"
-								position = { 0 58 }
-								parentanchor = top|center
-								autoresize = yes
-								using = fontsize_xxl
-							}
 
-							#Buttons
-							flowcontainer = {
-								direction = horizontal
-								position = { 0 30 }
-								parentanchor = center
-								spacing = 20
+							vbox = {
+								layoutpolicy_horizontal = expanding
+								layoutpolicy_vertical = preferred
+								spacing = 12
 
-								#Buttons for every Art Style 
-								button = { #Impressionism
-									using = default_button_primary_big_action
-									size = { 270 55 }
-									raw_text = "MR_IMPRESSIONISM_BUTTON"
-									using = fontsize_xl
-			
-									datacontext = "[GetScriptedGui('mr_impressionism_button')]"
-									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									tooltip = "MR_IMPRESSIONISM_BUTTON_TT"
+								textbox = {
+									text = "CULTURAL_TRADITION_TEXT"
+									autoresize = yes
+									using = fontsize_mega
 								}
-								button = { #Expressionism
-									using = default_button_primary_big_action
-									size = { 270 55 }
-									raw_text = "MR_EXPRESSIONISM_BUTTON"
-									using = fontsize_xl
-			
-									datacontext = "[GetScriptedGui('mr_expressionism_button')]"
-									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									tooltip = "MR_EXPRESSIONISM_BUTTON_TT"
+								
+								#Art Prestige
+								hbox = {
+									spacing = 40
+
+									textbox = {
+										text = "MR_ART_TRADITION"
+										autoresize = yes
+										using = fontsize_xxl
+									}
+									textbox = {
+										text = "MR_ART_PRESTIGE"
+										autoresize = yes
+										using = fontsize_xxl
+									}
 								}
-								button = { #Art Nouveau
-									using = default_button_primary_big_action
-									size = { 270 55 }
-									raw_text = "MR_ART_NOUVEAU_BUTTON"
-									using = fontsize_xl
-			
-									datacontext = "[GetScriptedGui('mr_art_nouveau_button')]"
-									onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-									tooltip = "MR_ART_NOUVEAU_BUTTON_TT"
+
+								hbox = {
+									spacing = 15
+
+									widget = {
+										size = { 60 60 }
+
+										icon = {
+											size = { 100% 100% }
+											datacontext = "[GetScriptedGui('mr_classicism_inactive')]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+											texture = "gfx/interface/icons/state_trait_icons/state_trait_artists_center_classicism_inactive.dds"
+											tooltip = "ARTISTS_CLASSICISM_INACTIVE_tt"
+										}
+										icon = {
+											size = { 100% 100% }
+											datacontext = "[GetScriptedGui('mr_classicism_active')]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+											texture = "gfx/interface/icons/state_trait_icons/state_trait_artists_center_classicism.dds"
+											tooltip = "ARTISTS_CLASSICISM_ACTIVE_tt"
+										}
+									}
+									widget = {
+										size = { 60 60 }
+
+										icon = {
+											size = { 100% 100% }
+											datacontext = "[GetScriptedGui('mr_romanticism_inactive')]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+											texture = "gfx/interface/icons/state_trait_icons/state_trait_artists_center_romanticism_inactive.dds"
+											tooltip = "ARTISTS_ROMANTICISM_INACTIVE_tt"
+										}
+										icon = {
+											size = { 100% 100% }
+											datacontext = "[GetScriptedGui('mr_romanticism_active')]"
+											visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	
+											texture = "gfx/interface/icons/state_trait_icons/state_trait_artists_center_romanticism.dds"
+											tooltip = "ARTISTS_ROMANTICISM_ACTIVE_tt"
+										}
+									}
 								}
+
+								#Buttons
+								flowcontainer = {
+									direction = horizontal
+									spacing = 20
+									
+
+									#Buttons for every Art Style 
+									button = { #Impressionism
+										using = default_button_primary_big_action
+										size = { 270 55 }
+										raw_text = "MR_IMPRESSIONISM_BUTTON"
+										using = fontsize_xl
+				
+										datacontext = "[GetScriptedGui('mr_impressionism_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_IMPRESSIONISM_BUTTON_TT"
+									}
+									button = { #Expressionism
+										using = default_button_primary_big_action
+										size = { 270 55 }
+										raw_text = "MR_EXPRESSIONISM_BUTTON"
+										using = fontsize_xl
+				
+										datacontext = "[GetScriptedGui('mr_expressionism_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_EXPRESSIONISM_BUTTON_TT"
+									}
+									button = { #Art Nouveau
+										using = default_button_primary_big_action
+										size = { 270 55 }
+										raw_text = "MR_ART_NOUVEAU_BUTTON"
+										using = fontsize_xl
+				
+										datacontext = "[GetScriptedGui('mr_art_nouveau_button')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_ART_NOUVEAU_BUTTON_TT"
+									}
+								}
+
+								expand = {}
 							}
 						}
 					}
