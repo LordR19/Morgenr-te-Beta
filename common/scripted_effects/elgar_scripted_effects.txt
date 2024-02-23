@@ -819,6 +819,107 @@ elgar_composer_exhaustion_add = {
 
 ##############################
 
+###Prize of $CITY$
+
+#Adds the 5 best Composers as global variables
+elgar_create_prize_winners_effect = {
+	remove_global_variable = elgar_prize_winner_1_global_var
+	remove_global_variable = elgar_prize_winner_2_global_var
+	remove_global_variable = elgar_prize_winner_3_global_var
+	remove_global_variable = elgar_prize_winner_4_global_var
+	remove_global_variable = elgar_prize_winner_5_global_var
+
+	ordered_country = {
+		limit = {
+			has_variable = elgar_composer_var
+			elgar_has_active_composer = yes
+			elgar_has_great_composer = no
+		}
+
+		order_by = elgar_composer_value
+		max = 5
+		check_range_bounds = no
+
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = elgar_prize_winner_1_global_var
+				}
+			}
+			set_global_variable = {
+				name = elgar_prize_winner_1_global_var
+				value = this
+			}
+			save_scope_as = elgar_first_winner_scope # +50 Reputation
+			var:elgar_composer_var ?= {
+				save_scope_as = elgar_character_first_winner_scope
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = elgar_prize_winner_2_global_var
+				}
+			}
+			set_global_variable = {
+				name = elgar_prize_winner_2_global_var
+				value = this
+			}
+			save_scope_as = elgar_second_winner_scope # +40 Reputation
+			var:elgar_composer_var ?= {
+				save_scope_as = elgar_character_second_winner_scope
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = elgar_prize_winner_3_global_var
+				}
+			}
+			set_global_variable = {
+				name = elgar_prize_winner_3_global_var
+				value = this
+			}
+			save_scope_as = elgar_third_winner_scope # +30 Reputation
+			var:elgar_composer_var ?= {
+				save_scope_as = elgar_character_third_winner_scope
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = elgar_prize_winner_4_global_var
+				}
+			}
+			set_global_variable = {
+				name = elgar_prize_winner_4_global_var
+				value = this
+			}
+			save_scope_as = elgar_fourth_winner_scope # +20 Reputation
+			var:elgar_composer_var ?= {
+				save_scope_as = elgar_character_fourth_winner_scope
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_global_variable = elgar_prize_winner_5_global_var
+				}
+			}
+			set_global_variable = {
+				name = elgar_prize_winner_5_global_var
+				value = this
+			}
+			save_scope_as = elgar_fifth_winner_scope # +10 Reputation
+			var:elgar_composer_var ?= {
+				save_scope_as = elgar_character_fifth_winner_scope
+			}
+		}
+	}
+}
+
+##############################
+
 ###Musical Ranking###
 
 #Creates a list of the ten countries with the highest musical tradition
