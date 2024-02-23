@@ -959,7 +959,11 @@ artists.2007 = {
 			limit = {
 				any_scope_building = {
 					is_building_type = building_arts_academy
-					has_active_production_method = pm_realist_art
+					OR = {
+						has_active_production_method = pm_realist_art
+						has_active_production_method = pm_photographic_art
+						has_active_production_method = pm_film_art
+					}
 					has_active_production_method = pm_artists_arts_academy_studio
 				}
 			}
@@ -969,6 +973,7 @@ artists.2007 = {
 
 	option = { #We are a leading cultural nation
 		name = artists.2001.g
+		elgar_large_add_technology = yes
 		painter_experience_gain_effect = {
 			AMOUNT = 100
 		}
@@ -977,6 +982,65 @@ artists.2007 = {
 				add_state_trait = artists_state_trait_center_realism
 				set_global_variable = {
 					name = artists_coa_realism_state_region_global_var
+					value = this
+				}
+			}
+		}
+	}
+}
+
+#Artists 2008: Irrationalism CoA
+artists.2008 = {
+	type = country_event
+
+    title = artists.2008.t
+		
+    desc = artists.2008.d
+
+	flavor = artists.2008.f
+
+	duration = 3
+		
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_irrationalism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/realism.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_global_variable = artists_center_of_art_irrationalism_founded_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_elgar_opera
+					OR = {
+						has_active_production_method = pm_elgar_mid_romantic_orchestra
+						has_active_production_method = pm_elgar_late_romantic_orchestra
+						has_active_production_method = pm_elgar_cinema_orchestra
+						has_active_production_method = pm_elgar_public_orchestra
+					}
+				}
+			}
+			save_scope_as = elgar_culture_capital
+		}
+	}
+
+	option = { #We are a leading cultural nation
+		name = artists.2008.g
+		elgar_large_add_technology = yes
+		elgar_add_x_music_tradition_effect = { 
+			AMOUNT = 100 
+		}
+		scope:elgar_culture_capital = {
+			state_region = {
+				add_state_trait = artists_state_trait_center_irrationalism
+				set_global_variable = {
+					name = artists_coa_irrationalism_state_region_global_var
 					value = this
 				}
 			}
