@@ -380,14 +380,6 @@ elgar_yearly_musical_tradition_value = {
 	if = {
 		limit = {
 			any_scope_state = {
-				has_state_trait = artists_state_trait_center_irrationalism
-			}
-		}
-		add = 3
-	}
-	if = {
-		limit = {
-			any_scope_state = {
 				has_state_trait = artists_state_trait_center_impressionism
 			}
 		}
@@ -437,6 +429,14 @@ elgar_yearly_musical_tradition_value = {
 	}
 	if = {
 		limit = { has_modifier = elgar_neudeutsche_musikschule_modifier }
+		add = 1
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = elgar_wagner_bayreuth_modifier
+			}
+		}
 		add = 1
 	}
 	### Other ###
@@ -529,4 +529,107 @@ elgar_yearly_compositions_score = {
 		
 		add = -1
 	}
+}
+
+#This value determines the overall value of a composer for the Art Prizes
+elgar_composer_value = {
+	value = root.var:elgar_composer_var.var:elgar_composer_num_compositions_var #This is the total number of compositions
+
+	###Character Traits###
+	if = {
+		limit = {
+			root.var:elgar_composer_var = {
+				has_trait = meticulous #If the composer is meticulous, his compositions will be better
+			}
+		}
+		multiply = 1.3
+	}
+	if = {
+		limit = {
+			root.var:elgar_composer_var = {
+				has_trait = innovative #If the composer is innovative, his compositions will be more creative
+			}
+		}
+		multiply = 1.3
+	}
+	if = {
+		limit = {
+			root.var:elgar_composer_var = {
+				has_trait = ambitious #Not as important as the other two, but an ambitious composer will never be content with mediocre works
+			}
+		}
+		multiply = 1.2
+	}
+	###Specialization###
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = elgar_conductor #A conductor is valuable
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = elgar_virtuoso #A virtuoso is valuable
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			var:elgar_composer_var = {
+				has_trait = elgar_travelling_composer #A travelling composer is valuable
+			}
+		}
+		add = 10
+	}
+	###Technologies###
+	if = {
+		limit = {
+			has_technology_researched = romanticism
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_technology_researched = realism
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_irrationalism_tech
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			OR = {
+				has_technology_researched = elgar_impressionism_tech
+				has_technology_researched = elgar_expressionism_tech
+				has_technology_researched = elgar_art_nouveau_tech
+			}
+		}
+		add = 3
+	}
+	if = {
+		limit = {
+			OR = {
+				has_technology_researched = elgar_neoclassicism_tech
+				has_technology_researched = elgar_new_objectivity_tech
+				has_technology_researched = elgar_art_deco_tech
+			}
+		}
+		add = 4
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_mass_culture_tech
+		}
+		add = 5
+	}
+
+	round = yes
 }
