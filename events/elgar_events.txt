@@ -3489,6 +3489,138 @@ elgar.133 = {
 
 #########################################################################################################################
 
+######Music Competitions######
+
+#Elgar 301: The Prize of $CITY$
+elgar.301 = {
+	type = country_event
+
+	title = elgar.301.t
+
+	desc = elgar.301.d
+
+	flavor = elgar.301.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_opera.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				elgar_has_center_of_art = yes
+			}
+			save_scope_as = elgar_art_capital
+		}
+	}
+
+	option = {
+		name = elgar.301.g #We should organize a music competition
+		default_option = yes
+		add_treasury = -25000
+		elgar_add_x_music_tradition_effect = { AMOUNT = 35 }
+		set_global_variable = {
+			name = elgar_art_prize_host_var
+			value = this
+			days = 365
+		}
+	}
+
+	option = {
+		name = elgar.301.h #What a waste of money!
+
+		ai_chance = {
+			base = 0 #AI should do this, especially as France ...
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = elgar.302
+				days = { 90 120 }
+			}
+		}
+	}
+}
+
+#Elgar 302: The Prize of $CITY$
+elgar.302 = {
+	type = country_event
+
+	title = elgar.302.t
+
+	desc = elgar.302.d
+
+	flavor = elgar.302.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/elgar_pictures/elgar_opera.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		elgar_create_prize_winners_effect = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			save_scope_as = elgar_art_capital
+		}
+	}
+
+	option = {
+		name = elgar.302.g #Award the winners.
+		hidden_effect = {
+			scope:elgar_first_winner_scope = {
+				composer_experience_gain_effect = {
+					AMOUNT = 50
+				}
+				post_notification = elgar_art_prize_1_notification
+			}
+			scope:elgar_second_winner_scope = {
+				composer_experience_gain_effect = {
+					AMOUNT = 40
+				}
+				post_notification = elgar_art_prize_2_notification
+			}
+			scope:elgar_third_winner_scope = {
+				composer_experience_gain_effect = {
+					AMOUNT = 30
+				}
+				post_notification = elgar_art_prize_3_notification
+			}
+			scope:elgar_fourth_winner_scope = {
+				composer_experience_gain_effect = {
+					AMOUNT = 20
+				}
+				post_notification = elgar_art_prize_4_notification
+			}
+			scope:elgar_fifth_winner_scope = {
+				composer_experience_gain_effect = {
+					AMOUNT = 10
+				}
+				post_notification = elgar_art_prize_5_notification
+			}
+		}
+	}
+}
+
+#########################################################################################################################
+
 ######Random Travelling Composer Events######
 
 #Elgar 301: Good rehearsals
