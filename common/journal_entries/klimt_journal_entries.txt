@@ -140,3 +140,93 @@ je_klimt_painter_trip = {
 
 	weight = 50
 }
+
+######SECESSION######
+
+je_klimt_secession = {
+	icon = "gfx/interface/icons/event_icons/event_painting.dds"
+
+	group = je_group_elgar_culture
+
+	is_shown_when_inactive = {
+        has_technology_researched = elgar_art_nouveau_tech
+		NOT = {
+			has_global_variable = klimt_secession_var
+		}
+		NOT = {
+			has_technology_researched = elgar_mass_culture_tech
+		}
+    }
+    possible = {
+        has_technology_researched = elgar_art_nouveau_tech
+		hidden_trigger = {
+			NOT = {
+				has_global_variable = klimt_secession_var
+			}
+		}
+		any_scope_state = {
+			has_building = building_arts_academy
+		}
+    }
+	immediate = {
+		set_variable = {
+			name = klimt_secession_var
+			days = 1
+		}
+	}
+	complete = {
+		leading_producer_of = g:fine_art
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				level >= 15
+			}
+			any_scope_building = {
+				is_building_type = building_urban_center
+				level >= 25	
+			}
+		}
+		hidden_trigger = {
+			NOT = {
+				has_variable = klimt_secession_var
+			}
+		}
+	}
+	on_complete = {
+		set_global_variable = klimt_secession_var
+		set_variable = klimt_var
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_arts_academy
+					level >= 15
+				}
+				any_scope_building = {
+					is_building_type = building_urban_center
+					level >= 25	
+				}
+			}
+			add_modifier = {
+				name = gaudi_first_secession_state_modifier
+			}
+		}
+		custom_tooltip = {
+			text = klimt.30_tt
+			trigger_event = { 
+				id = klimt.30
+				popup = yes
+			}
+		}
+	}
+	fail = {
+		OR = {
+			any_country = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_modifier = gaudi_first_secession_modifier
+			}
+			has_technology_researched = elgar_mass_culture_tech
+		}
+	}
+}
