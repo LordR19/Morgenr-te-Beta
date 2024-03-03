@@ -1,0 +1,114 @@
+﻿#################################
+# MORGENROETE YEARLY ON ACTIONS #
+#################################
+
+#by Marco Dandolo
+
+######################
+
+#Checking the AI
+
+on_yearly_pulse_country = { 
+	on_actions = {
+		mr_on_yearly_pulse_country
+	}
+}
+
+mr_on_yearly_pulse_country = {
+	effect = {
+	
+		##### KLIMT #####
+
+		###Add Yearly Painting Tradition###
+		klimt_add_x_painting_tradition_unscaled_effect = {
+			AMOUNT = klimt_yearly_painting_tradition_value
+		}
+
+		###Add Yearly Paintings###
+		if = {
+			limit = {
+				klimt_has_active_painter = {
+				}
+			}
+			klimt_add_x_paintings_effect = {
+				AMOUNT = klimt_yearly_paintings_value
+			}
+		}
+
+		###Update Galery###
+		klimt_update_collection_effect = yes
+
+		###Painter Specialization###
+		if = {
+			limit = {
+				klimt_has_active_painter = yes
+				var:klimt_painter_var ?= {
+					age >= 40
+					NOR = {
+						has_trait = klimt_classic_painter
+						has_trait = klimt_romantic_painter
+						has_trait = klimt_realistic_painter
+						has_trait = klimt_impressionistic_painter
+						has_trait = klimt_expressionistic_painter
+						has_trait = klimt_art_nouveau_painter
+					}
+				}
+			}
+			trigger_event = {
+				id = klimt.2
+			}
+		}
+		
+		###Chance for Great Painting###
+		if = {
+			limit = {
+				klimt_has_active_painter = yes
+				klimt_painter_has_specialization = yes
+			}
+			random_list = {
+				1 = {
+					modifier = {
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = meticulous #quality of painting
+								}
+							}
+							add = 1
+						}
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = innovative #creativity of painting
+								}
+							}
+							add = 1
+						}
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = ambitious #will of painting
+								}
+							}
+							add = 1
+						}
+						if = {
+							limit = {
+								var:klimt_painter_var ?= {
+									has_trait = romantic #sensivity of painting
+								}
+							}
+							add = 1
+						}
+					}
+
+					trigger_event = {
+						id = klimt.100 #Masterwork decision (hidden)
+					}
+				}
+				5 = {}
+			}
+		}
+
+	}
+}
