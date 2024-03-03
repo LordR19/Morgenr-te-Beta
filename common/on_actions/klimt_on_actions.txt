@@ -142,6 +142,39 @@ klimt_on_yearly_pulse_country = {
 					}
 				}
 			}
+
+			#Death Event for Delacroix
+			# General note: on_yearly_pulse_character, etc. does not affect Void-Characters.
+			# Therefore we use effects like these.
+			if = {
+				limit = {
+					year >= 1863
+					year < 1866 #Should only check before 1863 so it doesn't have to check the limits multiple times.
+					any_character_in_void = { #Does Cole exist?
+						has_template = mr_fra_delacroix_eugene_character_template
+					}
+				}
+				random_character_in_void = {
+					limit = {
+						has_template = mr_fra_delacroix_eugene_character_template
+					}
+					if = { #If Cole is a painter of a country, the country gets an event
+						limit = {
+							owner ?= {
+								var:klimt_painter_var ?= {
+									has_template = mr_fra_delacroix_eugene_character_template
+								}
+							}
+						}
+						owner = {
+							trigger_event = klimt.604 #Klimt 604: Delacroix Death
+						}
+					}
+					else = { #Otherwise he just dies.
+						kill_character = yes
+					}
+				}
+			}
 		}
 	}
 }
