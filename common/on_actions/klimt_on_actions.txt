@@ -175,6 +175,39 @@ klimt_on_yearly_pulse_country = {
 					}
 				}
 			}
+
+	#Death Event for Eckersberg
+			# General note: on_yearly_pulse_character, etc. does not affect Void-Characters.
+			# Therefore we use effects like these.
+			if = {
+				limit = {
+					year >= 1853
+					year < 1856 #Should only check before 1856 so it doesn't have to check the limits multiple times.
+					any_character_in_void = { #Does Eckersberg exist?
+						has_template = mr_den_eckersberg_christoffer_character_template
+					}
+				}
+				random_character_in_void = {
+					limit = {
+						has_template = mr_den_eckersberg_christoffer_character_template
+					}
+					if = { #If Eckersberg is a painter of a country, the country gets an event
+						limit = {
+							owner ?= {
+								var:klimt_painter_var ?= {
+									has_template = mr_den_eckersberg_christoffer_character_template
+								}
+							}
+						}
+						owner = {
+							trigger_event = klimt.605 #Klimt 605: Eckersberg Death
+						}
+					}
+					else = { #Otherwise he just dies.
+						kill_character = yes
+					}
+				}
+			}
 		}
 	}
 }
