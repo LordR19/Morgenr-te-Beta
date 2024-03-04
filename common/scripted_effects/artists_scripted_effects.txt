@@ -3586,6 +3586,37 @@ set_painter_independent_painter_effect = {
 #Therefore a Variable is set to save the scope again. then gets deleted
 create_new_painter_effect = {
 	random_list = {
+		4 = { #Adolf Hitler, Austria
+			trigger = {
+				NOT = { has_global_variable = klimt_hitler_created_global_var }
+				has_global_variable = mr_hitler_painter
+				has_state_in_state_region = STATE_AUSTRIA
+				NOT = {
+					cu:south_german = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1944.4.20 #Age 55
+				year >= 1910 #three years after he failed the entrance exam of the Vienna Arts Academy
+			}
+			create_character = {
+				template = mr_ger_hitler_painter_character_template
+
+				save_scope_as = klimt_new_painter_scope
+			}
+			scope:klimt_new_painter_scope = {
+				set_variable = mr_is_painter_var
+				painter_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = klimt_new_painter_var
+				value = scope:klimt_new_painter_scope
+			}
+
+			set_global_variable = klimt_hitler_created_global_var
+		}
 		4 = { #Claude Monet, France
 			trigger = {
 				NOT = { has_global_variable = klimt_monet_created_global_var }
@@ -3619,28 +3650,31 @@ create_new_painter_effect = {
 
 			set_global_variable = klimt_monet_created_global_var
 		}
-		4 = { #Adolf Hitler, Austria
+		4 = { #Vincent van Gogh, Netherlands
 			trigger = {
-				NOT = { has_global_variable = klimt_hitler_created_global_var }
-				has_global_variable = mr_hitler_painter
-				has_state_in_state_region = STATE_AUSTRIA
-				NOT = {
-					cu:south_german = {
-						culture_is_discriminated_in = root
-					}
+				NOT = { has_global_variable = klimt_van_gogh_created_global_var }
+				OR = {
+					has_technology_researched = elgar_impressionism_tech
+					has_technology_researched = elgar_expressionism_tech
+					has_technology_researched = elgar_art_nouveau_tech
 				}
-				game_date < 1944.4.20 #Age 55
-				year >= 1910 #three years after he failed the entrance exam of the Vienna Arts Academy
+				has_state_in_state_region = STATE_HOLLAND
+				cu:dutch = {
+					shares_non_heritage_trait_with_any_primary_culture = root
+					shares_heritage_trait_with_any_primary_culture = root
+				}
+				game_date < 1908.3.30 #Age 55
+				year >= 1881 #First paintings
 			}
 			create_character = {
-				template = mr_ger_hitler_painter_character_template
+				template = mr_net_van_gogh_vincent_character_template
 
 				save_scope_as = klimt_new_painter_scope
 			}
 			scope:klimt_new_painter_scope = {
 				set_variable = mr_is_painter_var
 				painter_experience_set_up_effect = yes
-				place_character_in_void = 1200	
+				place_character_in_void = 1200
 			}
 
 			set_variable = {
@@ -3648,7 +3682,7 @@ create_new_painter_effect = {
 				value = scope:klimt_new_painter_scope
 			}
 
-			set_global_variable = klimt_hitler_created_global_var
+			set_global_variable = klimt_van_gogh_created_global_var
 		}
 		1 = { #Random Painter
 			random_list = {
