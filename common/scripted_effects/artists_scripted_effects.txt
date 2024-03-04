@@ -3620,6 +3620,7 @@ create_new_painter_effect = {
 		4 = { #William-Adolphe Bouguereau, France
 			trigger = {
 				NOT = { has_global_variable = klimt_bouguereau_created_global_var }
+				has_technology_researched = realism
 				has_state_in_state_region = STATE_POITOU
 				cu:french = {
 					shares_non_heritage_trait_with_any_primary_culture = root
@@ -3746,6 +3747,39 @@ create_new_painter_effect = {
 			}
 
 			set_global_variable = klimt_picasso_created_global_var
+		}
+		4 = { #Ilya Repin, Russia
+			trigger = {
+				NOT = { has_global_variable = klimt_repin_created_global_var }
+				has_technology_researched = realism
+				OR = {
+					has_state_in_state_region = STATE_LUHANSK
+					has_state_in_state_region = STATE_INGRIA
+				}
+				cu:russian = {
+					shares_non_heritage_trait_with_any_primary_culture = root
+					shares_heritage_trait_with_any_primary_culture = root
+				}
+				game_date < 1899.8.5 #Age 55
+				year >= 1869 #Gained a gold medal
+			}
+			create_character = {
+				template = mr_rus_repin_ilya_character_template
+
+				save_scope_as = klimt_new_painter_scope
+			}
+			scope:klimt_new_painter_scope = {
+				set_variable = mr_is_painter_var
+				painter_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = klimt_new_painter_var
+				value = scope:klimt_new_painter_scope
+			}
+
+			set_global_variable = klimt_repin_created_global_var
 		}
 		1 = { #Random Painter
 			random_list = {
