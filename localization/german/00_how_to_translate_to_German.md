@@ -38,6 +38,13 @@ Usually there is already a use of the title or character name there and you can 
 I will add the official list of all the articles and endings at the end. just put those inside the brackets like this: ('here')
 If you need new custom locs you can ask Lord R to make some (e.g. for die Archäologin, der Archäologe).
 
+# Using a string from somewhere else in a string
+Imagine you want to reference a specific Technology like elgar_classicism_tech.
+Instead of searching for the name of said technology, you can get the exact name like this:
+$elgar_classicism_tech$
+
+This works for every localization. So you can use it for buildings, production methods, names, etc.
+
 # Comments
 You can add Comments with a hastag #, outside of the " like this "My String" #I noticed bla.
 Comments will not show up in the game and are a way for us to communicate.
@@ -213,3 +220,19 @@ Note: All the custom locs below were created by Paradox. Paradox might change th
 ## Pronouns, Possesive, Singular, 3rd Person
 
 # DE_PRO_POS_S_3P || female: ihr // male: sein
+
+###################################
+## COUNTRIES ######################
+###################################
+
+You can use .GetAltName('DAT') to get a country in Dativ.
+
+You can also replace DAT with other ids to get other forms. Here is an overview:
+- NOM --> Nominativ
+- GEN --> Genitiv
+- DAT --> Dativ
+- AKK --> Akkusativ
+- VON --> von xyz (or matching variant for country)
+- IN --> in xyz (or matching variant for country)
+- NACH --> nach xyz (or matching variant for country)
+
