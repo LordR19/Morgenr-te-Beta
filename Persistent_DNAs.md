@@ -39441,7 +39441,7 @@ mr_swe_strindberg_august={
 	entity={ 0 0 }
 }
 
-mr_swe_lagerlöf_selma={
+mr_swe_lagerlof_selma={
 	type=female
 	id=0
 	age=0.400000
@@ -40834,7 +40834,7 @@ mr_swe_dalstrom_kata={
 	entity={ 0 0 }
 }
 
-mr_swe_nordenskjöld_carl_reinhold={
+mr_swe_nordenskjold_carl_reinhold={
 	type=male
 	id=0
 	age=0.645000
