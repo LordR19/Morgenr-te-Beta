@@ -12,7 +12,7 @@ Economy:
 - Changed price for Music from 85 to 80
 
 Pop Needs:
-- Music is now also a luxury item. Its maximum share is 20 %, its minimum supply share 5 %. Weight is 50 % (way less than other luxury items).
+- Music is now also a luxury item. Its maximum share is 15 %, its minimum supply share 5 %. Weight is 50 % (way less than other luxury items).
 - Changed Instrument weight in luxury goods to 25 %, making it the good with the lowest weight (after music).
 - Changed default good in leisure category to fine art (from music).
 
