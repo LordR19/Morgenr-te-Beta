@@ -1,6 +1,7 @@
 Changelog for 2.1.3 "XYZ"
 
-
+Fixes:
+- The Painter will nwo meet another painter instead of a ghost, when on a educational journey.
 
 Economy:
 - New input and output for opera:
