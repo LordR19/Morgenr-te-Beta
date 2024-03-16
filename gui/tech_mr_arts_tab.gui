@@ -417,6 +417,10 @@ types arts_view
 									blockoverride "scientist_achievement_tooltip" {
 										tooltip = "MR_COMPOSER_ACHIEVEMENTS_TT"
 									}
+									blockoverride "character_traits" {
+										datacontext = "[GetPlayer.MakeScope.Var('elgar_composer_var').GetCharacter]"
+										datamodel = "[Character.AccessTraits]"
+									}
 									blockoverride "experience_bar_visibility" {
 										visible = yes
 									}
@@ -757,6 +761,10 @@ types arts_view
 									blockoverride "scientist_achievement_tooltip" {
 									#	tooltip = "MR_ASTRONOMER_ACHIEVEMENTS_TT"
 									}
+									blockoverride "character_traits" {
+										datacontext = "[GetPlayer.MakeScope.Var('manzoni_writer_var').GetCharacter]"
+										datamodel = "[Character.AccessTraits]"
+									}
 									blockoverride "experience_bar_visibility" {
 										visible = yes
 									}
@@ -977,6 +985,10 @@ types arts_view
 									}
 									blockoverride "scientist_achievement_tooltip" {
 										tooltip = "MR_PAINTER_ACHIEVEMENTS_TT"
+									}
+									blockoverride "character_traits" {
+										datacontext = "[GetPlayer.MakeScope.Var('klimt_painter_var').GetCharacter]"
+										datamodel = "[Character.AccessTraits]"
 									}
 									blockoverride "experience_bar_visibility" {
 										visible = yes
@@ -1237,6 +1249,7 @@ types arts_view
 		# character_name
 		# achievements_icon_visibility
 		# scientist_achievement_tooltip
+		# character_traits
 		# experience_bar_visibility
 		# values
 		# experience_tooltip
@@ -1252,19 +1265,21 @@ types arts_view
 
 		# Character Portrait
 		character_portrait_large_torso = {
-			position = { 40 65 }
+			position = { 40 45 }
 			block "character"
 			{
 				datacontext = "[AccessPlayer.AccessRuler]"
 			}
-			blockoverride "show_hat" {}
+			blockoverride "show_hat" {
+				scissor = yes
+			}
 			blockoverride "tooltip" {} #TODO Remove when Tooltip doesn't cause error anymore
 			blockoverride "portrait_icons" {} #TODO Remove when Tooltip doesn't cause error anymore
 			blockoverride "portrait_button" {} #TODO Remove when Tooltip doesn't cause error anymore
 		}
 		default_header_clean_faded = {
 			size = { 250 45 }
-			position = { 14 335 }
+			position = { 14 300 }
 			blockoverride "text" {
 			}
 			textbox = {
@@ -1308,7 +1323,7 @@ types arts_view
 			#used in the mr_GUI_l_english.yml file to display the correct Achievements.
 			size = { 40 40 }
 			parentanchor = bottom|left
-			position = { 19 -73 }
+			position = { 19 -107 }
 			block "achievements_icon_visibility" {
 				visible = yes
 			}
@@ -1325,7 +1340,33 @@ types arts_view
 				block "scientist_achievement_tooltip" {}
 			}
 		}
+		widget = { #Displays the Traits of the character
+			size = { 40 40 }
+			parentanchor = bottom|left
+			position = { 22 -60 }
+					
+			overlappingitembox = {
+				minimumsize = { 256 42 }
+				maximumsize = { 256 42 }
 
+				block "character_traits"
+				{
+					datamodel = "[AccessPlayer.AccessRuler.AccessTraits]"
+				}
+
+				item = {
+					icon = {
+						size = { 30 42 }
+						texture = "[CharacterTrait.GetTexture]"
+						using = tooltip_above
+
+						tooltipwidget = {
+							FancyTooltip_CharacterTrait = {}
+						}
+					}
+				}
+			}
+		}
 		green_progressbar_horizontal = {
 			parentanchor = bottom|left
 			position = { 25 -15 }
