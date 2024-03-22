@@ -4,6 +4,9 @@ Fixes:
 - The Painter will nwo meet another painter instead of a ghost, when on a educational journey.
 - Promoting an artist will no longer promote that type forever.
 
+Quality of Life:
+- Added icons to the notifications.
+
 Economy:
 - New input and output for opera:
 - Classical Orchestra: 15 Instruments generate 10 Music (before: 10/7.5)
