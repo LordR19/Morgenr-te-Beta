@@ -481,14 +481,17 @@ klimt_total_masterworks_country = {
 }
 
 klimt_painter_raiting_new_painter_value = {
+	#Experience: 1 point per 50 Experience
 	value = var:klimt_new_painter_var.var:klimt_painter_experience
+	divide = 50
+	#School Traits
 	if = {
 		limit = {
 			var:klimt_new_painter_var = {
 				has_trait = klimt_classic_school
 			}
 		}
-		add = 25
+		add = 1
 	}
 	if = {
 		limit = {
@@ -496,7 +499,7 @@ klimt_painter_raiting_new_painter_value = {
 				has_trait = klimt_romantic_school
 			}
 		}
-		add = 25
+		add = 1
 	}
 	if = {
 		limit = {
@@ -504,7 +507,7 @@ klimt_painter_raiting_new_painter_value = {
 				has_trait = klimt_realistic_school
 			}
 		}
-		add = 25
+		add = 1
 	}
 	if = {
 		limit = {
@@ -512,7 +515,7 @@ klimt_painter_raiting_new_painter_value = {
 				has_trait = klimt_impressionistic_school
 			}
 		}
-		add = 25
+		add = 1
 	}
 	if = {
 		limit = {
@@ -520,7 +523,7 @@ klimt_painter_raiting_new_painter_value = {
 				has_trait = klimt_expressionistic_school
 			}
 		}
-		add = 25
+		add = 1
 	}
 	if = {
 		limit = {
@@ -528,15 +531,16 @@ klimt_painter_raiting_new_painter_value = {
 				has_trait = klimt_art_nouveau_school
 			}
 		}
-		add = 25
+		add = 1
 	}
+	#Positive Traits
 	if = {
 		limit = {
 			var:klimt_new_painter_var = {
 				has_trait = innovative
 			}
 		}
-		add = 100
+		add = 1
 	}
 	if = {
 		limit = {
@@ -544,7 +548,7 @@ klimt_painter_raiting_new_painter_value = {
 				has_trait = meticulous
 			}
 		}
-		add = 100
+		add = 1
 	}
 	if = {
 		limit = {
@@ -552,7 +556,7 @@ klimt_painter_raiting_new_painter_value = {
 				has_trait = ambitious
 			}
 		}
-		add = 100
+		add = 1
 	}
 	if = {
 		limit = {
@@ -560,7 +564,7 @@ klimt_painter_raiting_new_painter_value = {
 				has_trait = persistent
 			}
 		}
-		add = 100
+		add = 1
 	}
 	if = {
 		limit = {
@@ -568,15 +572,16 @@ klimt_painter_raiting_new_painter_value = {
 				has_trait = romantic
 			}
 		}
-		add = 100
+		add = 1
 	}
+	#Negative Traits
 	if = {
 		limit = {
 			var:klimt_new_painter_var = {
 				has_trait = hedonist
 			}
 		}
-		subtract = 100
+		subtract = 1
 	}
 	if = {
 		limit = {
@@ -591,12 +596,27 @@ klimt_painter_raiting_new_painter_value = {
 				}
 			}
 		}
-		subtract = 100
+		subtract = 1
 	}
-	divide = klimt_painter_raiting_age_factor_value
-}
-
-klimt_painter_raiting_age_factor_value = {
-	value = var:klimt_new_painter_var.age
-	divide = 10
+	#Age Factor, the older the worse for the ranking
+	if = {
+		limit = { var:klimt_new_painter_var.age > 30 }
+		subtract = 1
+	}
+	if = {
+		limit = { var:klimt_new_painter_var.age > 40 }
+		subtract = 2
+	}
+	if = {
+		limit = { var:klimt_new_painter_var.age > 50 }
+		subtract = 3
+	}
+	if = {
+		limit = { var:klimt_new_painter_var.age > 60 }
+		subtract = 4
+	}
+	if = {
+		limit = { var:klimt_new_painter_var.age > 70 }
+		subtract = 5
+	}
 }
