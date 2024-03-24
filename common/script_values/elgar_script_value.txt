@@ -448,7 +448,7 @@ elgar_yearly_musical_tradition_value = {
 	}
 }
 
-#This value determines they yearly compositions of a composer
+#This value determines the yearly compositions of a composer
 elgar_yearly_compositions_score = {
 	value = 1 #at least one
 
@@ -678,4 +678,94 @@ elgar_composer_hire_cost_tier_1_value = {
 		value = 1000000
 	}
 	multiply = -1
+}
+
+elgar_composer_raiting_new_painter_value = {
+	#Experience: 1 point per 50 Experience
+	value = var:elgar_composer_experience
+	divide = 50
+	#School Traits
+	if = {
+		limit = {
+			has_trait = elgar_virtuoso
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = elgar_conductor
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = elgar_travelling_composer
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = innovative
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = meticulous
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = ambitious
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = persistent
+		}
+		add = 1
+	}
+	#Negative Traits
+	if = {
+		limit = {
+			has_trait = hedonist
+		}
+		subtract = 1
+	}
+	if = {
+		limit = {
+			OR = {
+				has_trait = alcoholic
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+				has_trait = senile
+				has_trait = psychological_affliction
+				has_trait = kidney_stones
+			}
+		}
+		subtract = 1
+	}
+	#Age Factor, the older the worse for the ranking
+	if = {
+		limit = { age > 30 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 40 }
+		subtract = 2
+	}
+	if = {
+		limit = { age > 50 }
+		subtract = 3
+	}
+	if = {
+		limit = { age > 60 }
+		subtract = 4
+	}
+	if = {
+		limit = { age > 70 }
+		subtract = 5
+	}
 }
