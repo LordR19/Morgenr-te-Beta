@@ -8,3 +8,6 @@ Fixes:
 Quality of Life:
 - Composers now have a complex rating system that allows you to estimate which one is the best for you.
 - Painters now have a complex rating system that allows you to estimate which one is the best for you.
+
+Other:
+- Added a Icon for Morgenröte that will be displayed in Events (note that we only covered a few events so far).
