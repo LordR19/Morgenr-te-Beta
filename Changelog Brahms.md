@@ -11,3 +11,4 @@ Quality of Life:
 
 Other:
 - Added a Icon for Morgenröte that will be displayed in Events (note that we only covered a few events so far).
+- Platyana Jones is now our error platypus!
