@@ -12,6 +12,9 @@ Quality of Life:
 Archaeology:
 - Added two more random archaeological events for the Inca.
 
+Localization:
+- Improved some German localizations.
+
 Other:
 - Added a Icon for Morgenröte that will be displayed in Events.
 - Platyana Jones is now our error platypus!
