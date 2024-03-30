@@ -9,6 +9,9 @@ Quality of Life:
 - Composers now have a complex rating system that allows you to estimate which one is the best for you.
 - Painters now have a complex rating system that allows you to estimate which one is the best for you.
 
+Archaeology:
+- Added two more random archaeological events for the Inca.
+
 Other:
 - Added a Icon for Morgenröte that will be displayed in Events.
 - Platyana Jones is now our error platypus!
