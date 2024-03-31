@@ -23,3 +23,4 @@ Localization:
 Other:
 - Added a Icon for Morgenröte that will be displayed in Events.
 - Platyana Jones is now our error platypus!
+- Replaced the loading screen with a ModCon loading screen (Watch it on April 26th - 28th)
