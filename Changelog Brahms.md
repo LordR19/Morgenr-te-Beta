@@ -16,7 +16,6 @@ Paleontology:
 - Added a new Formation in New Zealand (only available when restarting the game).
 - Added a new fossil, the Haast Eagle.
 
-
 Localization:
 - Improved some German localizations.
 
