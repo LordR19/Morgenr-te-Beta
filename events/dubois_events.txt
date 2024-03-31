@@ -8444,6 +8444,84 @@ dubois.227 = {
 	}
 }
 
+#Dubois 228: Haast Eagle
+
+dubois.228 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.228.t
+	desc = dubois.228.d
+	flavor = dubois.228.f
+
+	duration = 3
+
+	event_image = {
+		# CC 2.5 BY - by John Megahan in PLOS BIOLOGY - http://www.plosbiology.org/plosonline/?request=get-document&doi=10.1371%2Fjournal.pbio.0030020
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_haast_eagle.dds" 
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 100
+	}
+
+	trigger = {
+		dubois_paleontological_research = yes
+		dubois_dinosaur_research_in_australia = yes
+		OR = {
+			any_scope_state = {
+				OR = {
+					state_region = s:STATE_NORTH_ISLAND
+					state_region = s:STATE_SOUTH_ISLAND
+				}
+			}
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = paleontological_license
+				}				
+				any_scope_state = {
+					OR = {
+						state_region = s:STATE_NORTH_ISLAND
+						state_region = s:STATE_SOUTH_ISLAND
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.228.g #That's quite scary!
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_fossil_haast_eagle
+				}
+			}
+			dubois_add_fossil_haast_eagle = yes
+		}
+		dubois_add_x_fossils_effect = { AMOUNT = 1 }
+		dubois_medium_add_technology = yes
+		paleontologist_experience_gain_effect = {
+			AMOUNT = "35"
+		}
+	}
+
+	after = {
+	}
+}
+
 ######Paleontological Expedition Progress Events######
 
 #Dubois 231: Rival destroyed Digsite
