@@ -1,8 +1,7 @@
 Changelog for 2.1.3 "XYZ"
 
 Fixes:
-- North American animals can now properly be bread.
+- Various smaller fixes
 
-Naturalists:
-- You can now breed the Grizzly Bear in Europe.
-- You can now breed the Eurasian Wolf in Asia and North America.
+Buildings:
+- Reworked Opera PMs so that the AI changes to the hire tiers more often, also reduced the workforce.
