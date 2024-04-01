@@ -5,3 +5,4 @@ Fixes:
 
 Naturalists:
 - You can now breed the Grizzly Bear in Europe.
+- You can now breed the Eurasian Wolf in Asia and North America.
