@@ -4,6 +4,8 @@
 
 ############################################################################
 
+# !!! Unused right now as the tech effects don't accept values sadly !!! #
+
 ### Balloonists ###
 
 curtiss_tech_effect_small_value = {
