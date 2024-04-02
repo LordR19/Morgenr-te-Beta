@@ -391,7 +391,8 @@ je_dubois_paleontological_expedition = {
 						name = dubois_dinosaur_excavation_finding_progress
 						subtract = dubois_dinosaur_excavation_finding_progress_goal_value
 					}
-					trigger_event = dubois.211
+					trigger_event = dubois.211 #Triggers the event to inform about the dinosaur bone excavation
+					set_variable = dubois_dinosaur_excavation_start_var #Used to start the JE if the event doesn't work.
 				}
 
 				#The monthly amount gets added
@@ -511,6 +512,14 @@ je_dubois_dinosaur_excavation = {
 
 	group = je_group_dubois_nature
 
+	is_shown_when_inactive = {
+		has_variable = dubois_dinosaur_excavation_start_var
+	}
+
+	possible = {
+		always = yes
+	}
+
 	on_monthly_pulse = {
 		random_events = {
 			100 = dubois.212 #Excavation progress (hidden)
@@ -541,6 +550,7 @@ je_dubois_dinosaur_excavation = {
 			id = dubois.220
 			popup = yes
 		}
+		remove_variable = dubois_dinosaur_excavation_start_var
 	}
 
 	invalid = {
@@ -550,6 +560,10 @@ je_dubois_dinosaur_excavation = {
 				has_modifier = dubois_paleontological_research_modifier
 			}
 		}
+	}
+
+	on_invalid = {
+		remove_variable = dubois_dinosaur_excavation_start_var
 	}
 
 	current_value = {
