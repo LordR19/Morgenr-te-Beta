@@ -170,7 +170,7 @@ mr.2 = {
 	hidden = yes
 
 	trigger = {
-		is_player = no
+		is_ai = yes
 	}
 
 	immediate = {
@@ -187,6 +187,7 @@ mr.2 = {
 			}
 			add_modifier = {
 				name = dubois_paleontological_research_modifier
+				multiplier = money_amount_multiplier_very_small
 			}
 		}
 		if = {
@@ -196,7 +197,204 @@ mr.2 = {
 			}
 			remove_modifier = dubois_paleontological_research_modifier
 		}
-		#Dinosaur Bones
+	}
+}
+
+mr.3 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		dubois_has_paleontologist = yes
+		is_ai = yes
+	}
+
+	immediate = {
+		###############################################################################
+		# PALEONTOLOGY                                                                #
+		###############################################################################
+
+		# Updates the Cost of Paleontology
+		remove_modifier = money_amount_multiplier_very_small
+		add_modifier = {
+			name = dubois_paleontological_research_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+
+		# adds yearly fossils
+		dubois_add_x_fossils_effect = { AMOUNT = dubois_yearly_regular_fossils_value }
+
+		# special fossil events
+		trigger_event = {
+			on_action  = dubois_on_yearly_pulse_special_fossil_events
+		}
+
+		# Bone acquisition
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_dinosaur_excavation_finding_progress
+				}
+			}
+			set_variable = {
+				name = dubois_dinosaur_excavation_finding_progress
+				value = dubois_dinosaur_excavation_find_yearly_progress_value
+			}
+		}
+		else = {
+			change_variable = {
+				name = dubois_dinosaur_excavation_finding_progress
+				add = dubois_dinosaur_excavation_find_yearly_progress_value
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_dinosaur_excavation_finding_progress >= dubois_dinosaur_excavation_finding_progress_goal_value
+			}
+			change_variable = {
+				name = dubois_dinosaur_excavation_finding_progress
+				subtract = dubois_dinosaur_excavation_finding_progress_goal_value
+			}
+			random_list = {
+				1 = { #North America
+					trigger = {
+						dubois_dinosaur_research_in_north_america = yes
+					}
+					set_variable = {
+						name = dinosaur_bone_randomizer
+						value = { 1 5 }
+					}
+					change_variable = {
+						name = dubois_north_american_dinosaur_bone
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_north_american_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					remove_variable = dinosaur_bone_randomizer
+				}
+				1 = { #South America
+					trigger = {
+						dubois_dinosaur_research_in_south_america = yes
+					}
+					set_variable = {
+						name = dinosaur_bone_randomizer
+						value = { 1 5 }
+					}
+					change_variable = {
+						name = dubois_south_american_dinosaur_bone
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_south_american_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					remove_variable = dinosaur_bone_randomizer
+				}
+				1 = { #Africa
+					trigger = {
+						dubois_dinosaur_research_in_africa = yes
+					}
+					set_variable = {
+						name = dinosaur_bone_randomizer
+						value = { 1 5 }
+					}
+					change_variable = {
+						name = dubois_african_dinosaur_bone
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_african_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					remove_variable = dinosaur_bone_randomizer
+				}
+				1 = { #Asia
+					trigger = {
+						dubois_dinosaur_research_in_asia = yes
+					}
+					set_variable = {
+						name = dinosaur_bone_randomizer
+						value = { 1 5 }
+					}
+					change_variable = {
+						name = dubois_asian_dinosaur_bone
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_asian_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					remove_variable = dinosaur_bone_randomizer
+				}
+				1 = { #Australia
+					trigger = {
+						dubois_dinosaur_research_in_australia = yes
+					}
+					set_variable = {
+						name = dinosaur_bone_randomizer
+						value = { 1 5 }
+					}
+					change_variable = {
+						name = dubois_australian_dinosaur_bone
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_australian_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					remove_variable = dinosaur_bone_randomizer
+				}
+				1 = { #Europe
+					trigger = {
+						dubois_dinosaur_research_in_europe = yes
+					}
+					set_variable = {
+						name = dinosaur_bone_randomizer
+						value = { 1 5 }
+					}
+					change_variable = {
+						name = dubois_european_dinosaur_bone
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_european_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					change_variable = {
+						name = dubois_dinosaur_bone_total
+						add = var:dinosaur_bone_randomizer
+					}
+					remove_variable = dinosaur_bone_randomizer
+				}
+			}
+		}
+
+		#Dinosaur Skeletons
 		if = { #North America
 			limit = {
 				var:dubois_north_american_dinosaur_bone >= 5
