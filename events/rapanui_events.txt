@@ -10738,6 +10738,717 @@ rapanui.301 = {
 	}
 }
 
+###############################################################################################################
+
+######NORTHWESTERN EXPEDITION######
+
+#Rapanui 401: Preparing Expedition
+
+rapanui.401 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.401.t
+    desc = rapanui.401.d
+    flavor = rapanui.401.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_rapanui_northwest_success = yes
+	}
+
+	option = {
+		name = rapanui.401.g
+		default_option = yes
+		rapanui_add_x_northwest_success = {
+			AMOUNT = rapanui_basic_northwest_sucess_score
+		}
+	}
+
+	option = {
+		name = rapanui.401.h
+		trigger = {
+			is_ai = no
+		}
+		remove_modifier = rapanui_northwest_expedition_modifier
+		add_treasury = 75000
+	}
+
+	after = {
+		if = {
+			limit = {
+				OR = {
+					ig:ig_petty_bourgeoisie = {
+						is_in_government = yes
+					}
+					ig:ig_rural_folk = {
+						is_in_government = yes
+					}
+					ig:ig_trade_unions = {
+						is_in_government = yes
+					}
+				}
+			}
+			trigger_event = {
+				id = rapanui.402
+				days = { 7 10 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = rapanui.403
+				days = { 7 10 }
+			}
+		}
+	}
+}
+
+#Rapanui 402: Objection!
+
+rapanui.402 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.402.t
+    desc = rapanui.402.d
+    flavor = rapanui.402.f
+
+    gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_ig_leader
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		if = {
+			limit = {
+				ig:ig_petty_bourgeoisie = {
+					is_in_government = yes
+				}
+			}
+			ig:ig_petty_bourgeoisie = {
+				save_scope_as = rapanui_ig
+				leader = {
+					save_scope_as = rapanui_ig_leader
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				ig:ig_rural_folk = {
+					is_in_government = yes
+				}
+			}
+			ig:ig_rural_folk = {
+				save_scope_as = rapanui_ig
+				leader = {
+					save_scope_as = rapanui_ig_leader
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				ig:ig_trade_unions = {
+					is_in_government = yes
+				}
+			}
+			ig:ig_trade_unions = {
+				save_scope_as = rapanui_ig
+				leader = {
+					save_scope_as = rapanui_ig_leader
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.402.g #They'll have to live with it
+		default_option = yes
+		scope:rapanui_ig = {
+			add_modifier = {
+				name = rapanui_unpopoular_expedition_modifier
+				years = 3
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.402.h #Grant them political concessions
+		scope:rapanui_ig = {
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 3
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = rapanui.403
+			days = { 7 10 }
+		}
+	}
+}
+
+#Rapanui 403: Choose admiral 
+
+rapanui.403 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.403.t
+    desc = rapanui.403.d
+    flavor = rapanui.403.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role = admiral
+				is_busy = no
+			}
+			save_scope_as = rapanui_northwest_expedition_leader_1
+		}
+		random_scope_character = {
+			limit = {
+				has_role = admiral
+				NOT = {
+					this = scope:rapanui_northwest_expedition_leader_1
+				}
+				is_busy = no
+			}
+			save_scope_as = rapanui_northwest_expedition_leader_2
+		}
+		random_scope_character = {
+			limit = {
+				has_role = admiral
+				NOT = {
+					this = scope:rapanui_northwest_expedition_leader_1
+				}
+				NOT = {
+					this = scope:rapanui_northwest_expedition_leader_2
+				}
+				is_busy = no
+			}
+			save_scope_as = rapanui_northwest_expedition_leader_3
+		}
+	}
+
+	option = {
+		name = rapanui.403.g
+		default_option = yes
+		trigger = {
+			exists = scope:rapanui_northwest_expedition_leader_1
+		}
+		scope:rapanui_northwest_expedition_leader_1 = {
+			set_variable = rapanui_northwest_expedition_leader_var
+			set_character_busy_and_immortal = yes
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_1 = {
+					has_trait = experienced_naval_commander
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 5
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_1 = {
+					has_trait = expert_naval_commander
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 10
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_1 = {
+					has_trait = explorer
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 15
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_1 = {
+					has_trait = rapanui_circumnavigator
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 15
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.403.h
+		trigger = {
+			exists = scope:rapanui_northwest_expedition_leader_2
+		}
+		scope:rapanui_northwest_expedition_leader_2 = {
+			set_variable = rapanui_northwest_expedition_leader_var
+			set_character_busy_and_immortal = yes
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_2 = {
+					has_trait = experienced_naval_commander
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 5
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_2 = {
+					has_trait = expert_naval_commander
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 10
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_2 = {
+					has_trait = explorer
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 15
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_2 = {
+					has_trait = rapanui_circumnavigator
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 15
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.403.i
+		trigger = {
+			exists = scope:rapanui_northwest_expedition_leader_3
+		}
+		scope:rapanui_northwest_expedition_leader_3 = {
+			set_variable = rapanui_northwest_expedition_leader_var
+			set_character_busy_and_immortal = yes
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_3 = {
+					has_trait = experienced_naval_commander
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 5
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_3 = {
+					has_trait = expert_naval_commander
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 10
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_3 = {
+					has_trait = explorer
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 15
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader_3 = {
+					has_trait = rapanui_circumnavigator
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 15
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				OR = {
+					has_law = law_type:law_state_religion
+					has_law = law_type:law_freedom_of_conscience
+				}
+				ig:ig_devout = {
+					is_marginal = no
+				}
+			}
+			trigger_event = {
+				id = rapanui.404
+				days = { 7 10 }
+			}
+		}
+		else_if = {
+			limit = {
+				gaudi_has_engineer = yes
+			}
+			trigger_event = {
+				id = rapanui.405
+				days = { 7 10 }
+			}
+		}
+		else_if = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			trigger_event = {
+				id = rapanui.406
+				days = { 7 10 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = rapanui.407
+				days = { 7 10 }
+			}
+		}
+	}
+}
+
+#Rapanui 404: Ships Chaplains
+
+rapanui.404 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.404.t
+    desc = rapanui.404.d
+    flavor = rapanui.404.f
+
+    gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_ig_leader
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		ig:ig_devout = {
+			save_scope_as = rapanui_ig
+			leader = {
+				save_scope_as = rapanui_ig_leader
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.404.g #The sailors need pastors on such a dangerous journey.
+		rapanui_add_x_northwest_success = {
+			AMOUNT = 2
+		}
+		scope:rapanui_ig = {
+			add_modifier = {
+				name = rapanui_ship_chaplains_modifier
+				years = 3
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.404.h #Technology and skill, not God, will save us at sea.
+		default_option = yes
+	}
+
+	after = {
+		if = {
+			limit = {
+				gaudi_has_engineer = yes
+			}
+			trigger_event = {
+				id = rapanui.405
+				days = { 7 10 }
+			}
+		}
+		else_if = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			trigger_event = {
+				id = rapanui.406
+				days = { 7 10 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = rapanui.407
+				days = { 7 10 }
+			}
+		}
+	}
+}
+
+#Rapanui 405: Engineer improves Expedition ships
+
+rapanui.405 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.405.t
+    desc = rapanui.405.d
+    flavor = rapanui.405.f
+
+    gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_engineer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		var:gaudi_engineer_var = {
+			save_scope_as = rapanui_engineer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.405.g #Progress will break the ice.
+		if = {
+			limit = {
+				var:gaudi_engineer_var = {
+					has_trait = gaudi_mechanical_engineer
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 10
+			}
+		}
+		else = {
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 5
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			trigger_event = {
+				id = rapanui.406
+				days = { 7 10 }
+			}
+		}
+		else = {
+			trigger_event = {
+				id = rapanui.407
+				days = { 7 10 }
+			}
+		}
+	}
+}
+
+#Rapanui 406: Astronomer makes meteorological studies
+
+rapanui.406 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.406.t
+    desc = rapanui.406.d
+    flavor = rapanui.406.f
+
+    gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_astronomer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = rapanui_astronomer_scope
+		}
+	}
+
+	option = {
+		name = rapanui.406.g #Science helps us to triumph.
+		if = {
+			limit = {
+				OR = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_astronomer_experienced
+					}
+					var:verrier_astronomer_var = {
+						has_trait = verrier_astronomer_famous
+					}
+				}
+			}
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 10
+			}
+		}
+		else = {
+			rapanui_add_x_northwest_success = {
+				AMOUNT = 5
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = rapanui.407
+			days = { 7 10 }
+		}
+	}
+}
+
+#Rapanui 407: Expedition Starts
+
+rapanui.407 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.407.t
+    desc = rapanui.407.d
+    flavor = rapanui.407.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_rapanui_northwest_expedition_leader_effect = yes
+		#Expedition Progress
+		set_rapanui_northwest_expedition_progress = yes
+		#Expedition Reputation
+		if = {
+			limit = {
+				NOT = {
+					has_variable = rapanui_oceanographic_understanding
+				}
+			}
+			set_rapanui_oceanographic_understanding = yes
+		}
+	}
+
+	option = {
+		name = rapanui.407.g
+		add_journal_entry = {
+			type = je_rapanui_northwest_expedition
+		}
+	}
+
+	after = {
+	}
+}
+
+###############################################################################################################
+
+#Rapanui 411: The Northwest Passage discovered!
+
+rapanui.411 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.411.t
+    desc = rapanui.411.d
+    flavor = rapanui.411.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_global_variable = rapanui_northwest_passage_found_var
+	}
+
+	option = {
+		name = rapanui.411.g
+		remove_modifier = rapanui_northwest_expedition_modifier
+		add_modifier = {
+			name = rapanui_had_northwest_expedition_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_leader_var
+			}
+			remove_variable = rapanui_northwest_expedition_leader_var
+			set_character_busy_and_immortal = no
+		}
+	}
+}
 
 ###############################################################################################################
 
