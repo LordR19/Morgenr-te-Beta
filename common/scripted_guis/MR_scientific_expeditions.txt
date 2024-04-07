@@ -276,3 +276,83 @@ mr_pacific_expedition_button = {
 		}
     }
 }
+
+######NORTHWEST EXPEDITION######
+mr_northwest_expedition_button = {
+	scope = country
+	
+	is_valid = {
+		NOT = {
+			has_global_variable = rapanui_northwest_passage_found_var
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_SCREW_FRIGATE_TECH_TRIGGER_TT
+			has_technology_researched = screw_frigate
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_DIALECTICS_TECH_TRIGGER_TT
+			has_technology_researched = dialectics
+		}
+		has_technology_researched = canneries
+		custom_tooltip = {
+			text = MR_PACIFIC_PORT_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_port
+			}
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_UNIVERSITY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+		custom_tooltip = {
+			text = MR_NAVY_25_FLOTILLAS_TRIGGER_TT
+			navy_size >= 25
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_ADMIRAL_AVAILABLE_TRIGGER_TT
+			any_scope_character = {
+				has_role = admiral
+				is_busy = no
+			}
+		}
+		OR = {
+			ig:ig_armed_forces = {
+				is_in_government = yes
+			}
+			ig:ig_industrialists = {
+				is_in_government = yes
+			}
+			ig:ig_intelligentsia = {
+				is_in_government = yes
+			}
+		}
+		OR = {
+			any_scope_interest_marker = {
+				region = sr:region_canada
+			}
+			any_scope_interest_marker = {
+				region = sr:region_pacific_coast
+			}
+			any_scope_interest_marker = {
+				region = sr:region_north_sea_coast
+			}
+		}
+		NOR = {
+			has_modifier = rapanui_northwest_expedition_modifier
+			has_modifier = rapanui_had_northwest_expedition_modifier
+		}
+	}
+
+	effect = {
+		add_treasury = -100000
+		add_modifier = {
+			name = rapanui_northwest_expedition_modifier
+		}
+		trigger_event = { 
+			id = rapanui.401
+			popup = yes
+		}
+	}
+}
