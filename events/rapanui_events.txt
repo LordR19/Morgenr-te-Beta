@@ -11446,6 +11446,54 @@ rapanui.407 = {
 
 ###############################################################################################################
 
+#Rapanui 410: The Northwest Passage discovered!
+
+rapanui.410 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.410.t
+    desc = rapanui.410.d
+    flavor = rapanui.410.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_amundsen.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	trigger = {
+		NOT = {
+			has_global_variable = rapanui_northwest_passage_found_var
+		}
+		game_date >= 1906
+		exists = c:NOR
+		ROOT = c:NOR
+	}
+
+	immediate = {
+		set_global_variable = rapanui_northwest_passage_found_var
+	}
+
+	option = {
+		name = rapanui.410.g
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 5
+		}
+		add_5_rapanui_oceanographic_understanding = yes
+		verrier_small_add_technology = yes
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
 #Rapanui 411: The Northwest Passage discovered!
 
 rapanui.411 = {
@@ -11793,28 +11841,456 @@ rapanui.415 = {
 		}
 	}
 
-	#option = {
-	#	name = rapanui.415.h #Send the rescue mission!
-	#	trigger = {
-	#		exists = scope:rapanui_northwest_expedition_hero
-	#	}
-	#	custom_tooltip = rapanui.415.tt
-	#	remove_modifier = rapanui_northwest_expedition_modifier
-	#	add_modifier = {
-	#		name = rapanui_had_northwest_expedition_modifier
-	#		years = 15
-	#	}
-	#	add_modifier = {
-	#		name = rapanui_northwest_disaster_modifier
-	#		years = 15
-	#	}
-	#	add_treasury = -50000
-	#	scope:rapanui_northwest_expedition_hero = {
-	#		set_variable = rapanui_northwest_expedition_hero
-	#	}
-	#}
+	option = {
+		name = rapanui.415.h #Send a rescue mission!
+		trigger = {
+			exists = scope:rapanui_northwest_expedition_hero
+		}
+		custom_tooltip = rapanui.415.tt
+		remove_modifier = rapanui_northwest_expedition_modifier
+		add_modifier = {
+			name = rapanui_had_northwest_expedition_modifier
+			years = 15
+		}
+		add_modifier = {
+			name = rapanui_northwest_disaster_modifier
+			years = 15
+		}
+		add_treasury = -50000
+		scope:rapanui_northwest_expedition_hero = {
+			set_variable = rapanui_northwest_expedition_hero_var
+			set_character_busy_and_immortal = yes
+		}
+		hidden_effect = {
+			random_list = {
+				35 = {
+					trigger_event = {
+						id = rapanui.416 #Rescue mission finds some remains
+						days = { 90 120 }
+					}
+				}
+				35 = {
+					trigger_event = {
+						id = rapanui.417 #Rescue mission does not find anything
+						days = { 90 120 }
+					}
+				}
+				20 = {
+					trigger_event = {
+						id = rapanui.418 #Rescue mission finds the Captain!
+						days = { 90 120 }
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = rapanui.419 #Rescue mission fails!
+						days = { 90 120 }
+					}
+				}
+			}
+		}
+	}
 
 	after = {
+	}
+}
+
+#Rapanui 416: Rescue mission finds some remains
+
+rapanui.416 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.416.t
+    desc = rapanui.416.d
+    flavor = rapanui.416.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_rescue.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_rapanui_northwest_expedition_leader_effect = yes
+		set_rapanui_northwest_expedition_hero_effect = yes
+	}
+
+	option = {
+		name = rapanui.416.g #At least we were able to shed some light on the matter.
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 1
+		}
+		add_1_rapanui_oceanographic_understanding = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 1000 }
+		verrier_small_add_technology = yes
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_hero = {
+					has_trait = experienced_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_hero = {
+				remove_trait = experienced_naval_commander
+				add_trait = expert_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_hero = {
+					has_trait = basic_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_hero = {
+				remove_trait = basic_naval_commander
+				add_trait = experienced_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_hero = {
+					NOT = {
+						has_trait = basic_naval_commander
+						has_trait = experienced_naval_commander
+						has_trait = expert_naval_commander
+					}
+				}
+			}
+			scope:rapanui_northwest_expedition_hero = {
+				add_trait = basic_naval_commander
+			}
+		}
+		scope:rapanui_northwest_expedition_leader = {
+			remove_variable = rapanui_northwest_expedition_leader_var
+			set_character_busy_and_immortal = no
+			kill_character = yes
+		}
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_hero_var
+			}
+			remove_variable = rapanui_northwest_expedition_hero_var
+			set_character_busy_and_immortal = no
+		}
+	}
+}
+
+#Rapanui 417: Rescue mission does not find anything
+
+rapanui.417 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.417.t
+    desc = rapanui.417.d
+    flavor = rapanui.417.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_lost.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_rapanui_northwest_expedition_leader_effect = yes
+		set_rapanui_northwest_expedition_hero_effect = yes
+	}
+
+	option = {
+		name = rapanui.417.g #This expedition remains a mystery.
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 1
+		}
+		scope:rapanui_northwest_expedition_leader = {
+			remove_variable = rapanui_northwest_expedition_leader_var
+			set_character_busy_and_immortal = no
+			kill_character = yes
+		}
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_hero_var
+			}
+			remove_variable = rapanui_northwest_expedition_hero_var
+			set_character_busy_and_immortal = no
+		}
+	}
+}
+
+#Rapanui 418: Rescue mission finds lost expedition!
+
+rapanui.418 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.418.t
+    desc = rapanui.418.d
+    flavor = rapanui.418.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_rescue.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_rapanui_northwest_expedition_leader_effect = yes
+		set_rapanui_northwest_expedition_hero_effect = yes
+		remove_modifier = rapanui_had_northwest_expedition_modifier
+	}
+
+	option = {
+		name = rapanui.418.g #These men are heroes!
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 3
+		}
+		add_3_rapanui_oceanographic_understanding = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 2000 }
+		dubois_small_add_technology = yes
+		verrier_small_add_technology = yes
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader = {
+					has_trait = experienced_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_leader = {
+				remove_trait = experienced_naval_commander
+				add_trait = expert_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader = {
+					has_trait = basic_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_leader = {
+				remove_trait = basic_naval_commander
+				add_trait = experienced_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader = {
+					NOT = {
+						has_trait = basic_naval_commander
+						has_trait = experienced_naval_commander
+						has_trait = expert_naval_commander
+					}
+				}
+			}
+			scope:rapanui_northwest_expedition_leader = {
+				add_trait = basic_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_hero = {
+					has_trait = experienced_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_hero = {
+				remove_trait = experienced_naval_commander
+				add_trait = expert_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_hero = {
+					has_trait = basic_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_hero = {
+				remove_trait = basic_naval_commander
+				add_trait = experienced_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_hero = {
+					NOT = {
+						has_trait = basic_naval_commander
+						has_trait = experienced_naval_commander
+						has_trait = expert_naval_commander
+					}
+				}
+			}
+			scope:rapanui_northwest_expedition_hero = {
+				add_trait = basic_naval_commander
+			}
+		}
+		remove_modifier = rapanui_northwest_disaster_modifier
+		add_modifier = {
+			name = rapanui_had_northwest_expedition_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_hero_var
+			}
+			remove_variable = rapanui_northwest_expedition_hero_var
+			set_character_busy_and_immortal = no
+		}
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_leader_var
+			}
+			remove_variable = rapanui_northwest_expedition_leader_var
+			set_character_busy_and_immortal = no
+		}
+	}
+}
+
+#Rapanui 419: Rescue mission lost!
+
+rapanui.419 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.419.t
+    desc = rapanui.419.d
+    flavor = rapanui.419.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_ice.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_rapanui_northwest_expedition_leader_effect = yes
+		set_rapanui_northwest_expedition_hero_effect = yes
+	}
+
+	option = {
+		name = rapanui.419.g #This sea of ​​ice is cursed!
+		scope:rapanui_northwest_expedition_leader = {
+			remove_variable = rapanui_northwest_expedition_leader_var
+			set_character_busy_and_immortal = no
+			kill_character = yes
+		}
+		scope:rapanui_northwest_expedition_leader = {
+			remove_variable = rapanui_northwest_expedition_hero_var
+			set_character_busy_and_immortal = no
+			kill_character = yes
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 420: Expedition returns! (invalid JE)
+
+rapanui.420 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.420.t
+    desc = rapanui.420.d
+    flavor = rapanui.420.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_start.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		remove_rapanui_northwest_expedition_location = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.420.g #Welcome home.
+		remove_modifier = rapanui_northwest_expedition_modifier
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 3
+		}
+		add_3_rapanui_oceanographic_understanding = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 2000 }
+		dubois_small_add_technology = yes
+		verrier_small_add_technology = yes
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader = {
+					has_trait = experienced_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_leader = {
+				remove_trait = experienced_naval_commander
+				add_trait = expert_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader = {
+					has_trait = basic_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_leader = {
+				remove_trait = basic_naval_commander
+				add_trait = experienced_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader = {
+					NOT = {
+						has_trait = basic_naval_commander
+						has_trait = experienced_naval_commander
+						has_trait = expert_naval_commander
+					}
+				}
+			}
+			scope:rapanui_northwest_expedition_leader = {
+				add_trait = basic_naval_commander
+			}
+		}
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_leader_var
+			}
+			remove_variable = rapanui_northwest_expedition_leader_var
+			set_character_busy_and_immortal = no
+		}
 	}
 }
 
