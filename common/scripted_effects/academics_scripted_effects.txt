@@ -1989,11 +1989,11 @@ engineer_experience_set_up_effect = {
 		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
 			name = academics_is_civil_engineer_modifier
 		}
-		if = { #Adds experience to the Engineer if they are older than 30.
+		if = { #Each year over 30 gives 9 Experience
 			limit = {
 				age > 30
 			}
-			Set_variable = { #basically each year over 30 will add 10 experience to the engineer
+			set_variable = {
 				name = gaudi_civil_engineer_experience
 				value = age
 			}
@@ -2003,7 +2003,270 @@ engineer_experience_set_up_effect = {
 			}
 			change_variable = {
 				name = gaudi_civil_engineer_experience
-				multiply = 10
+				multiply = 9
+			}
+		}
+		else = {
+			set_variable = {
+				name = gaudi_civil_engineer_experience
+				value = 0
+			}
+		}
+		# 5 Experience per 10% of Technical-Mathematical Universities
+		if = { #Added a first check to reduce number of checks (divide and conquer)
+			limit = {
+				owner = {
+					any_scope_building = {
+						filter = {
+							is_building_type = building_university
+						}
+						percent >= 0.5
+						has_active_production_method = pm_dubois_university_mathematics
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 50
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.9
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 45
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.8
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 40
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.7
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 35
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.6
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 30
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.5
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 25
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.4
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 20
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.3
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 15
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.2
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 10
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_civil_engineer_experience
+					add = 5
+				}
+			}
+		}
+		# -10 per negative trait up to -30
+		if = {
+			limit = {
+				calc_true_if = {
+					amount >= 3
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_civil_engineer_experience
+				subtract = 30
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 2
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_civil_engineer_experience
+				subtract = 20
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 1
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_civil_engineer_experience
+				subtract = 10
+			}
+		}
+		# + random number between 1 and 10
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 1 20 }
+		}
+		change_variable = {
+			name = gaudi_civil_engineer_experience
+			add = local_var:random_amount_local_var
+		}
+		#If under 0 normalize to 0
+		if = {
+			limit = {
+				var:gaudi_civil_engineer_experience < 0
+			}
+			set_variable = {
+				name = gaudi_civil_engineer_experience
+				value = 0
 			}
 		}
 		add_trait = gaudi_civil_engineer #Adds the specific trait to the engineer
@@ -2015,11 +2278,11 @@ engineer_experience_set_up_effect = {
 		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
 			name = academics_is_mechanical_engineer_modifier
 		}
-		if = {
+		if = { #Each year over 30 gives 9 Experience
 			limit = {
 				age > 30
 			}
-			Set_variable = {
+			set_variable = {
 				name = gaudi_mechanical_engineer_experience
 				value = age
 			}
@@ -2029,7 +2292,270 @@ engineer_experience_set_up_effect = {
 			}
 			change_variable = {
 				name = gaudi_mechanical_engineer_experience
-				multiply = 10
+				multiply = 9
+			}
+		}
+		else = {
+			set_variable = {
+				name = gaudi_mechanical_engineer_experience
+				value = 0
+			}
+		}
+		# 5 Experience per 10% of Technical-Mathematical Universities
+		if = { #Added a first check to reduce number of checks (divide and conquer)
+			limit = {
+				owner = {
+					any_scope_building = {
+						filter = {
+							is_building_type = building_university
+						}
+						percent >= 0.5
+						has_active_production_method = pm_dubois_university_mathematics
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 50
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.9
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 45
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.8
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 40
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.7
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 35
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.6
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 30
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.5
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 25
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.4
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 20
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.3
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 15
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.2
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 10
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_mechanical_engineer_experience
+					add = 5
+				}
+			}
+		}
+		# -10 per negative trait up to -30
+		if = {
+			limit = {
+				calc_true_if = {
+					amount >= 3
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_mechanical_engineer_experience
+				subtract = 30
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 2
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_mechanical_engineer_experience
+				subtract = 20
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 1
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_mechanical_engineer_experience
+				subtract = 10
+			}
+		}
+		# + random number between 1 and 10
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 1 20 }
+		}
+		change_variable = {
+			name = gaudi_mechanical_engineer_experience
+			add = local_var:random_amount_local_var
+		}
+		#If under 0 normalize to 0
+		if = {
+			limit = {
+				var:gaudi_mechanical_engineer_experience < 0
+			}
+			set_variable = {
+				name = gaudi_mechanical_engineer_experience
+				value = 0
 			}
 		}
 		add_trait = gaudi_mechanical_engineer
@@ -2041,11 +2567,11 @@ engineer_experience_set_up_effect = {
 		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
 			name = academics_is_military_engineer_modifier
 		}
-		if = {
+		if = { #Each year over 30 gives 9 Experience
 			limit = {
 				age > 30
 			}
-			Set_variable = {
+			set_variable = {
 				name = gaudi_military_engineer_experience
 				value = age
 			}
@@ -2055,7 +2581,270 @@ engineer_experience_set_up_effect = {
 			}
 			change_variable = {
 				name = gaudi_military_engineer_experience
-				multiply = 10
+				multiply = 9
+			}
+		}
+		else = {
+			set_variable = {
+				name = gaudi_military_engineer_experience
+				value = 0
+			}
+		}
+		# 5 Experience per 10% of Technical-Mathematical Universities
+		if = { #Added a first check to reduce number of checks (divide and conquer)
+			limit = {
+				owner = {
+					any_scope_building = {
+						filter = {
+							is_building_type = building_university
+						}
+						percent >= 0.5
+						has_active_production_method = pm_dubois_university_mathematics
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 50
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.9
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 45
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.8
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 40
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.7
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 35
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.6
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 30
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.5
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 25
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.4
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 20
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.3
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 15
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.2
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 10
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_military_engineer_experience
+					add = 5
+				}
+			}
+		}
+		# -10 per negative trait up to -30
+		if = {
+			limit = {
+				calc_true_if = {
+					amount >= 3
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_military_engineer_experience
+				subtract = 30
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 2
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_military_engineer_experience
+				subtract = 20
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 1
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_military_engineer_experience
+				subtract = 10
+			}
+		}
+		# + random number between 1 and 10
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 1 20 }
+		}
+		change_variable = {
+			name = gaudi_military_engineer_experience
+			add = local_var:random_amount_local_var
+		}
+		#If under 0 normalize to 0
+		if = {
+			limit = {
+				var:gaudi_military_engineer_experience < 0
+			}
+			set_variable = {
+				name = gaudi_military_engineer_experience
+				value = 0
 			}
 		}
 		add_trait = gaudi_military_engineer
@@ -2067,11 +2856,11 @@ engineer_experience_set_up_effect = {
 		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
 			name = academics_is_electrical_engineer_modifier
 		}
-		if = {
+		if = { #Each year over 30 gives 9 Experience
 			limit = {
 				age > 30
 			}
-			Set_variable = {
+			set_variable = {
 				name = gaudi_electrical_engineer_experience
 				value = age
 			}
@@ -2081,7 +2870,270 @@ engineer_experience_set_up_effect = {
 			}
 			change_variable = {
 				name = gaudi_electrical_engineer_experience
-				multiply = 10
+				multiply = 9
+			}
+		}
+		else = {
+			set_variable = {
+				name = gaudi_electrical_engineer_experience
+				value = 0
+			}
+		}
+		# 5 Experience per 10% of Technical-Mathematical Universities
+		if = { #Added a first check to reduce number of checks (divide and conquer)
+			limit = {
+				owner = {
+					any_scope_building = {
+						filter = {
+							is_building_type = building_university
+						}
+						percent >= 0.5
+						has_active_production_method = pm_dubois_university_mathematics
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 50
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.9
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 45
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.8
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 40
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.7
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 35
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.6
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 30
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.5
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 25
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.4
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 20
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.3
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 15
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.2
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 10
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_electrical_engineer_experience
+					add = 5
+				}
+			}
+		}
+		# -10 per negative trait up to -30
+		if = {
+			limit = {
+				calc_true_if = {
+					amount >= 3
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_electrical_engineer_experience
+				subtract = 30
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 2
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_electrical_engineer_experience
+				subtract = 20
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 1
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_electrical_engineer_experience
+				subtract = 10
+			}
+		}
+		# + random number between 1 and 10
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 1 20 }
+		}
+		change_variable = {
+			name = gaudi_electrical_engineer_experience
+			add = local_var:random_amount_local_var
+		}
+		#If under 0 normalize to 0
+		if = {
+			limit = {
+				var:gaudi_electrical_engineer_experience < 0
+			}
+			set_variable = {
+				name = gaudi_electrical_engineer_experience
+				value = 0
 			}
 		}
 		add_trait = gaudi_electrical_engineer
@@ -2093,11 +3145,11 @@ engineer_experience_set_up_effect = {
 		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
 			name = academics_is_aeronautical_engineer_modifier
 		}
-		if = {
+		if = { #Each year over 30 gives 9 Experience
 			limit = {
 				age > 30
 			}
-			Set_variable = {
+			set_variable = {
 				name = gaudi_aeronautical_engineer_experience
 				value = age
 			}
@@ -2107,7 +3159,270 @@ engineer_experience_set_up_effect = {
 			}
 			change_variable = {
 				name = gaudi_aeronautical_engineer_experience
-				multiply = 10
+				multiply = 9
+			}
+		}
+		else = {
+			set_variable = {
+				name = gaudi_aeronautical_engineer_experience
+				value = 0
+			}
+		}
+		# 5 Experience per 10% of Technical-Mathematical Universities
+		if = { #Added a first check to reduce number of checks (divide and conquer)
+			limit = {
+				owner = {
+					any_scope_building = {
+						filter = {
+							is_building_type = building_university
+						}
+						percent >= 0.5
+						has_active_production_method = pm_dubois_university_mathematics
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 50
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.9
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 45
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.8
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 40
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.7
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 35
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.6
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 30
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.5
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 25
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.4
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 20
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.3
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 15
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.2
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 10
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.1
+							has_active_production_method = pm_dubois_university_mathematics
+						}
+					}
+				}
+				change_variable = {
+					name = gaudi_aeronautical_engineer_experience
+					add = 5
+				}
+			}
+		}
+		# -10 per negative trait up to -30
+		if = {
+			limit = {
+				calc_true_if = {
+					amount >= 3
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_aeronautical_engineer_experience
+				subtract = 30
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 2
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_aeronautical_engineer_experience
+				subtract = 20
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 1
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = gaudi_aeronautical_engineer_experience
+				subtract = 10
+			}
+		}
+		# + random number between 1 and 10
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 1 20 }
+		}
+		change_variable = {
+			name = gaudi_aeronautical_engineer_experience
+			add = local_var:random_amount_local_var
+		}
+		#If under 0 normalize to 0
+		if = {
+			limit = {
+				var:gaudi_aeronautical_engineer_experience < 0
+			}
+			set_variable = {
+				name = gaudi_aeronautical_engineer_experience
+				value = 0
 			}
 		}
 		add_trait = gaudi_aeronautical_engineer
@@ -3565,318 +4880,36 @@ verrier_remove_new_astronomer_effect = {
 
 # Used to set up the Experience of a character 
 astronomer_experience_set_up_effect = {
-	if = {
+	#Adds astronomer experience (see effect for further information)
+	general_experience_up_effect = {
+		TYPE = verrier_astronomer_experience
+		UNI_PM = pm_dubois_university_mathematics
+	}
+	
+	if = { #Adds the Experienced Astronomer Trait if Experience is above 100
 		limit = {
+			var:verrier_astronomer_experience >= 100
 			NOT = {
-				has_variable = verrier_astronomer_experience
-			}
-		}
-		if = { #Each year over 30 gives 9 Experience
-			limit = {
-				age > 30
-			}
-			set_variable = {
-				name = verrier_astronomer_experience
-				value = age
-			}
-			change_variable = {
-				name = verrier_astronomer_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = verrier_astronomer_experience
-				multiply = 9
-			}
-		}
-		else = {
-			set_variable = {
-				name = verrier_astronomer_experience
-				value = 0
-			}
-		}
-		# 5 Experience per 10% of Technical-Mathematical Universities
-		if = { #Added a first check to reduce number of checks (divide and conquer)
-			limit = {
-				owner = {
-					any_scope_building = {
-						filter = {
-							is_building_type = building_university
-						}
-						percent >= 0.5
-						has_active_production_method = pm_dubois_university_mathematics
-					}
-				}
-			}
-			if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 1
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 50
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 0.9
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 45
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 0.8
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 40
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 0.7
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 35
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 0.6
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 30
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 0.5
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 25
-				}
-			}
-		}
-		else = {
-			if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 0.4
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 20
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 0.3
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 15
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 0.2
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 10
-				}
-			}
-			else_if = {
-				limit = {
-					owner = {
-						any_scope_building = {
-							filter = {
-								is_building_type = building_university
-							}
-							percent >= 0.1
-							has_active_production_method = pm_dubois_university_mathematics
-						}
-					}
-				}
-				change_variable = {
-					name = verrier_astronomer_experience
-					add = 5
-				}
-			}
-		}
-		# -10 per negative trait up to -30
-		if = {
-			limit = {
-				calc_true_if = {
-					amount >= 3
-					has_trait = alcoholic
-					has_trait = opium_addiction
-					has_trait = cocaine_addiction
-					has_trait = senile
-					has_trait = psychological_affliction
-					has_trait = kidney_stones	
-				}
-			}
-			change_variable = {
-				name = verrier_astronomer_experience
-				subtract = 30
-			}
-		}
-		else_if = {
-			limit = {
-				calc_true_if = {
-					amount >= 2
-					has_trait = alcoholic
-					has_trait = opium_addiction
-					has_trait = cocaine_addiction
-					has_trait = senile
-					has_trait = psychological_affliction
-					has_trait = kidney_stones	
-				}
-			}
-			change_variable = {
-				name = verrier_astronomer_experience
-				subtract = 20
-			}
-		}
-		else_if = {
-			limit = {
-				calc_true_if = {
-					amount >= 1
-					has_trait = alcoholic
-					has_trait = opium_addiction
-					has_trait = cocaine_addiction
-					has_trait = senile
-					has_trait = psychological_affliction
-					has_trait = kidney_stones	
-				}
-			}
-			change_variable = {
-				name = verrier_astronomer_experience
-				subtract = 10
-			}
-		}
-		# + random number between 1 and 10
-		set_local_variable = {
-			name = random_amount_local_var
-			value = { 1 20 }
-		}
-		change_variable = {
-			name = verrier_astronomer_experience
-			add = local_var:random_amount_local_var
-		}
-		#If under 0 normalize to 0
-		if = {
-			limit = {
-				var:verrier_astronomer_experience < 0
-			}
-			set_variable = {
-				name = verrier_astronomer_experience
-				value = 0
-			}
-		}
-
-		if = { #Adds the Experienced Astronomer Trait if Experience is above 100
-			limit = {
-				var:verrier_astronomer_experience >= 100
-				NOT = {
-					var:verrier_astronomer_experience >= 300
-				}
-				NOR = {
-					has_trait = verrier_astronomer_experienced
-					has_trait = verrier_astronomer_famous
-				}
-			}
-			remove_trait = verrier_astronomer
-			add_trait = verrier_astronomer_experienced
-		}
-		if = { #Adds the Famous Astronomer Trait if Experience is above 300
-			limit = {
 				var:verrier_astronomer_experience >= 300
-				NOT = {
-					has_trait = verrier_astronomer_famous
-				}
 			}
-			remove_trait = verrier_astronomer
-			remove_trait = verrier_astronomer_experienced
-			add_trait = verrier_astronomer_famous
+			NOR = {
+				has_trait = verrier_astronomer_experienced
+				has_trait = verrier_astronomer_famous
+			}
 		}
+		remove_trait = verrier_astronomer
+		add_trait = verrier_astronomer_experienced
+	}
+	if = { #Adds the Famous Astronomer Trait if Experience is above 300
+		limit = {
+			var:verrier_astronomer_experience >= 300
+			NOT = {
+				has_trait = verrier_astronomer_famous
+			}
+		}
+		remove_trait = verrier_astronomer
+		remove_trait = verrier_astronomer_experienced
+		add_trait = verrier_astronomer_famous
 	}
 }
 
@@ -10465,5 +11498,298 @@ academics_academic_recruited_effect = {
 				}
 			}
 		}	
+	}
+}
+
+#This Effect sets up a specific kind of experience, depending on the input
+### TYPE = experience type
+### UNI_PM = Production Method of the University
+general_experience_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = $TYPE$
+			}
+		}
+		if = { #Each year over 30 gives 9 Experience
+			limit = {
+				age > 30
+			}
+			set_variable = {
+				name = $TYPE$
+				value = age
+			}
+			change_variable = {
+				name = $TYPE$
+				subtract = 30
+			}
+			change_variable = {
+				name = $TYPE$
+				multiply = 9
+			}
+		}
+		else = {
+			set_variable = {
+				name = $TYPE$
+				value = 0
+			}
+		}
+		# 5 Experience per 10% of Technical-Mathematical Universities
+		if = { #Added a first check to reduce number of checks (divide and conquer)
+			limit = {
+				owner = {
+					any_scope_building = {
+						filter = {
+							is_building_type = building_university
+						}
+						percent >= 0.5
+						has_active_production_method = $UNI_PM$
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 1
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 50
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.9
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 45
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.8
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 40
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.7
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 35
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.6
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 30
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.5
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 25
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.4
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 20
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.3
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 15
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.2
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 10
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.1
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 5
+				}
+			}
+		}
+		# -10 per negative trait up to -30
+		if = {
+			limit = {
+				calc_true_if = {
+					amount >= 3
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = $TYPE$
+				subtract = 30
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 2
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = $TYPE$
+				subtract = 20
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 1
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = $TYPE$
+				subtract = 10
+			}
+		}
+		# + random number between 1 and 10
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 1 20 }
+		}
+		change_variable = {
+			name = $TYPE$
+			add = local_var:random_amount_local_var
+		}
+		#If under 0 normalize to 0
+		if = {
+			limit = {
+				var:$TYPE$ < 0
+			}
+			set_variable = {
+				name = $TYPE$
+				value = 0
+			}
+		}
 	}
 }
