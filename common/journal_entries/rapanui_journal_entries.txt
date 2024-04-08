@@ -716,3 +716,108 @@ je_rapanui_oceanographic_studies = {
 
 	should_be_pinned_by_default = yes
 }
+
+###################################################################################
+
+######NORTHWEST EXPEDITION######
+
+je_rapanui_northwest_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	group = je_group_dubois_nature
+
+	on_yearly_pulse = {
+		effect = {
+			add_rapanui_northwest_expedition_progress = 1
+		}
+		random_events = {
+			#10 = rapanui.421 #Rapanui 421: Mild Weather
+			#10 = rapanui.422 #Rapanui 422: Harsh Weather
+			#10 = rapanui.423 #Rapanui 423: Inuit Guide
+			#10 = rapanui.424 #Rapanui 424: Game Meat
+			#10 = rapanui.425 #Rapanui 425: Poisoning
+			#10 = rapanui.426 #Rapanui 426: Tubercolosis
+			#10 = rapanui.427 #Rapanui 427: Pack Ice
+			#10 = rapanui.428 #Rapanui 428: Geomagnetic Data
+			#10 = rapanui.429 #Rapanui 429: Fauna and Flora
+		}
+	}
+	
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_leader_var
+			}
+			save_scope_as = rapanui_northwest_expedition_leader
+		}
+	}
+
+	status_desc = {
+		first_valid = {
+			triggered_desc = {
+				desc = rapanui_northwest_expedition_location_arctic_tt
+				trigger = {
+					has_variable = rapanui_northwest_expedition_location_arctic
+				}
+			}
+			triggered_desc = {
+				desc = rapanui_northwest_expedition_location_ice_tt
+				trigger = {
+					has_variable = rapanui_northwest_expedition_location_ice
+				}
+			}
+			triggered_desc = {
+				desc = rapanui_northwest_expedition_location_lost_tt
+				trigger = {
+					has_variable = rapanui_northwest_expedition_location_lost
+				}
+			}
+		}
+	}
+	
+    fail = {
+		custom_tooltip = {
+			text = je_rapanui_northwest_expedition_fail
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = rapanui.412
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_rapanui_northwest_expedition_success
+			var:rapanui_northwest_success >= 80
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = rapanui.411
+			days = { 20 90 }
+		}
+	}
+
+	invalid = {
+	}
+
+	current_value = {
+		value = var:rapanui_northwest_expedition_progress
+	}
+
+	goal_add_value = {
+		value = 4
+	}
+
+	progressbar = yes
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+}
