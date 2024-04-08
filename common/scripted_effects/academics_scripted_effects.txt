@@ -3835,7 +3835,7 @@ astronomer_experience_set_up_effect = {
 		# + random number between 1 and 10
 		set_local_variable = {
 			name = random_amount_local_var
-			value = { 1 10 }
+			value = { 1 20 }
 		}
 		change_variable = {
 			name = verrier_astronomer_experience
@@ -5920,7 +5920,7 @@ naturalist_experience_set_up_effect = {
 		# + random number between 1 and 10
 		set_local_variable = {
 			name = random_amount_local_var
-			value = { 1 10 }
+			value = { 1 20 }
 		}
 		change_variable = {
 			name = dubois_naturalist_experience
@@ -7146,7 +7146,7 @@ paleontologist_experience_set_up_effect = {
 		# + random number between 1 and 10
 		set_local_variable = {
 			name = random_amount_local_var
-			value = { 1 10 }
+			value = { 1 20 }
 		}
 		change_variable = {
 			name = dubois_paleontologist_experience
@@ -8538,8 +8538,10 @@ archaeologist_experience_set_up_effect = { #This effect needs to be placed in th
 				has_variable = lepsius_archaeologist_experience
 			}
 		}
-		if = {
-			limit = { age > 30 }
+		if = { #Each year over 30 gives 9 Experience
+			limit = {
+				age > 30
+			}
 			set_variable = {
 				name = lepsius_archaeologist_experience
 				value = age
@@ -8550,7 +8552,7 @@ archaeologist_experience_set_up_effect = { #This effect needs to be placed in th
 			}
 			change_variable = {
 				name = lepsius_archaeologist_experience
-				multiply = 10
+				multiply = 9
 			}
 		}
 		else = {
@@ -8559,6 +8561,263 @@ archaeologist_experience_set_up_effect = { #This effect needs to be placed in th
 				value = 0
 			}
 		}
+		# 5 Experience per 10% of Natural History Universities
+		if = { #Added a first check to reduce number of checks (divide and conquer)
+			limit = {
+				owner = {
+					any_scope_building = {
+						filter = {
+							is_building_type = building_university
+						}
+						percent >= 0.5
+						has_active_production_method = pm_dubois_university_humanities
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 1
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 50
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.9
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 45
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.8
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 40
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.7
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 35
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.6
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 30
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.5
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 25
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.4
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 20
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.3
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 15
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.2
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 10
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.1
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_archaeologist_experience
+					add = 5
+				}
+			}
+		}
+		# -10 per negative trait up to -30
+		if = {
+			limit = {
+				calc_true_if = {
+					amount >= 3
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = lepsius_archaeologist_experience
+				subtract = 30
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 2
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = lepsius_archaeologist_experience
+				subtract = 20
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 1
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = lepsius_archaeologist_experience
+				subtract = 10
+			}
+		}
+		# + random number between 1 and 10
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 1 20 }
+		}
+		change_variable = {
+			name = lepsius_archaeologist_experience
+			add = local_var:random_amount_local_var
+		}
+		if = { #If under 0 normalize to 0
+			limit = {
+				var:lepsius_archaeologist_experience < 0
+			}
+			set_variable = {
+				name = lepsius_archaeologist_experience
+				value = 0
+			}
+		}
+
 		if = { #Adds the Experienced Archaeologist Trait if Experience is above 100
 			limit = {
 				var:lepsius_archaeologist_experience >= 100
@@ -8977,8 +9236,10 @@ anthropologist_experience_set_up_effect = {
 				has_variable = lepsius_anthropologist_experience
 			}
 		}
-		if = {
-			limit = { age > 30 }
+		if = { #Each year over 30 gives 9 Experience
+			limit = {
+				age > 30
+			}
 			set_variable = {
 				name = lepsius_anthropologist_experience
 				value = age
@@ -8989,7 +9250,7 @@ anthropologist_experience_set_up_effect = {
 			}
 			change_variable = {
 				name = lepsius_anthropologist_experience
-				multiply = 10
+				multiply = 9
 			}
 		}
 		else = {
@@ -8998,6 +9259,263 @@ anthropologist_experience_set_up_effect = {
 				value = 0
 			}
 		}
+		# 5 Experience per 10% of Natural History Universities
+		if = { #Added a first check to reduce number of checks (divide and conquer)
+			limit = {
+				owner = {
+					any_scope_building = {
+						filter = {
+							is_building_type = building_university
+						}
+						percent >= 0.5
+						has_active_production_method = pm_dubois_university_humanities
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 1
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 50
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.9
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 45
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.8
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 40
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.7
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 35
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.6
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 30
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.5
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 25
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.4
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 20
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.3
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 15
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.2
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 10
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.1
+							has_active_production_method = pm_dubois_university_humanities
+						}
+					}
+				}
+				change_variable = {
+					name = lepsius_anthropologist_experience
+					add = 5
+				}
+			}
+		}
+		# -10 per negative trait up to -30
+		if = {
+			limit = {
+				calc_true_if = {
+					amount >= 3
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = lepsius_anthropologist_experience
+				subtract = 30
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 2
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = lepsius_anthropologist_experience
+				subtract = 20
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 1
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = lepsius_anthropologist_experience
+				subtract = 10
+			}
+		}
+		# + random number between 1 and 10
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 1 20 }
+		}
+		change_variable = {
+			name = lepsius_anthropologist_experience
+			add = local_var:random_amount_local_var
+		}
+		if = { #If under 0 normalize to 0
+			limit = {
+				var:lepsius_anthropologist_experience < 0
+			}
+			set_variable = {
+				name = lepsius_anthropologist_experience
+				value = 0
+			}
+		}
+
 		if = { #Adds the Experienced Anthropologist Trait if Experience is above 100
 			limit = {
 				var:lepsius_anthropologist_experience >= 100
@@ -9218,6 +9736,7 @@ geologist_experience_set_up_effect = {
 		}
 	}
 }
+
 
 #Geologist Experience gain
 geologist_experience_gain_effect = { #adds XP to the Geologist
