@@ -11524,7 +11524,6 @@ rapanui.411 = {
 		rapanui_northwest_expedition_location_effect = yes
 		set_rapanui_northwest_expedition_leader_effect = yes
 		set_global_variable = rapanui_northwest_passage_found_var
-		remove_rapanui_northwest_expedition_location = yes
 	}
 
 	option = {
@@ -11594,6 +11593,7 @@ rapanui.411 = {
 			remove_variable = rapanui_northwest_expedition_leader_var
 			set_character_busy_and_immortal = no
 		}
+		remove_rapanui_northwest_expedition_location = yes
 	}
 }
 
@@ -11623,7 +11623,6 @@ rapanui.412 = {
 	immediate = {
 		rapanui_northwest_expedition_location_effect = yes
 		set_rapanui_northwest_expedition_leader_effect = yes
-		remove_rapanui_northwest_expedition_location = yes
 		set_variable = rapanui_northwest_expedition_location_lost
 	}
 
@@ -11632,6 +11631,7 @@ rapanui.412 = {
 	}
 
 	after = {
+		remove_rapanui_northwest_expedition_location = yes
 		if = {
 			limit = {
 				var:rapanui_northwest_success >= 60
@@ -11681,7 +11681,6 @@ rapanui.413 = {
     duration = 2
 
 	immediate = {
-		remove_rapanui_northwest_expedition_location = yes
 		set_rapanui_northwest_expedition_leader_effect = yes
 	}
 
@@ -11770,7 +11769,6 @@ rapanui.414 = {
     duration = 2
 
 	immediate = {
-		remove_rapanui_northwest_expedition_location = yes
 		set_rapanui_northwest_expedition_leader_effect = yes
 	}
 
@@ -11822,7 +11820,6 @@ rapanui.415 = {
     duration = 2
 
 	immediate = {
-		remove_rapanui_northwest_expedition_location = yes
 		set_rapanui_northwest_expedition_leader_effect = yes
 		random_scope_character = {
 			limit = {
@@ -12302,6 +12299,610 @@ rapanui.420 = {
 			remove_variable = rapanui_northwest_expedition_leader_var
 			set_character_busy_and_immortal = no
 		}
+	}
+}
+
+###############################################################################################################
+
+#Rapanui 421: Mild Weather
+
+rapanui.421 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.421.t
+    desc = rapanui.421.d
+    flavor = rapanui.421.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_map.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.421.g #Good.
+		rapanui_add_x_northwest_success = {
+			AMOUNT = 5
+		}
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			verrier_has_astronomer = yes #Meteorological calculations
+			factor = 2
+		}
+	}
+}
+
+#Rapanui 422: Harsh Weather
+
+rapanui.422 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.422.t
+    desc = rapanui.422.d
+    flavor = rapanui.422.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_ice.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.422.g #Bad.
+		rapanui_add_x_northwest_success = {
+			AMOUNT = -5
+		}
+	}
+
+	after = {
+		random_list = {
+			65 = {}
+			35 = {
+				trigger_event = {
+					id = rapanui.427
+					days = { 30 60 }
+				}
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			verrier_has_astronomer = yes #Meteorological calculations
+			factor = 0.5
+		}
+	}
+}
+
+#Rapanui 423: Inuit Guide
+
+rapanui.423 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.423.t
+    desc = rapanui.423.d
+    flavor = rapanui.423.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_ice.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.423.g #Great!
+		rapanui_add_x_northwest_success = {
+			AMOUNT = 10
+		}
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			scope:rapanui_northwest_expedition_leader = {
+				OR = {
+					has_trait = basic_diplomat
+					has_trait = experienced_diplomat
+					has_trait = masterful_diplomat
+				}
+			}
+			factor = 2
+		}
+		modifier = {
+			scope:rapanui_northwest_expedition_leader = {
+				OR = {
+					has_trait = explorer
+					has_trait = erudite
+				}
+			}
+			factor = 2
+		}
+		modifier = {
+			scope:rapanui_northwest_expedition_leader = {
+				OR = {
+					has_trait = basic_colonial_administrator
+					has_trait = experienced_colonial_administrator
+					has_trait = expert_colonial_administrator
+				}
+			}
+			factor = 1.5
+		}
+		modifier = {
+			scope:rapanui_northwest_expedition_leader = {
+				OR = {
+					has_trait = tactful
+					has_trait = imposing
+					has_trait = charismatic
+				}
+			}
+			factor = 1.5
+		}
+		modifier = {
+			scope:rapanui_northwest_expedition_leader = {
+				OR = {
+					has_trait = bandit
+					has_trait = cruel
+					has_trait = bigoted
+					has_trait = arrogant
+					has_trait = reckless
+					has_trait = wrathful
+				}
+			}
+			factor = 0.5
+		}
+	}
+}
+
+#Rapanui 424: Game Meat
+
+rapanui.424 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.424.t
+    desc = rapanui.424.d
+    flavor = rapanui.424.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_chase.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.424.g #They should use the time to hunt.
+		random_list = {
+			75 = {
+				rapanui_add_x_northwest_success = {
+					AMOUNT = 5
+				}
+			}
+			25 = {
+				rapanui_add_x_northwest_success = {
+					AMOUNT = -2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.424.h #That's a waste of time.
+		rapanui_add_x_northwest_success = {
+			AMOUNT = 1
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 425: Poisoning
+
+rapanui.425 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.425.t
+    desc = rapanui.425.d
+    flavor = rapanui.425.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_rescue.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		NOT = {
+			has_technology_researched = vacuum_canning
+		}
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.425.g #Was the provision that bad?
+		rapanui_add_x_northwest_success = {
+			AMOUNT = -5
+		}
+	}
+
+	option = {
+		name = rapanui.425.g #Throw the provisions overboard and look for something to eat on land.
+		random_list = {
+			50 = {}
+			50 = {
+				rapanui_add_x_northwest_success = {
+					AMOUNT = -10
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 426: Tubercolosis
+
+rapanui.426 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.426.t
+    desc = rapanui.426.d
+    flavor = rapanui.426.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_rescue.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		NOT = {
+			has_technology_researched = modern_nursing
+		}
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.426.g #Take care of them as best you can.
+		rapanui_add_x_northwest_success = {
+			AMOUNT = -5
+		}
+		scope:rapanui_northwest_expedition_leader = {
+			add_trait = honorable
+		}
+	}
+
+	option = {
+		name = rapanui.426.g #Throw them overboard!
+		rapanui_add_x_northwest_success = {
+			AMOUNT = -2
+		}
+		scope:rapanui_northwest_expedition_leader = {
+			add_trait = reckless
+			add_trait = psychological_affliction
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 427: Pack Ice
+
+rapanui.427 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.427.t
+    desc = rapanui.427.d
+    flavor = rapanui.427.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_pack.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		NOT = {
+			has_technology_researched = modern_nursing
+		}
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.427.g #This is the worst twist of all.
+		trigger = {
+			gaudi_has_engineer = no
+		}
+		remove_rapanui_northwest_expedition_location = yes
+		set_variable = rapanui_northwest_expedition_location_ice
+		rapanui_add_x_northwest_success = {
+			AMOUNT = -10
+		}
+	}
+
+	option = {
+		name = rapanui.427.h #Fortunately, our engineer has prepared our ship for such a situation.
+		trigger = {
+			gaudi_has_engineer = yes
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 428: Geomagnetic Data
+
+rapanui.428 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.428.t
+    desc = rapanui.428.d
+    flavor = rapanui.428.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_map.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.428.g #Fine!
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 1
+		}
+		verrier_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 429: Flora and Fauna
+
+rapanui.429 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.429.t
+    desc = rapanui.429.d
+    flavor = rapanui.429.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_chase.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.428.g #Fine!
+		dubois_add_x_specimen_effect = { AMOUNT = 2000 }
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 430: Unknown Lands
+
+rapanui.430 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.430.t
+    desc = rapanui.430.d
+    flavor = rapanui.430.f
+
+	placement = scope:rapanui_northwest_expedition_location
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_map.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		rapanui_northwest_expedition_location_effect = yes
+		set_rapanui_northwest_expedition_leader_effect = yes
+	}
+
+	option = {
+		name = rapanui.428.g #Fine!
+		add_1_rapanui_oceanographic_understanding = yes
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_leader = {
+					NOT = {
+						has_trait = surveyor
+					}
+				}
+			}
+			scope:rapanui_northwest_expedition_leader = {
+				add_trait = surveyor
+			}
+		}
+	}
+
+	after = {
 	}
 }
 
