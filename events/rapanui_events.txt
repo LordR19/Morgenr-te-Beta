@@ -11654,7 +11654,7 @@ rapanui.410 = {
 		}
 		add_5_rapanui_oceanographic_understanding = yes
 		verrier_small_add_technology = yes
-		dubois_small_add_technology = yes
+		gaudi_naval_engineering_small_add_technology = yes
 		every_country = {
 			limit = {
 				is_player = yes
@@ -11719,7 +11719,7 @@ rapanui.411 = {
 			AMOUNT = 5
 		}
 		verrier_medium_add_technology = yes
-		dubois_medium_add_technology = yes
+		gaudi_naval_engineering_medium_add_technology = yes
 		scope:rapanui_northwest_expedition_leader = {
 			add_trait = rapanui_northwest
 		}
@@ -11884,7 +11884,7 @@ rapanui.413 = {
 		}
 		add_3_rapanui_oceanographic_understanding = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 2000 }
-		dubois_small_add_technology = yes
+		gaudi_naval_engineering_small_add_technology = yes
 		verrier_small_add_technology = yes
 		if = {
 			limit = {
@@ -11972,7 +11972,7 @@ rapanui.414 = {
 		}
 		add_1_rapanui_oceanographic_understanding = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 1000 }
-		verrier_small_add_technology = yes
+		gaudi_naval_engineering_small_add_technology = yes
 	}
 
 	after = {
@@ -12088,6 +12088,32 @@ rapanui.415 = {
 	}
 
 	after = {
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = rapanui_franklin_var
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					OR = {
+						country_rank = rank_value:great_power
+						any_scope_interest_marker = {
+							region = sr:region_canada
+						}
+						is_player = yes
+					}
+				}
+				trigger_event = {
+					id = rapanui.433 #Notification
+					days = { 90 120 }
+				}
+			}
+		}
+		set_global_variable = rapanui_franklin_var
 	}
 }
 
@@ -13174,6 +13200,364 @@ rapanui.432 = {
 	}
 
 	after = {
+	}
+}
+
+#Rapanui 433: National maritime disaster in $COUNTRY$
+
+rapanui.433 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.433.t
+    desc = rapanui.433.d
+    flavor = rapanui.415.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_disaster.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = rapanui_northwest_disaster_modifier
+			}
+			save_scope_as = rapanui_franklin_country
+		}
+		every_country = {
+			limit = {
+				has_diplomatic_pact = {
+					who = scope:rapanui_franklin_country
+					type = rivalry
+				}
+			}
+			save_scope_as = rapanui_rival_country
+		}
+		random_scope_character = {
+			limit = {
+				has_role = admiral
+				is_busy = no
+			}
+			save_scope_as = rapanui_northwest_expedition_hero
+		}
+	}
+
+	option = {
+		name = rapanui.433.g #Send a telegram expressing our sincere condolences.
+		default_option = yes
+		scope:rapanui_franklin_country = {
+			change_relations = {
+				country = ROOT 
+				value = 5
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.433.h #Whoever seeks danger should perish in danger.
+		scope:rapanui_franklin_country = {
+			change_relations = {
+				country = ROOT 
+				value = -5
+			}
+		}
+		scope:rapanui_rival_country = {
+			change_relations = {
+				country = ROOT 
+				value = 5
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.415.h #Send a rescue mission!
+		trigger = {
+			exists = scope:rapanui_northwest_expedition_hero
+			any_scope_building = {
+				is_building_type = building_port
+			}
+			any_scope_interest_marker = {
+				region = sr:region_canada
+			}
+		}
+		scope:rapanui_franklin_country = {
+			change_relations = {
+				country = ROOT 
+				value = 10
+			}
+		}
+		add_treasury = -50000
+		scope:rapanui_northwest_expedition_hero = {
+			set_variable = rapanui_northwest_expedition_hero_var
+			set_character_busy_and_immortal = yes
+		}
+		hidden_effect = {
+			random_list = {
+				1 = {
+					trigger_event = {
+						id = rapanui.434 #Rescue mission finds some remains
+						days = { 90 120 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = rapanui.435 #Rescue mission does not find anything
+						days = { 90 120 }
+					}
+				}
+				1 = {
+					trigger_event = {
+						id = rapanui.436 #Rescue mission finds ship
+						days = { 90 120 }
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = rapanui_franklin_var
+				}
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						this = ROOT
+					}
+					OR = {
+						country_rank = rank_value:great_power
+						any_scope_interest_marker = {
+							region = sr:region_canada
+						}
+						is_player = yes
+					}
+				}
+				trigger_event = {
+					id = rapanui.433 #Notification
+					days = { 90 120 }
+				}
+			}
+		}
+	}
+}
+
+#Rapanui 434: Rescue mission finds some remains
+
+rapanui.434 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.434.t
+    desc = rapanui.434.d
+    flavor = rapanui.434.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_rescue.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_rapanui_northwest_expedition_hero_effect = yes
+		random_country = {
+			limit = {
+				has_modifier = rapanui_northwest_disaster_modifier
+			}
+			save_scope_as = rapanui_franklin_country
+		}
+	}
+
+	option = {
+		name = rapanui.416.g #At least we were able to shed some light on the matter.
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 1
+		}
+		add_1_rapanui_oceanographic_understanding = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 1000 }
+		verrier_small_add_technology = yes
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_hero = {
+					has_trait = experienced_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_hero = {
+				remove_trait = experienced_naval_commander
+				add_trait = expert_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_hero = {
+					has_trait = basic_naval_commander
+				}
+			}
+			scope:rapanui_northwest_expedition_hero = {
+				remove_trait = basic_naval_commander
+				add_trait = experienced_naval_commander
+			}
+		}
+		if = {
+			limit = {
+				scope:rapanui_northwest_expedition_hero = {
+					NOT = {
+						has_trait = basic_naval_commander
+						has_trait = experienced_naval_commander
+						has_trait = expert_naval_commander
+					}
+				}
+			}
+			scope:rapanui_northwest_expedition_hero = {
+				add_trait = basic_naval_commander
+			}
+		}
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_hero_var
+			}
+			remove_variable = rapanui_northwest_expedition_hero_var
+			set_character_busy_and_immortal = no
+		}
+	}
+}
+
+#Rapanui 435: Rescue mission does not find anything
+
+rapanui.435 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.435.t
+    desc = rapanui.435.d
+    flavor = rapanui.435.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_lost.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_rapanui_northwest_expedition_hero_effect = yes
+		random_country = {
+			limit = {
+				has_modifier = rapanui_northwest_disaster_modifier
+			}
+			save_scope_as = rapanui_franklin_country
+		}
+	}
+
+	option = {
+		name = rapanui.417.g #This expedition remains a mystery.
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 1
+		}
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_hero_var
+			}
+			remove_variable = rapanui_northwest_expedition_hero_var
+			set_character_busy_and_immortal = no
+		}
+	}
+}
+
+#Rapanui 436: Rescue mission finds ship
+
+rapanui.436 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = rapanui.436.t
+    desc = rapanui.436.d
+    flavor = rapanui.436.f
+
+    event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_nw_lost.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 2
+
+	immediate = {
+		set_rapanui_northwest_expedition_hero_effect = yes
+		random_country = {
+			limit = {
+				has_modifier = rapanui_northwest_disaster_modifier
+			}
+			save_scope_as = rapanui_franklin_country
+		}
+	}
+
+	option = {
+		name = rapanui.436.g #Restitute the ship to its owner.
+		scope:rapanui_franklin_country = {
+			change_relations = {
+				country = ROOT 
+				value = 10
+			}
+		}
+		change_infamy = -5
+		add_modifier = {
+			name = rapanui_nw_expedition_ship_restituted_modifier
+		}
+	}
+
+	option = {
+		name = rapanui.436.h #The scientific knowledge on board could be useful to us...
+		scope:rapanui_franklin_country = {
+			change_relations = {
+				country = ROOT 
+				value = -5
+			}
+		}
+		change_infamy = 2
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 1
+		}
+		add_3_rapanui_oceanographic_understanding = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 2000 }
+		gaudi_naval_engineering_small_add_technology = yes
+	}
+
+	after = {
+		random_scope_character = {
+			limit = {
+				has_variable = rapanui_northwest_expedition_hero_var
+			}
+			remove_variable = rapanui_northwest_expedition_hero_var
+			set_character_busy_and_immortal = no
+		}
 	}
 }
 
