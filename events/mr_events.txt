@@ -19,24 +19,21 @@ namespace = mr
 #Check AI
 
 mr.1 = {
+	dlc = dlc_morgenrote
+
 	type = country_event
 		
 	hidden = yes
 
 	trigger = {
-		OR = {
-			NOT = {
-				has_variable = lepsius_variables_var
-			}
-			NOT = {
-				has_variable = verrier_variables_var
-			}
-			NOT = {
-				has_variable = elgar_variables_var
-			}
-			NOT = {
-				has_variable = dubois_variables_var
-			}
+		NOR = {
+			has_variable = lepsius_variables_var
+			has_variable = verrier_variables_var
+			has_variable = elgar_variables_var
+			has_variable = dubois_variables_var
+			has_variable = manzoni_variables_var
+			has_variable = klimt_variables_var
+			has_variable = vikelas_variables_var
 		}
 	}
 
@@ -73,18 +70,107 @@ mr.1 = {
 			}
 			dubois_add_variables = yes
 		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_variables_var
+				}
+			}
+			manzoni_add_variables = yes
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = klimt_variables_var
+				}
+			}
+			klimt_add_variables = yes
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = vikelas_variables_var
+				}
+			}
+			vikelas_add_variables = yes
+		}
+		if = {
+			limit = { NOT = { has_variable = curtiss_schneider_trophy_victories_var } }
+			set_variable = {
+				name = curtiss_schneider_trophy_victories_var
+				value = 0
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = curtiss_balloon_altitude_record_var } }
+			set_variable = {
+				name = curtiss_balloon_altitude_record_var
+				value = 0
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = curtiss_balloon_distance_record_var } }
+			set_variable = {
+				name = curtiss_balloon_distance_record_var
+				value = 0
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = curtiss_balloon_time_record_var } }
+			set_variable = {
+				name = curtiss_balloon_time_record_var
+				value = 0
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = academics_country_tech_advance_var } }
+			set_variable = {
+				name = academics_country_tech_advance_var
+				value = gaudi_percentage_more_advanced_countries_value
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = gaudi_military_engineer_advanced_weapon } }
+			set_variable = {
+				name = gaudi_military_engineer_advanced_weapon
+				value = 0
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = gaudi_military_engineer_advanced_tanks } }
+			set_variable = {
+				name = gaudi_military_engineer_advanced_tanks
+				value = 0
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = gaudi_aeronautical_engineer_advanced_aircrafts_var } }
+			set_variable = {
+				name = gaudi_aeronautical_engineer_advanced_aircrafts_var
+				value = 0
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = gaudi_magnetic_data } }
+			set_variable = {
+				name = gaudi_magnetic_data
+				value = 0
+			}
+		}
 	}
 }
 
 #Check Dubois Paleontology
 
 mr.2 = {
+	dlc = dlc_morgenrote
+
 	type = country_event
 		
 	hidden = yes
 
 	trigger = {
-		is_player = no
+		is_ai = yes
 	}
 
 	immediate = {
@@ -101,6 +187,7 @@ mr.2 = {
 			}
 			add_modifier = {
 				name = dubois_paleontological_research_modifier
+				multiplier = money_amount_multiplier_very_small
 			}
 		}
 		if = {
@@ -110,7 +197,215 @@ mr.2 = {
 			}
 			remove_modifier = dubois_paleontological_research_modifier
 		}
-		#Dinosaur Bones
+	}
+}
+
+mr.3 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		dubois_has_paleontologist = yes
+		is_ai = yes
+	}
+
+	immediate = {
+		###############################################################################
+		# PALEONTOLOGY                                                                #
+		###############################################################################
+
+		# Updates the Cost of Paleontology
+		remove_modifier = dubois_paleontological_research_modifier
+		add_modifier = {
+			name = dubois_paleontological_research_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+
+		# adds yearly fossils
+		dubois_add_x_fossils_effect = { AMOUNT = dubois_yearly_regular_fossils_value }
+
+		# special fossil events
+		trigger_event = {
+			on_action  = dubois_on_yearly_pulse_special_fossil_events
+		}
+
+		# Bone acquisition
+		if = {
+			limit = { #Only possible if the country can find bones
+				dubois_has_potential_dinosaur_bone = yes
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = dubois_dinosaur_excavation_finding_progress
+					}
+				}
+				set_variable = {
+					name = dubois_dinosaur_excavation_finding_progress
+					value = dubois_dinosaur_excavation_find_yearly_progress_value
+				}
+			}
+			else = {
+				change_variable = {
+					name = dubois_dinosaur_excavation_finding_progress
+					add = dubois_dinosaur_excavation_find_yearly_progress_value
+				}
+			}
+			if = {
+				limit = {
+					var:dubois_dinosaur_excavation_finding_progress >= dubois_dinosaur_excavation_finding_progress_goal_value
+				}
+				change_variable = {
+					name = dubois_dinosaur_excavation_finding_progress
+					subtract = dubois_dinosaur_excavation_finding_progress_goal_value
+				}
+				random_list = {
+					1 = { #North America
+						trigger = {
+							dubois_dinosaur_research_in_north_america = yes
+							dubois_has_maximum_north_american_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_north_american_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_north_american_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #South America
+						trigger = {
+							dubois_dinosaur_research_in_south_america = yes
+							dubois_has_maximum_south_american_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_south_american_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_south_american_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #Africa
+						trigger = {
+							dubois_dinosaur_research_in_africa = yes
+							dubois_has_maximum_african_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_african_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_african_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #Asia
+						trigger = {
+							dubois_dinosaur_research_in_asia = yes
+							dubois_has_maximum_asian_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_asian_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_asian_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #Australia
+						trigger = {
+							dubois_dinosaur_research_in_australia = yes
+							dubois_has_maximum_australian_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_australian_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_australian_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #Europe
+						trigger = {
+							dubois_dinosaur_research_in_europe = yes
+							dubois_has_maximum_european_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_european_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_european_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+				}
+			}
+		}
+
+		#Dinosaur Skeletons
 		if = { #North America
 			limit = {
 				var:dubois_north_american_dinosaur_bone >= 5
@@ -214,6 +509,8 @@ mr.2 = {
 }
 
 #mr.3 = {
+#	dlc = dlc_morgenrote
+#
 #	type = country_event
 #
 #	hidden = yes
@@ -228,6 +525,8 @@ mr.2 = {
 #}
 
 #mr.4 = {
+#	dlc = dlc_morgenrote
+#
 #	type = country_event
 #
 #	hidden = yes
@@ -248,6 +547,8 @@ mr.2 = {
 #Check University PMs
 
 mr.5 = {
+	dlc = dlc_morgenrote
+
 	type = country_event
 
 	hidden = yes
@@ -379,6 +680,8 @@ mr.5 = {
 #Check Art Academy PMs
 
 mr.6 = {
+	dlc = dlc_morgenrote
+
 	type = country_event
 
 	hidden = yes
@@ -546,6 +849,8 @@ mr.6 = {
 }
 
 mr.7 = { #Sets up variables for countries that are created with the create_country effect
+	dlc = dlc_morgenrote
+
 	type = country_event
 
 	hidden = yes

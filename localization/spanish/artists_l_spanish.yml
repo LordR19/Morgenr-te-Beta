@@ -2,8 +2,6 @@
   
  ### 1.8.6 ### 
   
- elgar_replace_composer_with_new_composer_tt: "[SCOPE.sCharacter('elgar_new_composer_scope').GetFullName] se convertirá en tu nuevo [concept_elgar_composer]. [SCOPE.GetRootScope.GetCountry.GetCustom('artists_replacement_composer_custom_loc')]" #NT!
- artists_would_replace_composer_loc: "#n Esto reemplazaría tu#! [concept_elgar_composer], [ROOT.Var('elgar_composer_var').GetCharacter.GetFullName]." #NT!
  artists_will_not_replace_composer_loc: "#p ¡Aún no tienes un#! [concept_elgar_composer] #p!#!" #NT!
   
  elgar_composer_experience_gain_tt: "Tu [concept_elgar_composer], [GetPlayer.MakeScope.Var('elgar_composer_var').GetCharacter.GetFullName], gana [SCOPE.GetValue('xp_amount')|0+] reputación." #NT!
@@ -13,9 +11,7 @@
  artists_will_not_replace_writer_loc: "#p ¡Aún no tienes un#! [concept_manzoni_writer] #p!#!" #NT!
   
  manzoni_writer_experience_gain_tt: "Tu [concept_manzoni_writer], [GetPlayer.MakeScope.Var('manzoni_writer_var').GetCharacter.GetFullName], gana [SCOPE.GetValue('xp_amount')|0+] reputación." #NT!
-  
- klimt_replace_painter_with_new_painter_tt: "[SCOPE.sCharacter('klimt_new_painter_scope').GetFullName] se convertirá en tu nuevo [concept_klimt_painter]. [SCOPE.GetRootScope.GetCountry.GetCustom('artists_replacement_painter_custom_loc')]" #NT!
- artists_would_replace_painter_loc: "#n Esto reemplazaría tu#! [concept_klimt_painter], [ROOT.Var('klimt_painter_var').GetCharacter.GetFullName]." #NT!
+
  artists_will_not_replace_painter_loc: "#p ¡Aún no tienes un#! [concept_klimt_painter] #p!#!" #NT!
   
  klimt_painter_experience_gain_tt: "Tu [concept_klimt_painter], [GetPlayer.MakeScope.Var('klimt_painter_var').GetCharacter.GetFullName], gana [SCOPE.GetValue('xp_amount')|0+] reputación." #NT!
@@ -42,7 +38,6 @@
   
  artists.51.t: "Un nuevo compositor" #NT!
  artists.51.d: "[SCOPE.sCharacter('elgar_new_composer_scope').GetFullName] es un talento musical prometedor que podría convertirse en nuestro [concept_elgar_composer]." #NT!
- artists.51.f: "Los compositores son personas que crean música y elevarán nuestra Tradición Musical." #NT!
  artists.51.g: "[SCOPE.sCharacter('elgar_new_composer_scope').GetSheHe|U] nos será útil." #NT!
   
   
@@ -74,7 +69,7 @@
   
   ### 2.1.0 ### 
   
- rule_artists_historical_artists_rule: "#r Morgenröte#!: Artistas históricos" #NT!
+ rule_artists_historical_artists_rule: "#tooltip:[GetRawTextTooltipTag('mr_morgenroete_tt')] @mr_morgenroete_icon! #! Artistas históricos" #NT!
  setting_artists_starting_historical_artists_rule: "Artistas iniciales #p habilitado#!" #NT!
  setting_artists_starting_historical_artists_rule_desc: "Algunos países comienzan con uno o más artistas históricos ya generados. Esto significa que algunas naciones tendrán ventaja al comienzo del juego." #NT!
  setting_artists_no_historical_artists_rule: "Artistas iniciales #n deshabilitados#!" #NT!
@@ -217,5 +212,17 @@
  ### 2.1.2 ###
 
  je_artists_art_nouveau_success: "¡Necesitamos #G 850#! @klimt_painting_tradition! [concept_klimt_painting_tradition]." #NT!
-  
- artists.53.f: "[Concept('concept_klimt_painter','$concept_klimt_painters$')] son personas que crean pinturas y mejorarán nuestro [concept_klimt_painting_tradition].\n\n[SCOPE.sCharacter('klimt_new_painter_scope').GetFullName] parece ser un pintor [SCOPE.sCharacter('klimt_new_painter_scope').GetCustom('klimt_painter_rating_new_painter_type')] (#b Puntuación:#! [SCOPE.sCharacter('klimt_new_painter_scope').MakeScope.ScriptValue('klimt_painter_rating_new_painter_value')|+1]).\n- #V Experiencia:#! [SCOPE.sCharacter('klimt_new_painter_scope').MakeScope.GetVariable('klimt_painter_experience').GetValue|0]§ _10[concept_klimt_painting_tradition]1[concept_klimt_painting_tradition]2" #NT!
+
+ ### 2.1.2d ###
+
+ artists.51.f: "[Concept('concept_elgar_composer','$concept_elgar_composers$')] son personas que crean música y elevarán nuestra Tradición Musical.\nEl nuevo Compositor, [SCOPE.sCharacter('elgar_new_composer_scope'). ¡GetFullName], es un #tooltip:[SCOPE.sCharacter('elgar_new_composer_scope').GetTooltipTag],elgar_composer_rating_tt_loc [SCOPE.sCharacter('elgar_new_composer_scope').GetCustom('elgar_composer_rating_new_composer_icon_text_type')]#! Compositor[GetPlayer.GetCustom('elgar_composer_rating_display_existing_composer_type')]."
+ artists.53.f: "[Concept('concept_klimt_painter','$concept_klimt_painters$')] son personas que crean pinturas y elevarán nuestra [concept_klimt_painting_tradition].\n\nEl nuevo Pintor, [SCOPE.sCharacter('klimt_new_painter_scope'). ¡GetFullName], es un #tooltip:[SCOPE.sCharacter('klimt_new_painter_scope').GetTooltipTag],klimt_painter_rating_tt_loc [SCOPE.sCharacter('klimt_new_painter_scope').GetCustom('klimt_painter_rating_new_painter_icon_text_type')]#! Pintor[GetPlayer.GetCustom('klimt_painter_rating_display_existing_painter_type')]."
+
+ elgar_replace_composer_with_new_composer_tt: "[SCOPE.sCharacter('elgar_new_composer_scope').GetFullName] (#tooltip:[GetPlayer.MakeScope.Var('elgar_new_composer_var').GetCharacter.GetTooltipTag],elgar_composer_rating_tt_loc [GetPlayer. MakeScope.Var('elgar_new_composer_var').GetCharacter.GetCustom('elgar_composer_rating_new_composer_icon_for_tt_type')]#) se convertirán en tu nuevo [concept_elgar_composer]. [SCOPE.GetRootScope.GetCountry.GetCustom('artists_replacement_composer_custom_loc')]."
+ artists_would_replace_composer_loc: "#n Esto sustituiría a tu#! [concept_elgar_composer], [ROOT.Var('elgar_composer_var').GetCharacter.GetFullName] (#tooltip:[GetPlayer.MakeScope.Var('elgar_composer_var').GetCharacter. GetTooltipTag],elgar_composer_rating_tt_loc [GetPlayer.MakeScope.Var('elgar_composer_var').GetCharacter.GetCustom('elgar_composer_rating_new_composer_icon_for_tt_type')]#!)."
+
+ klimt_replace_painter_with_new_painter_tt: "[SCOPE.sCharacter('klimt_new_painter_scope').GetFullName] (#tooltip:[GetPlayer.MakeScope.Var('klimt_new_painter_var').GetCharacter.GetTooltipTag],klimt_painter_rating_tt_loc [GetPlayer. MakeScope.Var('klimt_new_painter_var').GetCharacter.GetCustom('klimt_painter_rating_new_composer_icon_for_tt_type')]#) se convertirá en tu nuevo [concept_klimt_painter]. [SCOPE.GetRootScope.GetCountry.GetCustom('artists_replacement_painter_custom_loc')]."
+ artists_would_replace_painter_loc: "#n ¡Esto sustituiría a tu#! [concept_klimt_painter], [ROOT.Var('klimt_painter_var').GetCharacter.GetFullName] (#tooltip:[GetPlayer.MakeScope.Var('klimt_painter_var').GetCharacter. GetTooltipTag],klimt_painter_rating_tt_loc [GetPlayer.MakeScope.Var('klimt_painter_var').GetCharacter.GetCustom('klimt_painter_rating_new_composer_icon_for_tt_type')]#!)."
+
+ artists_rating_age_information_tt: "Cuanto mayor sea un Artista, menos tiempo te quedará con él. Por lo general, los artistas pueden vivir hasta una edad bastante avanzada, pero también pueden morir antes o decidir jubilarse anticipadamente.\n#V Tipp:#¡Trata de reclutar Artistas más jóvenes para asegurarte de poder conservarlos durante más tiempo."
+ artists_rating_experience_information_tt: "Cuanta más $concept_artists_experience$ mejor. $concept_artists_experience$ aumentará enormemente las habilidades y el rendimiento de tu artista. Considera que éste es el factor más importante a la hora de decidirte por un artista."

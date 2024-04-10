@@ -269,69 +269,24 @@ je_dubois_fossil = {
 ###PALEONTOLOGICAL EXPEDITION###
 
 je_dubois_paleontological_expedition = {
+	
+	###############################################################################
+	# !!! Warning: The AI uses another system. Check mr.2 and mr.3 for the AI !!! #
+	###############################################################################
+
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	group = je_group_dubois_nature
 
 	on_yearly_pulse = {
-		random_events = {
-			chance_to_happen = 100
-			chance_of_no_event = {
-				value = 80
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							var:dubois_paleontologist_experience >= 100
-						}
-					}
-					subtract = 2
-				}
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							var:dubois_paleontologist_experience >= 200
-						}
-					}
-					subtract = 3
-				}
-				if = {
-					limit = {
-						var:dubois_paleontologist_var = {
-							var:dubois_paleontologist_experience >= 300
-						}
-					}
-					subtract = 5
-				}
-			}
-			
-			#Random Formation Events
-			30 = dubois.202 #Dubois 202: Shark Tooth
-			20 = dubois.203 #Dubois 203: Dinosaur Footprints
-			20 = dubois.204 #Dubois 204: Palaeosinopa
-			20 = dubois.205 #Dubois 205: Bones in the mineshaft
-			15 = dubois.206 #Dubois 206: Composita
-			15 = dubois.207 #Dubois 207: Trilobite
-			15 = dubois.208 #Dubois 208: Ammonites
-			30 = dubois.209 #Dubois 209: Farns
-			5 = dubois.210 #Dubois 210: Dinosauria Eggs
-
-			#Special Fossils
-
-			10 = dubois.221 #Dubois 221: Eusthenopteron
-			10 = dubois.222 #Dubois 222: Archaeopteryx
-			10 = dubois.223 #Dubois 223: Megatherium
-			10 = dubois.224 #Dubois 224: Ichthyosaurus
-			10 = dubois.225 #Dubois 225: Smilodon
-			10 = dubois.226 #Dubois 226: Pterodactylus
-
-			#Human Fossils
-
-			10 = dubois.251 #Dubois 251: Unknown Human Bone (Neanderthalensis)
-			5 = dubois.252 #Dubois 252: Unknown Human Bone (Erectus)
-		}
-
 		effect = {
-			#Random Progress Events (had to be seperated as 2 random events just get mushed together.
+			#Random Special Fossil Events (Makes sure they get executed randomly during the year
+			trigger_event = {
+				on_action  = dubois_on_yearly_pulse_special_fossil_events
+				months = { 1 11 }
+			}
+
+			#Random Progress Events (Makes sure they get executed randomly during the year
 			if = {
 				limit = { dubois_has_potential_dinosaur_bone = yes }
 				trigger_event = {
@@ -498,6 +453,11 @@ je_dubois_paleontological_expedition = {
 ###DINOSAUR EXCAVATION######
 
 je_dubois_dinosaur_excavation = {
+	
+	###############################################################################
+	# !!! Warning: The AI uses another system. Check mr.2 and mr.3 for the AI !!! #
+	###############################################################################
+
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	group = je_group_dubois_nature

@@ -1927,7 +1927,146 @@ gaudi_remove_new_engineer_effect = {
 
 # Used to set up the Experience of an engineer 
 engineer_experience_set_up_effect = {
-	if = { #First all 5 variables for each kind of engineer get set to 0
+	if = {
+		limit = {
+			academics_is_historical_civil_engineer_trigger = yes
+		}
+		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+			name = academics_is_civil_engineer_modifier
+		}
+		general_experience_up_effect = {
+			TYPE = gaudi_civil_engineer_experience
+			UNI_PM = pm_dubois_university_mathematics
+		}
+		add_trait = gaudi_civil_engineer #Adds the specific trait to the engineer
+	}
+	else_if = {
+		limit = {
+			academics_is_historical_mechanical_engineer_trigger = yes
+		}
+		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+			name = academics_is_mechanical_engineer_modifier
+		}
+		general_experience_up_effect = {
+			TYPE = gaudi_mechanical_engineer_experience
+			UNI_PM = pm_dubois_university_mathematics
+		}
+		add_trait = gaudi_mechanical_engineer
+	}
+	else_if = {
+		limit = {
+			academics_is_historical_military_engineer_trigger = yes
+		}
+		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+			name = academics_is_military_engineer_modifier
+		}
+		general_experience_up_effect = {
+			TYPE = gaudi_military_engineer_experience
+			UNI_PM = pm_dubois_university_mathematics
+		}
+		add_trait = gaudi_military_engineer
+	}
+	else_if = {
+		limit = {
+			academics_is_historical_electrical_engineer_trigger = yes
+		}
+		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+			name = academics_is_electrical_engineer_modifier
+		}
+		general_experience_up_effect = {
+			TYPE = gaudi_electrical_engineer_experience
+			UNI_PM = pm_dubois_university_mathematics
+		}
+		add_trait = gaudi_electrical_engineer
+	}
+	else_if = {
+		limit = {
+			academics_is_historical_aeronautical_engineer_trigger = yes
+		}
+		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+			name = academics_is_aeronautical_engineer_modifier
+		}
+		general_experience_up_effect = {
+			TYPE = gaudi_aeronautical_engineer_experience
+			UNI_PM = pm_dubois_university_mathematics
+		}
+		add_trait = gaudi_aeronautical_engineer
+	}
+	else = {
+		random_list = { #Here, a random focus is chosen for the engineer. Then the Experience and trait are set up for them.
+			1 = {
+				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+					name = academics_is_civil_engineer_modifier
+				}
+				general_experience_up_effect = {
+					TYPE = gaudi_civil_engineer_experience
+					UNI_PM = pm_dubois_university_mathematics
+				}
+				add_trait = gaudi_civil_engineer
+			}
+			1 = {
+				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+					name = academics_is_mechanical_engineer_modifier
+				}
+				general_experience_up_effect = {
+					TYPE = gaudi_civil_engineer_experience
+					UNI_PM = pm_dubois_university_mathematics
+				}
+				add_trait = gaudi_mechanical_engineer
+			}
+			1 = {
+				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+					name = academics_is_military_engineer_modifier
+				}
+				general_experience_up_effect = {
+					TYPE = gaudi_civil_engineer_experience
+					UNI_PM = pm_dubois_university_mathematics
+				}
+				add_trait = gaudi_military_engineer
+				modifier = {
+					if = {
+						limit = {
+							interest_group = {
+								is_interest_group_type = ig_armed_forces
+							}
+						}
+						add = 5
+					}
+				}
+			}
+			1 = {
+				trigger = {
+					owner = {
+						has_technology_researched = verrier_physics_tech
+					}
+				}
+				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+					name = academics_is_electrical_engineer_modifier
+				}
+				general_experience_up_effect = {
+					TYPE = gaudi_electrical_engineer_experience
+					UNI_PM = pm_dubois_university_mathematics
+				}
+				add_trait = gaudi_electrical_engineer
+			}
+			1 = {
+				trigger = {
+					owner = {
+						has_technology_researched = curtiss_reconnaissance_balloon_tech
+					}
+				}
+				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
+					name = academics_is_aeronautical_engineer_modifier
+				}
+				general_experience_up_effect = {
+					TYPE = gaudi_aeronautical_engineer_experience
+					UNI_PM = pm_dubois_university_mathematics
+				}
+				add_trait = gaudi_aeronautical_engineer
+			}
+		}
+	}
+	if = { #Sets all not yet existing experience types
 		limit = {
 			NOT = {
 				has_variable = gaudi_civil_engineer_experience
@@ -1980,275 +2119,6 @@ engineer_experience_set_up_effect = {
 		set_variable = {
 			name = gaudi_aeronautical_engineer_experience
 			value = 0
-		}
-	}
-	if = {
-		limit = {
-			academics_is_historical_civil_engineer_trigger = yes
-		}
-		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-			name = academics_is_civil_engineer_modifier
-		}
-		if = { #Adds experience to the Engineer if they are older than 30.
-			limit = {
-				age > 30
-			}
-			Set_variable = { #basically each year over 30 will add 10 experience to the engineer
-				name = gaudi_civil_engineer_experience
-				value = age
-			}
-			change_variable = {
-				name = gaudi_civil_engineer_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = gaudi_civil_engineer_experience
-				multiply = 10
-			}
-		}
-		add_trait = gaudi_civil_engineer #Adds the specific trait to the engineer
-	}
-	else_if = {
-		limit = {
-			academics_is_historical_mechanical_engineer_trigger = yes
-		}
-		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-			name = academics_is_mechanical_engineer_modifier
-		}
-		if = {
-			limit = {
-				age > 30
-			}
-			Set_variable = {
-				name = gaudi_mechanical_engineer_experience
-				value = age
-			}
-			change_variable = {
-				name = gaudi_mechanical_engineer_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = gaudi_mechanical_engineer_experience
-				multiply = 10
-			}
-		}
-		add_trait = gaudi_mechanical_engineer
-	}
-	else_if = {
-		limit = {
-			academics_is_historical_military_engineer_trigger = yes
-		}
-		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-			name = academics_is_military_engineer_modifier
-		}
-		if = {
-			limit = {
-				age > 30
-			}
-			Set_variable = {
-				name = gaudi_military_engineer_experience
-				value = age
-			}
-			change_variable = {
-				name = gaudi_military_engineer_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = gaudi_military_engineer_experience
-				multiply = 10
-			}
-		}
-		add_trait = gaudi_military_engineer
-	}
-	else_if = {
-		limit = {
-			academics_is_historical_electrical_engineer_trigger = yes
-		}
-		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-			name = academics_is_electrical_engineer_modifier
-		}
-		if = {
-			limit = {
-				age > 30
-			}
-			Set_variable = {
-				name = gaudi_electrical_engineer_experience
-				value = age
-			}
-			change_variable = {
-				name = gaudi_electrical_engineer_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = gaudi_electrical_engineer_experience
-				multiply = 10
-			}
-		}
-		add_trait = gaudi_electrical_engineer
-	}
-	else_if = {
-		limit = {
-			academics_is_historical_aeronautical_engineer_trigger = yes
-		}
-		add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-			name = academics_is_aeronautical_engineer_modifier
-		}
-		if = {
-			limit = {
-				age > 30
-			}
-			Set_variable = {
-				name = gaudi_aeronautical_engineer_experience
-				value = age
-			}
-			change_variable = {
-				name = gaudi_aeronautical_engineer_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = gaudi_aeronautical_engineer_experience
-				multiply = 10
-			}
-		}
-		add_trait = gaudi_aeronautical_engineer
-	}
-	else = {
-		random_list = { #Here, a random focus is chosen for the engineer. Then the Experience and trait are set up for them.
-			1 = {
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_civil_engineer_modifier
-				}
-				if = {
-					limit = {
-						age > 30
-					}
-					Set_variable = {
-						name = gaudi_civil_engineer_experience
-						value = age
-					}
-					change_variable = {
-						name = gaudi_civil_engineer_experience
-						subtract = 30
-					}
-					change_variable = {
-						name = gaudi_civil_engineer_experience
-						multiply = 10
-					}
-				}
-				add_trait = gaudi_civil_engineer
-			}
-			1 = {
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_mechanical_engineer_modifier
-				}
-				if = {
-					limit = {
-						age > 30
-					}
-					Set_variable = {
-						name = gaudi_mechanical_engineer_experience
-						value = age
-					}
-					change_variable = {
-						name = gaudi_mechanical_engineer_experience
-						subtract = 30
-					}
-					change_variable = {
-						name = gaudi_mechanical_engineer_experience
-						multiply = 10
-					}
-				}
-				add_trait = gaudi_mechanical_engineer
-			}
-			1 = {
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_military_engineer_modifier
-				}
-				if = {
-					limit = {
-						age > 30
-					}
-					Set_variable = {
-						name = gaudi_military_engineer_experience
-						value = age
-					}
-					change_variable = {
-						name = gaudi_military_engineer_experience
-						subtract = 30
-					}
-					change_variable = {
-						name = gaudi_military_engineer_experience
-						multiply = 10
-					}
-				}
-				add_trait = gaudi_military_engineer
-				modifier = {
-					if = {
-						limit = {
-							interest_group = {
-								is_interest_group_type = ig_armed_forces
-							}
-						}
-						add = 5
-					}
-				}
-			}
-			1 = {
-				trigger = {
-					owner = {
-						has_technology_researched = verrier_physics_tech
-					}
-				}
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_electrical_engineer_modifier
-				}
-				if = {
-					limit = {
-						age > 30
-					}
-					Set_variable = {
-						name = gaudi_electrical_engineer_experience
-						value = age
-					}
-					change_variable = {
-						name = gaudi_electrical_engineer_experience
-						subtract = 30
-					}
-					change_variable = {
-						name = gaudi_electrical_engineer_experience
-						multiply = 10
-					}
-				}
-				add_trait = gaudi_electrical_engineer
-			}
-			1 = {
-				trigger = {
-					owner = {
-						has_technology_researched = curtiss_reconnaissance_balloon_tech
-					}
-				}
-				add_modifier = { #This variable specialises the engineer. It can be changed by the player during the game
-					name = academics_is_aeronautical_engineer_modifier
-				}
-				if = {
-					limit = {
-						age > 30
-					}
-					Set_variable = {
-						name = gaudi_aeronautical_engineer_experience
-						value = age
-					}
-					change_variable = {
-						name = gaudi_aeronautical_engineer_experience
-						subtract = 30
-					}
-					change_variable = {
-						name = gaudi_aeronautical_engineer_experience
-						multiply = 10
-					}
-				}
-				add_trait = gaudi_aeronautical_engineer
-			}
 		}
 	}
 }
@@ -3119,6 +2989,39 @@ create_new_astronomer_effect = {
 
 			set_global_variable = verrier_janssen_created_global_var
 		}
+		4 = { #Johann Gottfried Galle, Germany
+			trigger = {
+				NOT = { has_global_variable = verrier_galle_created_global_var }
+				OR = {
+					has_state_in_state_region = STATE_SAXONY
+					has_state_in_state_region = STATE_BRANDENBURG
+				}
+				NOT = {
+					cu:north_german = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1867.6.9 #Age 55
+				year >= 1835 #Started working at the the Berlin Observatory
+			}
+			create_character = {
+				template = mr_ger_galle_johann_gottfried_character_template
+
+				save_scope_as = verrier_new_astronomer_scope
+			}
+			scope:verrier_new_astronomer_scope = {
+				set_variable = mr_is_astronomer_var
+				astronomer_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = verrier_new_astronomer_var
+				value = scope:verrier_new_astronomer_scope
+			}
+
+			set_global_variable = verrier_galle_created_global_var
+		}
 		4 = { #Karl Schwarzschild, Germany
 			trigger = {
 				NOT = { has_global_variable = verrier_schwarzschild_created_global_var }
@@ -3532,60 +3435,36 @@ verrier_remove_new_astronomer_effect = {
 
 # Used to set up the Experience of a character 
 astronomer_experience_set_up_effect = {
-	if = {
+	#Adds astronomer experience (see effect for further information)
+	general_experience_up_effect = {
+		TYPE = verrier_astronomer_experience
+		UNI_PM = pm_dubois_university_mathematics
+	}
+	
+	if = { #Adds the Experienced Astronomer Trait if Experience is above 100
 		limit = {
+			var:verrier_astronomer_experience >= 100
 			NOT = {
-				has_variable = verrier_astronomer_experience
-			}
-		}
-		if = {
-			limit = {
-				age > 30
-			}
-			set_variable = {
-				name = verrier_astronomer_experience
-				value = age
-			}
-			change_variable = {
-				name = verrier_astronomer_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = verrier_astronomer_experience
-				multiply = 10
-			}
-		}
-		else = {
-			set_variable = {
-				name = verrier_astronomer_experience
-				value = 0
-			}
-		}
-		if = { #Adds the Experienced Astronomer Trait if Experience is above 100
-			limit = {
-				var:verrier_astronomer_experience >= 100
-				NOT = {
-					var:verrier_astronomer_experience >= 300
-				}
-				NOR = {
-					has_trait = verrier_astronomer_experienced
-					has_trait = verrier_astronomer_famous
-				}
-			}
-			remove_trait = verrier_astronomer
-			add_trait = verrier_astronomer_experienced
-		}
-		if = { #Adds the Famous Astronomer Trait if Experience is above 300
-			limit = {
 				var:verrier_astronomer_experience >= 300
-				NOT = {
-					has_trait = verrier_astronomer_famous
-				}
 			}
-			remove_trait = verrier_astronomer
-			remove_trait = verrier_astronomer_experienced
-			add_trait = verrier_astronomer_famous
+			NOR = {
+				has_trait = verrier_astronomer_experienced
+				has_trait = verrier_astronomer_famous
+			}
 		}
+		remove_trait = verrier_astronomer
+		add_trait = verrier_astronomer_experienced
+	}
+	if = { #Adds the Famous Astronomer Trait if Experience is above 300
+		limit = {
+			var:verrier_astronomer_experience >= 300
+			NOT = {
+				has_trait = verrier_astronomer_famous
+			}
+		}
+		remove_trait = verrier_astronomer
+		remove_trait = verrier_astronomer_experienced
+		add_trait = verrier_astronomer_famous
 	}
 }
 
@@ -3669,9 +3548,7 @@ kill_naturalist_effect = {
 
 	remove_variable = dubois_naturalist_var
 
-	#Additional effects
-	dubois_set_paleontologist_to_default = yes
-	remove_modifier = dubois_paleontological_research_modifier
+	
 
 	remove_modifier = academics_naturalist_emeritus_delayed_modifier
 }
@@ -5361,33 +5238,35 @@ dubois_remove_new_naturalist_effect = {
 
 # Used to set up the Experience of a character 
 naturalist_experience_set_up_effect = {
-	if = {
+	general_experience_up_effect = {
+		TYPE = dubois_naturalist_experience
+		UNI_PM = pm_dubois_university_natural_history
+	}
+	
+	if = { #Adds the Experienced Astronomer Trait if Experience is above 100
 		limit = {
+			var:dubois_naturalist_experience >= 100
 			NOT = {
-				has_variable = dubois_naturalist_experience
+				var:dubois_naturalist_experience >= 300
+			}
+			NOR = {
+				has_trait = dubois_naturalist_experienced
+				has_trait = dubois_naturalist_famous
 			}
 		}
-		if = {
-			limit = { age > 30 }
-			set_variable = {
-				name = dubois_naturalist_experience
-				value = age
-			}
-			change_variable = {
-				name = dubois_naturalist_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = dubois_naturalist_experience
-				multiply = 10
+		remove_trait = dubois_naturalist
+		add_trait = dubois_naturalist_experienced
+	}
+	if = { #Adds the Famous Astronomer Trait if Experience is above 300
+		limit = {
+			var:dubois_naturalist_experience >= 300
+			NOT = {
+				has_trait = dubois_naturalist_famous
 			}
 		}
-		else = {
-			set_variable = {
-				name = dubois_naturalist_experience
-				value = 0
-			}
-		}
+		remove_trait = dubois_naturalist
+		remove_trait = dubois_naturalist_experienced
+		add_trait = dubois_naturalist_famous
 	}
 }
 
@@ -5468,7 +5347,10 @@ kill_paleontologist_effect = {
 	var:dubois_paleontologist_var = {
 		free_character_from_void = no
 	}
-
+	
+	#Additional effects
+	dubois_set_paleontologist_to_default = yes
+	remove_modifier = dubois_paleontological_research_modifier
 	remove_variable = dubois_paleontologist_var
 	remove_modifier = academics_paleontologist_emeritus_delayed_modifier
 }
@@ -6299,58 +6181,34 @@ dubois_remove_new_paleontologist_effect = {
 
 # Used to set up the Experience of a character 
 paleontologist_experience_set_up_effect = {
-	if = {
+	general_experience_up_effect = {
+		TYPE = dubois_paleontologist_experience
+		UNI_PM = pm_dubois_university_natural_history
+	}
+	if = { #Adds the Experienced Paleontologist Trait if Experience is above 100
 		limit = {
+			var:dubois_paleontologist_experience >= 100
 			NOT = {
-				has_variable = dubois_paleontologist_experience
-			}
-		}
-		if = {
-			limit = { age > 30 }
-			set_variable = {
-				name = dubois_paleontologist_experience
-				value = age
-			}
-			change_variable = {
-				name = dubois_paleontologist_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = dubois_paleontologist_experience
-				multiply = 10
-			}
-		}
-		else = {
-			set_variable = {
-				name = dubois_paleontologist_experience
-				value = 0
-			}
-		}
-		if = { #Adds the Experienced Paleontologist Trait if Experience is above 100
-			limit = {
-				var:dubois_paleontologist_experience >= 100
-				NOT = {
-					var:dubois_paleontologist_experience >= 300
-				}
-				NOR = {
-					has_trait = dubois_paleontologist_experienced
-					has_trait = dubois_paleontologist_famous
-				}
-			}
-			remove_trait = dubois_paleontologist
-			add_trait = dubois_paleontologist_experienced
-		}
-		if = { #Adds the Famous Paleontologist Trait if Experience is above 100
-			limit = {
 				var:dubois_paleontologist_experience >= 300
-				NOT = {
-					has_trait = dubois_paleontologist_famous
-				}
 			}
-			remove_trait = dubois_paleontologist
-			remove_trait = dubois_paleontologist_experienced
-			add_trait = dubois_paleontologist_famous
+			NOR = {
+				has_trait = dubois_paleontologist_experienced
+				has_trait = dubois_paleontologist_famous
+			}
 		}
+		remove_trait = dubois_paleontologist
+		add_trait = dubois_paleontologist_experienced
+	}
+	if = { #Adds the Famous Paleontologist Trait if Experience is above 100
+		limit = {
+			var:dubois_paleontologist_experience >= 300
+			NOT = {
+				has_trait = dubois_paleontologist_famous
+			}
+		}
+		remove_trait = dubois_paleontologist
+		remove_trait = dubois_paleontologist_experienced
+		add_trait = dubois_paleontologist_famous
 	}
 }
 
@@ -7696,58 +7554,34 @@ lepsius_remove_new_archaeologist_effect = {
 
 # Used to set up the Experience of a character 
 archaeologist_experience_set_up_effect = { #This effect needs to be placed in the scope of the new character!
-	if = {
+	general_experience_up_effect = {
+		TYPE = lepsius_archaeologist_experience
+		UNI_PM = pm_dubois_university_humanities
+	}
+	if = { #Adds the Experienced Archaeologist Trait if Experience is above 100
 		limit = {
+			var:lepsius_archaeologist_experience >= 100
 			NOT = {
-				has_variable = lepsius_archaeologist_experience
-			}
-		}
-		if = {
-			limit = { age > 30 }
-			set_variable = {
-				name = lepsius_archaeologist_experience
-				value = age
-			}
-			change_variable = {
-				name = lepsius_archaeologist_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = lepsius_archaeologist_experience
-				multiply = 10
-			}
-		}
-		else = {
-			set_variable = {
-				name = lepsius_archaeologist_experience
-				value = 0
-			}
-		}
-		if = { #Adds the Experienced Archaeologist Trait if Experience is above 100
-			limit = {
-				var:lepsius_archaeologist_experience >= 100
-				NOT = {
-					var:lepsius_archaeologist_experience >= 300
-				}
-				NOR = {
-					has_trait = lepsius_archaeologist_experienced
-					has_trait = lepsius_archaeologist_famous
-				}
-			}
-			remove_trait = lepsius_archaeologist
-			add_trait = lepsius_archaeologist_experienced
-		}
-		if = { #Adds the Famous Archaeologist Trait if Experience is above 100
-			limit = {
 				var:lepsius_archaeologist_experience >= 300
-				NOT = {
-					has_trait = lepsius_archaeologist_famous
-				}
 			}
-			remove_trait = lepsius_archaeologist
-			remove_trait = lepsius_archaeologist_experienced
-			add_trait = lepsius_archaeologist_famous
+			NOR = {
+				has_trait = lepsius_archaeologist_experienced
+				has_trait = lepsius_archaeologist_famous
+			}
 		}
+		remove_trait = lepsius_archaeologist
+		add_trait = lepsius_archaeologist_experienced
+	}
+	if = { #Adds the Famous Archaeologist Trait if Experience is above 100
+		limit = {
+			var:lepsius_archaeologist_experience >= 300
+			NOT = {
+				has_trait = lepsius_archaeologist_famous
+			}
+		}
+		remove_trait = lepsius_archaeologist
+		remove_trait = lepsius_archaeologist_experienced
+		add_trait = lepsius_archaeologist_famous
 	}
 }
 
@@ -8135,58 +7969,34 @@ lepsius_remove_new_anthropologist_effect = {
 
 # Used to set up the Experience of a character 
 anthropologist_experience_set_up_effect = {
-	if = {
+	general_experience_up_effect = {
+		TYPE = lepsius_anthropologist_experience
+		UNI_PM = pm_dubois_university_humanities
+	}
+	if = { #Adds the Experienced Anthropologist Trait if Experience is above 100
 		limit = {
+			var:lepsius_anthropologist_experience >= 100
 			NOT = {
-				has_variable = lepsius_anthropologist_experience
-			}
-		}
-		if = {
-			limit = { age > 30 }
-			set_variable = {
-				name = lepsius_anthropologist_experience
-				value = age
-			}
-			change_variable = {
-				name = lepsius_anthropologist_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = lepsius_anthropologist_experience
-				multiply = 10
-			}
-		}
-		else = {
-			set_variable = {
-				name = lepsius_anthropologist_experience
-				value = 0
-			}
-		}
-		if = { #Adds the Experienced Anthropologist Trait if Experience is above 100
-			limit = {
-				var:lepsius_anthropologist_experience >= 100
-				NOT = {
-					var:lepsius_anthropologist_experience >= 300
-				}
-				NOR = {
-					has_trait = lepsius_anthropologist_experienced
-					has_trait = lepsius_anthropologist_famous
-				}
-			}
-			remove_trait = lepsius_anthropologist
-			add_trait = lepsius_anthropologist_experienced
-		}
-		if = { #Adds the Famous Anthropologist Trait if Experience is above 100
-			limit = {
 				var:lepsius_anthropologist_experience >= 300
-				NOT = {
-					has_trait = lepsius_anthropologist_famous
-				}
 			}
-			remove_trait = lepsius_anthropologist
-			remove_trait = lepsius_anthropologist_experienced
-			add_trait = lepsius_anthropologist_famous
+			NOR = {
+				has_trait = lepsius_anthropologist_experienced
+				has_trait = lepsius_anthropologist_famous
+			}
 		}
+		remove_trait = lepsius_anthropologist
+		add_trait = lepsius_anthropologist_experienced
+	}
+	if = { #Adds the Famous Anthropologist Trait if Experience is above 100
+		limit = {
+			var:lepsius_anthropologist_experience >= 300
+			NOT = {
+				has_trait = lepsius_anthropologist_famous
+			}
+		}
+		remove_trait = lepsius_anthropologist
+		remove_trait = lepsius_anthropologist_experienced
+		add_trait = lepsius_anthropologist_famous
 	}
 }
 
@@ -8382,6 +8192,7 @@ geologist_experience_set_up_effect = {
 		}
 	}
 }
+
 
 #Geologist Experience gain
 geologist_experience_gain_effect = { #adds XP to the Geologist
@@ -9110,5 +8921,298 @@ academics_academic_recruited_effect = {
 				}
 			}
 		}	
+	}
+}
+
+#This Effect sets up a specific kind of experience, depending on the input
+### TYPE = experience type
+### UNI_PM = Production Method of the University
+general_experience_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = $TYPE$
+			}
+		}
+		if = { #Each year over 30 gives 9 Experience
+			limit = {
+				age > 30
+			}
+			set_variable = {
+				name = $TYPE$
+				value = age
+			}
+			change_variable = {
+				name = $TYPE$
+				subtract = 30
+			}
+			change_variable = {
+				name = $TYPE$
+				multiply = 9
+			}
+		}
+		else = {
+			set_variable = {
+				name = $TYPE$
+				value = 0
+			}
+		}
+		# 5 Experience per 10% of Technical-Mathematical Universities
+		if = { #Added a first check to reduce number of checks (divide and conquer)
+			limit = {
+				owner = {
+					any_scope_building = {
+						filter = {
+							is_building_type = building_university
+						}
+						percent >= 0.5
+						has_active_production_method = $UNI_PM$
+					}
+				}
+			}
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 1
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 50
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.9
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 45
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.8
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 40
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.7
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 35
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.6
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 30
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.5
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 25
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.4
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 20
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.3
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 15
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.2
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 10
+				}
+			}
+			else_if = {
+				limit = {
+					owner = {
+						any_scope_building = {
+							filter = {
+								is_building_type = building_university
+							}
+							percent >= 0.1
+							has_active_production_method = $UNI_PM$
+						}
+					}
+				}
+				change_variable = {
+					name = $TYPE$
+					add = 5
+				}
+			}
+		}
+		# -10 per negative trait up to -30
+		if = {
+			limit = {
+				calc_true_if = {
+					amount >= 3
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = $TYPE$
+				subtract = 30
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 2
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = $TYPE$
+				subtract = 20
+			}
+		}
+		else_if = {
+			limit = {
+				calc_true_if = {
+					amount >= 1
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = senile
+					has_trait = psychological_affliction
+					has_trait = kidney_stones	
+				}
+			}
+			change_variable = {
+				name = $TYPE$
+				subtract = 10
+			}
+		}
+		# + random number between 1 and 10
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 1 20 }
+		}
+		change_variable = {
+			name = $TYPE$
+			add = local_var:random_amount_local_var
+		}
+		#If under 0 normalize to 0
+		if = {
+			limit = {
+				var:$TYPE$ < 0
+			}
+			set_variable = {
+				name = $TYPE$
+				value = 0
+			}
+		}
 	}
 }
