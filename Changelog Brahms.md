@@ -5,7 +5,7 @@ Characters:
 
 GUI:
 - Added a better picture for the Antarctosaurus.
-- Added an overview Tooltip for all the 
+- Added an overview Tooltip for all the major artifacts. You can now easily figure out, where you can find an artifact.
 
 Northwest Passage:
 - Added a new Scientific Expedition to find and cross the Northwest Passage.
@@ -13,3 +13,7 @@ Northwest Passage:
 - 30 Events concerning ostacles, exploration, scientific research and lost expeditions.
 - Expeditions with a high success chance may cross the Passage and get a large bonus; expeditions with a low success may go missing like the Franklin Expedition.
 - If no nation crosses the Passage until 1906, a historical event will trigger for Norway (if it exists), including Roald Amundsen doing the historical journey. The bonus is not as good as the original bonus.
+
+QOL:
+- Added better descriptions to the scientist and artist spawn events.
+- Added a rating system for the Astronomer to easier understand how good an astronomer is.
