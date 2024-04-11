@@ -6178,6 +6178,327 @@ verrier.137 = {
 	}
 }
 
+#####################################################################################
+
+###CARRINGTON EVENT###
+
+#Verrier 141: Carrington Event (hidden)
+
+verrier.141 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		game_date >= 1859.1.1
+		NOT = {
+			has_global_variable = verrier_carrington_var
+		}
+		any_country = {
+			verrier_has_astronomer = yes
+		}
+	}
+
+	immediate = {
+		set_global_variable = verrier_carrington_var
+		ordered_country = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			order_by = verrier_carrington_astronomer_value
+			max = 1 #We only want the best country
+			check_range_bounds = no #prevents errors
+	
+			trigger_event = {
+				id = verrier.142
+			}
+		}
+	}
+}
+
+#Verrier 142: Carrington Event gets name
+
+verrier.142 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.142.t
+	desc = verrier.142.d
+	flavor = verrier.142.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_carrington.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			set_variable = verrier_discovered_carrington_event
+			save_scope_as = verrier_carrington_discoverer
+		}
+		set_variable = verrier_discovered_carrington_event
+	}
+
+	option = {
+		name = verrier.142.g #What does that mean, Professor?
+		
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 1
+		}
+		verrier_large_add_technology = yes
+		
+		scope:verrier_carrington_discoverer = {
+			add_modifier = {
+				name = verrier_carrington_discoverer_modifier
+			}
+		}
+		astronomer_experience_gain_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				trigger_event = {
+					id = verrier.143
+					days = 3
+				}
+			}
+			every_country = {
+				limit = {
+					is_player = no
+				}
+				if = {
+					limit = {
+						any_scope_building = {
+							is_building_type = building_railway
+							has_active_production_method = pm_gaudi_telegraph_office
+						}
+					}
+					every_scope_state = {
+						limit = {
+							any_scope_building = {
+								is_building_type = building_railway
+								has_active_production_method = pm_gaudi_telegraph_office
+							}
+						}
+						add_modifier = {
+							name = verrier_telegraph_malfunction
+							years = 1
+						}
+					}
+					gaudi_add_x_magnetic_data = {
+						AMOUNT = 2
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_variable = verrier_discovered_carrington_event
+						}
+						verrier_has_astronomer = yes
+					}
+					astronomer_experience_gain_effect = {
+						AMOUNT = 15
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_variable = verrier_discovered_carrington_event
+						}
+						verrier_astronomical_observation = yes
+					}
+					verrier_small_add_technology = yes
+				}
+				if = {
+					limit = {
+						has_variable = verrier_discovered_carrington_event
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							has_active_production_method = pm_gaudi_magnetic_observatory
+						}
+					}
+					gaudi_add_x_magnetic_data = {
+						AMOUNT = 5
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							has_active_production_method = pm_gaudi_magnetic_observatory
+						}
+					}
+					gaudi_add_x_magnetic_data = {
+						AMOUNT = 3
+					}
+				}
+			}
+		}
+	}
+}
+
+#Verrier 143: First Carrington Event hits
+
+verrier.143 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.143.t
+	desc = verrier.143.d
+	flavor = verrier.143.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_carrington.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = verrier_discovered_carrington_event
+			}
+			save_scope_as = verrier_carrington_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.143.g #This is terrible and fantastic at the same time.
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = verrier_discovered_carrington_event
+				}
+				verrier_has_astronomer = yes
+			}
+			astronomer_experience_gain_effect = {
+				AMOUNT = 15
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = verrier_discovered_carrington_event
+				}
+				verrier_astronomical_observation = yes
+			}
+			verrier_small_add_technology = yes
+		}
+		if = {
+			limit = {
+				has_variable = verrier_discovered_carrington_event
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_gaudi_magnetic_observatory
+				}
+			}
+			gaudi_add_x_magnetic_data = {
+				AMOUNT = 5
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_gaudi_magnetic_observatory
+				}
+			}
+			gaudi_add_x_magnetic_data = {
+				AMOUNT = 3
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = verrier.144
+			days = 3
+		}
+	}
+}
+
+#Verrier 144: Second Carrington Event hits
+
+verrier.144 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.144.t
+	desc = verrier.144.d
+	flavor = verrier.144.f
+
+	duration = 2
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_carrington.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_character = {
+			limit = {
+				has_variable = verrier_discovered_carrington_event
+			}
+			save_scope_as = verrier_carrington_discoverer
+		}
+	}
+
+	option = {
+		name = verrier.144.g #The telegraphs work without electricity?! That's completely impossible!
+
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_railway
+					has_active_production_method = pm_gaudi_telegraph_office
+				}
+			}
+			every_scope_state = {
+				limit = {
+					any_scope_building = {
+						is_building_type = building_railway
+						has_active_production_method = pm_gaudi_telegraph_office
+					}
+				}
+				add_modifier = {
+					name = verrier_telegraph_malfunction
+					years = 1
+				}
+			}
+			gaudi_add_x_magnetic_data = {
+				AMOUNT = 2
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
 #################################################################################
 
 ######Technologies######
