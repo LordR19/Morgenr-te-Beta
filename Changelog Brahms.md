@@ -14,6 +14,11 @@ Northwest Passage:
 - Expeditions with a high success chance may cross the Passage and get a large bonus; expeditions with a low success may go missing like the Franklin Expedition.
 - If no nation crosses the Passage until 1906, a historical event will trigger for Norway (if it exists), including Roald Amundsen doing the historical journey. The bonus is not as good as the original bonus.
 
+Carrington Event:
+- Added Carrington Event. Will be named after the discoverer. Discoverer will get a bonus.
+- All nations will get an astronomical bonus, depending if they have an astronomer, an observatory or magnetic institute; will get extras if they have everything.
+- Telegraph offices will get a malus for a year.
+
 QOL:
 - Added better descriptions to the scientist and artist spawn events.
 - Added a rating system for the Astronomer to easier understand how good an astronomer is.
