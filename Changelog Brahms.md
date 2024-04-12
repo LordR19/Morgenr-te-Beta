@@ -8,6 +8,7 @@ GUI:
 - Added an overview Tooltip for all the major artifacts. You can now easily figure out, where you can find an artifact.
 
 Academics:
+- The amount of specialized Universities now affects the starting experience of your academics.
 - Traits of the Naturalist now have a bigger influence on events.
 - Added new Traits for the Naturalist: Zoologist, Botanist, Entomologist and Marine Biologist
 
