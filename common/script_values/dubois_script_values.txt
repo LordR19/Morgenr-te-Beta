@@ -48,6 +48,17 @@ dubois_breeding_multiplier = {
 	}
 	if = {
 		limit = {
+			AND = {
+				has_variable = dubois_naturalist_var
+				var:dubois_naturalist_var = {
+					has_trait = innovative
+				}
+			}
+		}
+		add = 0.02
+	}
+	if = {
+		limit = {
 			any_scope_building = {
 				has_active_production_method = pm_zoo_level_4
 			}
@@ -247,5 +258,120 @@ dubois_yearly_regular_fossils_value = {
 	}
 	else = {
 		value = 0
+	}
+}
+
+############################################################################
+
+#This value determines the rating of a naturalist
+dubois_naturalist_character_rating_value = {
+	### Experience: 1 point per 50 Experience ###
+	value = var:dubois_naturalist_experience
+	divide = 50
+	### Positive Traits ###
+	#Experience Trait
+	if = {
+		limit = {
+			has_trait = dubois_naturalist_famous
+		}
+		add = 3
+	}
+	else_if = {
+		limit = {
+			has_trait = dubois_naturalist_experienced
+		}
+		add = 2
+	}
+	else = {
+		add = 1
+	}
+	#General
+	if = {
+		limit = {
+			has_trait = dubois_zoologist
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = dubois_botanist
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = dubois_entomologist
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = dubois_marine_biologist
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			OR = {
+				has_trait = meticulous
+				has_trait = persistent
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = innovative
+			owner = {
+				has_technology_researched = dubois_genetics_tech
+			}
+		}
+		add = 1
+	}
+	### Negative Traits ###
+	if = {
+		limit = {
+			has_trait = alcoholic
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = opium_addiction
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = cocaine_addiction
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = senile
+		}
+		subtract = 5
+	}
+	### Age Factor, the older the worse for the ranking ###
+	if = {
+		limit = { age > 30 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 40 }
+		subtract = 2
+	}
+	if = {
+		limit = { age > 50 }
+		subtract = 3
+	}
+	if = {
+		limit = { age > 60 }
+		subtract = 4
+	}
+	if = {
+		limit = { age > 70 }
+		subtract = 5
 	}
 }
