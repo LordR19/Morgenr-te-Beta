@@ -2,9 +2,11 @@
 # Verrier SCRIPTED BUTTONS #
 ############################
 
-#by Lord R
+#by Lord R & Marco Dandolo
 
 ######################
+
+#Tara Wali Kothi
 
 verrier_kothe_buy_additional_instruments_button = {
 	name = "verrier_kothe_buy_additional_instruments_button"
@@ -153,6 +155,208 @@ verrier_kothe_pay_workers_extra_button = {
 		modifier = {
 			trigger = { gold_reserves > 150000 }
 			add = 5
+		}
+	}
+}
+
+#####################
+
+verrier_neptune_buy_additional_instruments_button = {
+	name = "verrier_neptune_buy_additional_instruments_button"
+	desc = "verrier_neptune_buy_additional_instruments_button_desc"
+
+	visible = { 
+		NOT = {
+			has_variable = verrier_neptune_additional_instruments_var
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level >= 1
+			}
+		}
+		verrier_has_astronomer = yes
+	}
+
+	effect = {
+		set_variable = verrier_neptune_additional_instruments_var
+		add_treasury = -50000
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 5
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { gold_reserves > 0 }
+			add = 5
+		}
+	}
+}
+
+verrier_neptune_star_chart_button = {
+	name = "verrier_neptune_star_chart_button"
+	desc = "verrier_neptune_star_chart_button_desc"
+
+	visible = { 
+		NOT = {
+			has_variable = verrier_neptune_star_chart_var
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level >= 1
+			}
+		}
+		verrier_has_astronomer = yes
+		any_country = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level >= 1
+			}
+			verrier_has_astronomer = yes
+			has_diplomatic_pact = {
+				who = root
+     			type = alliance 
+     		}
+			custom_tooltip = {
+				text = verrier_neptune_star_chart_tt
+				var:verrier_astronomical_objects >= 5
+			}
+		}
+	}
+
+	effect = {
+		set_variable = verrier_neptune_star_chart_var
+		add_treasury = -50000
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 5
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { gold_reserves > 0 }
+			add = 5
+		}
+	}
+}
+
+verrier_neptune_modern_telescope_button = {
+	name = "verrier_neptune_modern_telescope_button"
+	desc = "verrier_neptune_modern_telescope_button_desc"
+
+	visible = { 
+		NOT = {
+			has_variable = verrier_modern_telescope_var
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_verrier_observatory
+				production_method = pm_verrier_modern_telescope
+			}
+		}
+		gaudi_has_engineer = yes
+	}
+
+	effect = {
+		set_variable = verrier_modern_telescope_var
+		add_treasury = -100000
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 10
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { gold_reserves > 100000 }
+			add = 5
+		}
+	}
+}
+
+verrier_neptune_academic_synergies_button = {
+	name = "verrier_neptune_academic_synergies_button"
+	desc = "verrier_neptune_academic_synergies_button_desc"
+
+	visible = { 
+		NOT = {
+			has_variable = verrier_academic_synergies_var
+		}
+	}
+
+	possible = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level >= 1
+			}
+		}
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_university
+				production_method = pm_dubois_university_mathematics
+			}
+		}
+	}
+
+	effect = {
+		set_variable = verrier_academic_synergies_var
+		add_treasury = -100000
+		if = {
+			limit = {
+				has_variable = academics_promote_astronomer_active
+			}
+			dubois_add_x_academy_progress = {
+				AMOUNT = 25
+			}
+		}
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 15
+		}
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_university
+					production_method = pm_dubois_university_mathematics
+				}
+			}
+			add_modifier = {
+				name = verrier_academic_synergies_modifier
+				years = 5
+			}
+		}
+	}
+
+	ai_chance = {
+		base = 0
+		modifier = {
+			trigger = { 
+				game_date >= 1846.9.23
+			}
+			add = 5 #AI will intensify research after historical discovery happened
+		}
+		modifier = {
+			trigger = { 
+				NOR = {
+					ROOT = c:FRA
+					ROOT = c:PRU
+					ROOT = c:GBR
+				}
+			}
+			add = -5 #We don't want that small nations ruin their Innovation too much
 		}
 	}
 }
