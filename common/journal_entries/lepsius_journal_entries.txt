@@ -975,6 +975,7 @@ je_lepsius_archaeological_expedition_south_america = {
 
 			2 = lepsius.471 #Lepsius 471: Chichen Itza/Ollantaytambo (Yucatán/Peru)
 			1 = lepsius.472 #Lepsius 472: A Lost World?
+			1 = lepsius.474 #Lepsius 474: The mysterious Quipu (Peru)
 
 			5 = lepsius.561 #Lepsius 561: Pyramide Riddle (Yucatán)
 		}
@@ -1673,6 +1674,66 @@ je_lepsius_journey_coe = {
 			id = lepsius.590
 			popup = yes 
 		}
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+#Quest for the Mascapaicha
+
+je_lepsius_mascapaicha = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	complete = {
+		lepsius_has_active_experienced_archaeologist = yes
+		any_scope_character = {
+			OR = {
+				has_trait = curtiss_pilot
+				has_trait = curtiss_pilot_ace
+			}
+			is_busy = no
+		}
+		any_scope_character = {
+			has_role = general
+			is_busy = no
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.572
+			popup = yes
+		}
+		lepsius_set_archaeologist_busy_effect = yes
+		random_scope_character = {
+			limit = {
+				OR = {
+					has_trait = curtiss_pilot
+					has_trait = curtiss_pilot_ace
+				}
+				is_busy = no
+			}
+			set_variable = lepsius_mascapaicha_pilot_var
+			set_character_busy_and_immortal = yes
+		}
+		random_scope_character = {
+			limit = {
+				has_role = general
+				is_busy = no
+			}
+			set_variable = lepsius_mascapaicha_attache_var
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	fail = {
+    }
+	
+	on_fail = {
 	}
 
 	weight = 10
