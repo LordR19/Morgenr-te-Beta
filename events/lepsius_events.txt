@@ -185,9 +185,16 @@ namespace = lepsius
 #Lepsius 471: Karnak (Upper Egypt) / Memphis (Lower Egypt) / Uruk (Babylonia) / Niniveh (Assyria) / Tiryns (Argolis) / Phaistos (Crete) / Chichen Itza (Yucatan) / Ollantaytambo (Peru)
 #Lepsius 472: A Lost World? (Yucatán, may lead to the LOST WORLD)
 #Lepsius 473: The Diary of Prof. Lidenbrock (Argolis), may lead to CENTER OF THE EARTH
-#Lepsius 474: Ur (Babylonia), may lead to HOUSE OF ABRAHAM
-#Lepsius 475: Philae (Upper Egypt), The Isis artifact
-#Lepsius 476: Thera (Crete), clue for Atlantis
+#Lepsius 474: The mysterious Quipu (Peru), may lead to the QUEST FOR THE MASCAPAICHA
+
+#Lepsius 481: Saqqara (Lower Egypt)
+#Lepsius 482: Philae (Upper Egypt), The Isis artifact
+#Lepsius 483: Ur (Babylonia), may lead to HOUSE OF ABRAHAM
+#Lepsius 484: Nimrud (Assyria)
+#Lepsius 485: Pylos (Argolis/Peloponnes)
+#Lepsius 486: Thera (Crete)
+#Lepsius 487: Palenque (Yucatan)
+#Lepsius 488: Huchuy Qosqo (Peru)
 
 #501-600 Narrative Event chains
 
@@ -232,11 +239,11 @@ namespace = lepsius
 #Lepsius 565: Leaving the Pyramid/An archaeological rival
 #Lepsius 566: Notification Rival
 
-###TEMPLE OF THE SUN (Peru)
-#Lepsius 571: Temple of the Sun (Peru)
-#Lepsius 572: Temple of the Sun (Peru)
-#Lepsius 573: Temple of the Sun (Peru)
-#Lepsius 574: Temple of the Sun (Peru)
+###QUEST FOR THE MASCAPAICHA (Peru)
+#Lepsius 571: The Quest for the Mascapaicha
+#Lepsius 572: The Quest for the Mascapaicha
+#Lepsius 573: The Quest for the Mascapaicha
+#Lepsius 574: The Quest for the Mascapaicha
 
 ###LOST WORLD (Yucatán)
 #Lepsius 581: Return to the Lost World
@@ -1447,9 +1454,9 @@ lepsius.17 = {
 		}
 		triggered_desc = {
 			trigger = {
-				has_variable = lepsius_major_artifact_manco_found_var
+				has_variable = lepsius_major_artifact_capac_found_var
 			}
-			desc = lepsius.17.manco
+			desc = lepsius.17.capac
 		}
 		desc = lepsius.17.other
 		triggered_desc = {
@@ -10468,18 +10475,69 @@ lepsius.473 = {
 	}
 }
 
-#Lepsius 474: Huchuy Qosqo (Peru)
+#Lepsius 474: The mysterious Quipu (Peru)
 
-#Lepsius 475: Saqqara (Lower Egypt)
+lepsius.474 = {
+	dlc = dlc_morgenrote
 
+	type = country_event
+    placement = scope:lepsius_arrival_state
 
-#Lepsius 478: Nimrud (Assyria)
+    title = lepsius.474.t
+		
+    desc = lepsius.474.d
 
-#Lepsius 480: Pylos (Argolis/Peloponnes)
+	flavor = lepsius.474.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_quipu.dds"
+	}
 
-#Lepsius 482: Thera (Crete)
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-#Lepsius 483: Palenque (Yucatan)
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+		NOT = {
+			has_game_rule = lepsius_only_historical_rule
+		}
+		NOT = {
+			has_variable = lepsius_mysterious_quipu_var #only once in a game
+		}
+		has_modifier = lepsius_peru_expedition_modifier
+	}
+
+	immediate = {
+		lepsius_archaeological_expedition_location = yes
+		set_archaeological_expedition_leader_effect = yes
+	}
+
+	option = { #It should be examined more closely at home.
+		name = lepsius.474.g
+		default_option = yes
+		lepsius_small_add_technology = yes
+		lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1 }
+	}
+	after = {
+		hidden_effect = {
+			lepsius_archaeological_expedition_progress = yes
+			set_variable = lepsius_mysterious_quipu_var #only once in a game
+			trigger_event = { 
+				id = lepsius.571
+				days = 500
+				popup = yes
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = lepsius_mysterious_guide_var
+			factor = 500 #Very high chance
+		}
+	}
+}
 
 
 ###THE SARCOPHAGUS (Upper Egypt)
@@ -14795,6 +14853,394 @@ lepsius.566 = {
 	}
 }
 
+###THE QUEST FOR THE MASCAPAICHA###
+
+#Lepsius 571: Secret of the Quipu
+
+lepsius.571 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = lepsius.571.t
+		
+    desc = lepsius.571.d
+
+	flavor = lepsius.571.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_quipu.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #This knot bundle... is a map?
+		name = lepsius.571.g
+		default_option = yes
+		add_journal_entry = {
+			type = je_lepsius_mascapaicha
+		}
+	}
+}
+
+#Lepsius 572: Return to the Andes
+
+lepsius.572 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = lepsius.572.t
+		
+    desc = lepsius.572.d
+
+	flavor = lepsius.572.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_artifact.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_mascapaicha_trio_effect = yes
+	}
+
+	option = { #What might be hidden in the mountains?
+		name = lepsius.572.g
+		default_option = yes
+		add_journal_entry = {
+			type = je_lepsius_mascapaicha
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = lepsius.573
+			days = { 7 21 }
+		}
+	}
+}
+
+#Lepsius 573: Gold
+
+lepsius.573 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = lepsius.572.t
+		
+    desc = lepsius.573.d
+
+	flavor = lepsius.573.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_artifact.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_mascapaicha_trio_effect = yes
+	}
+
+	option = { #A little gold won't hurt.
+		name = lepsius.573.g
+		default_option = yes
+		add_treasury = 10000000
+		set_variable = lepsius_mascapaicha_gold
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.577
+			}
+		}
+	}
+
+	option = { #Only the humble man will find the Mascapaicha.
+		name = lepsius.573.h
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.574
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Lepsius 574: Knowledge
+
+lepsius.574 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = lepsius.572.t
+		
+    desc = lepsius.574.d
+
+	flavor = lepsius.574.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_artifact.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_mascapaicha_trio_effect = yes
+	}
+
+	option = { #Wisdom is no sin.
+		name = lepsius.574.g
+		default_option = yes
+		add_modifier = {
+			name = lepsius_mascapaicha_knowledge_modifier
+		}
+		set_variable = lepsius_mascapaicha_knowledge
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.577
+			}
+		}
+	}
+
+	option = { #Only the humble man will find the Mascapaicha.
+		name = lepsius.573.h
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.575
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Lepsius 575: Power
+
+lepsius.575 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = lepsius.572.t
+		
+    desc = lepsius.575.d
+
+	flavor = lepsius.575.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_artifact.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_mascapaicha_trio_effect = yes
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				NOT = { this = ROOT }
+			}
+			save_scope_as = lepsius_great_power_1
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				NOT = { this = ROOT }
+				NOT = {
+					this = scope:lepsius_great_power_1
+				}
+			}
+			save_scope_as = lepsius_great_power_2
+		}
+		random_country = {
+			limit = {
+				country_rank = rank_value:great_power
+				NOT = { this = ROOT }
+				NOT = {
+					this = scope:lepsius_great_power_1
+				}
+				NOT = {
+					this = scope:lepsius_great_power_2
+				}
+			}
+			save_scope_as = lepsius_great_power_3
+		}
+	}
+
+	option = { #You have to rule if you want the Mascapaicha.
+		name = lepsius.575.g
+		default_option = yes
+		custom_tooltip = lepsius.575a.tt
+		custom_tooltip = lepsius.575b.tt
+		custom_tooltip = lepsius.575c.tt
+		set_variable = lepsius_mascapaicha_power
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.577
+			}
+		}
+	}
+
+	option = { #Only the humble man will find the Mascapaicha.
+		name = lepsius.573.h
+		hidden_effect = {
+			trigger_event = {
+				id = lepsius.576
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Lepsius 576: The Mascapaicha
+
+lepsius.576 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = lepsius.576.t
+		
+    desc = lepsius.576.d
+
+	flavor = lepsius.576.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_laso.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_mascapaicha_trio_effect = yes
+	}
+
+	option = { #This must be the crown of Huayna Capac!
+		name = lepsius.576.g
+		default_option = yes
+		lepsius_add_1_major_precolumbian_artifact = yes
+		set_variable = lepsius_major_artifact_capac_found_var
+		archaeologist_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		scope:lepsius_pilot_scope = {
+			add_trait = persistent
+		}
+		scope:lepsius_attache_scope = {
+			add_trait = mountain_commander
+		}
+	}
+
+	after = {
+		scope:lepsius_archaeologist_scope = {
+			set_character_busy_and_immortal = no
+		}
+		scope:lepsius_pilot_scope = {
+			set_character_busy_and_immortal = no
+			remove_variable = lepsius_mascapaicha_pilot_var
+		}
+		scope:lepsius_attache_scope = {
+			set_character_busy_and_immortal = no
+			remove_variable = lepsius_mascapaicha_attache_var
+		}
+	}
+}
+
+#Lepsius 577: Fail
+
+lepsius.577 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = lepsius.577.t
+		
+    desc = lepsius.577.d
+
+	flavor = lepsius.577.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/lepsius_pictures/peru/lepsius_peru_artifact.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		lepsius_mascapaicha_trio_effect = yes
+		if = {
+			limit = {
+				has_variable = lepsius_mascapaicha_gold
+			}
+			add_treasury = -10000000
+		}
+		if = {
+			limit = {
+				has_variable = lepsius_mascapaicha_knowledge
+			}
+			remove_modifier = lepsius_mascapaicha_knowledge_modifier
+		}
+	}
+
+	option = { #Have they become victims of their own illusions?
+		name = lepsius.577.g
+		default_option = yes
+		scope:lepsius_archaeologist_scope = {
+			kill_archaeologist_effect = yes
+		}
+		scope:lepsius_pilot_scope = {
+			kill_character = yes
+		}
+		scope:lepsius_attache_scope = {
+			kill_character = yes
+		}
+	}
+
+	after = {
+		remove_variable = lepsius_mascapaicha_gold
+		remove_variable = lepsius_mascapaicha_knowledge
+		remove_variable = lepsius_mascapaicha_power
+	}
+}
 
 ###THE LOST WORLD###
 
