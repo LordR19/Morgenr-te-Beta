@@ -1,6 +1,7 @@
 Changelog for 2.1.3 "Franklin"
 
 Characters:
+- John Franklin (starting Intelligentsia leader of Tasmania)
 - Johann Gottfried Galle (random Astronomer)
 
 GUI:
