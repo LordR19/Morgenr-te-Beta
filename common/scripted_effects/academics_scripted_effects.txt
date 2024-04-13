@@ -19,18 +19,43 @@
 ######GENERAL######
 
 set_retirement_variable_effect = {
-	set_variable = {
-		name = random_retirement_chooser_var
-		value = { 0 100 }
+	if = {
+		limit = {
+			NOT = { has_variable = random_retirement_chooser_var }
+		}
+		set_variable = {
+			name = random_retirement_chooser_var
+			value = { 0 20 }
+		}
 	}
 }
 
 ######ENGINEER######
 
 #This effect kills the current engineer
+# !!! Change stuff in both of the following effects !!!
 kill_engineer_effect = {
 	var:gaudi_engineer_var = {
 		free_character_from_void = no
+	}
+
+	remove_variable = gaudi_engineer_var
+	remove_modifier = gaudi_engineer_technology_spread_modifier
+
+	if = {
+		limit = { has_modifier = academics_engineer_emeritus_delayed_modifier }
+		remove_modifier = academics_engineer_emeritus_delayed_modifier
+	}
+}
+#This Effect kills the current Engineer
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_engineer_effect = {
+	custom_tooltip = {
+		text = retire_engineer_effect_tt
+
+		var:gaudi_engineer_var = {
+			free_character_from_void = no
+		}
 	}
 
 	remove_variable = gaudi_engineer_var
