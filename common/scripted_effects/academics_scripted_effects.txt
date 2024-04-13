@@ -6394,14 +6394,34 @@ paleontologist_experience_gain_effect = { #adds XP to the Paleontologist
 ######ARCHAEOLOGIST######
 
 #Effect to kill the current Archaeologist
+# !!! Change stuff in both of the following effects !!!
 kill_archaeologist_effect = {
 	var:lepsius_archaeologist_var = {
 		free_character_from_void = no
 	}
 
 	remove_variable = lepsius_archaeologist_var
+	if = {
+		limit = { has_modifier = academics_archaeologist_emeritus_delayed_modifier }
+		remove_modifier = academics_archaeologist_emeritus_delayed_modifier
+	}
+}
+#This Effect kills the current Archaeologist
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_archaeologist_effect = {
+	custom_tooltip = {
+		text = retire_archaeologist_effect_tt
 
-	remove_modifier = academics_archaeologist_emeritus_delayed_modifier
+		var:lepsius_archaeologist_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = lepsius_archaeologist_var
+	if = {
+		limit = { has_modifier = academics_archaeologist_emeritus_delayed_modifier }
+		remove_modifier = academics_archaeologist_emeritus_delayed_modifier
+	}
 }
 
 # Creates a new Archaeologist without losing the old one
