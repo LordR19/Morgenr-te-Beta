@@ -2830,14 +2830,35 @@ gaudi_set_aeronautical_engineer_effect = {
 
 ######ASTRONOMER######
 
-#This effect kills the current astronomer
+#This effect kills the current Astronomer
+# !!! Change stuff in both of the following effects !!!
 kill_astronomer_effect = {
 	var:verrier_astronomer_var = {
 		free_character_from_void = no
 	}
 
 	remove_variable = verrier_astronomer_var
-	remove_modifier = academics_astronomer_emeritus_delayed_modifier
+	if = {
+		limit = { has_modifier = academics_astronomer_emeritus_delayed_modifier }
+		remove_modifier = academics_astronomer_emeritus_delayed_modifier
+	}
+}
+#This Effect kills the current Astronomer
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_astronomer_effect = {
+	custom_tooltip = {
+		text = retire_astronomer_effect_tt
+
+		var:verrier_astronomer_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = verrier_astronomer_var
+	if = {
+		limit = { has_modifier = academics_astronomer_emeritus_delayed_modifier }
+		remove_modifier = academics_astronomer_emeritus_delayed_modifier
+	}
 }
 
 # Creates a new Astronomer without losing the old one
@@ -5401,6 +5422,7 @@ naturalist_experience_gain_effect = { #adds XP to the Naturalist
 ######PALEONTOLOGIST######
 
 #Effect to kill the current Paleontologist
+# !!! Change stuff in both of the following effects !!!
 kill_paleontologist_effect = {
 	var:dubois_paleontologist_var = {
 		free_character_from_void = no
@@ -5408,9 +5430,38 @@ kill_paleontologist_effect = {
 	
 	#Additional effects
 	dubois_set_paleontologist_to_default = yes
-	remove_modifier = dubois_paleontological_research_modifier
+	if = {
+		limit = { has_modifier = dubois_paleontological_research_modifier }
+		remove_modifier = dubois_paleontological_research_modifier
+	}
 	remove_variable = dubois_paleontologist_var
-	remove_modifier = academics_paleontologist_emeritus_delayed_modifier
+	if = {
+		limit = { has_modifier = academics_paleontologist_emeritus_delayed_modifier }
+		remove_modifier = academics_paleontologist_emeritus_delayed_modifier
+	}
+}
+#This Effect kills the current Paleontologist
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_paleontologist_effect = {
+	custom_tooltip = {
+		text = retire_paleontologist_effect_tt
+
+		var:dubois_paleontologist_var = {
+			free_character_from_void = no
+		}
+	}
+
+	#Additional effects
+	dubois_set_paleontologist_to_default = yes
+	if = {
+		limit = { has_modifier = dubois_paleontological_research_modifier }
+		remove_modifier = dubois_paleontological_research_modifier
+	}
+	remove_variable = dubois_paleontologist_var
+	if = {
+		limit = { has_modifier = academics_paleontologist_emeritus_delayed_modifier }
+		remove_modifier = academics_paleontologist_emeritus_delayed_modifier
+	}
 }
 
 # Creates a new Paleontologist without losing the old one
