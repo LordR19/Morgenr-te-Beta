@@ -346,6 +346,10 @@ namespace = dubois
 
 #Dubois 2181: Remount Dinosaur Skeleton
 
+######Naturalist Events######
+
+#Dubois 3000: Is [Naturalist] losing his/her mind?
+
 #################################################################################
 
 #Dubois 1: Zoo inauguration
@@ -27934,5 +27938,87 @@ dubois.2181 = {
 
 	after = {
 		remove_variable = mr_remount_dinosaur_skeleton_button_var
+	}
+}
+
+#Dubois 3000: Is [Naturalist] losing his/her mind?
+dubois.3000 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.3000.t
+	desc = dubois.3000.d
+	flavor = dubois.3000.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 6
+	}
+
+	trigger = {
+		dubois_has_naturalist = yes
+		var:dubois_naturalist_var = {
+			age >= 55
+		}
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	#I don't think he should keep working.
+	option = {
+		name = dubois.3000.g
+		default_option = yes
+
+		dubois_add_x_academy_progress = { AMOUNT = 6 }
+
+		kill_naturalist_effect = yes
+		
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	#Pff, that's totally normal!
+	option = { 
+		name = dubois.3000.h
+
+		var:dubois_naturalist_var = {
+			add_trait = senile
+		}
+		
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:dubois_naturalist_var = {
+				age >= 60
+			}
+			factor = 2
+		}
+
+		modifier = {
+			var:dubois_naturalist_var = {
+				age >= 65
+			}
+			factor = 5
+		}
 	}
 }
