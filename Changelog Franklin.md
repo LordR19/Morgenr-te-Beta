@@ -12,6 +12,7 @@ Academics:
 - The amount of specialized Universities now affects the starting experience of your academics.
 - Traits of the Naturalist now have a bigger influence on events.
 - Added new Traits for the Naturalist: Zoologist, Botanist, Entomologist and Marine Biologist
+- When an Academic is retiring, you will now learn what they do after their retirement instead of them just disappearing.
 
 Northwest Passage:
 - Added a new Scientific Expedition to find and cross the Northwest Passage.
