@@ -28,8 +28,11 @@ Carrington Event:
 
 Neptune:
 - Added four different options in the Neptune JE: Buy additional Instruments (+5 Astronomical Objects), Exchange Star Maps (+5), Improve Telescope (+10) and Academic Synergies
-- This will make the race for the Neptune a bit more interesting; you still need to be an advanced country, however, considering technologies and university levels; it will still be difficult, but less random
-- Neptune JE now visible for players all the time
+- This will make the race for the Neptune a bit more interesting; you still need to be an advanced country, however, considering technologies and university levels; it will still be difficult, but less random.
+- Neptune JE now visible for players all the time.
+
+The Mascapaicha:
+- A new archaeological adventure for a major Inca artifact.
 
 QOL:
 - Added better descriptions to the scientist and artist spawn events.
