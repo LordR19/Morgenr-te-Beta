@@ -350,6 +350,8 @@ namespace = dubois
 
 #Dubois 3000: Is [Naturalist] losing his/her mind?
 
+#Dubois 3010: Specimens lost
+
 #################################################################################
 
 #Dubois 1: Zoo inauguration
@@ -27957,7 +27959,7 @@ dubois.3000 = {
 
 	left_icon = scope:dubois_naturalist_scope
 
-	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -28019,6 +28021,48 @@ dubois.3000 = {
 				age >= 65
 			}
 			factor = 5
+		}
+	}
+}
+
+#Dubois 3010: Specimens lost
+dubois.3010 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.3010.t
+	desc = dubois.3010.d
+	flavor = dubois.3010.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/event_botany.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		dubois_has_naturalist = yes
+		var:dubois_naturalist_var = {
+			has_trait = senile
+		}
+		var:dubois_specimen >= 3000
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.3010.g #How did they disappear? I thought they were dead...
+		dubois_add_x_specimen_effect = {
+			AMOUNT = -3000
 		}
 	}
 }
