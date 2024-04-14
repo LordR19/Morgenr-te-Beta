@@ -4,6 +4,7 @@ Characters:
 - John Franklin (starting Intelligentsia leader of Tasmania)
 - Johann Gottfried Galle (random German Astronomer)
 - Henry Dupont (random French Naturalist)
+- Stephen Alfred Forbes (random American Naturalist)
 
 GUI:
 - Added a better picture for the Antarctosaurus.
