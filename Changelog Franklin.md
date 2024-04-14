@@ -2,7 +2,8 @@ Changelog for 2.1.3 "Franklin"
 
 Characters:
 - John Franklin (starting Intelligentsia leader of Tasmania)
-- Johann Gottfried Galle (random Astronomer)
+- Johann Gottfried Galle (random German Astronomer)
+- Henry Dupont (random French Naturalist)
 
 GUI:
 - Added a better picture for the Antarctosaurus.
