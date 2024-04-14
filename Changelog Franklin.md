@@ -41,4 +41,6 @@ The Mascapaicha:
 
 QOL:
 - Added better descriptions to the scientist and artist spawn events.
-- Added a rating system for the Astronomer to easier understand how good an astronomer is.
+- Added a rating system for the Astronomer to easier understand how good an Astronomer is.
+- Added a rating system for the Naturalist to easier understand how good a Naturalist is.
+- Added a rating system for the Paleontologist to easier understand how good a Paleontologist is.
