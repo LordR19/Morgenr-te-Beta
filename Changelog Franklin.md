@@ -5,6 +5,7 @@ Characters:
 - Johann Gottfried Galle (random German Astronomer)
 - Henry Dupont (random French Naturalist)
 - Stephen Alfred Forbes (random American Naturalist)
+- John Thomas Gulick (random American Naturalist)
 
 GUI:
 - Added a better picture for the Antarctosaurus.
