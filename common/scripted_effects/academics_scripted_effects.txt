@@ -4152,6 +4152,39 @@ create_new_naturalist_effect = {
 
 			set_global_variable = dubois_gervais_created_global_var
 		}
+		4 = { #Henry Dubois, France
+			trigger = {
+				NOT = { has_global_variable = dubois_dupont_henry_created_global_var }
+				NOT = {
+					cu:french = {
+						culture_is_discriminated_in = root
+					}
+				}
+				OR = {
+					has_state_in_state_region = STATE_NORMANDY
+					has_state_in_state_region = STATE_ILE_DE_FRANCE
+				}
+				game_date < 1853.11.1 #Age 55
+				year >= 1828 #already found 10'000 Specimen
+			}
+			create_character = {
+				template = mr_fra_dupont_henry_character_template
+
+				save_scope_as = dubois_new_naturalist_scope
+			}
+			scope:dubois_new_naturalist_scope = {
+				set_variable = mr_is_naturalist_var
+				naturalist_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = dubois_new_naturalist_var
+				value = scope:dubois_new_naturalist_scope
+			}
+
+			set_global_variable = dubois_dupont_henry_created_global_var
+		}
 		4 = { #Alfred Brehm, Germany
 			trigger = {
 				NOT = { has_global_variable = dubois_brehm_created_global_var }
