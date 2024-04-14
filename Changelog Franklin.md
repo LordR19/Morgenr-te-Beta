@@ -6,6 +6,7 @@ Characters:
 - Henry Dupont (random French Naturalist)
 - Stephen Alfred Forbes (random American Naturalist)
 - John Thomas Gulick (random American Naturalist)
+- Ora Willis Knight (random American Naturalist)
 
 GUI:
 - Added a better picture for the Antarctosaurus.
