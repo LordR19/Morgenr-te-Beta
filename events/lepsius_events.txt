@@ -1757,8 +1757,6 @@ lepsius.40 = {
 #Lepsius 50: Yearly excavation report
 
 lepsius.50 = {
-	dlc = dlc_morgenrote
-
 	type = country_event
 		
 	hidden = yes
@@ -1774,7 +1772,21 @@ lepsius.50 = {
 			name = lepsius_excavation_artifacts_cooldown_var
 			days = 365
 		}
+		###Valley of the Kings###
 		if = {
+			limit = {
+				has_modifier = lepsius_upper_egypt_excavation_modifier #Valley of the Kings
+				has_technology_researched = lepsius_specialization_egypt_tech #Egyptology
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_upper_egypt
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
 			limit = {
 				has_modifier = lepsius_upper_egypt_excavation_modifier #Valley of the Kings
 				NOT = {
@@ -1786,7 +1798,21 @@ lepsius.50 = {
 			}
 			lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 1 }
 		}
+		###The Pyramids###
 		if = {
+			limit = {
+				has_modifier = lepsius_lower_egypt_excavation_modifier #The Pyramids
+				has_technology_researched = lepsius_specialization_egypt_tech #Egyptology
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_lower_egypt
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
 			limit = {
 				has_modifier = lepsius_lower_egypt_excavation_modifier #The Pyramids
 				NOT = {
@@ -1798,7 +1824,48 @@ lepsius.50 = {
 			}
 			lepsius_add_x_egyptian_artifacts_effect = { AMOUNT = 1 }
 		}
+		###Babylon###
 		if = {
+			limit = {
+				has_modifier = lepsius_babylonia_excavation_modifier #Babylon
+				has_modifier = lepsius_panbabylonism_modifier  ##Gives +1 excavation artifacts each year
+				has_technology_researched = lepsius_specialization_mesopotamia_tech #Assyriology
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_babylonia
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 3 }
+		}
+		else_if = {
+			limit = {
+				has_modifier = lepsius_babylonia_excavation_modifier #Babylon
+				has_technology_researched = lepsius_specialization_mesopotamia_tech #Assyriology
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_babylonia
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
+			limit = {
+				has_modifier = lepsius_babylonia_excavation_modifier #Babylon
+				has_modifier = lepsius_panbabylonism_modifier  ##Gives +1 excavation artifacts each year
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_babylonia
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
 			limit = {
 				has_modifier = lepsius_babylonia_excavation_modifier #Babylon
 				NOT = {
@@ -1808,9 +1875,50 @@ lepsius.50 = {
 					}
 				}
 			}
-			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1 }
 		}
+		###Assyria###
 		if = {
+			limit = {
+				has_modifier = lepsius_assyria_excavation_modifier #Assyria
+				has_modifier = lepsius_panbabylonism_modifier  ##Gives +1 excavation artifacts each year
+				has_technology_researched = lepsius_specialization_mesopotamia_tech #Assyriology
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_assyria
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 3 }
+		}
+		else_if = {
+			limit = {
+				has_modifier = lepsius_assyria_excavation_modifier #Assyria
+				has_technology_researched = lepsius_specialization_mesopotamia_tech #Assyriology
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_assyria
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
+			limit = {
+				has_modifier = lepsius_assyria_excavation_modifier #Assyria
+				has_modifier = lepsius_panbabylonism_modifier  ##Gives +1 excavation artifacts each year
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_assyria
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
 			limit = {
 				has_modifier = lepsius_assyria_excavation_modifier #Assyria
 				NOT = {
@@ -1822,33 +1930,48 @@ lepsius.50 = {
 			}
 			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1}
 		}
+		###Argolis###
 		if = {
 			limit = {
-				has_modifier = lepsius_babylonia_excavation_modifier #Babylon
-				has_modifier = lepsius_panbabylonism_modifier  ##Gives +2 excavation artifacts each year
+				has_modifier = lepsius_argolis_excavation_modifier #Argolis
+				has_modifier = lepsius_troy_homeric_modifier ##Gives +1 excavation artifacts each year
+				has_technology_researched = lepsius_specialization_aegean_tech #Aegean Archaeology
 				NOT = {
 					any_state = {
-						has_state_trait = lepsius_state_trait_babylonia
+						has_state_trait = lepsius_state_trait_argolis
 						has_modifier = lepsius_excavation_sacked_state_modifier
 					}
 				}
 			}
-			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 3 }
 		}
-		if = {
+		else_if = {
 			limit = {
-				has_modifier = lepsius_assyria_excavation_modifier #Assyria
-				has_modifier = lepsius_panbabylonism_modifier  ##Gives +2 excavation artifacts each year
+				has_modifier = lepsius_argolis_excavation_modifier #Argolis
+				has_technology_researched = lepsius_specialization_aegean_tech #Aegean Archaeology
 				NOT = {
 					any_state = {
-						has_state_trait = lepsius_state_trait_assyria
+						has_state_trait = lepsius_state_trait_argolis
 						has_modifier = lepsius_excavation_sacked_state_modifier
 					}
 				}
 			}
-			lepsius_add_x_mesopotamian_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 2 }
 		}
-		if = {
+		else_if = {
+			limit = {
+				has_modifier = lepsius_argolis_excavation_modifier #Argolis
+				has_modifier = lepsius_troy_homeric_modifier ##Gives +1 excavation artifacts each year
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_argolis
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
 			limit = {
 				has_modifier = lepsius_argolis_excavation_modifier #Argolis
 				NOT = {
@@ -1860,7 +1983,48 @@ lepsius.50 = {
 			}
 			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
 		}
+		###Crete###
 		if = {
+			limit = {
+				has_modifier = lepsius_crete_excavation_modifier #Crete
+				has_modifier = lepsius_troy_homeric_modifier ##Gives +1 excavation artifacts each year
+				has_technology_researched = lepsius_specialization_aegean_tech #Aegean Archaeology
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_crete
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 3 }
+		}
+		else_if = {
+			limit = {
+				has_modifier = lepsius_crete_excavation_modifier #Crete
+				has_technology_researched = lepsius_specialization_aegean_tech #Aegean Archaeology
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_crete
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
+			limit = {
+				has_modifier = lepsius_crete_excavation_modifier #Crete
+				has_modifier = lepsius_troy_homeric_modifier ##Gives +1 excavation artifacts each year
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_crete
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
 			limit = {
 				has_modifier = lepsius_crete_excavation_modifier #Crete
 				NOT = {
@@ -1872,33 +2036,21 @@ lepsius.50 = {
 			}
 			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
 		}
+		###Yucatán###
 		if = {
 			limit = {
-				has_modifier = lepsius_argolis_excavation_modifier #Argolis
-				has_modifier = lepsius_troy_homeric_modifier ##Gives +2 excavation artifacts each year
+				has_modifier = lepsius_yucatan_excavation_modifier #Yucatán
+				has_technology_researched = lepsius_specialization_precolumbian_tech #Pre-Columbian Archaeology
 				NOT = {
 					any_state = {
-						has_state_trait = lepsius_state_trait_argolis
+						has_state_trait = lepsius_state_trait_yucatan
 						has_modifier = lepsius_excavation_sacked_state_modifier
 					}
 				}
 			}
-			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 2 }
 		}
-		if = {
-			limit = {
-				has_modifier = lepsius_crete_excavation_modifier #Crete
-				has_modifier = lepsius_troy_homeric_modifier ##Gives +2 excavation artifacts each year
-				NOT = {
-					any_state = {
-						has_state_trait = lepsius_state_trait_crete
-						has_modifier = lepsius_excavation_sacked_state_modifier
-					}
-				}
-			}
-			lepsius_add_x_aegean_artifacts_effect = { AMOUNT = 1 }
-		}
-		if = {
+		else_if = {
 			limit = {
 				has_modifier = lepsius_yucatan_excavation_modifier #Yucatán
 				NOT = {
@@ -1908,9 +2060,23 @@ lepsius.50 = {
 					}
 				}
 			}
-			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1 }
 		}
+		###Peru
 		if = {
+			limit = {
+				has_modifier = lepsius_peru_excavation_modifier #Peru
+				has_technology_researched = lepsius_specialization_precolumbian_tech #Pre-Columbian Archaeology
+				NOT = {
+					any_state = {
+						has_state_trait = lepsius_state_trait_peru
+						has_modifier = lepsius_excavation_sacked_state_modifier
+					}
+				}
+			}
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 2 }
+		}
+		else_if = {
 			limit = {
 				has_modifier = lepsius_peru_excavation_modifier #Peru
 				NOT = {
@@ -1920,14 +2086,16 @@ lepsius.50 = {
 					}
 				}
 			}
-			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_precolumbian_artifacts_effect = { AMOUNT = 1 }
 		}
+		###Local Excavation###
 		if = {
 			limit = {
 				has_modifier = lepsius_local_excavation_modifier #Local Excavation
 			}
-			lepsius_add_x_local_artifacts_effect = { AMOUNT = 1}
+			lepsius_add_x_local_artifacts_effect = { AMOUNT = 1 }
 		}
+		###Notification###
 		if = {
 			limit = {
 				lepsius_on_archaeological_excavation = yes #Notification
