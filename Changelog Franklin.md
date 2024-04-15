@@ -36,8 +36,9 @@ Neptune:
 - This will make the race for the Neptune a bit more interesting; you still need to be an advanced country, however, considering technologies and university levels; it will still be difficult, but less random.
 - Neptune JE now visible for players all the time.
 
-The Mascapaicha:
+Inca Archaeology:
 - A new archaeological adventure for a major Inca artifact.
+- Machu Picchu can be found before 1900 (and start Inca expeditions) when all recquirements are met.
 
 QOL:
 - Added better descriptions to the scientist and artist spawn events.
