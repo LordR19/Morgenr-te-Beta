@@ -4,6 +4,9 @@
 
 #by Marco Dandolo
 
+
+######EXPEDITIONS######
+
 ###Determine the archaeological location###
 
 lepsius_archaeological_expedition_location = {
@@ -161,6 +164,104 @@ lepsius_archaeological_expedition_progress = {
 set_lepsius_archaeologist_scope_effect = {
 	var:lepsius_archaeologist_var = {
 		save_scope_as = lepsius_archaeologist_scope
+	}
+}
+
+###Determine the artifacts at the end of an Expedition###
+
+lepsius_archaeological_expedition_artifacts_effect = {
+	if = {
+		limit = {
+			var:lepsius_expedition_success < 3
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 1 }
+	}
+	if = {
+		limit = {
+			var:lepsius_expedition_success >= 3
+			var:lepsius_expedition_success < 5
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 2 }
+	}
+	if = {
+		limit = {
+			var:lepsius_expedition_success >= 5
+			var:lepsius_expedition_success < 8
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 4 }
+	}
+	if = {
+		limit = {
+			var:lepsius_expedition_success >= 8
+			var:lepsius_expedition_success < 12
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 6 }
+	}
+	if = {
+		limit = {
+			var:lepsius_expedition_success >= 12
+			var:lepsius_expedition_success < 15
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 8 }
+	}
+	if = {
+		limit = {
+			var:lepsius_expedition_success >= 15
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 10 }
+	}
+}
+
+###Determine the artifacts at the end of an Expedition according to specialization###
+
+lepsius_archaeological_expedition_specialization_effect = {
+	if = {
+		limit = {
+			lepsius_expedition_in_egypt = yes
+			var:lepsius_archaeologist_var = {
+				has_trait = lepsius_egypt_specialist
+			}
+		}
+		custom_tooltip = {
+			text = lepsius_archaeological_expedition_specialization_tt
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 5 }
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_mesopotamia = yes
+			var:lepsius_archaeologist_var = {
+				has_trait = lepsius_mesopotamia_specialist
+			}
+		}
+		custom_tooltip = {
+			text = lepsius_archaeological_expedition_specialization_tt
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 5 }
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_greece = yes
+			var:lepsius_archaeologist_var = {
+				has_trait = lepsius_aegean_specialist
+			}
+		}
+		custom_tooltip = {
+			text = lepsius_archaeological_expedition_specialization_tt
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 5 }
+	}
+	if = {
+		limit = {
+			lepsius_expedition_in_south_america = yes
+			var:lepsius_archaeologist_var = {
+				has_trait = lepsius_precolumbian_specialist
+			}
+		}
+		custom_tooltip = {
+			text = lepsius_archaeological_expedition_specialization_tt
+		}
+		lepsius_add_x_minor_artifacts = { AMOUNT = 5 }
 	}
 }
 
