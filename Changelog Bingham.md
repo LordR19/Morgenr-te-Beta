@@ -1,5 +1,8 @@
 Changelog for 2.1.4 "Bingham"
 
+General:
+- Added an event about the Doppler Effect (thanks to Crownsteler for creating it!).
+
 Archaeology:
 - Added four new technologies: Egyptology, Assyriology, Aegean Archaeology, Pre-Columbian Archaeology.
 - One of these techs can be chosen via JE to specialize a nation in one archaeological field.
