@@ -1916,3 +1916,79 @@ je_lepsius_fossil_identification = {
 
 	weight = 25
 }
+
+##################################################################
+
+######RAIDERS######
+
+je_lepsius_alexander = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		custom_tooltip = {
+			var:lepsius_alexander_clue >= 1
+			text = lepsius_has_alexander_clue_tt
+		}
+	}
+
+	possible = {
+		lepsius_has_famous_archaeologist = yes
+		any_scope_state = {
+			is_capital = yes
+			is_production_method_active = {
+				building_type = building_lepsius_archaeological_museum
+				production_method = pm_lepsius_excellent_egyptian_exhibition
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					has_variable = lepsius_alexander_started_var
+				}
+			}
+			trigger_event = {
+				id = lepsius.1001
+				popup = yes
+			}
+			set_variable = lepsius_alexander_started_var
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_alexander_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+	}
+
+	fail = {
+    }
+	
+	on_fail = {
+	}
+
+	current_value = {
+		value = var:lepsius_alexander_clue
+	}
+
+	goal_add_value = {
+		add = 5
+	}
+
+	scripted_button = lepsius_alexander_search_clue_button
+	scripted_button = lepsius_alexander_intensive_study_button
+
+	weight = 100
+
+	should_be_pinned_by_default = yes
+}
