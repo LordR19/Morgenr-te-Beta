@@ -10,6 +10,6 @@ Archaeology:
 - New Archaeologists start with the corresponding trait, if they have one of the specialized technologies. E. g., a country with Egyptology will always generate new archaeologists with the egyptologist trait.
 - Archaeologists can have several specialization traits.
 - Archaeologists with a specialized trait will get +5 artifacts at the end of an expedition in the corresponding archaeological site, e. g. doing an expedition as an Assyriologist in Babylonia or Assyria.
-- Archaoelogist with a specialized trait will get +1 clue when inspecting an excavation site in the corresponding archaeological site.
+- Archaeologist with a specialized trait will get +1 clue when inspecting an excavation site in the corresponding archaeological site.
 - Modern Archaeology tech gives +1 yearly artifact for each excavation.
 - Changed artifacts at the end of an expedition: you should get some more artifacts than before.
