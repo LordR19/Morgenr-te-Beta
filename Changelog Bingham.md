@@ -16,3 +16,7 @@ Archaeology:
 - Archaoelogist with a specialized trait will get +1 clue when inspecting an excavation site in the corresponding archaeological site.
 - Modern Archaeology tech gives +1 yearly artifact for each excavation.
 - Changed artifacts at the end of an expedition: you should get some more artifacts than before.
+
+Fixes:
+- No more ghost Wagner.
+- You can no longer buy too many academics from other countries and will instead get your money back.
