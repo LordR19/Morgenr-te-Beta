@@ -13,6 +13,7 @@ Archaeology:
 - Archaeologists with a specialized trait will get +5 artifacts at the end of an expedition in the corresponding archaeological site, e. g. doing an expedition as an Assyriologist in Babylonia or Assyria.
 - Archaeologist with a specialized trait will get +1 clue when inspecting an excavation site in the corresponding archaeological site.
 - Modern Archaeology tech gives +1 yearly artifact for each excavation.
+- Modern Archaeology no longer gives a prestige bonus.
 - Changed artifacts at the end of an expedition: you should get some more artifacts than before.
 
 Paleontology:
@@ -22,3 +23,7 @@ Paleontology:
 Anthropology:
 - New Anthropology Tech. All recquirements which mentioned Modern Archaeology will now need Anthropology instead.
 - Anthropologists can only be promoted with Anthropology Tech.
+
+Natural History:
+- New Nature Protection Tech.
+- Moved Nature Reserve from Genetics to Nature Protection.
