@@ -36,3 +36,4 @@ Physics:
 - Added Modern Physics Tech. In contrast to Astrophysics, this can be researched after Electromagnetism.
 - Seperated Astrophysics and Modern Physics in many events were they were handled as one technology.
 - Added Nuclear Physics Tech. Be careful with that stuff.
+- Added new good: Uranium.
