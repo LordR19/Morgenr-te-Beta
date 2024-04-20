@@ -27,3 +27,11 @@ Anthropology:
 Natural History:
 - New Nature Protection Tech.
 - Moved Nature Reserve from Genetics to Nature Protection.
+
+Astronomy:
+- Astrophysics no longer gives a prestige bonus.
+- Changed Astrophysics and Modern Physics JE to Astrophysics only.
+
+Physics:
+- Added Modern Physics Tech. In contrast to Astrophysics, this can be researched after Electromagnetism.
+- Seperated Astrophysics and Modern Physics in many events were they were handled as one technology.
