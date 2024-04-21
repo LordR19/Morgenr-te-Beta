@@ -968,14 +968,29 @@ GLOBAL = {
 	}
 
 	set_global_variable = elgar_classicism_discovered #Just in case pre-1500 mods want to use this
-	random_state_region = {
-		limit = {
-			this = s:STATE_LAZIO
+	if = { #Built in Compatibility with Basileia
+		limit = { basileia_is_active = yes }
+		random_state_region = {
+			limit = {
+				this = s:STATE_VENETIA
+			}
+			add_state_trait = artists_state_trait_center_classicism
+			set_global_variable = {
+				name = artists_coa_classicism_state_region_global_var
+				value = this
+			}
 		}
-		add_state_trait = artists_state_trait_center_classicism
-		set_global_variable = {
-			name = artists_coa_classicism_state_region_global_var
-			value = this
+	}
+	else = { #Vanilla effect
+		random_state_region = {
+			limit = {
+				this = s:STATE_LAZIO
+			}
+			add_state_trait = artists_state_trait_center_classicism
+			set_global_variable = {
+				name = artists_coa_classicism_state_region_global_var
+				value = this
+			}
 		}
 	}
 
