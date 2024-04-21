@@ -211,19 +211,19 @@ GLOBAL = {
 	every_country = {
 		limit = {
 			OR = {
-				this = c:GBR #British Museum/Young
-				this = c:FRA #Louvre/Champollion
-				this = c:PRU #Egyptian Museum/Karl Richard Lepsius
-				this = c:NET #Rijksmuseum van Oudheden/Reuvens
-				this = c:TUS #Egyption Collection from the Franco-Tuscan Expedition/Rosellini
-				this = c:PAP #Roman-Egyptian Collection in the Vatican/Ungarelli
-				this = c:SAR #Egyptian Collection, one of the most important in Europe
-				this = c:AUS #Egyptian Collection
-				this = c:SWE #Donation from Giovanni Anastasi, who was also an important trader of antiquities and swedisch general consul in Egypt
-				this = c:SIC #Borgia and Picchianti Collection
-				this = c:BAV #Aegyptica in the Glyptothek
-				this = c:SAX #Seyffarth
-				this = c:BAD #Aegyptica (?), not sure if before 1836, but benefit of the doubt
+				c:GBR ?= this #British Museum/Young
+				c:FRA ?= this #Louvre/Champollion
+				c:PRU ?= this #Egyptian Museum/Karl Richard Lepsius
+				c:NET ?= this #Rijksmuseum van Oudheden/Reuvens
+				c:TUS ?= this #Egyption Collection from the Franco-Tuscan Expedition/Rosellini
+				c:PAP ?= this #Roman-Egyptian Collection in the Vatican/Ungarelli
+				c:SAR ?= this #Egyptian Collection, one of the most important in Europe
+				c:AUS ?= this #Egyptian Collection
+				c:SWE ?= this #Donation from Giovanni Anastasi, who was also an important trader of antiquities and swedisch general consul in Egypt
+				c:SIC ?= this #Borgia and Picchianti Collection
+				c:BAV ?= this #Aegyptica in the Glyptothek
+				c:SAX ?= this #Seyffarth
+				c:BAD ?= this #Aegyptica (?), not sure if before 1836, but benefit of the doubt
 			}
 		}
 		add_technology_researched = lepsius_antiquarianism_tech
@@ -285,88 +285,177 @@ GLOBAL = {
 	}
 
 	#Verrier Modifiers: Countries who discovered certain asteroids which were considered planets; also Uranus for statistics
-	every_country = {
-		limit = {
-			this = c:GBR #Uranus, discovered by Friedrich Wilhelm Herschel in 1781 [United Kingdom]
-		}
-		add_modifier = {
-			name = verrier_discovered_uranus_modifier
-		}
-		set_global_variable = {
-			name = verrier_discoverer_uranus_country_global_var
-			value = this
-		}
-		country_definition = {
+	
+	#Uranus, discovered by Friedrich Wilhelm Herschel in 1781 [United Kingdom]
+	if = {
+		limit = { exists = c:GBR }
+		c:GBR ?= {
+			add_modifier = {
+				name = verrier_discovered_uranus_modifier
+			}
 			set_global_variable = {
-				name = verrier_discoverer_uranus_global_var
+				name = verrier_discoverer_uranus_country_global_var
 				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_uranus_global_var
+					value = this
+				}
 			}
 		}
 	}
-	every_country = {
-		limit = {
-			this = c:SIC #Ceres, discovered by Giuseppe Piazzi in 1801 [Two Sicilies]
-		}
-		add_modifier = {
-			name = verrier_discovered_ceres_modifier
-		}
-		set_global_variable = {
-			name = verrier_discoverer_ceres_country_global_var
-			value = this
-		}
-		country_definition = {
+	else = {
+		random_country = {
+			add_modifier = {
+				name = verrier_discovered_uranus_modifier
+			}
 			set_global_variable = {
-				name = verrier_discoverer_ceres_global_var
+				name = verrier_discoverer_uranus_country_global_var
 				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_uranus_global_var
+					value = this
+				}
 			}
 		}
 	}
-	every_country = {
-		limit = {
-			this = c:BRE #Pallas and Vesta, discovered by Heinrich Wilhelm Olbers in 1802 and 1807 [Bremen]
-		}
-		add_modifier = {
-			name = verrier_discovered_pallas_modifier
-		}
-		set_global_variable = {
-			name = verrier_discoverer_pallas_country_global_var
-			value = this
-		}
-		country_definition = {
+
+	#Ceres, discovered by Giuseppe Piazzi in 1801 [Two Sicilies]
+	if = {
+		limit = { exists = c:SIC }
+		c:SIC ?= {
+			add_modifier = {
+				name = verrier_discovered_ceres_modifier
+			}
 			set_global_variable = {
-				name = verrier_discoverer_pallas_global_var
+				name = verrier_discoverer_ceres_country_global_var
 				value = this
 			}
-		}
-		add_modifier = {
-			name = verrier_discovered_vesta_modifier
-		}
-		set_global_variable = {
-			name = verrier_discoverer_vesta_country_global_var
-			value = this
-		}
-		country_definition = {
-			set_global_variable = {
-				name = verrier_discoverer_vesta_global_var
-				value = this
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_ceres_global_var
+					value = this
+				}
 			}
 		}
 	}
-	every_country = {
-		limit = {
-			this = c:HAN #Juno, discovered by Karl Ludwig Harding in 1804 [Hanover]
-		}
-		add_modifier = {
-			name = verrier_discovered_juno_modifier
-		}
-		set_global_variable = {
-			name = verrier_discoverer_juno_country_global_var
-			value = this
-		}
-		country_definition = {
+	else = {
+		random_country = {
+			add_modifier = {
+				name = verrier_discovered_ceres_modifier
+			}
 			set_global_variable = {
-				name = verrier_discoverer_juno_global_var
+				name = verrier_discoverer_ceres_country_global_var
 				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_ceres_global_var
+					value = this
+				}
+			}
+		}
+	}
+
+	#Pallas and Vesta, discovered by Heinrich Wilhelm Olbers in 1802 and 1807 [Bremen]
+	if = {
+		limit = { exists = c:BRE }
+		c:BRE ?= {
+			add_modifier = {
+				name = verrier_discovered_pallas_modifier
+			}
+			set_global_variable = {
+				name = verrier_discoverer_pallas_country_global_var
+				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_pallas_global_var
+					value = this
+				}
+			}
+			add_modifier = {
+				name = verrier_discovered_vesta_modifier
+			}
+			set_global_variable = {
+				name = verrier_discoverer_vesta_country_global_var
+				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_vesta_global_var
+					value = this
+				}
+			}
+		}
+	}
+	else = {
+		random_country = {
+			add_modifier = {
+				name = verrier_discovered_pallas_modifier
+			}
+			set_global_variable = {
+				name = verrier_discoverer_pallas_country_global_var
+				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_pallas_global_var
+					value = this
+				}
+			}
+			add_modifier = {
+				name = verrier_discovered_vesta_modifier
+			}
+			set_global_variable = {
+				name = verrier_discoverer_vesta_country_global_var
+				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_vesta_global_var
+					value = this
+				}
+			}
+		}
+	}
+
+	#Juno, discovered by Karl Ludwig Harding in 1804 [Hanover]
+	if = {
+		limit = { exists = c:HAN }
+		c:HAN ?= {
+			add_modifier = {
+				name = verrier_discovered_juno_modifier
+			}
+			set_global_variable = {
+				name = verrier_discoverer_juno_country_global_var
+				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_juno_global_var
+					value = this
+				}
+			}
+		}
+	}
+	else = {
+		random_country = {
+			add_modifier = {
+				name = verrier_discovered_juno_modifier
+			}
+			set_global_variable = {
+				name = verrier_discoverer_juno_country_global_var
+				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = verrier_discoverer_juno_global_var
+					value = this
+				}
 			}
 		}
 	}
