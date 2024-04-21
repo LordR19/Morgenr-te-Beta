@@ -507,27 +507,26 @@ GLOBAL = {
 	}
 
 	#Elgar Events: A Monument for Beethoven
-	every_country = {
-		limit = {
-			OR = {
-				country_has_primary_culture = cu:south_german
-				country_has_primary_culture = cu:north_german
-				THIS = c:FRA
-				THIS = c:GBR
+	if = {
+		limit = { year >= 1836 }
+		every_country = {
+			limit = {
+				OR = {
+					country_has_primary_culture = cu:south_german
+					country_has_primary_culture = cu:north_german
+					c:FRA ?= this
+					c:GBR ?= this
+				}
 			}
-		}
-		trigger_event = {
-			id = elgar.101 #Elgar 101: A Monument for Beethoven
-			days = { 180 210 }
+			trigger_event = {
+				id = elgar.101 #Elgar 101: A Monument for Beethoven
+				days = { 180 210 }
+			}
 		}
 	}
 
 	#Elgar Achievements
-	every_country = {
-		limit = {
-			exists = c:SWI
-			this = c:SWI
-		}
+	c:SWI ?= {
 		set_variable = elgar_more_than_yodeling_ach_possible
 	}
 
