@@ -873,7 +873,7 @@ GLOBAL = {
 	#Hanover starts with Landed Voting
 	random_country = {
 		limit = {
-			c:HAN = this
+			c:HAN ?= this
 		}
 		activate_law = law_type:law_landed_voting
 	}
@@ -905,9 +905,6 @@ GLOBAL = {
 
 	######KLIMT######
 
-	set_global_variable = elgar_classicism_discovered #Just in case pre-1500 mods want to use this
-	set_global_variable = elgar_romanticism_discovered #Just in case pre-1800 mods want to use this
-
 	set_global_variable = {
 		name = klimt_global_painting_tradition_var
 		value = 0
@@ -921,6 +918,7 @@ GLOBAL = {
 		klimt_add_variables = yes
 	}
 
+	set_global_variable = elgar_classicism_discovered #Just in case pre-1500 mods want to use this
 	random_state_region = {
 		limit = {
 			this = s:STATE_LAZIO
@@ -932,18 +930,67 @@ GLOBAL = {
 		}
 	}
 
-	random_state_region = {
+	set_global_variable = elgar_romanticism_discovered #Just in case pre-1800 mods want to use this
+	#This part decides whether Bavaria gets the Center of Romanticism or another country will get it
+	if = {
 		limit = {
-			this = s:STATE_FRANCONIA
+			exists = c:BAV
+			s:STATE_FRANCONIA = {
+				any_scope_state = {
+					owner = c:BAV
+				}
+			}
 		}
-		add_state_trait = artists_state_trait_center_romanticism
-		set_global_variable = {
-			name = artists_coa_romanticism_state_region_global_var
-			value = this
+		random_state_region = {
+			limit = {
+				this = s:STATE_FRANCONIA
+			}
+			add_state_trait = artists_state_trait_center_romanticism
+			set_global_variable = { #This is used in the GUI to display the state
+				name = artists_coa_romanticism_state_region_global_var
+				value = this
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			any_country = {
+				has_building = building_arts_academy
+			}
+		}
+		random_country = {
+			limit = {
+				has_building = building_arts_academy
+			}
+
+			capital = {
+				state_region = {
+					add_state_trait = artists_state_trait_center_romanticism
+					set_global_variable = { #This is used in the GUI to display the state
+						name = artists_coa_romanticism_state_region_global_var
+						value = this
+					}
+				}
+			}
+		}
+	}
+	else = {
+		ordered_country = {
+			order_by = average_sol
+
+			capital = {
+				state_region = {
+					add_state_trait = artists_state_trait_center_romanticism
+					set_global_variable = { #This is used in the GUI to display the state
+						name = artists_coa_romanticism_state_region_global_var
+						value = this
+					}
+				}
+			}
 		}
 	}
 
-	c:PRU = {
+	c:PRU ?= {
 		set_variable = klimt_romanticism_masterwork_happened_var
 		set_variable = klimt_morgenroete_var
 		set_variable = {
@@ -952,7 +999,7 @@ GLOBAL = {
 		}
 	}
 
-	c:GBR = {
+	c:GBR ?= {
 		set_variable = klimt_romanticism_masterwork_happened_var
 		set_variable = klimt_temeraire_var
 		set_variable = {
@@ -961,7 +1008,7 @@ GLOBAL = {
 		}
 	}
 
-	c:FRA = {
+	c:FRA ?= {
 		set_variable = klimt_romanticism_masterwork_happened_var
 		set_variable = klimt_liberty_var
 		set_variable = {
@@ -970,7 +1017,7 @@ GLOBAL = {
 		}
 	}
 
-	c:USA = {
+	c:USA ?= {
 		set_variable = klimt_romanticism_masterwork_happened_var
 		set_variable = klimt_course_of_an_empire_var
 		set_variable = {
