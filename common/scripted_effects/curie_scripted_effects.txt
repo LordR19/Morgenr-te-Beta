@@ -1,0 +1,78 @@
+﻿##########################
+# CURIE SCRIPTED EFFECTS #
+##########################
+
+#by Marco Dandolo & Lord R
+
+##########################
+
+#Use in State Scope to add additional Uranium Deposit Levels
+curie_add_x_uranium_deposits_effect = {
+	# AMOUNT = Amount of Levels to add
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = curie_add_x_uranium_deposits_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = curie_add_x_uranium_deposits_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = curie_add_x_uranium_deposits_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = curie_add_x_uranium_deposits_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = curie_add_x_uranium_deposits_plus_x_tt
+	}
+
+	hidden_effect = {
+		#Somehow I needed this for the effect to execute right.
+		root = {
+			set_variable = {
+				name = curie_uranium_state_var
+				value = prev
+			}
+		}
+
+		# This variable is used to keep track of the level of Uranium
+		if = {
+			limit = {
+				NOT = {
+					has_variable = curie_state_uranium_level_var
+				}
+			}
+			set_variable = {
+				name = curie_state_uranium_level_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = curie_state_uranium_level_var
+			add = $AMOUNT$
+		}
+
+		# This part of the effect applies the new Level to the state modifier
+		remove_modifier = curie_uranium_ressources_modifier #Removes the old modifier
+		add_modifier = {
+			name = curie_uranium_ressources_modifier
+			multiplier = root.var:curie_uranium_state_var.var:curie_state_uranium_level_var
+		}
+
+		#Removes Variable again
+		ROOT = {
+			remove_variable = curie_uranium_state_var
+		}
+	}
+}
