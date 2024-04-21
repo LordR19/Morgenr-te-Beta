@@ -16,6 +16,11 @@ Archaeology:
 - Modern Archaeology no longer gives a prestige bonus.
 - Changed artifacts at the end of an expedition: you should get some more artifacts than before.
 
+Compatability:
+- Removed the mr_starting_inventions.txt file which should improve compatability with various mods.
+- Various changes to improve compatibility with mods that set up another scenario.
+- Added built in compatibility for most of Basileia Romaion.
+
 Music:
 - The Mozart Monument Event now tells you when the monument will be finished.
 
