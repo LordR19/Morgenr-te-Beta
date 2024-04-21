@@ -618,14 +618,26 @@ GLOBAL = {
 
 	if = {
 		limit = {
-			basileia_is_active = no
+			OR = {
+				basileia_is_active = no #If Basileia is active the palace is not deactivated
+				s:STATE_MAZOVIA = { #If a polish nation owns the palace is not deactivated
+					any_scope_state = {
+						has_building = building_gaudi_saxon
+						NOT = {
+							owner = {
+								country_has_primary_culture = cu:polish
+							}
+						}
+					}
+				}
+			}
 		}
 		s:STATE_MAZOVIA = {
 			every_scope_state = {
 				limit = { has_active_building = building_gaudi_saxon }
-			}
-			deactivate_building = {
-				building = "building_gaudi_saxon"
+				deactivate_building = {
+					building = "building_gaudi_saxon"
+				}
 			}
 		}
 	}
