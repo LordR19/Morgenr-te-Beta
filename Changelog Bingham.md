@@ -16,6 +16,9 @@ Archaeology:
 - Modern Archaeology no longer gives a prestige bonus.
 - Changed artifacts at the end of an expedition: you should get some more artifacts than before.
 
+Music:
+- The Mozart Monument Event now tells you when the monument will be finished.
+
 Paleontology:
 - Paleontology tech does no longer need Early Archaeology.
 - Paleontologists can only be promoted with Paleontology Tech.
