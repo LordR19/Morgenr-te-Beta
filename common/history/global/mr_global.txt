@@ -877,6 +877,9 @@ GLOBAL = {
 			size = 21000
 		}
 	}
+	s:STATE_VENETIA = {
+		add_homeland = cu:rumantsch
+	}
 	random_state = {
 		limit = {
 			state_region = s:STATE_VENETIA
@@ -887,9 +890,6 @@ GLOBAL = {
 			}
 			change_pop_culture = { target = cu:rumantsch value = 0.07 }
 		}
-	}
-	s:STATE_VENETIA = {
-		add_homeland = cu:rumantsch
 	}
 
 	######ACADEMICS######
@@ -1003,11 +1003,19 @@ GLOBAL = {
 					owner = c:BAV
 				}
 			}
+			basileia_is_active = no
 		}
-		random_state_region = {
-			limit = {
-				this = s:STATE_FRANCONIA
+		s:STATE_FRANCONIA = {
+			add_state_trait = artists_state_trait_center_romanticism
+			set_global_variable = { #This is used in the GUI to display the state
+				name = artists_coa_romanticism_state_region_global_var
+				value = this
 			}
+		}
+	}
+	else_if = {
+		limit = { basileia_is_active = yes }
+		s:STATE_ANDALUSIA = {
 			add_state_trait = artists_state_trait_center_romanticism
 			set_global_variable = { #This is used in the GUI to display the state
 				name = artists_coa_romanticism_state_region_global_var
