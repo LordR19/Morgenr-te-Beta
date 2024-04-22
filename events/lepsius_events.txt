@@ -38,11 +38,15 @@ namespace = lepsius
 #Lepsius 16: Lead Scientist
 #Lepsius 17: Major Artifacts
 
-#Lepsius 22: Egyptian Exhibition
+###Alternative Set Up Events###
+
+#Lepsius 22: Birth of Egyptology
+
 #Lepsius 23: Mesopotamian Exhbition
 #Lepsius 24: Aegean Exhibition
 #Lepsius 25: Pre-Columbian Exhibition
 #Lepsius 26: Archaeological Congress
+#Lepsius 27: World Cultures Exhibition
 
 #Lepsius 30: Lead Scientist appointed
 #Lepsius 31: Lead Scientist becomes Director
@@ -1619,7 +1623,77 @@ lepsius.18 = {
 	}
 }
 
-#Lepsius 22: Egyptian Exhibition #REMOVED
+
+######ALTERNATIVE SETUP EVENTS######
+
+#Lepsius 22: Birth of Egyptology
+
+lepsius.22 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = lepsius.22.t
+	desc = lepsius.22.d_egyptology
+	flavor = lepsius.22.f_egyptology
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/lepsius_pictures/egypt/lepsius_egypt_giza.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		country_definition = {
+			set_global_variable = {
+				name = lepsius_egyptology_invented_country_definition_global_var
+				value = this
+			}
+		}
+		set_global_variable = {
+			name = lepsius_egyptology_invented_country_global_var
+			value = this
+		}
+	}
+
+	option = {
+		name = lepsius.2.a #We will explore the wonders of Egypt!
+		custom_tooltip = lepsius.2.tt
+		s:STATE_LOWER_EGYPT = {
+			add_state_trait = lepsius_state_trait_lower_egypt
+		}
+		s:STATE_UPPER_EGYPT = {
+			add_state_trait = lepsius_state_trait_upper_egypt
+		}
+		if = {
+			limit = {
+				is_player = no
+			}
+			c:EGY = {
+				change_relations = {
+					country = ROOT 
+					value = 15
+				}
+			}
+			create_diplomatic_pact = {
+				country = c:EGY
+				type = excavation_license
+			}
+		}
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+			post_notification = lepsius_birth_of_egyptology_notification
+		}
+		set_global_variable = lepsius_archaeology_possible_global_var
+	}
+}
 
 #Lepsius 23: Mesopotamian Exhibition #REMOVED
 
