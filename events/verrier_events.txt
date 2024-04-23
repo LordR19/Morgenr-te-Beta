@@ -20,6 +20,7 @@ namespace = verrier
 
 #Verrier 10: Neptune discovered
 #Verrier 11: Neptune notification for player
+#Verrier 12: Uranus discovered
 
 #Pluto
 
@@ -588,6 +589,145 @@ verrier.11 = {
 	title = verrier.10.t
 	desc = verrier.11.d
 	flavor = verrier.10.f
+
+	duration = 3
+
+	option = {
+		name = verrier.11.g #Congratulations ...
+
+		astronomer_experience_gain_effect = {
+			AMOUNT = 10
+		}
+	}
+}
+
+##################################################################################
+
+######URANUS######
+
+#Verrier 12: Uranus discovered
+
+verrier.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_neptune.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_uranus_discovered_var
+		set_global_variable = {
+			name = verrier_discoverer_uranus_country_global_var
+			value = this
+		}
+		set_global_variable = {
+			name = verrier_uranus_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = verrier_discoverer_uranus_global_var
+				value = this
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+		else = {
+			create_new_astronomer_effect = yes
+			verrier_set_new_astronomer_as_astronomer_effect = yes
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+		country_definition = {
+			save_scope_as = verrier_discoverer_neptune_country_definition_scope
+			set_global_variable = {
+				name = verrier_discoverer_neptune_country_definition_global_var
+				value = scope:verrier_discoverer_neptune_country_definition_scope
+			}
+		}
+	}
+
+	title = verrier.12.t
+	desc = verrier.12.d
+	flavor = verrier.2.f
+
+	duration = 3
+
+	option = {
+		name = verrier.12.g
+		add_modifier = {
+			name = verrier_discovered_uranus_modifier
+		}
+		scope:verrier_astronomer_scope = {
+			add_modifier = {
+				name = verrier_uranus_discoverer_modifier
+			}
+			set_variable = verrier_uranus_discoverer_var
+		}
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = 1
+		}
+		astronomer_experience_gain_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { this = ROOT }
+					is_player = yes
+				}
+				trigger_event = {
+					id = verrier.13
+					days = 3
+				}
+			}
+		}
+	}
+}
+
+#Verrier 13: Uranus notification for player
+
+verrier.13 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_neptune.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		global_var:verrier_discoverer_uranus_country_global_var = {
+			save_scope_as = verrier_uranus_discoverer_country
+		}
+	}
+
+	title = verrier.12.t
+	desc = verrier.11.d
+	flavor = verrier.12.f
 
 	duration = 3
 
