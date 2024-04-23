@@ -8,13 +8,126 @@
 
 ######DISCOVERIES######
 
+je_verrier_uranus = {
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	group = je_group_verrier_astronomy
+
+	is_shown_when_inactive = {
+		NOT = { has_global_variable = verrier_uranus_discovered_global_var }
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			has_technology_researched = verrier_physics_tech
+		}
+		trigger_else = {
+			always = yes
+		}
+	}
+
+	possible = {
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 1
+			}
+		}
+		trigger_else = {
+			always = yes
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_astronomical_objects #value or variable you use to meassure progress
+		}
+	}
+
+	goal_add_value = {
+		# Basically takes the amount of years before 1836 and multiplies it by 2 (average objects per year),
+		# then adds the base value of 100
+		value = 1781
+		subtract = global_var:start_year_global_var
+		multiply = 2 #Assuming about 2 astronomical objects get discovered each year on average.
+		add = 100 #Base value
+	}
+
+	immediate = {
+		set_variable = {
+			name = je_verrier_uranus_var
+			days = 1
+		}
+	}
+
+	complete = {
+		has_technology_researched = verrier_astronomy_tech
+		country_has_building_type_levels = {  
+			target = bt:building_university  
+			value  >= 1
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+		OR = {
+			any_scope_character = {
+				OR = {
+					has_trait = innovative
+					has_trait = meticulous
+					has_trait = ambitious
+					has_trait = persistent
+				}
+			}
+			verrier_has_astronomer = yes
+		}
+		custom_tooltip = {
+			text = je_verrier_uranus_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+		hidden_trigger = {
+			NOT = { has_variable = je_verrier_uranus_var }
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = verrier.12
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_verrier_uranus_fail
+			has_global_variable = verrier_uranus_discovered_global_var
+		}
+    }
+
+	progressbar = yes
+
+	weight = 50
+}
+
 je_verrier_neptune = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
 	group = je_group_verrier_astronomy
 
 	is_shown_when_inactive = {
-#		has_global_variable = verrier_uranus_discovered_global_var
+		has_global_variable = verrier_uranus_discovered_global_var
 		trigger_if = {
 			limit = {
 				is_ai = yes
@@ -122,10 +235,7 @@ je_verrier_neptune = {
 	fail = {
 		custom_tooltip = {
 			text = je_verrier_neptune_fail
-			any_country = {
-				NOT = { this = ROOT }
-				has_modifier = verrier_discovered_neptune_modifier
-			}
+			has_global_variable = verrier_neptune_discovered_var
 		}
     }
 
