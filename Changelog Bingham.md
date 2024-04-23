@@ -15,6 +15,7 @@ Archaeology:
 - Modern Archaeology tech gives +1 yearly artifact for each excavation.
 - Modern Archaeology no longer gives a prestige bonus.
 - Changed artifacts at the end of an expedition: you should get some more artifacts than before.
+- Added Vilcabamba as a possible archaeological discovery in Peru.
 
 Compatability:
 - Removed the mr_starting_inventions.txt file which should improve compatability with various mods.
