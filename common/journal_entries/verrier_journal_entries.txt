@@ -119,6 +119,123 @@ je_verrier_uranus = {
 	weight = 50
 }
 
+je_verrier_dwarf_planets = {
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	group = je_group_verrier_astronomy
+
+	should_be_pinned_by_default = yes
+
+	is_shown_when_inactive = {
+		NAND = {
+			has_global_variable = verrier_ceres_discovered_global_var
+			has_global_variable = verrier_pallas_discovered_global_var
+			has_global_variable = verrier_vesta_discovered_global_var
+			has_global_variable = verrier_juno_discovered_global_var
+		}
+		has_global_variable = verrier_uranus_discovered_global_var
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			has_technology_researched = verrier_physics_tech
+		}
+		trigger_else = {
+			always = yes
+		}
+	}
+
+	possible = {
+		country_has_building_type_levels = {  
+			target = bt:building_university  
+			value  >= 1
+		}
+	}
+
+	current_value = {
+		value = var:verrier_astronomical_objects #value or variable you use to meassure progress
+	}
+
+	goal_add_value = {
+		# About 20 years between Uranus and dwarf planets multiplied by 2 = 40
+		value = 40
+	}
+
+	immediate = {
+	}
+
+	complete = {
+		country_has_building_type_levels = {  
+			target = bt:building_university  
+			value  >= 1
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+		}
+		OR = {
+			any_scope_character = {
+				OR = {
+					has_trait = innovative
+					has_trait = meticulous
+					has_trait = ambitious
+					has_trait = persistent
+				}
+			}
+			verrier_has_astronomer = yes
+		}
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		random_list = {
+			1 = {
+				limit = { NOT = { has_global_variable = verrier_ceres_discovered_global_var } }
+				trigger_event = { 
+					id = verrier.14
+					popup = yes 
+				}
+			}
+			1 = {
+				limit = { NOT = { has_global_variable = verrier_pallas_discovered_global_var } }
+				trigger_event = { 
+					id = verrier.15
+					popup = yes 
+				}
+			}
+			1 = {
+				limit = { NOT = { has_global_variable = verrier_vesta_discovered_global_var } }
+				trigger_event = { 
+					id = verrier.16
+					popup = yes 
+				}
+			}
+			1 = {
+				limit = { NOT = { has_global_variable = verrier_juno_discovered_global_var } }
+				trigger_event = { 
+					id = verrier.17
+					popup = yes 
+				}
+			}
+		}
+	}
+
+	invalid = {
+		has_global_variable = verrier_uranus_discovered_global_var
+		has_global_variable = verrier_pallas_discovered_global_var
+		has_global_variable = verrier_vesta_discovered_global_var
+		has_global_variable = verrier_juno_discovered_global_var
+    }
+
+	on_invalid = {$
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
 je_verrier_neptune = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
