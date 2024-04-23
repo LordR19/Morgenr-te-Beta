@@ -1579,6 +1579,70 @@ je_lepsius_discovery_pakal = {
     should_be_pinned_by_default = no
 }
 
+#Vilcabamba
+
+je_lepsius_discovery_vilcabamba = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	possible = {
+		var:lepsius_vilcabamba_clue >= 1
+	}
+	
+	current_value = {
+		value = var:lepsius_vilcabamba_clue
+	}
+
+	goal_add_value = {
+		add = 10
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_vilcabamba_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			lepsius_has_archaeologist = yes
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.971
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_vilcabamba_fail
+			any_country = {
+				NOT = { this = ROOT }
+				has_modifier = lepsius_discovery_vilcabamba_modifier
+			}
+		}
+    }
+	
+	on_fail = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { 
+				id = lepsius.972 #notification
+				popup = yes
+			}
+		}
+	}
+	
+	progressbar = yes
+	
+    transferable = no
+    should_be_pinned_by_default = no
+}
+
 ##################################################################
 
 ######GILGAMESH######
