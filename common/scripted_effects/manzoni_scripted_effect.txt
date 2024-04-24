@@ -170,6 +170,349 @@ manzoni_add_x_national_identity_progress_effect = {
 	}
 }
 
+######AUDIENCE TASTE#######
+
+#Change Audience Taste every 10 years
+manzoni_taste_change_effect = {
+	random_list = {
+		###Audience taste changes to Juvenile Literature
+		1 = {
+			modifier = {
+				if = {
+					limit = {
+						has_variable = manzoni_taste_juvenile_var
+					}
+					add = -1000
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_restricted_child_labor
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_compulsory_primary_school
+					}
+					add = 2
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_no_schools
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_juvenile_var
+		}
+		###Audience taste changes to Crime&Mystery###
+		1 = {
+			modifier = {
+				if = {
+					limit = {
+						has_variable = manzoni_taste_crime_var
+					}
+					add = -1000
+				}
+				if = {
+					limit = {
+						has_game_rule = lepsius_historical_and_fictional_rule
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						lepsius_has_clue = yes
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig_petty_bourgeoisie = {
+								is_powerful = yes
+							}
+							ig_petty_bourgeoisie = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						ig_petty_bourgeoisie = {
+							ig_approval >= 5
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_crime_var
+		}
+		###Audience taste changes to Adventure Stories###
+		1 = {
+			modifier = {
+				if = {
+					limit = {
+						has_variable = manzoni_taste_adventure_var
+					}
+					add = -1000
+				}
+				if = {
+					limit = {
+						country_rank >= rank_value:major_power
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							lepsius_on_archaeological_excavation = yes
+							lepsius_on_archaeological_expedition = yes
+							has_modifier = lepsius_had_expedition_modifier
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							has_modifier = rapanui_pacific_expedition_modifier
+							has_modifier = rapanui_had_pacific_expedition_modifier
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							dubois_has_naturalist = yes
+							dubois_has_paleontologist = yes
+							lepsius_has_archaeologist = yes
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_adventure_var
+		}
+		###Audience taste changes to Science-Fiction###
+		1 = {
+			modifier = {
+				if = {
+					limit = {
+						has_variable = manzoni_taste_science_var
+					}
+					add = -1000
+				}
+				if = {
+					limit = {
+						verrier_astronomical_observation = yes
+						OR = {
+							verrier_has_astronomer = yes
+							gaudi_has_engineer = yes
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						NOR = {
+							has_law = law_type:law_traditionalism
+							has_law = law_type:law_agrarianism
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						literacy_rate >= 0.5
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_industrialists = {
+								is_powerful = yes
+							}
+							ig:ig_industrialists = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_science_var
+		}
+		###Audience taste changes to Social Criticism###
+		1 = {
+			modifier = {
+				if = {
+					limit = {
+						has_variable = manzoni_taste_social_var
+					}
+					add = -1000
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_protected_speech
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_universal_suffrage
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						ig:ig_intelligentsia = {
+							ig_approval < 0
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_trade_unions = {
+								is_powerful = yes
+							}
+							ig:ig_trade_unions = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_social_var
+		}
+		###Audience taste changes to Literary Fiction###
+		1 = {
+			modifier = {
+				if = {
+					limit = {
+						has_variable = manzoni_taste_literary_var
+					}
+					add = -1000
+				}
+				if = {
+					limit = {
+						klimt_has_painter = yes
+						elgar_has_composer = yes
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						literacy_rate >= 0.66
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						ig:ig_intelligentsia = {
+							ig_approval >= 10
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_intelligentsia = {
+								is_powerful = yes
+							}
+							ig:ig_intelligentsia = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_literary_var
+		}
+		###Audience taste changes to Devotional Literature###
+		1 = {
+			modifier = {
+				if = {
+					limit = {
+						has_variable = manzoni_taste_devotional_var
+					}
+					add = -1000
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_theocracy
+					}
+					add = 2
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_state_religion
+					}
+					add = 2
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_freedom_of_conscience
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_devout = {
+								is_powerful = yes
+							}
+							ig:ig_devout = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_devotional_var
+		}
+	}
+	###Trigger Notification for Player###
+	if = {
+		limit = {
+			is_player = yes
+		}
+		trigger_event = { 
+			id = manzoni.3 #New Audience taste
+		}
+	}
+}
+
+#Remove Audience Taste
+manzoni_remove_taste_effect = {
+	remove_variable = manzoni_taste_juvenile_var
+	remove_variable = manzoni_taste_crime_var
+	remove_variable = manzoni_taste_adventure_var
+	remove_variable = manzoni_taste_science_var
+	remove_variable = manzoni_taste_social_var
+	remove_variable = manzoni_taste_literary_var
+	remove_variable = manzoni_taste_devotional_var
+}
+
 ##############################
 
 ###Manzoni Variables###
