@@ -413,10 +413,127 @@ mr_trait_generation_composer_effect = {
 mr_trait_generation_writer_effect = {
 	random_list = {
 		4 = { add_trait = manzoni_writer_fiction }
-		4 = { add_trait = manzoni_writer_journalist }
-		2 = { add_trait = manzoni_writer_poet }
-		4 = { add_trait = manzoni_writer_playwright }
-		2 = { add_trait = manzoni_writer_non_fiction }
+		#4 = { add_trait = manzoni_writer_journalist }
+		#2 = { add_trait = manzoni_writer_poet }
+		#4 = { add_trait = manzoni_writer_playwright }
+		#2 = { add_trait = manzoni_writer_non_fiction }
+	}
+	if = { #TODO if other types of writers are added, add effects for genres
+		limit = { has_trait = manzoni_writer_fiction }
+		random_list = {
+			1 = {
+				add_trait = manzoni_genre_adventure
+				modifier = {
+					if = {
+						limit = {
+							is_interest_group_type = ig_armed_forces
+						}
+						multiply = 5
+					}
+				}
+			}
+			1 = {
+				add_trait = manzoni_genre_crime_mystery
+				modifier = {
+					if = {
+						limit = {
+							is_interest_group_type = ig_petty_bourgeoisie
+						}
+						multiply = 5
+					}
+				}
+			}
+			1 = {
+				add_trait = manzoni_genre_devout
+				modifier = {
+					if = {
+						limit = {
+							has_trait = pious
+						}
+						multiply = 1.1
+					}
+				}
+				modifier = {
+					if = {
+						limit = {
+							is_interest_group_type = ig_devout
+						}
+						multiply = 5
+					}
+				}
+			}
+			1 = {
+				add_trait = manzoni_genre_juvenile
+				modifier = {
+					if = {
+						limit = {
+							is_interest_group_type = ig_rural_folk
+						}
+						multiply = 5
+					}
+				}
+			}
+			1 = {
+				add_trait = manzoni_genre_literary_fiction
+				modifier = {
+					if = {
+						limit = {
+							is_interest_group_type = ig_intelligentsia
+						}
+						multiply = 5
+					}
+				}
+			}
+			1 = {
+				add_trait = manzoni_genre_romance
+				modifier = {
+					if = {
+						limit = {
+							is_interest_group_type = ig_landowners
+						}
+						multiply = 5
+					}
+				}
+			}
+			1 = {
+				add_trait = manzoni_genre_science_fiction
+				trigger = {
+					OR = {
+						owner = {
+							has_variable = verrier_astronomer_var
+						}
+						owner = {
+							any_scope_building = {
+								is_building_type = building_verrier_observatory
+							}
+						}
+						owner = {
+							has_variable = verrier_astronomical_objects
+							var:verrier_astronomical_objects >= 200
+						}
+					}
+				}
+				modifier = {
+					if = {
+						limit = {
+							is_interest_group_type = ig_industrialists
+						}
+						multiply = 5
+					}
+				}
+			}
+			1 = {
+				add_trait = manzoni_genre_social_critic
+				modifier = {
+					if = {
+						limit = {
+							is_interest_group_type = ig_trade_unions
+						}
+						multiply = 5
+					}
+				}
+			}
+		}
 	}
 	random_list = {
 		10 = { add_trait = ambitious }
