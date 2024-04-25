@@ -26,6 +26,9 @@ namespace = manzoni
 #Manzoni 201: A [Work Title] by [Local Author]
 #Manzoni 211: [Local Writer]'s Works strengthen [Interest Group]
 
+### Publisher & Writers Events ###
+#Manzoni 301: Bibliomania
+
 ### Great Britain ###
 # Manzoni 1000: Sherlock Holmes published
 
@@ -245,7 +248,7 @@ manzoni.10 = {
 	option = {
 		name = manzoni.10.g #Certainly a publisher of higher literature.
 		default_option = yes
-		manzoni_add_x_literary_tradition_effect = { AMOUNT = 15 }
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 20 }
 	}
 
 	option = {
@@ -268,6 +271,8 @@ manzoni.10 = {
 		}
 	}
 }
+
+################################################################################
 
 #Manzoni 100: [Work Title], a true masterwork
 manzoni.100 = {
@@ -622,6 +627,215 @@ manzoni.103 = {
 		}
 	}
 }
+
+################################################################################
+
+### Publisher & Writers Events ###
+#Manzoni 301: Bibliomania
+manzoni.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.301.t
+
+	desc = manzoni.301.d
+
+	flavor = manzoni.301.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookclub.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		country_has_building_type_levels = {  
+			target = bt:building_manzoni_publishing_industry
+			value  >= 5
+		}
+		literacy_rate >= 0.5
+		OR = {
+			has_modifier = manzoni_thriving_book_industry_modifier
+			manzoni_has_great_writer = yes
+		}
+		NOT = {
+			any_primary_culture = {
+				has_cultural_obsession = manzoni_prints
+			}
+		}
+	}
+
+	immediate = {
+		random_primary_culture = {
+			limit = {
+				NOT = { has_cultural_obsession = manzoni_prints }
+			}
+			save_scope_as = print_addict_culture
+		}
+	}
+
+	option = {
+		name = manzoni.301.g #But everyone knows how dangerous reading is!
+		default_option = yes
+		elgar_medium_add_technology = yes
+		scope:print_addict_culture = {
+			add_cultural_obsession = manzoni_prints
+		}
+	}
+}
+
+#Manzoni 302: Has bibliomania passed its peak?
+manzoni.302 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.302.t
+
+	desc = manzoni.302.d
+
+	flavor = manzoni.302.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookclub.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		NOT = {
+			has_modifier = manzoni_reading_campaign_modifier
+		}
+		manzoni_has_great_writer = no
+		any_primary_culture = {
+			has_cultural_obsession = manzoni_prints
+		}
+		has_modifier = manzoni_weakening_book_industry_modifier
+	}
+
+	immediate = {
+		random_primary_culture = {
+			limit = {
+				has_cultural_obsession = manzoni_prints
+			}
+			save_scope_as = print_addict_culture
+		}
+	}
+
+	option = {
+		name = manzoni.302.g #Books are boring anyway.
+		default_option = yes
+		scope:print_addict_culture = {
+			remove_cultural_obsession = manzoni_prints
+		}
+	}
+
+	option = {
+		name = manzoni.302.h #Start a campaign to awaken the love of reading!
+		add_modifier = {
+			name = manzoni_reading_campaign_modifier
+			years = 5
+		}
+		add_modifier = {
+			name = manzoni_reading_campaign_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+			years = 5
+		}
+	}
+}
+
+#Manzoni 303: Bookclub
+manzoni.303 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.303.t
+
+	desc = manzoni.303.d
+
+	flavor = manzoni.303.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookclub.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		any_primary_culture = {
+			has_cultural_obsession = manzoni_prints
+		}
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_arts_academy
+				production_method = pm_artists_arts_academy_salon
+			}
+			NOT = {
+				has_modifier = manzoni_bookclub_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_arts_academy
+					production_method = pm_artists_arts_academy_salon
+				}
+				NOT = {
+					has_modifier = manzoni_bookclub_modifier
+				}
+			}
+			save_scope_as = manzoni_book_state
+		}
+		create_character = {
+			female = yes
+			save_scope_as = manzoni_bookmadame_scope
+		}
+		scope:manzoni_bookmadame_scope = {
+			place_character_in_void = 120
+		}
+	}
+
+	option = {
+		name = manzoni.303.g #A fantastic initiative.
+		default_option = yes
+		scope:manzoni_book_state = {
+			add_modifier = {
+				name = manzoni_bookclub_modifier
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_bookmadame_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+################################################################################
 
 #Manzoni 901: The Fate of Lucca (for Parma)
 manzoni.901 = {
