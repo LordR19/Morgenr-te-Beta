@@ -459,17 +459,17 @@ manzoni_taste_change_effect = {
 					limit = {
 						has_law = law_type:law_theocracy
 					}
-					add = 2
+					add = 1
 				}
 				if = {
 					limit = {
 						has_law = law_type:law_state_religion
 					}
-					add = 2
+					add = 1
 				}
 				if = {
 					limit = {
-						has_law = law_type:law_freedom_of_conscience
+						literacy_rate < 0.35
 					}
 					add = 1
 				}
@@ -489,6 +489,57 @@ manzoni_taste_change_effect = {
 			}
 			manzoni_remove_taste_effect = yes
 			set_variable = manzoni_taste_devotional_var
+		}
+		###Audience taste changes to Romance###
+		1 = {
+			modifier = {
+				if = {
+					limit = {
+						has_variable = manzoni_taste_romance_var
+					}
+					add = -1000
+				}
+				if = {
+					limit = {
+						OR = {
+							is_at_war = yes
+							has_revolution = yes
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							has_law = law_type:law_single_party_state
+							has_law = law_type:law_autocracy
+							has_law = law_type:law_secret_police
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						has_technology_researched = elgar_mass_culture_tech
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_landowners = {
+								is_powerful = yes
+							}
+							ig:ig_landowners = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_romance_var
 		}
 	}
 	###Trigger Notification for Player###
@@ -511,6 +562,7 @@ manzoni_remove_taste_effect = {
 	remove_variable = manzoni_taste_social_var
 	remove_variable = manzoni_taste_literary_var
 	remove_variable = manzoni_taste_devotional_var
+	remove_variable = manzoni_taste_romance_var
 }
 
 ##############################
