@@ -10,6 +10,12 @@ namespace = manzoni
 
 ###################
 
+### Basic Events ###
+#Manzoni 2: The audience changes its taste (hidden)
+#Manzoni 3: The audience changes its taste (Notification)
+
+#Manzoni 10: A new Publisher
+
 ### National Writer Events ###
 #Manzoni 100: [Work Title], a true masterwork
 #Manzoni 101: [Work Title] lauded by critics!
@@ -187,6 +193,79 @@ manzoni.3 = {
 	option = { #Tastes and fashions come and go.
 		name = manzoni.3.g
 		default_option = yes
+	}
+}
+
+#Manzoni 10: A new Publisher
+manzoni.10 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.10.t
+
+	desc = manzoni.10.d
+
+	flavor = manzoni.10.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		owner = {
+			set_variable = manzoni_publisher_inauguration_happened
+		}
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					any_scope_building = {
+						is_building_type = building_manzoni_publishing_industry
+						level > 0
+					}
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.10.g #Certainly a publisher of higher literature.
+		default_option = yes
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 15 }
+	}
+
+	option = {
+		name = manzoni.10.h #This is a scientific publisher, isn't it?
+		manzoni_small_add_technology = yes
+	}
+
+	option = {
+		name = manzoni.10.i #I think the publisher will entertain people well
+		scope:manzoni_publisher_state = {
+			add_loyalists_in_state = {
+				value = 0.02
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
 	}
 }
 
@@ -545,7 +624,6 @@ manzoni.103 = {
 }
 
 #Manzoni 901: The Fate of Lucca (for Parma)
-
 manzoni.901 = {
 	dlc = dlc_morgenrote
 
@@ -588,7 +666,6 @@ manzoni.901 = {
 }
 
 #Manzoni 902: The Fate of Lucca (for Tuscany)
-
 manzoni.902 = {
 	dlc = dlc_morgenrote
 
@@ -629,7 +706,6 @@ manzoni.902 = {
 }
 
 #Manzoni 910: Roma Aeterna
-
 manzoni.910 = {
 	dlc = dlc_morgenrote
 
@@ -878,7 +954,6 @@ manzoni.910 = {
 }
 
 #Manzoni 911: An Italian Consciousness
-
 manzoni.911 = {
 	dlc = dlc_morgenrote
 
@@ -1005,7 +1080,6 @@ manzoni.911 = {
 }
 
 #Manzoni 912: A Pan-Italian Consciousness
-
 manzoni.912 = {
 	dlc = dlc_morgenrote
 
