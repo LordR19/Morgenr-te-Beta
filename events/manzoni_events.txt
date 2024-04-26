@@ -838,6 +838,91 @@ manzoni.303 = {
 	}
 }
 
+#Manzoni 304: Thriving Book Industry
+manzoni.304 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.304.t
+
+	desc = manzoni.304.d
+
+	flavor = manzoni.304.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookshop.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		market.mg:manzoni_prints = {
+			market_goods_has_goods_shortage = no
+		}
+		any_scope_building = {
+			is_building_type = building_manzoni_publishing_industry
+			rich_building_trigger = yes
+			level >= 2
+		}
+		exists = ig:ig_industrialists
+		ig:ig_industrialists = {
+			is_marginal = no
+		}
+	}
+
+	immediate = {
+		random_scope_building = {
+			limit = {
+				is_building_type = building_manzoni_publishing_industry
+				rich_building_trigger = yes
+				level >= 2
+			}
+			save_scope_as = manzoni_publishing_industry_building
+			state = {
+				save_scope_as = manzoni_book_state
+			}
+		}
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+	}
+
+	option = {
+		name = manzoni.304.g #Produce even more books!
+		add_modifier = {
+			name = manzoni_thriving_book_industry_modifier
+		}
+		scope:manzoni_publishing_industry_building = {
+			add_modifier = {
+				name = manzoni_thriving_publisher_modifier
+				years = 15
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.304.h #Produce high quality books.
+		default_option = yes
+		add_modifier = {
+			name = manzoni_thriving_book_industry_modifier
+		}
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+	}
+}
+
 #Manzoni 311-320: Economy & Politics
 
 #Manzoni 311: IG wants to buy bankrupt publisher
