@@ -631,6 +631,9 @@ manzoni.103 = {
 ################################################################################
 
 ### Publisher & Writers Events ###
+
+#Manzoni 301-310: Rise and Fall of the Industry, Bibliomania
+
 #Manzoni 301: Bibliomania
 manzoni.301 = {
 	dlc = dlc_morgenrote
@@ -834,6 +837,99 @@ manzoni.303 = {
 		}
 	}
 }
+
+#Manzoni 311-320: Economy & Politics
+
+#Manzoni 311: IG wants to buy bankrupt publisher
+manzoni.311 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.311.t
+
+	desc = manzoni.311.d
+
+	flavor = manzoni.311.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookshop.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		manzoni_has_printing_industry = yes
+		any_interest_group = {
+    		is_marginal = no
+			is_in_government = no
+        }
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_manzoni_publishing_industry
+					level > 0
+				}
+			}
+			save_scope_as = manzoni_book_state
+		}
+		random_interest_group = {
+			limit = {
+    			is_marginal = no
+				is_in_government = no
+			}
+			save_scope_as = publisher_ig
+			leader = {
+				save_scope_as = publisher_ig_leader
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.311.g #If they save the company, why should we put obstacles in their way?
+		default_option = yes
+		scope:publisher_ig = {
+			add_modifier = {
+				name = manzoni_publisher_fusion_modifier
+				years = 10
+			}
+		}
+		scope:manzoni_book_state = {
+			add_modifier = {
+				name = manzoni_publisher_rescued_modifier
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.311.h #We cannot allow this political influence!
+		scope:publisher_ig = {
+			add_modifier = {
+				name = manzoni_denied_publisher_fusion_modifier
+				years = 5
+			}
+		}
+		scope:manzoni_book_state = {
+			add_modifier = {
+				name = manzoni_publisher_crisis_modifier
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 321-330: Contracts and Success of Artists
 
 ################################################################################
 
