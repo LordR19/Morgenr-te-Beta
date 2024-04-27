@@ -213,6 +213,8 @@ manzoni.10 = {
 
 	placement = scope:manzoni_publisher_state
 
+	duration = 3
+
 	event_image = { 
 		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
 	}
@@ -242,6 +244,26 @@ manzoni.10 = {
 				}
 			}
 			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.10.i #I think the publisher will entertain people well
+		scope:manzoni_publisher_state = {
+			add_loyalists_in_state = {
+				value = 0.02
+			}
+		}
+		random_list = {
+			75 = {}
+			25 = {
+				scope:manzoni_publisher_state = {
+					activate_production_method = {
+						building_type = building_manzoni_publishing_industry
+						production_method = manzoni_pm_publisher_public
+					}
+				}
+			}
 		}
 	}
 
@@ -279,26 +301,6 @@ manzoni.10 = {
 	}
 
 	option = {
-		name = manzoni.10.i #I think the publisher will entertain people well
-		scope:manzoni_publisher_state = {
-			add_loyalists_in_state = {
-				value = 0.02
-			}
-		}
-		random_list = {
-			75 = {}
-			25 = {
-				scope:manzoni_publisher_state = {
-					activate_production_method = {
-						building_type = building_manzoni_publishing_industry
-						production_method = manzoni_pm_publisher_public
-					}
-				}
-			}
-		}
-	}
-
-	option = {
 		name = manzoni.10.j #An art publisher, that would be great!
 		artists_add_x_artistic_progress = {
 			AMOUNT = 50
@@ -312,6 +314,212 @@ manzoni.10 = {
 						production_method = manzoni_pm_publisher_art
 					}
 				}
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Manzoni 11: Public Publisher
+manzoni.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.11.t
+
+	desc = manzoni.11.d
+
+	flavor = manzoni.11.f
+
+	placement = scope:manzoni_publisher_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_has_publisher_general = yes
+		manzoni_has_publisher_public = no
+		market.mg:manzoni_prints = {
+			market_goods_has_goods_shortage = yes
+		}
+		any_scope_building = {
+			is_building_type = building_manzoni_publishing_industry
+			rich_building_trigger = yes
+			level >= 4
+		}
+		has_modifier = manzoni_thriving_book_industry_modifier
+	}
+
+	immediate = {
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_manzoni_publishing_industry
+					production_method = manzoni_pm_publisher_general
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.11.g #This publisher is a cornerstone of our book industry.
+		scope:manzoni_publisher_state = {
+			activate_production_method = {
+				building_type = building_manzoni_publishing_industry
+				production_method = manzoni_pm_publisher_public
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Manzoni 12: Literary Publisher
+manzoni.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.12.t
+
+	desc = manzoni.12.d
+
+	flavor = manzoni.12.f
+
+	placement = scope:manzoni_publisher_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_has_publisher_general = yes
+		manzoni_has_publisher_literary = no
+		manzoni_writer_meets_taste_trigger = yes
+		manzoni_has_great_writer = yes
+	}
+
+	immediate = {
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_manzoni_publishing_industry
+					production_method = manzoni_pm_publisher_general
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.12.g #This publisher is a cornerstone of our cultural sector.
+		scope:manzoni_publisher_state = {
+			activate_production_method = {
+				building_type = building_manzoni_publishing_industry
+				production_method = manzoni_pm_publisher_literary
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Manzoni 13: Scientific Publisher
+manzoni.13 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.13.t
+
+	desc = manzoni.13.d
+
+	flavor = manzoni.13.f
+
+	placement = scope:manzoni_publisher_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_has_publisher_general = yes
+		manzoni_has_publisher_scientific = no
+	}
+
+	immediate = {
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_manzoni_publishing_industry
+					production_method = manzoni_pm_publisher_general
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.13.g #This publisher is a cornerstone of our cultural sector.
+		scope:manzoni_publisher_state = {
+			activate_production_method = {
+				building_type = building_manzoni_publishing_industry
+				production_method = manzoni_pm_publisher_scientific
 			}
 		}
 	}
