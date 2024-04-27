@@ -23,8 +23,7 @@ namespace = manzoni
 #Manzoni 103: [Work Title] ripped apart by critics
 
 ### Local Writer Events ###
-#Manzoni 201: A [Work Title] by [Local Author]
-#Manzoni 211: [Local Writer]'s Works strengthen [Interest Group]
+#Manzoni 201: [Work Title] published (Masterwork of local writer that has the same genre as taste)
 
 ### Publisher & Writers Events ###
 #Manzoni 301: Bibliomania
@@ -624,6 +623,50 @@ manzoni.103 = {
 				}
 			}
 			factor = 10
+		}
+	}
+}
+
+################################################################################
+
+### Local Writer Events ###
+
+#Manzoni 201: [Work Title] published (Masterwork of local writer that has the same genre as taste)
+manzoni.201 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.201.t
+	desc = manzoni.201.d
+	flavor = manzoni.201.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_local_writer_meets_taste_trigger = yes
+	}
+
+	immediate = {
+		manzoni_local_writer_meets_taste_scope_effect = yes
+	}
+
+	option = { #It is amazing!
+		name = manzoni.201.g
+		default_option = yes
+
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
+		scope:local_writer_scope = {
+			void_writer_experience_gain_effect = { AMOUNT = 50 }
 		}
 	}
 }
