@@ -531,6 +531,70 @@ manzoni.13 = {
 	}
 }
 
+#Manzoni 14: Art Publisher
+manzoni.14 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.14.t
+
+	desc = manzoni.14.d
+
+	flavor = manzoni.14.f
+
+	placement = scope:manzoni_publisher_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_has_publisher_general = yes
+		manzoni_has_publisher_art = no
+	}
+
+	immediate = {
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_manzoni_publishing_industry
+					production_method = manzoni_pm_publisher_general
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.13.g #This publisher is a cornerstone of our cultural sector.
+		scope:manzoni_publisher_state = {
+			activate_production_method = {
+				building_type = building_manzoni_publishing_industry
+				production_method = manzoni_pm_publisher_art
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
 ################################################################################
 
 #Manzoni 101: [Work Title] published (Masterwork of national writer that has the same genre as taste)
