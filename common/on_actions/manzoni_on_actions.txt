@@ -10,7 +10,7 @@ on_yearly_pulse_country = {
 	on_actions = {
 		manzoni_on_yearly_pulse_country
 #		manzoni_on_yearly_pulse_country_writers #TODO: uncomment when Writers are added again
-#		manzoni_on_yearly_pulse_country_local_writers #TODO: uncomment when Writers are added again
+		manzoni_on_yearly_pulse_country_local_writers
 		delay = { days = { 45 330 } }
 	}
 }
@@ -107,107 +107,80 @@ manzoni_on_yearly_pulse_country_local_writers = {
 			value > 0
 		}
 	}
-#	random_events = {
-#		chance_to_happen = 100
-#		chance_of_no_event = {
-#			value = 90
-#			if = {
-#				limit = {
-#					variable_list_size  = {
-#						name = mr_local_writers_list
-#						value = 2
-#					}
-#				}
-#				subtract = 2.5
-#			}
-#			else_if = {
-#				limit = {
-#					variable_list_size  = {
-#						name = mr_local_writers_list
-#						value >= 3
-#					}
-#				}
-#				subtract = 6.7
-#			}
-#		}
-#	}
 
 	effect = {
-
-		#Adds 1 Literary Tradition for each local writer
 		if = {
 			limit = {
 				has_variable_list = mr_local_writers_list
 				variable_list_size  = {
 					name = mr_local_writers_list
-					value = 1
+					value >= 1
 				}
 			}
-			manzoni_add_x_literary_tradition_effect = {
-				AMOUNT = 1
-			}
-		}
-		else_if = {
-			limit = {
-				has_variable_list = mr_local_writers_list
-				variable_list_size  = {
-					name = mr_local_writers_list
-					value = 2
-				}
-			}
-			manzoni_add_x_literary_tradition_effect = {
-				AMOUNT = 2
-			}
-		}
-		else_if = {
-			limit = {
-				has_variable_list = mr_local_writers_list
-				variable_list_size  = {
-					name = mr_local_writers_list
-					value = 3
-				}
-			}
-			manzoni_add_x_literary_tradition_effect = {
-				AMOUNT = 3
-			}
-		}
-		else = {
-			manzoni_add_x_literary_tradition_effect = {
-				AMOUNT = 3
+			
+			#This part adds or removes a random amount of reputation
+			ordered_in_list = {
+				variable = mr_local_writers_list
+				max = 3
+				check_range_bounds = no
+
+				void_writer_experience_gain_effect = { AMOUNT = local_writer_experience_gain_value }
 			}
 
 			#This part removes writers if there are more than 3
-			set_local_variable = {
-				name = counter_local_var
-				value = 0
-			}
-			ordered_in_list = {
-				variable = mr_local_writers_list
-				order_by = var:manzoni_writer_experience
-				max = 1000
-				check_range_bounds = no
-
-				change_local_variable = {
-					name = counter_local_var
-					add = 1
-				}
-				if = {
-					limit = { local_var:counter_local_var > 3 }
-					remove_list_variable = {
+			if = {
+				limit = {
+					has_variable_list = mr_local_writers_list
+					variable_list_size  = {
 						name = mr_local_writers_list
-						target = this
+						value > 3
+					}
+				}
+				set_local_variable = {
+					name = counter_local_var
+					value = 0
+				}
+				ordered_in_list = {
+					variable = mr_local_writers_list
+					order_by = var:manzoni_writer_experience
+					max = 1000
+					check_range_bounds = no
+	
+					change_local_variable = {
+						name = counter_local_var
+						add = 1
+					}
+					if = {
+						limit = { local_var:counter_local_var > 3 }
+						remove_list_variable = {
+							name = mr_local_writers_list
+							target = this
+						}
 					}
 				}
 			}
-		}
 
-		#This part adds or removes a random amount of reputation
-		ordered_in_list = {
-			variable = mr_local_writers_list
-			max = 3
-			check_range_bounds = no
-
-			void_writer_experience_gain_effect = { AMOUNT = local_writer_experience_gain_value }
+			#Adds 1 Literary Tradition for each local writer
+			if = {
+				limit = {
+					has_variable_list = mr_local_writers_list
+					variable_list_size  = {
+						name = mr_local_writers_list
+						value >= 1
+					}
+				}
+				every_in_list = {
+					variable = mr_local_writers_list
+					limit = {
+						manzoni_writer_meets_taste_character_scope_trigger = yes
+					}
+					root = {
+						manzoni_add_x_literary_tradition_effect = {
+							AMOUNT = 1
+						}
+					}
+				}
+			}
 		}
 	}
 }
