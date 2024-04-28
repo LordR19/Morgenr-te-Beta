@@ -10,14 +10,26 @@ on_yearly_pulse_country = {
 	on_actions = {
 		manzoni_on_yearly_pulse_country
 #		manzoni_on_yearly_pulse_country_writers #TODO: uncomment when Writers are added again
-#		manzoni_on_yearly_pulse_country_local_writers #TODO: uncomment when Writers are added again
+		manzoni_on_yearly_pulse_country_local_writers
 		delay = { days = { 45 330 } }
+	}
+}
+
+on_decade_pulse_country = {
+	on_actions = {
+		manzoni_on_decade_pulse_country
 	}
 }
 
 on_character_creation = {
 	on_actions = {
 		manzoni_on_character_creation
+	}
+}
+
+on_building_built = {
+	on_actions = {
+		manzoni_on_building_built
 	}
 }
 
@@ -79,55 +91,6 @@ manzoni_on_yearly_pulse_country = {
 
 manzoni_on_yearly_pulse_country_writers = {
 	trigger = { has_variable = manzoni_writer_var }
-	random_events = {
-		chance_to_happen = 100
-		chance_of_no_event = {
-			value = 50
-			if = {
-				limit = {
-					var:manzoni_writer_var = {
-						has_trait = meticulous
-					}
-				}
-				add = -10
-			}
-			if = {
-				limit = {
-					var:manzoni_writer_var = {
-						OR = {
-							has_trait = alcoholic
-							has_trait = opium_addiction
-							has_trait = cocaine_addiction
-							has_trait = psychological_affliction
-							has_trait = senile
-						}
-					}
-				}
-				add = -30
-			}
-			if = {
-				limit = {
-					var:manzoni_writer_var = {
-						has_trait = persistent
-					}
-				}
-				add = 10
-			}
-			if = {
-				limit = {
-					var:manzoni_writer_var = {
-						has_trait = reckless
-					}
-				}
-				add = 10
-			}
-		}
-
-		1 = manzoni.100 #Manzoni 100: [Book Title], a true masterwork
-		19 = manzoni.101 #Manzoni 101: [Book Title] lauded by critics!
-		70 = manzoni.102 #Manzoni 102: [Book Title] published
-		10 = manzoni.103 #Manzoni 103: [Book Title] ripped apart by critics
-	}
 
 	effect = {
 		manzoni_add_x_literary_tradition_effect = {
@@ -141,118 +104,83 @@ manzoni_on_yearly_pulse_country_local_writers = {
 		has_variable_list = mr_local_writers_list
 		variable_list_size = {
 			name = mr_local_writers_list
-			value = 0
+			value > 0
 		}
-	}
-	random_events = {
-		chance_to_happen = 100
-		chance_of_no_event = {
-			value = 90
-			if = {
-				limit = {
-					variable_list_size  = {
-						name = mr_local_writers_list
-						value = 2
-					}
-				}
-				subtract = 2.5
-			}
-			else_if = {
-				limit = {
-					variable_list_size  = {
-						name = mr_local_writers_list
-						value >= 3
-					}
-				}
-				subtract = 6.7
-			}
-		}
-
-		5 = manzoni.201 #Manzoni 201: A [Work Title] by [Local Author]
-		5 = manzoni.211 #Manzoni 211: [Local Writer]'s Works strengthen [Interest Group]
-		5 = manzoni.212 #Manzoni 212: [Local Author] Energizes the Masses
 	}
 
 	effect = {
-
-		#Adds 1 Literary Tradition for each local writer
 		if = {
 			limit = {
 				has_variable_list = mr_local_writers_list
 				variable_list_size  = {
 					name = mr_local_writers_list
-					value = 1
+					value >= 1
 				}
 			}
-			manzoni_add_x_literary_tradition_effect = {
-				AMOUNT = 1
-			}
-		}
-		else_if = {
-			limit = {
-				has_variable_list = mr_local_writers_list
-				variable_list_size  = {
-					name = mr_local_writers_list
-					value = 2
-				}
-			}
-			manzoni_add_x_literary_tradition_effect = {
-				AMOUNT = 2
-			}
-		}
-		else_if = {
-			limit = {
-				has_variable_list = mr_local_writers_list
-				variable_list_size  = {
-					name = mr_local_writers_list
-					value = 3
-				}
-			}
-			manzoni_add_x_literary_tradition_effect = {
-				AMOUNT = 3
-			}
-		}
-		else = {
-			manzoni_add_x_literary_tradition_effect = {
-				AMOUNT = 3
+			
+			#This part adds or removes a random amount of reputation
+			ordered_in_list = {
+				variable = mr_local_writers_list
+				max = 3
+				check_range_bounds = no
+
+				void_writer_experience_gain_effect = { AMOUNT = local_writer_experience_gain_value }
 			}
 
 			#This part removes writers if there are more than 3
-			set_local_variable = {
-				name = counter_local_var
-				value = 0
-			}
-			ordered_in_list = {
-				variable = mr_local_writers_list
-				order_by = var:manzoni_writer_experience
-				max = 1000
-				check_range_bounds = no
-
-				change_local_variable = {
-					name = counter_local_var
-					add = 1
-				}
-				if = {
-					limit = { local_var:counter_local_var > 3 }
-					remove_list_variable = {
+			if = {
+				limit = {
+					has_variable_list = mr_local_writers_list
+					variable_list_size  = {
 						name = mr_local_writers_list
-						target = this
+						value > 3
+					}
+				}
+				set_local_variable = {
+					name = counter_local_var
+					value = 0
+				}
+				ordered_in_list = {
+					variable = mr_local_writers_list
+					order_by = var:manzoni_writer_experience
+					max = 1000
+					check_range_bounds = no
+	
+					change_local_variable = {
+						name = counter_local_var
+						add = 1
+					}
+					if = {
+						limit = { local_var:counter_local_var > 3 }
+						remove_list_variable = {
+							name = mr_local_writers_list
+							target = this
+						}
 					}
 				}
 			}
-		}
 
-		#This part adds or removes a random amount of reputation
-		ordered_in_list = {
-			variable = mr_local_writers_list
-			max = 3
-			check_range_bounds = no
-
-			set_local_variable = {
-				name = random_amount_local_var
-				value = { -5 15 }
+			#Adds 1 Literary Tradition for each local writer
+			if = {
+				limit = {
+					has_variable_list = mr_local_writers_list
+					variable_list_size  = {
+						name = mr_local_writers_list
+						value >= 1
+					}
+				}
+				every_in_list = {
+					variable = mr_local_writers_list
+					limit = {
+						manzoni_writer_meets_taste_character_scope_trigger = yes
+					}
+					root = {
+						manzoni_add_x_literary_tradition_effect = {
+							AMOUNT = 1
+						}
+					}
+				}
 			}
-			void_writer_experience_gain_effect = { AMOUNT = local_var:random_amount_local_var }
 		}
 	}
 }
@@ -297,6 +225,33 @@ manzoni_on_character_creation = {
 				}
 			}
 			change_character_culture = cu:united_swiss
+		}
+	}
+}
+
+manzoni_on_decade_pulse_country = {
+	events = {
+		manzoni.2
+	}
+}
+
+manzoni_on_building_built = {
+	effect = {
+		if = {
+			limit = {
+				owner = {
+					NOT = {
+						has_variable = manzoni_publisher_inauguration_happened
+					}
+					manzoni_has_printing_industry = yes
+				}
+			}
+			owner = {
+				trigger_event = {
+					id = manzoni.10 #Manzoni 10: A new Publisher
+					popup = yes
+				}
+			}
 		}
 	}
 }

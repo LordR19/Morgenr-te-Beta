@@ -10,6 +10,12 @@ namespace = manzoni
 
 ###################
 
+### Basic Events ###
+#Manzoni 2: The audience changes its taste (hidden)
+#Manzoni 3: The audience changes its taste (Notification)
+
+#Manzoni 10: A new Publisher
+
 ### National Writer Events ###
 #Manzoni 100: [Work Title], a true masterwork
 #Manzoni 101: [Work Title] lauded by critics!
@@ -17,8 +23,11 @@ namespace = manzoni
 #Manzoni 103: [Work Title] ripped apart by critics
 
 ### Local Writer Events ###
-#Manzoni 201: A [Work Title] by [Local Author]
-#Manzoni 211: [Local Writer]'s Works strengthen [Interest Group]
+#Manzoni 201: [Work Title] published (Masterwork of local writer that has the same genre as taste)
+#Manzoni 202: [Work Title] published (Masterwork of local writer that has a similar genre as taste)
+
+### Publisher & Writers Events ###
+#Manzoni 301: Bibliomania
 
 ### Great Britain ###
 # Manzoni 1000: Sherlock Holmes published
@@ -42,22 +51,137 @@ namespace = manzoni
 
 ###################
 
-#Manzoni 100: [Work Title], a true masterwork
-manzoni.100 = {
+#Manzoni 2: The audience changes its taste (hidden)
+manzoni.2 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	
+	hidden = yes
+
+	trigger = {
+		has_technology_researched = elgar_classicism_tech
+	}
+
+	immediate = {
+		manzoni_taste_change_effect = yes
+	}
+}
+
+#Manzoni 3: The audience changes its taste (Notification)
+manzoni.3 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 	placement = ROOT
 
-	title = manzoni.100.t
-	desc = manzoni.100.d
-	flavor = manzoni.100.f
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_juvenile_var
+			}
+			desc = manzoni.3.t_juvenile
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_crime_var
+			}
+			desc = manzoni.3.t_crime
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_adventure_var
+			}
+			desc = manzoni.3.t_adventure
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_science_var
+			}
+			desc = manzoni.3.t_science
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_social_var
+			}
+			desc = manzoni.3.t_social
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_literary_var
+			}
+			desc = manzoni.3.t_literary
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_devotional_var
+			}
+			desc = manzoni.3.t_devotional
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_romance_var
+			}
+			desc = manzoni.3.t_romance
+		}
+	}
+	desc = manzoni.3.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_juvenile_var
+			}
+			desc = manzoni.3.f_juvenile
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_crime_var
+			}
+			desc = manzoni.3.f_crime
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_adventure_var
+			}
+			desc = manzoni.3.f_adventure
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_science_var
+			}
+			desc = manzoni.3.f_science
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_social_var
+			}
+			desc = manzoni.3.f_social
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_literary_var
+			}
+			desc = manzoni.3.f_literary
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_devotional_var
+			}
+			desc = manzoni.3.f_devotional
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = manzoni_taste_romance_var
+			}
+			desc = manzoni.3.f_romance
+		}
+	}
 
 	duration = 3
 
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:manzoni_writer_scope
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_literary_society.dds"
+	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -67,87 +191,413 @@ manzoni.100 = {
 	}
 
 	immediate = {
-		var:manzoni_writer_var = {
-			save_scope_as = manzoni_writer_scope
-		}
 	}
 
-	option = { #It is amazing!
-		name = manzoni.100.g
+	option = { #Tastes and fashions come and go.
+		name = manzoni.3.g
 		default_option = yes
+	}
+}
 
-		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
-		writer_experience_gain_effect = { AMOUNT = 50 }
+#Manzoni 10: A new Publisher
+manzoni.10 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.10.t
+
+	desc = manzoni.10.d
+
+	flavor = manzoni.10.f
+
+	placement = scope:manzoni_publisher_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
 	}
 
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 100
-			factor = 1.5
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		owner = {
+			set_variable = manzoni_publisher_inauguration_happened
 		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 200
-			factor = 1.5
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
 		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 300
-			factor = 1.5
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
 		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 400
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience >= 500
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = meticulous
-			}
-			factor = 2
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = innovative
-			}
-			factor = 2
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = persistent
-			}
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = erudite
-			}
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = arrogant
-			}
-			factor = 0.8
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				OR = {
-					has_trait = alcoholic
-					has_trait = opium_addiction
-					has_trait = cocaine_addiction
-					has_trait = psychological_affliction
-					has_trait = senile
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_manzoni_publishing_industry
+					level > 0
 				}
 			}
-			factor = 0.2
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.10.i #I think the publisher will entertain people well
+		scope:manzoni_publisher_state = {
+			add_loyalists_in_state = {
+				value = 0.02
+			}
+		}
+		random_list = {
+			75 = {}
+			25 = {
+				scope:manzoni_publisher_state = {
+					activate_production_method = {
+						building_type = building_manzoni_publishing_industry
+						production_method = manzoni_pm_publisher_public
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.10.g #Certainly a publisher of higher literature.
+		default_option = yes
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 20 }
+		random_list = {
+			75 = {}
+			25 = {
+				scope:manzoni_publisher_state = {
+					activate_production_method = {
+						building_type = building_manzoni_publishing_industry
+						production_method = manzoni_pm_publisher_literary
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.10.h #This is a scientific publisher, isn't it?
+		elgar_small_add_technology = yes
+		random_list = {
+			75 = {}
+			25 = {
+				scope:manzoni_publisher_state = {
+					activate_production_method = {
+						building_type = building_manzoni_publishing_industry
+						production_method = manzoni_pm_publisher_scientific
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.10.j #An art publisher, that would be great!
+		artists_add_x_artistic_progress = {
+			AMOUNT = 50
+		}
+		random_list = {
+			75 = {}
+			25 = {
+				scope:manzoni_publisher_state = {
+					activate_production_method = {
+						building_type = building_manzoni_publishing_industry
+						production_method = manzoni_pm_publisher_art
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
 		}
 	}
 }
 
-#Manzoni 101: [Work Title] lauded by critics!
+#Manzoni 11: Public Publisher
+manzoni.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.11.t
+
+	desc = manzoni.11.d
+
+	flavor = manzoni.11.f
+
+	placement = scope:manzoni_publisher_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_has_publisher_general = yes
+		manzoni_has_publisher_public = no
+		market.mg:manzoni_prints = {
+			market_goods_has_goods_shortage = yes
+		}
+		any_scope_building = {
+			is_building_type = building_manzoni_publishing_industry
+			rich_building_trigger = yes
+			level >= 4
+		}
+		has_modifier = manzoni_thriving_book_industry_modifier
+	}
+
+	immediate = {
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_manzoni_publishing_industry
+					production_method = manzoni_pm_publisher_general
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.11.g #This publisher is a cornerstone of our book industry.
+		scope:manzoni_publisher_state = {
+			activate_production_method = {
+				building_type = building_manzoni_publishing_industry
+				production_method = manzoni_pm_publisher_public
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Manzoni 12: Literary Publisher
+manzoni.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.12.t
+
+	desc = manzoni.12.d
+
+	flavor = manzoni.12.f
+
+	placement = scope:manzoni_publisher_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_has_publisher_general = yes
+		manzoni_has_publisher_literary = no
+		manzoni_writer_meets_taste_trigger = yes
+		manzoni_has_great_writer = yes
+	}
+
+	immediate = {
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_manzoni_publishing_industry
+					production_method = manzoni_pm_publisher_general
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.12.g #This publisher is a cornerstone of our cultural sector.
+		scope:manzoni_publisher_state = {
+			activate_production_method = {
+				building_type = building_manzoni_publishing_industry
+				production_method = manzoni_pm_publisher_literary
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Manzoni 13: Scientific Publisher
+manzoni.13 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.13.t
+
+	desc = manzoni.13.d
+
+	flavor = manzoni.13.f
+
+	placement = scope:manzoni_publisher_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_has_publisher_general = yes
+		manzoni_has_publisher_scientific = no
+	}
+
+	immediate = {
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_manzoni_publishing_industry
+					production_method = manzoni_pm_publisher_general
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.13.g #This publisher is a cornerstone of our cultural sector.
+		scope:manzoni_publisher_state = {
+			activate_production_method = {
+				building_type = building_manzoni_publishing_industry
+				production_method = manzoni_pm_publisher_scientific
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Manzoni 14: Art Publisher
+manzoni.14 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.14.t
+
+	desc = manzoni.14.d
+
+	flavor = manzoni.14.f
+
+	placement = scope:manzoni_publisher_state
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_american_publisher.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_has_publisher_general = yes
+		manzoni_has_publisher_art = no
+	}
+
+	immediate = {
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_manzoni_publishing_industry
+					production_method = manzoni_pm_publisher_general
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = manzoni.13.g #This publisher is a cornerstone of our cultural sector.
+		scope:manzoni_publisher_state = {
+			activate_production_method = {
+				building_type = building_manzoni_publishing_industry
+				production_method = manzoni_pm_publisher_art
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+################################################################################
+
+#Manzoni 101: [Work Title] published (Masterwork of national writer that has the same genre as taste)
 manzoni.101 = {
 	dlc = dlc_morgenrote
 
@@ -169,99 +619,36 @@ manzoni.101 = {
 	icon = "gfx/interface/icons/event_icons/event_literature.dds"
 
 	trigger = {
+		manzoni_writer_meets_taste_trigger = yes
 	}
 
 	immediate = {
 		var:manzoni_writer_var = {
 			save_scope_as = manzoni_writer_scope
+			manzoni_check_character_crime_mystery_effect = yes
+			manzoni_randomize_bestseller_title_effect = yes
 		}
 	}
 
-	option = { #A good read!
+	option = { #Fantastic
 		name = manzoni.101.g
 		default_option = yes
 
-		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
-		writer_experience_gain_effect = { AMOUNT = 25 }
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 100
-			factor = 1.25
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 200
-			factor = 1.25
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 300
-			factor = 1.25
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 400
-			factor = 1.25
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience >= 500
-			factor = 1.25
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = meticulous
-			}
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = innovative
-			}
-			factor = 1.5
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = persistent
-			}
-			factor = 1.25
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = erudite
-			}
-			factor = 1.25
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = arrogant
-			}
-			factor = 0.9
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				OR = {
-					has_trait = alcoholic
-					has_trait = opium_addiction
-					has_trait = cocaine_addiction
-					has_trait = psychological_affliction
-					has_trait = senile
-				}
-			}
-			factor = 0.6
-		}
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
+		writer_experience_gain_effect = { AMOUNT = 50 }
 	}
 }
 
-#Manzoni 102: [Work Title] published
+#Manzoni 102: [Work Title] published (Masterwork of national writer that has a similar genre as taste)
 manzoni.102 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 	placement = ROOT
 
-	title = manzoni.102.t
-	desc = manzoni.102.d
-	flavor = manzoni.102.f
+	title = manzoni.201.t
+	desc = manzoni.201.d
+	flavor = manzoni.201.f
 
 	duration = 3
 
@@ -274,130 +661,31 @@ manzoni.102 = {
 	icon = "gfx/interface/icons/event_icons/event_literature.dds"
 
 	trigger = {
+		manzoni_writer_close_taste_trigger = yes
 	}
 
 	immediate = {
 		var:manzoni_writer_var = {
 			save_scope_as = manzoni_writer_scope
+			manzoni_check_character_crime_mystery_effect = yes
+			manzoni_randomize_bestseller_title_effect = yes
 		}
 	}
 
-	option = { #Not bad.
-		name = manzoni.102.g
+	option = { #It is amazing!
+		name = manzoni.201.g
 		default_option = yes
 
-		manzoni_add_x_literary_tradition_effect = { AMOUNT = 5 }
-		writer_experience_gain_effect = { AMOUNT = 10 }
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
+		writer_experience_gain_effect = { AMOUNT = 50 }
 	}
 }
 
-#Manzoni 103: [Work Title] ripped apart by critics
-manzoni.103 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-	placement = ROOT
-
-	title = manzoni.103.t
-	desc = manzoni.103.d
-	flavor = manzoni.103.f
-
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:manzoni_writer_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_literature.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-		var:manzoni_writer_var = {
-			save_scope_as = manzoni_writer_scope
-		}
-	}
-
-	option = { #Reading this was a waste of time...
-		name = manzoni.103.g
-		default_option = yes
-
-		manzoni_add_x_literary_tradition_effect = { AMOUNT = 1 }
-		writer_experience_gain_effect = { AMOUNT = -20 }
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 100
-			factor = 0.75
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 200
-			factor = 0.75
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 300
-			factor = 0.75
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience > 400
-			factor = 0.75
-		}
-		modifier = {
-			var:manzoni_writer_var.var:manzoni_writer_experience >= 500
-			factor = 0.75
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = meticulous
-			}
-			factor = 0.9
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = innovative
-			}
-			factor = 0.9
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = persistent
-			}
-			factor = 0.95
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = erudite
-			}
-			factor = 0.95
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				has_trait = arrogant
-			}
-			factor = 2
-		}
-		modifier = {
-			var:manzoni_writer_var = {
-				OR = {
-					has_trait = alcoholic
-					has_trait = opium_addiction
-					has_trait = cocaine_addiction
-					has_trait = psychological_affliction
-					has_trait = senile
-				}
-			}
-			factor = 10
-		}
-	}
-}
+################################################################################
 
 ### Local Writer Events ###
-#Manzoni 200: A [Work Title] by [Local Author]
+
+#Manzoni 201: [Work Title] published (Masterwork of local writer that has the same genre as taste)
 manzoni.201 = {
 	dlc = dlc_morgenrote
 
@@ -412,178 +700,470 @@ manzoni.201 = {
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:manzoni_local_writer_scope
+	left_icon = scope:local_writer_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	icon = "gfx/interface/icons/event_icons/event_literature.dds"
 
 	trigger = {
+		manzoni_local_writer_meets_taste_trigger = yes
 	}
 
 	immediate = {
-		random_in_list = {
-			variable = mr_local_writers_list
-			save_scope_as = manzoni_local_writer_scope
+		manzoni_local_writer_meets_taste_scope_effect = yes #Saves the right local writer as a scope.
+		scope:local_writer_scope = {
+			manzoni_check_character_crime_mystery_effect = yes
+			manzoni_randomize_bestseller_title_effect = yes
 		}
 	}
 
-	option = { #A good read!
+	option = { #It is amazing!
 		name = manzoni.201.g
 		default_option = yes
 
-		scope:manzoni_local_writer_scope = {
-			void_writer_experience_gain_effect = { AMOUNT = 20 }
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
+		scope:local_writer_scope = {
+			void_writer_experience_gain_effect = { AMOUNT = 50 }
 		}
-		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
 	}
 }
 
-#Manzoni 211: [Local Writer]'s Works strengthen [Interest Group]
-manzoni.211 = {
+#Manzoni 202: [Work Title] published (Masterwork of local writer that has a similar genre as taste)
+manzoni.202 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 	placement = ROOT
 
-	title = manzoni.211.t
-	desc = manzoni.211.d
-	flavor = manzoni.211.f
+	title = manzoni.201.t
+	desc = manzoni.201.d
+	flavor = manzoni.201.f
 
 	duration = 3
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:manzoni_local_writer_scope
+	left_icon = scope:local_writer_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	icon = "gfx/interface/icons/event_icons/event_literature.dds"
 
 	trigger = {
+		manzoni_local_writer_close_taste_trigger = yes
 	}
 
 	immediate = {
-		random_in_list = {
-			variable = mr_local_writers_list
+		manzoni_local_writer_close_to_taste_scope_effect = yes #Saves the right local writer as a scope.
+		scope:local_writer_scope = {
+			manzoni_check_character_crime_mystery_effect = yes
+			manzoni_randomize_bestseller_title_effect = yes
+		}
+	}
 
-			save_scope_as = manzoni_local_writer_scope
+	option = { #It is amazing!
+		name = manzoni.201.g
+		default_option = yes
 
-			interest_group = {
-				save_scope_as = manzoni_local_writer_ig_scope
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
+		scope:local_writer_scope = {
+			void_writer_experience_gain_effect = { AMOUNT = 50 }
+		}
+	}
+}
+
+################################################################################
+
+### Publisher & Writers Events ###
+
+#Manzoni 301-310: Rise and Fall of the Industry, Bibliomania
+
+#Manzoni 301: Bibliomania
+manzoni.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.301.t
+
+	desc = manzoni.301.d
+
+	flavor = manzoni.301.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookclub.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		country_has_building_type_levels = {  
+			target = bt:building_manzoni_publishing_industry
+			value  >= 5
+		}
+		literacy_rate >= 0.5
+		OR = {
+			has_modifier = manzoni_thriving_book_industry_modifier
+			manzoni_has_great_writer = yes
+		}
+		NOT = {
+			any_primary_culture = {
+				has_cultural_obsession = manzoni_prints
 			}
 		}
 	}
 
-	option = { #The Pen is mightier than the sword!
-		name = manzoni.211.g
-		default_option = yes
+	immediate = {
+		random_primary_culture = {
+			limit = {
+				NOT = { has_cultural_obsession = manzoni_prints }
+			}
+			save_scope_as = print_addict_culture
+		}
+	}
 
-		scope:manzoni_local_writer_ig_scope = {
+	option = {
+		name = manzoni.301.g #But everyone knows how dangerous reading is!
+		default_option = yes
+		elgar_medium_add_technology = yes
+		scope:print_addict_culture = {
+			add_cultural_obsession = manzoni_prints
+		}
+	}
+}
+
+#Manzoni 302: Has bibliomania passed its peak?
+manzoni.302 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.302.t
+
+	desc = manzoni.302.d
+
+	flavor = manzoni.302.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookclub.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		NOT = {
+			has_modifier = manzoni_reading_campaign_modifier
+		}
+		manzoni_has_great_writer = no
+		any_primary_culture = {
+			has_cultural_obsession = manzoni_prints
+		}
+		has_modifier = manzoni_weakening_book_industry_modifier
+	}
+
+	immediate = {
+		random_primary_culture = {
+			limit = {
+				has_cultural_obsession = manzoni_prints
+			}
+			save_scope_as = print_addict_culture
+		}
+	}
+
+	option = {
+		name = manzoni.302.g #Books are boring anyway.
+		default_option = yes
+		scope:print_addict_culture = {
+			remove_cultural_obsession = manzoni_prints
+		}
+	}
+
+	option = {
+		name = manzoni.302.h #Start a campaign to awaken the love of reading!
+		add_modifier = {
+			name = manzoni_reading_campaign_modifier
+			years = 5
+		}
+		add_modifier = {
+			name = manzoni_reading_campaign_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+			years = 5
+		}
+	}
+}
+
+#Manzoni 303: Bookclub
+manzoni.303 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.303.t
+
+	desc = manzoni.303.d
+
+	flavor = manzoni.303.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookclub.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		any_primary_culture = {
+			has_cultural_obsession = manzoni_prints
+		}
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_arts_academy
+				production_method = pm_artists_arts_academy_salon
+			}
+			NOT = {
+				has_modifier = manzoni_bookclub_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_production_method_active = {
+					building_type = building_arts_academy
+					production_method = pm_artists_arts_academy_salon
+				}
+				NOT = {
+					has_modifier = manzoni_bookclub_modifier
+				}
+			}
+			save_scope_as = manzoni_book_state
+		}
+		create_character = {
+			female = yes
+			save_scope_as = manzoni_bookmadame_scope
+		}
+		scope:manzoni_bookmadame_scope = {
+			place_character_in_void = 120
+		}
+	}
+
+	option = {
+		name = manzoni.303.g #A fantastic initiative.
+		default_option = yes
+		scope:manzoni_book_state = {
 			add_modifier = {
-				name = manzoni_writer_party_boost_modifier
-				multiplier = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_value
+				name = manzoni_bookclub_modifier
 			}
+		}
+	}
+
+	after = {
+		scope:manzoni_bookmadame_scope = {
+			free_character_from_void = no
 		}
 	}
 }
 
-#Manzoni 212: [Local Author] Energizes the Masses
-manzoni.212 = {
+#Manzoni 304: Thriving Book Industry
+manzoni.304 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-	placement = ROOT
 
-	title = manzoni.212.t
-	desc = manzoni.212.d
-	flavor = manzoni.212.f
+	title = manzoni.304.t
 
-	duration = 3
+	desc = manzoni.304.d
 
-	gui_window = event_window_1char_tabloid
+	flavor = manzoni.304.f
 
-	left_icon = scope:manzoni_local_writer_scope
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookshop.dds"
+	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	icon = "gfx/interface/icons/event_icons/event_literature.dds"
 
+	cooldown = {
+		years = 10
+	}
+
 	trigger = {
+		market.mg:manzoni_prints = {
+			market_goods_has_goods_shortage = no
+		}
+		any_scope_building = {
+			is_building_type = building_manzoni_publishing_industry
+			rich_building_trigger = yes
+			level >= 2
+		}
+		exists = ig:ig_industrialists
+		ig:ig_industrialists = {
+			is_marginal = no
+		}
 	}
 
 	immediate = {
-		random_in_list = {
-			variable = mr_local_writers_list
+		random_scope_building = {
+			limit = {
+				is_building_type = building_manzoni_publishing_industry
+				rich_building_trigger = yes
+				level >= 2
+			}
+			save_scope_as = manzoni_publishing_industry_building
+			state = {
+				save_scope_as = manzoni_book_state
+			}
+		}
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+	}
 
-			save_scope_as = manzoni_local_writer_scope
-
-			interest_group = {
-				save_scope_as = manzoni_local_writer_ig_scope
+	option = {
+		name = manzoni.304.g #Produce even more books!
+		add_modifier = {
+			name = manzoni_thriving_book_industry_modifier
+		}
+		scope:manzoni_publishing_industry_building = {
+			add_modifier = {
+				name = manzoni_thriving_publisher_modifier
+				years = 15
 			}
 		}
 	}
 
-	option = { #Is that... legal?
-		name = manzoni.212.g
+	option = {
+		name = manzoni.304.h #Produce high quality books.
 		default_option = yes
+		add_modifier = {
+			name = manzoni_thriving_book_industry_modifier
+		}
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 15 }
+	}
 
-		if = {
-			limit = {
-				scope:manzoni_local_writer_ig_scope = {
-					ig_approval >= 5
-				}
-			}
-			add_loyalists = {
-				value = {
-					value = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_value
-					divide = 100
-				}
-				interest_group = scope:manzoni_local_writer_ig_scope
-			}
-		}
-		else_if = {
-			limit = {
-				scope:manzoni_local_writer_ig_scope = {
-					ig_approval >= 0
-				}
-			}
-			add_loyalists = {
-				value = {
-					value = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_value
-					divide = 200
-				}
-				interest_group = scope:manzoni_local_writer_ig_scope
-			}
-		}
-		else_if = {
-			limit = {
-				scope:manzoni_local_writer_ig_scope = {
-					ig_approval >= -5
-				}
-			}
-			add_radicals = {
-				value = {
-					value = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_value
-					divide = 200
-				}
-				interest_group = scope:manzoni_local_writer_ig_scope
-			}
-		}
-		else = {
-			add_radicals = {
-				value = {
-					value = scope:manzoni_local_writer_scope.manzoni_local_writer_renown_multiplier_value
-					divide = 100
-				}
-				interest_group = scope:manzoni_local_writer_ig_scope
-			}
-		}
+	after = {
 	}
 }
+
+#Manzoni 311-320: Economy & Politics
+
+#Manzoni 311: IG wants to buy bankrupt publisher
+manzoni.311 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.311.t
+
+	desc = manzoni.311.d
+
+	flavor = manzoni.311.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookshop.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		manzoni_has_printing_industry = yes
+		any_interest_group = {
+    		is_marginal = no
+			is_in_government = no
+        }
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_manzoni_publishing_industry
+					level > 0
+				}
+			}
+			save_scope_as = manzoni_book_state
+		}
+		random_interest_group = {
+			limit = {
+    			is_marginal = no
+				is_in_government = no
+			}
+			save_scope_as = publisher_ig
+			leader = {
+				save_scope_as = publisher_ig_leader
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.311.g #If they save the company, why should we put obstacles in their way?
+		default_option = yes
+		scope:publisher_ig = {
+			add_modifier = {
+				name = manzoni_publisher_fusion_modifier
+				years = 10
+			}
+		}
+		scope:manzoni_book_state = {
+			add_modifier = {
+				name = manzoni_publisher_rescued_modifier
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.311.h #We cannot allow this political influence!
+		scope:publisher_ig = {
+			add_modifier = {
+				name = manzoni_denied_publisher_fusion_modifier
+				years = 5
+			}
+		}
+		scope:manzoni_book_state = {
+			add_modifier = {
+				name = manzoni_publisher_crisis_modifier
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 321-330: Contracts and Success of Artists
+
+################################################################################
 
 #Manzoni 901: The Fate of Lucca (for Parma)
-
 manzoni.901 = {
 	dlc = dlc_morgenrote
 
@@ -626,7 +1206,6 @@ manzoni.901 = {
 }
 
 #Manzoni 902: The Fate of Lucca (for Tuscany)
-
 manzoni.902 = {
 	dlc = dlc_morgenrote
 
@@ -667,7 +1246,6 @@ manzoni.902 = {
 }
 
 #Manzoni 910: Roma Aeterna
-
 manzoni.910 = {
 	dlc = dlc_morgenrote
 
@@ -916,7 +1494,6 @@ manzoni.910 = {
 }
 
 #Manzoni 911: An Italian Consciousness
-
 manzoni.911 = {
 	dlc = dlc_morgenrote
 
@@ -1043,7 +1620,6 @@ manzoni.911 = {
 }
 
 #Manzoni 912: A Pan-Italian Consciousness
-
 manzoni.912 = {
 	dlc = dlc_morgenrote
 

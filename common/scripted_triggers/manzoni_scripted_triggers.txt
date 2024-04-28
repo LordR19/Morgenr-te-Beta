@@ -1,0 +1,520 @@
+﻿##############################
+# MANZONI SCRIPTED TRIGGERS  #
+##############################
+
+#by Marco Dandolo & Lord R
+
+############################
+
+### Building Triggers ###
+
+#Printing Industry
+manzoni_has_printing_industry = {
+	any_scope_state = {
+		any_scope_building = {
+			is_building_type = building_manzoni_publishing_industry
+			level > 0
+		}
+	}
+}
+
+#Literary Salon
+manzoni_has_salon = {
+	any_scope_state = {
+		is_production_method_active = {
+			building_type = building_arts_academy
+			production_method = pm_artists_arts_academy_salon
+		}
+	}
+}
+
+#General Publisher
+manzoni_has_publisher_general = {
+	any_scope_state = {
+		is_production_method_active = {
+			building_type = building_manzoni_publishing_industry
+			production_method = manzoni_pm_publisher_general
+		}
+	}
+}
+
+#Public Publisher
+manzoni_has_publisher_public = {
+	any_scope_state = {
+		is_production_method_active = {
+			building_type = building_manzoni_publishing_industry
+			production_method = manzoni_pm_publisher_public
+		}
+	}
+}
+
+#Literary Publisher
+manzoni_has_publisher_literary = {
+	any_scope_state = {
+		is_production_method_active = {
+			building_type = building_manzoni_publishing_industry
+			production_method = manzoni_pm_publisher_literary
+		}
+	}
+}
+
+#Scientific Publisher
+manzoni_has_publisher_scientific = {
+	any_scope_state = {
+		is_production_method_active = {
+			building_type = building_manzoni_publishing_industry
+			production_method = manzoni_pm_publisher_scientific
+		}
+	}
+}
+
+#Art Publisher
+manzoni_has_publisher_art = {
+	any_scope_state = {
+		is_production_method_active = {
+			building_type = building_manzoni_publishing_industry
+			production_method = manzoni_pm_publisher_art
+		}
+	}
+}
+
+#####################################################################################
+
+### Positive Traits for Genres ###
+
+#Positive Traits for the Adventure Genre
+manzoni_adventure_positive_traits_trigger = {
+	OR = {
+		has_trait = brave
+		has_trait = lepsius_archaeologist
+		has_trait = dubois_naturalist
+		has_trait = dubois_paleontologist
+		has_trait = bandit
+	}
+}
+
+#Positive Traits for the Crime & Mystery Genre
+manzoni_crime_mystery_positive_traits_trigger = {
+	OR = {
+		has_trait = meticulous
+	}
+}
+
+#Positive Traits for the Devotional Genre
+manzoni_devotional_positive_traits_trigger = {
+	OR = {
+		has_trait = pious
+	}
+}
+
+#Positive Traits for the Literary Fiction Genre
+manzoni_literary_positive_traits_trigger = {
+	OR = {
+		has_trait = erudite
+	}
+}
+
+#Positive Traits for the Romance Genre
+manzoni_romance_positive_traits_trigger = {
+	OR = {
+		has_trait = romantic
+	}
+}
+
+#Positive Traits for the Science-Fiction Genre
+manzoni_science_fiction_positive_traits_trigger = {
+	OR = {
+		has_trait = engineer
+		has_trait = verrier_astronomer
+		has_trait = innovative
+		has_trait = curie_physicist
+		has_trait = mendelejew_chemist
+		has_trait = verrier_mathematician
+	}
+}
+
+#Positive Traits for the Social Critic Genre
+manzoni_social_critic_positive_traits_trigger = {
+	OR = {
+		has_trait = direct
+		has_trait = inspirational_orator
+		has_trait = demagogue
+		has_trait = firebrand
+	}
+}
+
+#NEgative Traits for writing
+manzoni_negative_traits_for_writer_trigger = {
+	OR = {
+		has_trait = alcoholic
+		has_trait = opium_addiction
+		has_trait = cocaine_addiction
+		has_trait = senile
+		has_trait = psychological_affliction
+		has_trait = expensive_tastes
+	}
+}
+
+#####################################################################################
+
+### Character Triggers ###
+
+manzoni_writer_meets_taste_character_scope_trigger = {
+	trigger_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_adventure_var
+			}
+		}
+		has_trait = manzoni_genre_adventure
+	}
+	trigger_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_crime_var
+			}
+		}
+		has_trait = manzoni_genre_crime_mystery
+	}
+	trigger_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_devotional_var
+			}
+		}
+		has_trait = manzoni_genre_devout
+	}
+	trigger_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_juvenile_var
+			}
+		}
+		has_trait = manzoni_genre_juvenile
+	}
+	trigger_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_literary_var
+			}
+		}
+		has_trait = manzoni_genre_literary_fiction
+	}
+	trigger_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_romance_var
+			}
+		}
+		has_trait = manzoni_genre_romance
+	}
+	trigger_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_science_var
+			}
+		}
+		has_trait = manzoni_genre_science_fiction
+	}
+	trigger_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_social_var
+			}
+		}
+		has_trait = manzoni_genre_social_critic
+	}
+}
+
+manzoni_writer_meets_taste_trigger = {
+	OR = {
+		AND = {
+			var:manzoni_writer_var ?= {
+				has_trait = manzoni_genre_adventure
+			}
+			has_variable = manzoni_taste_adventure_var
+		}
+		AND = {
+			var:manzoni_writer_var ?= {
+				has_trait = manzoni_genre_crime_mystery
+			}
+			has_variable = manzoni_taste_crime_var
+		}
+		AND = {
+			var:manzoni_writer_var ?= {
+				has_trait = manzoni_genre_devout
+			}
+			has_variable = manzoni_taste_devotional_var
+		}
+		AND = {
+			var:manzoni_writer_var ?= {
+				has_trait = manzoni_genre_juvenile
+			}
+			has_variable = manzoni_taste_juvenile_var
+		}
+		AND = {
+			var:manzoni_writer_var ?= {
+				has_trait = manzoni_genre_literary_fiction
+			}
+			has_variable = manzoni_taste_literary_var
+		}
+		AND = {
+			var:manzoni_writer_var ?= {
+				has_trait = manzoni_genre_romance
+			}
+			has_variable = manzoni_taste_romance_var
+		}
+		AND = {
+			var:manzoni_writer_var ?= {
+				has_trait = manzoni_genre_science_fiction
+			}
+			has_variable = manzoni_taste_science_var
+		}
+		AND = {
+			var:manzoni_writer_var ?= {
+				has_trait = manzoni_genre_social_critic
+			}
+			has_variable = manzoni_taste_social_var
+		}
+	}
+}
+
+manzoni_writer_close_taste_trigger = {
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_adventure_var }
+		var:manzoni_writer_var ?= {
+			OR = {
+				has_trait = manzoni_genre_science_fiction
+				has_trait = manzoni_genre_juvenile
+				has_trait = manzoni_genre_crime_mystery
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_crime_var }
+		var:manzoni_writer_var ?= {
+			OR = {
+				has_trait = manzoni_genre_science_fiction
+				has_trait = manzoni_genre_adventure
+				has_trait = manzoni_genre_romance
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_devotional_var }
+		var:manzoni_writer_var ?= {
+			OR = {
+				has_trait = manzoni_genre_juvenile
+				has_trait = manzoni_genre_romance
+				has_trait = manzoni_genre_adventure
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_juvenile_var }
+		var:manzoni_writer_var ?= {
+			OR = {
+				has_trait = manzoni_genre_adventure
+				has_trait = manzoni_genre_devout
+				has_trait = manzoni_genre_crime_mystery
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_literary_var }
+		var:manzoni_writer_var ?= {
+			OR = {
+				has_trait = manzoni_genre_social_critic
+				has_trait = manzoni_genre_science_fiction
+				has_trait = manzoni_genre_romance
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_romance_var }
+		var:manzoni_writer_var ?= {
+			OR = {
+				has_trait = manzoni_genre_devout
+				has_trait = manzoni_genre_juvenile
+				has_trait = manzoni_genre_literary_fiction
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_science_var }
+		var:manzoni_writer_var ?= {
+			OR = {
+				has_trait = manzoni_genre_adventure
+				has_trait = manzoni_genre_social_critic
+				has_trait = manzoni_genre_literary_fiction
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_social_var }
+		var:manzoni_writer_var ?= {
+			OR = {
+				has_trait = manzoni_genre_literary_fiction
+				has_trait = manzoni_genre_juvenile
+				has_trait = manzoni_genre_crime_mystery
+			}
+		}
+	}
+}
+
+#This Trigger tests if a local writer has the same genre as the taste
+manzoni_local_writer_meets_taste_trigger = {
+	has_variable_list = mr_local_writers_list
+	any_in_list = {
+		variable = mr_local_writers_list
+		OR = {
+			AND = {
+				root = {
+					has_variable = manzoni_taste_adventure_var
+				}
+				has_trait = manzoni_genre_adventure
+			}
+			AND = {
+				root = {
+					has_variable = manzoni_taste_crime_var
+				}
+				has_trait = manzoni_genre_crime_mystery
+			}
+			AND = {
+				root = {
+					has_variable = manzoni_taste_devotional_var
+				}
+				has_trait = manzoni_genre_devout
+			}
+			AND = {
+				root = {
+					has_variable = manzoni_taste_juvenile_var
+				}
+				has_trait = manzoni_genre_juvenile
+			}
+			AND = {
+				root = {
+					has_variable = manzoni_taste_literary_var
+				}
+				has_trait = manzoni_genre_literary_fiction
+			}
+			AND = {
+				root = {
+					has_variable = manzoni_taste_romance_var
+				}
+				has_trait = manzoni_genre_romance
+			}
+			AND = {
+				root = {
+					has_variable = manzoni_taste_science_var
+				}
+				has_trait = manzoni_genre_science_fiction
+			}
+			AND = {
+				root = {
+					has_variable = manzoni_taste_social_var
+				}
+				has_trait = manzoni_genre_social_critic
+			}
+		}
+	}
+}
+
+manzoni_local_writer_close_taste_trigger = {
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_adventure_var }
+		has_variable_list = mr_local_writers_list
+		any_in_list = {
+			variable = mr_local_writers_list
+			OR = {
+				has_trait = manzoni_genre_science_fiction
+				has_trait = manzoni_genre_juvenile
+				has_trait = manzoni_genre_crime_mystery
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_crime_var }
+		has_variable_list = mr_local_writers_list
+		any_in_list = {
+			variable = mr_local_writers_list
+			OR = {
+				has_trait = manzoni_genre_science_fiction
+				has_trait = manzoni_genre_adventure
+				has_trait = manzoni_genre_romance
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_devotional_var }
+		has_variable_list = mr_local_writers_list
+		any_in_list = {
+			variable = mr_local_writers_list
+			OR = {
+				has_trait = manzoni_genre_juvenile
+				has_trait = manzoni_genre_romance
+				has_trait = manzoni_genre_adventure
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_juvenile_var }
+		has_variable_list = mr_local_writers_list
+		any_in_list = {
+			variable = mr_local_writers_list
+			OR = {
+				has_trait = manzoni_genre_adventure
+				has_trait = manzoni_genre_devout
+				has_trait = manzoni_genre_crime_mystery
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_literary_var }
+		has_variable_list = mr_local_writers_list
+		any_in_list = {
+			variable = mr_local_writers_list
+			OR = {
+				has_trait = manzoni_genre_social_critic
+				has_trait = manzoni_genre_science_fiction
+				has_trait = manzoni_genre_romance
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_romance_var }
+		has_variable_list = mr_local_writers_list
+		any_in_list = {
+			variable = mr_local_writers_list
+			OR = {
+				has_trait = manzoni_genre_devout
+				has_trait = manzoni_genre_juvenile
+				has_trait = manzoni_genre_literary_fiction
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_science_var }
+		has_variable_list = mr_local_writers_list
+		any_in_list = {
+			variable = mr_local_writers_list
+			OR = {
+				has_trait = manzoni_genre_adventure
+				has_trait = manzoni_genre_social_critic
+				has_trait = manzoni_genre_literary_fiction
+			}
+		}
+	}
+	trigger_if = {
+		limit = { has_variable = manzoni_taste_social_var }
+		has_variable_list = mr_local_writers_list
+		any_in_list = {
+			variable = mr_local_writers_list
+			OR = {
+				has_trait = manzoni_genre_literary_fiction
+				has_trait = manzoni_genre_juvenile
+				has_trait = manzoni_genre_crime_mystery
+			}
+		}
+	}
+}

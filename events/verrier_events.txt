@@ -20,6 +20,7 @@ namespace = verrier
 
 #Verrier 10: Neptune discovered
 #Verrier 11: Neptune notification for player
+#Verrier 12: Uranus discovered
 
 #Pluto
 
@@ -509,13 +510,6 @@ verrier.10 = {
 				save_scope_as = verrier_astronomer_scope
 			}
 		}
-		country_definition = {
-			save_scope_as = verrier_discoverer_neptune_country_definition_scope
-			set_global_variable = {
-				name = verrier_discoverer_neptune_country_definition_global_var
-				value = scope:verrier_discoverer_neptune_country_definition_scope
-			}
-		}
 	}
 
 	title = verrier.10.t
@@ -554,6 +548,18 @@ verrier.10 = {
 				trigger_event = {
 					id = verrier.11
 					days = 3
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:verrier_astronomer_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
 				}
 			}
 		}
@@ -596,6 +602,564 @@ verrier.11 = {
 
 		astronomer_experience_gain_effect = {
 			AMOUNT = 10
+		}
+	}
+}
+
+##################################################################################
+
+######URANUS######
+
+#Verrier 12: Uranus discovered
+
+verrier.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_uranus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_uranus_discovered_global_var
+		set_global_variable = {
+			name = verrier_discoverer_uranus_country_global_var
+			value = this
+		}
+		set_global_variable = {
+			name = verrier_uranus_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = verrier_discoverer_uranus_global_var
+				value = this
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+		else = {
+			create_new_astronomer_effect = yes
+			verrier_set_new_astronomer_as_astronomer_effect = yes
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+	}
+
+	title = verrier.12.t
+	desc = verrier.12.d
+	flavor = verrier.12.f
+
+	duration = 3
+
+	option = {
+		name = verrier.12.g
+		add_modifier = {
+			name = verrier_discovered_uranus_modifier
+		}
+		scope:verrier_astronomer_scope = {
+			add_modifier = {
+				name = verrier_uranus_discoverer_modifier
+			}
+			set_variable = verrier_uranus_discoverer_var
+		}
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = 1
+		}
+		astronomer_experience_gain_effect = {
+			AMOUNT = 100
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { this = ROOT }
+					is_player = yes
+				}
+				trigger_event = {
+					id = verrier.13
+					days = 3
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:verrier_astronomer_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
+	}
+}
+
+#Verrier 13: Uranus notification for player
+
+verrier.13 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_uranus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		global_var:verrier_discoverer_uranus_country_global_var = {
+			save_scope_as = verrier_uranus_discoverer_country
+		}
+		random_character_in_void = {
+			limit = {
+				has_variable = verrier_uranus_discoverer_var
+			}
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	title = verrier.12.t
+	desc = verrier.11.d
+	flavor = verrier.12.f
+
+	duration = 3
+
+	option = {
+		name = verrier.13.g #If there are more than 6, maybe there are even more for us to discover!
+
+		astronomer_experience_gain_effect = {
+			AMOUNT = 10
+		}
+	}
+}
+
+##################################################################################
+
+######DWARF PLANETS######
+
+#Verrier 14: Ceres discovered
+
+verrier.14 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.14.t
+	desc = verrier.14.d
+	flavor = verrier.14.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_ceres.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_ceres_discovered_global_var
+		set_global_variable = {
+			name = verrier_discoverer_ceres_country_global_var
+			value = this
+		}
+		set_global_variable = {
+			name = verrier_ceres_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = verrier_discoverer_ceres_global_var
+				value = this
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+		else = {
+			create_new_astronomer_effect = yes
+			verrier_set_new_astronomer_as_astronomer_effect = yes
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+	}
+
+	duration = 3
+
+	option = {
+		name = verrier.14.g
+		add_modifier = {
+			name = verrier_discovered_ceres_modifier
+		}
+		scope:verrier_astronomer_scope = {
+			add_modifier = {
+				name = verrier_ceres_discoverer_modifier
+			}
+			set_variable = verrier_ceres_discoverer_var
+		}
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = 1
+		}
+		astronomer_experience_gain_effect = {
+			AMOUNT = 50
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { this = ROOT }
+					is_player = yes
+				}
+				post_notification = verrier_ceres_discovered_notification
+			}
+		}
+		if = {
+			limit = {
+				NAND = {
+					has_global_variable = verrier_ceres_discovered_global_var
+					has_global_variable = verrier_pallas_discovered_global_var
+					has_global_variable = verrier_vesta_discovered_global_var
+					has_global_variable = verrier_juno_discovered_global_var
+				}
+			}
+			add_journal_entry = {
+				type = je_verrier_dwarf_planets
+			}
+		}
+	}
+}
+
+#Verrier 15: Pallas discovered
+
+verrier.15 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.15.t
+	desc = verrier.15.d
+	flavor = verrier.15.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_ceres.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_pallas_discovered_global_var
+		set_global_variable = {
+			name = verrier_discoverer_pallas_country_global_var
+			value = this
+		}
+		set_global_variable = {
+			name = verrier_pallas_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = verrier_discoverer_pallas_global_var
+				value = this
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+		else = {
+			create_new_astronomer_effect = yes
+			verrier_set_new_astronomer_as_astronomer_effect = yes
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+	}
+
+	duration = 3
+
+	option = {
+		name = verrier.14.g
+		add_modifier = {
+			name = verrier_discovered_pallas_modifier
+		}
+		scope:verrier_astronomer_scope = {
+			add_modifier = {
+				name = verrier_pallas_discoverer_modifier
+			}
+			set_variable = verrier_pallas_discoverer_var
+		}
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = 1
+		}
+		astronomer_experience_gain_effect = {
+			AMOUNT = 50
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { this = ROOT }
+					is_player = yes
+				}
+				post_notification = verrier_pallas_discovered_notification
+			}
+		}
+		if = {
+			limit = {
+				NAND = {
+					has_global_variable = verrier_ceres_discovered_global_var
+					has_global_variable = verrier_pallas_discovered_global_var
+					has_global_variable = verrier_vesta_discovered_global_var
+					has_global_variable = verrier_juno_discovered_global_var
+				}
+			}
+			add_journal_entry = {
+				type = je_verrier_dwarf_planets
+			}
+		}
+	}
+}
+
+#Verrier 16: Vesta discovered
+
+verrier.16 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.16.t
+	desc = verrier.16.d
+	flavor = verrier.16.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_ceres.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_vesta_discovered_global_var
+		set_global_variable = {
+			name = verrier_discoverer_vesta_country_global_var
+			value = this
+		}
+		set_global_variable = {
+			name = verrier_vesta_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = verrier_discoverer_vesta_global_var
+				value = this
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+		else = {
+			create_new_astronomer_effect = yes
+			verrier_set_new_astronomer_as_astronomer_effect = yes
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+	}
+
+	duration = 3
+
+	option = {
+		name = verrier.14.g
+		add_modifier = {
+			name = verrier_discovered_vesta_modifier
+		}
+		scope:verrier_astronomer_scope = {
+			add_modifier = {
+				name = verrier_vesta_discoverer_modifier
+			}
+			set_variable = verrier_vesta_discoverer_var
+		}
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = 1
+		}
+		astronomer_experience_gain_effect = {
+			AMOUNT = 50
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { this = ROOT }
+					is_player = yes
+				}
+				post_notification = verrier_vesta_discovered_notification
+			}
+		}
+		if = {
+			limit = {
+				NAND = {
+					has_global_variable = verrier_ceres_discovered_global_var
+					has_global_variable = verrier_pallas_discovered_global_var
+					has_global_variable = verrier_vesta_discovered_global_var
+					has_global_variable = verrier_juno_discovered_global_var
+				}
+			}
+			add_journal_entry = {
+				type = je_verrier_dwarf_planets
+			}
+		}
+	}
+}
+
+#Verrier 17: Juno discovered
+
+verrier.17 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.17.t
+	desc = verrier.17.d
+	flavor = verrier.17.f
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_ceres.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_juno_discovered_global_var
+		set_global_variable = {
+			name = verrier_discoverer_juno_country_global_var
+			value = this
+		}
+		set_global_variable = {
+			name = verrier_juno_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = verrier_discoverer_juno_global_var
+				value = this
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+		else = {
+			create_new_astronomer_effect = yes
+			verrier_set_new_astronomer_as_astronomer_effect = yes
+			var:verrier_astronomer_var = {
+				save_scope_as = verrier_astronomer_scope
+			}
+		}
+	}
+
+	duration = 3
+
+	option = {
+		name = verrier.14.g
+		add_modifier = {
+			name = verrier_discovered_juno_modifier
+		}
+		scope:verrier_astronomer_scope = {
+			add_modifier = {
+				name = verrier_juno_discoverer_modifier
+			}
+			set_variable = verrier_juno_discoverer_var
+		}
+		change_global_variable = {
+ 			name = verrier_planets_number
+ 			add = 1
+		}
+		astronomer_experience_gain_effect = {
+			AMOUNT = 50
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			every_country = {
+				limit = {
+					NOT = { this = ROOT }
+					is_player = yes
+				}
+				post_notification = verrier_juno_discovered_notification
+			}
+		}
+		if = {
+			limit = {
+				NAND = {
+					has_global_variable = verrier_ceres_discovered_global_var
+					has_global_variable = verrier_pallas_discovered_global_var
+					has_global_variable = verrier_vesta_discovered_global_var
+					has_global_variable = verrier_juno_discovered_global_var
+				}
+			}
+			add_journal_entry = {
+				type = je_verrier_dwarf_planets
+			}
 		}
 	}
 }
@@ -689,6 +1253,18 @@ verrier.20 = {
 				trigger_event = {
 					id = verrier.21
 					days = 3
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:verrier_astronomer_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
 				}
 			}
 		}
@@ -2625,6 +3201,18 @@ verrier.61 = {
 				}
 			}
 		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:verrier_astronomer_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -2789,6 +3377,18 @@ verrier.64 = {
 				trigger_event = {
 					id = verrier.65
 					days = { 7 14 }
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:verrier_astronomer_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
 				}
 			}
 		}
@@ -2959,6 +3559,18 @@ verrier.67 = {
 				}
 			}
 		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:verrier_astronomer_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -3126,6 +3738,18 @@ verrier.70 = {
 				}
 			}
 		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:verrier_astronomer_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -3290,6 +3914,18 @@ verrier.73 = {
 				trigger_event = {
 					id = verrier.74
 					days = { 7 14 }
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:verrier_astronomer_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
 				}
 			}
 		}

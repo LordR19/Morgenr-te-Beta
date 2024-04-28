@@ -17,7 +17,9 @@ je_lepsius_letter_to_rosellini = {
 
 	is_shown_when_inactive = {
 		exists = c:PRU
-		c:PRU = root
+		c:PRU = this
+		basileia_is_active = no #Built in compatibility to Basileia
+		NOT = { has_global_variable = lepsius_egyptology_invented_country_definition_global_var }
 	}
 
 	possible = {
@@ -34,7 +36,48 @@ je_lepsius_letter_to_rosellini = {
 	}
 
 	invalid = {
-		NOT = { exists = c:PRU }
+		OR = {
+			NOT = { exists = c:PRU }
+			has_global_variable = lepsius_egyptology_invented_country_definition_global_var
+		}
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+#Alternative to Lepsius letter in case Prussia does not exist
+je_lepsius_archaeology_start_in_egypt = { 
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		OR = {
+			NOT = { exists = c:PRU }
+			basileia_is_active = yes #Built in compatibility to Basileia
+			year < 1836 #In case you play with an alternate History mod
+		}
+		NOT = { has_global_variable = lepsius_egyptology_invented_country_definition_global_var }
+		has_technology_researched = lepsius_antiquarianism_tech
+	}
+
+	possible = {
+		always = yes
+	}
+
+	complete = {
+		lepsius_has_archaeologist = yes
+	}
+
+	on_complete = {
+		add_technology_researched = lepsius_specialization_egypt_tech
+		trigger_event = { id = lepsius.22 popup = yes }
+	}
+
+	invalid = {
+		has_global_variable = lepsius_egyptology_invented_country_definition_global_var
 	}
 
 	weight = 10
@@ -52,6 +95,8 @@ je_lepsius_stephens_catherwood_expedition = {
 	is_shown_when_inactive = {
 		exists = c:USA
 		c:USA = root
+		basileia_is_active = no #Built in compatibility to Basileia
+		NOT = { has_global_variable = lepsius_stephens_catherwood_global_var }
 	}
 
 	possible = {
@@ -70,7 +115,53 @@ je_lepsius_stephens_catherwood_expedition = {
 	}
 
 	invalid = {
-		NOT = { exists = c:USA }
+		OR = {
+			NOT = { exists = c:USA }
+			has_global_variable = lepsius_stephens_catherwood_global_var
+		}
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+#Expedition to Yucatán
+
+je_lepsius_yucatan_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	is_shown_when_inactive = {
+		OR = {
+			basileia_is_active = yes #Built in compatibility to Basileia
+			game_date < 1836.1.1
+			NOT = { exists = c:USA }
+		}
+		NOT = { has_global_variable = lepsius_stephens_catherwood_global_var }
+		has_technology_researched = lepsius_antiquarianism_tech
+	}
+
+	possible = {
+		always = yes
+	}
+
+	complete = {
+		lepsius_has_archaeologist = yes
+		is_at_war = no
+		has_interest_marker_in_region = region_central_america
+		has_technology_researched = lepsius_antiquarianism_tech
+		has_technology_researched = quinine
+	}
+
+	on_complete = {
+		add_technology_researched = lepsius_specialization_precolumbian_tech
+		trigger_event = { id = lepsius.23 popup = yes }
+	}
+
+	invalid = {
+		has_global_variable = lepsius_stephens_catherwood_global_var
 	}
 
 	weight = 10
@@ -1477,6 +1568,70 @@ je_lepsius_discovery_pakal = {
 			}
 			trigger_event = { 
 				id = lepsius.962 #notification
+				popup = yes
+			}
+		}
+	}
+	
+	progressbar = yes
+	
+    transferable = no
+    should_be_pinned_by_default = no
+}
+
+#Vilcabamba
+
+je_lepsius_discovery_vilcabamba = {
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	group = je_group_lepsius_archaeology
+
+	possible = {
+		var:lepsius_vilcabamba_clue >= 1
+	}
+	
+	current_value = {
+		value = var:lepsius_vilcabamba_clue
+	}
+
+	goal_add_value = {
+		add = 10
+	}
+	
+	complete = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_vilcabamba_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+			lepsius_has_archaeologist = yes
+		}
+	}
+	
+	on_complete = {
+		trigger_event = { 
+			id = lepsius.971
+			popup = yes 
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_lepsius_disovery_vilcabamba_fail
+			any_country = {
+				NOT = { this = ROOT }
+				has_modifier = lepsius_discovery_vilcabamba_modifier
+			}
+		}
+    }
+	
+	on_fail = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			trigger_event = { 
+				id = lepsius.972 #notification
 				popup = yes
 			}
 		}

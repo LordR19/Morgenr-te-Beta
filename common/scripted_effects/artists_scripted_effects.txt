@@ -85,19 +85,19 @@ artists_monthly_artistic_progress_effect = {
 				}
 			}
 			else = {
-				random_list = { #TODO activate right characters
+				random_list = {
 					1 = {
 						trigger_event = {
 							id = artists.51
 							popup = yes
 						}
 					}
-				#	1 = {
-				#		trigger_event = {
-				#			id = artists.52
-				#			popup = yes
-				#		}
-				#	}
+					1 = {
+						trigger_event = {
+							id = artists.52
+							popup = yes
+						}
+					}
 					1 = {
 						trigger_event = {
 							id = artists.53
@@ -3442,9 +3442,10 @@ writer_experience_set_up_effect = {
 				has_variable = manzoni_writer_experience
 			}
 		}
+		#Age: 2 Reputation for each year older than 25
 		if = {
 			limit = {
-				age > 30
+				age > 25
 			}
 			set_variable = {
 				name = manzoni_writer_experience
@@ -3452,11 +3453,11 @@ writer_experience_set_up_effect = {
 			}
 			change_variable = {
 				name = manzoni_writer_experience
-				subtract = 30
+				add = -25
 			}
 			change_variable = {
 				name = manzoni_writer_experience
-				multiply = 10
+				multiply = 2
 			}
 		}
 		else = {
@@ -3464,6 +3465,19 @@ writer_experience_set_up_effect = {
 				name = manzoni_writer_experience
 				value = 0
 			}
+		}
+		#Random Reputation factor
+		set_local_variable = {
+			name = random_amount_local_var
+			value = { 25 50 }
+		}
+		change_variable = {
+			name = manzoni_writer_experience
+			add = local_var:random_amount_local_var
+		}
+		change_variable = {
+			name = manzoni_writer_experience
+			add = artists_writer_experience_set_up_value
 		}
 		if = { #Adds the Great Writer Trait if Experience is above 500
 			limit = {
@@ -3550,6 +3564,13 @@ void_writer_experience_gain_effect = { #adds XP to the Writer
 		change_variable = {
 			name = manzoni_writer_experience
 			add = $AMOUNT$
+		}
+		if = {
+			limit = { var:manzoni_writer_experience < 0 }
+			set_variable = {
+				name = manzoni_writer_experience
+				value = 0
+			}
 		}
 	}
 	if = {

@@ -1,0 +1,71 @@
+﻿#################
+# Curie EVENTS  #
+#################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = curie
+
+###################
+
+#Curie 10: Uranium deposits discovered
+
+#################################################################################
+
+#Curie 10: Uranium deposits discovered
+curie.10 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curie.10.t
+
+	desc = curie.10.d
+
+	flavor = curie.10.f
+	
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_gold_prospectors"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_physics.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#dubois_has_active_geologist = yes
+		has_technology_researched = verrier_modern_physics_tech
+		any_scope_state = {
+			curie_is_uranium_state = yes
+			NOT = {
+				has_state_trait = curie_state_trait_uranium
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				curie_is_uranium_state = yes
+			}
+			save_scope_as = curie_uranium_state_scope
+			state_region = {
+				add_state_trait = curie_state_trait_uranium
+			}
+		}
+	}
+
+	option = {	#Bright prospects!
+		name = curie.10.g
+		default_option = yes
+		scope:curie_uranium_state_scope = {
+			curie_add_x_uranium_deposits_effect = {
+				AMOUNT = 5
+			}
+		}
+	}
+}

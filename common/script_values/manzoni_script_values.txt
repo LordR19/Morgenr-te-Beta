@@ -4,48 +4,304 @@
 
 ############################################################################
 
-#This is used for strength multipliers of clout modifiers.
-# Use it with a writer scope, e.g.:
-#
-#add_modifier = {
-#	name = manzoni_writer_party_boost_modifier
-#	multiplier = owner.var:manzoni_writer_var.manzoni_local_writer_renown_multiplier_value
-#}
-manzoni_local_writer_renown_multiplier_value = {
-	value = var:manzoni_writer_experience
-	add = 100
-	divide = 50
+#This value calculates the amount of Reputation gained or lost 
+local_writer_experience_gain_value = {
 	if = {
 		limit = {
-			interest_group = {
-				is_marginal = yes
+			owner = {
+				has_variable = manzoni_taste_adventure_var
 			}
 		}
-		multiply = 4
+		value = { -3 3 }
+		if = {
+			limit = { has_trait = manzoni_genre_adventure }
+			add = 10
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_science_fiction }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_juvenile }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_crime_mystery }
+			add = 5
+		}
+		else = {
+			add = 1
+		}
 	}
 	else_if = {
 		limit = {
-			interest_group = {
-				is_powerful = no
+			owner = {
+				has_variable = manzoni_taste_crime_var
 			}
 		}
-		multiply = 2
+		value = { -3 3 }
+		if = {
+			limit = { has_trait = manzoni_genre_crime_mystery }
+			add = 10
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_science_fiction }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_juvenile }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_romance }
+			add = 5
+		}
+		else = {
+			add = 1
+		}
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_devotional_var
+			}
+		}
+		value = { -3 3 }
+		if = {
+			limit = { has_trait = manzoni_genre_devout }
+			add = 10
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_juvenile }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_romance }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_adventure }
+			add = 5
+		}
+		else = {
+			add = 1
+		}
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_juvenile_var
+			}
+		}
+		value = { -3 3 }
+		if = {
+			limit = { has_trait = manzoni_genre_juvenile }
+			add = 10
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_adventure }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_devout }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_crime_mystery }
+			add = 5
+		}
+		else = {
+			add = 1
+		}
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_literary_var
+			}
+		}
+		value = { -3 3 }
+		if = {
+			limit = { has_trait = manzoni_genre_literary_fiction }
+			add = 10
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_social_critic }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_science_fiction }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_romance }
+			add = 5
+		}
+		else = {
+			add = 1
+		}
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_romance_var
+			}
+		}
+		value = { -3 3 }
+		if = {
+			limit = { has_trait = manzoni_genre_romance }
+			add = 10
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_devout }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_juvenile }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_literary_fiction }
+			add = 5
+		}
+		else = {
+			add = 1
+		}
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_science_var
+			}
+		}
+		value = { -3 3 }
+		if = {
+			limit = { has_trait = manzoni_genre_science_fiction }
+			add = 10
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_adventure }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_social_critic }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_literary_fiction }
+			add = 5
+		}
+		else = {
+			add = 1
+		}
+	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = manzoni_taste_social_var
+			}
+		}
+		value = { -3 3 }
+		if = {
+			limit = { has_trait = manzoni_genre_social_critic }
+			add = 10
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_literary_fiction }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_juvenile }
+			add = 5
+		}
+		else_if = {
+			limit = { has_trait = manzoni_genre_crime_mystery }
+			add = 5
+		}
+		else = {
+			add = 1
+		}
+	}
+	#Influence of Traits on the value
+	if = { #Adventure
+		limit = {
+			has_trait = manzoni_genre_adventure
+		}
+		if = {
+			limit = { manzoni_adventure_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Crime & Mystery
+		limit = {
+			has_trait = manzoni_genre_crime_mystery
+		}
+		if = {
+			limit = { manzoni_crime_mystery_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Devotional
+		limit = {
+			has_trait = manzoni_genre_devout
+		}
+		if = {
+			limit = { has_trait = pious }
+			add = 1
+		}
+	}
+	if = { #Juvenile
+		limit = {
+			has_trait = manzoni_genre_juvenile
+		}
+		if = {
+			limit = { manzoni_devotional_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Literary Fiction
+		limit = {
+			has_trait = manzoni_genre_literary_fiction
+		}
+		if = {
+			limit = { manzoni_literary_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Romance
+		limit = {
+			has_trait = manzoni_genre_romance
+		}
+		if = {
+			limit = { manzoni_romance_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Science-Fiction
+		limit = {
+			has_trait = manzoni_genre_science_fiction
+		}
+		if = {
+			limit = { manzoni_science_fiction_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Social Critic
+		limit = {
+			has_trait = manzoni_genre_social_critic
+		}
+		if = {
+			limit = { manzoni_social_critic_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+
+	#Negative Traits
+	if = {
+		limit = { manzoni_negative_traits_for_writer_trigger = yes }
+		subtract = 1
 	}
 }
-
-#This is used for strength multipliers of law enactment modifiers.
-# Use it with a writer scope, e.g.:
-#
-#add_modifier = {
-#	name = manzoni_writer_rejects_law_modifier
-#	multiplier = owner.var:manzoni_writer_var.manzoni_local_writer_renown_multiplier_no_ig_value
-#}
-manzoni_local_writer_renown_multiplier_no_ig_value = {
-	value = var:manzoni_writer_experience
-	add = 100
-	divide = 35
-}
-
 
 #Original Values by kaznoko for PBI
 manzoni_publishing_industry_literacy_rate = 0.2

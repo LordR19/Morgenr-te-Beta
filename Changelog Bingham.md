@@ -15,6 +15,12 @@ Archaeology:
 - Modern Archaeology tech gives +1 yearly artifact for each excavation.
 - Modern Archaeology no longer gives a prestige bonus.
 - Changed artifacts at the end of an expedition: you should get some more artifacts than before.
+- Added Vilcabamba as a possible archaeological discovery in Peru.
+
+Compatability:
+- Removed the mr_starting_inventions.txt file which should improve compatability with various mods.
+- Various changes to improve compatibility with mods that set up another scenario.
+- Added built in compatibility for most of Basileia Romaion.
 
 Music:
 - The Mozart Monument Event now tells you when the monument will be finished.
@@ -41,3 +47,7 @@ Physics:
 - Added Nuclear Physics Tech. Be careful with that stuff.
 - Added new good: Uranium.
 - Added new building: Uranium mine.
+
+Bugfixes:
+- Historical Science Focuses are now properly removed, if you change the rule.
+- Research Projects do no longer think you are an AI and get removed just because there is another project to do.
