@@ -784,6 +784,51 @@ manzoni_randomize_bestseller_title_effect = {
 	}
 }
 
+manzoni_bestseller_event_or_effect_chooser_effect = {
+	if = {
+		#In case the Writer has less than 1 bestseller, the correct event is chosen.
+		#Otherwise an effect and notification is fired.
+		limit = {
+			scope:manzoni_local_writer_scope.var:manzoni_num_bestsellers_var < 1
+		}
+		if = {
+			#This first check limits the numbers of checks by first checking if a character is historical.
+			#A historical bestseller event gets chosen only if the character is historical...
+			limit = {
+				scope:manzoni_local_writer_scope = {
+					is_historical = yes
+				}
+			}
+			#...and has a matching event (checked with the template)
+			if = {
+				limit = {
+					scope:manzoni_local_writer_scope = {
+						has_template = manzoni_gbr_doyle_arthur_conan_template
+					}
+				}
+				trigger_event = manzoni.1000
+			}
+			#Otherwise the generic Event is fired
+			else = {
+				trigger_event = manzoni.101
+			}
+		}
+		#Otherwise the generic Event is fired
+		else = {
+			trigger_event = manzoni.101
+		}
+	}
+	#If the character has more than 1 Bestseller already, an effect will be executed and a notification sent.
+	else = {
+		#Adds a Bestseller
+		scope:manzoni_local_writer_scope = {
+			manzoni_add_x_bestseller_effect = { AMOUNT = 1 }
+		}
+		#Sends a notification to the player
+
+	}
+}
+
 ##############################
 
 ###Manzoni Variables###
