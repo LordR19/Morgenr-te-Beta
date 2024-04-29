@@ -9,7 +9,7 @@
 on_yearly_pulse_country = { 
 	on_actions = {
 		manzoni_on_yearly_pulse_country
-#		manzoni_on_yearly_pulse_country_writers #TODO: uncomment when Writers are added again
+		manzoni_on_yearly_pulse_country_writers
 		manzoni_on_yearly_pulse_country_local_writers
 		delay = { days = { 45 330 } }
 	}
@@ -35,9 +35,6 @@ on_building_built = {
 
 manzoni_on_yearly_pulse_country = {
 	events = {
-		###Great Britain###
-		manzoni.1000 # Manzoni 1000: Sherlock Holmes published
-
 		###Switzerland###
 		manzoni.1100 #Manzoni 1100: Heidi published
 		manzoni.1101 #Manzoni 1101: Kleider machen Leute published
@@ -90,11 +87,92 @@ manzoni_on_yearly_pulse_country = {
 }
 
 manzoni_on_yearly_pulse_country_writers = {
-	trigger = { has_variable = manzoni_writer_var }
+	trigger = { has_variable = manzoni_writer_var } #Only relevant if the country has a writer
 
 	effect = {
+		#TODO rework this
 		manzoni_add_x_literary_tradition_effect = {
 			AMOUNT = 1
+		}
+
+		#Bestseller Events/Effects
+		#Either fires an Event/Effect or nothing depending on the writers genre and the genre preference.
+		random_list = {
+			99 = { # No effect 99% as a standard
+				modifier = {
+					if = {
+						limit = {
+							manzoni_writer_meets_taste_trigger = yes
+						}
+						add = -74 #In case of the writer meeting the taste, the chance gets lowered to 25%
+					}
+					if = {
+						limit = {
+							manzoni_writer_close_taste_trigger = yes
+						}
+						add = -14 #In case of the writer is close to the taste, the chance gets lowered to 75%
+					}
+				}
+			}
+			1 = { #Event/Effect 1% Standard chance
+				if = {
+					#In case the Writer has less than 1 bestseller, the correct event is chosen.
+					#Otherwise an effect and notification is fired.
+					limit = {
+						var:manzoni_writer_var.var:manzoni_num_bestsellers_var < 1
+					}
+					if = {
+						#This first check limits the numbers of checks by first checking if a character is historical.
+						#A historical bestseller event gets chosen only if the character is historical...
+						limit = {
+							var:manzoni_writer_var = {
+								is_historical = yes
+							}
+						}
+						#...and has a matching event (checked with the template)
+						if = {
+							limit = {
+								var:manzoni_writer_var = {
+									has_template = manzoni_gbr_doyle_arthur_conan_template
+								}
+							}
+							trigger_event = manzoni.1000
+						}
+						#Otherwise the generic Event is fired
+						else = {
+							trigger_event = manzoni.101
+						}
+					}
+					#Otherwise the generic Event is fired
+					else = {
+						trigger_event = manzoni.101
+					}
+				}
+				#If the character has more than 1 Bestseller already, an effect will be executed and a notification sent.
+				else = {
+					#Adds a Bestseller
+					var:manzoni_writer_var = {
+						manzoni_add_x_bestseller_effect = { AMOUNT = 1 }
+					}
+					#Sends a notification to the player
+
+				}
+
+				modifier = {
+					if = {
+						limit = {
+							manzoni_writer_meets_taste_trigger = yes
+						}
+						add = 74 #In case of the writer meeting the taste, the chance gets lowered to 25%
+					}
+					if = {
+						limit = {
+							manzoni_writer_close_taste_trigger = yes
+						}
+						add = 14 #In case of the writer is close to the taste, the chance gets lowered to 75%
+					}
+				}
+			}
 		}
 	}
 }
