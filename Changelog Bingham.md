@@ -41,14 +41,17 @@ Astronomy:
 - Astrophysics no longer gives a prestige bonus.
 - Changed Astrophysics and Modern Physics JE to Astrophysics only.
 
+Meteorology:
+- Instead of flat tech bonuses, Meterology in the Observatory will give bonuses to agrarian buildings and a small military tech bonus.
+- Added Modern Weather Station in Observatory as new PM. This will use rubber (instead of the weather station)
+
 Physics:
 - Added Modern Physics Tech. In contrast to Astrophysics, this can be researched after Electromagnetism.
 - Seperated Astrophysics and Modern Physics in many events were they were handled as one technology.
 - Added Nuclear Physics Tech. Be careful with that stuff.
 - Added new good: Uranium.
 - Added new building: Uranium mine.
-- Instead of flat tech bonuses, Meterology in the Observatory will give bonuses to agrarian buildings and a small military tech bonus.
-- Added Modern Weather Station in Observatory as new PM. This will use rubber (instead of the weather station)
+- Added new Production Method Group in the Observatory: Institute for Physics. This will give Procudtion Tech Bonus (but will need uranium for the more advanced tiers).
 
 Bugfixes:
 - Historical Science Focuses are now properly removed, if you change the rule.
