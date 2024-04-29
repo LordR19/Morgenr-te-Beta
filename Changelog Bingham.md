@@ -47,7 +47,8 @@ Physics:
 - Added Nuclear Physics Tech. Be careful with that stuff.
 - Added new good: Uranium.
 - Added new building: Uranium mine.
-- Instead of flat tech bonuses, Meteorlogy in the Observatory will give bonuses to agrarian buildings and a small military tech bonus. 
+- Instead of flat tech bonuses, Meterology in the Observatory will give bonuses to agrarian buildings and a small military tech bonus.
+- Added Modern Weather Station in Observatory as new PM. This will use rubber (instead of the weather station)
 
 Bugfixes:
 - Historical Science Focuses are now properly removed, if you change the rule.
