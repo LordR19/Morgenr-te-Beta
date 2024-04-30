@@ -122,8 +122,8 @@ manzoni_add_x_literary_tradition_effect = {
 
 ######ADD LITERARY WORKS & BESTSELLERS######
 
-#Effect to add $AMOUNT$ Literary Works
-manzoni_add_x_literary_works_effect = {
+#Effect to add $AMOUNT$ Literary Works to a character
+manzoni_add_x_literary_works_character_effect = {
 	# Amount = amount of Literary Works Progress to add
 	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
 		name = literary_works_amount
@@ -189,8 +189,56 @@ manzoni_add_x_literary_works_effect = {
 	}
 }
 
+#Effect to add $AMOUNT$ Literary Works to a country
+manzoni_add_x_literary_works_country_effect = {
+	# Amount = amount of Literary Works Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = literary_works_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = manzoni_add_x_literary_works_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = manzoni_add_x_literary_works_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = manzoni_add_x_literary_works_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = manzoni_add_x_literary_works_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = manzoni_add_x_literary_works_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Literary Works to the country
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = manzoni_num_literary_works_country_var
+			}
+		}
+		set_variable = {
+			name = manzoni_num_literary_works_country_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = manzoni_num_literary_works_country_var
+		add = $AMOUNT$
+	}
+}
+
 #Effect to add $AMOUNT$ Bestseller
-manzoni_add_x_bestseller_effect = {
+manzoni_add_x_bestseller_character_effect = {
 	# Amount = amount of Bestsellers Progress to add
 	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
 		name = bestseller_amount
@@ -256,16 +304,67 @@ manzoni_add_x_bestseller_effect = {
 	}
 
 	#Adds the same amount of literary works (because bestsellers are literary works)
-	manzoni_add_x_literary_works_effect = { AMOUNT = $AMOUNT$ }
+	manzoni_add_x_literary_works_character_effect = { AMOUNT = $AMOUNT$ }
 }
 
-#
-manzoni_add_yearly_literary_works = {
+#Effect to add $AMOUNT$ Bestseller
+manzoni_add_x_bestseller_country_effect = {
+	# Amount = amount of Bestsellers Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = bestseller_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = manzoni_add_x_bestsellers_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = manzoni_add_x_bestsellers_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = manzoni_add_x_bestsellers_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = manzoni_add_x_bestsellers_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = manzoni_add_x_bestsellers_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Literary Works to the country
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = manzoni_num_bestsellers_country_var
+			}
+		}
+		set_variable = {
+			name = manzoni_num_bestsellers_country_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = manzoni_num_bestsellers_country_var
+		add = $AMOUNT$
+	}
+
+	#Adds the same amount of literary works (because bestsellers are literary works)
+	manzoni_add_x_literary_works_country_effect = { AMOUNT = $AMOUNT$ }
+}
+
+#Adds yearly literary works to the character
+manzoni_add_yearly_literary_works_character_effect = {
 	if = {
 		limit = { has_trait = manzoni_writer_fiction }
 		random_list = {
 			7 = {
-				manzoni_add_x_literary_works_effect = { AMOUNT = 1 }
+				manzoni_add_x_literary_works_character_effect = { AMOUNT = 1 }
 
 				modifier = {
 					if = {
@@ -286,7 +385,7 @@ manzoni_add_yearly_literary_works = {
 		limit = { has_trait = manzoni_writer_non_fiction }
 		random_list = {
 			5 = {
-				manzoni_add_x_literary_works_effect = { AMOUNT = 1 }
+				manzoni_add_x_literary_works_character_effect = { AMOUNT = 1 }
 
 				modifier = {
 					if = {
@@ -307,7 +406,7 @@ manzoni_add_yearly_literary_works = {
 		limit = { has_trait = manzoni_writer_playwright }
 		random_list = {
 			5 = {
-				manzoni_add_x_literary_works_effect = { AMOUNT = 2 }
+				manzoni_add_x_literary_works_character_effect = { AMOUNT = 2 }
 
 				modifier = {
 					if = {
@@ -322,7 +421,7 @@ manzoni_add_yearly_literary_works = {
 				}
 			}
 			3 = {
-				manzoni_add_x_literary_works_effect = { AMOUNT = 1 }
+				manzoni_add_x_literary_works_character_effect = { AMOUNT = 1 }
 			}
 			2 = {}
 		}
@@ -331,7 +430,7 @@ manzoni_add_yearly_literary_works = {
 		limit = { has_trait = manzoni_writer_poet }
 		random_list = {
 			1 = {
-				manzoni_add_x_literary_works_effect = { AMOUNT = 4 }
+				manzoni_add_x_literary_works_character_effect = { AMOUNT = 4 }
 
 				modifier = {
 					if = {
@@ -346,13 +445,13 @@ manzoni_add_yearly_literary_works = {
 				}
 			}
 			2 = {
-				manzoni_add_x_literary_works_effect = { AMOUNT = 3 }
+				manzoni_add_x_literary_works_character_effect = { AMOUNT = 3 }
 			}
 			2 = {
-				manzoni_add_x_literary_works_effect = { AMOUNT = 2 }
+				manzoni_add_x_literary_works_character_effect = { AMOUNT = 2 }
 			}
 			2 = {
-				manzoni_add_x_literary_works_effect = { AMOUNT = 1 }
+				manzoni_add_x_literary_works_character_effect = { AMOUNT = 1 }
 			}
 			3 = {}
 		}
@@ -1011,7 +1110,7 @@ manzoni_bestseller_event_or_effect_chooser_effect = {
 	else = {
 		#Adds a Bestseller
 		scope:manzoni_writer_scope = {
-			manzoni_add_x_bestseller_effect = { AMOUNT = 1 }
+			manzoni_add_x_bestseller_character_effect = { AMOUNT = 1 }
 		}
 		#Sends a notification to the player
 		post_notification = manzoni_bestseller_notification
