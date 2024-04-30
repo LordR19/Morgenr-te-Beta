@@ -3334,6 +3334,35 @@ create_new_writer_effect = {
 
 			set_global_variable = mr_doyle_created_global_var
 		}
+		4 = { #J.R.R. Tolkien, Great Britain
+			trigger = {
+				NOT = { has_global_variable = mr_tolkien_created_global_var }
+				has_state_in_state_region = STATE_HOME_COUNTIES
+				NOT = {
+					cu:british = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1947.1.3 #Age 55
+				year >= 1916 #Sometime around this year he really started working on the basics of Middle Earth
+			}
+			create_character = {
+				template = manzoni_gbr_tolkien_jrr_template
+				save_scope_as = manzoni_new_writer_scope
+			}
+			scope:manzoni_new_writer_scope = {
+				set_variable = mr_is_writer_var
+				writer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = manzoni_new_writer_var
+				value = scope:manzoni_new_writer_scope
+			}
+
+			set_global_variable = mr_tolkien_created_global_var
+		}
 		1 = { #Random Writer
 			random_list = {
 				5 = {
