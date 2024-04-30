@@ -1,5 +1,8 @@
 Changelog for 2.1.4 "Bingham"
 
+Characters:
+- J.R.R Tolkien (British Writer)
+
 Archaeology:
 - Added four new technologies: Egyptology, Assyriology, Aegean Archaeology, Pre-Columbian Archaeology.
 - One of these techs can be chosen via JE to specialize a nation in one archaeological field.
