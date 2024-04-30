@@ -157,14 +157,51 @@ verrier_can_update_observatory_pms_alert = {
 		}
 		any_scope_state = {
 			OR = {
-				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_verrier_modern_telescope }
-				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_verrier_spectroscopy }
+				#Telescope
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_verrier_modern_telescope }
+					NOT = {
+						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_verrier_astro_lab }
+					}
+				}
 				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_verrier_astro_lab }
+				
+				#Physics
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curie_physics_electromagnetism }
+					NOR = {
+						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curie_physics_modern }
+						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curie_physics_nuclear }
+					}
+				}
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curie_physics_modern }
+					NOT = { is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curie_physics_nuclear } }
+				}
+				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curie_physics_nuclear }
+				
+				#Chemistry
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_mendelejew_chemistry }
+					NOT = {
+						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_mendelejew_spectroscopy }
+					}
+				}
+				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_mendelejew_spectroscopy }
+				
+				#Weather Station
 				AND = {
 					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curtiss_early_weather_observation }
-					NOT = { is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curtiss_weather_station } }
+					NOR = {
+						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curtiss_weather_station }
+						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curtiss_modern_weather_station }
+					}
 				}
-				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curtiss_weather_station }
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curtiss_weather_station }
+					NOT = { is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curtiss_modern_weather_station } }
+				}
+				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curtiss_modern_weather_station }
 			}
 		}
 	}
