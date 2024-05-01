@@ -17,20 +17,14 @@ namespace = manzoni
 #Manzoni 10: A new Publisher
 
 ### National Writer Events ###
-#Manzoni 100: [Work Title], a true masterwork
-#Manzoni 101: [Work Title] lauded by critics!
-#Manzoni 102: [Work Title] published
-#Manzoni 103: [Work Title] ripped apart by critics
-
-### Local Writer Events ###
-#Manzoni 201: [Work Title] published (Masterwork of local writer that has the same genre as taste)
-#Manzoni 202: [Work Title] published (Masterwork of local writer that has a similar genre as taste)
+#Manzoni 101: [Work Title] published (Masterwork event)
 
 ### Publisher & Writers Events ###
 #Manzoni 301: Bibliomania
 
 ### Great Britain ###
 # Manzoni 1000: Sherlock Holmes published
+# Manzoni 1001: The Hobbit or There and Back Again
 
 ### Switzerland ###
 #Manzoni 1100: Heidi published
@@ -597,7 +591,7 @@ manzoni.14 = {
 
 ################################################################################
 
-#Manzoni 101: [Work Title] published (Masterwork of national writer that has the same genre as taste)
+#Manzoni 101: [Work Title] published (Masterwork event)
 manzoni.101 = {
 	dlc = dlc_morgenrote
 
@@ -3039,12 +3033,53 @@ manzoni.1000 = {
 		var:manzoni_writer_var = {
 			save_scope_as = manzoni_writer_scope
 			manzoni_check_character_crime_mystery_effect = yes
-			manzoni_randomize_bestseller_title_effect = yes
 		}
 	}
 
 	option = { #Elementary, my dear Watson.
 		name = manzoni.1000.a
+		default_option = yes
+
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
+		scope:manzoni_writer_scope = {
+			void_writer_experience_gain_effect = { AMOUNT = 50 }
+			manzoni_add_x_bestseller_character_effect = { AMOUNT = 1 }
+		}
+	}
+}
+
+# Manzoni 1001: The Hobbit or There and Back Again
+manzoni.1001 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.1001.t
+	desc = manzoni.1001.d
+	flavor = manzoni.1001.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+	}
+
+	option = { #What an amazing world he created!
+		name = manzoni.1001.g
 		default_option = yes
 
 		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
