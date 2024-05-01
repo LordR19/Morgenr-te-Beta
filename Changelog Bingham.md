@@ -2,6 +2,7 @@ Changelog for 2.1.4 "Bingham"
 
 Characters:
 - J.R.R Tolkien (British Writer)
+- 1 Easter Egg Character
 
 Archaeology:
 - Added four new technologies: Egyptology, Assyriology, Aegean Archaeology, Pre-Columbian Archaeology.
