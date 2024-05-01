@@ -5,6 +5,7 @@ Characters:
 - J.R.R Tolkien (randim British Writer)
 - Edgar Allen Poe (random American Writer)
 - Selma Lagerlöf (random Swedish Writer)
+- August Strindberg (random Swedish Writer)
 - 1 Easter Egg Character
 
 Archaeology:
