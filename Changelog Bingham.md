@@ -2,7 +2,9 @@ Changelog for 2.1.4 "Bingham"
 
 Characters:
 - Jules Verne (random French Writer)
-- J.R.R Tolkien (British Writer)
+- J.R.R Tolkien (randim British Writer)
+- Edgar Allen Poe (random American Writer)
+- Selma Lagerlöf (random Swedish Writer)
 - 1 Easter Egg Character
 
 Archaeology:
