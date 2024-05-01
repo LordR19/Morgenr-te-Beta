@@ -51,9 +51,6 @@ namespace = manzoni
 #Manzoni 1304: Heinrich Heine, Weberlied
 #Manzoni 1305: Gerhart Hauptmann, Die Weber
 
-### France ###
-#Manzoni 1400: Le Tour du monde en quatre-vingts jours
-
 ###################
 
 #Manzoni 2: The audience changes its taste (hidden)
@@ -645,6 +642,48 @@ manzoni.101 = {
 	}
 }
 
+#Manzoni 102: [Work Title] published (Masterwork event)
+manzoni.102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.102.t
+	desc = manzoni.102.d
+	flavor = manzoni.102.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+		scope:manzoni_writer_scope = {
+			add_trait = manzoni_universal_writer
+		}
+	}
+
+	option = { #Fantastic
+		name = manzoni.102.g
+		default_option = yes
+
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 35 }
+		manzoni_writer_experience_gain_effect = { AMOUNT = 50 }
+	}
+}
+
 ################################################################################
 
 ### Publisher & Writers Events ###
@@ -1203,6 +1242,24 @@ manzoni.321 = {
 				post_notification = manzoni_book_license_notification
 				manzoni_add_x_literary_tradition_effect = { AMOUNT = 5 }
 				writer_experience_gain_effect = { AMOUNT = 25 }
+			}
+			scope:manzoni_writer_scope = {
+				manzoni_add_x_book_license_character_effect = { AMOUNT = 1 }
+			}
+			if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						var:manzoni_num_book_licenses_var >= 5
+						NOT = {
+							has_trait = manzoni_universal_writer
+						}
+					}
+				}
+				scope:manzoni_country_scope = {
+					trigger_event = {
+						id = manzoni.102
+					}
+				}
 			}
 		}
 	}
@@ -4906,48 +4963,5 @@ manzoni.1305 = {
 	}
 
 	after = {
-	}
-}
-
-### France ###
-#Manzoni 1400: Le Tour du monde en quatre-vingts jours
-manzoni.1400 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-	placement = ROOT
-
-	title = manzoni.1400.t
-	desc = manzoni.1400.d
-	flavor = manzoni.1400.f
-
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:manzoni_writer_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_literature.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-		var:manzoni_writer_var = {
-			save_scope_as = manzoni_writer_scope
-		}
-	}
-
-	option = { #I wonder if one day we will get around the world in a day?
-		name = manzoni.1400.g
-		default_option = yes
-
-		manzoni_add_x_literary_tradition_effect = { AMOUNT = 25 }
-		scope:manzoni_writer_scope = {
-			void_writer_experience_gain_effect = { AMOUNT = 50 }
-			manzoni_add_x_bestseller_character_effect = { AMOUNT = 1 }
-		}
 	}
 }
