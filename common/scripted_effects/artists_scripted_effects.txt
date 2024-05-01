@@ -3300,6 +3300,35 @@ set_writer_local_writer_effect = {
 #Therefore a Variable is set to save the scope again. then gets deleted
 create_new_writer_effect = {
 	random_list = {
+		4 = { #Jules Verne, France
+			trigger = {
+				NOT = { has_global_variable = mr_verne_created_global_var }
+				has_state_in_state_region = STATE_BRITTANY
+				NOT = {
+					cu:french = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1883.2.8 #Age 55
+				year >= 1847 #First longer stories
+			}
+			create_character = {
+				template = mr_fra_verne_jules_character_template
+				save_scope_as = manzoni_new_writer_scope
+			}
+			scope:manzoni_new_writer_scope = {
+				set_variable = mr_is_writer_var
+				writer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = manzoni_new_writer_var
+				value = scope:manzoni_new_writer_scope
+			}
+
+			set_global_variable = mr_verne_created_global_var
+		}
 		4 = { #Arthur Conan Doyle, Great Britain
 			trigger = {
 				NOT = { has_global_variable = mr_doyle_created_global_var }
@@ -3317,7 +3346,7 @@ create_new_writer_effect = {
 				year >= 1886 #Age 25
 			}
 			create_character = {
-				template = manzoni_gbr_doyle_arthur_conan_template
+				template = manzoni_gbr_doyle_arthur_conan_character_template
 				save_scope_as = manzoni_new_writer_scope
 			}
 			scope:manzoni_new_writer_scope = {
@@ -3347,7 +3376,7 @@ create_new_writer_effect = {
 				year >= 1916 #Sometime around this year he really started working on the basics of Middle Earth
 			}
 			create_character = {
-				template = manzoni_gbr_tolkien_jrr_template
+				template = manzoni_gbr_tolkien_jrr_character_template
 				save_scope_as = manzoni_new_writer_scope
 			}
 			scope:manzoni_new_writer_scope = {
