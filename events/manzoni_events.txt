@@ -1020,7 +1020,461 @@ manzoni.311 = {
 	}
 }
 
+#Manzoni 312: A publisher critical of the government
+manzoni.312 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.312.t
+
+	desc = manzoni.312.d
+
+	flavor = manzoni.312.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookshop.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		manzoni_has_printing_industry = yes
+	}
+
+	immediate = {
+		random_scope_building = {
+			limit = {
+				is_building_type = building_manzoni_publishing_industry
+			}
+			save_scope_as = manzoni_publishing_industry_building
+			state = {
+				save_scope_as = manzoni_book_state
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.312.g #A few administrative acts could make their business more difficult.
+		default_option = yes
+		scope:manzoni_publishing_industry_building = {
+			add_modifier = {
+				name = manzoni_puplisher_stipulations_modifier
+				years = 5
+			}
+		}
+		every_interest_group = {
+			limit = {
+				is_in_government = no
+			}
+			add_modifier = {
+				name = manzoni_political_headwind_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.312.h #We don't need dirty tricks like that.
+		manzoni_add_x_publications_country_effect = { AMOUNT = 50 }
+		every_interest_group = {
+			limit = {
+				is_in_government = no
+			}
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
 #Manzoni 321-330: Contracts and Success of Artists
+
+#Manzoni 321: Publisher gets Book License
+manzoni.321 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.321.t
+
+	desc = manzoni.321.d
+
+	flavor = manzoni.321.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookshop.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		manzoni_has_printing_industry = yes
+		manzoni_writer_meets_taste_trigger = no
+		any_country = {
+			has_diplomatic_relevance = ROOT
+			manzoni_has_writer = yes
+			var:manzoni_writer_var ?= {
+				manzoni_foreign_writer_meets_taste_trigger = yes
+			}
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_relevance = ROOT
+				manzoni_has_writer = yes
+				var:manzoni_writer_var ?= {
+					manzoni_foreign_writer_meets_taste_trigger = yes
+				}
+			}
+			save_scope_as = manzoni_country_scope
+			var:manzoni_writer_var = {
+				save_scope_as = manzoni_writer_scope
+			}
+		}
+		create_character = {
+			save_scope_as = manzoni_publisher_scope
+		}
+		scope:manzoni_publisher_scope = {
+			place_character_in_void = 120
+		}
+		random_primary_culture = {
+			limit = {
+				has_cultural_obsession = manzoni_prints
+			}
+			save_scope_as = print_addict_culture
+		}
+	}
+
+	option = {
+		name = manzoni.321.g #But why don't people read works by domestic authors?
+		default_option = yes
+		manzoni_add_x_publications_country_effect = { AMOUNT = 15 }
+		add_modifier = {
+			name = manzoni_thriving_book_industry_modifier
+		}
+		if = {
+			limit = {
+				any_primary_culture = {
+					has_cultural_obsession = manzoni_prints
+				}
+			}
+			scope:print_addict_culture = {
+				add_loyalists = {
+					value = 0.03
+				}
+			}
+		}
+		writer_experience_gain_effect = { AMOUNT = -5 }
+	}
+
+	after = {
+		hidden_effect = {
+			scope:manzoni_country_scope = {
+				post_notification = manzoni_book_license_notification
+				manzoni_add_x_literary_tradition_effect = { AMOUNT = 5 }
+				writer_experience_gain_effect = { AMOUNT = 25 }
+			}
+		}
+	}
+}
+
+#Manzoni 322: Foreign Pulp literature
+manzoni.322 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.322.t
+
+	desc = manzoni.322.d
+
+	flavor = manzoni.322.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookclub.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+		manzoni_has_printing_industry = yes
+		any_country = {
+			has_diplomatic_relevance = ROOT
+			manzoni_has_writer = yes
+			var:manzoni_writer_var ?= {
+				NOT = {
+					has_trait = manzoni_great_writer
+				}
+				OR = {
+					has_trait = manzoni_genre_crime_mystery
+					has_trait = manzoni_genre_romance
+					has_trait = manzoni_genre_juvenile
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_diplomatic_relevance = ROOT
+				manzoni_has_writer = yes
+				var:manzoni_wirter_var ?= {
+					NOT = {
+						has_trait = manzoni_great_writer
+					}
+					OR = {
+						has_trait = manzoni_genre_crime_mystery
+						has_trait = manzoni_genre_romance
+						has_trait = manzoni_genre_juvenile
+					}
+				}
+			}
+			save_scope_as = manzoni_country_scope
+			var:manzoni_writer_var = {
+				save_scope_as = manzoni_writer_scope
+			}
+		}
+		random_primary_culture = {
+			limit = {
+				has_cultural_obsession = manzoni_prints
+			}
+			save_scope_as = print_addict_culture
+		}
+	}
+
+	option = {
+		name = manzoni.322.g #Ban this foreign trash!
+		default_option = yes
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 10 }
+		add_modifier = {
+			name = manzoni_censorship_machinery_modifier
+			years = 5
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_protected_speech
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = manzoni_pulp_literature_banned_modifier
+				years = 5
+			}
+		}
+		if = {
+			limit = {
+				any_primary_culture = {
+					has_cultural_obsession = manzoni_prints
+				}
+			}
+			scope:print_addict_culture = {
+				add_radicals = {
+					value = 0.01
+				}
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.322.h #If people want to read it then it can't be that bad.
+		manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = -25 }
+		manzoni_add_x_publications_country_effect = { AMOUNT = 50 }
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_protected_speech
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = manzoni_pulp_literature_allowed_modifier
+				years = 5
+			}
+		}
+		if = {
+			limit = {
+				any_primary_culture = {
+					has_cultural_obsession = manzoni_prints
+				}
+			}
+			scope:print_addict_culture = {
+				add_loyalists = {
+					value = 0.01
+				}
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			scope:manzoni_country_scope = {
+				post_notification = manzoni_book_license_notification
+				manzoni_add_x_literary_tradition_effect = { AMOUNT = 5 }
+				writer_experience_gain_effect = { AMOUNT = 25 }
+			}
+		}
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
+
+#Manzoni 323: Pirated Copies
+manzoni.323 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.323.t
+
+	desc = manzoni.323.d
+
+	flavor = manzoni.323.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_bookshop.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = 15
+	}
+
+	trigger = {
+		manzoni_has_printing_industry = yes
+		any_country = {
+			country_rank > rank_value:major_power
+			has_diplomatic_relevance = ROOT
+			manzoni_has_great_writer = yes
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				country_rank > rank_value:major_power
+				has_diplomatic_relevance = ROOT
+				manzoni_has_great_writer = yes
+			}
+			save_scope_as = manzoni_country_scope
+			var:manzoni_writer_var = {
+				save_scope_as = manzoni_writer_scope
+			}
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_manzoni_publishing_industry
+			}
+			save_scope_as = manzoni_publishing_industry_building
+			state = {
+				save_scope_as = manzoni_book_state
+			}
+		}
+		random_primary_culture = {
+			limit = {
+				has_cultural_obsession = manzoni_prints
+			}
+			save_scope_as = print_addict_culture
+		}
+	}
+
+	option = {
+		name = manzoni.323.g #Stop the printing presses until a contract is negotiated.
+		default_option = yes
+		manzoni_add_x_publications_country_effect = { AMOUNT = -20 }
+		change_infamy = -3
+		scope:manzoni_country_scope = {
+			change_relations = {
+				country = ROOT 
+				value = 10
+			}
+		}
+		scope:manzoni_publishing_industry_building = {
+			add_modifier = {
+				name = manzoni_stopped_pirated_copies_modifier
+				years = 5
+			}
+		}
+		if = {
+			limit = {
+				any_primary_culture = {
+					has_cultural_obsession = manzoni_prints
+				}
+			}
+			scope:print_addict_culture = {
+				add_radicals = {
+					value = 0.01
+				}
+			}
+		}
+	}
+
+	option = {
+		name = manzoni.322.h #Literature is for everyone.
+		change_infamy = 3
+		scope:manzoni_country_scope = {
+			change_relations = {
+				country = ROOT 
+				value = -10
+			}
+		}
+		if = {
+			limit = {
+				any_primary_culture = {
+					has_cultural_obsession = manzoni_prints
+				}
+			}
+			scope:print_addict_culture = {
+				add_loyalists = {
+					value = 0.01
+				}
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			scope:manzoni_country_scope = {
+				post_notification = manzoni_book_license_notification
+				manzoni_add_x_literary_tradition_effect = { AMOUNT = 5 }
+				writer_experience_gain_effect = { AMOUNT = 25 }
+			}
+		}
+		scope:manzoni_publisher_scope = {
+			free_character_from_void = no
+		}
+	}
+}
 
 ################################################################################
 
