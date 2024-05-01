@@ -43,10 +43,18 @@ Natural History:
 Astronomy:
 - Astrophysics no longer gives a prestige bonus.
 - Changed Astrophysics and Modern Physics JE to Astrophysics only.
+- The observatory now has workers again due to problems with input resources and output bonuses.
+- Complete redesign of the observatory for the future in the areas of astronomy, physics, chemistry, meteorology and geomagnetism.
+- The Astrolab is now the final stage of the Observatory's astronomy division rather than its own production methods group.
+- (Almost) All PMs in the Observatory now cost goods.
+- Annual astronomical objects are now no longer calculated based on technology alone, but also whether the associated Astronomy PMs are switched on. For example, an active Modern Telescope now gives +5 Astronomical Objects per year, instead of just researching Modern Astronomy.
 
 Meteorology:
 - Instead of flat tech bonuses, Meterology in the Observatory will give bonuses to agrarian buildings and a small military tech bonus.
-- Added Modern Weather Station in Observatory as new PM. This will use rubber (instead of the weather station)
+- Added Modern Weather Station in Observatory as new PM. This will use rubber (instead of the weather station).
+
+Chemistry:
+- Added a Chemistry Lab PMG in the Observatory. This is still WIP and will be expanded later.
 
 Physics:
 - Added Modern Physics Tech. In contrast to Astrophysics, this can be researched after Electromagnetism.
