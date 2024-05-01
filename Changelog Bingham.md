@@ -1,6 +1,7 @@
 Changelog for 2.1.4 "Bingham"
 
 Characters:
+- Jules Verne (random French Writer)
 - J.R.R Tolkien (British Writer)
 - 1 Easter Egg Character
 
