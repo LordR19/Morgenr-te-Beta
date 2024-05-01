@@ -164,7 +164,12 @@ verrier_can_update_observatory_pms_alert = {
 						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_verrier_astro_lab }
 					}
 				}
-				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_verrier_astro_lab }
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_verrier_astro_lab }
+					sg:electricity = { 
+						state_goods_production > 0
+					}
+				}
 				
 				#Physics
 				AND = {
@@ -177,8 +182,26 @@ verrier_can_update_observatory_pms_alert = {
 				AND = {
 					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curie_physics_modern }
 					NOT = { is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curie_physics_nuclear } }
+					market ?= {
+						mg:curie_uranium ?= {
+							market_goods_sell_orders > 0
+						}
+					}
+					sg:electricity = { 
+						state_goods_production > 0
+					}
 				}
-				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curie_physics_nuclear }
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curie_physics_nuclear }
+					market ?= {
+						mg:curie_uranium ?= {
+							market_goods_sell_orders > 0
+						}
+					}
+					sg:electricity = { 
+						state_goods_production > 0
+					}
+				}
 				
 				#Chemistry
 				AND = {
@@ -186,8 +209,20 @@ verrier_can_update_observatory_pms_alert = {
 					NOT = {
 						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_mendelejew_spectroscopy }
 					}
+					market ?= {
+						mg:sulfur ?= {
+							market_goods_sell_orders > 0
+						}
+					}
 				}
-				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_mendelejew_spectroscopy }
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_mendelejew_spectroscopy }
+					market ?= {
+						mg:sulfur ?= {
+							market_goods_sell_orders > 0
+						}
+					}
+				}
 				
 				#Weather Station
 				AND = {
@@ -201,7 +236,14 @@ verrier_can_update_observatory_pms_alert = {
 					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curtiss_weather_station }
 					NOT = { is_production_method_active = { building_type = building_verrier_observatory production_method = pm_curtiss_modern_weather_station } }
 				}
-				can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curtiss_modern_weather_station }
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_curtiss_modern_weather_station }
+					market ?= {
+						mg:rubber ?= {
+							market_goods_sell_orders > 0
+						}
+					}
+				}
 			}
 		}
 	}
