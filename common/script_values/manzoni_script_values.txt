@@ -303,6 +303,64 @@ local_writer_experience_gain_value = {
 	}
 }
 
+############################################################################
+
+#This value calculates the amount of publications of a country depending on the amount of Publishing industries and other factors
+manzoni_yearly_publications_value = {
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+			}
+		}
+
+		every_scope_building = {
+			limit = {
+				is_building_type = building_manzoni_publishing_industry
+			}
+			add = level
+
+			if = {
+				limit = {
+					has_active_production_method = manzoni_pm_publisher_public
+				}
+				add = level
+			}
+			
+		}
+
+		multiply = { 10 15 }
+	}
+
+	add = { 0 10 } #There are publications even without a publishing industry
+	if = {
+		limit = {
+			literacy_rate >= 0.5
+		}
+		add = { 0 5 }
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {
+				target = bt:building_government_administration
+				value  >= 20
+			}
+		}
+		add = { 0 5 }
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {
+				target = bt:building_university
+				value  >= 5
+			}
+		}
+		add = { 0 5 }
+	}
+}
+
+############################################################################
+
 #Original Values by kaznoko for PBI
 manzoni_publishing_industry_literacy_rate = 0.2
 manzoni_historical_literature_literacy_rate = 0.2
