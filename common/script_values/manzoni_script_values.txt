@@ -362,22 +362,70 @@ manzoni_yearly_publications_value = {
 ############################################################################
 
 #This value calculates the amount of yearly tradition you get from your national writer
-manzoni_yearly_tradition_from_national_writer_value = {
-	value = 1
+manzoni_yearly_literary_tradition_value = {
+	#A National writer gives a base of 1 Literary Tradition.
+	if = {
+		limit = { has_variable = manzoni_writer_var }
+		value = 1
 
-	if = {
-		limit = {
-			manzoni_writer_meets_taste_trigger = yes
+		#If the writer fits the taste it adds 2 literary tradition
+		if = {
+			limit = {
+				manzoni_writer_meets_taste_trigger = yes
+			}
+			add = 2
 		}
-		add = 2
+		#If the taste is close to the genre +1
+		else_if = {
+			limit = {
+				manzoni_writer_close_taste_trigger = yes
+			}
+			add = 1
+		}
+		#A great writer adds +2
+		if = {
+			limit = {
+				var:manzoni_writer_var ?= {
+					var:manzoni_writer_experience >= 500
+				}
+			}
+			add = 2
+		}
 	}
+
+	#Local Writers
+	if = {
+		limit = { has_variable_list = mr_local_writers_list }
+		every_in_list = {
+			limit = {
+				OR = {
+					manzoni_local_writer_meets_taste_trigger = yes
+				}
+			}
+			add = 1
+		}
+	}
+
+	#Literary Salon
 	if = {
 		limit = {
-			var:manzoni_writer_var ?= {
-				var:manzoni_writer_experience >= 500
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				has_active_production_method = pm_artists_arts_academy_salon
 			}
 		}
-		add = 2
+		add = 1
+	}
+	
+	#Literary Salon
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_publisher_literary
+			}
+		}
+		add = 1
 	}
 }
 
