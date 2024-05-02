@@ -1115,6 +1115,63 @@ manzoni_remove_taste_effect = {
 	remove_variable = manzoni_taste_romance_var
 }
 
+######NEWSPAPER NOVEL#######
+
+set_manzoni_newspaper_novel_state_effect = {
+	if = {
+		limit = {
+			any_scope_state = {
+				is_capital = yes
+				has_building = building_manzoni_publishing_industry
+			}
+		}
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			set_variable = pbi_flag_bestseller_target
+		}
+	}
+	else = {
+		random_scope_state = {
+			limit = {
+				has_building = building_manzoni_publishing_industry
+			}
+			set_variable = pbi_flag_bestseller_target
+		}
+	}
+}
+
+manzoni_newspaper_novel_state_effect = {
+	random_scope_state = {
+		limit = {
+			has_variable = pbi_flag_bestseller_target
+		}
+		save_scope_as = target_state
+	}
+}
+
+remove_manzoni_newspaper_novel_state_effect = {
+	every_scope_state = {
+		limit = {
+			has_variable = pbi_flag_bestseller_target
+		}
+		remove_variable = pbi_flag_bestseller_target
+	}
+}
+
+manzoni_newspaper_novel_effect = {
+	random_scope_state = {
+		limit = {
+			has_variable = pbi_flag_bestseller_target
+		}
+		save_scope_as = target_state
+	}
+	var:manzoni_writer_var = {
+		save_scope_as = target_character
+	}
+}
+
 ##############################
 
 ###Local Writer Effects###
