@@ -3371,6 +3371,75 @@ set_writer_local_writer_effect = {
 	}
 }
 
+#This effect makes the local writer an agitator
+set_writer_to_agitator_character_scope_effect = {
+	custom_tooltip = {
+		text = set_writer_local_writer_effect_tt
+		subject = this
+
+		#Frees the character from the void.
+		free_character_from_void = yes
+
+		#Removes all roles and adds the agitator role.
+		if = {
+			limit = {
+				NOT = { has_role = agitator }
+			}
+			add_character_role = agitator
+		}
+		if = {
+			limit = {
+				has_role = general
+			}
+			remove_character_role = general
+		}
+		if = {
+			limit = {
+				has_role = admiral
+			}
+			remove_character_role = admiral
+		}
+		if = {
+			limit = {
+				has_role = politician
+			}
+			set_as_interest_group_leader = no
+			remove_character_role = politician
+		}
+
+		#If this is the national writer, the variable containing him gets removed.
+		if = {
+			limit = {
+				root.var:manzoni_writer_var ?= this
+			}
+			#Removes writer character variable
+			remove_variable = mr_is_writer_var
+
+			#Removes the writer variable
+			root = {
+				remove_variable = manzoni_writer_var
+			}
+		}
+
+		#If the writer is a local writer they get removed from the pool
+		if = {
+			limit = {
+				has_variable = mr_is_local_writer_var
+			}
+			#Removes the local writer character variable
+			remove_variable = mr_is_local_writer_var
+
+			#Removes the local writer from the list
+			root = {
+				remove_list_variable = {
+					name = mr_local_writers_list
+					target = prev
+				}
+			}
+		}
+	}
+}
+
 # Creates a new Writer without losing the old one
 #This one was a little harder as the scope was only valid in the random_list
 #Therefore a Variable is set to save the scope again. then gets deleted
