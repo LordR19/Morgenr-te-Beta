@@ -2,6 +2,7 @@ Changelog for 2.1.4 "Bingham"
 
 Characters:
 - Franz Kafka (random Austrian Writer)
+- Hans Christian Andersen (Danish Writer)
 - Jules Verne (random French Writer)
 - J.R.R Tolkien (randim British Writer)
 - H.G. Wells (random British Writer)
