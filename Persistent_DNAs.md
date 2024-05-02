@@ -47217,7 +47217,7 @@ mr_usa_poe_edgar_allen={
 	entity={ 0 0 }
 }
 
-mr_GBR_wells_hg={
+mr_gbr_wells_hg={
 	type=male
 	id=0
 	age=0.400000
