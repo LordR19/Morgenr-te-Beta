@@ -22,6 +22,12 @@ namespace = manzoni
 ### Publisher & Writers Events ###
 #Manzoni 301: Bibliomania
 
+### Political Events ###
+### National Writers
+# Manzoni 400: [Writer] critical of our government
+
+### Local Writers ###
+
 ### Great Britain ###
 # Manzoni 1000: Sherlock Holmes published
 # Manzoni 1001: The Hobbit or There and Back Again
@@ -3530,6 +3536,60 @@ manzoni.928 = {
 				}
 			}
 		}
+	}
+}
+
+###################
+
+### Political Events ###
+
+### National Writers
+# Manzoni 400: [Writer] critical of our government
+manzoni.400 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.400.t
+	desc = manzoni.400.d
+	flavor = manzoni.400.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		NOT = { has_variable = manzoni_writer_warned_government_var }
+		var:manzoni_writer_var ?= {
+			interest_group = {
+				OR = {
+					is_being_suppressed = yes
+					ig_approval < -2
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+
+		set_variable = manzoni_writer_warned_government_var
+	}
+
+	option = { #Maybe we should change something...
+		name = manzoni.400.a
+		default_option = yes
+
+		#TODO: Add Tooltip
 	}
 }
 
