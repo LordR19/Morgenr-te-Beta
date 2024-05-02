@@ -3582,7 +3582,10 @@ manzoni.400 = {
 			save_scope_as = manzoni_writer_scope
 		}
 
-		set_variable = manzoni_writer_warned_government_var
+		set_variable = {
+			name = manzoni_writer_warned_government_var
+			years = 2
+		}
 	}
 
 	option = { #Maybe we should change something...
@@ -3590,6 +3593,53 @@ manzoni.400 = {
 		default_option = yes
 
 		#TODO: Add Tooltip
+	}
+}
+# Manzoni 401: [Writer] is no longer a National Writer
+manzoni.401 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.401.t
+	desc = manzoni.401.d
+	flavor = manzoni.401.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		has_variable = manzoni_writer_warned_government_var
+		var:manzoni_writer_var ?= {
+			interest_group = {
+				OR = {
+					is_being_suppressed = yes
+					ig_approval < -2
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+	}
+
+	option = { #Oh no! Anyways!
+		name = manzoni.401.a
+		default_option = yes
+
+		set_writer_local_writer_effect = yes
+		remove_variable = manzoni_writer_warned_government_var
 	}
 }
 
