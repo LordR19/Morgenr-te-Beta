@@ -6,9 +6,10 @@ Characters:
 - Jules Verne (random French Writer)
 - J.R.R Tolkien (randim British Writer)
 - H.G. Wells (random British Writer)
-- Edgar Allen Poe (random American Writer)
+- Bram Stocker (random Irish Writer)
 - Selma Lagerlöf (random Swedish Writer)
 - August Strindberg (random Swedish Writer)
+- Edgar Allen Poe (American Writer)
 - 1 Easter Egg Character
 
 Archaeology:
