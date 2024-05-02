@@ -25,8 +25,10 @@ namespace = manzoni
 ### Political Events ###
 ### National Writers
 # Manzoni 400: [Writer] critical of our government
+# Manzoni 401: [Writer] is no longer a National Writer
 
 ### Local Writers ###
+# Manzoni 500: [Writer] fed up with government
 
 ### Great Britain ###
 # Manzoni 1000: Sherlock Holmes published
@@ -3641,6 +3643,61 @@ manzoni.401 = {
 
 		set_writer_local_writer_effect = yes
 		remove_variable = manzoni_writer_warned_government_var
+	}
+}
+
+### Local Writers ###
+# Manzoni 500: [Writer] fed up with government
+manzoni.500 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.500.t
+	desc = manzoni.500.d
+	flavor = manzoni.500.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		has_variable = manzoni_writer_warned_government_var
+		var:manzoni_writer_var ?= {
+			interest_group = {
+				OR = {
+					is_being_suppressed = yes
+					ig_approval < -2
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+	}
+
+	option = { #Fine!
+		name = manzoni.500.g
+		default_option = yes
+
+		
+	}
+
+	option = { #Do everything possible to stop [HerHim]!
+		name = manzoni.500.g
+		default_option = yes
+
+		
 	}
 }
 
