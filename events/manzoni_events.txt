@@ -3669,20 +3669,36 @@ manzoni.500 = {
 	icon = "gfx/interface/icons/event_icons/event_literature.dds"
 
 	trigger = {
-		has_variable = manzoni_writer_warned_government_var
-		var:manzoni_writer_var ?= {
+		any_in_list = {
+			variable = mr_local_writers_list
+
+			popularity >= 40
 			interest_group = {
 				OR = {
 					is_being_suppressed = yes
-					ig_approval < -2
+					ig_approval <= -5
 				}
 			}
 		}
 	}
 
 	immediate = {
-		var:manzoni_writer_var = {
+		random_in_list = {
+			variable = mr_local_writers_list
+			limit = {
+				popularity >= 40
+				interest_group = {
+					OR = {
+						is_being_suppressed = yes
+						ig_approval <= -5
+					}
+				}
+			}
+
 			save_scope_as = manzoni_writer_scope
+			interest_group = {
+				save_scope_as = manzoni_writer_ig_scope
+			}
 		}
 	}
 
@@ -3690,14 +3706,42 @@ manzoni.500 = {
 		name = manzoni.500.g
 		default_option = yes
 
-		
+		#Makes the Writer become an agitator
+		scope:manzoni_writer_scope = {
+			set_writer_to_agitator_character_scope_effect = yes
+		}
 	}
 
 	option = { #Do everything possible to stop [HerHim]!
 		name = manzoni.500.g
-		default_option = yes
 
+		#Makes the interest group even more angry
+		scope:manzoni_writer_ig_scope = {
+			add_modifier = {
+				name = manzoni_did_not_allow_writer_become_agitator_modifier
+				years = 5
+				is_decaying = yes
+			}
+		}
 		
+		#Adds Radicals to a primary culture that has an obsession for prints
+		if = {
+			limit = {
+				any_primary_culture = {
+					has_cultural_obsession = manzoni_prints
+				}
+			}
+			random_primary_culture = {
+				limit = { has_cultural_obsession = manzoni_prints }
+			}
+			add_radicals = {
+				value = 0.03
+			}
+		}
+
+		ai_chance = {
+			base = 0
+		}
 	}
 }
 
