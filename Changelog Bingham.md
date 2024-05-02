@@ -3,6 +3,7 @@ Changelog for 2.1.4 "Bingham"
 Characters:
 - Jules Verne (random French Writer)
 - J.R.R Tolkien (randim British Writer)
+- H.G. Wells (random British Writer)
 - Edgar Allen Poe (random American Writer)
 - Selma Lagerlöf (random Swedish Writer)
 - August Strindberg (random Swedish Writer)
