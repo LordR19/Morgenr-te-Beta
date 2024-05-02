@@ -3195,6 +3195,52 @@ mr_acquire_masterwork_button = {
 	}
 }
 
+###Writer###
+
+mr_newspaper_novel_button = {
+	name = "mr_newspaper_novel_button"
+	desc = "mr_newspaper_novel_button_desc"
+
+	visible = { 
+		always = yes
+	}
+
+	possible = {
+		has_technology_researched = realism
+		any_scope_building = {
+			is_building_type = building_manzoni_publishing_industry
+			is_under_construction = no
+			cash_reserves_ratio > 0.5
+			occupancy >= 0.75
+		}
+		manzoni_has_active_writer = yes
+		var:manzoni_writer_var = {
+			has_trait = manzoni_writer_fiction
+		}
+		NOT = {
+			var:manzoni_writer_var = {
+				has_variable = manzoni_newspaper_novel_var
+			}
+		}
+		NOT = {
+			has_modifier = manzoni_newspaper_novel_scandal_modifier
+		}
+	}
+
+	effect = {
+		var:manzoni_writer_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_journal_entry = {
+			type = pbi_je_objective_bestseller
+		}
+	}
+
+	ai_chance = {
+		base = 100
+	}
+}
+
 ###Monuments###
 
 mr_mozart_monument_button = {
