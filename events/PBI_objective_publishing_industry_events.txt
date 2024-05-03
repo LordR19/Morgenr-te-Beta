@@ -87,34 +87,7 @@ pbi_objective_publishing_industry_events.100 = {
 		}
 		if = {
 			limit = {
-				OR = {
-					country_is_in_east_asia = yes
-					country_is_in_central_asia = yes
-				}
-			}
-			random_state = {
-				limit = {
-					state_region = s:STATE_CALIFORNIA
-				}
-				owner = {
-					save_scope_as = target_country_2
-					random_scope_character = {
-						limit = {
-							is_ruler = yes
-						}
-						save_scope_as = target_leader_2
-					}
-				}
-				save_scope_as = target_region
-			}
-		}
-		else_if = {
-			limit = {
-				OR = {
-					country_is_in_europe = yes
-					country_is_in_middle_east = yes
-					country_is_in_africa = yes
-				}
+				country_is_in_europe = yes
 			}
 			random_state = {
 				limit = {
@@ -154,9 +127,11 @@ pbi_objective_publishing_industry_events.100 = {
 	option = {
 		name = pbi_objective_publishing_industry_events.100.a
 		default_option = yes
+		set_variable = gaudi_transatlantic_cable_var
 		add_modifier = {
 			name = pbi_country_modifier_transoceanic_telegraph_cable
 		}
+		remove_modifier = gaudi_transatlantic_cable_expedition_modifier
 	}
 }
 
@@ -192,6 +167,11 @@ pbi_objective_publishing_industry_events.101 = {
 		name = pbi_objective_publishing_industry_events.101.a
 		default_option = yes
 		add_investment_pool = -30000000
+		remove_modifier = gaudi_transatlantic_cable_expedition_modifier
+		add_modifier = {
+			name = gaudi_transatlantic_cable_expedition_failed_modifier
+			years = 3
+		}
 	}
 }
 
@@ -287,11 +267,15 @@ pbi_objective_publishing_industry_events.102 = {
 		}
 		remove_variable = pbi_flag_objective_publishing_industry_events_102_on_going
 	}
-	option = {
-		name = pbi_objective_publishing_industry_events.102.e
-		custom_tooltip = pbi_objective_publishing_industry_events.102.tt
-		remove_variable = pbi_flag_objective_publishing_industry_events_102_on_going
-		default_option = yes
+
+	after = {
+		set_variable = {
+			name = pbi_var_je_objective_across_the_sea
+			value = 0
+		}
+		add_journal_entry = {
+			type = pbi_je_objective_across_the_sea
+		}
 	}
 }
 
@@ -777,6 +761,21 @@ pbi_objective_publishing_industry_events.110 = {
 			}
 		}
 	}
+
+	after = {
+		if = {
+			limit = {
+				is_player = yes
+				NOT = {
+					has_game_rule = lepsius_only_historical_rule
+				}
+			}
+			trigger_event = {
+				id = gaudi.90
+				days = { 60 90 }
+			}
+		}
+	}
 }
 
 #PBI Objectives 111: Triumphant return of the submarine cable laying fleet
@@ -823,7 +822,6 @@ pbi_objective_publishing_industry_events.111 = {
 	option = {
 		name = pbi_objective_publishing_industry_events.111.a
 		default_option = yes
-		remove_modifier = modifier_large_expedition_cost
 		scope:target_character = {
 			set_character_busy_and_immortal = no
 		}
