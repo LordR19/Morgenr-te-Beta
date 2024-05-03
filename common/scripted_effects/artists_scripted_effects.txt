@@ -3439,6 +3439,85 @@ set_writer_to_agitator_character_scope_effect = {
 	}
 }
 
+#This effect makes a normal character become a local writer
+set_character_as_local_writer_character_scope_effect = {
+#	custom_tooltip = {
+	#	text = set_character_as_local_writer_scope_effect_tt
+		#In case you decide any character should become a writer this gives them the base trait
+		if = {
+			limit = {
+				NOT = { has_trait = literary }
+			}
+			add_trait = literary
+		}
+		#Sets the specialization Trait
+		if = {
+			limit = {
+				NOR = {
+					has_trait = manzoni_writer_fiction
+					has_trait = manzoni_writer_poet
+					has_trait = manzoni_writer_playwright
+					has_trait = manzoni_writer_non_fiction
+				}
+			}
+			mr_trait_generation_writer_specialization_effect = yes
+		}
+		#Sets the Genre trait
+		if = {
+			limit = {
+				has_trait = manzoni_writer_fiction
+				NOR = {
+					has_trait = manzoni_genre_adventure
+					has_trait = manzoni_genre_crime_mystery
+					has_trait = manzoni_genre_devout
+					has_trait = manzoni_genre_juvenile
+					has_trait = manzoni_genre_literary_fiction
+					has_trait = manzoni_genre_romance
+					has_trait = manzoni_genre_science_fiction
+					has_trait = manzoni_genre_social_critic
+				}
+			}
+			mr_trait_generation_writer_genres_effect = yes
+		}
+
+		if = {
+			limit = {
+				has_role = agitator
+			}
+			remove_character_role = agitator
+		}
+		if = {
+			limit = {
+				has_role = general
+			}
+			remove_character_role = general
+		}
+		if = {
+			limit = {
+				has_role = admiral
+			}
+			remove_character_role = admiral
+		}
+		if = {
+			limit = {
+				NOT = { has_role = politician }
+			}
+			add_character_role = politician
+		}
+
+		writer_experience_set_up_effect = yes
+		set_variable = {
+			name = mr_is_local_writer_var
+			value = root
+		}
+		place_character_in_void = 1200
+
+		owner = {
+			artists_set_up_local_writer_list_effect = yes
+		}
+	#}
+}
+
 # Creates a new Writer without losing the old one
 #This one was a little harder as the scope was only valid in the random_list
 #Therefore a Variable is set to save the scope again. then gets deleted
@@ -3931,6 +4010,7 @@ writer_experience_set_up_effect = {
 		}
 		if = { #Adds the Great Writer Trait if Experience is above 500
 			limit = {
+				has_variable = manzoni_writer_experience
 				var:manzoni_writer_experience >= 500
 				NOT = {
 					has_trait = manzoni_great_writer
