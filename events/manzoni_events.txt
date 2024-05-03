@@ -3896,6 +3896,89 @@ manzoni.510 = {
 }
 
 # Manzoni 511: [Politician] focuses on writing
+manzoni.511 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.510.t
+	desc = manzoni.510.d
+	flavor = manzoni.510.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		trigger_if = {
+			limit = { has_variable_list = mr_local_writers_list }
+			variable_list_size = {
+				name = mr_local_writers_list
+				value < 3
+			}
+		}
+		any_scope_character = {
+			has_role = politician
+			has_trait = literary
+			is_ruler = no
+			is_busy = no
+			interest_group = {
+				ig_approval >= 10
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				has_role = politician
+				has_trait = literary
+				is_ruler = no
+				is_busy = no
+				interest_group = {
+					ig_approval >= 10
+				}
+			}
+			save_scope_as = manzoni_writer_scope
+			interest_group = {
+				save_scope_as = manzoni_writer_ig_scope
+			}
+		}
+	}
+
+	option = { #I hope [SheHe] will create fantastic works!
+		name = manzoni.510.g
+		default_option = yes
+
+		scope:manzoni_writer_scope = {
+			set_character_as_local_writer_character_scope_effect = yes
+		}
+	}
+
+	option = { #I think [SheHe] should stay in politics.
+		name = manzoni.510.h
+		trigger = {
+			is_player = yes
+		}
+
+		scope:manzoni_writer_ig_scope = {
+			add_modifier = {
+				name = manzoni_did_not_allow_politician_to_become_writer_modifier
+				years = 3
+				is_decaying = yes
+			}
+		}
+	}
+}
+
+# Manzoni 511: [Politician] focuses on writing
 
 ###################
 
