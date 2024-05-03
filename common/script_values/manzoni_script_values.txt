@@ -246,7 +246,7 @@ local_writer_experience_gain_value = {
 			has_trait = manzoni_genre_devout
 		}
 		if = {
-			limit = { has_trait = pious }
+			limit = { manzoni_devotional_positive_traits_trigger = yes }
 			add = 1
 		}
 	}
@@ -445,6 +445,150 @@ manzoni_local_writer_literary_tradition_value = {
 			add = 1
 			max = 3
 		}
+	}
+}
+
+manzoni_writer_rating_new_writer_value = {
+	#Experience: 1 point per 50 Experience
+	value = var:manzoni_writer_experience
+	divide = 50
+	#Genre matches taste
+	if = {
+		limit = {
+			manzoni_local_writer_meets_taste_character_scope_trigger = yes
+		}
+		add = 4
+	}
+	#Genre close to taste
+	if = {
+		limit = {
+			manzoni_local_writer_close_taste_character_scope_trigger = yes
+		}
+		add = 3
+	}
+	#Positive Traits
+	if = {
+		limit = {
+			OR = {
+				has_trait = ambitious
+				has_trait = persistent
+				has_trait = innovative
+			}
+		}
+		add = 2
+	}
+	#Influence of Traits on the value
+	if = { #Adventure
+		limit = {
+			has_trait = manzoni_genre_adventure
+		}
+		if = {
+			limit = { manzoni_adventure_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Crime & Mystery
+		limit = {
+			has_trait = manzoni_genre_crime_mystery
+		}
+		if = {
+			limit = { manzoni_crime_mystery_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Devotional
+		limit = {
+			has_trait = manzoni_genre_devout
+		}
+		if = {
+			limit = { manzoni_devotional_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Juvenile
+		limit = {
+			has_trait = manzoni_genre_juvenile
+		}
+		if = {
+			limit = { manzoni_devotional_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Literary Fiction
+		limit = {
+			has_trait = manzoni_genre_literary_fiction
+		}
+		if = {
+			limit = { manzoni_literary_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Romance
+		limit = {
+			has_trait = manzoni_genre_romance
+		}
+		if = {
+			limit = { manzoni_romance_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Science-Fiction
+		limit = {
+			has_trait = manzoni_genre_science_fiction
+		}
+		if = {
+			limit = { manzoni_science_fiction_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Social Critic
+		limit = {
+			has_trait = manzoni_genre_social_critic
+		}
+		if = {
+			limit = { manzoni_social_critic_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	#Negative Traits
+	if = {
+		limit = {
+			OR = {
+				has_trait = alcoholic
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+				has_trait = psychological_affliction
+				has_trait = expensive_tastes
+			}
+		}
+		subtract = 1
+	}
+	if = {
+		limit = {
+			has_trait = senile
+		}
+		subtract = 3
+	}
+	#Age Factor, the older the worse for the ranking
+	if = {
+		limit = { age > 30 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 40 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 50 }
+		subtract = 2
+	}
+	if = {
+		limit = { age > 60 }
+		subtract = 4
+	}
+	if = {
+		limit = { age > 70 }
+		subtract = 5
 	}
 }
 
