@@ -32,7 +32,7 @@ Archaeology:
 Compatability:
 - Removed the mr_starting_inventions.txt file which should improve compatability with various mods.
 - Various changes to improve compatibility with mods that set up another scenario.
-- Added built in compatibility for most of Basileia Romaion.
+- Added built in compatibility for most of Basileia Romaion (still needs a Compatch).
 
 Music:
 - The Mozart Monument Event now tells you when the monument will be finished.
