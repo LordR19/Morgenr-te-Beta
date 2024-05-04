@@ -7,6 +7,7 @@ Characters:
 - J.R.R Tolkien (randim British Writer)
 - H.G. Wells (random British Writer)
 - Bram Stocker (random Irish Writer)
+- Henrik Wergeland (Norwegian Writer)
 - Selma Lagerlöf (random Swedish Writer)
 - August Strindberg (random Swedish Writer)
 - Edgar Allen Poe (American Writer)
