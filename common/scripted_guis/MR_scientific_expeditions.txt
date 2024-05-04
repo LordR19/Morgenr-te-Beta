@@ -371,3 +371,76 @@ mr_northwest_expedition_button = {
 		}
 	}
 }
+
+#MR_TRANSATLANTIC_CABLE_EXPEDITION_BUTTON
+mr_transatlantic_cable_expedition_button = {
+	scope = country
+	is_valid = {
+		NOT = {
+			has_variable = gaudi_transatlantic_cable_var
+		}
+		custom_tooltip = {
+			text = MR_PACIFIC_SCREW_FRIGATE_TECH_TRIGGER_TT
+			has_technology_researched = screw_frigate
+		}
+		custom_tooltip = {
+			text = MR_ELECTRICAL_ENGINEER_TELEGRAPH_ELECTRIC_TELEGRAPH_TECH_TRIGGER_TT
+			has_technology_researched = electric_telegraph
+		}
+		gaudi_has_electrical_engineer_trigger = yes
+		custom_tooltip = {
+			text = MR_PACIFIC_ADMIRAL_AVAILABLE_TRIGGER_TT
+			any_scope_character = {
+				has_role = admiral
+				is_busy = no
+			}
+		}
+		any_scope_building = {
+			is_building_type = building_manzoni_publishing_industry
+			is_under_construction = no
+			has_active_production_method = manzoni_pm_electric_telegraph
+			cash_reserves_ratio > 0.5
+			occupancy >= 0.75
+			level >= 10
+		}
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_port
+			}
+			OR = {
+				region = sr:region_north_sea_coast
+				region = sr:region_england
+				region = sr:region_france
+				region = sr:region_iberia
+				region = sr:region_dixie
+				region = sr:region_new_england
+				region = sr:region_canada
+			}
+		}
+		NOT = {
+			any_country = {
+				has_technology_researched = radio
+			}
+		}
+		NOR = {
+			has_modifier = gaudi_transatlantic_cable_expedition_modifier
+			has_modifier = gaudi_transatlantic_cable_expedition_failed_modifier
+		}
+	}
+	effect = {
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_treasury = -250000
+		}
+		add_modifier = {
+			name = gaudi_transatlantic_cable_expedition_modifier
+			multiplier = money_amount_multiplier_large
+		}
+		trigger_event = { 
+			id = pbi_objective_publishing_industry_events.102
+			popup = yes
+		}
+	}
+}
