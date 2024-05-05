@@ -1,4 +1,4 @@
-Changelog for 2.1.4 "Bingham"
+Changelog for 2.1.4 "Kafka"
 
 Characters:
 - Franz Kafka (random Austrian Writer)
