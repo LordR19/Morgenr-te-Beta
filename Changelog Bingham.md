@@ -11,6 +11,7 @@ Characters:
 - Henrik Wergeland (Norwegian Writer)
 - Selma Lagerlöf (random Swedish Writer)
 - August Strindberg (random Swedish Writer)
+- Johanna Spyri (random Swiss Writer)
 - Edgar Allen Poe (American Writer)
 - 1 Easter Egg Character
 
