@@ -47914,7 +47914,7 @@ mr_aus_musil_robert={
 	entity={ 0 0 }
 }
 
-mr_Swi_spyri_johanna={
+mr_swi_spyri_johanna={
 	type=female
 	id=0
 	age=0.345000
