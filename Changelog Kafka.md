@@ -38,6 +38,9 @@ Compatability:
 - Various changes to improve compatibility with mods that set up another scenario.
 - Added built in compatibility for most of Basileia Romaion (still needs a Compatch).
 
+Pacific Expeditions:
+- Made Oceanic Domination Modifier a bit stronger (10 % more prestige from navy power, 10 % more navy defense, -10 % convoy recquirements), also added large navy tech add when JE is completed
+
 Music:
 - The Mozart Monument Event now tells you when the monument will be finished.
 
