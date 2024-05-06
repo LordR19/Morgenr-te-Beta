@@ -39,7 +39,7 @@ namespace = manzoni
 # Manzoni 1002: War of the Worlds
 
 ### Switzerland ###
-#Manzoni 1100: Heidi
+#Manzoni 1100: Heidi published
 #Manzoni 1101: Kleider machen Leute published
 #Manzoni 1102: Uli der Knecht published
 #Manzoni 1103: Steppenwolf published
@@ -1563,6 +1563,368 @@ manzoni.323 = {
 		scope:manzoni_publisher_scope = {
 			free_character_from_void = no
 		}
+	}
+}
+
+#Manzoni 331-340: Writer's first destination
+manzoni.331 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = manzoni.331.t
+		
+    desc = manzoni.331.d
+
+	flavor = manzoni.331.f
+
+	duration = 3
+		
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		manzoni_writer_destination_effect = yes
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+	}
+
+	option = { #Farewell!
+		name = manzoni.331.g
+		default_option = yes
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 12 }
+		scope:manzoni_writer_scope = {
+			writer_experience_gain_effect = { AMOUNT = 20 }
+		}
+		set_variable = {
+			name = manzoni_writer_num_destinations_var
+			value = 1
+		}
+		scope:manzoni_writer_destination_scope = {
+			change_relations = {
+				country = ROOT
+				value = 10
+			}
+		}
+		if = {
+			limit = {
+				scope:manzoni_writer_destination_scope = {
+					manzoni_has_writer = yes
+				}
+			}
+			trigger_event = {
+				id = manzoni.333
+				days = { 21 28 }
+			}
+		}
+		trigger_event = {
+			id = manzoni.334
+			days = { 90 120 }
+		}
+		hidden_effect = {
+			scope:manzoni_writer_destination_scope = {
+				trigger_event = {
+					id = manzoni.332
+				}
+			}
+		}
+	}
+
+	after = {
+		scope:manzoni_writer_destination_scope = {
+			trigger_event = {
+				id = manzoni.331
+			}
+		}
+	}
+}
+
+#Manzoni 332: Writer arrives in Neighbour Country
+manzoni.332 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = manzoni.332.t
+		
+    desc = manzoni.332.d
+
+	flavor = manzoni.332.f
+
+	duration = 3
+		
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:elgar_composer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				manzoni_has_printing_industry = yes
+			}
+			random_scope_building = {
+				limit = {
+					is_building_type = building_manzoni_publishing_industry
+				}
+				save_scope_as = manzoni_publishing_industry_building
+				state = {
+					save_scope_as = manzoni_publisher_state
+				}
+			}
+		}
+		if = {
+			limit = {
+				manzoni_has_salon = yes
+			}
+			random_scope_state = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_arts_academy
+						production_method = pm_artists_arts_academy_salon
+					}
+				}
+				save_scope_as = manzoni_salon_state
+			}
+		}
+		random_primary_culture = {
+			limit = {
+				has_cultural_obsession = manzoni_prints
+			}
+			save_scope_as = print_addict_culture
+		}
+	}
+
+	option = { #Arrange a meeting with a local publisher.
+		name = manzoni.332.g
+		default_option = yes
+		trigger = {
+			manzoni_has_printing_industry = yes
+		}
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 3 }
+		scope:manzoni_publishing_industry_building = {
+			add_modifier = {
+				name = manzoni_foreign_writer_publisher_modifier
+				years = 3
+			}
+		}
+	}
+	option = { #Organize a public reading in the Literature Salon.
+		name = manzoni.332.h
+		trigger = {
+			manzoni_has_salon = yes
+		}
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 6 }
+		scope:manzoni_salon_state = {
+			add_modifier = {
+				name = manzoni_foreign_writer_salon_modifier
+				years = 3
+			}
+		}
+	}
+	option = { #The monarch wants a private presentation of his works.
+		name = manzoni.332.i
+		trigger = {
+			has_law = law_type:law_monarchy
+		}
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 3 }
+		add_modifier = {
+			name = manzoni_foreign_writer_monarch_modifier
+			years = 3
+		}
+		random_interest_group = {
+			limit = {
+				is_in_government = yes
+			}
+			add_modifier = {
+				name = manzoni_foreign_writer_ig_modifier
+				years = 3
+			}
+		}
+	}
+	option = { #Give him a warm welcome.
+		name = manzoni.332.j
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 1 }
+		if = {
+			limit = {
+				any_primary_culture = {
+					has_cultural_obsession = manzoni_prints
+				}
+			}
+			scope:print_addict_culture = {
+				add_loyalists = {
+					value = 0.01
+				}
+			}
+		}
+	}
+
+	after = {
+		set_variable = {
+			name = manzoni_visit_by_universal_writer_var
+			years = 3
+		}
+		if = {
+			limit = {
+				manzoni_has_writer = yes
+			}
+			var:manzoni_writer_var = {
+				save_scope_as = manzoni_writer_2_scope
+			}
+			trigger_event = {
+				id = manzoni.333
+				days = { 21 28 }
+			}
+		}
+	}
+}
+
+#Manzoni 333: Writer's meeting
+manzoni.333 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = manzoni.333.t
+		
+    desc = manzoni.333.d
+
+	flavor = manzoni.333.f
+
+	duration = 3
+		
+	gui_window = event_window_2char
+
+	left_icon = scope:manzoni_writer_scope
+	right_icon = scope:manzoni_writer_2_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Inspirational
+		name = manzoni.333.g
+		default_option = yes
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 15 }
+	}
+}
+
+#Manzoni 334: Another destination?
+manzoni.334 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = manzoni.334.t
+		
+    desc = manzoni.334.d
+
+	flavor = manzoni.334.f
+
+	duration = 3
+		
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		manzoni_has_writer = yes
+	}
+
+	immediate = {
+
+		manzoni_writer_destination_effect = yes
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+	}
+
+	option = { #Farewell!
+		name = manzoni.334.g
+		default_option = yes
+		trigger = {
+			exists = scope:manzoni_writer_destination_scope
+			NOT = {
+				var:manzoni_writer_num_destinations_var > 5
+			}
+		}
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 12 }
+		scope:manzoni_writer_scope = {
+			writer_experience_gain_effect = { AMOUNT = 20 }
+		}
+		change_variable = {
+			name = manzoni_writer_num_destinations_var
+			add = 1
+		}
+		scope:manzoni_writer_destination_scope = {
+			change_relations = {
+				country = ROOT
+				value = 10
+			}
+		}
+		if = {
+			limit = {
+				scope:manzoni_writer_destination_scope = {
+					manzoni_has_writer = yes
+				}
+			}
+			trigger_event = {
+				id = manzoni.333
+				days = { 21 28 }
+			}
+		}
+		trigger_event = {
+			id = manzoni.334
+			days = { 90 120 }
+		}
+		hidden_effect = {
+			scope:manzoni_writer_destination_scope = {
+				trigger_event = {
+					id = manzoni.332
+				}
+			}
+		}
+	}
+	option = { #Farewell!
+		name = manzoni.334.h
+		default_option = yes
+		set_variable = {
+			name = manzoni_writer_num_destinations_var
+			value = 0
+		}
+		scope:manzoni_writer_scope = {
+			set_variable = manzoni_reading_tour_var
+			set_character_busy_and_immortal = no
+		}
+		remove_modifier = manzoni_writer_on_tour_modifier
+	}
+
+	after = {
 	}
 }
 
@@ -4105,7 +4467,7 @@ manzoni.1002 = {
 
 ### Switzerland ###
 
-#Manzoni 1100: Heidi
+#Manzoni 1100: Heidi published
 manzoni.1100 = {
 	dlc = dlc_morgenrote
 
@@ -4116,9 +4478,9 @@ manzoni.1100 = {
 	desc = manzoni.1100.d
 	flavor = manzoni.1100.f
 
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:manzoni_writer_scope
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_heidi.dds"
+	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -4127,21 +4489,31 @@ manzoni.1100 = {
 	duration = 3
 
 	trigger = {
+		AND = {
+			exists = c:SWI
+			c:SWI = ROOT
+			has_technology_researched = realism
+			game_date >= 1880.4.13
+			NOT = { has_global_variable = manzoni_heidi_published_global_var }
+		}
 	}
 
 	immediate = {
-		manzoni_bestseller_event_immediate_effect = yes
+		set_global_variable = {
+			name = manzoni_heidi_published_global_var
+		}
 	}
 
 	option = {
 		name = manzoni.1100.g
 		default_option = yes
-		
-		manzoni_bestseller_event_option_effect = yes
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 20
+		}
 	}
 }
 
-#Manzoni 1101: Kleider machen Leute
+#Manzoni 1101: Kleider machen Leute published
 manzoni.1101 = {
 	dlc = dlc_morgenrote
 
@@ -4152,9 +4524,9 @@ manzoni.1101 = {
 	desc = manzoni.1101.d
 	flavor = manzoni.1101.f
 
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:manzoni_writer_scope
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_gottfried_keller.dds"
+	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -4163,17 +4535,27 @@ manzoni.1101 = {
 	duration = 3
 
 	trigger = {
+		AND = {
+			exists = c:SWI
+			c:SWI = ROOT
+			has_technology_researched = realism
+			game_date >= 1874.05.15
+			NOT = { has_global_variable = manzoni_kleider_machen_leute_published_global_var }
+		}
 	}
 
 	immediate = {
-		manzoni_bestseller_event_immediate_effect = yes
+		set_global_variable = {
+			name = manzoni_kleider_machen_leute_published_global_var
+		}
 	}
 
 	option = {
 		name = manzoni.1101.g
 		default_option = yes
-
-		manzoni_bestseller_event_option_effect = yes
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 10
+		}
 	}
 }
 
