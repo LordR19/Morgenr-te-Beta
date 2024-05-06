@@ -2,6 +2,13 @@
 
 #by Lord R
 
+#Has a writer
+mr_has_writer_sgui = {
+	is_shown = {
+		has_variable = manzoni_writer_var
+	}
+}
+
 #Exile Local Writer
 mr_exile_local_writer_button = {
     scope = country
@@ -64,15 +71,6 @@ mr_invite_writer_button = {
 				has_modifier = manzoni_recently_changed_national_writer_modifier
 			}
 		}
-		#This Writer was not recently sent away
-		custom_tooltip = {
-			text = MR_WRITER_WAS_NOT_RECENTLY_REFUSED_TT
-			NOT = {
-				scope:chosen_writer = {
-					has_variable = manzoni_writer_unavailable_var				
-				}
-			}
-		}
     }
 
     effect = {
@@ -110,6 +108,89 @@ mr_invite_writer_button = {
 		add_modifier = {
 			name = manzoni_recently_changed_national_writer_modifier
 			years = 3
+		}
+    }
+}
+
+#MR_NEWSPAPER_NOVEL_BUTTON
+mr_newspaper_novel_button  = {
+	#!!!If you change any Trigger or effects here, change them in the AI version too (elgar_ai_hire_composer_effect)!!!
+    scope = country
+	saved_scopes = {
+        chosen_writer
+    }
+    is_valid = {
+		custom_tooltip = {
+			text = MR_REALISM_TECH_TRIGGER_TT
+			has_technology_researched = realism
+		}
+		custom_tooltip = {
+			text = MR_NEWSPAPER_NOVEL_BUTTON_PUBLISHING_INDUSTRY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+				is_under_construction = no
+				cash_reserves_ratio > 0.5
+				occupancy >= 0.75
+			}
+		}
+		manzoni_has_active_writer = yes
+		trigger_if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			custom_tooltip = {
+				text = MR_NEWSPAPER_NOVEL_BUTTON_NOVELIST_TRIGGER_TT
+				var:manzoni_writer_var = {
+					has_trait = manzoni_writer_fiction
+				}
+			}
+			
+		}
+		trigger_else = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		trigger_if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			custom_tooltip = {
+				text = MR_NEWSPAPER_NOVEL_BUTTON_NO_NEWSPAPER_NOVEL_TRIGGER_TT
+				NOT = {
+					var:manzoni_writer_var = {
+						has_variable = manzoni_newspaper_novel_var
+					}
+				}
+			}
+		}
+		trigger_else = {
+			hidden_trigger = {
+				always = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_NEWSPAPER_NOVEL_BUTTON_NO_NEWSPAPER_NOVEL_SCANDAL_TRIGGER_TT
+			NOT = {
+				has_modifier = manzoni_newspaper_novel_scandal_modifier
+			}
+		}
+    }
+
+    effect = {
+		if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			var:manzoni_writer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		else = {
+			custom_tooltip = MR_NEWSPAPER_NOVEL_BUTTON_NO_WRITER_EFFECT_TT
+		}
+		add_journal_entry = {
+			type = pbi_je_objective_bestseller
 		}
     }
 }

@@ -246,7 +246,262 @@ local_writer_experience_gain_value = {
 			has_trait = manzoni_genre_devout
 		}
 		if = {
-			limit = { has_trait = pious }
+			limit = { manzoni_devotional_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Juvenile
+		limit = {
+			has_trait = manzoni_genre_juvenile
+		}
+		if = {
+			limit = { manzoni_juvenile_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Literary Fiction
+		limit = {
+			has_trait = manzoni_genre_literary_fiction
+		}
+		if = {
+			limit = { manzoni_literary_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Romance
+		limit = {
+			has_trait = manzoni_genre_romance
+		}
+		if = {
+			limit = { manzoni_romance_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Science-Fiction
+		limit = {
+			has_trait = manzoni_genre_science_fiction
+		}
+		if = {
+			limit = { manzoni_science_fiction_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Social Critic
+		limit = {
+			has_trait = manzoni_genre_social_critic
+		}
+		if = {
+			limit = { manzoni_social_critic_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+
+	#Negative Traits
+	if = {
+		limit = { manzoni_negative_traits_for_writer_trigger = yes }
+		subtract = 1
+	}
+}
+
+############################################################################
+
+#This value calculates the amount of publications of a country depending on the amount of Publishing industries and other factors
+manzoni_yearly_publications_value = {
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+			}
+		}
+
+		every_scope_building = {
+			limit = {
+				is_building_type = building_manzoni_publishing_industry
+			}
+			add = level
+
+			if = {
+				limit = {
+					has_active_production_method = manzoni_pm_publisher_public
+				}
+				add = level
+			}
+			
+		}
+
+		multiply = { 10 15 }
+	}
+
+	add = { 0 10 } #There are publications even without a publishing industry
+	if = {
+		limit = {
+			literacy_rate >= 0.5
+		}
+		add = { 0 5 }
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {
+				target = bt:building_government_administration
+				value  >= 20
+			}
+		}
+		add = { 0 5 }
+	}
+	if = {
+		limit = {
+			country_has_building_type_levels = {
+				target = bt:building_university
+				value  >= 5
+			}
+		}
+		add = { 0 5 }
+	}
+}
+
+############################################################################
+
+#This value calculates the amount of yearly tradition you get from your national writer
+manzoni_yearly_literary_tradition_value = {
+	#A National writer gives a base of 1 Literary Tradition.
+	if = {
+		limit = { has_variable = manzoni_writer_var }
+		value = 1
+
+		#If the writer fits the taste it adds 2 literary tradition
+		if = {
+			limit = {
+				manzoni_writer_meets_taste_trigger = yes
+			}
+			add = 2
+		}
+		#If the taste is close to the genre +1
+		else_if = {
+			limit = {
+				manzoni_writer_close_taste_trigger = yes
+			}
+			add = 1
+		}
+		#A great writer adds +2
+		if = {
+			limit = {
+				var:manzoni_writer_var ?= {
+					OR = {
+						has_trait = manzoni_great_writer
+						var:manzoni_writer_experience >= 500
+					}
+				}
+			}
+			add = 2
+		}
+	}
+
+	#Local Writers
+	if = {
+		limit = { has_variable_list = mr_local_writers_list }
+		every_in_list = {
+			variable = mr_local_writers_list
+			limit = {
+				manzoni_local_writer_meets_taste_character_scope_trigger = yes
+			}
+			add = 1
+		}
+	}
+
+	#Literary Salon
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_arts_academy
+				has_active_production_method = pm_artists_arts_academy_salon
+			}
+		}
+		add = 1
+	}
+
+	#Literary Publisher
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_publisher_literary
+			}
+		}
+		add = 1
+	}
+}
+
+manzoni_local_writer_literary_tradition_value = {
+	#Local Writers
+	if = {
+		limit = { has_variable_list = mr_local_writers_list }
+		every_in_list = {
+			variable = mr_local_writers_list
+			limit = {
+				OR = {
+					manzoni_local_writer_meets_taste_character_scope_trigger = yes
+				}
+			}
+			add = 1
+			max = 3
+		}
+	}
+}
+
+manzoni_writer_rating_new_writer_value = {
+	#Experience: 1 point per 50 Experience
+	value = var:manzoni_writer_experience
+	divide = 50
+	#Genre matches taste
+	if = {
+		limit = {
+			manzoni_local_writer_meets_taste_character_scope_trigger = yes
+		}
+		add = 4
+	}
+	#Genre close to taste
+	if = {
+		limit = {
+			manzoni_local_writer_close_taste_character_scope_trigger = yes
+		}
+		add = 2
+	}
+	#Positive Traits
+	if = {
+		limit = {
+			OR = {
+				has_trait = ambitious
+				has_trait = persistent
+				has_trait = innovative
+			}
+		}
+		add = 2
+	}
+	#Influence of Traits on the value
+	if = { #Adventure
+		limit = {
+			has_trait = manzoni_genre_adventure
+		}
+		if = {
+			limit = { manzoni_adventure_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Crime & Mystery
+		limit = {
+			has_trait = manzoni_genre_crime_mystery
+		}
+		if = {
+			limit = { manzoni_crime_mystery_positive_traits_trigger = yes }
+			add = 1
+		}
+	}
+	if = { #Devotional
+		limit = {
+			has_trait = manzoni_genre_devout
+		}
+		if = {
+			limit = { manzoni_devotional_positive_traits_trigger = yes }
 			add = 1
 		}
 	}
@@ -295,13 +550,153 @@ local_writer_experience_gain_value = {
 			add = 1
 		}
 	}
-
 	#Negative Traits
 	if = {
-		limit = { manzoni_negative_traits_for_writer_trigger = yes }
+		limit = {
+			OR = {
+				has_trait = alcoholic
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+				has_trait = psychological_affliction
+				has_trait = expensive_tastes
+			}
+		}
 		subtract = 1
 	}
+	if = {
+		limit = {
+			has_trait = senile
+		}
+		subtract = 3
+	}
+	#Age Factor, the older the worse for the ranking
+	if = {
+		limit = { age > 30 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 40 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 50 }
+		subtract = 2
+	}
+	if = {
+		limit = { age > 60 }
+		subtract = 4
+	}
+	if = {
+		limit = { age > 70 }
+		subtract = 5
+	}
 }
+
+############################################################################
+#This value determines how interesting a location is for a writer on tour
+manzoni_writer_destination_score = {
+	value = manzoni_publishing_building_score #The opera houses of a country count as publishing infrastructure
+
+	######SALON######
+	if = {
+		limit = {
+			manzoni_has_salon = yes
+		}
+		add = 5 #Writers value salons
+	}
+	######OTHER WRITER######
+	if = {
+		limit = {
+			manzoni_has_writer = yes
+		}
+		add = 5 #Writers like to talk
+	}
+	######CENTER OF ART######
+	if = {
+		limit = {
+			elgar_has_center_of_art = yes
+		}
+		add = 20 #Cradle of Impressionism, Expressionism and Art Nouveau are considered global cultural hubs
+	}
+	######CULTURE TECHS######
+	if = {
+		limit = {
+			has_technology_researched = realism
+		}
+		add = 5 #Writers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_irrationalism_tech
+		}
+		add = 5 #Writers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_impressionism_tech
+		}
+		add = 10 #Writers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_expressionism_tech
+		}
+		add = 10 #Writers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_art_nouveau_tech
+		}
+		add = 10 #Writers like avantgarde culture
+	}
+	if = {
+		limit = {
+			has_technology_researched = elgar_neoclassicism_tech
+		}
+		add = 15 #Writers like avantgarde culture
+	}
+	######LAWS######
+	if = {
+		limit = {
+			has_law = law_type:law_protected_speech
+		}
+		add = 5 #Freedom of speech is important for Writers
+	}
+	######NEAR&FAR######
+	if = {
+		limit = {
+			NOT = {
+				is_adjacent_to_country = ROOT
+			}
+			NOR = {
+				has_technology_researched = elgar_impressionism_tech
+				has_technology_researched = elgar_expressionism_tech
+				has_technology_researched = elgar_art_nouveau_tech
+			}
+		}
+		add = -50 #Before advanced culture techs, Writers will not travel too far
+	}
+	######NO GO######
+	if = {
+		limit = {
+			has_modifier = manzoni_writer_on_tour_modifier
+		}
+		multiply = 0 #Never go to another country which has also a touring writer
+	}
+}
+
+#This value counts the total level of publishing industries of the country
+manzoni_publishing_building_score = {
+	value = 0
+	every_scope_building = {
+		limit = {
+			is_building_type = building_manzoni_publishing_industry
+		}
+		add = level
+	}
+}
+
+############################################################################
 
 #Original Values by kaznoko for PBI
 manzoni_publishing_industry_literacy_rate = 0.2
