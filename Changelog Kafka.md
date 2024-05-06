@@ -52,6 +52,8 @@ Anthropology:
 Natural History:
 - New Nature Protection Tech.
 - Moved Nature Reserve from Genetics to Nature Protection.
+- Added historical volcanos to all states where volcanic eruptions took place between 1836-1936.
+- Volcanic eruptions will only occur in states with volcanoes (instead of "regions" in vanilla).
 
 Astronomy:
 - Astrophysics no longer gives a prestige bonus.
