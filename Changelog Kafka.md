@@ -3,6 +3,7 @@ Changelog for 2.1.4 "Kafka"
 Characters:
 - Franz Kafka (random Austrian Writer)
 - Robert Musil (random Austrian Writer)
+- Zweig Stefan (random Austrian Writer)
 - Hans Christian Andersen (Danish Writer)
 - Jules Verne (random French Writer)
 - J.R.R Tolkien (randim British Writer)
