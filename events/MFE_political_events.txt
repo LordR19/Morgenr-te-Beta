@@ -2154,7 +2154,7 @@ MFE_political_events.26 = {
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:poet_guy
+	left_icon = scope:manzoni_new_writer_scope
 
 	icon = "gfx/interface/icons/event_icons/event_portrait.dds"
 
@@ -2181,7 +2181,21 @@ MFE_political_events.26 = {
 			save_scope_as = arts_state
 		}
 		create_character = {
-			save_scope_as = poet_guy
+			age = { 20 30 }
+			trait_generation = {}
+			save_scope_as = manzoni_new_writer_scope
+		}
+		scope:manzoni_new_writer_scope = {
+			add_trait = literary
+			add_trait = manzoni_writer_poet
+			mr_trait_generation_writer_effect = yes
+			set_variable = mr_is_writer_var
+			writer_experience_set_up_effect = yes
+			place_character_in_void = 1200
+		}
+		set_variable = {
+			name = manzoni_new_writer_var
+			value = scope:manzoni_new_writer_scope
 		}
 	}
 
@@ -2192,6 +2206,11 @@ MFE_political_events.26 = {
 			name = local_poet_mod
 			months = long_modifier_time
 		}
+		hidden_effect = {
+			scope:manzoni_new_writer_scope = {
+				free_character_from_void = no
+			}
+		}
 	}
 	option = {  # Well it doens't really matter anyway
 		name = MFE_political_events.26.b
@@ -2200,6 +2219,22 @@ MFE_political_events.26 = {
 			can_research = realism
 		}
 		add_technology_progress = { progress = 3000 technology = realism }
+		hidden_effect = {
+			scope:manzoni_new_writer_scope = {
+				free_character_from_void = no
+			}
+		}
+	}
+	option = {  # Have Him Teach the Students
+		name = MFE_political_events.26.g
+		trigger = {
+			NOT = { manzoni_x_or_more_local_writers_tooltip_trigger = { AMOUNT = 3 } }
+		}
+		manzoni_set_new_writer_local_writer_effect = yes
+	}
+
+	after = {
+		remove_variable = manzoni_new_writer_var
 	}
 }
 
