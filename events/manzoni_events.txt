@@ -33,6 +33,8 @@ namespace = manzoni
 # Manzoni 510: [Agitator] focuses on writing
 # Manzoni 511: [Politician] focuses on writing
 
+# Manzoni 590: A local Writer appears
+
 ### Great Britain ###
 # Manzoni 1000: Sherlock Holmes published
 # Manzoni 1001: The Hobbit or There and Back Again
@@ -4349,7 +4351,95 @@ manzoni.511 = {
 	}
 }
 
-# Manzoni 511: [Politician] focuses on writing
+# Manzoni 590: A local Writer appears
+manzoni.590 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.590.t
+	desc = manzoni.590.d
+	flavor = manzoni.590.f
+
+	cooldown = {
+		years = { 5 10 }
+	}
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_new_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		NOT = { is_country_type = decentralized }
+		trigger_if = {
+			limit = { has_variable_list = mr_local_writers_list }
+			variable_list_size = {
+				name = mr_local_writers_list
+				value <= 3
+			}
+		}
+	}
+
+	immediate = {
+		create_new_writer_effect = yes
+	}
+
+	option = { #More writers are always good!
+		name = manzoni.590.g
+		default_option = yes
+
+		manzoni_set_new_writer_local_writer_effect = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			OR = {
+				country_has_state_religion = rel:sunni
+				country_has_state_religion = rel:shiite
+				country_has_state_religion = rel:hindu
+			}
+			factor = 2
+		}
+		modifier = {
+			any_primary_culture = {
+				OR = {
+					has_discrimination_trait = korean_language
+					has_discrimination_trait = han_chinese
+					has_discrimination_trait = yamato
+				}
+			}
+			factor = 2
+		}
+		modifier = {
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+			}
+			factor = 1.2
+		}
+		modifier = {
+			variable_list_size = {
+				name = mr_local_writers_list
+				value >= 1
+			}
+			factor = 0.3
+		}
+		modifier = {
+			variable_list_size = {
+				name = mr_local_writers_list
+				value >= 2
+			}
+			factor = 0.1
+		}
+	}
+}
 
 ###################
 
