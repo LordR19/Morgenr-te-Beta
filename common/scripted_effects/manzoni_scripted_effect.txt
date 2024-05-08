@@ -1575,6 +1575,52 @@ manzoni_update_library_effect = {
 
 ##############################
 
+manzoni_ai_hire_writer_effect = {
+	#Please update when sGUI gets updated (mr_invite_writer_button)
+	if = {
+		limit = {
+			is_ai = yes #Players have a button
+			NOR = {
+				has_variable = manzoni_writer_var #Will not do it if AI already has a writer
+				has_modifier = manzoni_recently_changed_national_writer_modifier #Can't do it if done recently
+			}
+			manzoni_x_or_more_local_writers_trigger = { AMOUNT = 1 } #Needs to have a local writer
+			any_in_list = { #Must have a local writer with 150 or more reputation
+				variable = mr_local_writers_list
+
+				has_variable = manzoni_writer_experience
+				var:manzoni_writer_experience >= 150
+			}
+		}
+
+		
+		ordered_in_list = {
+			variable = mr_local_writers_list
+
+			order_by = manzoni_writer_rating_new_writer_value #Chooses the best possible writer
+
+			limit = { #Can only choose writers with 150 or more reputation
+				has_variable = manzoni_writer_experience
+				var:manzoni_writer_experience >= 150
+			}
+
+			#Sets the character as a national writer
+			free_character_from_void = yes
+			remove_variable = mr_is_local_writer_var
+			set_variable = mr_is_writer_var
+			place_character_in_void = 1200
+			root = {
+				set_variable = {
+					name = manzoni_writer_var
+					value = prev
+				}
+			}
+		}
+		#Updates the local list
+		artists_set_up_local_writer_list_effect = yes
+	}
+}
+
 ###Manzoni Variables###
 
 #Add variables
