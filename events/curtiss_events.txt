@@ -1187,88 +1187,6 @@ curtiss.23 = {
 #	}
 #}
 
-#Curtiss 31: Der Rote Baron
-
-curtiss.31 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-	
-	title = curtiss.31.t
-	desc = curtiss.31.d
-	flavor = curtiss.31.f
-	
-	event_image = { 
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_richthofen.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
-
-	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
-	
-	duration = 3
-
-	trigger = {
-		exists = c:GER
-		c:GER = root
-		game_date >= 1914.1.1
-		NOT = {
-			has_global_variable = curtiss_manfred_von_richthofen
-		}
-		any_scope_war = {
-			any_scope_front = {
-				any_scope_general = {
-					owner = ROOT
-					this.commander_military_formation = {
-						OR = {
-							has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
-							has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
-							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
-							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
-							has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
-						}
-					}
-				}
-			}
-		}
-	}
-
-	immediate = {
-		set_global_variable = curtiss_manfred_von_richthofen
-		create_character = {
-			first_name = mr_manfred
-			last_name = mr_von_richthofen
-			culture = cu:north_german
-			female = no
-			religion = protestant
-			ideology = ideology_royalist
-			interest_group = ig_armed_forces
-			dna = mr_ger_richthofen
-			is_general = yes
-			birth_date = 1892.5.2
-			historical = yes
-			traits = { 
-				curtiss_pilot_ace
-				brave
-				charismatic
-				resupply_commander
-			}
-			save_scope_as = curtiss_richthofen
-		}
-	}
-
-	option = { #A legend is born.
-		name = curtiss.31.g
-		default_option = yes
-		scope:curtiss_richthofen = {
-			add_modifier = {
-				name = curtiss_red_baron_modifier
-			}
-		}
-	}
-}
-
 #Curtiss 40: Transatlantic Flight (Generic)
 
 curtiss.40 = {
@@ -1298,6 +1216,7 @@ curtiss.40 = {
 
 	immediate = {
 		set_global_variable = curtiss_lindbergh_happened
+		create_new_pilot_effect = yes
 		random_primary_culture = {
 			limit = {
 				NOT = {
@@ -1305,12 +1224,6 @@ curtiss.40 = {
 				}
 			}
 			save_scope_as = flight_addict_culture
-		}
-		create_character = {
-			is_general = yes
-			traits = { explorer brave romantic curtiss_pilot }
-			birth_date = 1899.12.24
-			save_scope_as = curtiss_lindbergh
 		}
 	}
 
@@ -1323,14 +1236,23 @@ curtiss.40 = {
 			}
 			set_variable = curtiss_spirit_achievement
 		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = curtiss_pliot_var
+				}
+			}
+			curtiss_set_new_pilot_as_pilot_effect = yes
+		}
 		add_modifier = {
 			name = curtiss_lindbergh_modifier
 			years = 10
 		}
-		scope:curtiss_lindbergh = {
+		scope:curtiss_new_pilot_scope = {
 			add_modifier = {
 				name = curtiss_lindbergh_character_modifier
 			}
+			set_variable = curtiss_lindbergh_var
 		}
 		scope:flight_addict_culture = {
 			add_cultural_obsession = air_travel
@@ -1391,21 +1313,7 @@ curtiss.41 = {
 			}
 			save_scope_as = flight_addict_culture
 		}
-		create_character = {
-			first_name = mr_charles
-    		last_name = mr_lindbergh
-   			culture = cu:yankee
-    		female = no
-    		religion = protestant
-    		ideology = ideology_ethno_nationalist
-			ig_leader = yes
-    		interest_group = ig_petty_bourgeoisie
-    		birth_date = 1902.2.4
-			dna = ecchi_dna_charles_linbergh
-			historical = yes
-    		traits = { explorer brave romantic curtiss_pilot }
-			save_scope_as = curtiss_lindbergh
-		}
+		create_lindbergh_charles_effect = yes
 	}
 
 	option = {	#Mr Lindbergh I presume.
@@ -1417,14 +1325,23 @@ curtiss.41 = {
 			}
 			set_variable = curtiss_spirit_achievement
 		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = curtiss_pliot_var
+				}
+			}
+			curtiss_set_new_pilot_as_pilot_effect = yes
+		}
 		add_modifier = {
 			name = curtiss_lindbergh_modifier
 			years = 10
 		}
-		scope:curtiss_lindbergh = {
+		scope:curtiss_new_pilot_scope = {
 			add_modifier = {
 				name = curtiss_lindbergh_character_modifier
 			}
+			set_variable = curtiss_lindbergh_var
 		}
 		scope:flight_addict_culture = {
 			add_cultural_obsession = air_travel
@@ -1486,7 +1403,7 @@ curtiss.42 = {
 		}
 		random_character = {
 			limit = {
-				has_modifier = curtiss_lindbergh_modifier
+				has_variable = curtiss_lindbergh_var
 			}
 			save_scope_as = curtiss_lindbergh
 		}
@@ -1986,10 +1903,15 @@ curtiss.101 = {
 				popup = yes
 				days = 30
 			}
-			trigger_event = {
-				id = curtiss.108
-				popup = yes
-				days = 60
+			if = {
+				limit = {
+					curtiss_has_pilot = no
+				}
+				trigger_event = {
+					id = curtiss.108
+					popup = yes
+					days = 60
+				}
 			}
 			trigger_event = {
 				id = curtiss.140
@@ -2343,6 +2265,15 @@ curtiss.105 = {
 		name = curtiss.105.g
 		default_option = yes
 		set_variable = curtiss_schneider_trophy_training_good
+		pilot_experience_gain_effect = {
+			AMOUNT = 50
+		}
+		var:curtiss_pilot_var = {
+			change_variable = {
+				name = curtiss_pilot_num_records_var
+				add = 1
+			}
+		}
 	}
 }
 
@@ -2378,6 +2309,9 @@ curtiss.106 = {
 		name = curtiss.106.g
 		default_option = yes
 		set_variable = curtiss_schneider_trophy_training_normal
+		pilot_experience_gain_effect = {
+			AMOUNT = 25
+		}
 	}
 }
 
@@ -2414,30 +2348,7 @@ curtiss.107 = {
 	option = { #Bad!
 		name = curtiss.107.g
 		default_option = yes
-		random_list = {
-			70 = {
-				random_scope_character = {
-					limit = {
-						OR = {
-							has_trait = curtiss_pilot
-							has_trait = curtiss_pilot_ace
-						}
-					}
-					add_trait = wounded
-				}
-			}
-			30 = {
-				random_scope_character = {
-					limit = {
-						OR = {
-							has_trait = curtiss_pilot
-							has_trait = curtiss_pilot_ace
-						}
-					}
-					kill_character = yes
-				}
-			}
-		}
+		
 	}
 }
 
@@ -2464,148 +2375,14 @@ curtiss.108 = {
 	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_modifier = curtiss_schneider_veteran_modifier
-				is_busy = no
-			}
-			save_scope_as = curtiss_schneider_pilot_1
-		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-				NOT = {
-					this = scope:curtiss_schneider_pilot_1
-				}
-				is_busy = no
-			}
-			save_scope_as = curtiss_schneider_pilot_2
-		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-				NOT = {
-					this = scope:curtiss_schneider_pilot_1
-				}
-				NOT = {
-					this = scope:curtiss_schneider_pilot_2
-				}
-				is_busy = no
-			}
-			save_scope_as = curtiss_schneider_pilot_3
-		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-				NOT = {
-					this = scope:curtiss_schneider_pilot_1
-				}
-				NOT = {
-					this = scope:curtiss_schneider_pilot_2
-				}
-				NOT = {
-					this = scope:curtiss_schneider_pilot_3
-				}
-				is_busy = no
-			}
-			save_scope_as = curtiss_schneider_pilot_4
-		}
+		create_new_pilot_effect = yes
 	}
 
 	option = {
 		name = curtiss.108.g
-		default_option = yes
-		trigger = {
-			exists = scope:curtiss_schneider_pilot_1
-		}
-		scope:curtiss_schneider_pilot_1 = {
-			add_modifier = {
-				name = curtiss_schneider_pilot_modifier
-			}
+		curtiss_set_new_pilot_as_pilot_effect = yes
+		scope:curtiss_new_pilot_scope = {
 			set_character_busy_and_immortal = yes
-		}
-
-		ai_chance = {
-			base = 100
-		}
-	}
-
-	option = {
-		name = curtiss.108.h
-		trigger = {
-			exists = scope:curtiss_schneider_pilot_2
-		}
-		scope:curtiss_schneider_pilot_2 = {
-			add_modifier = {
-				name = curtiss_schneider_pilot_modifier
-			}
-			set_character_busy_and_immortal = yes
-		}
-	}
-
-	option = {
-		name = curtiss.108.i
-		trigger = {
-			exists = scope:curtiss_schneider_pilot_3
-		}
-		scope:curtiss_schneider_pilot_3 = {
-			add_modifier = {
-				name = curtiss_schneider_pilot_modifier
-			}
-			set_character_busy_and_immortal = yes
-		}
-	}
-
-	option = {
-		name = curtiss.108.j
-		trigger = {
-			exists = scope:curtiss_schneider_pilot_4
-		}
-		scope:curtiss_schneider_pilot_4 = {
-			add_modifier = {
-				name = curtiss_schneider_pilot_modifier
-			}
-			set_character_busy_and_immortal = yes
-		}
-	}
-
-	option = {
-		name = curtiss.108.k #A Newcomer
-		trigger = {
-			NOT = {
-				exists = scope:curtiss_schneider_pilot_1
-			}
-			NOT = {
-				exists = scope:curtiss_schneider_pilot_2
-			}
-			NOT = {
-				exists = scope:curtiss_schneider_pilot_3
-			}
-			NOT = {
-				exists = scope:curtiss_schneider_pilot_4
-			}
-		}
-		create_character = {
-			traits = {
-				curtiss_pilot
-			}
-			is_general = yes
-			age = { 17 24 }
-			save_scope_as = curtiss_new_pilot
-			on_created = {
-				add_modifier = {
-					name = curtiss_schneider_pilot_modifier
-				}
-			}
 		}
 	}
 	
@@ -2903,16 +2680,17 @@ curtiss.111 = {
 			name = curtiss_schneider_trophy_break_modifier
 			days = 365
 		}
-		random_scope_character = {
+		if = {
 			limit = {
-				has_modifier = curtiss_schneider_pilot_modifier
 				NOT = {
-					has_modifier = curtiss_schneider_veteran_modifier
+					var:curtiss_pilot_var ?= {
+						has_trait = curtiss_schneider_veteran
+					}
 				}
 			}
-			add_modifier = {
-				name = curtiss_schneider_veteran_modifier
-			} 
+			var:curtiss_pilot_var ?= {
+				add_trait = curtiss_schneider_veteran
+			}
 		}
 		#Used to display victories in GUI
 		if = {
@@ -2933,6 +2711,9 @@ curtiss.111 = {
 	option = { #Victory!
 		name = curtiss.111.g
 		default_option = yes
+		pilot_experience_gain_effect = {
+			AMOUNT = 50
+		}
 		every_country = {
 			limit = {
 				OR = {
@@ -2957,10 +2738,7 @@ curtiss.111 = {
 			add_modifier = {
 				name = curtiss_the_schneider_trophy_modifier
 			}
-			random_scope_character = {
-				limit = {
-					has_modifier = curtiss_schneider_pilot_modifier
-				}
+			var:curtiss_pilot_var ?= {
 				add_modifier = curtiss_schneider_winner_modifier
 			}
 			hidden_effect = {
@@ -2999,10 +2777,7 @@ curtiss.111 = {
 		remove_variable = curtiss_schneider_trophy_member
 		remove_variable = curtiss_schneider_trophy_host
 		remove_modifier = curtiss_schneider_trophy_support_modifier
-		random_scope_character = {
-			limit = {
-				has_modifier = curtiss_schneider_pilot_modifier
-			}
+		var:curtiss_pilot_var = {
 			set_character_busy_and_immortal = no
 			remove_modifier = curtiss_schneider_pilot_modifier
 		}
@@ -3050,20 +2825,26 @@ curtiss.112 = {
 			}
 			save_scope_as = curtiss_schneider_trophy_recent_winner
 		}
-		random_scope_character = {
+		if = {
 			limit = {
-				has_modifier = curtiss_schneider_pilot_modifier
 				NOT = {
-					has_modifier = curtiss_schneider_veteran_modifier
+					var:curtiss_pilot_var ?= {
+						has_trait = curtiss_schneider_veteran
+					}
 				}
 			}
-			add_modifier = curtiss_schneider_veteran_modifier
+			var:curtiss_pilot_var ?= {
+				add_trait = curtiss_schneider_veteran
+			}
 		}
 	}
 
 	option = { #Disappointing
 		name = curtiss.112.g
 		default_option = yes
+		pilot_experience_gain_effect = {
+			AMOUNT = 25
+		}
 		if = {
 			limit = {
 				has_modifier = curtiss_schneider_trophy_1_win_modifier
@@ -3082,10 +2863,7 @@ curtiss.112 = {
 		remove_variable = curtiss_schneider_trophy_member
 		remove_variable = curtiss_schneider_trophy_host
 		remove_modifier = curtiss_schneider_trophy_support_modifier
-		random_scope_character = {
-			limit = {
-				has_modifier = curtiss_schneider_pilot_modifier
-			}
+		var:curtiss_pilot_var ?= {
 			set_character_busy_and_immortal = no
 			remove_modifier = curtiss_schneider_pilot_modifier
 		}
@@ -3417,6 +3195,9 @@ curtiss.124 = {
 			}
 			save_scope_as = curtiss_schneider_trophy_state
 		}
+		var:curtiss_pilot_var ?= {
+			save_scope_as = curtiss_pilot_scope
+		}
 	}
 
 	option = { #Full Power!
@@ -3430,8 +3211,7 @@ curtiss.124 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
-					has_modifier = curtiss_schneider_pilot_modifier
+				scope:curtiss_pilot_scope = {
 					has_trait = curtiss_pilot_ace
 				}
 			}
@@ -3439,8 +3219,7 @@ curtiss.124 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
-					has_modifier = curtiss_schneider_pilot_modifier
+				scope:curtiss_pilot_scope = {
 					has_modifier = curtiss_schneider_veteran_modifier
 				}
 			}
@@ -3448,8 +3227,7 @@ curtiss.124 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
-					has_modifier = curtiss_schneider_pilot_modifier
+				scope:curtiss_pilot_scope = {
 					OR = {
 						has_trait = brave
 						has_trait = reckless
@@ -3531,6 +3309,9 @@ curtiss.125 = {
 			}
 			save_scope_as = curtiss_schneider_trophy_state
 		}
+		var:curtiss_pilot_var ?= {
+			save_scope_as = curtiss_pilot_scope
+		}
 	}
 
 	option = { #Fly with elegance
@@ -3538,8 +3319,7 @@ curtiss.125 = {
 		curtiss_add_1_schneider_trophy_point = yes
 		if = {
 			limit = {
-				any_scope_character = {
-					has_modifier = curtiss_schneider_pilot_modifier
+				scope:curtiss_pilot_scope = {
 					has_trait = curtiss_pilot_ace
 				}
 			}
@@ -3547,8 +3327,7 @@ curtiss.125 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
-					has_modifier = curtiss_schneider_pilot_modifier
+				scope:curtiss_pilot_scope = {
 					has_modifier = curtiss_schneider_veteran_modifier
 				}
 			}
@@ -3556,8 +3335,7 @@ curtiss.125 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
-					has_modifier = curtiss_schneider_pilot_modifier
+				scope:curtiss_pilot_scope = {
 					OR = {
 						has_trait = tactful
 						has_trait = meticulous
@@ -3619,14 +3397,16 @@ curtiss.126 = {
 			}
 			save_scope_as = curtiss_schneider_trophy_state
 		}
+		var:curtiss_pilot_var ?= {
+			save_scope_as = curtiss_pilot_scope
+		}
 	}
 
 	option = { #Our pilot will find his way
 		name = curtiss.126.g
 		if = {
 			limit = {
-				any_scope_character = {
-					has_modifier = curtiss_schneider_pilot_modifier
+				scope:curtiss_pilot_scope = {
 					has_trait = curtiss_pilot_ace
 				}
 			}
@@ -3634,8 +3414,7 @@ curtiss.126 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
-					has_modifier = curtiss_schneider_pilot_modifier
+				scope:curtiss_pilot_scope = {
 					has_modifier = curtiss_schneider_veteran_modifier
 				}
 			}
@@ -3643,8 +3422,7 @@ curtiss.126 = {
 		}
 		if = {
 			limit = {
-				any_scope_character = {
-					has_modifier = curtiss_schneider_pilot_modifier
+				scope:curtiss_pilot_scope = {
 					OR = {
 						has_trait = innovative
 						has_trait = persistent
@@ -3701,17 +3479,14 @@ curtiss.127 = {
 
 	trigger = {
 		OR = {
-			any_scope_character = {
-				has_modifier = curtiss_schneider_pilot_modifier
+			var:curtiss_pilot_var ?= {
 				has_trait = curtiss_pilot_ace
 			}
-			any_scope_character = {
-				has_modifier = curtiss_schneider_pilot_modifier
+			var:curtiss_pilot_var ?= {
 				has_modifier = curtiss_schneider_veteran_modifier
 			}
 		}
-		any_scope_character = {
-			has_modifier = curtiss_schneider_pilot_modifier
+		var:curtiss_pilot_var ?= {
 			OR = {
 				has_trait = innovative
 				has_trait = persistent
@@ -3727,6 +3502,9 @@ curtiss.127 = {
 				has_modifier = curtiss_schneider_trophy_state_modifier 
 			}
 			save_scope_as = curtiss_schneider_trophy_state
+		}
+		var:curtiss_pilot_var ?= {
+			save_scope_as = curtiss_pilot_scope
 		}
 	}
 
@@ -3779,19 +3557,19 @@ curtiss.128 = {
 			}
 			save_scope_as = curtiss_schneider_trophy_state
 		}
-		random_scope_character = {
-			limit = {
-				has_modifier = curtiss_schneider_pilot_modifier
-			}
+		var:curtiss_pilot_var ?= = {
 			save_scope_as = duel_participant_1
 		}
-
-		random_character = {
+		random_country = {
 			limit = {
-				NOT = { this = scope:duel_participant_1 }
-				has_modifier = curtiss_schneider_pilot_modifier
+				has_variable = curtiss_schneider_trophy_member
+				NOT = {
+					ROOT = THIS
+				}
 			}
-			save_scope_as = duel_participant_2
+			var:curtiss_pilot_var ?= {
+				save_scope_as = duel_participant_2
+			}
 		}
 	}
 
@@ -4141,10 +3919,7 @@ curtiss.129 = {
 			}
 			save_scope_as = curtiss_schneider_trophy_state
 		}
-		random_scope_character = {
-			limit = {
-				has_modifier = curtiss_schneider_pilot_modifier
-			}
+		var:curtiss_pilot_var = {
 			save_scope_as = curtiss_schneider_pilot
 		}
 	}
@@ -4152,6 +3927,9 @@ curtiss.129 = {
 	option = { #Excellent!
 		name = curtiss.127.g
 		curtiss_add_3_schneider_trophy_point = yes
+		pilot_experience_gain_effect = {
+			AMOUNT = 25
+		}
 	}
 
 	after = {
@@ -4191,12 +3969,7 @@ curtiss.130 = {
 				who = ROOT
 				type = rivalry
 			}
-			any_scope_character = {
-				has_modifier = curtiss_schneider_pilot_modifier
-			}
-		}
-		any_scope_character = {
-			has_modifier = curtiss_schneider_pilot_modifier
+			has_variable = curtiss_schneider_trophy_member
 		}
 		NOT = {
 			has_global_variable = curtiss_schneider_rival_cooldown
@@ -4210,25 +3983,23 @@ curtiss.130 = {
 			}
 			save_scope_as = curtiss_schneider_trophy_state
 		}
-		random_scope_character = {
-			limit = {
-				has_modifier = curtiss_schneider_pilot_modifier
-			}
+		var:curtiss_pilot_var ?= = {
 			save_scope_as = duel_participant_1
 		}
-
-		random_character = {
+		random_country = {
 			limit = {
-				NOT = { this = scope:duel_participant_1 }
-				has_modifier = curtiss_schneider_pilot_modifier
-				owner = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = rivalry
-					}
+				has_variable = curtiss_schneider_trophy_member
+				NOT = {
+					ROOT = THIS
+				}
+				has_diplomatic_pact = {
+					who = ROOT
+					type = rivalry
 				}
 			}
-			save_scope_as = duel_participant_2
+			var:curtiss_pilot_var ?= {
+				save_scope_as = duel_participant_2
+			}
 		}
 	}
 
@@ -4596,10 +4367,7 @@ curtiss.131 = {
 			}
 			save_scope_as = curtiss_schneider_failed_rival
 		}
-		random_scope_character = {
-			limit = {
-				has_modifier = curtiss_schneider_pilot_modifier
-			}
+		var:curtiss_pilot_var = {
 			save_scope_as = curtiss_schneider_pilot
 		}
 	}
@@ -4610,6 +4378,9 @@ curtiss.131 = {
 		add_modifier = {
 			name = curtiss_schneider_disgraced_rival_modifier
 			years = 2
+		}
+		pilot_experience_gain_effect = {
+			AMOUNT = 50
 		}
 	}
 
@@ -5733,13 +5504,7 @@ curtiss.203 = {
 		trigger = {
 			curtiss_has_active_pilot = yes 
 		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-			}
+		var:curtiss_pilot_var = {
 			set_character_busy_and_immortal = yes
 			add_modifier = {
 				name = curtiss_airline_advertising_modifier
@@ -5795,10 +5560,7 @@ curtiss.204 = {
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_modifier = curtiss_airline_advertising_modifier
-			}
+		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_pilot
 		}
 	}
@@ -6326,13 +6088,7 @@ curtiss.218 = {
 			}
 			save_scope_as = howard_hughes
 		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-			}
+		var:curtiss_pilot_var ?= {
 			save_scope_as = curtiss_pilot
 		}
 	}
@@ -6340,13 +6096,7 @@ curtiss.218 = {
 	option = {	#Sure!
 		name = curtiss.218.g
 		default_option = yes
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-			}
+		scope:curtiss_pilot = {
 			set_character_busy_and_immortal = yes
 			add_modifier = {
 				name = curtiss_airline_advertising_modifier
@@ -7502,44 +7252,11 @@ curtiss.252 = {
 		var:curtiss_conway_var = {
 			save_scope_as = curtiss_conway_scope
 		}
-		random_scope_character = {
+		var:curtiss_pilot_var ?= {
 			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
 				is_busy = no
 			}
 			save_scope_as = curtiss_expedition_leader_1
-		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-				NOT = {
-					this = scope:curtiss_expedition_leader_1
-				}
-				is_busy = no
-			}
-			save_scope_as = curtiss_expedition_leader_2
-		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-				NOT = {
-					this = scope:curtiss_expedition_leader_1
-				}
-				NOT = {
-					this = scope:curtiss_expedition_leader_2
-				}
-				is_busy = no
-			}
-			save_scope_as = curtiss_expedition_leader_3
 		}
 	}
 
@@ -7550,28 +7267,6 @@ curtiss.252 = {
 			exists = scope:curtiss_expedition_leader_1
 		}
 		scope:curtiss_expedition_leader_1 = {
-			set_variable = curtiss_shangrila_leader_var
-			set_character_busy_and_immortal = yes
-		}
-	}
-
-	option = {
-		name = curtiss.252.h
-		trigger = {
-			exists = scope:curtiss_expedition_leader_2
-		}
-		scope:curtiss_expedition_leader_2 = {
-			set_variable = curtiss_shangrila_leader_var
-			set_character_busy_and_immortal = yes
-		}
-	}
-
-	option = {
-		name = curtiss.252.i
-		trigger = {
-			exists = scope:curtiss_expedition_leader_3
-		}
-		scope:curtiss_expedition_leader_3 = {
 			set_variable = curtiss_shangrila_leader_var
 			set_character_busy_and_immortal = yes
 		}
@@ -7611,15 +7306,7 @@ curtiss.253 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 	}
 
 	option = {
@@ -7689,15 +7376,7 @@ curtiss.254 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 	}
 
 	option = {
@@ -7775,15 +7454,7 @@ curtiss.255 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_HIMALAYAS
@@ -7831,15 +7502,7 @@ curtiss.260 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -7894,15 +7557,7 @@ curtiss.261 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -7999,15 +7654,7 @@ curtiss.262 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -8106,15 +7753,7 @@ curtiss.263 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -8162,15 +7801,7 @@ curtiss.264 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -8224,15 +7855,7 @@ curtiss.265 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -8281,15 +7904,7 @@ curtiss.266 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -8351,15 +7966,7 @@ curtiss.267 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -8435,15 +8042,7 @@ curtiss.268 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -8491,15 +8090,7 @@ curtiss.269 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -8581,15 +8172,7 @@ curtiss.270 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_KASHMIR
@@ -8643,15 +8226,7 @@ curtiss.271 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -8764,15 +8339,7 @@ curtiss.272 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -8835,15 +8402,7 @@ curtiss.273 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -8897,15 +8456,7 @@ curtiss.274 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -8968,15 +8519,7 @@ curtiss.275 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -9061,15 +8604,7 @@ curtiss.276 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -9119,15 +8654,7 @@ curtiss.277 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -9177,15 +8704,7 @@ curtiss.278 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -9263,15 +8782,7 @@ curtiss.279 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -9320,15 +8831,7 @@ curtiss.280 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_LHASA
@@ -9382,15 +8885,7 @@ curtiss.281 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -9484,15 +8979,7 @@ curtiss.282 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -9571,15 +9058,7 @@ curtiss.283 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -9635,15 +9114,7 @@ curtiss.284 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -9728,15 +9199,7 @@ curtiss.285 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -9821,15 +9284,7 @@ curtiss.286 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -9914,15 +9369,7 @@ curtiss.287 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -9972,15 +9419,7 @@ curtiss.288 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -10042,15 +9481,7 @@ curtiss.289 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -10116,15 +9547,7 @@ curtiss.290 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_NGARI
@@ -10180,15 +9603,7 @@ curtiss.291 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		var:lepsius_archaeologist_var = {
 			save_scope_as = curtiss_shangrila_archaeologist
 		}
@@ -10244,15 +9659,7 @@ curtiss.292 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_HIMALAYAS
@@ -10302,15 +9709,7 @@ curtiss.293 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_HIMALAYAS
@@ -10360,15 +9759,7 @@ curtiss.294 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_HIMALAYAS
@@ -10418,15 +9809,7 @@ curtiss.295 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_HIMALAYAS
@@ -10476,15 +9859,7 @@ curtiss.296 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_HIMALAYAS
@@ -10663,10 +10038,7 @@ curtiss.297 = {
 				type = puppet
 			}
 		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
+		var:curtiss_pilot_var = {
 			set_character_as_ruler = yes
 		}
 	}
@@ -10699,15 +10071,7 @@ curtiss.298 = {
 	}
 
 	immediate = {
-		var:curtiss_conway_var = {
-			save_scope_as = curtiss_conway_scope
-		}
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_shangrila_leader_var
-			}
-			save_scope_as = curtiss_shangrila_leader
-		}
+		set_curtiss_shangrila_characters_effect = yes
 		random_state = {
 			limit = {
 				state_region = s:STATE_HIMALAYAS
@@ -10773,17 +10137,7 @@ curtiss.311 = {
 	}
 
 	immediate = {
-		create_character = {
-			interest_group = ig_armed_forces
-			ideology = ideology_ethno_nationalist
-			traits = {
-				curtiss_pilot
-				charismatic
-				brave
-			}
-			is_general = yes
-			save_scope_as = curtiss_new_pilot
-		}
+		create_new_pilot_effect = yes
 		random_scope_war = {
 			limit = {
 				any_scope_front = {
@@ -10808,9 +10162,7 @@ curtiss.311 = {
 	option = { #This will be the beginning of a unique career.
 		name = curtiss.311.g
 		default_option = yes
-		scope:curtiss_new_pilot = {
-			add_character_role = general
-		}
+		curtiss_set_new_pilot_as_pilot_effect = yes
 		set_variable = {
 			name = curtiss_pilot_cooldown
 			days = 1000
@@ -10818,14 +10170,12 @@ curtiss.311 = {
 	}
 	option = { #We need him for domestic propaganda.
 		name = curtiss.311.h
+		curtiss_remove_new_pilot_effect = yes
 		scope:flying_circus_war = {
 			add_war_war_support = {
 				target = scope:flying_circus_home
 				value = 10
 			}
-		}
-		scope:curtiss_new_pilot = {
-			kill_character = yes
 		}
 	}
 }
@@ -10941,9 +10291,50 @@ curtiss.312 = {
 	}
 }
 
-#Curtiss 313: Enemy airfield captured!
+#Curtiss 314: Pilot becomes Ace
 
-#Curtiss 314: Pilot wounded
+curtiss.314 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	
+	title = curtiss.314.t
+	desc = curtiss.314.d
+	flavor = curtiss.314.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_pilot_var = {
+			save_scope_as = curtiss_ace
+		}
+	}
+
+	option = { #A new national hero!
+		name = curtiss.312.g
+		default_option = yes
+		scope:curtiss_ace = {
+			remove_trait = curtiss_pilot
+			add_trait = curtiss_pilot_ace
+		}
+	}
+}
+
+#Curtiss 321: Enemy airfield captured!
+
+#Curtiss 322: Pilot wounded
 
 
 #######################################################################################################
@@ -11275,6 +10666,9 @@ curtiss.505 = {
 
 	option = {	#A known pilot will fly it
 		name = curtiss.505.h
+		trigger = {
+			curtiss_has_active_pilot = yes
+		}
 		set_variable = curtiss_sc_pilot
 	}
 
@@ -12185,77 +11579,18 @@ curtiss.520 = {
     duration = 3
 
 	immediate = {
-		random_scope_character = {
+		var:curtiss_pilot_var = {
 			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
 				is_busy = no
 			}
 			save_scope_as = curtiss_expedition_leader_1
-		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-				NOT = {
-					this = scope:curtiss_expedition_leader_1
-				}
-				is_busy = no
-			}
-			save_scope_as = curtiss_expedition_leader_2
-		}
-		random_scope_character = {
-			limit = {
-				OR = {
-					has_trait = curtiss_pilot
-					has_trait = curtiss_pilot_ace
-				}
-				NOT = {
-					this = scope:curtiss_expedition_leader_1
-				}
-				NOT = {
-					this = scope:curtiss_expedition_leader_2
-				}
-				is_busy = no
-			}
-			save_scope_as = curtiss_expedition_leader_3
 		}
 	}
 
 	option = {
 		name = curtiss.520.g
 		default_option = yes
-		trigger = {
-			exists = scope:curtiss_expedition_leader_1
-		}
 		scope:curtiss_expedition_leader_1 = {
-			set_variable = curtiss_expedition_leader_var
-			set_character_busy_and_immortal = yes
-		}
-	}
-
-	option = {
-		name = curtiss.520.h
-		trigger = {
-			exists = scope:curtiss_expedition_leader_2
-		}
-		scope:curtiss_expedition_leader_2 = {
-			set_variable = curtiss_expedition_leader_var
-			set_character_busy_and_immortal = yes
-		}
-	}
-
-	option = {
-		name = curtiss.520.i
-		trigger = {
-			exists = scope:curtiss_expedition_leader_3
-		}
-		scope:curtiss_expedition_leader_3 = {
-			set_variable = curtiss_expedition_leader_var
 			set_character_busy_and_immortal = yes
 		}
 	}
@@ -12397,6 +11732,9 @@ curtiss.523 = {
 	option = {	#Welcome back
 		name = curtiss.523.g
 		default_option = yes
+		pilot_experience_gain_effect = {
+			AMOUNT = 25
+		}
 		add_modifier = {
 			name = curtiss_had_arctica_expedition_modifier
 			years = 3
@@ -12500,11 +11838,7 @@ curtiss.523 = {
 		remove_variable = curtiss_zeppelin_geography_var
 		remove_variable = curtiss_zeppelin_meteorology_var
 		remove_variable = curtiss_zeppelin_biology_var
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_expedition_leader_var
-			}
-			remove_variable = curtiss_expedition_leader_var
+		var:curtiss_pilot_var ?= {
 			set_character_busy_and_immortal = no 
 		}
 	}
@@ -12604,11 +11938,7 @@ curtiss.524 = {
 		remove_variable = curtiss_zeppelin_geography_var
 		remove_variable = curtiss_zeppelin_meteorology_var
 		remove_variable = curtiss_zeppelin_biology_var
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_expedition_leader_var
-			}
-			remove_variable = curtiss_expedition_leader_var
+		var:curtiss_pilot_var ?= {
 			set_character_busy_and_immortal = no 
 		}
 	}
@@ -12641,21 +11971,12 @@ curtiss.525 = {
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_expedition_leader_var
-			}
-			save_scope_as = curtiss_expedition_leader
-		}
+		set_curtiss_zeppelin_expedition_leader_effect = yes
 	}
 
 	option = {	#A cold grave.
 		name = curtiss.525.g
-		scope:curtiss_expedition_leader = {
-			remove_variable = curtiss_expedition_leader_var
-			set_character_busy_and_immortal = no
-			kill_character = yes 
-		}
+		kill_pilot_effect = yes
 	}
 }
 
@@ -12686,18 +12007,12 @@ curtiss.526 = {
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_expedition_leader_var
-			}
-			save_scope_as = curtiss_expedition_leader
-		}
+		set_curtiss_zeppelin_expedition_leader_effect = yes
 	}
 
 	option = {	#What a relief
 		name = curtiss.526.g
 		scope:curtiss_expedition_leader = {
-			remove_variable = curtiss_expedition_leader_var
 			set_character_busy_and_immortal = no
 		}
 	}
@@ -12737,12 +12052,7 @@ curtiss.527 = {
 
 	immediate = {
 		set_global_variable = curtiss_north_pole_passage
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_expedition_leader_var
-			}
-			save_scope_as = curtiss_expedition_leader
-		}
+		set_curtiss_zeppelin_expedition_leader_effect = yes
 	}
 
 	option = {	#Great!
@@ -12790,12 +12100,7 @@ curtiss.528 = {
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_expedition_leader_var
-			}
-			save_scope_as = curtiss_expedition_leader
-		}
+		set_curtiss_zeppelin_expedition_leader_effect = yes
 	}
 
 	option = {	#Hello, beautiful lady
@@ -12928,12 +12233,7 @@ curtiss.531 = {
 
 	immediate = {
 		curtiss_add_1_zeppelin_progress = yes
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_expedition_leader_var
-			}
-			save_scope_as = curtiss_expedition_leader
-		}
+		set_curtiss_zeppelin_expedition_leader_effect = yes
 	}
 
 	option = {	#Wonderful!
@@ -13077,12 +12377,7 @@ curtiss.532 = {
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_expedition_leader_var
-			}
-			save_scope_as = curtiss_expedition_leader
-		}
+		set_curtiss_zeppelin_expedition_leader_effect = yes
 	}
 
 	option = {	#We should stay longer 
@@ -13236,12 +12531,7 @@ curtiss.533 = {
 	}
 
 	immediate = {
-		random_scope_character = {
-			limit = {
-				has_variable = curtiss_expedition_leader_var
-			}
-			save_scope_as = curtiss_expedition_leader
-		}
+		set_curtiss_zeppelin_expedition_leader_effect = yes
 	}
 
 	option = {	#Try to land 
@@ -13413,6 +12703,7 @@ curtiss.535 = {
 	}
 
 	immediate = {
+		set_curtiss_zeppelin_expedition_leader_effect = yes
 	}
 
 	option = {	#We have to take the risk.
