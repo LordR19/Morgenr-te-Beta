@@ -1,0 +1,263 @@
+﻿#############################
+# ATHLETES SCRPITED EFFECTS #
+#############################
+
+############################################################################
+
+######PILOT######
+
+#This effect kills the current pilot
+# !!! Change stuff in both of the following effects !!!
+kill_pilot_effect = {
+	var:curtiss_pilot_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = curtiss_pilot_var
+}
+#This Effect retires the current pilot
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_pilot_effect = {
+	custom_tooltip = {
+		text = retire_pilot_effect_tt
+
+		var:curtiss_pilot_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = curtiss_pilot_var
+}
+
+# Creates a new pilot without losing the old one
+create_new_pilot_effect = {
+	random_list = {
+		10 = { #Manfred von Richthofen
+			trigger = {
+				NOT = { has_global_variable = curtiss_richthofen_created_global_var }
+				OR = {
+					country_has_primary_culture = cu:north_german
+					country_has_primary_culture = cu:south_german
+					country_has_primary_culture = cu:united_german
+				}
+				has_state_in_state_region = STATE_SILESIA
+				game_date >= 1915.5.30
+			}
+			create_character = {
+				template = mr_ger_richthofen_manfred_character_template
+
+				save_scope_as = curtiss_new_pilot_scope
+			}
+			scope:curtiss_new_pilot_scope = {
+				set_variable = mr_is_pilot_var
+				pilot_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = curtiss_new_pilot_var
+				value = scope:curtiss_new_pilot_scope
+			}
+
+			set_global_variable = curtiss_richthofen_created_global_var
+		}
+		1 = { #Random pilot
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						trait_generation = {}
+						save_scope_as = curtiss_new_pilot_scope
+					}
+					scope:curtiss_new_pilot_scope = {
+						add_trait = curtiss_pilot
+						set_variable = mr_is_pilot_var
+						pilot_experience_set_up_effect = yes
+						mr_trait_generation_pilot_effect = yes
+						place_character_in_void = 1200	
+					}
+					set_variable = {
+						name = curtiss_new_pilot_var
+						value = scope:curtiss_new_pilot_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						age = { 20 25 }
+						trait_generation = {}
+						save_scope_as = curtiss_new_pilot_scope
+					}
+					scope:curtiss_new_pilot_scope = {
+						add_trait = curtiss_pilot
+						set_variable = mr_is_pilot_var
+						pilot_experience_set_up_effect = yes
+						mr_trait_generation_pilot_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = curtiss_new_pilot_var
+						value = scope:curtiss_new_pilot_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var:curtiss_new_pilot_var = {
+		save_scope_as = curtiss_new_pilot_scope
+	}
+}
+
+# Set new Pilot as official Pilot
+curtiss_set_new_pilot_as_pilot_effect = {
+	custom_tooltip = {
+		text = curtiss_replace_pilot_with_new_pilot_tt
+	
+		if = {
+			limit = {
+				has_variable = curtiss_pilot_var
+			}
+			var:curtiss_pilot_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = curtiss_pilot_var
+			value = scope:curtiss_new_pilot_scope
+		}
+
+		remove_variable = curtiss_new_pilot_var
+	}
+}
+
+# Remove new Pilot
+curtiss_remove_new_pilot_effect = {
+	scope:curtiss_new_pilot_scope = {
+		free_character_from_void = no
+	}
+	remove_variable = curtiss_new_pilot_var
+}
+
+# Used to set up the Experience of a character 
+pilot_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curtiss_pilot_experience
+			}
+		}
+
+		set_variable = {
+			name = curtiss_pilot_experience
+			value = { 0 100 }
+		}
+	}
+	set_variable = {
+		name = curtiss_pilot_num_kills_var
+		value = 0
+	}
+	set_variable = {
+		name = curtiss_pilot_num_records_var
+		value = 0
+	}
+	set_variable = {
+		name = curtiss_pilot_num_schneider_races_var
+		value = 0
+	}
+	set_variable = {
+		name = elgar_pilot_num_schneider_victories_var
+		value = 0
+	}
+}
+
+#Pilot Experience gain
+pilot_experience_gain_effect = { #adds XP to the Pilot
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = curtiss_pilot_var #should only add experience if there actually is a pilot
+		}
+		custom_tooltip = {
+			text = curtiss_pilot_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:curtiss_pilot_var = { #Fallback to make sure there are no errors if the pilot does not have the variable yet
+							has_variable = curtiss_pilot_experience
+						}
+					}
+				}
+				var:curtiss_pilot_var = { #Sets the experience in case it was not set yet
+					pilot_experience_set_up_effect = yes
+				}
+			}
+			var:curtiss_pilot_var = {
+				change_variable = {
+					name = curtiss_pilot_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:curtiss_pilot_var = {
+			if = {
+				limit = {
+					var:curtiss_pilot_experience >= 300
+					NOT = {
+						has_trait = curtiss_pilot_ace
+					}
+				}
+				root = {
+					trigger_event = {
+						id = curtiss.314
+						popup = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					var:curtiss_pilot_experience >= 300
+				}
+				set_variable = {
+					name = curtiss_pilot_experience
+					value = 300
+				}
+			}
+		}
+	}
+}
