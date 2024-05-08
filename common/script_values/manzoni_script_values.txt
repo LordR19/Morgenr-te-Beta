@@ -554,16 +554,21 @@ local_writer_experience_gain_value = {
 
 #This value calculates the amount of publications of a country depending on the amount of Publishing industries and other factors
 manzoni_yearly_publications_value = {
+
+	#Publishing Industry is the biggest producer of publications
+	###Linotype###
 	if = {
 		limit = {
 			any_scope_building = {
 				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_linotype
 			}
 		}
 
 		every_scope_building = {
 			limit = {
 				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_linotype
 			}
 			add = level
 
@@ -573,19 +578,86 @@ manzoni_yearly_publications_value = {
 				}
 				add = level
 			}
-			
+			multiply = { 200 250 }
 		}
-
-		multiply = { 10 15 }
 	}
-
-	add = { 0 10 } #There are publications even without a publishing industry
-	if = {
+	###Rotary Press###
+	else_if = {
 		limit = {
-			literacy_rate >= 0.5
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_rotary_presses
+			}
 		}
-		add = { 0 5 }
+
+		every_scope_building = {
+			limit = {
+				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_rotary_presses
+			}
+			add = level
+
+			if = {
+				limit = {
+					has_active_production_method = manzoni_pm_publisher_public
+				}
+				add = level
+			}
+			multiply = { 150 200 }
+		}
 	}
+	#Circular Pressure Printing Machine
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_cylinder_presses
+			}
+		}
+
+		every_scope_building = {
+			limit = {
+				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_cylinder_presses
+			}
+			add = level
+
+			if = {
+				limit = {
+					has_active_production_method = manzoni_pm_publisher_public
+				}
+				add = level
+			}
+			multiply = { 100 150 }
+		}
+	}
+	#Printing Press
+	else_if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_printing_presses
+			}
+		}
+
+		every_scope_building = {
+			limit = {
+				is_building_type = building_manzoni_publishing_industry
+				has_active_production_method = manzoni_pm_printing_presses
+			}
+			add = level
+
+			if = {
+				limit = {
+					has_active_production_method = manzoni_pm_publisher_public
+				}
+				add = level
+			}
+			multiply = { 50 100 }
+		}
+	}
+
+	#The Administration produces administrative papers and legal publications
 	if = {
 		limit = {
 			country_has_building_type_levels = {
@@ -593,8 +665,10 @@ manzoni_yearly_publications_value = {
 				value  >= 20
 			}
 		}
-		add = { 0 5 }
+		add = { 0 50 }
 	}
+
+	#Universities produce all sorts of scientif/academic articles and books; they had also their own printing presses
 	if = {
 		limit = {
 			country_has_building_type_levels = {
@@ -602,7 +676,71 @@ manzoni_yearly_publications_value = {
 				value  >= 5
 			}
 		}
-		add = { 0 5 }
+		add = { 0 50 }
+	}
+
+	#Every Academic will produce some books and articles
+	if = {
+		limit = {
+			gaudi_has_engineer = yes
+		}
+		add = { 0 5 } #Does not write es much as other academics
+	}
+	if = {
+		limit = {
+			verrier_has_astronomer = yes
+		}
+		add = { 0 10 } 
+	}
+	if = {
+		limit = {
+			dubois_has_naturalist = yes
+		}
+		add = { 0 15 } #Writes more than other academics
+	}
+	if = {
+		limit = {
+			dubois_has_paleontologist = yes
+		}
+		add = { 0 10 } 
+	}
+	if = {
+		limit = {
+			lepsius_has_archaeologist = yes
+		}
+		add = { 0 15 } #Writes more than other academics
+	}
+	if = {
+		limit = {
+			lepsius_has_anthropologist = yes
+		}
+		add = { 0 15 } #Writes more than other academics
+	}
+
+	#Art Academy with Salon
+	if = {
+		limit = {
+			manzoni_has_salon = yes
+		}
+		add = { 0 50 }
+	}
+
+	#Literacy rate
+	if = {
+		limit = {
+			literacy_rate >= 0.5
+		}
+		add = { 0 50 }
+	}
+
+	add = { 0 100 } #There are publications even without a publishing industry
+
+	#Thriving Printing Industry will give a boost
+	if = {
+		limit = {
+			has_modifier = manzoni_thriving_book_industry_modifier
+		}
+		multiply = 1.25
 	}
 }
 
