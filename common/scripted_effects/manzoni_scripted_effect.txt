@@ -1305,7 +1305,17 @@ manzoni_bestseller_event_or_effect_chooser_effect = {
 		#In case the Writer has less than 1 bestseller, the correct event is chosen.
 		#Otherwise an effect and notification is fired.
 		limit = {
-			scope:manzoni_writer_scope.var:manzoni_num_bestsellers_var < 1
+			trigger_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_variable = manzoni_num_bestsellers_var
+					}
+				}
+				scope:manzoni_writer_scope.var:manzoni_num_bestsellers_var < 1
+			}
+			trigger_else = {
+				always = yes
+			}
 		}
 		if = {
 			#This first check limits the numbers of checks by first checking if a character is historical.
