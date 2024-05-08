@@ -1,5 +1,8 @@
 Changelog for 2.1.4 "Kafka"
 
+General:
+- Included the "Rise of the Publishing Industry" Mod (PBI) by Kaznoku. Added and enhanced PBI events and JEs.
+
 Characters:
 - Franz Kafka (random Austrian Writer)
 - Robert Musil (random Austrian Writer)
@@ -81,7 +84,8 @@ Physics:
 - Added Nuclear Physics Tech. Be careful with that stuff.
 - Added new good: Uranium.
 - Added new building: Uranium mine.
-- Added new Production Method Group in the Observatory: Institute for Physics. This will give Procudtion Tech Bonus (but will need uranium for the more advanced tiers).
+- Uranium glassware (PM) for Glass industry
+- Added new Production Method Group in the Observatory: Institute for Physics. This will give Production Tech Bonus (but will need uranium for the more advanced tiers).
 
 Bugfixes:
 - Historical Science Focuses are now properly removed, if you change the rule.
