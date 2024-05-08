@@ -629,7 +629,19 @@ manzoni_yearly_literary_tradition_value = {
 			}
 			add = 1
 		}
-		#A great writer adds +2
+		#A great writer adds +1
+		if = {
+			limit = {
+				var:manzoni_writer_var ?= {
+					OR = {
+						has_trait = manzoni_great_writer
+						var:manzoni_writer_experience >= 300
+					}
+				}
+			}
+			add = 1
+		}
+		#A great writer adds +2 in total
 		if = {
 			limit = {
 				var:manzoni_writer_var ?= {
@@ -639,7 +651,7 @@ manzoni_yearly_literary_tradition_value = {
 					}
 				}
 			}
-			add = 2
+			add = 1
 		}
 	}
 
@@ -648,10 +660,18 @@ manzoni_yearly_literary_tradition_value = {
 		limit = { has_variable_list = mr_local_writers_list }
 		every_in_list = {
 			variable = mr_local_writers_list
-			limit = {
-				manzoni_local_writer_meets_taste_character_scope_trigger = yes
+			if = {
+				limit = {
+					NOT = {
+						has_trait = manzoni_writer_fiction
+					}
+				}
+				add = 1
 			}
-			add = 1
+			else_if = {
+				limit = { manzoni_local_writer_meets_taste_character_scope_trigger = yes }
+				add = 1
+			}
 		}
 	}
 
