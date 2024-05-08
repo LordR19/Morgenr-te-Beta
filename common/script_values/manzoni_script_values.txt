@@ -613,23 +613,45 @@ manzoni_yearly_literary_tradition_value = {
 	#A National writer gives a base of 1 Literary Tradition.
 	if = {
 		limit = { has_variable = manzoni_writer_var }
-		value = 1
 
-		#If the writer fits the taste it adds 2 literary tradition
 		if = {
 			limit = {
-				manzoni_writer_meets_taste_trigger = yes
+				var:manzoni_writer_var = {
+					NOT = {
+						has_trait = manzoni_writer_fiction
+					}
+				}
 			}
-			add = 2
-		}
-		#If the taste is close to the genre +1
-		else_if = {
-			limit = {
-				manzoni_writer_close_taste_trigger = yes
+			value = 2
+
+			#If the writer fits or is close to the taste it adds 1 literary tradition
+			if = {
+				limit = {
+					OR = {
+						manzoni_writer_close_taste_trigger = yes
+						manzoni_writer_meets_taste_trigger = yes
+					}
+				}
+				add = 1
 			}
-			add = 1
 		}
-		#A great writer adds +1
+		else = {
+			#If the writer fits the taste it adds 2 literary tradition
+			if = {
+				limit = {
+					manzoni_writer_meets_taste_trigger = yes
+				}
+				add = 2
+			}
+			#If the taste is close to the genre +1
+			else_if = {
+				limit = {
+					manzoni_writer_close_taste_trigger = yes
+				}
+				add = 1
+			}
+		}
+		#A writer with 300 Reputation adds +1
 		if = {
 			limit = {
 				var:manzoni_writer_var ?= {
