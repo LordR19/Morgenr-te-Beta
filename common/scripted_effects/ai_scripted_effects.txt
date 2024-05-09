@@ -1,0 +1,427 @@
+﻿#######################
+# AI SCRPITED EFFECTS #
+#######################
+
+############################################################################
+
+#This effect removes Void Characters of countries that no longer exist.
+ai_remove_characters_effect = {
+	if = {
+		limit = { NOT = { has_global_variable = mr_on_yearly_no_more_global_var } }
+		set_global_variable = {
+			name = mr_on_yearly_no_more_global_var
+			days = 364
+		}
+		#Composers
+		every_character_in_void = {
+			limit = {
+				has_variable = mr_is_composer_var
+				NOT = { exists = owner }
+				OR = {
+					var:elgar_composer_experience >= 400
+					is_historical = yes
+				}
+			}
+			remove_variable = mr_is_composer_var
+			set_variable = mr_is_travelling_composer_var
+			if = {
+				limit = {
+					NOT = { has_variable = mr_travelling_composer_year_counter_var }
+				}
+				set_variable = {
+					name = mr_travelling_composer_year_counter_var
+					value = 0
+				}
+				add_to_global_variable_list = {
+					name = mr_travelling_composer_global_list
+					target = this
+				}
+			}
+		}
+		#Writers and Local Writers
+		every_character_in_void = {
+			limit = {
+				OR = {
+					has_variable = mr_is_writer_var
+					has_variable = mr_is_local_writer_var
+				}
+				NOT = { exists = owner }
+			}
+			free_character_from_void = yes
+		}
+		#Painters
+		every_character_in_void = {
+			limit = {
+				has_variable = mr_is_painter_var
+				NOT = { exists = owner }
+				OR = {
+					var:klimt_painter_experience >= 400
+					is_historical = yes
+				}
+			}
+			remove_variable = mr_is_painter_var
+			set_variable = mr_is_independent_painter_var
+			if = {
+				limit = {
+					NOT = { has_variable = mr_travelling_composer_year_counter_var }
+				}
+				set_variable = {
+					name = mr_travelling_composer_year_counter_var
+					value = 0
+				}
+				add_to_global_variable_list = {
+					name = mr_independent_painter_global_list
+					target = this
+				}
+			}
+		}
+		#Other Void characters
+		every_character_in_void = {
+			limit = {
+				NOR = {
+					exists = owner
+					OR = {
+						has_variable = mr_is_travelling_composer_var
+						has_variable = mr_is_independent_painter_var
+					}
+				}
+			}
+			free_character_from_void = no
+		}
+	}
+}
+
+#Handles the Paleontology for the AI
+ai_paleontology_yearly_effect = {
+	if = {
+		limit = {
+			has_variable = dubois_paleontologist_var
+		}
+		
+		# Updates the Cost of Paleontology
+		remove_modifier = dubois_paleontological_research_modifier
+		add_modifier = {
+			name = dubois_paleontological_research_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+
+		# adds yearly fossils
+		dubois_add_x_fossils_effect = { AMOUNT = dubois_yearly_regular_fossils_value }
+
+		# special fossil events
+		trigger_event = {
+			on_action  = dubois_on_yearly_pulse_special_fossil_events
+		}
+
+		# Bone acquisition
+		if = {
+			limit = { #Only possible if the country can find bones
+				dubois_has_potential_dinosaur_bone = yes
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_variable = dubois_dinosaur_excavation_finding_progress
+					}
+				}
+				set_variable = {
+					name = dubois_dinosaur_excavation_finding_progress
+					value = dubois_dinosaur_excavation_find_yearly_progress_value
+				}
+			}
+			else = {
+				change_variable = {
+					name = dubois_dinosaur_excavation_finding_progress
+					add = dubois_dinosaur_excavation_find_yearly_progress_value
+				}
+			}
+			if = {
+				limit = {
+					var:dubois_dinosaur_excavation_finding_progress >= dubois_dinosaur_excavation_finding_progress_goal_value
+				}
+				change_variable = {
+					name = dubois_dinosaur_excavation_finding_progress
+					subtract = dubois_dinosaur_excavation_finding_progress_goal_value
+				}
+				random_list = {
+					1 = { #North America
+						trigger = {
+							dubois_dinosaur_research_in_north_america = yes
+							dubois_has_maximum_north_american_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_north_american_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_north_american_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #South America
+						trigger = {
+							dubois_dinosaur_research_in_south_america = yes
+							dubois_has_maximum_south_american_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_south_american_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_south_american_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #Africa
+						trigger = {
+							dubois_dinosaur_research_in_africa = yes
+							dubois_has_maximum_african_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_african_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_african_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #Asia
+						trigger = {
+							dubois_dinosaur_research_in_asia = yes
+							dubois_has_maximum_asian_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_asian_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_asian_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #Australia
+						trigger = {
+							dubois_dinosaur_research_in_australia = yes
+							dubois_has_maximum_australian_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_australian_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_australian_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+					1 = { #Europe
+						trigger = {
+							dubois_dinosaur_research_in_europe = yes
+							dubois_has_maximum_european_dinosaur_bone = no
+						}
+						set_variable = {
+							name = dinosaur_bone_randomizer
+							value = { 1 5 }
+						}
+						change_variable = {
+							name = dubois_european_dinosaur_bone
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_european_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						change_variable = {
+							name = dubois_dinosaur_bone_total
+							add = var:dinosaur_bone_randomizer
+						}
+						remove_variable = dinosaur_bone_randomizer
+					}
+				}
+			}
+		}
+
+		#Dinosaur Skeletons
+		if = { #North America
+			limit = {
+				var:dubois_north_american_dinosaur_bone >= 5
+				dubois_has_paleontologist = yes
+				NAND = {
+					has_variable = dubois_ankylosaurus_var
+					has_variable = dubois_stegosaurus_var
+					has_variable = dubois_diplodocus_var
+					has_variable = dubois_triceratops_var
+					has_variable = dubois_tyrannosaurus_var
+				}
+			}
+			set_variable = dubois_construct_north_american_dinosaur_var
+			dubois_construct_north_american_dinosaur = yes
+			trigger_event = {
+				id = dubois.2044
+				days = 7 #AI will always build perfect skeletons immediately but never transforms fossils
+			}
+		}
+		if = { #South America
+			limit = {
+				var:dubois_south_american_dinosaur_bone >= 5
+				dubois_has_paleontologist = yes
+				NAND = {
+					has_variable = dubois_antarctosaurus_var
+					has_variable = dubois_argyrosaurus_var
+				}
+			}
+			set_variable = dubois_construct_south_american_dinosaur_var
+			dubois_construct_south_american_dinosaur = yes
+			trigger_event = {
+				id = dubois.2044
+				days = 7 #AI will always build perfect skeletons immediately but never transforms fossils
+			}
+		}
+		if = { #Europe
+			limit = {
+				var:dubois_european_dinosaur_bone >= 5
+				dubois_has_paleontologist = yes
+				NAND = {
+					has_variable = dubois_iguanodon_var
+					has_variable = dubois_plateosaurus_var
+				}
+			}
+			set_variable = dubois_construct_european_dinosaur_var
+			dubois_construct_european_dinosaur = yes
+			trigger_event = {
+				id = dubois.2044
+				days = 7 #AI will always build perfect skeletons immediately but never transforms fossils
+			}
+		}
+		if = { #Africa
+			limit = {
+				var:dubois_african_dinosaur_bone >= 5
+				dubois_has_paleontologist = yes
+				NAND = {
+					has_variable = dubois_giraffatitan_var
+					has_variable = dubois_spinosaurus_var
+				}
+			}
+			set_variable = dubois_construct_african_dinosaur_var
+			dubois_construct_african_dinosaur = yes
+			trigger_event = {
+				id = dubois.2044
+				days = 7 #AI will always build perfect skeletons immediately but never transforms fossils
+			}
+		}
+		if = { #Asia
+			limit = {
+				var:dubois_asian_dinosaur_bone >= 5
+				dubois_has_paleontologist = yes
+				NAND = {
+					has_variable = dubois_psittacosaurus_var
+					has_variable = dubois_velociraptor_var
+				}
+			}
+			set_variable = dubois_construct_asian_dinosaur_var
+			dubois_construct_asian_dinosaur = yes
+			trigger_event = {
+				id = dubois.2044
+				days = 7 #AI will always build perfect skeletons immediately but never transforms fossils
+			}
+		}
+		if = { #Australia
+			limit = {
+				var:dubois_australian_dinosaur_bone >= 5
+				dubois_has_paleontologist = yes
+				NAND = {
+					has_variable = dubois_muttaburrasaurus_var
+					has_variable = dubois_rhoetosaurus_var
+				}
+			}
+			set_variable = dubois_construct_australian_dinosaur_var
+			dubois_construct_australian_dinosaur = yes
+			trigger_event = {
+				id = dubois.2044
+				days = 7 #AI will always build perfect skeletons immediately but never transforms fossils
+			}
+		}
+	}
+}
+
+#Removes the paleontological modifier if there is no paleontologist
+ai_paleontology_monthly_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_paleontologist_var
+			}
+			has_modifier = dubois_paleontological_research_modifier
+		}
+		remove_modifier = dubois_paleontological_research_modifier
+	}
+}
+
+#Acquire masterwork painting
+ai_acquire_masterwork_painting_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = klimt_acquire_masterwork_var
+			}
+			klimt_has_gallery = yes
+			AND = {
+				NOT = {
+					has_global_variable = elgar_art_nouveau_discovered #AI should not waste Painting Tradition if it has the theoretical option to get Art Nouveau CoA
+				}
+				var:klimt_painting_tradition_var >= 950
+			}
+			klimt_can_acquire_masterwork_no_tooltip_trigger = yes
+		}
+		set_variable = klimt_acquire_masterwork_var
+		trigger_event = { 
+			id = klimt.110
+			popup = yes
+		}
+	}
+}

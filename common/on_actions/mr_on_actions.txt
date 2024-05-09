@@ -8,18 +8,6 @@
 
 #Checking the AI
 
-on_yearly_pulse_country = { 
-	on_actions = {
-		mr_on_yearly_pulse_country
-	}
-}
-
-mr_on_yearly_pulse_country = {
-	events = {
-		mr.3 #Check Dubois Paleontology AI
-	}
-}
-
 on_monthly_pulse_country = { 
 	on_actions = {
 		mr_on_monthly_pulse_country
@@ -30,7 +18,6 @@ mr_on_monthly_pulse_country = {
 
 	events = {
 		mr.1 #Check new AI countries for variables
-		mr.2 #Check Dubois Paleontology AI
 		mr.5 #Check University PMs
 		mr.6 #Check Art Academy PMs
 	}
@@ -42,48 +29,6 @@ mr_on_monthly_pulse_country = {
 				exists = c:FRA
 			}
 			mr_copy_percentage_of_variables_commune_effect = yes
-		}
-		#This effect removes Void Characters of countries that no longer exist.
-		if = {
-			limit = { NOT = { has_global_variable = mr_on_monthly_no_more_global_var } }
-			set_global_variable = {
-				name = mr_on_monthly_no_more_global_var
-				days = 15
-			}
-			every_character_in_void = {
-				limit = {
-					has_variable = mr_is_composer_var
-					NOT = { exists = owner }
-					OR = {
-						var:elgar_composer_experience >= 400
-						is_historical = yes
-					}
-				}
-				remove_variable = mr_is_composer_var
-				set_variable = mr_is_travelling_composer_var
-				if = {
-					limit = {
-						NOT = { has_variable = mr_travelling_composer_year_counter_var }
-					}
-					set_variable = {
-						name = mr_travelling_composer_year_counter_var
-						value = 0
-					}
-					add_to_global_variable_list = {
-						name = mr_travelling_composer_global_list
-						target = this
-					}
-				}
-			}
-			every_character_in_void = {
-				limit = {
-					NOR = {
-						exists = owner
-						has_variable = mr_is_travelling_composer_var
-					}
-				}
-				free_character_from_void = no
-			}
 		}
 
 		#Ranking set up

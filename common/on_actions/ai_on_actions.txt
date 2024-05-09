@@ -8,7 +8,19 @@
 
 on_monthly_pulse_country = { 
 	on_actions = {
-		
+		mr_ai_on_monthly_pulse_country
+	}
+}
+
+mr_ai_on_monthly_pulse_country = {
+	effect = {
+		#Only AI
+		if = {
+			limit = { is_ai = yes }
+
+			#Removes the paleontological modifier if there is no paleontologist
+			ai_paleontology_monthly_effect = yes
+		}
 	}
 }
 
@@ -20,37 +32,25 @@ on_yearly_pulse_country = {
 
 mr_ai_on_yearly_pulse_country = {
 	effect = {
+
+		#This effect removes Void Characters of countries that no longer exist.
+		ai_remove_characters_effect = yes
+
 		#Only AI
 		if = {
 			limit = { is_ai = yes }
+
+			#Palaeontology
+			ai_paleontology_yearly_effect = yes
 
 			#Arts related
 			if = {
 				limit = {
 					has_technology_researched = elgar_classicism_tech
 				}
-				
+
 				#Acquire masterwork painting
-				if = {
-					limit = {
-						NOT = {
-							has_variable = klimt_acquire_masterwork_var
-						}
-						klimt_has_gallery = yes
-						AND = {
-							NOT = {
-								has_global_variable = elgar_art_nouveau_discovered #AI should not waste Painting Tradition if it has the theoretical option to get Art Nouveau CoA
-							}
-							var:klimt_painting_tradition_var >= 950
-						}
-						klimt_can_acquire_masterwork_no_tooltip_trigger = yes
-					}
-					set_variable = klimt_acquire_masterwork_var
-					trigger_event = { 
-						id = klimt.110
-						popup = yes
-					}
-				}
+				ai_acquire_masterwork_painting_effect = yes
 			}
 		}
 	}
