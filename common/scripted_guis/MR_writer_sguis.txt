@@ -115,9 +115,6 @@ mr_invite_writer_button = {
 #MR_NEWSPAPER_NOVEL_BUTTON
 mr_newspaper_novel_button  = {
     scope = country
-	saved_scopes = {
-        chosen_writer
-    }
     is_valid = {
 		custom_tooltip = {
 			text = MR_REALISM_TECH_TRIGGER_TT
@@ -197,31 +194,48 @@ mr_newspaper_novel_button  = {
 #MR_READING_TOUR_BUTTON
 mr_reading_tour_button  = {
     scope = country
-	saved_scopes = {
-        chosen_writer
-    }
     is_valid = {
 		manzoni_has_active_writer = yes
-		var:manzoni_writer_var ?= {
-			has_trait = manzoni_writer_fiction
-			has_trait = manzoni_universal_writer
-		}
-		NOT = {
-			var:manzoni_writer_var ?= {
-				has_variable = manzoni_reading_tour_var
+		trigger_if = {
+			limit = { has_variable = manzoni_writer_var }
+			custom_tooltip = {
+				text = MR_READING_TOUR_BUTTON_WRITER_TYPE_TRIGGER_TT
+				var:manzoni_writer_var ?= {
+					has_trait = manzoni_writer_fiction
+					has_trait = manzoni_universal_writer
+				}
+			}
+			custom_tooltip = {
+				text = MR_READING_TOUR_BUTTON_WRITER_NO_READING_TOUR_TRIGGER_TT
+				NOT = {
+					var:manzoni_writer_var ?= {
+						has_variable = manzoni_reading_tour_var
+					}
+				}
 			}
 		}
-		any_country = {
-			manzoni_foreign_writer_meets_taste_trigger = yes
+		custom_tooltip = {
+			text = MR_READING_TOUR_BUTTON_WRITER_MEETS_FOREIGN_TASTE_TRIGGER_TT
+			any_country = {
+				manzoni_foreign_writer_meets_taste_trigger = yes
+			}
 		}
-		NOT = {
-			has_modifier = manzoni_writer_on_tour_modifier
+		custom_tooltip = {
+			text = MR_READING_TOUR_BUTTON_CURRENT_READING_TOUR_TRIGGER_TT
+			NOT = {
+				has_modifier = manzoni_writer_on_tour_modifier
+			}
 		}
     }
 
     effect = {
-		var:manzoni_writer_var = {
-			set_character_busy_and_immortal = yes
+		if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			var:manzoni_writer_var = {
+				set_character_busy_and_immortal = yes
+			}
 		}
 		add_modifier = {
 			name = manzoni_writer_on_tour_modifier
