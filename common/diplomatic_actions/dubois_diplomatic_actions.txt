@@ -48,8 +48,21 @@ ask_for_zoo_animal = {
 		NOT = {
 			has_modifier = dubois_zoo_transport_modifier
 		}
-		scope:target_country.relations:root >= relations_threshold:cordial
-		dubois_target_has_animal = yes
+		trigger_if = {
+			limit = { is_ai = yes }
+			scope:target_country.relations:root >= relations_threshold:cordial
+			dubois_target_has_animal = yes
+		}
+		trigger_else = {
+			custom_tooltip = {
+				text = DIPLO_ACTION_RELATIONS_CORDIAL_OR_GREATER
+				scope:target_country.relations:root >= relations_threshold:cordial
+			}
+			custom_tooltip = {
+				text = dubois_target_has_animal_tt
+				dubois_target_has_animal = yes
+			}
+		}
 	}
 
 	accept_effect = {
@@ -635,7 +648,7 @@ botanical_license = {
 			is_country_type = unrecognized
 		}
 		scope:target_country = {
-			dubois_has_rainforest = yes
+			dubois_has_rainforest_no_tooltip = yes
 		}
 		hidden_trigger = {
 			OR = {
