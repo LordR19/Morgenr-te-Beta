@@ -305,6 +305,69 @@ ai_transatlantic_cable_expedition_effect = {
 	}
 }
 
+#Handles the Northwest Passage Expedition
+ai_northwest_passage_expedition_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = rapanui_northwest_passage_found_var
+			}
+			NOR = {
+				has_modifier = rapanui_northwest_expedition_modifier
+				has_modifier = rapanui_had_northwest_expedition_modifier
+			}
+			weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+			navy_size >= 25
+			any_scope_character = {
+				has_role = admiral
+				is_busy = no
+			}
+			has_technology_researched = screw_frigate
+			has_technology_researched = dialectics
+			has_technology_researched = canneries
+			OR = {
+				ig:ig_armed_forces = {
+					is_in_government = yes
+				}
+				ig:ig_industrialists = {
+					is_in_government = yes
+				}
+				ig:ig_intelligentsia = {
+					is_in_government = yes
+				}
+			}
+			OR = {
+				any_scope_interest_marker = {
+					region = sr:region_canada
+				}
+				any_scope_interest_marker = {
+					region = sr:region_pacific_coast
+				}
+				any_scope_interest_marker = {
+					region = sr:region_north_sea_coast
+				}
+			}
+			any_scope_building = {
+				is_building_type = building_port
+			}
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+
+		#Effect
+		add_treasury = -100000
+		add_modifier = {
+			name = rapanui_northwest_expedition_modifier
+		}
+		trigger_event = { 
+			id = rapanui.401
+			popup = yes
+		}
+	}
+}
+
 #Handles the Paleontology for the AI
 ai_paleontology_yearly_effect = {
 	if = {
