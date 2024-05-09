@@ -589,6 +589,118 @@ ai_animal_breeding_effect = {
 	}
 }
 
+#Handles the Naturalist for the AI
+ai_naturalist_effect = {
+	if = { #Checks for Naturalist
+		limit = { dubois_has_active_naturalist_no_tooltip = yes }
+
+		#Zoological Expedition
+		if = {
+			limit = {
+				has_technology_researched = dubois_theory_of_evolution_tech
+				NOT = {
+					has_modifier = dubois_search_local_animal_modifier
+				}
+				dubois_has_local_animal = yes
+			}
+			
+			#Effect
+			add_modifier = {
+				name = dubois_search_local_animal_modifier
+			}
+			hidden_effect = {
+				dubois_set_catch_animals = yes
+				var:dubois_naturalist_var = {
+					add_modifier = {
+						name = dubois_animal_hunter_modifier
+					}
+					set_character_busy_and_immortal = yes
+				}
+				trigger_event = {
+					id = dubois.21
+					days = 365
+				}
+			}
+		}
+		#Safari Expedition
+		if = {
+			limit = {
+				has_technology_researched = dubois_theory_of_evolution_tech
+				has_technology_researched = civilizing_mission
+				NOR = {
+					has_modifier = dubois_on_safari_modifier
+					has_modifier = dubois_had_safari_modifier
+				}
+				any_scope_state = {
+					is_capital = yes
+					OR = {
+						is_production_method_active = {
+							building_type = building_dubois_zoo
+							production_method = pm_zoo_level_2
+						}
+						is_production_method_active = {
+							building_type = building_dubois_zoo
+							production_method = pm_zoo_level_3
+						}
+						is_production_method_active = {
+							building_type = building_dubois_zoo
+							production_method = pm_zoo_level_4
+						}
+					}
+				}
+				dubois_safari_possible = yes
+			}
+
+			#Effect
+			add_modifier = {
+				name = dubois_on_safari_modifier
+			}
+			trigger_event = {
+				id = dubois.31
+				popup = yes
+			}
+			hidden_effect = {
+				var:dubois_naturalist_var = {
+					add_modifier = {
+						name = dubois_animal_hunter_modifier
+					}
+					set_character_busy_and_immortal = yes
+				}
+			}
+		}
+		#Botanical Expedition
+		if = {
+			limit = {
+				NOT = {
+					has_modifier = dubois_botanical_expedition_modifier
+				}
+				var:dubois_specimen <= 50000
+				weekly_net_fixed_income > money_amount_multiplier_medium
+				gold_reserves > 0
+				has_technology_researched = dubois_theory_of_evolution_tech
+				has_technology_researched = malaria_prevention
+				dubois_botanical_expedition_banned_no_tooltip_trigger = no
+				OR = {
+					dubois_has_rainforest_no_tooltip = yes
+					any_country = {
+						has_diplomatic_pact = {
+							who = ROOT
+							type = botanical_license
+						}				
+						dubois_has_rainforest_no_tooltip = yes
+					}
+				}
+			}
+
+			#Effect
+			trigger_event = { 
+				id = dubois.301
+				popup = yes 
+			}
+		}
+	}
+}
+
 #Handles the Paleontology for the AI
 ai_paleontology_yearly_effect = {
 	if = {
