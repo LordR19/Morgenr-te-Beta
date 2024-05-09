@@ -562,6 +562,33 @@ ai_zoo_expansion_effect = {
 	}
 }
 
+#Handles Animal Breeding for AI
+ai_animal_breeding_effect = {
+	if = {
+		limit = {
+			has_technology_researched = dubois_nature_protection_tech
+			has_variable = dubois_naturalist_var
+			literacy_rate >= 60
+			any_scope_building = {
+				is_building_type = building_dubois_national_park
+				level > 0
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+			dubois_nature_reserve_breeding_possible_no_tooltip_trigger = yes
+		}
+
+		#Effect
+		set_variable = dubois_breeding_animals_var
+		trigger_event = {
+			id = dubois.1301
+			popup = yes
+		}
+	}
+}
+
 #Handles the Paleontology for the AI
 ai_paleontology_yearly_effect = {
 	if = {
@@ -870,6 +897,87 @@ ai_paleontology_monthly_effect = {
 			has_modifier = dubois_paleontological_research_modifier
 		}
 		remove_modifier = dubois_paleontological_research_modifier
+	}
+}
+
+#Handles Congresses for the AI
+ai_congresses_effect = {
+	#Exodus Congress
+	if = {
+		limit = {
+			NOR = {
+				has_global_variable = lepsius_exodus_congress_hosted_var
+				any_country = {
+					has_modifier = lepsius_congress_host_modifier
+				}
+			}
+			country_rank >= rank_value:major_power
+			global_var:lepsius_global_artifacts >= 175
+			var:lepsius_egyptian_artifact_minor >= 25
+			has_technology_researched = lepsius_antiquarianism_tech
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 5
+			}
+			any_scope_building = {
+				is_building_type = building_lepsius_archaeological_museum
+			}
+			lepsius_has_archaeologist_no_tooltip_trigger = yes
+			any_country = {
+				lepsius_has_archaeologist_no_tooltip_trigger = yes
+				count >= 5
+			}
+		}
+
+		#Effect
+		trigger_event = { 
+			id = lepsius.1101
+			popup = yes 
+		}
+		set_global_variable = lepsius_exodus_congress_hosted_var
+		add_modifier = {
+			name = lepsius_congress_host_modifier
+			years = 5
+		}
+	}
+	#Civilization Congress
+	if = {
+		limit = {
+			has_global_variable = lepsius_exodus_congress_hosted_var
+			NOR = {
+				has_global_variable = lepsius_civilization_congress_hosted_var
+				any_country = {
+					has_modifier = lepsius_congress_host_modifier
+				}
+			}
+			country_rank >= rank_value:major_power
+			var:lepsius_mesopotamian_artifact_minor >= 25
+			global_var:lepsius_global_artifacts >= 330
+			has_technology_researched = lepsius_early_archaeology_tech
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+			any_scope_building = {
+				is_building_type = building_lepsius_archaeological_museum
+			}
+			lepsius_has_archaeologist_no_tooltip_trigger = yes
+			any_country = {
+				has_variable = lepsius_archaeologist_var
+				count >= 10
+			}
+		}
+
+		#Effect
+		trigger_event = { 
+			id = lepsius.1111
+			popup = yes 
+		}
+		set_global_variable = lepsius_civilization_congress_hosted_var
+		add_modifier = {
+			name = lepsius_congress_host_modifier
+			years = 5
+		}
 	}
 }
 
