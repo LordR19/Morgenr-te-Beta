@@ -8,6 +8,7 @@ Characters:
 - Robert Musil (random Austrian Writer)
 - Zweig Stefan (random Austrian Writer)
 - Hans Christian Andersen (Danish Writer)
+- Honoré de Balzac (French Writer)
 - Jules Verne (random French Writer)
 - J.R.R Tolkien (randim British Writer)
 - H.G. Wells (random British Writer)
