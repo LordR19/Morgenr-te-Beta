@@ -114,7 +114,6 @@ mr_invite_writer_button = {
 
 #MR_NEWSPAPER_NOVEL_BUTTON
 mr_newspaper_novel_button  = {
-	#!!!If you change any Trigger or effects here, change them in the AI version too (elgar_ai_hire_composer_effect)!!!
     scope = country
 	saved_scopes = {
         chosen_writer
@@ -191,6 +190,45 @@ mr_newspaper_novel_button  = {
 		}
 		add_journal_entry = {
 			type = pbi_je_objective_bestseller
+		}
+    }
+}
+
+#MR_READING_TOUR_BUTTON
+mr_reading_tour_button  = {
+    scope = country
+	saved_scopes = {
+        chosen_writer
+    }
+    is_valid = {
+		manzoni_has_active_writer = yes
+		var:manzoni_writer_var ?= {
+			has_trait = manzoni_writer_fiction
+			has_trait = manzoni_universal_writer
+		}
+		NOT = {
+			var:manzoni_writer_var ?= {
+				has_variable = manzoni_reading_tour_var
+			}
+		}
+		any_country = {
+			manzoni_foreign_writer_meets_taste_trigger = yes
+		}
+		NOT = {
+			has_modifier = manzoni_writer_on_tour_modifier
+		}
+    }
+
+    effect = {
+		var:manzoni_writer_var = {
+			set_character_busy_and_immortal = yes
+		}
+		add_modifier = {
+			name = manzoni_writer_on_tour_modifier
+		}
+		trigger_event = {
+			id = manzoni.331
+			popup = yes
 		}
     }
 }
