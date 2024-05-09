@@ -902,266 +902,264 @@ ai_paleontology_monthly_effect = {
 
 #Handles Congresses for the AI
 ai_congresses_effect = {
-	#Exodus Congress
+	#Congresses require Major Power or higher status
 	if = {
-		limit = {
-			NOR = {
-				has_global_variable = lepsius_exodus_congress_hosted_var
-				any_country = {
-					has_modifier = lepsius_congress_host_modifier
+		limit = { country_rank >= rank_value:major_power }
+		#Exodus Congress
+		if = {
+			limit = {
+				NOR = {
+					has_global_variable = lepsius_exodus_congress_hosted_var
+					any_country = {
+						has_modifier = lepsius_congress_host_modifier
+					}
 				}
-			}
-			country_rank >= rank_value:major_power
-			global_var:lepsius_global_artifacts >= 175
-			var:lepsius_egyptian_artifact_minor >= 25
-			has_technology_researched = lepsius_antiquarianism_tech
-			country_has_building_type_levels = {  
-				target = bt:building_university  
-				value  >= 5
-			}
-			any_scope_building = {
-				is_building_type = building_lepsius_archaeological_museum
-			}
-			lepsius_has_archaeologist_no_tooltip_trigger = yes
-			any_country = {
+				global_var:lepsius_global_artifacts >= 175
+				var:lepsius_egyptian_artifact_minor >= 25
+				has_technology_researched = lepsius_antiquarianism_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_lepsius_archaeological_museum
+				}
 				lepsius_has_archaeologist_no_tooltip_trigger = yes
-				count >= 5
+				any_country = {
+					lepsius_has_archaeologist_no_tooltip_trigger = yes
+					count >= 5
+				}
+			}
+
+			#Effect
+			trigger_event = { 
+				id = lepsius.1101
+				popup = yes 
+			}
+			set_global_variable = lepsius_exodus_congress_hosted_var
+			add_modifier = {
+				name = lepsius_congress_host_modifier
+				years = 5
 			}
 		}
+		#Civilization Congress
+		if = {
+			limit = {
+				has_global_variable = lepsius_exodus_congress_hosted_var
+				NOR = {
+					has_global_variable = lepsius_civilization_congress_hosted_var
+					any_country = {
+						has_modifier = lepsius_congress_host_modifier
+					}
+				}
+				var:lepsius_mesopotamian_artifact_minor >= 25
+				global_var:lepsius_global_artifacts >= 330
+				has_technology_researched = lepsius_early_archaeology_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_lepsius_archaeological_museum
+				}
+				lepsius_has_archaeologist_no_tooltip_trigger = yes
+				any_country = {
+					has_variable = lepsius_archaeologist_var
+					count >= 10
+				}
+			}
 
-		#Effect
-		trigger_event = { 
-			id = lepsius.1101
-			popup = yes 
+			#Effect
+			trigger_event = { 
+				id = lepsius.1111
+				popup = yes 
+			}
+			set_global_variable = lepsius_civilization_congress_hosted_var
+			add_modifier = {
+				name = lepsius_congress_host_modifier
+				years = 5
+			}
 		}
-		set_global_variable = lepsius_exodus_congress_hosted_var
-		add_modifier = {
-			name = lepsius_congress_host_modifier
-			years = 5
-		}
-	}
-	#Civilization Congress
-	if = {
-		limit = {
-			has_global_variable = lepsius_exodus_congress_hosted_var
-			NOR = {
+		#Troy Congress
+		if = {
+			limit = {
 				has_global_variable = lepsius_civilization_congress_hosted_var
+				has_global_variable = lepsius_support_schliemann_var
+				NOR = {
+					has_global_variable = lepsius_troy_congress_hosted_var
+					any_country = {
+						has_modifier = lepsius_congress_host_modifier
+					}
+				}
+				var:lepsius_aegean_artifact_minor >= 25
+				global_var:lepsius_global_artifacts >= 550
+				has_technology_researched = lepsius_early_archaeology_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 20
+				}
+				any_scope_building = {
+					is_building_type = building_lepsius_archaeological_museum
+				}
+				lepsius_has_archaeologist_no_tooltip_trigger = yes
 				any_country = {
-					has_modifier = lepsius_congress_host_modifier
+					has_variable = lepsius_archaeologist_var
+					count >= 15
 				}
 			}
-			country_rank >= rank_value:major_power
-			var:lepsius_mesopotamian_artifact_minor >= 25
-			global_var:lepsius_global_artifacts >= 330
-			has_technology_researched = lepsius_early_archaeology_tech
-			country_has_building_type_levels = {  
-				target = bt:building_university  
-				value  >= 10
-			}
-			any_scope_building = {
-				is_building_type = building_lepsius_archaeological_museum
-			}
-			lepsius_has_archaeologist_no_tooltip_trigger = yes
-			any_country = {
-				has_variable = lepsius_archaeologist_var
-				count >= 10
-			}
-		}
 
-		#Effect
-		trigger_event = { 
-			id = lepsius.1111
-			popup = yes 
+			#Effect
+			trigger_event = { 
+				id = lepsius.1121
+				popup = yes 
+			}
+			set_global_variable = lepsius_troy_congress_hosted_var
+			add_modifier = {
+				name = lepsius_congress_host_modifier
+				years = 5
+			}
 		}
-		set_global_variable = lepsius_civilization_congress_hosted_var
-		add_modifier = {
-			name = lepsius_congress_host_modifier
-			years = 5
-		}
-	}
-	#Troy Congress
-	if = {
-		limit = {
-			has_global_variable = lepsius_civilization_congress_hosted_var
-			has_global_variable = lepsius_support_schliemann_var
-			NOR = {
-				has_global_variable = lepsius_troy_congress_hosted_var
-				any_country = {
-					has_modifier = lepsius_congress_host_modifier
+		#Asteroid Congress
+		if = {
+			limit = {
+				NOR = {
+					has_global_variable = verrier_asteroid_congress_hosted_var
+					any_country = {
+						has_modifier = verrier_congress_host_modifier
+					}
 				}
+				has_global_variable = verrier_neptune_discovered_var
+				has_global_variable = verrier_ceres_discovered_global_var
+				has_global_variable = verrier_pallas_discovered_global_var
+				has_global_variable = verrier_vesta_discovered_global_var
+				has_global_variable = verrier_juno_discovered_global_var
+				global_var:verrier_total_astronomical_objects >= 1650
+				has_technology_researched = verrier_astronomy_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 5
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+				}
+				verrier_has_astronomer_no_tooltip_trigger = yes
 			}
-			country_rank >= rank_value:major_power
-			var:lepsius_aegean_artifact_minor >= 25
-			global_var:lepsius_global_artifacts >= 550
-			has_technology_researched = lepsius_early_archaeology_tech
-			country_has_building_type_levels = {  
-				target = bt:building_university  
-				value  >= 20
-			}
-			any_scope_building = {
-				is_building_type = building_lepsius_archaeological_museum
-			}
-			lepsius_has_archaeologist_no_tooltip_trigger = yes
-			any_country = {
-				has_variable = lepsius_archaeologist_var
-				count >= 15
-			}
-		}
 
-		#Effect
-		trigger_event = { 
-			id = lepsius.1121
-			popup = yes 
+			#Effect
+			trigger_event = { 
+				id = verrier.30
+				popup = yes 
+			}
+			set_global_variable = verrier_asteroid_congress_hosted_var
+			add_modifier = {
+				name = verrier_congress_host_modifier
+				years = 5
+			}
 		}
-		set_global_variable = lepsius_troy_congress_hosted_var
-		add_modifier = {
-			name = lepsius_congress_host_modifier
-			years = 5
-		}
-	}
-	#Asteroid Congress
-	if = {
-		limit = {
-			NOR = {
+		#Carte du Ciel Congress
+		if = {
+			limit = {
 				has_global_variable = verrier_asteroid_congress_hosted_var
-				any_country = {
-					has_modifier = verrier_congress_host_modifier
+				NOR = {
+					has_global_variable = verrier_carte_congress_hosted_var
+					any_country = {
+						has_modifier = verrier_congress_host_modifier
+					}
 				}
+				global_var:verrier_total_astronomical_objects >= 7700
+				has_technology_researched = verrier_electromagnetism_tech
+				has_technology_researched = camera
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+				}
+				verrier_has_astronomer_no_tooltip_trigger = yes
 			}
-			has_global_variable = verrier_neptune_discovered_var
-			has_global_variable = verrier_ceres_discovered_global_var
-			has_global_variable = verrier_pallas_discovered_global_var
-			has_global_variable = verrier_vesta_discovered_global_var
-			has_global_variable = verrier_juno_discovered_global_var
-			country_rank >= rank_value:major_power
-			global_var:verrier_total_astronomical_objects >= 1650
-			has_technology_researched = verrier_astronomy_tech
-			country_has_building_type_levels = {  
-				target = bt:building_university  
-				value  >= 5
-			}
-			any_scope_building = {
-				is_building_type = building_verrier_observatory
-			}
-			verrier_has_astronomer_no_tooltip_trigger = yes
-		}
 
-		#Effect
-		trigger_event = { 
-			id = verrier.30
-			popup = yes 
+			#Effect
+			trigger_event = { 
+				id = verrier.80
+				popup = yes 
+			}
+			set_global_variable = verrier_carte_congress_hosted_var
+			add_modifier = {
+				name = verrier_congress_host_modifier
+				years = 5
+			}
 		}
-		set_global_variable = verrier_asteroid_congress_hosted_var
-		add_modifier = {
-			name = verrier_congress_host_modifier
-			years = 5
-		}
-	}
-	#Carte du Ciel Congress
-	if = {
-		limit = {
-			has_global_variable = verrier_asteroid_congress_hosted_var
-			NOR = {
+		#Great Debate Congress
+		if = {
+			limit = {
 				has_global_variable = verrier_carte_congress_hosted_var
-				any_country = {
-					has_modifier = verrier_congress_host_modifier
+				NOR = {
+					has_global_variable = verrier_debate_congress_hosted_var
+					any_country = {
+						has_modifier = verrier_congress_host_modifier
+					}
 				}
+				global_var:verrier_total_astronomical_objects >= 13200
+				has_technology_researched = verrier_astro_physics_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university
+					value  >= 15
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+				}
+				verrier_has_astronomer_no_tooltip_trigger = yes
 			}
-			country_rank >= rank_value:major_power
-			global_var:verrier_total_astronomical_objects >= 7700
-			has_technology_researched = verrier_electromagnetism_tech
-			has_technology_researched = camera
-			country_has_building_type_levels = {  
-				target = bt:building_university  
-				value  >= 10
-			}
-			any_scope_building = {
-				is_building_type = building_verrier_observatory
-			}
-			verrier_has_astronomer_no_tooltip_trigger = yes
-		}
 
-		#Effect
-		trigger_event = { 
-			id = verrier.80
-			popup = yes 
+			#Effect
+			trigger_event = { 
+				id = verrier.86
+				popup = yes 
+			}
+			set_global_variable = verrier_debate_congress_hosted_var
+			add_modifier = {
+				name = verrier_congress_host_modifier
+				years = 5
+			}
 		}
-		set_global_variable = verrier_carte_congress_hosted_var
-		add_modifier = {
-			name = verrier_congress_host_modifier
-			years = 5
-		}
-	}
-	#Great Debate Congress
-	if = {
-		limit = {
-			has_global_variable = verrier_carte_congress_hosted_var
-			NOR = {
-				has_global_variable = verrier_debate_congress_hosted_var
-				any_country = {
-					has_modifier = verrier_congress_host_modifier
+		#TODO: Origin of the Moon Congress
+		#Hippocampus Congress
+		if = {
+			limit = {
+				NOR = {
+					has_global_variable = dubois_hippocampus_congress_hosted_var
+					any_country = {
+						has_modifier = dubois_congress_host_modifier
+					}
 				}
-			}
-			country_rank >= rank_value:major_power
-			global_var:verrier_total_astronomical_objects >= 13200
-			has_technology_researched = verrier_astro_physics_tech
-			country_has_building_type_levels = {  
-				target = bt:building_university
-				value  >= 15
-			}
-			any_scope_building = {
-				is_building_type = building_verrier_observatory
-			}
-			verrier_has_astronomer_no_tooltip_trigger = yes
-		}
-
-		#Effect
-		trigger_event = { 
-			id = verrier.86
-			popup = yes 
-		}
-		set_global_variable = verrier_debate_congress_hosted_var
-		add_modifier = {
-			name = verrier_congress_host_modifier
-			years = 5
-		}
-	}
-	#Hippocampus Congress
-	if = {
-		limit = {
-			NOR = {
-				has_global_variable = dubois_hippocampus_congress_hosted_var
-				any_country = {
-					has_modifier = dubois_congress_host_modifier
+				var:dubois_specimen >= 20000
+				global_var:dubois_global_specimen >= 110000
+				has_technology_researched = dubois_theory_of_evolution_tech
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 10
 				}
-			}
-			country_rank >= rank_value:major_power
-			var:dubois_specimen >= 20000
-			global_var:dubois_global_specimen >= 110000
-			has_technology_researched = dubois_theory_of_evolution_tech
-			country_has_building_type_levels = {  
-				target = bt:building_university  
-				value  >= 10
-			}
-			any_scope_building = {
-				is_building_type = building_dubois_zoo
-			}
-			dubois_has_naturalist_no_tooltip_trigger = yes
-			any_country = {
+				any_scope_building = {
+					is_building_type = building_dubois_zoo
+				}
 				dubois_has_naturalist_no_tooltip_trigger = yes
-				count >= 5
+				any_country = {
+					dubois_has_naturalist_no_tooltip_trigger = yes
+					count >= 5
+				}
 			}
-		}
 
-		#Effect
-		trigger_event = { 
-			id = dubois.901
-			popup = yes 
-		}
-		set_global_variable = dubois_hippocampus_congress_hosted_var
-		add_modifier = {
-			name = dubois_congress_host_modifier
-			years = 5
+			#Effect
+			trigger_event = { 
+				id = dubois.901
+				popup = yes 
+			}
+			set_global_variable = dubois_hippocampus_congress_hosted_var
+			add_modifier = {
+				name = dubois_congress_host_modifier
+				years = 5
+			}
 		}
 	}
 	#Origin Congress
@@ -1209,6 +1207,50 @@ ai_congresses_effect = {
 			years = 5
 		}
 	}
+	#Dinosaur Extinction Congress
+	if = {
+		limit = {
+			has_global_variable = dubois_hippocampus_congress_hosted_var
+			NOR = {
+				has_global_variable = dubois_extinction_congress_hosted_var
+				any_country = {
+					has_modifier = dubois_congress_host_modifier
+				}
+			}
+			has_technology_researched = dubois_paleontology_tech
+			global_var:dubois_global_fossil >= 550
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 20
+			}
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+			}
+			dubois_has_paleontologist_no_tooltip_trigger = yes
+			any_country = {
+				dubois_has_paleontologist_no_tooltip_trigger = yes
+				count >= 15
+			}
+			dubois_has_dinosaur_skeleton_no_tooltip_trigger = yes
+			any_country = {
+				dubois_has_dinosaur_skeleton_no_tooltip_trigger = yes
+				count >= 5
+			}
+		}
+
+		#Effect
+		trigger_event = { 
+			id = dubois.921
+			popup = yes 
+		}
+		set_global_variable = dubois_extinction_congress_hosted_var
+		add_modifier = {
+			name = dubois_congress_host_modifier
+			years = 5
+		}
+	}
+	#TODO: Continental Drift Congress
+	#TODO: Age of the Earth Congress
 }
 
 #Acquire masterwork painting
