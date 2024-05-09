@@ -90,3 +90,6 @@ Physics:
 Bugfixes:
 - Historical Science Focuses are now properly removed, if you change the rule.
 - Research Projects do no longer think you are an AI and get removed just because there is another project to do.
+
+Performance:
+- Various small changes to improve performance with the mod
