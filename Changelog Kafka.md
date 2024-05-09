@@ -87,6 +87,13 @@ Physics:
 - Uranium glassware (PM) for Glass industry
 - Added new Production Method Group in the Observatory: Institute for Physics. This will give Production Tech Bonus (but will need uranium for the more advanced tiers).
 
+Aviation
+- Pilots no longer are generals. They behave like other Morgenröte Characters as Void-Character. Generals may get the Pilot trait, however.
+- Added experience bar to pilot
+- Pilots should show up more frequently now (outside the Schneider Trophy event, which gives you a free pilot).
+- Added Variables to pilots like Number of Records, Number of Schneider Trophy Races/Victories. This is still WIP.
+- Manfred von Richthofen will be created randomly for a German Nation instead by event.
+
 Bugfixes:
 - Historical Science Focuses are now properly removed, if you change the rule.
 - Research Projects do no longer think you are an AI and get removed just because there is another project to do.
