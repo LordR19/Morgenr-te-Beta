@@ -91,6 +91,106 @@ ai_remove_characters_effect = {
 	}
 }
 
+#Handles the Pacific Expedition
+ai_pacific_expedition_effect = {
+	if = {
+		limit = {
+			country_rank >= rank_value:major_power
+			weekly_net_fixed_income > money_amount_multiplier_medium
+			gold_reserves > 0
+			has_technology_researched = screw_frigate
+			has_technology_researched = dialectics
+			NOR = {
+				has_modifier = rapanui_pacific_expedition_modifier
+				has_modifier = rapanui_had_pacific_expedition_modifier
+			}
+			navy_size >= 15
+			any_scope_building = {
+				is_building_type = building_port
+			}
+			any_scope_building = {
+				is_building_type = building_university
+			}
+			any_scope_character = {
+				has_role = admiral
+				is_busy = no
+			}
+			NOT = {
+				any_country = {
+					OR = {
+						has_technology_researched = dreadnought
+						has_technology_researched = destroyer
+					}
+				}
+			}
+		}
+
+		#Effect
+		add_treasury = -25000
+		add_modifier = {
+			name = rapanui_pacific_expedition_modifier
+		}
+		trigger_event = { 
+			id = rapanui.201
+			popup = yes 
+		}
+	}
+}
+
+#Handles the Mountain Expedition
+ai_mountain_expedition_effect = {
+	if = {
+		limit = {
+			any_scope_character = {
+				has_role = general
+				is_busy = no
+				OR = {
+					has_trait = dubois_mountaineer
+					has_trait = explorer
+					has_trait = mountain_commander
+					has_trait = surveyor
+				}
+			}
+			has_technology_researched = nationalism
+			has_technology_researched = prospecting
+			gold_reserves > 0
+			NOR = {
+				has_modifier = dubois_summit_level_1_modifier
+				has_modifier = dubois_summit_level_2_modifier
+				has_modifier = dubois_summit_level_3_modifier
+				has_modifier = dubois_summit_level_4_modifier
+				has_modifier = dubois_summit_level_5_modifier
+				has_modifier = dubois_summit_level_6_modifier
+				has_modifier = dubois_mountaineering_disaster_modifier
+				has_modifier = dubois_mountaineering_disappointment_modifier
+				has_journal_entry = je_dubois_mountain_expedition
+				has_variable = dubois_current_mountain_expedition_var
+			}
+			OR = {
+				dubois_has_unconquered_summit_no_tt_trigger = yes
+				any_country = {
+					dubois_has_unconquered_summit_no_tt_trigger = yes
+					has_diplomatic_pact = {
+						who = ROOT
+						type = mountaineering_license
+					}
+				}
+			}
+		}
+
+		#Effect
+		add_treasury = -25000
+		set_variable = {
+			name = dubois_current_mountain_expedition_var
+			days = 90
+		}
+		trigger_event = { 
+			id = dubois.411
+			popup = yes 
+		}
+	}
+}
+
 #Handles the Paleontology for the AI
 ai_paleontology_yearly_effect = {
 	if = {
