@@ -368,6 +368,200 @@ ai_northwest_passage_expedition_effect = {
 	}
 }
 
+#Handles Zoo Expansion for the AI
+ai_zoo_expansion_effect = {
+	if = {
+		limit = {
+			any_scope_state = {
+				is_capital = yes
+				any_scope_building = {
+					is_building_type = building_dubois_zoo
+					level > 0
+					NOT = {
+						has_active_production_method = pm_zoo_level_5
+					}
+				}
+			}
+		}
+		#Zoo Level 2
+		if = { 
+			limit = {
+				NOT = {
+					has_variable = dubois_zoo_first_extension
+				}
+				any_scope_state = {
+					is_capital = yes
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						NOR = {
+							has_active_production_method = pm_zoo_level_2
+							has_active_production_method = pm_zoo_level_3
+							has_active_production_method = pm_zoo_level_4
+							has_active_production_method = pm_zoo_level_5
+						}
+					}
+				}
+				var:dubois_zoo_animal_total >= 10
+				OR = {
+					var:dubois_zoo_animal_africa >= 2
+					var:dubois_zoo_animal_asia >= 2
+					var:dubois_zoo_animal_australia >= 2
+				}
+				NOT = {
+					has_modifier = dubois_zoo_extension_modifier
+				}
+			}
+	
+			#Effect
+			set_variable = dubois_zoo_first_extension
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_2
+				}
+			}
+			add_modifier = {
+				name = dubois_zoo_extension_modifier
+				days = 300
+			}
+		}
+		#Zoo Level 3
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_zoo_second_extension
+				}
+				any_scope_state = {
+					is_capital = yes
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						NOR = {
+							has_active_production_method = pm_zoo_level_3
+							has_active_production_method = pm_zoo_level_4
+							has_active_production_method = pm_zoo_level_5
+						}
+						
+					}
+				}
+				var:dubois_zoo_animal_total >= 20
+				OR = {
+					var:dubois_zoo_animal_africa >= 5
+					var:dubois_zoo_animal_asia >= 5
+					var:dubois_zoo_animal_australia >= 5
+					var:dubois_zoo_animal_australia >= 5
+				}
+				NOT = {
+					has_modifier = dubois_zoo_extension_modifier
+				}
+			}
+	
+			#Effect
+			set_variable = dubois_zoo_second_extension
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_3
+				}
+			}
+			add_modifier = {
+				name = dubois_zoo_extension_modifier
+				days = 400
+			}
+		}
+		#Zoo Level 4
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_zoo_third_extension
+				}
+				any_scope_state = {
+					is_capital = yes
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						NOR = {
+							has_active_production_method = pm_zoo_level_4
+							has_active_production_method = pm_zoo_level_5
+						}
+						
+					}
+				}
+				var:dubois_zoo_animal_total >= 30
+				NOT = {
+					has_modifier = dubois_zoo_extension_modifier
+				}
+			}
+	
+			#Effect
+			set_variable = dubois_zoo_third_extension
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_4
+				}
+			}
+			add_modifier = {
+				name = dubois_zoo_extension_modifier
+				days = 500
+			}
+		}
+		#Zoo Level 5
+		if = {
+			limit = {
+				NOT = {
+					has_variable = dubois_zoo_fourth_extension
+				}
+				any_scope_state = {
+					is_capital = yes
+					any_scope_building = {
+						is_building_type = building_dubois_zoo
+						level > 0
+						NOT = {
+							has_active_production_method = pm_zoo_level_5
+						}
+						
+					}
+				}
+				var:dubois_zoo_animal_total >= 40
+				NOT = {
+					has_modifier = dubois_zoo_extension_modifier
+				}
+			}
+	
+			#Effect
+			set_variable = dubois_zoo_fourth_extension
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+					is_capital = yes
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_5
+				}
+			}
+			add_modifier = {
+				name = dubois_zoo_extension_modifier
+				days = 600
+			}
+		}
+	}
+}
+
 #Handles the Paleontology for the AI
 ai_paleontology_yearly_effect = {
 	if = {
