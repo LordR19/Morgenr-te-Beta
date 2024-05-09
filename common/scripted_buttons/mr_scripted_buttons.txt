@@ -16,19 +16,24 @@ mr_pacific_expedition_button = {
 	name = "mr_pacific_expedition_button"
 	desc = "mr_pacific_expedition_button_desc"
 
-	visible = { always = yes }
-
-	possible = {
+	visible = {
 		country_rank >= rank_value:major_power
 		has_technology_researched = screw_frigate
 		has_technology_researched = dialectics
+		NOR = {
+			has_modifier = rapanui_pacific_expedition_modifier
+			has_modifier = rapanui_had_pacific_expedition_modifier
+		}
+	}
+
+	possible = {
+		navy_size >= 15
 		any_scope_building = {
 			is_building_type = building_port
 		}
 		any_scope_building = {
 			is_building_type = building_university
 		}
-		navy_size >= 15
 		any_scope_character = {
 			has_role = admiral
 			is_busy = no
@@ -40,10 +45,6 @@ mr_pacific_expedition_button = {
 					has_technology_researched = destroyer
 				}
 			}
-		}
-		NOR = {
-			has_modifier = rapanui_pacific_expedition_modifier
-			has_modifier = rapanui_had_pacific_expedition_modifier
 		}
 	}
 
@@ -77,38 +78,6 @@ mr_mountain_expedition_button = {
 	desc = "mr_mountain_expedition_button_desc"
 
 	visible = { 
-		OR = {
-			is_player = yes
-			AND = {
-				any_scope_character = {
-					has_role = general
-					is_busy = no
-					OR = {
-						has_trait = dubois_mountaineer
-						has_trait = explorer
-						has_trait = mountain_commander
-						has_trait = surveyor
-					}
-				}
-				has_technology_researched = nationalism
-				has_technology_researched = prospecting
-				NOR = {
-					has_modifier = dubois_summit_level_1_modifier
-					has_modifier = dubois_summit_level_2_modifier
-					has_modifier = dubois_summit_level_3_modifier
-					has_modifier = dubois_summit_level_4_modifier
-					has_modifier = dubois_summit_level_5_modifier
-					has_modifier = dubois_summit_level_6_modifier
-					has_modifier = dubois_mountaineering_disaster_modifier
-					has_modifier = dubois_mountaineering_disappointment_modifier
-					has_journal_entry = je_dubois_mountain_expedition
-					has_variable = dubois_current_mountain_expedition_var
-				}
-			}
-		}
-	}
-
-	possible = {
 		any_scope_character = {
 			has_role = general
 			is_busy = no
@@ -133,6 +102,9 @@ mr_mountain_expedition_button = {
 			has_journal_entry = je_dubois_mountain_expedition
 			has_variable = dubois_current_mountain_expedition_var
 		}
+	}
+
+	possible = {
 		OR = {
 			dubois_has_unconquered_summit_no_tt_trigger = yes
 			any_country = {
@@ -178,23 +150,21 @@ mr_northwest_expedition_button = {
 		NOT = {
 			has_global_variable = rapanui_northwest_passage_found_var
 		}
-	}
-
-	possible = {
-		has_technology_researched = screw_frigate
-		has_technology_researched = dialectics
-		has_technology_researched = canneries
-		any_scope_building = {
-			is_building_type = building_port
-		}
-		any_scope_building = {
-			is_building_type = building_university
+		NOR = {
+			has_modifier = rapanui_northwest_expedition_modifier
+			has_modifier = rapanui_had_northwest_expedition_modifier
 		}
 		navy_size >= 25
 		any_scope_character = {
 			has_role = admiral
 			is_busy = no
 		}
+	}
+
+	possible = {
+		has_technology_researched = screw_frigate
+		has_technology_researched = dialectics
+		has_technology_researched = canneries
 		OR = {
 			ig:ig_armed_forces = {
 				is_in_government = yes
@@ -217,9 +187,11 @@ mr_northwest_expedition_button = {
 				region = sr:region_north_sea_coast
 			}
 		}
-		NOR = {
-			has_modifier = rapanui_northwest_expedition_modifier
-			has_modifier = rapanui_had_northwest_expedition_modifier
+		any_scope_building = {
+			is_building_type = building_port
+		}
+		any_scope_building = {
+			is_building_type = building_university
 		}
 	}
 
@@ -252,15 +224,18 @@ mr_transatlantic_cable_expedition_button = {
 	name = "mr_transatlantic_cable_expedition_button"
 	desc = "mr_transatlantic_cable_expedition_button_desc"
 
-	visible = { 
-		NOT = {
+	visible = {
+		NOR = {
 			has_variable = gaudi_transatlantic_cable_var
+			has_global_variable = gaudi_transatlantic_radio_var
+			has_variable = gaudi_transatlantic_cable_expedition_var
+			has_modifier = gaudi_transatlantic_cable_expedition_failed_modifier
 		}
+		has_technology_researched = screw_frigate
+		has_technology_researched = electric_telegraph
 	}
 
 	possible = {
-		has_technology_researched = screw_frigate
-		has_technology_researched = electric_telegraph
 		any_scope_building = {
 			is_building_type = building_manzoni_publishing_industry
 			is_under_construction = no
@@ -282,13 +257,6 @@ mr_transatlantic_cable_expedition_button = {
 				region = sr:region_new_england
 				region = sr:region_canada
 			}
-		}
-		NOT = {
-			has_global_variable = gaudi_transatlantic_radio_var
-		}
-		NOR = {
-			has_variable = gaudi_transatlantic_cable_expedition_var
-			has_modifier = gaudi_transatlantic_cable_expedition_failed_modifier
 		}
 	}
 
@@ -323,91 +291,31 @@ mr_arctica_expedition_button = {
 	name = "mr_arctica_expedition_button"
 	desc = "mr_arctica_expedition_button_desc"
 
-	visible = { always = yes }
+	visible = {
+		has_technology_researched = zeppelins
+		NOR = {
+			has_modifier = curtiss_arctica_expedition_modifier
+			has_modifier = curtiss_had_arctica_expedition_modifier
+		}
+	}
 
 	possible = {
-		has_technology_researched = zeppelins
 		any_scope_building = {
 			is_building_type = building_verrier_observatory
 			has_active_production_method = pm_curtiss_weather_station
 		}
 		curtiss_has_active_pilot_no_tooltip_trigger = yes
 		OR = {
-
-			OR = {
-				any_scope_state = {
-					state_region = s:STATE_GREENLAND
-				}
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = airspace_convention
-					}				
-					any_scope_state = {
-						state_region = s:STATE_GREENLAND
-					}
-				}		
+			any_scope_state = {
+				mr_arctic_states_trigger = yes
 			}
-			OR = {
-				any_scope_state = {
-					state_region = s:STATE_NORTHERN_NORWAY
-				}
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = airspace_convention
-					}				
-					any_scope_state = {
-						state_region = s:STATE_NORTHERN_NORWAY
-					}
-				}		
+			any_country = {
+				has_diplomatic_pact = {
+					who = ROOT
+					type = airspace_convention
+				}				
+				mr_arctic_states_trigger = yes
 			}
-			OR = {
-				any_scope_state = {
-					state_region = s:STATE_ALASKA
-				}
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = airspace_convention
-					}				
-					any_scope_state = {
-						state_region = s:STATE_ALASKA
-					}
-				}		
-			}
-			OR = {
-				any_scope_state = {
-				state_region = s:STATE_NUNAVUT
-				}
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = airspace_convention
-					}				
-					any_scope_state = {
-						state_region = s:STATE_NUNAVUT
-					}
-				}		
-			}
-			OR = {
-				any_scope_state = {
-					state_region = s:STATE_NENETSIA
-				}
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = airspace_convention
-					}				
-					any_scope_state = {
-						state_region = s:STATE_NENETSIA
-					}
-				}		
-			}
-		}
-		NOR = {
-			has_modifier = curtiss_arctica_expedition_modifier
-			has_modifier = curtiss_had_arctica_expedition_modifier
 		}
 	}
 
