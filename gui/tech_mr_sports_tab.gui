@@ -47,6 +47,10 @@ types sports_view
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('sports_has_balloonist_gui_type')]"
 							}
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('curtiss_balloonist_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
+							}
 							blockoverride "values" {
 								min = 0
 								max = 300
@@ -443,6 +447,10 @@ types sports_view
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('curtiss_has_pilot_gui_type')]"
 							}
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('curtiss_pilot_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
+							}
 							blockoverride "values" {
 								min = 0
 								max = 300
@@ -499,7 +507,7 @@ types sports_view
 
 									### Schneider Trophy Buttons ###
 									button = {
-										#Found the IOC
+										#Schneider Trophy
 										using = default_button_primary_big_action
 										size = { 250 40 }
 										raw_text = "MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON"
@@ -555,6 +563,10 @@ types sports_view
 							}
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('sports_has_racer_gui_type')]"
+							}
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('vikelas_racer_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
 							}
 							blockoverride "values" {
 								min = 0
@@ -682,6 +694,7 @@ types sports_view
 		# fontsize_role
 		# character
 		# character_name
+		# character_traits
 		# achievements_icon_visibility
 		# experience_bar_visibility
 		# values
@@ -689,7 +702,7 @@ types sports_view
 		# experience_bar_text
 		# small_box_content
 		# big_box_content
-		size = { 900 400 }
+		size = { 900 450 }
 		background = {
 			using = entry_bg_unit_dark
 		}
@@ -708,7 +721,7 @@ types sports_view
 		}
 		default_header_clean_faded = {
 			size = { 250 40 }
-			position = { 14 295 }
+			position = { 14 306 }
 			blockoverride "text" {
 				block "character_name" 
 				{
@@ -745,7 +758,7 @@ types sports_view
 			#used in the mr_GUI_l_english.yml file to display the correct Achievements.
 			size = { 35 35 }
 			parentanchor = bottom|left
-			position = { 10 -68 }
+			position = { 10 -107 }
 			block "achievements_icon_visibility" {
 				visible = yes
 			}
@@ -762,7 +775,33 @@ types sports_view
 				block "scientist_achievement_tooltip" {}
 			}
 		}
+		widget = { #Displays the Traits of the character
+			size = { 40 40 }
+			parentanchor = bottom|left
+			position = { 15 -60 }
+					
+			overlappingitembox = {
+				minimumsize = { 250 42 }
+				maximumsize = { 250 42 }
 
+				block "character_traits"
+				{
+					datamodel = "[AccessPlayer.AccessRuler.AccessTraits]"
+				}
+
+				item = {
+					icon = {
+						size = { 30 42 }
+						texture = "[CharacterTrait.GetTexture]"
+						using = tooltip_above
+
+						tooltipwidget = {
+							FancyTooltip_CharacterTrait = {}
+						}
+					}
+				}
+			}
+		}
 		green_progressbar_horizontal = {
 			parentanchor = bottom|left
 			position = { 15 -15 }
@@ -834,7 +873,7 @@ types sports_view
 		# small_box_content
 		# visit_button
 		# big_box_content
-		size = { 900 400 }
+		size = { 900 450 }
 		background = {
 			using = entry_bg_unit_dark
 		}
