@@ -414,3 +414,41 @@ mr_extinction_congress_button = {
 		}
     }
 }
+
+#MR_PALEONTOLOGICAL_COLECTION_BUTTON
+mr_paleontological_collection_button = {
+    scope = country
+	is_shown = {
+		has_technology_researched = dubois_paleontology_tech
+		NOT = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_paleontological_collection
+				}
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_PALEONTOLOGIST_TRIGGER_TT
+			dubois_has_paleontologist_no_tooltip_trigger = yes
+		}
+		custom_tooltip = {
+			text = MR_PALEONTOLOGICAL_COLECTION_BUTTON_FOSSILS_TRIGGER_TT
+			var:dubois_fossil >= 100
+		}
+    }
+    effect = {
+		dubois_add_x_fossils_effect = { AMOUNT = -100 }
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_paleontological_collection
+			}
+		}
+    }
+}
