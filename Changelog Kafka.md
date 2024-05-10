@@ -97,6 +97,9 @@ Aviation
 - Added Variables to pilots like Number of Records, Number of Schneider Trophy Races/Victories. This is still WIP.
 - Manfred von Richthofen will be created randomly for a German Nation instead by event.
 
+Engineers:
+- If you get a new engineer you can change their specialization even if the 5 years didn't pass yet.
+
 Bugfixes:
 - Historical Science Focuses are now properly removed, if you change the rule.
 - Research Projects do no longer think you are an AI and get removed just because there is another project to do.
