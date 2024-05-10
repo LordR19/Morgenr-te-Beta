@@ -703,6 +703,39 @@ ai_naturalist_effect = {
 
 #Handles the Paleontology for the AI
 ai_paleontology_yearly_effect = {
+	if = { #Checks for paleontological collection
+		limit = {
+			var:dubois_fossil >= 100
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				state = {
+					is_capital = yes
+				}
+				is_under_construction = no
+				NOT = {
+					has_active_production_method = pm_paleontological_collection
+				}
+			}
+		}
+		#Effect
+		dubois_add_x_fossils_effect = { AMOUNT = -100 } #removes fossils
+		random_scope_building = { #activates production method
+			limit = {
+				is_building_type = building_dubois_zoo
+				state = {
+					is_capital = yes
+				}
+				is_under_construction = no
+				NOT = {
+					has_active_production_method = pm_paleontological_collection
+				}
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_paleontological_collection
+			}
+		}
+	}
 	if = {
 		limit = {
 			has_variable = dubois_paleontologist_var
