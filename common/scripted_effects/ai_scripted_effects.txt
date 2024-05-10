@@ -1467,7 +1467,7 @@ ai_acquire_masterwork_painting_effect = {
 
 #Handles Building Construction for the AI
 ai_special_building_construction_effect = {
-	# Gallery
+	#Observatory
 	if = {
 		limit = {
 			has_technology_researched = realism
@@ -1482,6 +1482,37 @@ ai_special_building_construction_effect = {
 		#Effect
 		capital = {
 			start_building_construction = building_klimt_gallery
+		}
+	}
+	# Gallery
+	if = {
+		limit = {
+			NOT = {
+				owner = {
+					any_scope_building = {
+						is_building_type = building_verrier_observatory
+						level > 0
+					}
+				}
+			}
+			owner = {
+				OR = {
+					AND = {
+						OR = {
+							has_technology_researched = verrier_astronomy_tech
+							verrier_has_astronomer = yes
+						}
+						any_scope_building = {
+							is_building_type = building_university
+						}
+					}
+					has_variable = verrier_allowed_to_build_observatory
+				}
+			}
+		}
+		#Effect
+		capital = {
+			start_building_construction = building_verrier_observatory
 		}
 	}
 }
