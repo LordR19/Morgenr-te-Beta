@@ -100,6 +100,7 @@ Aviation
 Bugfixes:
 - Historical Science Focuses are now properly removed, if you change the rule.
 - Research Projects do no longer think you are an AI and get removed just because there is another project to do.
+- New Engineers no longer work on imaginary projects.
 
 Performance:
-- Various small changes to improve performance with the mod
+- Various small changes to massively improve performance with the mod
