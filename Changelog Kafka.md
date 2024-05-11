@@ -18,7 +18,9 @@ Characters:
 - Selma Lagerlöf (random Swedish Writer)
 - August Strindberg (random Swedish Writer)
 - Gottfried Keller (random Swiss Writer)
+- Jeremias Gotthelf (possible starting writer for Switzerland)
 - Johanna Spyri (random Swiss Writer)
+- Rodolphe Töpffer (possible starting writer for Switzerland)
 - Edgar Allen Poe (American Writer)
 - Ryūzō Torii (Japanese Archaeologist/Anthropologist)
 - 1 Easter Egg Character
