@@ -20,6 +20,7 @@ Characters:
 - Gottfried Keller (random Swiss Writer)
 - Johanna Spyri (random Swiss Writer)
 - Edgar Allen Poe (American Writer)
+- Ryūzō Torii (Japanese Archaeologist/Anthropologist)
 - 1 Easter Egg Character
 
 Archaeology:
