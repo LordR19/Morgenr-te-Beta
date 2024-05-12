@@ -2,6 +2,7 @@ Changelog for 2.1.4 "Kafka"
 
 General:
 - Included the "Rise of the Publishing Industry" Mod (PBI) by Kaznoku. Added and enhanced PBI events and JEs.
+- Removed permanent prestige modifier from all technologies.
 
 Characters:
 - Franz Kafka (random Austrian Writer)
