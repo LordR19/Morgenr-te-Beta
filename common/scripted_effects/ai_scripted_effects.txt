@@ -1838,8 +1838,9 @@ ai_musikverein_effect = {
 	}
 }
 
-#Handles the Musikverein for the AI
+#Handles the NBC for the AI
 ai_nbc_effect = {
+	#Found NBC
 	if = {
 		limit = {
 			NOT = { has_variable = elgar_nbc_var }
@@ -1864,6 +1865,36 @@ ai_nbc_effect = {
 			id = elgar.40
 			popup = yes
 		}
+	}
+	#NBC Licence
+	if = {
+		limit = {
+			has_variable = elgar_nbc_var
+			has_technology_researched = radio
+			has_technology_researched = political_agitation
+			has_technology_researched = elgar_mass_culture_tech
+			NOR = {
+				has_variable = elgar_nbc_decision_taken
+				has_modifier = elgar_nbc_news_modifier
+				has_modifier = elgar_nbc_education_modifier
+				has_modifier = elgar_nbc_government_modifier
+				has_modifier = elgar_nbc_monarch_modifier
+				has_modifier = elgar_nbc_propaganda_modifier
+				has_law = law_type:law_laissez_faire
+				has_law = law_type:law_anarchy
+			}
+			any_scope_building = {
+				is_building_type = building_railway
+				has_active_production_method = pm_elgar_radio_stations
+			}
+		}
+
+		#Effect
+		trigger_event = {
+			id = elgar.40
+			popup = yes
+		}
+		set_variable = elgar_nbc_decision_taken
 	}
 }
 
