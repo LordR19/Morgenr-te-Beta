@@ -1693,3 +1693,54 @@ ai_promote_artists_effect = {
 		}
 	}
 }
+
+#Handles the Patron of the Arts for the AI
+ai_patron_of_arts_effect = {
+	#Adds Patron of the Arts
+	if = {
+		limit = {
+			NOT = {
+				has_modifier = artists_patron_of_the_arts_modifier
+			}
+			any_scope_building = {
+				OR = {
+					is_building_type = building_arts_academy
+					is_building_type = building_elgar_opera
+				}
+			}
+			weekly_net_fixed_income > money_amount_multiplier_small
+			gold_reserves > 0
+		}
+
+		#Effect
+		set_variable = {
+            name = patron_of_the_arts_cooldown_var
+            months = 12
+        }
+        if = {
+			limit = {
+				has_modifier = artists_patron_of_the_arts_modifier
+			}
+			remove_modifier = artists_patron_of_the_arts_modifier
+		}
+		add_modifier = {
+			name = artists_patron_of_the_arts_modifier
+			multiplier = money_amount_multiplier_small
+		}
+	}
+	#Removes Patron of the Arts
+	if = {
+		limit = {
+			has_modifier = artists_patron_of_the_arts_modifier
+			NOT = {
+				has_variable = patron_of_the_arts_cooldown_var
+			}
+			weekly_net_fixed_income < money_amount_multiplier_small
+			gold_reserves < 0
+		}
+
+		#Effect
+		remove_modifier = artists_patron_of_the_arts_modifier
+	}
+}
+
