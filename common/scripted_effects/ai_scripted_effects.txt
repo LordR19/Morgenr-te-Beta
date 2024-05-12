@@ -1764,3 +1764,46 @@ ai_composer_activation_effect = {
 	}
 }
 
+#Handles the Elgar Monuments for the AI
+ai_elgar_monuments_effect = {
+	#Mozart Monument
+	if = {
+		limit = {
+			NOT = { has_global_variable = elgar_mozart_monument_var }
+			has_technology_researched = romanticism
+			s:STATE_TYROL = {
+				any_scope_state = {
+					owner = this
+				}
+			}
+			var:elgar_music_tradition >= 50
+		}
+
+		#Effect
+		trigger_event = { 
+			id = elgar.111
+			popup = yes
+		}
+		set_global_variable = elgar_mozart_monument_var
+	}
+	if = {
+		limit = {
+			NOT = { has_global_variable = elgar_beethoven_monument_var }
+			has_variable = elgar_beethoven_sponsor_var
+			has_technology_researched = elgar_irrationalism_tech
+			var:elgar_music_tradition >= 100
+			s:STATE_NORTH_RHINE = {
+				any_scope_state = {
+					owner = this
+				}
+			}
+		}
+
+		#Effect
+		trigger_event = { 
+			id = elgar.102
+			popup = yes
+		}
+		set_global_variable = elgar_beethoven_monument_var
+	}
+}
