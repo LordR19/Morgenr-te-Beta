@@ -109,4 +109,5 @@ Bugfixes:
 - New Engineers no longer work on imaginary projects.
 
 Performance:
-- Various small changes to massively improve performance with the mod
+- Various small changes to massively improve performance with the mod.
+- Removed Nationalization of various cultures to improve performance and compatibility.
