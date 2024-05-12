@@ -107,6 +107,7 @@ Bugfixes:
 - Historical Science Focuses are now properly removed, if you change the rule.
 - Research Projects do no longer think you are an AI and get removed just because there is another project to do.
 - New Engineers no longer work on imaginary projects.
+- Players can now create National Broadcasting Channels again.
 
 Performance:
 - Various small changes to massively improve performance with the mod.
