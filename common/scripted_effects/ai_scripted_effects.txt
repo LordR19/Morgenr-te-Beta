@@ -1898,4 +1898,40 @@ ai_nbc_effect = {
 	}
 }
 
+#Handles the Writer for the AI
+ai_writer_effects = {
+	if = { #First checks for an active Writer
+		limit = { manzoni_has_active_writer_no_tooltip_trigger = yes }
+		# Newspaper Novel
+		if = {
+			limit = {
+				has_technology_researched = realism
+				var:manzoni_writer_var ?= {
+					has_trait = manzoni_writer_fiction
+				}
+				NOR = {
+					var:manzoni_writer_var ?= {
+						has_variable = manzoni_newspaper_novel_var
+					}
+					has_modifier = manzoni_newspaper_novel_scandal_modifier
+				}
+				any_scope_building = {
+					is_building_type = building_manzoni_publishing_industry
+					is_under_construction = no
+					cash_reserves_ratio > 0.5
+					occupancy >= 0.75
+				}
+			}
+
+			#Effect
+			var:manzoni_writer_var = {
+				set_character_busy_and_immortal = yes
+			}
+			add_journal_entry = {
+				type = pbi_je_objective_bestseller
+			}
+		}
+	}
+}
+
 
