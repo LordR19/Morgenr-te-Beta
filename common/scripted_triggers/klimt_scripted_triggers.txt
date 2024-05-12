@@ -12,10 +12,13 @@
 klimt_has_active_painter = {
 	custom_tooltip = {
 		text = klimt_has_active_painter_tt
-		has_variable = klimt_painter_var
-		var:klimt_painter_var ?= {
-			is_busy = no
-		}
+		klimt_has_active_painter_no_tooltip_trigger = yes
+	}
+}
+klimt_has_active_painter_no_tooltip_trigger = {
+	has_variable = klimt_painter_var
+	var:klimt_painter_var ?= {
+		is_busy = no
 	}
 }
 
@@ -50,56 +53,59 @@ klimt_has_active_great_painter = {
 klimt_painter_trip_possible = {
 	custom_tooltip = {
 		text = klimt_painter_trip_possible_tt
-		var:klimt_painter_var ?= {
-			age < 40
+		klimt_painter_trip_possible_no_tooltip_trigger = yes
+	}
+}
+klimt_painter_trip_possible_no_tooltip_trigger = {
+	var:klimt_painter_var ?= {
+		age < 40
+	}
+	OR = {
+		AND = {
+			has_global_variable = elgar_classicism_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_classic_school
+				}
+			}
 		}
-		OR = {
-			AND = {
-				has_global_variable = elgar_classicism_discovered
-				NOT = {
-					var:klimt_painter_var ?= {
-						has_trait = klimt_classic_school
-					}
+		AND= {
+			has_global_variable = elgar_romanticism_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_romantic_school
 				}
 			}
-			AND= {
-				has_global_variable = elgar_romanticism_discovered
-				NOT = {
-					var:klimt_painter_var ?= {
-						has_trait = klimt_romantic_school
-					}
+		}
+		AND = {
+			has_global_variable = artists_center_of_art_realism_founded_var
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_realistic_school
 				}
 			}
-			AND = {
-				has_global_variable = artists_center_of_art_realism_founded_var
-				NOT = {
-					var:klimt_painter_var ?= {
-						has_trait = klimt_realistic_school
-					}
+		}
+		AND = {
+			has_global_variable = elgar_impressionism_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_impressionistic_school
 				}
 			}
-			AND = {
-				has_global_variable = elgar_impressionism_discovered
-				NOT = {
-					var:klimt_painter_var ?= {
-						has_trait = klimt_impressionistic_school
-					}
+		}
+		AND = {
+			has_global_variable = elgar_expressionism_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_expressionistic_school
 				}
 			}
-			AND = {
-				has_global_variable = elgar_expressionism_discovered
-				NOT = {
-					var:klimt_painter_var ?= {
-						has_trait = klimt_expressionistic_school
-					}
-				}
-			}
-			AND = {
-				has_global_variable = elgar_art_nouveau_discovered
-				NOT = {
-					var:klimt_painter_var ?= {
-						has_trait = klimt_art_nouveau_school
-					}
+		}
+		AND = {
+			has_global_variable = elgar_art_nouveau_discovered
+			NOT = {
+				var:klimt_painter_var ?= {
+					has_trait = klimt_art_nouveau_school
 				}
 			}
 		}
