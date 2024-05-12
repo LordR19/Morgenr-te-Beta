@@ -1807,3 +1807,34 @@ ai_elgar_monuments_effect = {
 		set_global_variable = elgar_beethoven_monument_var
 	}
 }
+
+#Handles the Musikverein for the AI
+ai_musikverein_effect = {
+	if = {
+		limit = {
+			NOT = { has_global_variable = elgar_musikverein_var }
+			has_technology_researched = nationalism
+			has_technology_researched = elgar_irrationalism_tech
+			var:elgar_music_tradition >= 250
+			elgar_has_great_composer_no_tooltip_trigger = yes
+			OR = {
+				country_has_primary_culture = cu:south_german
+				country_has_primary_culture = cu:north_german
+				country_has_primary_culture = cu:united_german
+				country_has_primary_culture = cu:alemannic
+				country_has_primary_culture = cu:united_swiss
+			}
+		}
+
+		#Effect
+		add_modifier = {
+			name = elgar_founded_musikverein_modifier
+		}
+		trigger_event = { 
+			id = elgar.121
+			popup = yes
+		}
+		set_global_variable = elgar_musikverein_var
+	}
+}
+
