@@ -2,7 +2,6 @@ Changelog for 2.1.4 "Kafka"
 
 General:
 - Included the "Rise of the Publishing Industry" Mod (PBI) by Kaznoku. Added and enhanced PBI events and JEs.
-- Removed permanent prestige modifier from all technologies.
 
 Characters:
 - Franz Kafka (random Austrian Writer)
@@ -25,6 +24,10 @@ Characters:
 - Edgar Allen Poe (American Writer)
 - Ryūzō Torii (Japanese Archaeologist/Anthropologist)
 - 1 Easter Egg Character
+
+Changes:
+- Removed permanent prestige modifier from all technologies.
+- Reduced cost for Patron of the Arts, Academy investment and Composer composing/conducting/masterpiece
 
 Archaeology:
 - Added four new technologies: Egyptology, Assyriology, Aegean Archaeology, Pre-Columbian Archaeology.
