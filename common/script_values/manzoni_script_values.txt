@@ -764,6 +764,7 @@ manzoni_yearly_literary_tradition_value = {
 	if = {
 		limit = { has_variable = manzoni_writer_var }
 
+		#Having a novelist as national writer adds +1
 		if = {
 			limit = {
 				var:manzoni_writer_var = {
@@ -772,36 +773,32 @@ manzoni_yearly_literary_tradition_value = {
 					}
 				}
 			}
-			value = 2
-
-			#If the writer fits or is close to the taste it adds 1 literary tradition
-			if = {
-				limit = {
-					OR = {
-						manzoni_writer_close_taste_trigger = yes
-						manzoni_writer_meets_taste_trigger = yes
-					}
-				}
-				add = 1
-			}
+			add = 1
 		}
-		else = {
-			#If the writer fits the taste it adds 3 literary tradition
-			if = {
-				limit = {
-					manzoni_writer_meets_taste_trigger = yes
+		#Having a poet as national writer adds +3
+		else_if = {
+			limit = {
+				var:manzoni_writer_var = {
+					has_trait = manzoni_writer_poet
 				}
-				add = 3
 			}
-			#If the taste is close to the genre +1
-			else_if = {
-				limit = {
-					manzoni_writer_close_taste_trigger = yes
-				}
-				add = 1
-			}
+			add = 3
 		}
-		#A writer with 300 Reputation adds +2
+		#If the writer fits the taste it adds 3 literary tradition
+		if = {
+			limit = {
+				manzoni_writer_meets_taste_trigger = yes
+			}
+			add = 3
+		}
+		#If the taste is close to the genre +1
+		else_if = {
+			limit = {
+				manzoni_writer_close_taste_trigger = yes
+			}
+			add = 1
+		}
+		#An experienced writer adds +1 (+2 in total for novelist, +4 in total for poet)
 		if = {
 			limit = {
 				var:manzoni_writer_var ?= {
@@ -813,7 +810,7 @@ manzoni_yearly_literary_tradition_value = {
 			}
 			add = 2
 		}
-		#A great writer adds +5 in total
+		#A great writer adds +2 (+4 in total for novelist, +6 in total for poet)
 		if = {
 			limit = {
 				var:manzoni_writer_var ?= {
@@ -823,7 +820,7 @@ manzoni_yearly_literary_tradition_value = {
 					}
 				}
 			}
-			add = 3
+			add = 2
 		}
 	}
 
