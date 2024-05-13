@@ -14,6 +14,7 @@ Characters:
 - J.R.R Tolkien (randim British Writer)
 - H.G. Wells (random British Writer)
 - Bram Stocker (random Irish Writer)
+- Eduard Douwes "Multatuli" Dekker (random Dutch Writer)
 - Henrik Wergeland (Norwegian Writer)
 - Hadi Sabzavari (Persian Writer)
 - Mihai Eminescu (random Romanian Writer)
