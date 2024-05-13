@@ -1,0 +1,72 @@
+﻿#################################
+# SET CULTURES GLOBAL SETTINGS  #
+#################################
+
+#by Lord R
+
+############################
+
+GLOBAL = {
+	c:SWI ?= {
+		#Swiss Culture set up
+		add_primary_culture = cu:ticinese
+		add_primary_culture = cu:rumantsch
+
+		s:STATE_EAST_SWITZERLAND = {
+			add_homeland = cu:ticinese
+			add_homeland = cu:rumantsch
+			region_state:SWI = {
+				every_scope_pop = {
+					limit = {
+						culture = cu:north_italian
+					}
+					change_pop_culture = { target = cu:rumantsch value = 0.15 }
+				}
+				every_scope_pop = {
+					limit = {
+						culture = cu:north_italian
+					}
+					change_pop_culture = { target = cu:ticinese value = 1 }
+				}
+			}
+		}
+	}
+
+	#Ladin people in South Tyrol
+	s:STATE_SOUTH_TYROL = {
+		add_homeland = cu:rumantsch #Ladin people
+
+		add_arable_land = 6 #Needed as we add more pops
+	}
+	#More Italians in South Tyrol
+	random_state = {
+		limit = {
+			state_region = s:STATE_SOUTH_TYROL
+		}
+		create_pop = {
+			culture = north_italian #Population of Trentino
+			size = 192000
+		}
+		create_pop = {
+			culture = rumantsch #Ladin people
+			religion = catholic
+			size = 21000
+		}
+	}
+
+	#Friulian people in Venetia
+	s:STATE_VENETIA = {
+		add_homeland = cu:rumantsch
+	}
+	random_state = {
+		limit = {
+			state_region = s:STATE_VENETIA
+		}
+		every_scope_pop = {
+			limit = {
+				culture = cu:north_italian
+			}
+			change_pop_culture = { target = cu:rumantsch value = 0.07 }
+		}
+	}
+}

@@ -6,6 +6,9 @@
 			}
 			create_character = { #General
 				template = mr_swi_dufour_guillaume_henri_character_template
+				on_created = {
+					set_variable = mr_no_headgear_var
+				}
 			}
 
 			create_character = { #Leader of the Armed Forces
@@ -14,18 +17,101 @@
 
 			create_character = { #Leader of the Landowners
 				template = mr_swi_von_haller_karl_ludwig_character_template
+				on_created = {
+					set_variable = mr_no_headgear_var
+				}
 			}
 
 			create_character = { #Leader of the Industrialists
 				template = mr_swi_fischer_johann_conrad_character_template
+				on_created = {
+					set_variable = mr_no_headgear_var
+				}
 			}
 
 			create_character = { #Leader of the Trade Unions
 				template = mr_swi_niederer_johannes_character_template
+				on_created = {
+					set_variable = mr_no_headgear_var
+				}
 			}
 
 			create_character = { #Leader of the Devout
 				template = mr_swi_siegwart_muller_constantin_character_template
+				on_created = {
+					set_variable = mr_no_headgear_var
+				}
+			}
+
+			#Artists
+			### Writers ###
+			if = {
+				limit = { has_game_rule = artists_starting_historical_artists_rule }
+				random_list = {
+					1 = {
+						 #Rodolphe Töpffer, Writer
+						 trigger = {
+							year >= 1831
+							year < 1846
+							has_state_in_state_region = STATE_WEST_SWITZERLAND #Canton of Gèneve
+						}
+						create_character = {
+							template = mr_swi_topffer_rodolphe_character_template
+							save_scope_as = manzoni_writer_scope
+						}
+						scope:manzoni_writer_scope = {
+							set_variable = mr_is_writer_var
+							set_variable = mr_no_headgear_var
+							set_variable = {
+								name = manzoni_writer_experience
+								value = 79
+							}
+							set_variable = {
+								name = manzoni_num_publications_var
+								value = 1
+							}
+							place_character_in_void = 1200
+						}
+		
+						set_variable = {
+							name = manzoni_writer_var
+							value = scope:manzoni_writer_scope
+						}
+		
+						set_global_variable = mr_topffer_created_global_var
+					}
+					1 = { #Jeremias Gotthelf, Writer
+						trigger = {
+							year >= 1836
+							year < 1854
+							has_state_in_state_region = STATE_WEST_SWITZERLAND #Canton of Bern
+						}
+						create_character = {
+							template = mr_swi_gotthelf_jeremias_character_template
+							save_scope_as = manzoni_writer_scope
+						}
+						scope:manzoni_writer_scope = {
+							set_variable = mr_is_writer_var
+							set_variable = mr_no_headgear_var
+							set_variable = {
+								name = manzoni_writer_experience
+								value = 64
+							}
+							set_variable = {
+								name = manzoni_num_publications_var
+								value = 7
+							}
+							place_character_in_void = 1200
+						}
+		
+						set_variable = {
+							name = manzoni_writer_var
+							value = scope:manzoni_writer_scope
+						}
+		
+						set_global_variable = mr_gotthelf_created_global_var
+					}
+				}
 			}
 		}
 	}

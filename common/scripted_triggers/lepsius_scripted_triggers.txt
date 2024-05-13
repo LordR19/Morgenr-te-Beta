@@ -321,7 +321,10 @@ lepsius_has_experienced_archaeologist = {
 		trigger_if = {
 			limit = { has_variable = lepsius_archaeologist_var }
 			var:lepsius_archaeologist_var = {
-				has_trait = lepsius_archaeologist_experienced
+				OR = {
+					has_trait = lepsius_archaeologist_experienced
+					has_trait = lepsius_archaeologist_famous
+				}
 			}
 		}
 		trigger_else = {
@@ -336,7 +339,10 @@ lepsius_has_active_experienced_archaeologist = {
 		trigger_if = {
 			limit = { has_variable = lepsius_archaeologist_var }
 			var:lepsius_archaeologist_var = {
-				has_trait = lepsius_archaeologist_experienced
+				OR = {
+					has_trait = lepsius_archaeologist_experienced
+					has_trait = lepsius_archaeologist_famous
+				}
 				is_busy = no
 			}
 		}
@@ -467,15 +473,18 @@ lepsius_has_gilgamesh_pieces = {
 lepsius_has_active_anthropologist = {
 	custom_tooltip = {
 		text = lepsius_has_active_anthropologist_tt
-		trigger_if = {
-			limit = { has_variable = lepsius_anthropologist_var }
-			var:lepsius_anthropologist_var = {
-				is_busy = no
-			}
+		lepsius_has_active_anthropologist_no_tooltip_trigger = yes
+	}
+}
+lepsius_has_active_anthropologist_no_tooltip_trigger = {
+	trigger_if = {
+		limit = { has_variable = lepsius_anthropologist_var }
+		var:lepsius_anthropologist_var = {
+			is_busy = no
 		}
-		trigger_else = {
-			always = no
-		}
+	}
+	trigger_else = {
+		always = no
 	}
 }
 
@@ -571,13 +580,16 @@ lepsius_has_cave = {
 lepsius_has_discovered_cave = {
 	custom_tooltip = {
 		text = lepsius_has_discovered_cave_tt
-		OR = {
-			has_state_trait = lepsius_state_trait_cromagnon_cave
-			has_state_trait = lepsius_state_trait_neanderthalensis_cave
-			has_state_trait = lepsius_state_trait_erectus_cave
-			has_state_trait = lepsius_state_trait_australopithecus_cave
-			has_state_trait = lepsius_state_trait_paranthropus_cave
-		}
+		lepsius_has_discovered_cave_no_tooltip_trigger = yes
+	}
+}
+lepsius_has_discovered_cave_no_tooltip_trigger = {
+	OR = {
+		has_state_trait = lepsius_state_trait_cromagnon_cave
+		has_state_trait = lepsius_state_trait_neanderthalensis_cave
+		has_state_trait = lepsius_state_trait_erectus_cave
+		has_state_trait = lepsius_state_trait_australopithecus_cave
+		has_state_trait = lepsius_state_trait_paranthropus_cave
 	}
 }
 
@@ -591,27 +603,30 @@ lepsius_has_human_fossil = {
 lepsius_has_unknown_bone = {
 	custom_tooltip = {
 		text = lepsius_has_unknown_bone_tt
-		OR = {
-			AND = {
-				has_variable = lepsius_unknown_cromagnon_human_fossil
-				var:lepsius_unknown_cromagnon_human_fossil >= 1
-			}
-			AND = {
-				has_variable = lepsius_unknown_neanderthalensis_human_fossil
-				var:lepsius_unknown_neanderthalensis_human_fossil >= 1
-			}
-			AND = {
-				has_variable = lepsius_unknown_erectus_human_fossil
-				var:lepsius_unknown_erectus_human_fossil >= 1
-			}
-			AND = {
-				has_variable = lepsius_unknown_australopithecus_human_fossil
-				var:lepsius_unknown_australopithecus_human_fossil >= 1
-			}
-			AND = {
-				has_variable = lepsius_unknown_paranthropus_human_fossil
-				var:lepsius_unknown_paranthropus_human_fossil >= 1
-			}
+		lepsius_has_unknown_bone_no_tooltip_trigger = yes
+	}
+}
+lepsius_has_unknown_bone_no_tooltip_trigger = {
+	OR = {
+		AND = {
+			has_variable = lepsius_unknown_cromagnon_human_fossil
+			var:lepsius_unknown_cromagnon_human_fossil >= 1
+		}
+		AND = {
+			has_variable = lepsius_unknown_neanderthalensis_human_fossil
+			var:lepsius_unknown_neanderthalensis_human_fossil >= 1
+		}
+		AND = {
+			has_variable = lepsius_unknown_erectus_human_fossil
+			var:lepsius_unknown_erectus_human_fossil >= 1
+		}
+		AND = {
+			has_variable = lepsius_unknown_australopithecus_human_fossil
+			var:lepsius_unknown_australopithecus_human_fossil >= 1
+		}
+		AND = {
+			has_variable = lepsius_unknown_paranthropus_human_fossil
+			var:lepsius_unknown_paranthropus_human_fossil >= 1
 		}
 	}
 }

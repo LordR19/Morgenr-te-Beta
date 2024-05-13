@@ -35,43 +35,26 @@ building_lepsius_archaeological_museum = {
 	required_construction = construction_cost_medium
 
 	can_build_government = {
-		trigger_if = {
+		trigger_if = { #Not buildable for AI (instead built in ai_special_building_construction_effect)
 			limit = {
 				owner = {
-					is_ai = yes
-				}
-				trigger_if = {
-					limit = {
-						NOT = {
-							owner = {
-								any_scope_building = {
-									is_building_type = building_lepsius_archaeological_museum
-									level > 0
-								}
-							}
-						}
-					}
-					owner = {
-						lepsius_has_artifacts = yes
-					}
-					is_capital = yes
-				}
-				trigger_else = {
-					always = no
+					is_player = yes
 				}
 			}
-		}
-		trigger_else = {
+			
+			#Actual Triggers
 			custom_tooltip = {
 				text = lepsius_archaeological_museum_can_construct_capital_tt
 				is_capital = yes
 			}
 			custom_tooltip = {
 				text = lepsius_archaeological_museum_can_construct_only_museum_tt
-				NOT = {
-					any_scope_building = {
-						is_building_type = building_lepsius_archaeological_museum
-						level > 0
+				owner = {
+					NOT = {
+						any_scope_building = {
+							is_building_type = building_lepsius_archaeological_museum
+							level > 0
+						}
 					}
 				}
 			}
@@ -81,6 +64,9 @@ building_lepsius_archaeological_museum = {
 					lepsius_has_artifacts = yes
 				}
 			}
+		}
+		trigger_else = {
+			always = no
 		}
 	}
 

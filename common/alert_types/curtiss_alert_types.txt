@@ -34,7 +34,7 @@ curtiss_balloonist_possible_alert = {
 			has_journal_entry = je_curtiss_balloonist
 			has_technology_researched = curtiss_montgolfier_balloon_tech
 		}
-		curtiss_no_balloonist_trigger = yes
+		curtiss_has_balloonist_trigger_no_tooltip_trigger = no
 	}
 
 	open_panel = tech_tree
@@ -47,96 +47,33 @@ curtiss_zeppelin_expedition_possible_alert = {
 	texture = "gfx/interface/icons/alert_icons/curtiss_arctic_expedition_alert.dds"
 
 	valid = {
-		is_at_war = no
 		has_technology_researched = zeppelins
-		any_scope_building = {
-			is_building_type = building_verrier_observatory
-			has_active_production_method = pm_curtiss_weather_station
-		}
-		any_scope_character = {
-			OR = {
-				has_trait = curtiss_pilot
-				has_trait = curtiss_pilot_ace
+			NOR = {
+				has_strategy = ai_strategy_armed_isolationism
+				is_diplomatic_play_committed_participant = yes
+				is_at_war = yes
 			}
-			is_busy = no
-		}
-		OR = {
-
+			NOR = {
+				has_modifier = curtiss_arctica_expedition_modifier
+				has_modifier = curtiss_had_arctica_expedition_modifier
+			}
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curtiss_weather_station
+			}
+			curtiss_has_active_pilot_no_tooltip_trigger = yes
 			OR = {
 				any_scope_state = {
-					state_region = s:STATE_GREENLAND
+					mr_arctic_states_trigger = yes
 				}
 				any_country = {
 					has_diplomatic_pact = {
 						who = ROOT
 						type = airspace_convention
 					}				
-					any_scope_state = {
-						state_region = s:STATE_GREENLAND
-					}
-				}		
-			}
-			OR = {
-				any_scope_state = {
-					state_region = s:STATE_NORTHERN_NORWAY
+					mr_arctic_states_trigger = yes
 				}
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = airspace_convention
-					}				
-					any_scope_state = {
-						state_region = s:STATE_NORTHERN_NORWAY
-					}
-				}		
 			}
-			OR = {
-				any_scope_state = {
-					state_region = s:STATE_ALASKA
-				}
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = airspace_convention
-					}				
-					any_scope_state = {
-						state_region = s:STATE_ALASKA
-					}
-				}		
-			}
-			OR = {
-				any_scope_state = {
-				state_region = s:STATE_NUNAVUT
-				}
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = airspace_convention
-					}				
-					any_scope_state = {
-						state_region = s:STATE_NUNAVUT
-					}
-				}		
-			}
-			OR = {
-				any_scope_state = {
-					state_region = s:STATE_NENETSIA
-				}
-				any_country = {
-					has_diplomatic_pact = {
-						who = ROOT
-						type = airspace_convention
-					}				
-					any_scope_state = {
-						state_region = s:STATE_NENETSIA
-					}
-				}		
-			}
-		}
-		NOR = {
-			has_modifier = curtiss_arctica_expedition_modifier
-			has_modifier = curtiss_had_arctica_expedition_modifier
-		}
 	}
 
 	open_panel = tech_tree

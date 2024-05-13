@@ -280,8 +280,6 @@ namespace = dubois
 
 ######NATURE RESERVES######
 
-#Dubois 1201: Nature Reserve Location found
-
 #Dubois 1210: [Scope Animal] in [Scope State] is endangered
 #Dubois 1211: [Scope Animal] in [Scope State] is extinct
 
@@ -4627,6 +4625,15 @@ dubois.72 = {
 			}
 		}
 	}
+
+	after = {
+		if = { #Used to check if paleontological expeditions are possible at all
+			limit = {
+				NOT = { has_global_variable = dubois_first_formation_discovered_global_var }
+			}
+			set_global_variable = dubois_first_formation_discovered_global_var
+		}
+	}
 }
 
 #Dubois 73: Great Formation discovered
@@ -4745,6 +4752,15 @@ dubois.73 = {
 					add_state_trait = dubois_state_trait_great_australian_formation
 				}
 			}
+		}
+	}
+
+	after = { #Used to check if paleontological expeditions are possible at all
+		if = {
+			limit = {
+				NOT = { has_global_variable = dubois_first_formation_discovered_global_var }
+			}
+			set_global_variable = dubois_first_formation_discovered_global_var
 		}
 	}
 }
@@ -22050,418 +22066,6 @@ dubois.1101 = {
 	}
 }
 
-######NATURE RESERVE######
-
-#Dubois 1201: Nature Reserve Location found
-
-#dubois.1201 = {
-#	dlc = dlc_morgenrote
-#
-#	type = country_event
-#
-#	title = dubois.1201.t
-#	desc = dubois.1201.d
-#	flavor =  dubois.1201.f
-#
-#	placement = root
-#
-#	event_image = { 
-#		texture = "gfx/event_pictures/dubois_pictures/dubois_nature_reserve_north_america.dds"
-#	}
-#
-#	icon = "gfx/interface/icons/event_icons/event_animals.dds"
-#
-#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-#
-#	duration = 3
-#
-#	trigger = {
-#		#triggered by dubois_nature_reserve_survey_decision 
-#	}
-#
-#	immediate = {
-#		set_variable = {
-#			name = dubois_number_of_nature_reserve_states_var
-#			value = 0
-#		}
-#		if = {
-#			limit = {
-#				any_scope_state = {
-#					dubois_state_has_mountains = yes
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#				}
-#			}
-#			random_scope_state = {
-#				limit = {
-#					dubois_state_has_mountains = yes
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#				}
-#				save_scope_as = dubois_mountain_state_scope
-#			}
-#			set_local_variable = dubois_mountain_state_var
-#			change_variable = {
-#				name = dubois_number_of_nature_reserve_states_var
-#				add = 1
-#			}
-#		}
-#		if = {
-#			limit = {
-#				any_scope_state = {
-#					dubois_state_has_forest = yes
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOT = {
-#						this ?= scope:dubois_mountain_state_scope
-#					}
-#				}
-#			}
-#			random_scope_state = {
-#				limit = {
-#					dubois_state_has_forest = yes
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOT = {
-#						this ?= scope:dubois_mountain_state_scope
-#					}
-#				}
-#				save_scope_as = dubois_forest_state_scope
-#			}
-#			set_local_variable = dubois_forest_state_var
-#			change_variable = {
-#				name = dubois_number_of_nature_reserve_states_var
-#				add = 1
-#			}
-#		}
-#		if = {
-#			limit = {
-#				any_scope_state = {
-#					dubois_state_has_fjord = yes
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#					}
-#				}
-#			}
-#			random_scope_state = {
-#				limit = {
-#					dubois_state_has_fjord = yes
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#					}
-#				}
-#				save_scope_as = dubois_fjord_state_scope
-#			}
-#			set_local_variable = dubois_fjord_state_var
-#			change_variable = {
-#				name = dubois_number_of_nature_reserve_states_var
-#				add = 1
-#			}
-#		}
-#		if = {
-#			limit = {
-#				any_scope_state = {
-#					dubois_state_has_desert = yes
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#					}
-#				}
-#			}
-#			random_scope_state = {
-#				limit = {
-#					dubois_state_has_desert = yes
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#					}
-#				}
-#				save_scope_as = dubois_desert_state_scope
-#			}
-#			set_local_variable = dubois_desert_state_var
-#			change_variable = {
-#				name = dubois_number_of_nature_reserve_states_var
-#				add = 1
-#			}
-#		}
-#		if = {
-#			limit = {
-#				any_scope_state = {
-#					has_state_trait = state_trait_lake_victoria
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#						this ?= scope:dubois_desert_state_scope
-#					}
-#				}
-#			}
-#			random_scope_state = {
-#				limit = {
-#					has_state_trait = state_trait_lake_victoria
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#						this ?= scope:dubois_desert_state_scope
-#					}
-#				}
-#				save_scope_as = dubois_lake_victoria_state_scope
-#			}
-#			set_local_variable = dubois_lake_victoria_state_var
-#			change_variable = {
-#				name = dubois_number_of_nature_reserve_states_var
-#				add = 1
-#			}
-#		}
-#		if = {
-#			limit = {
-#				var:dubois_number_of_nature_reserve_states_var < 3
-#				any_scope_state = {
-#					count > 0
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#						this ?= scope:dubois_desert_state_scope
-#						this ?= scope:dubois_lake_victoria_state_scope
-#					}
-#				}
-#			}
-#			random_scope_state = {
-#				limit = {
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#						this ?= scope:dubois_desert_state_scope
-#						this ?= scope:dubois_lake_victoria_state_scope
-#					}
-#				}
-#				save_scope_as = dubois_additional_state_1_scope
-#			}
-#			set_local_variable = dubois_additional_state_1_var
-#			change_variable = {
-#				name = dubois_number_of_nature_reserve_states_var
-#				add = 1
-#			}
-#		}
-#		if = {
-#			limit = {
-#				var:dubois_number_of_nature_reserve_states_var < 3
-#				any_scope_state = {
-#					count > 0
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#						this ?= scope:dubois_desert_state_scope
-#						this ?= scope:dubois_lake_victoria_state_scope
-#						this ?= scope:dubois_additional_state_1_scope
-#					}
-#				}
-#			}
-#			random_scope_state = {
-#				limit = {
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#						this ?= scope:dubois_desert_state_scope
-#						this ?= scope:dubois_lake_victoria_state_scope
-#						this ?= scope:dubois_additional_state_1_scope
-#					}
-#				}
-#				save_scope_as = dubois_additional_state_2_scope
-#			}
-#			set_local_variable = dubois_additional_state_2_var
-#			change_variable = {
-#				name = dubois_number_of_nature_reserve_states_var
-#				add = 1
-#			}
-#		}
-#		if = {
-#			limit = {
-#				var:dubois_number_of_nature_reserve_states_var < 3
-#				any_scope_state = {
-#					count > 0
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#						this ?= scope:dubois_desert_state_scope
-#						this ?= scope:dubois_lake_victoria_state_scope
-#						this ?= scope:dubois_additional_state_1_scope
-#						this ?= scope:dubois_additional_state_2_scope
-#					}
-#				}
-#			}
-#			random_scope_state = {
-#				limit = {
-#					arable_land > 0
-#					is_homeland_of_country_cultures = owner
-#					NOR = {
-#						this ?= scope:dubois_mountain_state_scope
-#						this ?= scope:dubois_forest_state_scope
-#						this ?= scope:dubois_fjord_state_scope
-#						this ?= scope:dubois_desert_state_scope
-#						this ?= scope:dubois_lake_victoria_state_scope
-#						this ?= scope:dubois_additional_state_1_scope
-#						this ?= scope:dubois_additional_state_2_scope
-#					}
-#				}
-#				save_scope_as = dubois_additional_state_3_scope
-#			}
-#			set_local_variable = dubois_additional_state_3_var
-#			change_variable = {
-#				name = dubois_number_of_nature_reserve_states_var
-#				add = 1
-#			}
-#		}
-#		remove_variable = dubois_number_of_nature_reserve_states_var
-#	}
-#
-#	option = {
-#		name = dubois.1201.g #A state with mountains like [Scope] is ideal!
-#		default_option = yes
-#
-#		trigger = {
-#			has_local_variable = dubois_mountain_state_var
-#		}
-#
-#		scope:dubois_mountain_state_scope = {
-#			add_modifier = {
-#				name = dubois_nature_reserve_location_modifier
-#			}
-#			start_building_construction = building_dubois_national_park
-#		}
-#	}
-#
-#	option = {
-#		name = dubois.1201.h #The vast forests of [scope] will be perfect!
-#		trigger = {
-#			has_local_variable = dubois_forest_state_var
-#		}
-#
-#		scope:dubois_forest_state_scope = {
-#			add_modifier = {
-#				name = dubois_nature_reserve_location_modifier
-#			}
-#			start_building_construction = building_dubois_national_park
-#		}
-#	}
-#
-#	option = {
-#		name = dubois.1201.i #The fjords of [scope] are ideal for a Nature Reserve!
-#		trigger = {
-#			has_local_variable = dubois_fjord_state_var
-#		}
-#
-#		scope:dubois_fjord_state_scope = {
-#			add_modifier = {
-#				name = dubois_nature_reserve_location_modifier
-#			}
-#			start_building_construction = building_dubois_national_park
-#		}
-#	}
-#
-#	option = {
-#		name = dubois.1201.j #Who needs a desert anyways? It is perfect!
-#		trigger = {
-#			has_local_variable = dubois_desert_state_var
-#		}
-#
-#		scope:dubois_desert_state_scope = {
-#			add_modifier = {
-#				name = dubois_nature_reserve_location_modifier
-#			}
-#			start_building_construction = building_dubois_national_park
-#		}
-#	}
-#
-#	option = {
-#		name = dubois.1201.k #Where else than Lake Victoria?
-#		trigger = {
-#			has_local_variable = dubois_lake_victoria_state_var
-#		}
-#
-#		scope:dubois_lake_victoria_state_scope = {
-#			add_modifier = {
-#				name = dubois_nature_reserve_location_modifier
-#			}
-#			start_building_construction = building_dubois_national_park
-#		}
-#	}
-#
-#	option = {
-#		name = dubois.1201.l #[Scope] looks like a good place for a Nature Reserve!
-#		trigger = {
-#			has_local_variable = dubois_additional_state_1_var
-#		}
-#
-#		scope:dubois_additional_state_1_scope = {
-#			add_modifier = {
-#				name = dubois_nature_reserve_location_modifier
-#			}
-#			start_building_construction = building_dubois_national_park
-#		}
-#	}
-#
-#	option = {
-#		name = dubois.1201.m #I like [Scope]!
-#		trigger = {
-#			has_local_variable = dubois_additional_state_2_var
-#		}
-#
-#		scope:dubois_additional_state_2_scope = {
-#			add_modifier = {
-#				name = dubois_nature_reserve_location_modifier
-#			}
-#			start_building_construction = building_dubois_national_park
-#		}
-#	}
-#
-#	option = {
-#		name = dubois.1201.n #We have to choose [Scope]!
-#		trigger = {
-#			has_local_variable = dubois_additional_state_3_var
-#		}
-#
-#		scope:dubois_additional_state_3_scope = {
-#			add_modifier = {
-#				name = dubois_nature_reserve_location_modifier
-#			}
-#			start_building_construction = building_dubois_national_park
-#		}
-#	}
-#}
-
 #Dubois 1210: [Scope Animal] in [Scope State] is endangered
 
 dubois.1210 = {
@@ -25435,6 +25039,18 @@ dubois.2044 = {
 
 	after = {
 		remove_dubois_construct_dinosaur_effect = yes
+		random_list = {
+			1 = {}
+			1 = {
+				var:dubois_paleontologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -27459,12 +27075,6 @@ dubois.2171 = {
 		var:dubois_paleontologist_var = {
 			set_character_busy_and_immortal = yes
 		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
 	}
 	option = {	#Construct South American Dinosaur
 		name = dubois.2041.i
@@ -27488,12 +27098,6 @@ dubois.2171 = {
 		var:dubois_paleontologist_var = {
 			set_character_busy_and_immortal = yes
 		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
 	}
 	option = {	#Construct European Dinosaur
 		name = dubois.2041.j
@@ -27516,12 +27120,6 @@ dubois.2171 = {
 		dubois_construct_european_dinosaur = yes
 		var:dubois_paleontologist_var = {
 			set_character_busy_and_immortal = yes
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
 		}
 	}
 	option = {	#Construct African Dinosaur
@@ -27547,12 +27145,6 @@ dubois.2171 = {
 		var:dubois_paleontologist_var = {
 			set_character_busy_and_immortal = yes
 		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
 	}
 	option = {	#Construct Asian Dinosaur
 		name = dubois.2041.l
@@ -27575,12 +27167,6 @@ dubois.2171 = {
 		dubois_construct_asian_dinosaur = yes
 		var:dubois_paleontologist_var = {
 			set_character_busy_and_immortal = yes
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
 		}
 	}
 	option = {	#Construct Australian Dinosaur
@@ -27605,12 +27191,6 @@ dubois.2171 = {
 		var:dubois_paleontologist_var = {
 			set_character_busy_and_immortal = yes
 		}
-		hidden_effect = {
-			trigger_event = {
-				id = dubois.2001
-				popup = yes
-			}
-		}
 	}
 
 	option = {	#Do not construct any Dinosaur Skeletons.
@@ -27620,6 +27200,15 @@ dubois.2171 = {
 	}
 
 	after = {
+		if = {
+			limit = {
+				has_variable = dubois_visiting_fossils_var
+			}
+			trigger_event = {
+				id = dubois.2001
+				popup = yes
+			}
+		}
 		remove_variable = mr_mount_dinosaur_skeleton_button_var
 	}
 }

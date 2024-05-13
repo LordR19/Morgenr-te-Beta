@@ -562,9 +562,17 @@ lepsius.2 = {
 		custom_tooltip = lepsius.2.tt
 		s:STATE_LOWER_EGYPT = {
 			add_state_trait = lepsius_state_trait_lower_egypt
+			set_global_variable = {
+				name = lepsius_pyramids_state_region_global_var
+				value = this
+			}
 		}
 		s:STATE_UPPER_EGYPT = {
 			add_state_trait = lepsius_state_trait_upper_egypt
+			set_global_variable = {
+				name = lepsius_valley_kings_state_region_global_var
+				value = this
+			}
 		}
 		if = {
 			limit = {
@@ -621,6 +629,10 @@ lepsius.3 = {
 		custom_tooltip = lepsius.3.tt
 		s:STATE_YUCATAN = {
 			add_state_trait = lepsius_state_trait_yucatan
+			set_global_variable = {
+				name = lepsius_yucatan_state_region_global_var
+				value = this
+			}
 		}
 		every_country = {
 			limit = {
@@ -664,9 +676,17 @@ lepsius.4 = {
 		custom_tooltip = lepsius.4.tt
 		s:STATE_BAGHDAD = {
 			add_state_trait = lepsius_state_trait_babylonia
+			set_global_variable = {
+				name = lepsius_babylonia_state_region_global_var
+				value = this
+			}
 		}
 		s:STATE_MOSUL = {
 			add_state_trait = lepsius_state_trait_assyria
+			set_global_variable = {
+				name = lepsius_assyria_state_region_global_var
+				value = this
+			}
 		}
 		every_country = {
 			limit = {
@@ -709,9 +729,17 @@ lepsius.5 = {
 		custom_tooltip = lepsius.5.tt
 		s:STATE_PELOPONNESE = {
 			add_state_trait = lepsius_state_trait_argolis
+			set_global_variable = {
+				name = lepsius_argolis_state_region_global_var
+				value = this
+			}
 		}
 		s:STATE_CRETE = {
 			add_state_trait = lepsius_state_trait_crete
+			set_global_variable = {
+				name = lepsius_crete_state_region_global_var
+				value = this
+			}
 		}
 		every_country = {
 			limit = {
@@ -763,6 +791,10 @@ lepsius.6 = {
 		custom_tooltip = lepsius.6.tt
 		s:STATE_ICA = {
 			add_state_trait = lepsius_state_trait_peru
+			set_global_variable = {
+				name = lepsius_peru_state_region_global_var
+				value = this
+			}
 		}
 		every_country = {
 			limit = {
@@ -1669,9 +1701,17 @@ lepsius.22 = {
 		custom_tooltip = lepsius.2.tt
 		s:STATE_LOWER_EGYPT = {
 			add_state_trait = lepsius_state_trait_lower_egypt
+			set_global_variable = {
+				name = lepsius_pyramids_state_region_global_var
+				value = this
+			}
 		}
 		s:STATE_UPPER_EGYPT = {
 			add_state_trait = lepsius_state_trait_upper_egypt
+			set_global_variable = {
+				name = lepsius_valley_kings_state_region_global_var
+				value = this
+			}
 		}
 		if = {
 			limit = {
@@ -1742,6 +1782,10 @@ lepsius.23 = {
 		custom_tooltip = lepsius.3.tt
 		s:STATE_YUCATAN = {
 			add_state_trait = lepsius_state_trait_yucatan
+			set_global_variable = {
+				name = lepsius_yucatan_state_region_global_var
+				value = this
+			}
 		}
 		every_country = {
 			limit = {
@@ -1950,6 +1994,7 @@ lepsius.61 = {
 	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
 
 	trigger = {
+		is_at_war = yes
 		any_state = {
 			controller = ROOT
 			NOT = {
@@ -2817,6 +2862,61 @@ lepsius.75 = {
 				country = c:KOR
 				value = -50
 			}
+		}
+	}
+
+	after = {
+		lepsius_update_exhibition_effect = yes
+	}
+}
+
+#Lepsius 76: The strange lines of Nazca
+
+lepsius.76 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = lepsius.76.t
+	desc = lepsius.76.d
+	flavor = lepsius.76.f
+
+	placement = scope:lepsius_peru_state
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:lepsius_archaeologist_scope
+	right_icon = scope:curtiss_pilot_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
+
+	immediate = {
+		var:lepsius_archaeologist_var = {
+			save_scope_as = lepsius_archaeologist_scope
+			set_variable = lepsius_archaeologist_discovered_nazca_var
+		}
+		var:curtiss_pilot_var = {
+			save_scope_as = curtiss_pilot_scope
+		}
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_STATE_AREQUIPA
+			}
+			save_scope_as = lepsius_peru_state
+		}
+	}
+
+	option = {
+		name = lepsius.76.g #But what might be the true meaning of these images?
+		lepsius_medium_add_technology = yes
+		pilot_experience_gain_effect = { AMOUNT = 30 }
+		archaeologist_experience_gain_effect = { AMOUNT = 30 }
+		dubois_add_x_academy_progress = {
+			AMOUNT = 60
 		}
 	}
 
@@ -5465,6 +5565,21 @@ lepsius.311 = {
 			}
 		}
 	}
+
+	after = {
+		random_list = {
+			3 = {}
+			2 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
+	}
 }
 
 #Lepsius 312: Archaeologist finishs scientific paper
@@ -5502,6 +5617,21 @@ lepsius.312 = {
 			add_modifier = {
 				name = lepsius_expeditional_scientific_paper_modifier
 				days = 1095
+			}
+		}
+	}
+
+	after = {
+		random_list = {
+			3 = {}
+			2 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
 			}
 		}
 	}
@@ -19027,6 +19157,18 @@ lepsius.901 = {
 				popup = yes
 			}
 		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -19109,6 +19251,21 @@ lepsius.911 = {
 		}
 		lepsius_update_exhibition_effect = yes
 	}
+
+	after = {
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
+	}
 }
 
 lepsius.912 = {
@@ -19188,6 +19345,21 @@ lepsius.921 = {
 			AMOUNT = "50"
 		}
 		lepsius_update_exhibition_effect = yes
+	}
+
+	after = {
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -19277,6 +19449,18 @@ lepsius.931 = {
 				popup = yes
 			}
 		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -19364,6 +19548,18 @@ lepsius.941 = {
 				id = lepsius.731
 				days = { 7 21 }
 				popup = yes
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
 			}
 		}
 	}
@@ -19457,6 +19653,18 @@ lepsius.961 = {
 				popup = yes
 			}
 		}
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -19522,7 +19730,7 @@ lepsius.971 = {
 				has_variable = lepsius_archaeologist_var
 			}
 			var:lepsius_archaeologist_var = {
-				set_variable = lepsius_found_tomb_of_vilcabamba_var
+				set_variable = lepsius_found_vilcabamba_var
 			}
 		}
 	}
@@ -19537,6 +19745,21 @@ lepsius.971 = {
 			AMOUNT = "50"
 		}
 		lepsius_update_exhibition_effect = yes
+	}
+
+	after = {
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_archaeologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -24735,6 +24958,18 @@ lepsius.1321 = {
 	}
 
 	after = {
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_anthropologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -24803,6 +25038,18 @@ lepsius.1322 = {
 	}
 
 	after = {
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_anthropologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -24871,6 +25118,18 @@ lepsius.1323 = {
 	}
 
 	after = {
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_anthropologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -24939,6 +25198,18 @@ lepsius.1324 = {
 	}
 
 	after = {
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_anthropologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 
@@ -25007,6 +25278,18 @@ lepsius.1325 = {
 	}
 
 	after = {
+		random_list = {
+			1 = {}
+			1 = {
+				var:lepsius_anthropologist_var = {
+					save_scope_as = manzoni_scientist_scope
+				}
+				trigger_event = {
+					id = manzoni.13
+					days = { 7 21 }
+				}
+			}
+		}
 	}
 }
 

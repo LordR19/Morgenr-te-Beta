@@ -47,6 +47,10 @@ types sports_view
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('sports_has_balloonist_gui_type')]"
 							}
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('curtiss_balloonist_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
+							}
 							blockoverride "values" {
 								min = 0
 								max = 300
@@ -184,6 +188,11 @@ types sports_view
 							blockoverride "experience_bar_visibility" {
 								visible = no
 							}
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('vikelas_racer_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
+								visible = no
+							}
 							blockoverride "small_box_content" {
 								widget = { #This Icon allows an overview of the Mountains
 										#The values are set up with scripted_effects from GUI_scripted_effects.txt when the screen is opened
@@ -214,7 +223,7 @@ types sports_view
 									maximumsize = { 255 310 }
 									autoresize = yes
 									multiline = yes
-									using = fontsize_large
+									using = fontsize_xl
 								}
 							}
 							blockoverride "visit_button" {
@@ -285,6 +294,11 @@ types sports_view
 								text = "[GetPlayer.GetCustom('sports_has_athlete_gui_type')]"
 							}
 							blockoverride "experience_bar_visibility" {
+								visible = no
+							}
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('vikelas_racer_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
 								visible = no
 							}
 							blockoverride "small_box_content" {
@@ -426,10 +440,10 @@ types sports_view
 								texture = "gfx/interface/icons/character_role_icons/curtiss_pilot_role.dds"
 							}
 							blockoverride "role_tooltip" {
-								tooltip = "[concept_curtiss_schneider_trophy_desc]"
+								tooltip = "[concept_curtiss_pilot_desc]"
 							}
 							blockoverride "role_name" {
-								text = "SCHNEIDER_TROPHY_HEADER_TEXT"
+								text = "PILOT_HEADER_TEXT"
 							}
 							blockoverride "fontsize_role" {
 								using = fontsize_xxl
@@ -438,14 +452,27 @@ types sports_view
 								visible = no
 							} 
 							blockoverride "character" {
-								datacontext = "[GetPlayer.MakeScope.Var('GUI_curtiss_pilot_var').GetCharacter]"
+								datacontext = "[GetPlayer.MakeScope.Var('curtiss_pilot_var').GetCharacter]"
 							}
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('curtiss_has_pilot_gui_type')]"
 							}
-							blockoverride "experience_bar_visibility" {
-								visible = no
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('curtiss_pilot_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
 							}
+							blockoverride "values" {
+								min = 0
+								max = 300
+								value = "[GetPlayer.MakeScope.Var('curtiss_pilot_var').GetVariable('curtiss_pilot_experience').GetValue]"
+							}
+							blockoverride "experience_tooltip" {
+								tooltip = "[GetPlayer.GetCustom('GUI_curtiss_pilot_experience_type')]"
+							}
+							blockoverride "experience_bar_text" {
+								text = "[GetPlayer.GetCustom('GUI_curtiss_pilot_experience_text_type')]"
+							}
+
 							blockoverride "small_box_content" {
 								widget = {
 									#This Icon allows an overview of the 10 Nations with the most Schneider Trophy Wins
@@ -471,8 +498,8 @@ types sports_view
 
 								textbox = {
 									position = { 15 10 }
-									#Information about the Schneider Trophy
-									text = "MR_SCHNEIDER_TROPHY_INFORMATION"
+									#Information about the Pilot and Schneider Trophy
+									text = "MR_PILOT_INFORMATION"
 									parentanchor = top|left
 									maximumsize = { 255 310 }
 									autoresize = yes
@@ -490,7 +517,7 @@ types sports_view
 
 									### Schneider Trophy Buttons ###
 									button = {
-										#Found the IOC
+										#Schneider Trophy
 										using = default_button_primary_big_action
 										size = { 250 40 }
 										raw_text = "MR_HOLD_SCHNEIDER_TROPHY_RACE_BUTTON"
@@ -547,6 +574,10 @@ types sports_view
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('sports_has_racer_gui_type')]"
 							}
+							blockoverride "character_traits" {
+								datacontext = "[GetPlayer.MakeScope.Var('vikelas_racer_var').GetCharacter]"
+								datamodel = "[Character.AccessTraits]"
+							}
 							blockoverride "values" {
 								min = 0
 								max = 150
@@ -589,7 +620,7 @@ types sports_view
 									maximumsize = { 255 310 }
 									autoresize = yes
 									multiline = yes
-									using = fontsize_large
+									using = fontsize_xl
 								}
 							}
 							blockoverride "big_box_content" {
@@ -673,6 +704,7 @@ types sports_view
 		# fontsize_role
 		# character
 		# character_name
+		# character_traits
 		# achievements_icon_visibility
 		# experience_bar_visibility
 		# values
@@ -680,7 +712,7 @@ types sports_view
 		# experience_bar_text
 		# small_box_content
 		# big_box_content
-		size = { 900 400 }
+		size = { 900 450 }
 		background = {
 			using = entry_bg_unit_dark
 		}
@@ -699,7 +731,7 @@ types sports_view
 		}
 		default_header_clean_faded = {
 			size = { 250 40 }
-			position = { 14 295 }
+			position = { 14 306 }
 			blockoverride "text" {
 				block "character_name" 
 				{
@@ -736,7 +768,7 @@ types sports_view
 			#used in the mr_GUI_l_english.yml file to display the correct Achievements.
 			size = { 35 35 }
 			parentanchor = bottom|left
-			position = { 10 -68 }
+			position = { 10 -107 }
 			block "achievements_icon_visibility" {
 				visible = yes
 			}
@@ -753,10 +785,9 @@ types sports_view
 				block "scientist_achievement_tooltip" {}
 			}
 		}
-
 		green_progressbar_horizontal = {
 			parentanchor = bottom|left
-			position = { 15 -15 }
+			position = { 15 -60 }
 			size = { 250 35 }
 			block "experience_bar_visibility" {
 				visible = yes
@@ -780,10 +811,37 @@ types sports_view
 				using = fontsize_large
 			}
 		}
+		widget = { #Displays the Traits of the character
+			size = { 40 40 }
+			parentanchor = bottom|left
+			position = { 15 -10 }
+					
+			overlappingitembox = {
+				minimumsize = { 250 42 }
+				maximumsize = { 250 42 }
+
+				block "character_traits"
+				{
+					datamodel = "[AccessPlayer.AccessRuler.AccessTraits]"
+				}
+
+				item = {
+					icon = {
+						size = { 30 42 }
+						texture = "[CharacterTrait.GetTexture]"
+						using = tooltip_above
+
+						tooltipwidget = {
+							FancyTooltip_CharacterTrait = {}
+						}
+					}
+				}
+			}
+		}
 
 		#Center Box
 		widget = {
-			size = { 290 370 }
+			size = { 290 420 }
 			parentanchor = top
 			position = { 280 15 }
 			background = {
@@ -797,7 +855,7 @@ types sports_view
 
 		#Right Box
 		widget = {
-			size = { 290 370 }
+			size = { 290 420 }
 			parentanchor = right
 			position = { -15 15 }
 			background = {
@@ -822,17 +880,18 @@ types sports_view
 		# experience_bar_visibility
 		# values
 		# experience_tooltip
+		# character_traits
 		# small_box_content
 		# visit_button
 		# big_box_content
-		size = { 900 400 }
+		size = { 900 450 }
 		background = {
 			using = entry_bg_unit_dark
 		}
 
 		# Character Portrait
 		character_portrait_large_torso = {
-			position = { 30 35 }
+			position = { 30 45 }
 			block "character"
 			{
 				datacontext = "[AccessPlayer.AccessRuler]"
@@ -844,7 +903,7 @@ types sports_view
 		}
 		default_header_clean_faded = {
 			size = { 250 40 }
-			position = { 14 295 }
+			position = { 14 306 }
 			blockoverride "text" {
 				textbox = {
 					block "character_name" {
@@ -886,7 +945,7 @@ types sports_view
 			#used in the mr_GUI_l_english.yml file to display the correct Achievements.
 			size = { 35 35 }
 			parentanchor = bottom|left
-			position = { 10 -68 }
+			position = { 10 -107 }
 			block "achievements_icon_visibility" {
 				visible = yes
 			}
@@ -903,10 +962,9 @@ types sports_view
 				block "scientist_achievement_tooltip" {}
 			}
 		}
-
 		green_progressbar_horizontal = {
 			parentanchor = bottom|left
-			position = { 15 -15 }
+			position = { 15 -60 }
 			size = { 250 35 }
 			block "experience_bar_visibility" {
 				visible = yes
@@ -928,10 +986,37 @@ types sports_view
 				using = fontsize_large
 			}
 		}
+		widget = { #Displays the Traits of the character
+			size = { 40 40 }
+			parentanchor = bottom|left
+			position = { 15 -10 }
+					
+			overlappingitembox = {
+				minimumsize = { 250 42 }
+				maximumsize = { 250 42 }
+
+				block "character_traits"
+				{
+					datamodel = "[AccessPlayer.AccessRuler.AccessTraits]"
+				}
+
+				item = {
+					icon = {
+						size = { 30 42 }
+						texture = "[CharacterTrait.GetTexture]"
+						using = tooltip_above
+
+						tooltipwidget = {
+							FancyTooltip_CharacterTrait = {}
+						}
+					}
+				}
+			}
+		}
 
 		#Center Box
 		widget = {
-			size = { 290 310 }
+			size = { 290 360 }
 			parentanchor = top
 			position = { 280 15 }
 			background = {
@@ -956,165 +1041,13 @@ types sports_view
 
 		#Right Box
 		widget = {
-			size = { 290 370 }
+			size = { 290 420 }
 			parentanchor = right
 			position = { -15 15 }
 			background = {
 				using = entry_bg_unit_dark
 			}
 			block "big_box_content"
-			{
-				
-			}
-		}
-	}
-
-	type sports_widget_two_boxes = widget {
-		# topic_icon
-		# topic_tooltip
-		# topic_name
-		# small_box_content
-		# big_box_content
-		size = { 900 400 }
-		background = {
-			using = entry_bg_unit_dark
-		}
-		
-		#Title and Icon
-		widget = {
-			position = { -8 -12 }
-			size = { 65 65 }
-			icon = {
-				size = { 100% 100% }
-				block "topic_icon" {
-					# texture = ""
-				}
-				block "topic_tooltip" {}
-			}
-			textbox = {
-				block "topic_name" {
-					text = "ARCHAEOLOGY_HEADER_TEXT"
-				}
-				position = { 75 15 }
-				parentanchor = left
-				autoresize = yes
-				using = fontsize_mega
-			}
-		}
-
-		#Left Box
-		widget = {
-			size = { 560 330 }
-			parentanchor = top
-			position = { 15 55 }
-			background = {
-				using = entry_bg_unit_dark
-			}
-			block "small_box_content"
-			{
-
-			}
-		}
-
-		#Right Box
-		widget = {
-			size = { 290 370 }
-			parentanchor = right
-			position = { -15 15 }
-			background = {
-				using = entry_bg_unit_dark
-			}
-			block "big_box_content"
-			{
-				
-			}
-		}
-	}
-
-	type sports_widget_three_boxes = widget {
-		# topic_icon
-		# topic_tooltip
-		# topic_name
-		# left_box_content
-		# visit_button
-		# center_box_content
-		# right_box_content
-		size = { 900 400 }
-		background = {
-			using = entry_bg_unit_dark
-		}
-		
-		#Title and Icon
-		widget = {
-			position = { -8 -12 }
-			size = { 65 65 }
-			icon = {
-				size = { 100% 100% }
-				block "topic_icon" {
-					# texture = ""
-				}
-				block "topic_tooltip" {}
-			}
-			textbox = {
-				block "topic_name" {
-					text = "ARCHAEOLOGY_HEADER_TEXT"
-				}
-				position = { 75 15 }
-				parentanchor = left
-				autoresize = yes
-				using = fontsize_mega
-			}
-		}
-
-		#Left Box
-		widget = {
-			size = { 280 270 }
-			parentanchor = top
-			position = { 15 55 }
-			background = {
-				using = entry_bg_unit_dark
-			}
-			block "left_box_content"
-			{
-
-			}
-		}
-
-		button = {
-			parentanchor = bottom
-			position = { 15 -13 }
-			using = default_button_primary_big_action
-			size = { 280 50 }
-			block "visit_button"
-			{
-				raw_text = "Visit Museum"
-			}
-			using = fontsize_large
-		}
-
-		#Center Box
-		widget = {
-			size = { 280 370 }
-			parentanchor = top|center
-			position = { 0 15 }
-			background = {
-				using = entry_bg_unit_dark
-			}
-			block "center_box_content"
-			{
-
-			}
-		}
-
-		#Right Box
-		widget = {
-			size = { 280 370 }
-			parentanchor = right
-			position = { -15 15 }
-			background = {
-				using = entry_bg_unit_dark
-			}
-			block "right_box_content"
 			{
 				
 			}

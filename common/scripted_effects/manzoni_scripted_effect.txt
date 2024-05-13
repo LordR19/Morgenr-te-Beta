@@ -55,27 +55,6 @@ manzoni_add_x_literary_tradition_effect = {
 		custom_tooltip = manzoni_add_x_literary_tradition_plus_x_tt
 	}
 
-	#Yearly Literary Tradition can be used for a report, they are added with each normal Literary Tradition
-	if = { #Fallback if the variable does not exist yet
-		limit = {
-			NOT = {
-				has_variable = manzoni_yearly_literary_tradition_var
-			}
-		}
-		set_variable = {
-			name = manzoni_yearly_literary_tradition_var
-			value = 0
-		}
-	}
-	change_variable = {
-		name = manzoni_yearly_literary_tradition_var
-		add = scope:literary_tradition_amount
-	}
-	change_global_variable = {
-		name = manzoni_global_literary_tradition_var
-		add = scope:literary_tradition_amount
-	}
-
 	#This part adds the AMOUNT of Literary Tradition
 	if = { #Fallback if the variable does not exist yet
 		limit = {
@@ -116,6 +95,537 @@ manzoni_add_x_literary_tradition_effect = {
 				name = manzoni_writer_total_literary_tradition_var
 				add = scope:literary_tradition_amount
 			}
+		}
+	}
+}
+
+#Effect to add $AMOUNT$ Literary Tradition
+manzoni_add_x_literary_tradition_unscaled_effect = {
+	# Amount = amount of literary tradition to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = literary_tradition_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = manzoni_add_x_literary_tradition_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = manzoni_add_x_literary_tradition_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = manzoni_add_x_literary_tradition_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Literary Tradition
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = manzoni_literary_tradition_var
+			}
+		}
+		set_variable = {
+			name = manzoni_literary_tradition_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = manzoni_literary_tradition_var
+		add = $AMOUNT$
+	}
+
+	#manzoni_writer_total_literary_tradition_var is used to keep track of all the Literary Tradition that a specific Writer created.
+	#It is used to show how successful the Writer is.
+	#Every time a normal Literary Tradition Point is added, the same number gets added here.
+	if = {
+		limit = { #Only works if there actually is a Writer
+			has_variable = manzoni_writer_var
+		}
+		var:manzoni_writer_var = {
+			if = { #Fallback if the variable does not exist yet
+				limit = {
+					NOT = {
+						has_variable = manzoni_writer_total_literary_tradition_var
+					}
+				}
+				set_variable = {
+					name = manzoni_writer_total_literary_tradition_var
+					value = 0
+				}
+			}
+			change_variable = { #The amount of Literary Tradition that this Writer created
+				name = manzoni_writer_total_literary_tradition_var
+				add = $AMOUNT$
+			}
+		}
+	}
+}
+
+######ADD PUBLICATIONS & BESTSELLERS######
+
+#Effect to add $AMOUNT$ Publications to a character
+manzoni_add_x_publications_character_effect = {
+	# Amount = amount of Publications Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = publications_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = manzoni_add_x_publications_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = manzoni_add_x_publications_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = manzoni_add_x_publications_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = manzoni_add_x_publications_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = manzoni_add_x_publications_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Publications to the character
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = manzoni_num_publications_var
+			}
+		}
+		set_variable = {
+			name = manzoni_num_publications_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = manzoni_num_publications_var
+		add = $AMOUNT$
+	}
+
+	owner = {
+		#This part adds the AMOUNT of Publications to the country
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = manzoni_num_publications_country_var
+				}
+			}
+			set_variable = {
+				name = manzoni_num_publications_country_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = manzoni_num_publications_country_var
+			add = $AMOUNT$
+		}
+	}
+}
+manzoni_add_x_publications_character_no_tooltip_effect = {
+	# Amount = amount of Publications Progress to add
+
+	#This part adds the AMOUNT of Publications to the character
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = manzoni_num_publications_var
+			}
+		}
+		set_variable = {
+			name = manzoni_num_publications_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = manzoni_num_publications_var
+		add = $AMOUNT$
+	}
+
+	#This part adds the AMOUNT of Publications to the country
+	owner = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = manzoni_num_publications_country_var
+				}
+			}
+			set_variable = {
+				name = manzoni_num_publications_country_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = manzoni_num_publications_country_var
+			add = $AMOUNT$
+		}
+	}
+}
+
+#Effect to add $AMOUNT$ Publications to a country
+manzoni_add_x_publications_country_effect = {
+	# Amount = amount of Publications Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = publications_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = manzoni_add_x_publications_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = manzoni_add_x_publications_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = manzoni_add_x_publications_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = manzoni_add_x_publications_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = manzoni_add_x_publications_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Publications to the country
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = manzoni_num_publications_country_var
+			}
+		}
+		set_variable = {
+			name = manzoni_num_publications_country_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = manzoni_num_publications_country_var
+		add = $AMOUNT$
+	}
+
+	manzoni_update_library_effect = yes
+}
+
+#Effect to add $AMOUNT$ Bestseller
+manzoni_add_x_bestseller_character_effect = {
+	# Amount = amount of Bestsellers Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = bestseller_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = manzoni_add_x_bestsellers_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = manzoni_add_x_bestsellers_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = manzoni_add_x_bestsellers_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = manzoni_add_x_bestsellers_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = manzoni_add_x_bestsellers_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Bestsellers
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = manzoni_num_bestsellers_var
+			}
+		}
+		set_variable = {
+			name = manzoni_num_bestsellers_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = manzoni_num_bestsellers_var
+		add = $AMOUNT$
+	}
+
+	owner = {
+		#This part adds the AMOUNT of Publications to the country
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = manzoni_num_bestsellers_country_var
+				}
+			}
+			set_variable = {
+				name = manzoni_num_bestsellers_country_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = manzoni_num_bestsellers_country_var
+			add = $AMOUNT$
+		}
+	}
+
+	manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = $AMOUNT$ }
+}
+
+#Effect to add $AMOUNT$ Bestseller
+manzoni_add_x_bestseller_country_effect = {
+	# Amount = amount of Bestsellers Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = bestseller_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = manzoni_add_x_bestsellers_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = manzoni_add_x_bestsellers_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = manzoni_add_x_bestsellers_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = manzoni_add_x_bestsellers_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = manzoni_add_x_bestsellers_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Publications to the country
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = manzoni_num_bestsellers_country_var
+			}
+		}
+		set_variable = {
+			name = manzoni_num_bestsellers_country_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = manzoni_num_bestsellers_country_var
+		add = $AMOUNT$
+	}
+
+	#Adds the same amount of publications (because bestsellers are publications)
+	manzoni_add_x_publications_country_effect = { AMOUNT = $AMOUNT$ }
+}
+
+#Effect to add $AMOUNT$ Book Licenses
+manzoni_add_x_book_license_character_effect = {
+	# Amount = amount of Book Licences to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = book_licenses_amount
+		value = $AMOUNT$
+	}
+
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ < -1 }
+		custom_tooltip = manzoni_add_x_book_licenses_minus_x_tt
+	}
+	if = { #Negative Singular Tooltip if $AMOUNT$ is negative
+		limit = { $AMOUNT$ = -1 }
+		custom_tooltip = manzoni_add_x_book_licenses_minus_1_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = manzoni_add_x_book_licenses_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ = 1 }
+		custom_tooltip = manzoni_add_x_book_licenses_plus_1_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 1 }
+		custom_tooltip = manzoni_add_x_book_licenses_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Book Licenses
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = manzoni_num_book_licenses_var
+			}
+		}
+		set_variable = {
+			name = manzoni_num_book_licenses_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = manzoni_num_book_licenses_var
+		add = $AMOUNT$
+	}
+
+	owner = {
+		#This part adds the AMOUNT of Publications to the country
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = manzoni_num_book_licenses_country_var
+				}
+			}
+			set_variable = {
+				name = manzoni_num_book_licenses_country_var
+				value = 0
+			}
+		}
+		change_variable = {
+			name = manzoni_num_book_licenses_country_var
+			add = $AMOUNT$
+		}
+	}
+}
+
+#Adds yearly publications to the character
+manzoni_add_yearly_publications_character_effect = {
+	if = {
+		limit = { has_trait = manzoni_writer_fiction }
+		random_list = {
+			7 = {
+				manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = 1 }
+
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								has_trait = persistent
+								has_trait = meticulous
+							}
+						}
+						add = 3
+					}
+				}
+			}
+			3 = {}
+		}
+	}
+	else_if = {
+		limit = { has_trait = manzoni_writer_non_fiction }
+		random_list = {
+			5 = {
+				manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = 1 }
+
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								has_trait = persistent
+								has_trait = meticulous
+							}
+						}
+						add = 3
+					}
+				}
+			}
+			5 = {}
+		}
+	}
+	else_if = {
+		limit = { has_trait = manzoni_writer_playwright }
+		random_list = {
+			5 = {
+				manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = 2 }
+
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								has_trait = persistent
+								has_trait = meticulous
+							}
+						}
+						add = 3
+					}
+				}
+			}
+			3 = {
+				manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = 1 }
+			}
+			2 = {}
+		}
+	}
+	else_if = {
+		limit = { has_trait = manzoni_writer_poet }
+		random_list = {
+			2 = {
+				manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = 4 }
+
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								has_trait = persistent
+								has_trait = meticulous
+							}
+						}
+						add = 3
+					}
+				}
+			}
+			3 = {
+				manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = 3 }
+			}
+			3 = {
+				manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = 2 }
+			}
+			2 = {
+				manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = 1 }
+			}
+			3 = {}
+		}
+	}
+	else = {
+		random_list = {
+			3 = {
+				manzoni_add_x_publications_character_no_tooltip_effect = { AMOUNT = 1 }
+
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								has_trait = persistent
+								has_trait = meticulous
+							}
+						}
+						add = 3
+					}
+				}
+			}
+			7 = {}
 		}
 	}
 }
@@ -170,7 +680,1058 @@ manzoni_add_x_national_identity_progress_effect = {
 	}
 }
 
+######AUDIENCE TASTE#######
+
+#Change Audience Taste every 10 years
+manzoni_taste_change_effect = {
+	random_list = {
+		###Audience taste changes to Juvenile Literature
+		1 = {
+			trigger = {
+				NOT = { has_variable = manzoni_taste_juvenile_var }
+			}
+			modifier = {
+				if = {
+					limit = {
+						has_law = law_type:law_restricted_child_labor
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_compulsory_primary_school
+					}
+					add = 2
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_law = law_type:law_no_schools
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_juvenile_var
+		}
+		###Audience taste changes to Crime&Mystery###
+		1 = {
+			trigger = {
+				NOT = { has_variable = manzoni_taste_crime_var }
+			}
+			modifier = {
+				if = {
+					limit = {
+						has_game_rule = lepsius_historical_and_fictional_rule
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						lepsius_has_clue = yes
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_petty_bourgeoisie = {
+								is_powerful = yes
+							}
+							ig:ig_petty_bourgeoisie = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						ig:ig_petty_bourgeoisie = {
+							ig_approval >= 5
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_crime_var
+		}
+		###Audience taste changes to Adventure Stories###
+		1 = {
+			trigger = {
+				NOT = { has_variable = manzoni_taste_adventure_var }
+			}
+			modifier = {
+				if = {
+					limit = {
+						country_rank >= rank_value:major_power
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							lepsius_on_archaeological_excavation = yes
+							lepsius_on_archaeological_expedition = yes
+							has_modifier = lepsius_had_expedition_modifier
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							has_modifier = rapanui_pacific_expedition_modifier
+							has_modifier = rapanui_had_pacific_expedition_modifier
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							dubois_has_naturalist = yes
+							dubois_has_paleontologist = yes
+							lepsius_has_archaeologist = yes
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_adventure_var
+		}
+		###Audience taste changes to Science-Fiction###
+		1 = {
+			trigger = {
+				NOT = { has_variable = manzoni_taste_science_var }
+			}
+			modifier = {
+				if = {
+					limit = {
+						verrier_astronomical_observation = yes
+						OR = {
+							verrier_has_astronomer = yes
+							gaudi_has_engineer = yes
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						NOR = {
+							has_law = law_type:law_traditionalism
+							has_law = law_type:law_agrarianism
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						literacy_rate >= 0.5
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_industrialists = {
+								is_powerful = yes
+							}
+							ig:ig_industrialists = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_science_var
+		}
+		###Audience taste changes to Social Criticism###
+		1 = {
+			trigger = {
+				NOT = { has_variable = manzoni_taste_social_var }
+			}
+			modifier = {
+				if = {
+					limit = {
+						has_law = law_type:law_protected_speech
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_universal_suffrage
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						ig:ig_intelligentsia = {
+							ig_approval < 0
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_trade_unions = {
+								is_powerful = yes
+							}
+							ig:ig_trade_unions = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_social_var
+		}
+		###Audience taste changes to Literary Fiction###
+		1 = {
+			trigger = {
+				NOT = { has_variable = manzoni_taste_literary_var }
+			}
+			modifier = {
+				if = {
+					limit = {
+						klimt_has_painter = yes
+						elgar_has_composer = yes
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						literacy_rate >= 0.66
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						ig:ig_intelligentsia = {
+							ig_approval >= 10
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_intelligentsia = {
+								is_powerful = yes
+							}
+							ig:ig_intelligentsia = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_literary_var
+		}
+		###Audience taste changes to Devotional Literature###
+		1 = {
+			trigger = {
+				NOT = { has_variable = manzoni_taste_devotional_var }
+			}
+			modifier = {
+				if = {
+					limit = {
+						has_law = law_type:law_theocracy
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						has_law = law_type:law_state_religion
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						literacy_rate < 0.35
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_devout = {
+								is_powerful = yes
+							}
+							ig:ig_devout = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_devotional_var
+		}
+		###Audience taste changes to Romance###
+		1 = {
+			trigger = {
+				NOT = { has_variable = manzoni_taste_romance_var }
+			}
+			modifier = {
+				if = {
+					limit = {
+						OR = {
+							is_at_war = yes
+							has_revolution = yes
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							has_law = law_type:law_single_party_state
+							has_law = law_type:law_autocracy
+							has_law = law_type:law_secret_police
+						}
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						has_technology_researched = elgar_mass_culture_tech
+					}
+					add = 1
+				}
+				if = {
+					limit = {
+						OR = {
+							ig:ig_landowners = {
+								is_powerful = yes
+							}
+							ig:ig_landowners = {
+								is_in_government = yes
+							}
+						}
+					}
+					add = 1
+				}
+			}
+			manzoni_remove_taste_effect = yes
+			set_variable = manzoni_taste_romance_var
+		}
+	}
+	###Trigger Notification for Player###
+	if = {
+		limit = {
+			is_player = yes
+		}
+		trigger_event = { 
+			id = manzoni.3 #New Audience taste
+		}
+	}
+}
+
+#Remove Audience Taste
+manzoni_remove_taste_effect = {
+	remove_variable = manzoni_taste_juvenile_var
+	remove_variable = manzoni_taste_crime_var
+	remove_variable = manzoni_taste_adventure_var
+	remove_variable = manzoni_taste_science_var
+	remove_variable = manzoni_taste_social_var
+	remove_variable = manzoni_taste_literary_var
+	remove_variable = manzoni_taste_devotional_var
+	remove_variable = manzoni_taste_romance_var
+}
+
+######NEWSPAPER NOVEL#######
+
+set_manzoni_newspaper_novel_state_effect = {
+	if = {
+		limit = {
+			any_scope_state = {
+				is_capital = yes
+				has_building = building_manzoni_publishing_industry
+			}
+		}
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			set_variable = pbi_flag_bestseller_target
+		}
+	}
+	else = {
+		random_scope_state = {
+			limit = {
+				has_building = building_manzoni_publishing_industry
+			}
+			set_variable = pbi_flag_bestseller_target
+		}
+	}
+}
+
+manzoni_newspaper_novel_state_effect = {
+	random_scope_state = {
+		limit = {
+			has_variable = pbi_flag_bestseller_target
+		}
+		save_scope_as = target_state
+	}
+}
+
+remove_manzoni_newspaper_novel_state_effect = {
+	every_scope_state = {
+		limit = {
+			has_variable = pbi_flag_bestseller_target
+		}
+		remove_variable = pbi_flag_bestseller_target
+	}
+}
+
+manzoni_newspaper_novel_effect = {
+	random_scope_state = {
+		limit = {
+			has_variable = pbi_flag_bestseller_target
+		}
+		save_scope_as = target_state
+	}
+	var:manzoni_writer_var = {
+		save_scope_as = target_character
+	}
+}
+
+######WRITER READING TOUR#####
+
+manzoni_writer_destination_effect = {
+	ordered_country = {
+		limit = {
+			manzoni_writer_meets_foreign_taste_trigger = yes
+			NOT = {
+				has_variable = manzoni_visit_by_universal_writer_var
+			}
+			NOT = {
+				this = ROOT
+			}
+			NOT = {
+				has_war_with = ROOT
+			}
+		}
+		order_by = manzoni_writer_destination_score
+		max = 1
+		check_range_bounds = no
+		save_scope_as = manzoni_writer_destination_scope
+	}
+}
+
 ##############################
+
+###Local Writer Effects###
+
+#This effect sets a local writer with a genre corresponding to the current taste as a scope
+manzoni_local_writer_meets_taste_scope_effect = {
+	random_in_list = {
+		variable = mr_local_writers_list
+		limit = {
+			OR = {
+				AND = {
+					root = {
+						has_variable = manzoni_taste_adventure_var
+					}
+					has_trait = manzoni_genre_adventure
+				}
+				AND = {
+					root = {
+						has_variable = manzoni_taste_crime_var
+					}
+					has_trait = manzoni_genre_crime_mystery
+				}
+				AND = {
+					root = {
+						has_variable = manzoni_taste_devotional_var
+					}
+					has_trait = manzoni_genre_devout
+				}
+				AND = {
+					root = {
+						has_variable = manzoni_taste_juvenile_var
+					}
+					has_trait = manzoni_genre_juvenile
+				}
+				AND = {
+					root = {
+						has_variable = manzoni_taste_literary_var
+					}
+					has_trait = manzoni_genre_literary_fiction
+				}
+				AND = {
+					root = {
+						has_variable = manzoni_taste_romance_var
+					}
+					has_trait = manzoni_genre_romance
+				}
+				AND = {
+					root = {
+						has_variable = manzoni_taste_science_var
+					}
+					has_trait = manzoni_genre_science_fiction
+				}
+				AND = {
+					root = {
+						has_variable = manzoni_taste_social_var
+					}
+					has_trait = manzoni_genre_social_critic
+				}
+			}
+		}
+		save_scope_as = manzoni_writer_scope
+	}
+}
+
+#This effect sets a local writer with a genre close to the current taste as a scope
+manzoni_local_writer_close_to_taste_scope_effect = {
+	random_in_list = {
+		variable = mr_local_writers_list
+		limit = {
+			trigger_if = {
+				limit = { has_variable = manzoni_taste_adventure_var }
+				OR = {
+					has_trait = manzoni_genre_science_fiction
+					has_trait = manzoni_genre_juvenile
+					has_trait = manzoni_genre_crime_mystery
+				}
+			}
+			trigger_if = {
+				limit = { has_variable = manzoni_taste_crime_var }
+				OR = {
+					has_trait = manzoni_genre_science_fiction
+					has_trait = manzoni_genre_adventure
+					has_trait = manzoni_genre_romance
+				}
+			}
+			trigger_if = {
+				limit = { has_variable = manzoni_taste_devotional_var }
+				OR = {
+					has_trait = manzoni_genre_juvenile
+					has_trait = manzoni_genre_romance
+					has_trait = manzoni_genre_adventure
+				}
+			}
+			trigger_if = {
+				limit = { has_variable = manzoni_taste_juvenile_var }
+				has_variable_list = mr_local_writers_list
+				OR = {
+					has_trait = manzoni_genre_adventure
+					has_trait = manzoni_genre_devout
+					has_trait = manzoni_genre_crime_mystery
+				}
+			}
+			trigger_if = {
+				limit = { has_variable = manzoni_taste_literary_var }
+				OR = {
+					has_trait = manzoni_genre_social_critic
+					has_trait = manzoni_genre_science_fiction
+					has_trait = manzoni_genre_romance
+				}
+			}
+			trigger_if = {
+				limit = { has_variable = manzoni_taste_romance_var }
+				OR = {
+					has_trait = manzoni_genre_devout
+					has_trait = manzoni_genre_juvenile
+					has_trait = manzoni_genre_literary_fiction
+				}
+			}
+			trigger_if = {
+				limit = { has_variable = manzoni_taste_science_var }
+				OR = {
+					has_trait = manzoni_genre_adventure
+					has_trait = manzoni_genre_social_critic
+					has_trait = manzoni_genre_literary_fiction
+				}
+			}
+			trigger_if = {
+				limit = { has_variable = manzoni_taste_social_var }
+				OR = {
+					has_trait = manzoni_genre_literary_fiction
+					has_trait = manzoni_genre_juvenile
+					has_trait = manzoni_genre_crime_mystery
+				}
+			}
+		}
+		save_scope_as = manzoni_writer_scope
+	}
+}
+
+##############################
+
+###General writer effects###
+
+manzoni_check_character_crime_mystery_effect = {
+	if = {
+		limit = {
+			has_trait = manzoni_genre_crime_mystery
+			NOR = {
+				has_variable = manzoni_mystery_writer_var
+				has_variable = manzoni_crime_writer_var
+			}
+		}
+		random_list = {
+			1 = { set_variable = manzoni_crime_writer_var }
+			1 = { set_variable = manzoni_mystery_writer_var }
+		}
+	}
+}
+
+manzoni_randomize_bestseller_title_effect = {
+	set_variable = {
+		name = manzoni_bestseller_title_var
+		value = {
+			value = { 0 15 }
+			ceiling = yes
+		}
+	}
+}
+
+manzoni_bestseller_event_or_effect_chooser_effect = {
+	if = {
+		#In case the Writer has less than 1 bestseller, the correct event is chosen.
+		#Otherwise an effect and notification is fired.
+		limit = {
+			trigger_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_variable = manzoni_num_bestsellers_var
+					}
+				}
+				scope:manzoni_writer_scope.var:manzoni_num_bestsellers_var < 1
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+		if = {
+			#This first check limits the numbers of checks by first checking if a character is historical.
+			#A historical bestseller event gets chosen only if the character is historical...
+			limit = {
+				scope:manzoni_writer_scope = {
+					is_historical = yes
+				}
+			}
+			#...and has a matching event (checked with the template)
+			if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = manzoni_gbr_doyle_arthur_conan_character_template
+					}
+				}
+				trigger_event = manzoni.1000 # Manzoni 1000: Sherlock Holmes published
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = manzoni_gbr_tolkien_jrr_character_template
+					}
+				}
+				trigger_event = manzoni.1001 # Manzoni 1001: The Hobbit or There and Back Again
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_gbr_wells_hg_character_template
+					}
+				}
+				trigger_event = manzoni.1002 # Manzoni 1001: The Hobbit or There and Back Again
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_swi_spyri_johanna_character_template
+					}
+				}
+				trigger_event = manzoni.1100 #Manzoni 1100: Heidi
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_swi_keller_gottfried_character_template
+					}
+				}
+				trigger_event = manzoni.1101 #Manzoni 1101: Kleider machen Leute
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_swi_gotthelf_jeremias_character_template
+					}
+				}
+				trigger_event = manzoni.1102 #Manzoni 1102: Uli der Knecht
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_swi_hesse_hermann_character_template
+					}
+				}
+				trigger_event = manzoni.1103 #Manzoni 1102: Steppenwolf
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_swi_topffer_rodolphe_character_template
+					}
+				}
+				trigger_event = manzoni.1104 #Manzoni 1104: Histoire d'Albert
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_swi_ramuz_cf_character_template
+					}
+				}
+				trigger_event = manzoni.1105 #Manzoni 1105: La Grande Peur dans la montagne
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_fra_verne_jules_character_template
+					}
+				}
+				trigger_event = manzoni.1400 #Manzoni 1400: Le Tour du monde en quatre-vingts jours
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_fra_de_balzac_honore_character_template
+					}
+				}
+				trigger_event = manzoni.1401 #Manzoni 1401: La Comédie humaine
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_fra_dumas_alexandre_character_template
+					}
+				}
+				trigger_event = manzoni.1402 #Manzoni 1402: Les Trois Mousquetaires
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_usa_poe_edgar_allen_character_template
+					}
+				}
+				trigger_event = manzoni.1500 #Manzoni 1500: The Raven
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_swe_lagerlof_selma_character_template
+					}
+				}
+				trigger_event = manzoni.1600 #Manzoni 1600: Nils Holgerssons underbara resa genom Sverige
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_swe_strindberg_august_character_template
+					}
+				}
+				trigger_event = manzoni.1601 #Manzoni 1601: Röda rummet
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_aus_kafka_franz_character_template
+					}
+				}
+				trigger_event = manzoni.1700 #Manzoni 1700: Die Verwandlung
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_aus_musil_robert_character_template
+					}
+				}
+				trigger_event = manzoni.1701 #Manzoni 1701: Der Mann ohne Eigenschaften
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_aus_zweig_stefan_character_template
+					}
+				}
+				trigger_event = manzoni.1702 #Manzoni 1702: Sternstunde der Menschheit
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_den_andersen_hans_christian_character_template
+					}
+				}
+				trigger_event = manzoni.1800 #Manzoni 1800: Den lille Havfrue
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_ire_stoker_bram_character_template
+					}
+				}
+				trigger_event = manzoni.1900 #Manzoni 1900: Dracula
+			}
+			#Otherwise the generic Event is fired
+			else = {
+				trigger_event = manzoni.101
+			}
+		}
+		#Otherwise the generic Event is fired
+		else = {
+			trigger_event = manzoni.101
+		}
+	}
+	#If the character has more than 1 Bestseller already, an effect will be executed and a notification sent.
+	else = {
+		#Adds a Bestseller
+		scope:manzoni_writer_scope = {
+			manzoni_add_x_bestseller_character_effect = { AMOUNT = 1 }
+			void_writer_experience_gain_effect = { AMOUNT = 25 }
+			add_modifier = {
+				name = manzoni_recently_published_bestseller_modifier
+				months = 32
+			}
+		}
+		#Gives Literary Tradition
+		manzoni_add_x_literary_tradition_effect = { AMOUNT = 30 }
+		#Sends a notification to the player
+		post_notification = manzoni_bestseller_notification
+	}
+}
+
+manzoni_bestseller_event_immediate_effect = {
+	scope:manzoni_writer_scope = {
+		manzoni_check_character_crime_mystery_effect = yes
+		manzoni_randomize_bestseller_title_effect = yes
+		manzoni_add_x_bestseller_character_effect = { AMOUNT = 1 }
+	}
+}
+
+manzoni_bestseller_event_option_effect = {
+	manzoni_add_x_literary_tradition_effect = { AMOUNT = 30 }
+	scope:manzoni_writer_scope = {
+		void_writer_experience_gain_effect = { AMOUNT = 50 }
+		show_as_tooltip = {
+			manzoni_add_x_bestseller_character_effect = { AMOUNT = 1 }
+		}
+		add_modifier = {
+			name = manzoni_recently_published_bestseller_modifier
+			months = 32
+		}
+	}
+}
+
+##############################
+
+###NATIONAL LIBRARY###
+
+manzoni_update_library_effect = {
+
+	#custom_tooltip = manzoni_update_library_effect_tt
+
+	######BOOK COLLECTION######
+	if = {
+		limit = {
+			var:manzoni_num_publications_country_var >= 2500
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_manzoni_library
+					production_method = manzoni_pm_library_new
+				}
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_manzoni_library
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_manzoni_library
+				production_method = manzoni_pm_library_tiny
+			}
+		}
+	}
+	if = {
+		limit = {
+			var:manzoni_num_publications_country_var >= 5000
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_manzoni_library
+					production_method = manzoni_pm_library_tiny
+				}
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_manzoni_library
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_manzoni_library
+				production_method = manzoni_pm_library_small
+			}
+		}
+	}
+	if = {
+		limit = {
+			var:manzoni_num_publications_country_var >= 10000
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_manzoni_library
+					production_method = manzoni_pm_library_small
+				}
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_manzoni_library
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_manzoni_library
+				production_method = manzoni_pm_library_medium
+			}
+		}
+	}
+	if = {
+		limit = {
+			var:manzoni_num_publications_country_var >= 25000
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_manzoni_library
+					production_method = manzoni_pm_library_medium
+				}
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_manzoni_library
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_manzoni_library
+				production_method = manzoni_pm_library_large
+			}
+		}
+	}
+	if = {
+		limit = {
+			var:manzoni_num_publications_country_var >= 50000
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_manzoni_library
+					production_method = manzoni_pm_library_large
+				}
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_manzoni_library
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_manzoni_library
+				production_method = manzoni_pm_library_excellent
+			}
+		}
+	}
+	if = {
+		limit = {
+			var:manzoni_num_publications_country_var >= 100000
+			any_scope_state = {
+				is_capital = yes
+				is_production_method_active = {
+					building_type = building_manzoni_library
+					production_method = manzoni_pm_library_excellent
+				}
+			}
+		}
+		random_scope_state = {
+			limit = {
+				has_building = building_manzoni_library
+				is_capital = yes
+			}
+			activate_production_method = {
+				building_type = building_manzoni_library
+				production_method = manzoni_pm_library_great
+			}
+		}
+	}
+}
+
+##############################
+
+manzoni_ai_hire_writer_effect = {
+	#Please update when sGUI gets updated (mr_invite_writer_button)
+	if = {
+		limit = {
+			is_ai = yes #Players have a button
+			NOR = {
+				has_variable = manzoni_writer_var #Will not do it if AI already has a writer
+				has_modifier = manzoni_recently_changed_national_writer_modifier #Can't do it if done recently
+			}
+			manzoni_x_or_more_local_writers_trigger = { AMOUNT = 1 } #Needs to have a local writer
+			any_in_list = { #Must have a local writer with 150 or more reputation
+				variable = mr_local_writers_list
+
+				has_variable = manzoni_writer_experience
+				var:manzoni_writer_experience >= 150
+				interest_group = {
+					ig_approval >= 0
+				}
+			}
+		}
+
+		
+		ordered_in_list = {
+			variable = mr_local_writers_list
+
+			order_by = manzoni_writer_rating_new_writer_value #Chooses the best possible writer
+
+			limit = { #Can only choose writers with 150 or more reputation
+				has_variable = manzoni_writer_experience
+				var:manzoni_writer_experience >= 150
+				interest_group = {
+					ig_approval >= 0
+				}
+			}
+
+			#Sets the character as a national writer
+			free_character_from_void = yes
+			remove_variable = mr_is_local_writer_var
+			set_variable = mr_is_writer_var
+			place_character_in_void = 1200
+			root = {
+				set_variable = {
+					name = manzoni_writer_var
+					value = prev
+				}
+			}
+		}
+		#Updates the local list
+		artists_set_up_local_writer_list_effect = yes
+	}
+}
 
 ###Manzoni Variables###
 
@@ -179,6 +1740,14 @@ manzoni_add_variables = {
 	set_variable = {
         name = manzoni_literary_tradition_var
         value = 0
+	}
+	set_variable = {
+		name = manzoni_num_publications_country_var
+		value = 0
+	}
+	set_variable = {
+		name = manzoni_num_bestsellers_country_var
+		value = 0
 	}
 	set_variable = manzoni_variables_var
 }

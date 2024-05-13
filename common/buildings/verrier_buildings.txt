@@ -23,8 +23,8 @@ building_verrier_observatory = {
 
 	production_method_groups = {
 		pmg_verrier_telescope
-		pmg_verrier_spectroscopy
-		pmg_verrier_astro_lab
+		pmg_curie_physics
+		pmg_mendelejew_chemistry
 		pmg_curtiss_meteorology
 		pmg_gaudi_magnetic_observatory
 	}
@@ -34,58 +34,14 @@ building_verrier_observatory = {
 	required_construction = construction_cost_medium
 
 	can_build_government = {
-		trigger_if = {
+		trigger_if = { #Not buildable for AI (instead built in ai_special_building_construction_effect)
 			limit = {
 				owner = {
-					is_ai = yes
+					is_player = yes
 				}
 			}
-			trigger_if = {
-				limit = {
-					NOT = {
-						owner = {
-							any_scope_building = {
-								is_building_type = building_verrier_observatory
-								level > 0
-							}
-						}
-					}
-				}
-				trigger_if = {
-					limit = {
-						owner = {
-							OR = {
-								has_technology_researched = verrier_physics_tech
-								has_variable = verrier_allowed_to_build_observatory
-							}
-						}
-					}
-					trigger_if = {
-						limit = {
-							is_capital = yes
-						}
-						owner = {
-							OR = {
-								AND = {
-									OR = {
-										has_technology_researched = verrier_astronomy_tech
-										verrier_has_astronomer = yes
-									}
-									any_scope_building = {
-										is_building_type = building_university
-									}
-								}
-								has_variable = verrier_allowed_to_build_observatory
-							}
-						}
-					}
-					trigger_else = { always = no }
-				}
-				trigger_else = { always = no }
-			}
-			trigger_else = { always = no }
-		}
-		trigger_else = {
+
+			#Actual Triggers
 			custom_tooltip = {
 				text = verrier_observatory_can_construct_capital_tt
 				is_capital = yes
@@ -118,6 +74,9 @@ building_verrier_observatory = {
 					}
 				}
 			}
+		}
+		trigger_else = {
+			always = no
 		}	
 	}
 

@@ -117,6 +117,8 @@ dubois_mountain_expedition_possible_alert = {
 	texture = "gfx/interface/icons/alert_icons/dubois_mountaineering_alert.dds"
 
 	valid = {
+		has_technology_researched = prospecting
+		has_technology_researched = nationalism
 		OR = {
 			dubois_has_unconquered_summit_no_tt_trigger = yes
 			any_country = {
@@ -127,8 +129,6 @@ dubois_mountain_expedition_possible_alert = {
 				}
 			}
 		}
-		has_technology_researched = prospecting
-		has_technology_researched = nationalism
 		any_scope_character = {
 			has_role = general
 			is_busy = no
@@ -180,6 +180,7 @@ dubois_paleontologist_unused_alert = {
 	texture = "gfx/interface/icons/alert_icons/dubois_dinosaur_bones_alert.dds"
 
 	valid = {
+		has_global_variable = dubois_first_formation_discovered_global_var
 		has_variable = dubois_paleontologist_var
 		var:dubois_paleontologist_var = {
 			is_busy = no
@@ -199,6 +200,8 @@ dubois_hippocampus_congress_alert = {
 		NOT = {
 			has_global_variable = dubois_hippocampus_congress_hosted_var
 		}
+		var:dubois_specimen >= 20000
+		global_var:dubois_global_specimen >= 100000
 		NOT = {
 			any_country = {
 				has_modifier = dubois_congress_host_modifier
@@ -213,23 +216,34 @@ dubois_hippocampus_congress_alert = {
 		any_scope_building = {
 			is_building_type = building_dubois_zoo
 		}
-		dubois_has_naturalist = yes
+		dubois_has_naturalist_no_tooltip_trigger = yes
 		any_country = {
-			dubois_has_naturalist = yes
+			dubois_has_naturalist_no_tooltip_trigger = yes
 			count >= 5
 		}
-		custom_tooltip = {
-			text = mr_hippocampus_congress_specimen_tt
-			var:dubois_specimen >= 20000
+	}
+
+	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
+
+dubois_paleontological_collection_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/dubois_dinosaur_bones_alert.dds"
+
+	valid = {
+		has_technology_researched = dubois_paleontology_tech
+		NOT = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_paleontological_collection
+				}
+			}
 		}
-		custom_tooltip = {
-			text = mr_hippocampus_congress_global_specimen_tt
-			global_var:dubois_global_specimen >= 100000
-		}
-		trigger_if = {
-			limit = { is_ai = yes}
-			global_var:dubois_global_specimen >= 110000
-		}
+		var:dubois_fossil >= 100
+		dubois_has_paleontologist_no_tooltip_trigger = yes
 	}
 
 	open_panel = tech_tree
