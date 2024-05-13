@@ -15,6 +15,8 @@ Characters:
 - H.G. Wells (random British Writer)
 - Bram Stocker (random Irish Writer)
 - Henrik Wergeland (Norwegian Writer)
+- Hadi Sabzavari (Persian Writer)
+- Mihai Eminescu (random Romanian Writer)
 - Selma Lagerlöf (random Swedish Writer)
 - August Strindberg (random Swedish Writer)
 - Gottfried Keller (random Swiss Writer)
