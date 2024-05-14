@@ -510,6 +510,31 @@ manzoni_add_x_book_license_character_effect = {
 	}
 }
 
+#Effect to add Anthology
+manzoni_add_anthology_effect = {
+	if = {
+		limit = {
+			manzoni_writer_meets_taste_trigger = yes
+		}
+		manzoni_add_x_literary_tradition_unscaled_effect = 30
+		writer_experience_gain_effect = { AMOUNT = 50 }
+		post_notification = manzoni_anthology_meets_taste_notification
+	}
+	else_if = {
+		limit = {
+			manzoni_writer_close_taste_trigger = yes
+		}
+		manzoni_add_x_literary_tradition_unscaled_effect = 15
+		writer_experience_gain_effect = { AMOUNT = 25 }
+		post_notification = manzoni_anthology_close_taste_notification
+	}
+	else = {
+		manzoni_add_x_literary_tradition_unscaled_effect = 5
+		writer_experience_gain_effect = { AMOUNT = 10 }
+		post_notification = manzoni_anthology_no_taste_notification
+	}
+}
+
 #Adds yearly publications to the character
 manzoni_add_yearly_publications_character_effect = {
 	if = {
@@ -626,6 +651,60 @@ manzoni_add_yearly_publications_character_effect = {
 				}
 			}
 			7 = {}
+		}
+	}
+
+	if = {
+		limit = { has_trait = manzoni_writer_poet }
+		if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_5th_anthology_var
+				}
+				var:manzoni_num_publications_var >= 100
+			}
+			set_variable = manzoni_5th_anthology_var
+			manzoni_add_anthology_effect = yes
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_4th_anthology_var
+				}
+				var:manzoni_num_publications_var >= 80
+			}
+			set_variable = manzoni_4th_anthology_var
+			manzoni_add_anthology_effect = yes
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_3rd_anthology_var
+				}
+				var:manzoni_num_publications_var >= 60
+			}
+			set_variable = manzoni_3rd_anthology_var
+			manzoni_add_anthology_effect = yes
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_2nd_anthology_var
+				}
+				var:manzoni_num_publications_var >= 40
+			}
+			set_variable = manzoni_2nd_anthology_var
+			manzoni_add_anthology_effect = yes
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_1st_anthology_var
+				}
+				var:manzoni_num_publications_var >= 20
+			}
+			set_variable = manzoni_1st_anthology_var
+			manzoni_add_anthology_effect = yes
 		}
 	}
 }
