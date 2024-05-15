@@ -768,9 +768,7 @@ manzoni_yearly_literary_tradition_value = {
 		if = {
 			limit = {
 				var:manzoni_writer_var = {
-					NOT = {
-						has_trait = manzoni_writer_fiction
-					}
+					has_trait = manzoni_writer_fiction
 				}
 			}
 			add = 1
@@ -798,19 +796,16 @@ manzoni_yearly_literary_tradition_value = {
 			}
 			add = 1
 		}
-		#An experienced writer adds +1 (+2 in total for novelist, +4 in total for poet)
+		#An experienced writer adds +2 (+3 in total for novelist, +5 in total for poet)
 		if = {
 			limit = {
 				var:manzoni_writer_var ?= {
-					OR = {
-						has_trait = manzoni_great_writer
-						var:manzoni_writer_experience >= 300
-					}
+					var:manzoni_writer_experience >= 300
 				}
 			}
 			add = 2
 		}
-		#A great writer adds +2 (+4 in total for novelist, +6 in total for poet)
+		#A great writer adds +2 (+5 in total for novelist, +7 in total for poet)
 		if = {
 			limit = {
 				var:manzoni_writer_var ?= {
@@ -904,15 +899,29 @@ manzoni_yearly_literary_tradition_value = {
 			}
 			add = 1
 		}
-
-		#Literary Publisher
+		#Technology
 		if = {
-			limit = {
-				any_scope_building = {
-					is_building_type = building_manzoni_publishing_industry
-					has_active_production_method = manzoni_pm_publisher_literary
-				}
-			}
+			limit = { has_technology_researched = elgar_impressionism_tech }
+			add = 1
+		}
+		if = {
+			limit = { has_technology_researched = elgar_neoclassicism_tech }
+			add = 1
+		}
+		if = {
+			limit = { has_technology_researched = elgar_expressionism_tech }
+			add = 3
+		}
+		if = {
+			limit = { has_technology_researched = elgar_new_objectivity_tech }
+			add = 3
+		}
+		if = {
+			limit = { has_technology_researched = elgar_art_nouveau_tech }
+			add = 1
+		}
+		if = {
+			limit = { has_technology_researched = elgar_art_deco_tech }
 			add = 1
 		}
 
@@ -973,20 +982,110 @@ manzoni_writer_rating_new_writer_value = {
 	#Experience: 1 point per 50 Experience
 	value = var:manzoni_writer_experience
 	divide = 50
-	#Genre matches taste
+	#Poets are better in general except if tastes are met
 	if = {
-		limit = {
-			manzoni_local_writer_meets_taste_character_scope_trigger = yes
-		}
+		limit = { has_trait = manzoni_writer_poet }
 		add = 4
-	}
-	#Genre close to taste
-	if = {
-		limit = {
-			manzoni_local_writer_close_taste_character_scope_trigger = yes
+		#Genre matches taste
+		if = {
+			limit = { manzoni_local_writer_meets_taste_character_scope_trigger = yes }
+			add = 2
 		}
-		add = 2
+		#Genre close to taste
+		else_if = {
+			limit = { manzoni_local_writer_close_taste_character_scope_trigger = yes }
+			add = 1
+		}
 	}
+	#Novelist get a bigger bonus from Bestsellers
+	if = {
+		limit = { has_trait = manzoni_writer_fiction }
+		add = 3
+		#Genre matches taste
+		if = {
+			limit = { manzoni_local_writer_meets_taste_character_scope_trigger = yes }
+			add = 4
+		}
+		#Genre close to taste
+		else_if = {
+			limit = { manzoni_local_writer_close_taste_character_scope_trigger = yes }
+			add = 2
+		}
+		#Influence of Traits on the value
+		if = { #Adventure
+			limit = {
+				has_trait = manzoni_genre_adventure
+			}
+			if = {
+				limit = { manzoni_adventure_positive_traits_trigger = yes }
+				add = 1
+			}
+		}
+		if = { #Crime & Mystery
+			limit = {
+				has_trait = manzoni_genre_crime_mystery
+			}
+			if = {
+				limit = { manzoni_crime_mystery_positive_traits_trigger = yes }
+				add = 1
+			}
+		}
+		if = { #Devotional
+			limit = {
+				has_trait = manzoni_genre_devout
+			}
+			if = {
+				limit = { manzoni_devotional_positive_traits_trigger = yes }
+				add = 1
+			}
+		}
+		if = { #Juvenile
+			limit = {
+				has_trait = manzoni_genre_juvenile
+			}
+			if = {
+				limit = { manzoni_devotional_positive_traits_trigger = yes }
+				add = 1
+			}
+		}
+		if = { #Literary Fiction
+			limit = {
+				has_trait = manzoni_genre_literary_fiction
+			}
+			if = {
+				limit = { manzoni_literary_positive_traits_trigger = yes }
+				add = 1
+			}
+		}
+		if = { #Romance
+			limit = {
+				has_trait = manzoni_genre_romance
+			}
+			if = {
+				limit = { manzoni_romance_positive_traits_trigger = yes }
+				add = 1
+			}
+		}
+		if = { #Science-Fiction
+			limit = {
+				has_trait = manzoni_genre_science_fiction
+			}
+			if = {
+				limit = { manzoni_science_fiction_positive_traits_trigger = yes }
+				add = 1
+			}
+		}
+		if = { #Social Critic
+			limit = {
+				has_trait = manzoni_genre_social_critic
+			}
+			if = {
+				limit = { manzoni_social_critic_positive_traits_trigger = yes }
+				add = 1
+			}
+		}
+	}
+	
 	#Positive Traits
 	if = {
 		limit = {
@@ -997,79 +1096,6 @@ manzoni_writer_rating_new_writer_value = {
 			}
 		}
 		add = 2
-	}
-	#Influence of Traits on the value
-	if = { #Adventure
-		limit = {
-			has_trait = manzoni_genre_adventure
-		}
-		if = {
-			limit = { manzoni_adventure_positive_traits_trigger = yes }
-			add = 1
-		}
-	}
-	if = { #Crime & Mystery
-		limit = {
-			has_trait = manzoni_genre_crime_mystery
-		}
-		if = {
-			limit = { manzoni_crime_mystery_positive_traits_trigger = yes }
-			add = 1
-		}
-	}
-	if = { #Devotional
-		limit = {
-			has_trait = manzoni_genre_devout
-		}
-		if = {
-			limit = { manzoni_devotional_positive_traits_trigger = yes }
-			add = 1
-		}
-	}
-	if = { #Juvenile
-		limit = {
-			has_trait = manzoni_genre_juvenile
-		}
-		if = {
-			limit = { manzoni_devotional_positive_traits_trigger = yes }
-			add = 1
-		}
-	}
-	if = { #Literary Fiction
-		limit = {
-			has_trait = manzoni_genre_literary_fiction
-		}
-		if = {
-			limit = { manzoni_literary_positive_traits_trigger = yes }
-			add = 1
-		}
-	}
-	if = { #Romance
-		limit = {
-			has_trait = manzoni_genre_romance
-		}
-		if = {
-			limit = { manzoni_romance_positive_traits_trigger = yes }
-			add = 1
-		}
-	}
-	if = { #Science-Fiction
-		limit = {
-			has_trait = manzoni_genre_science_fiction
-		}
-		if = {
-			limit = { manzoni_science_fiction_positive_traits_trigger = yes }
-			add = 1
-		}
-	}
-	if = { #Social Critic
-		limit = {
-			has_trait = manzoni_genre_social_critic
-		}
-		if = {
-			limit = { manzoni_social_critic_positive_traits_trigger = yes }
-			add = 1
-		}
 	}
 	#Negative Traits
 	if = {

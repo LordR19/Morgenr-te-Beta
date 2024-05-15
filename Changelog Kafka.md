@@ -115,6 +115,7 @@ Bugfixes:
 - Research Projects do no longer think you are an AI and get removed just because there is another project to do.
 - New Engineers no longer work on imaginary projects.
 - Players can now create National Broadcasting Channels again.
+- Engineers with 300 or more experience do not think they are unexperienced engineers anymore and add a bonus for their experience again.
 
 Performance:
 - Various small changes to massively improve performance with the mod.

@@ -510,8 +510,40 @@ manzoni_add_x_book_license_character_effect = {
 	}
 }
 
+#Effect to add Anthology
+manzoni_add_anthology_effect = {
+	if = {
+		limit = {
+			manzoni_writer_meets_taste_trigger = yes
+		}
+		manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = 30 }
+		writer_experience_gain_effect = { AMOUNT = 50 }
+		owner = {
+			post_notification = manzoni_anthology_meets_taste_notification
+		}
+	}
+	else_if = {
+		limit = {
+			manzoni_writer_close_taste_trigger = yes
+		}
+		manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = 15 }
+		writer_experience_gain_effect = { AMOUNT = 25 }
+		owner = {
+			post_notification = manzoni_anthology_close_taste_notification
+		}
+	}
+	else = {
+		manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = 5 }
+		writer_experience_gain_effect = { AMOUNT = 10 }
+		owner = {
+			post_notification = manzoni_anthology_no_taste_notification
+		}
+	}
+}
+
 #Adds yearly publications to the character
 manzoni_add_yearly_publications_character_effect = {
+	debug_log_scopes = yes
 	if = {
 		limit = { has_trait = manzoni_writer_fiction }
 		random_list = {
@@ -626,6 +658,60 @@ manzoni_add_yearly_publications_character_effect = {
 				}
 			}
 			7 = {}
+		}
+	}
+
+	if = {
+		limit = { has_trait = manzoni_writer_poet }
+		if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_5th_anthology_var
+				}
+				var:manzoni_num_publications_var >= 100
+			}
+			set_variable = manzoni_5th_anthology_var
+			manzoni_add_anthology_effect = yes
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_4th_anthology_var
+				}
+				var:manzoni_num_publications_var >= 80
+			}
+			set_variable = manzoni_4th_anthology_var
+			manzoni_add_anthology_effect = yes
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_3rd_anthology_var
+				}
+				var:manzoni_num_publications_var >= 60
+			}
+			set_variable = manzoni_3rd_anthology_var
+			manzoni_add_anthology_effect = yes
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_2nd_anthology_var
+				}
+				var:manzoni_num_publications_var >= 40
+			}
+			set_variable = manzoni_2nd_anthology_var
+			manzoni_add_anthology_effect = yes
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_variable = manzoni_1st_anthology_var
+				}
+				var:manzoni_num_publications_var >= 20
+			}
+			set_variable = manzoni_1st_anthology_var
+			manzoni_add_anthology_effect = yes
 		}
 	}
 }
@@ -1301,6 +1387,8 @@ manzoni_randomize_bestseller_title_effect = {
 }
 
 manzoni_bestseller_event_or_effect_chooser_effect = {
+	debug_log = bestseller_chooser_executed
+	debug_log_scopes = yes
 	if = {
 		#In case the Writer has less than 1 bestseller, the correct event is chosen.
 		#Otherwise an effect and notification is fired.
@@ -1485,6 +1573,14 @@ manzoni_bestseller_event_or_effect_chooser_effect = {
 					}
 				}
 				trigger_event = manzoni.1900 #Manzoni 1900: Dracula
+			}
+			else_if = {
+				limit = {
+					scope:manzoni_writer_scope = {
+						has_template = mr_net_multatuli_character_template
+					}
+				}
+				trigger_event = manzoni.2000 #Manzoni 2000: Max Havelaar
 			}
 			#Otherwise the generic Event is fired
 			else = {
