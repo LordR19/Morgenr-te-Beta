@@ -49,6 +49,7 @@ Archaeology:
 - Changed artifacts at the end of an expedition: you should get some more artifacts than before.
 - Added Vilcabamba as a possible archaeological discovery in Peru.
 - Added Nazca Lines as a new JE.
+- Added Machu Picchu Monument to Ica after its discovery.
 
 Compatability:
 - Removed the mr_starting_inventions.txt file which should improve compatability with various mods.
