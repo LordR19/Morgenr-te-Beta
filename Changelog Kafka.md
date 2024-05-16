@@ -110,6 +110,7 @@ Aviation
 
 Engineers:
 - If you get a new engineer you can change their specialization even if the 5 years didn't pass yet.
+- Reduced prices for projects to half the cost.
 
 Bugfixes:
 - Historical Science Focuses are now properly removed, if you change the rule.
