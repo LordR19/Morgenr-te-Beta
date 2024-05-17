@@ -8,3 +8,6 @@ Changes:
 
 Culture:
 - All of the three culture techs (impressionism, expressionism, art nouveau) can be researched. However, they will cost 25% more when researched after another culture tech and 50% more when it is the last of the three culture techs.
+
+Fixes:
+- Mount Logan has now the right year of first ascent.
