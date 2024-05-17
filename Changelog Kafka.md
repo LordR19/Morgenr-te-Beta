@@ -32,6 +32,25 @@ Changes:
 - Removed permanent prestige modifier from all technologies.
 - Reduced cost for Patron of the Arts, Academy investment and Composer composing/conducting/masterpiece
 
+Literature:
+- Writers added as a new artist group
+- Two actions for writers: Newspaper Novel, Reading Tour
+- New building: National Library
+- Added Literary Tradition as a new cultural value
+- The success of a writer depends largely on his own genre and the prevailing public taste. Audience tastes can change every ten years. Writers who use the appropriate genre that currently suits the public's taste generate more literary tradition and more reputation than writers whose genre is only close to the public's taste. Writers whose genre does not suit the audience's taste at all remain unsuccessful.
+- Two types of writers: novelists and poets. Novel authors can generate more literary tradition and reputation through successful bestsellers, while poets have a higher annual base value. Poets can also compile their poems into anthologies if they have published at least 20 publications (maximum value: 5 anthologies).
+- A nation can have up to three Local Writers. If one of them has over 150 reputation, he can be promoted to National Writer (the equivalent of Composer and Painter).
+- National writers who meet the tastes of audiences abroad can, if there is a publisher there, grant foreign licenses for their books. Authors with at least five foreign licenses are considered writers of world literature and can embark on an international reader tour to gain additional reputation and literary tradition.
+- Additional events related to the publishing industry, such as book obsession or book clubs.
+- Publishers can be specialized as general interest publishers, academic publishers, literary publishers or art publishers. A specialization is related to special events, which often originate from academics or artists; For example, a scientific publishing house comes into being when an academic has made a special discovery or submits a scientific treatise from a trip.
+- Writers, academics, universities and, above all, the publishing industry generate a certain number of publications every year.
+- With enough publications, a national library can be built. The larger the number of publications, the larger the library and the higher the bonus it gives.
+- If the capital of a foreign country has a national library and it is taken over by foreign troops, it can be looted. Half of the publications there then go to the looter. The victim does not lose any publication, but has to restore order in the building over the years.
+- Historical characters will present historical bestsellers, such as "The Raven" by Poe, "The Three Musketeers" by Dumas or "The Metamorphosis by Kafka". For a list of historical writers please see "Characters".
+- Writers can become bitter about the political situation in a country and leave it or become agitators. However, some agitators with writer traits can also transform into writers.
+- North German culture starts with an obsession with books and newspapers; this will be extended to southern Germans and Alemanni after a few tests.
+
+
 Archaeology:
 - Added four new technologies: Egyptology, Assyriology, Aegean Archaeology, Pre-Columbian Archaeology.
 - One of these techs can be chosen via JE to specialize a nation in one archaeological field.
