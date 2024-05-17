@@ -11,3 +11,4 @@ Culture:
 
 Fixes:
 - Mount Logan has now the right year of first ascent.
+- Balloonists are now only possible for people with balloons.
