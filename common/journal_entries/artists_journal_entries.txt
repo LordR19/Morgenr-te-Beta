@@ -240,24 +240,6 @@ je_artists_impressionism = {
 		}
 	}
 
-	current_value = {
-		if = {
-			limit = {
-				scope:journal_entry = {
-					goal_value = 0
-				}
-			}
-			value = 0
-		}
-		else = {
-			value = var:elgar_music_tradition #value or variable you use to meassure progress
-		}
-	}
-
-	goal_add_value = {
-		value = 1000 #value you want the variable to reach
-	}
-
 	complete = {
 		any_scope_state = {
 			is_capital = yes
@@ -268,12 +250,25 @@ je_artists_impressionism = {
 		ig:ig_intelligentsia = {
 			ig_approval >= 5
 	    }
-		custom_tooltip = {
-			text = je_artists_impressionism_success
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}
-		}
+		if = {
+            limit = {
+                has_technology_researched = elgar_expressionism_tech
+                has_technology_researched = elgar_art_nouveau_tech
+            }
+            elgar_has_x_music_tradition_tooltip_trigger = { AMOUNT = 1500 }
+        }
+        else_if = {
+            limit = {
+                OR = {
+                    has_technology_researched = elgar_expressionism_tech
+                    has_technology_researched = elgar_art_nouveau_tech
+                }
+                elgar_has_x_music_tradition_tooltip_trigger = { AMOUNT = 1250 }
+            }
+        }
+        else = {
+            elgar_has_x_music_tradition_tooltip_trigger = { AMOUNT = 1000 }
+        }
 		hidden_trigger = {
 			NOT = { has_variable = je_elgar_impressionism_var }
 		}
@@ -282,19 +277,6 @@ je_artists_impressionism = {
 	on_complete = {
 		add_technology_researched = elgar_impressionism_tech
 	}
-
-	fail = {
-		OR = {
-			has_technology_researched = elgar_expressionism_tech
-			has_technology_researched = elgar_art_nouveau_tech
-		}
-	}
-
-	invalid = {
-		has_technology_researched = elgar_impressionism_tech
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -335,33 +317,6 @@ je_artists_expressionism = {
 		}
 	}
 
-	current_value = {
-		if = {
-			limit = {
-				scope:journal_entry = {
-					goal_value = 0
-				}
-			}
-			value = 0
-		}
-		else = {
-			value = var:manzoni_literary_tradition #value or variable you use to meassure progress
-		}
-	}
-
-	goal_add_value = {
-		if = { #If the variable is already higher, the goal value is 1 higher to prevent auto completion
-			limit = {
-				var:manzoni_literary_tradition >= 700
-			}
-			value = var:manzoni_literary_tradition
-			add = 1
-		}
-		else = {
-			value = 700 #value you want the variable to reach
-		}
-	}
-
 	complete = {
 		any_scope_state = {
 			is_capital = yes
@@ -372,12 +327,25 @@ je_artists_expressionism = {
 		ig:ig_intelligentsia = {
 			ig_approval >= 5
 	    }
-		custom_tooltip = {
-			text = je_artists_expressionism_success
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}
-		}
+		if = {
+            limit = {
+                has_technology_researched = elgar_impressionism_tech
+                has_technology_researched = elgar_art_nouveau_tech
+            }
+            manzoni_has_x_literary_tradition_tooltip_trigger = { AMOUNT = 1000 }
+        }
+        else_if = {
+            limit = {
+                OR = {
+                    has_technology_researched = elgar_impressionism_tech
+                    has_technology_researched = elgar_art_nouveau_tech
+                }
+                manzoni_has_x_literary_tradition_tooltip_trigger = { AMOUNT = 850 }
+            }
+        }
+        else = {
+            manzoni_has_x_literary_tradition_tooltip_trigger = { AMOUNT = 700 }
+        }
 		hidden_trigger = {
 			NOT = { has_variable = je_elgar_expressionism_var }
 		}
@@ -386,19 +354,6 @@ je_artists_expressionism = {
 	on_complete = {
 		add_technology_researched = elgar_expressionism_tech
 	}
-
-	fail = {
-		OR = {
-			has_technology_researched = elgar_impressionism_tech
-			has_technology_researched = elgar_art_nouveau_tech
-		}
-	}
-
-	invalid = {
-		has_technology_researched = elgar_expressionism_tech
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
@@ -439,24 +394,6 @@ je_artists_art_nouveau = {
 		}
 	}
 
-	current_value = {
-		if = {
-			limit = {
-				scope:journal_entry = {
-					goal_value = 0
-				}
-			}
-			value = 0
-		}
-		else = {
-			value = var:klimt_painting_tradition_var #value or variable you use to meassure progress
-		}
-	}
-
-	goal_add_value = {
-		value = 850 #value you want the variable to reach
-	}
-
 	complete = {
 		any_scope_state = {
 			is_capital = yes
@@ -467,12 +404,25 @@ je_artists_art_nouveau = {
 		ig:ig_intelligentsia = {
 			ig_approval >= 5
 	    }
-		custom_tooltip = {
-			text = je_artists_art_nouveau_success
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}
-		}
+		if = {
+            limit = {
+                has_technology_researched = elgar_expressionism_tech
+                has_technology_researched = elgar_impressionism_tech
+            }
+            klimt_has_x_painting_tradition_tooltip_trigger = { AMOUNT = 1250 }
+        }
+        else_if = {
+            limit = {
+                OR = {
+                    has_technology_researched = elgar_expressionism_tech
+                    has_technology_researched = elgar_impressionism_tech
+                }
+                klimt_has_x_painting_tradition_tooltip_trigger = { AMOUNT = 1000 }
+            }
+        }
+        else = {
+            klimt_has_x_painting_tradition_tooltip_trigger = { AMOUNT = 850 }
+        }
 		hidden_trigger = {
 			NOT = { has_variable = je_elgar_art_nouveau_var }
 		}
@@ -485,19 +435,6 @@ je_artists_art_nouveau = {
 			value = 0
 		}
 	}
-
-	fail = {
-		OR = {
-			has_technology_researched = elgar_expressionism_tech
-			has_technology_researched = elgar_impressionism_tech
-		}
-	}
-
-	invalid = {
-		has_technology_researched = elgar_art_nouveau_tech
-	}
-
-	progressbar = yes
 
 	weight = 50
 }
