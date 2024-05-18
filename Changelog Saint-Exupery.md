@@ -29,7 +29,10 @@ Culture:
 Music
 - Ballet: Rmeoved Impressionistic Ballet and Art Nouveau Ballet. Added No Ballet and Classical Ballet.
 - Orchestra: Removed Public Orchestra and Cinematic Orchestra.
-- Therefore, only Expressionism (Ballet) and Neoclassicim (Orchestra) gives a bonus to the opera.
+- Therefore, only Expressionism (Ballet) and Neoclassicim (Orchestra) give a bonus to the opera (music throughput).
+
+Painting
+- Added Sculpture Workshop PMG. Modern (Impressionism) and Art Deco Workshop give a bonus to the arts academy (fine art throughput)
 
 Fixes:
 - Mount Logan has now the right year of first ascent.
