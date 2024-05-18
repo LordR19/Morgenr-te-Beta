@@ -4,6 +4,7 @@ Characters:
 - Antoine de Saint-Exupéry (random French Writer)
 - Henri Coandă (random Romanian Engineer)
 - Traian Vuia (random Romanian Engineer)
+- Jalal al-Din Muhammad al-Isfahani (random Persian Paleontologist)
 
 Changes:
 - Added print obsession for South German and Alemannic.
