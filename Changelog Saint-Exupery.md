@@ -4,6 +4,7 @@ Characters:
 - Antoine de Saint-Exupéry (random French Writer)
 - Henri Coandă (random Romanian Engineer)
 - Traian Vuia (random Romanian Engineer)
+- Han-gi Choe (random Korean Astronomer)
 - Byeong-gil Nam (random Korean Astronomer)
 - Emil Racoviță (random Romanian Naturalist)
 - Jalal al-Din Muhammad al-Isfahani (random Persian Paleontologist)
