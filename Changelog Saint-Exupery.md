@@ -14,7 +14,9 @@ Changes:
 - Added fine art obsession for French.
 - Raised price for prints from 40 to 60.
 - Removed Publishing Industry from Flanders.
-- Removed 1 opera level in Paris.
+- Removed 1 Opera level in Paris.
+- Removed 1 Instrument Workshop level in Paris.
+- Removed 1 Instrument Workshop level in Lorraine.
 - Raised max. supply share of music in luxury category from 20% to 25%.
 
 Culture:
