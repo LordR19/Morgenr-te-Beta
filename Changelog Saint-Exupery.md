@@ -1,6 +1,7 @@
 Changelog for 2.2.0 "Saint-Exupery"
 
 Characters:
+- Antoine de Saint-Exupéry (random French Writer)
 - Henri Coandă (random Romanian Engineer)
 
 Changes:
