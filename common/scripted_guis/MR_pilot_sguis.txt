@@ -1,4 +1,4 @@
-﻿### SCHNEIDER TROPHY BUTTONS ###
+﻿### PILOT BUTTONS ###
 
 #by Lord R
 
@@ -64,6 +64,56 @@ mr_curtiss_hold_schneider_trophy_race_button = {
 }
 
 #MR_CURTISS_FOUND_PILOT_SCHOOL_BUTTON
+mr_curtiss_found_pilot_school_button = {
+    scope = country
+	is_shown = {
+		has_technology_researched = military_aviation
+		NOT = {
+			has_modifier = curtiss_pilot_school_modifier
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_CURTISS_FOUND_PILOT_SCHOOL_BUTTON_TRIGGER_TT
+			OR = {	
+				curtiss_has_pilot_ace = yes
+				AND = {
+					var:curtiss_pilot_var ?= {
+						has_modifier = curtiss_schneider_veteran_modifier
+					}
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_war_machine_industry
+							level >= 3
+						}
+					}
+				}
+				AND = {
+					curtiss_has_pilot = yes
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_war_machine_industry
+							level >= 5
+						}
+					}
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_airport
+							level >= 2
+						}
+					}
+				}
+			}
+		}
+    }
+    effect = {
+		add_modifier = {
+			name = curtiss_pilot_school_modifier
+		}
+    }
+}
+
+#MR_CURTISS_LOST_HORIZON_BUTTON
 mr_curtiss_found_pilot_school_button = {
     scope = country
 	is_shown = {
