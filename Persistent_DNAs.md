@@ -50118,7 +50118,7 @@ mr_rom_von_hohenzollern_carol={
 	entity={ 0 0 }
 }
 
-mr_coanda_henri={
+mr_rom_coanda_henri={
 	type=male
 	id=0
 	age=0.365000
