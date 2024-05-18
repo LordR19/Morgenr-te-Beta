@@ -32,7 +32,34 @@ retire_pilot_effect = {
 # Creates a new pilot without losing the old one
 create_new_pilot_effect = {
 	random_list = {
-		10 = { #Manfred von Richthofen
+		5 = { #Antoine de Saint-Exupéry, France
+			trigger = {
+				NOT = { has_global_variable = mr_de_saint_exupery_created_global_var }
+				country_has_primary_culture = cu:french
+				has_state_in_state_region = STATE_RHONE
+				game_date < 1940.6.29 #Age 40
+				year >= 1922 #Sometimes around then was military pilot
+			}
+			create_character = {
+				template = mr_fra_de_saint_exupery_antoine_character_template
+
+				save_scope_as = curtiss_new_pilot_scope
+			}
+			scope:curtiss_new_pilot_scope = {
+				add_trait = curtiss_pilot
+				set_variable = mr_is_pilot_var
+				pilot_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = curtiss_new_pilot_var
+				value = scope:curtiss_new_pilot_scope
+			}
+
+			set_global_variable = mr_de_saint_exupery_created_global_var
+		}
+		10 = { #Manfred von Richthofen, Germany
 			trigger = {
 				NOT = { has_global_variable = curtiss_richthofen_created_global_var }
 				OR = {
@@ -41,6 +68,7 @@ create_new_pilot_effect = {
 					country_has_primary_culture = cu:united_german
 				}
 				has_state_in_state_region = STATE_SILESIA
+				game_date < 1932.5.2 #Age 40
 				game_date >= 1915.5.30
 			}
 			create_character = {
