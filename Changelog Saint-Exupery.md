@@ -3,6 +3,7 @@ Changelog for 2.2.0 "Saint-Exupery"
 Characters:
 - Antoine de Saint-Exupéry (random French Writer)
 - Paul Valéry (French Writer)
+- Alfred Döblin (German Writer)
 - James Joyce (Irish Writer)
 - Henri Coandă (random Romanian Engineer)
 - Traian Vuia (random Romanian Engineer)
@@ -28,19 +29,20 @@ Culture:
 - All of the three culture techs (impressionism, expressionism, art nouveau) can be researched. However, they will cost 25% more when researched after another culture tech and 50% more when it is the last of the three culture techs.
 - Impressionism gives +5% music output, expressionism +5% print output, art nouveau +5% fine art output.
 
-Music
+Music:
 - Ballet: Rmeoved Impressionistic Ballet and Art Nouveau Ballet. Added No Ballet and Classical Ballet.
 - Orchestra: Removed Public Orchestra and Cinematic Orchestra.
 - Therefore, only Expressionism (Ballet) and Neoclassicim (Orchestra) give a bonus to the opera (music throughput).
 
-Painting
+Painting:
 - Added Sculpture Workshop PMG. Modern (Impressionism) and Art Deco Workshop give a bonus to the arts academy (fine art throughput)
 
-- Literature
-Added Newspaper PMG. Different types of Newspapers will be available which slightly changes standard of living for one of the three stratas.
+Literature:
+- Added Newspaper PMG. Different types of Newspapers will be available which slightly changes standard of living for one of the three stratas.
 
 Fixes:
 - Mount Logan has now the right year of first ascent.
+- Fixed a bug with the Radio Station Network JE, when a project had been stopped before.
 - Balloonists are now only possible for people with balloons.
 - Writers can go on writing tours again.
 - The Journal Entry for specimen collection and botanical garden no longer appears for players.
