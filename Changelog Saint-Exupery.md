@@ -5,6 +5,7 @@ Characters:
 - Paul Valéry (French Writer)
 - Alfred Döblin (German Writer)
 - James Joyce (Irish Writer)
+- Carlo Collodi (random Italian Writer)
 - Giosuè Carducci (random Italian Writer)
 - Italo Svevo (random Italian Writer)
 - In-jik Yi (random Korean Writer)
