@@ -50698,7 +50698,7 @@ mr_fra_valery_paul={
 	entity={ 0 0 }
 }
 
-mr_gbr_joyce_james={
+mr_ire_joyce_james={
 	type=male
 	id=0
 	age=0.300000
