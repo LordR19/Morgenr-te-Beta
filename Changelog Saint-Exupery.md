@@ -3,6 +3,7 @@ Changelog for 2.2.0 "Saint-Exupery"
 Characters:
 - Antoine de Saint-Exupéry (random French Writer)
 - Paul Valéry (French Writer)
+- James Joyce (Irish Writer)
 - Henri Coandă (random Romanian Engineer)
 - Traian Vuia (random Romanian Engineer)
 - Han-gi Choe (random Korean Astronomer)
@@ -42,4 +43,4 @@ Fixes:
 - Mount Logan has now the right year of first ascent.
 - Balloonists are now only possible for people with balloons.
 - Writers can go on writing tours again.
-- 
+- The Journal Entry for specimen collection and botanical garden no longer appears for players.
