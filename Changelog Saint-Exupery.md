@@ -5,6 +5,8 @@ Characters:
 - Paul Valéry (French Writer)
 - Alfred Döblin (German Writer)
 - James Joyce (Irish Writer)
+- In-jik Yi (random Korean Writer)
+- Đình Chiểu Nguyễn (random Vietnamese Writer)
 - Henri Coandă (random Romanian Engineer)
 - Traian Vuia (random Romanian Engineer)
 - Han-gi Choe (random Korean Astronomer)
