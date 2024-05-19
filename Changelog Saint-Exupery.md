@@ -6,6 +6,7 @@ Characters:
 - Alfred Döblin (German Writer)
 - James Joyce (Irish Writer)
 - In-jik Yi (random Korean Writer)
+- Bà Huyện Thanh Quan (starting writer for Dai Nam)
 - Đình Chiểu Nguyễn (random Vietnamese Writer)
 - Henri Coandă (random Romanian Engineer)
 - Traian Vuia (random Romanian Engineer)
