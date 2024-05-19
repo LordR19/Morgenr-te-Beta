@@ -38,7 +38,7 @@ Painting:
 - Added Sculpture Workshop PMG. Modern (Impressionism) and Art Deco Workshop give a bonus to the arts academy (fine art throughput)
 
 Literature:
-Added Newspaper PMG. Different types of Newspapers will be available which slightly changes standard of living for one of the three stratas.
+- Added Newspaper PMG. Different types of Newspapers will be available which slightly changes standard of living for one of the three stratas.
 
 Fixes:
 - Mount Logan has now the right year of first ascent.
