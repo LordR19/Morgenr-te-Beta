@@ -3,6 +3,7 @@ Changelog for 2.2.0 "Saint-Exupery"
 Characters:
 - Antoine de Saint-Exupéry (random French Writer)
 - Paul Valéry (French Writer)
+- Alfred Döblin (German Writer)
 - James Joyce (Irish Writer)
 - Henri Coandă (random Romanian Engineer)
 - Traian Vuia (random Romanian Engineer)
