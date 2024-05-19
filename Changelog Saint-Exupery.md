@@ -41,6 +41,7 @@ Painting:
 - Added Sculpture Workshop PMG. Modern (Impressionism) and Art Deco Workshop give a bonus to the arts academy (fine art throughput)
 
 Literature:
+- Lower Publishing Industry Building level for several PBI JEs.
 - Added Newspaper PMG. Different types of Newspapers will be available which slightly changes standard of living for one of the three stratas.
 
 Fixes:
