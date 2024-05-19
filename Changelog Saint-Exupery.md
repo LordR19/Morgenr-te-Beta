@@ -5,6 +5,7 @@ Characters:
 - Paul Valéry (French Writer)
 - Alfred Döblin (German Writer)
 - James Joyce (Irish Writer)
+- Giosuè Carducci (random Italian Writer)
 - In-jik Yi (random Korean Writer)
 - Bà Huyện Thanh Quan (starting writer for Dai Nam)
 - Đình Chiểu Nguyễn (random Vietnamese Writer)
