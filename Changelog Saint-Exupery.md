@@ -41,3 +41,5 @@ Added Newspaper PMG. Different types of Newspapers will be available which sligh
 Fixes:
 - Mount Logan has now the right year of first ascent.
 - Balloonists are now only possible for people with balloons.
+- Writers can go on writing tours again.
+- 

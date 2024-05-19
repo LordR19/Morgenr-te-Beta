@@ -562,6 +562,70 @@ ai_zoo_expansion_effect = {
 	}
 }
 
+#Handles Botanical Garden and Specimen Collection for AI
+ai_specimen_garden_collection_effect = {
+	if = {
+		limit = {
+			dubois_has_naturalist_no_tooltip_trigger = yes
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+			var:dubois_specimen >= 50000
+			NOT = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_botanical_garden
+					}
+				}
+			}
+		}
+
+		#Effect
+		dubois_add_x_specimen_effect = { AMOUNT = -50000 }
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_botanical_garden
+			}
+		}
+	}
+	if = {
+		limit = {
+			dubois_has_naturalist_no_tooltip_trigger = yes
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+			var:dubois_specimen >= 50000
+			NOT = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_specimen_collection
+					}
+				}
+			}
+		}
+
+		#Effect
+		dubois_add_x_specimen_effect = { AMOUNT = -50000 }
+		random_scope_state = {
+			limit = {
+				has_building = building_dubois_zoo
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_specimen_collection
+			}
+		}
+	}
+}
+
 #Handles Animal Breeding for AI
 ai_animal_breeding_effect = {
 	if = {
