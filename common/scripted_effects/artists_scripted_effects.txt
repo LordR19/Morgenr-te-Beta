@@ -3636,6 +3636,35 @@ create_new_writer_effect = {
 
 			set_global_variable = mr_zweig_created_global_var
 		}
+		4 = { #Đình Chiểu Nguyễn, Dai Nam
+			trigger = {
+				NOT = { has_global_variable = mr_nguyen_created_global_var }
+				has_state_in_state_region = STATE_MEKONG
+				NOT = {
+					cu:vietnamese = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1877.7.1 #Age 55
+#				year >= 1850 #Around this time started writing
+			}
+			create_character = {
+				template = mr_dai_nguyen_dinh_chieu_character_template
+				save_scope_as = manzoni_new_writer_scope
+			}
+			scope:manzoni_new_writer_scope = {
+				set_variable = mr_is_writer_var
+				writer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = manzoni_new_writer_var
+				value = scope:manzoni_new_writer_scope
+			}
+
+			set_global_variable = mr_nguyen_created_global_var
+		}
 		4 = { #Hans Christian Andersen, Denmark
 			trigger = {
 				NOT = { has_global_variable = mr_andersen_created_global_var }
@@ -4481,6 +4510,66 @@ manzoni_set_new_writer_local_writer_effect = {
 	
 		remove_variable = manzoni_new_writer_var
 		artists_set_up_local_writer_list_effect = yes
+	}
+}
+
+#This effect makes the new writer a local writer of another country
+manzoni_set_new_writer_local_writer_other_country_effect = {
+	custom_tooltip = {
+		text = manzoni_set_new_writer_local_writer_other_country_tt
+
+		scope:manzoni_new_writer_scope = {
+			if = {
+				limit = {
+					any_country = {
+						country_has_primary_culture = scope:manzoni_new_writer_scope.culture
+					}
+				}
+				random_country = {
+					limit = {
+						country_has_primary_culture = scope:manzoni_new_writer_scope.culture
+					}
+					save_scope_as = manzoni_new_country_scope
+				}
+			}
+			else_if = {
+				limit = {
+					any_country = {
+						scope:manzoni_new_writer_scope.culture = {
+							NOT = {
+								culture_is_discriminated_in = prev
+							}
+						}
+					}
+				}
+				random_country = {
+					limit = {
+						scope:manzoni_new_writer_scope.culture = {
+							NOT = {
+								culture_is_discriminated_in = prev
+							}
+						}
+					}
+					save_scope_as = manzoni_new_country_scope
+				}
+			}
+			else = {
+				random_country = {
+					save_scope_as = manzoni_new_country_scope
+				}
+			}
+
+			remove_variable = mr_is_writer_var
+			set_variable = {
+				name = mr_is_local_writer_var
+				value = scope:manzoni_new_country_scope
+			}
+			scope:manzoni_new_country_scope = {
+				artists_set_up_local_writer_list_effect = yes
+			}
+		}
+	
+		remove_variable = manzoni_new_writer_var
 	}
 }
 
