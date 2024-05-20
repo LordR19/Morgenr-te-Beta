@@ -105,31 +105,37 @@ verrier_astronomer_character_rating_value = {
 }
 
 verrier_carrington_astronomer_value = {
-	value = root.var:verrier_astronomer_var.var:verrier_astronomer_experience
 	if = {
-		limit = {
-			ROOT = {
-				any_scope_state = {
-					any_scope_building = {
-						is_building_type = building_verrier_observatory
-						level > 0
+		limit = { verrier_has_astronomer_no_tooltip_trigger = yes }
+		value = root.var:verrier_astronomer_var.var:verrier_astronomer_experience
+		if = {
+			limit = {
+				ROOT = {
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							level > 0
+						}
 					}
 				}
 			}
+			add = 100
 		}
-		add = 100
+		if = {
+			limit = {
+				ROOT = {
+					any_scope_state = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+							has_active_production_method = pm_gaudi_magnetic_observatory
+						}
+					}
+				}
+			}
+			add = 100
+		}
 	}
-	if = {
-		limit = {
-			ROOT = {
-				any_scope_state = {
-					any_scope_building = {
-						is_building_type = building_verrier_observatory
-						has_active_production_method = pm_gaudi_magnetic_observatory
-					}
-				}
-			}
-		}
-		add = 100
+	else = {
+		value = 0
 	}
 }
