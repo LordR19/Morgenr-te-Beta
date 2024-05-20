@@ -24,3 +24,5 @@ Literature:
 - Lower Publishing Industry Building level for several PBI JEs.
 
 Fixes:
+- Reading Tours do no longer perpetually continue and send waves of imaginary writers around the globe.
+- Your writer will no longer have the urge too travel around the entire world just to read to the people of Vanuatu.
