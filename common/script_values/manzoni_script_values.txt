@@ -1218,6 +1218,31 @@ manzoni_writer_destination_score = {
 			add = 5 #Freedom of speech is important for Writers
 		}
 		######NEAR&FAR######
+		if = { #Should prefer countries with similar culture
+			limit = {
+				manzoni_has_writer_no_tooltip = yes
+			}
+			if = {
+				limit = {
+					root.var:manzoni_writer_var = {
+						culture = {
+							shares_non_heritage_trait_with_any_primary_culture = prev
+						}
+					}
+				}
+				add = 50 #Should prefer countries with similar culture
+			}
+			else_if = {
+				limit = {
+					root.var:manzoni_writer_var = {
+						culture = {
+							shares_heritage_trait_with_any_primary_culture = prev
+						}
+					}
+				}
+				add = 25 #Should prefer countries with similar culture
+			}
+		}
 		if = {
 			limit = {
 				NOT = {
