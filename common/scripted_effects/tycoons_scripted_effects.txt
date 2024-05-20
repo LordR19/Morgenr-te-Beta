@@ -1,0 +1,133 @@
+﻿############################
+# TYCOONS SCRPITED EFFECTS #
+############################
+
+############################################################################
+
+######AIRLINE TYCOON (Howard Hughes)######
+
+#This effect kills the current Airline Tycoon
+# !!! Change stuff in both of the following effects !!!
+kill_airline_tycoon_effect = {
+	var:curtiss_airline_tycoon_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = curtiss_airline_tycoon_var
+}
+#This Effect retires the current Airline Tycoon
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_airline_tycoon_effect = {
+	custom_tooltip = {
+		text = retire_airline_tycoon_effect_tt
+
+		var:curtiss_airline_tycoon_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = curtiss_airline_tycoon_var
+}
+
+# Creates a new Airline Tycoon without losing the old one
+create_new_airline_tycoon_effect = {
+	random_list = {
+		1 = {
+			create_character = {
+				female = yes
+				trait_generation = {}
+				save_scope_as = curtiss_new_airline_tycoon_scope
+			}
+			scope:curtiss_new_airline_tycoon_scope = {
+				add_trait = curtiss_airline_tycoon
+				set_variable = mr_is_airline_tycoon_var
+				place_character_in_void = 1200	
+			}
+			set_variable = {
+				name = curtiss_new_airline_tycoon_var
+				value = scope:curtiss_new_airline_tycoon_scope
+			}
+
+			modifier = {
+				if = {
+					limit = { has_law = law_type:law_women_own_property }
+					add = 4
+				}
+				if = {
+					limit = { has_law = law_type:law_women_in_the_workplace }
+					add = 9
+				}
+				if = {
+					limit = { has_law = law_type:law_womens_suffrage }
+					add = 19
+				}
+			}
+		}
+		99 = {
+			create_character = {
+				age = { 35 50 }
+				trait_generation = {}
+				save_scope_as = curtiss_new_airline_tycoon_scope
+			}
+			scope:curtiss_new_airline_tycoon_scope = {
+				add_trait = curtiss_airline_tycoon
+				set_variable = mr_is_airline_tycoon_var
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = curtiss_new_airline_tycoon_var
+				value = scope:curtiss_new_airline_tycoon_scope
+			}
+
+			modifier = {
+				if = {
+					limit = { has_law = law_type:law_women_own_property }
+					add = -4
+				}
+				if = {
+					limit = { has_law = law_type:law_women_in_the_workplace }
+					add = -9
+				}
+				if = {
+					limit = { has_law = law_type:law_womens_suffrage }
+					add = -19
+				}
+			}
+		}
+	}
+
+	var:curtiss_new_airline_tycoon_var = {
+		save_scope_as = curtiss_new_airline_tycoon_scope
+	}
+}
+
+# Set new airline_tycoon as official airline_tycoon
+curtiss_set_new_airline_tycoon_as_airline_tycoon_effect = {
+	custom_tooltip = {
+		text = curtiss_replace_airline_tycoon_with_new_airline_tycoon_tt
+	
+		if = {
+			limit = {
+				has_variable = curtiss_airline_tycoon_var
+			}
+			var:curtiss_airline_tycoon_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = curtiss_airline_tycoon_var
+			value = scope:curtiss_new_airline_tycoon_scope
+		}
+
+		remove_variable = curtiss_new_airline_tycoon_var
+	}
+}
+
+# Remove new airline_tycoon
+curtiss_remove_new_airline_tycoon_effect = {
+	scope:curtiss_new_airline_tycoon_scope = {
+		free_character_from_void = no
+	}
+	remove_variable = curtiss_new_airline_tycoon_var
+}
