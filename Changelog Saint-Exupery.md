@@ -1,11 +1,10 @@
 Changelog for 2.2.0 "Saint-Exupery"
 
 Characters:
-- Antoine de Saint-Exupéry (random French Writer)
-- Carlo Collodi (random Italian Writer)
 - Giosuè Carducci (random Italian Writer)
+- Carlo Collodi (random Italian Writer)
+- Edmondo de Amicis (random Italian Writer)
 - Italo Svevo (random Italian Writer)
-- In-jik Yi (random Korean Writer)
 - Bà Huyện Thanh Quan (starting writer for Dai Nam)
 - Đình Chiểu Nguyễn (random Vietnamese Writer)
 
