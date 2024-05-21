@@ -10165,13 +10165,13 @@ curtiss.501 = {
 	option = {	#It's going to be a classic plane.
 		name = curtiss.501.g
 		default_option = yes
-		curtiss_add_spruce_goose_errors = yes
 		add_treasury = -30000
 	}
 
 	option = {	#It will be a flying boat.
 		name = curtiss.501.h
 		add_treasury = -50000
+		curtiss_add_spruce_goose_point = yes
 	}
 
 	after = {
@@ -10217,12 +10217,12 @@ curtiss.502 = {
 	option = {	#Only use metal if necessary. This aircraft will be primarily made of wood.
 		name = curtiss.502.g
 		default_option = yes
+		curtiss_add_spruce_goose_point = yes
 		add_treasury = -25000
 	}
 
 	option = {	#Clad it all in metall.
 		name = curtiss.502.h
-		curtiss_add_spruce_goose_errors = yes
 		add_treasury = -50000
 	}
 
@@ -10269,13 +10269,13 @@ curtiss.503 = {
 	option = {	#Ten 18-cylinder engines are perfect.
 		name = curtiss.503.g
 		default_option = yes
-		curtiss_add_spruce_goose_errors = yes
 		add_treasury = -20000
 	}
 
 	option = {	#We are in need of eight 28-cylinder engines.
 		name = curtiss.503.h
 		add_treasury = -30000
+		curtiss_add_spruce_goose_point = yes
 	}
 
 	after = {
@@ -10321,12 +10321,12 @@ curtiss.504 = {
 	option = {	#4-bladed propellers will fit.
 		name = curtiss.504.g
 		default_option = yes
+		curtiss_add_spruce_goose_point = yes
 		add_treasury = -20000
 	}
 
 	option = {	#We'll need 5-bladed propellers.
 		name = curtiss.504.h
-		curtiss_add_spruce_goose_errors = yes
 		add_treasury = -30000
 	}
 }
@@ -10366,6 +10366,10 @@ curtiss.505 = {
 		name = curtiss.505.g
 		default_option = yes
 		set_variable = curtiss_sc_hughes
+		aeronautical_engineer_experience_gain_effect = { AMOUNT = 50 }
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = no
+		}
 	}
 
 	option = {	#A known pilot will fly it
@@ -10374,17 +10378,26 @@ curtiss.505 = {
 			curtiss_has_active_pilot = yes
 		}
 		set_variable = curtiss_sc_pilot
+		aeronautical_engineer_experience_gain_effect = { AMOUNT = 50 }
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = no
+		}
 	}
 
 	option = {	#Only test pilot
 		name = curtiss.505.i
 		set_variable = curtiss_sc_test
+		aeronautical_engineer_experience_gain_effect = { AMOUNT = 50 }
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = no
+		}
 	}
 
 	after = {
+		curtiss_spruce_goose_points_effect = yes
 		if = {
 			limit = {
-				var:curtiss_spruce_goose_errors = 0
+				var:curtiss_spruce_goose_points >= 10
 			}
 			trigger_event = {
 				id = curtiss.506
@@ -10394,9 +10407,9 @@ curtiss.505 = {
 		}
 		if = {
 			limit = {
-				var:curtiss_spruce_goose_errors >= 1
+				var:curtiss_spruce_goose_points >= 5
 				NOT = {
-					var:curtiss_spruce_goose_errors >= 3
+					var:curtiss_spruce_goose_points >= 10
 				}
 			}
 			trigger_event = {
@@ -10407,7 +10420,7 @@ curtiss.505 = {
 		}
 		if = {
 			limit = {
-				var:curtiss_spruce_goose_errors >= 3
+				var:curtiss_spruce_goose_points < 5
 			}
 			trigger_event = {
 				id = curtiss.508
