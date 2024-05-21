@@ -143,16 +143,175 @@ curtiss_add_x_flight_route_effect = {
 	curtiss_update_airline_effect = yes
 }
 
-curtiss_add_spruce_goose_progress = {
+#Effect to calculate the success of the Giant Airplane
+curtiss_spruce_goose_points_effect = {
+	###AERONAUTICAL ENGINEER###
+	if = {
+		limit = {
+			var:gaudi_engineer_var ?= {
+				var:gaudi_aeronautical_engineer_experience >= 300
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 5
+		}
+	}
+	else_if = {
+		limit = {
+			var:gaudi_engineer_var ?= {
+				var:gaudi_aeronautical_engineer_experience >= 250
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 4
+		}
+	}
+	else_if = {
+		limit = {
+			var:gaudi_engineer_var ?= {
+				var:gaudi_aeronautical_engineer_experience >= 200
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 3
+		}
+	}
+	else_if = {
+		limit = {
+			var:gaudi_engineer_var ?= {
+				var:gaudi_aeronautical_engineer_experience >= 150
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 2
+		}
+	}
+	else_if = {
+		limit = {
+			var:gaudi_engineer_var ?= {
+				var:gaudi_aeronautical_engineer_experience >= 100
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 1
+		}
+	}
+	###PILOT###
+	if = {
+		limit = {
+			has_variable = curtiss_sc_pilot
+			var:curtiss_pilot_var ?= {
+				has_trait = curtiss_ace
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 3
+		}
+	}
+	if = {
+		limit = {
+			has_variable = curtiss_sc_pilot
+			var:curtiss_pilot_var ?= {
+				has_trait = curtiss_schneider_veteran
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			has_variable = curtiss_sc_pilot
+			var:curtiss_pilot_var ?= {
+				has_trait = curtiss_pilot_fighter
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			has_variable = curtiss_sc_pilot
+			var:curtiss_pilot_var ?= {
+				has_trait = curtiss_pilot_aerobatic
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			has_variable = curtiss_sc_pilot
+			var:curtiss_pilot_var ?= {
+				has_trait = curtiss_pilot
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 1
+		}
+	}
+	###TYCOON###
+	if = {
+		limit = {
+			has_variable = curtiss_sc_hughes
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 1
+		}
+	}
+	###AIRPORT###
+	if = {
+		limit = {
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_airport
+					level >= 3
+				}
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 1
+		}
+	}
+	if = {
+		limit = {
+			any_scope_state = {
+				has_modifier = curtiss_water_airport_modifier
+			}
+		}
+		change_variable = {
+			name = curtiss_spruce_goose_points
+			add = 1
+		}
+	}
+}
+
+#Effect to add special point when building the historical Spruce Goose
+curtiss_add_spruce_goose_point = {
 	change_variable = {
-		name = curtiss_spruce_goose_progress
+		name = curtiss_spruce_goose_points
 		add = 1
 	}
 }
 
-curtiss_add_spruce_goose_errors = {
+#Effect to add monthly building progress of the Giant Airplan
+curtiss_add_spruce_goose_progress = {
 	change_variable = {
-		name = curtiss_spruce_goose_errors
+		name = curtiss_spruce_goose_progress
 		add = 1
 	}
 }
