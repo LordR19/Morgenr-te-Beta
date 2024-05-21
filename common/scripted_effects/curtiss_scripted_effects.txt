@@ -6,12 +6,16 @@
 
 ##########################
 
+######AIRLINES######
+
+#Effect to make old curtiss events work which use the howard_hughes scope in event and localization
 curtiss_howard_hughes_effect = {
 	var:curtiss_airline_tycoon_var = {
 		save_scope_as = howard_hughes
 	}
 }
 
+#Effect to update level modifier for an airline
 curtiss_update_airline_effect = {
 	if = {
 		limit = {
@@ -142,6 +146,8 @@ curtiss_add_x_flight_route_effect = {
 
 	curtiss_update_airline_effect = yes
 }
+
+######GIANT AIRCRAFT######
 
 #Effect to calculate the success of the Giant Airplane
 curtiss_spruce_goose_points_effect = {
@@ -316,10 +322,20 @@ curtiss_add_spruce_goose_progress = {
 	}
 }
 
+#Effect to add monthly building progress of the Giant Zeppelin
 curtiss_add_hindenburg_progress = {
 	change_variable = {
 		name = curtiss_hindenburg_progress
 		add = 1
+	}
+}
+
+######ZEPPELIN EXPEDITION######
+
+#Set Zeppelin Leader
+set_curtiss_zeppelin_expedition_leader_effect = {
+	var:curtiss_pilot_var = {
+		save_scope_as = curtiss_expedition_leader
 	}
 }
 
@@ -379,113 +395,6 @@ curtiss_sub_1_zeppelin_danger = {
 	custom_tooltip = curtiss_sub_1_zeppelin_danger_tt
 }
 
-######Shangrila####
-
-#Set Shangrila_leader
-set_curtiss_shangrila_characters_effect = {
-	var:curtiss_conway_var = {
-		save_scope_as = curtiss_conway_scope
-	}
-	var:curtiss_pilot_var = {
-		save_scope_as = curtiss_shangrila_leader
-	}
-}
-
-######Zeppelin####
-
-#Set Zeppelin Leader
-set_curtiss_zeppelin_expedition_leader_effect = {
-	var:curtiss_pilot_var = {
-		save_scope_as = curtiss_expedition_leader
-	}
-}
-
-######SCHNEIDER TROPHY######
-
-###Add points
-
-curtiss_add_1_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = 1
-	}
-	custom_tooltip = curtiss_add_1_schneider_trophy_point_tt
-}
-
-curtiss_add_2_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = 2
-	}
-	custom_tooltip = curtiss_add_2_schneider_trophy_point_tt
-}
-
-curtiss_add_3_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = 3
-	}
-	custom_tooltip = curtiss_add_3_schneider_trophy_point_tt
-}
-
-curtiss_add_4_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = 4
-	}
-	custom_tooltip = curtiss_add_4_schneider_trophy_point_tt
-}
-
-curtiss_add_5_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = 5
-	}
-	custom_tooltip = curtiss_add_5_schneider_trophy_point_tt
-}
-
-curtiss_add_6_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = 6
-	}
-	custom_tooltip = curtiss_add_6_schneider_trophy_point_tt
-}
-
-###Sub points
-
-curtiss_sub_1_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = -1
-	}
-	custom_tooltip = curtiss_sub_1_schneider_trophy_point_tt
-}
-
-curtiss_sub_2_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = -2
-	}
-	custom_tooltip = curtiss_sub_2_schneider_trophy_point_tt
-}
-
-curtiss_sub_3_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = -3
-	}
-	custom_tooltip = curtiss_sub_3_schneider_trophy_point_tt
-}
-
-curtiss_sub_5_schneider_trophy_point = {
-	change_variable = {
-		name = schneider_trophy_point
-		add = -5
-	}
-	custom_tooltip = curtiss_sub_5_schneider_trophy_point_tt
-}
-
 #########################################################################
 
 #Lost Horizon
@@ -523,6 +432,63 @@ curtiss_add_artifacts_of_shangrila = {
 	}
 	custom_tooltip = curtiss_add_artifacts_of_shangrila_tt
 }
+
+#Set Shangrila_leader
+set_curtiss_shangrila_characters_effect = {
+	var:curtiss_conway_var = {
+		save_scope_as = curtiss_conway_scope
+	}
+	var:curtiss_pilot_var = {
+		save_scope_as = curtiss_shangrila_leader
+	}
+}
+
+#########################################################################
+
+######SCHNEIDER TROPHY######
+
+#Effect to add $AMOUNT$ Schneider Trophy Points
+curtiss_add_x_schneider_trophy_point_unscaled_effect = {
+	# Amount = amount of Painting tradition to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = schneider_trophy_point_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = curtiss_add_x_schneider_trophy_point_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = curtiss_add_x_schneider_trophy_point_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = curtiss_add_x_schneider_trophy_point_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Schneider Trophy Points
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = curtiss_schneider_trophy_point_var
+			}
+		}
+		set_variable = {
+			name = curtiss_schneider_trophy_point_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = curtiss_schneider_trophy_point_var
+		add = scope:schneider_trophy_point_amount
+	}
+}
+
+#########################################################################
+
 
 ############################
 
