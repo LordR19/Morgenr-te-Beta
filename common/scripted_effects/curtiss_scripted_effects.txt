@@ -361,6 +361,16 @@ curtiss_monthly_pilot_num_kills_effect = {
 		1 = { curtiss_add_pilot_num_kills_effect = { AMOUNT = 2 } pilot_experience_gain_effect = { AMOUNT = 10 } }
 		1 = { curtiss_add_pilot_num_kills_effect = { AMOUNT = 3 } pilot_experience_gain_effect = { AMOUNT = 15 } }
 	}
+	#Experience
+	if = {
+		limit = {
+			var:curtiss_pilot_var = {
+				var:curtiss_pilot_experience >= 100
+			}
+		}
+		curtiss_add_pilot_num_kills_effect = { AMOUNT = 1 } 
+		pilot_experience_gain_effect = { AMOUNT = 5 }
+	}
 	#Traits
 	if = {
 		limit = {
@@ -380,15 +390,21 @@ curtiss_monthly_pilot_num_kills_effect = {
 		curtiss_add_pilot_num_kills_effect = { AMOUNT = 1 } 
 		pilot_experience_gain_effect = { AMOUNT = 5 }
 	}
-	#Experience
+	#Vices
 	if = {
 		limit = {
 			var:curtiss_pilot_var = {
-				var:curtiss_pilot_experience >= 100
+				OR = {
+					has_trait = alcoholic
+					has_trait = opium_addiction
+					has_trait = cocaine_addiction
+					has_trait = shellshocked
+					has_trait = psychological_affliction
+				}
 			}
 		}
-		curtiss_add_pilot_num_kills_effect = { AMOUNT = 1 } 
-		pilot_experience_gain_effect = { AMOUNT = 5 }
+		curtiss_add_pilot_num_kills_effect = { AMOUNT = -1 } 
+		pilot_experience_gain_effect = { AMOUNT = -5 }
 	}
 }
 
