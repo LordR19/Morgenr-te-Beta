@@ -158,6 +158,9 @@ namespace = manzoni
 ### Dai Nam ###
 #Manzoni 2100: Tang Thương Ngẫu Lục
 
+### Russia ###
+#Manzoni 2200: A duel for Honor (Pushkin death (?) event)
+
 ###################
 
 #Manzoni 2: The audience changes its taste (hidden)
@@ -7261,5 +7264,69 @@ manzoni.2100 = {
 	}
 
 	after = {
+	}
+}
+
+### Russia ###
+#Manzoni 2200: A duel for Honor (Pushkin death (?) event)
+manzoni.2200 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.2200.t
+	desc = manzoni.2200.d
+	flavor = manzoni.2200.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:manzoni_writer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		NOT = { has_global_variable = manzoni_pushkin_duel_happened_global_var }
+		game_date > 1836.4.1
+		has_variable = manzoni_writer_var
+		var:manzoni_writer_var = {
+			has_template = mr_rus_pushkin_alexander_character_template
+		}
+	}
+
+	immediate = {
+		var:manzoni_writer_var ?= {
+			save_scope_as = manzoni_writer_scope
+		}
+		set_global_variable = manzoni_pushkin_duel_happened_global_var
+	}
+
+	option = { #I hope he survives!
+		name = manzoni.2200.g
+		default_option = yes
+
+		random_list = {
+			1 = {}
+			9 = {
+				scope:manzoni_writer_scope ?= {
+					kill_character = yes
+				}
+				remove_variable = manzoni_writer_var
+			}
+		}
+	}
+
+	option = { #I hope this troublemaker dies!
+		name = manzoni.2200.g
+		default_option = yes
+
+		scope:manzoni_writer_scope ?= {
+			kill_character = yes
+		}
+		remove_variable = manzoni_writer_var
 	}
 }
