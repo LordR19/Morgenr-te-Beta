@@ -122,6 +122,7 @@ namespace = manzoni
 #Manzoni 1304: Heinrich Heine, Weberlied
 #Manzoni 1305: Gerhart Hauptmann, Die Weber
 #Manzoni 1306: Berlin Alexanderplatz (Alfred Döblin)
+#Manzoni 1307: Buddenbrooks (Thomas Mann)
 
 ### France ###
 #Manzoni 1400: Le Tour du monde en quatre-vingts jours
@@ -149,6 +150,9 @@ namespace = manzoni
 
 ### Netherlands ###
 #Manzoni 2000: Max Havelaar
+
+### Dai Nam ###
+#Manzoni 2100: Tang Thương Ngẫu Lục
 
 ###################
 
@@ -7058,5 +7062,53 @@ manzoni.2000 = {
 		default_option = yes
 
 		manzoni_bestseller_event_option_effect = yes
+	}
+}
+
+### Dai Nam ###
+#Manzoni 2100: Tang Thương Ngẫu Lục
+manzoni.2100 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = manzoni.2100.t
+	desc = manzoni.2100.d
+	flavor = manzoni.2100.f
+
+	event_image = {
+		texture = "gfx/event_pictures/manzoni_pictures/manzoni_tang_thuong.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	duration = 3
+
+	trigger = {
+		NOT = { 
+			has_global_variable = manzoni_tang_thuong_ngau_luc_published_global_var 
+		}
+		c:DAI ?= this
+		year >= 1806
+		has_technology_researched = romanticism
+	}
+
+	immediate = {
+		set_global_variable = manzoni_tang_thuong_ngau_luc_published_global_var
+	}
+
+	option = {
+		name = manzoni.2100.g #Tales of a darker time, we must strive to be better.
+		default_option = yes
+
+		manzoni_add_x_literary_tradition_effect = {
+			AMOUNT = 10
+		}
+	}
+
+	after = {
 	}
 }
