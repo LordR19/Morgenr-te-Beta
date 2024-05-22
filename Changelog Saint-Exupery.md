@@ -9,6 +9,11 @@ Characters:
 Changes:
 
 Aviation:
+- Pilots will be generated after a battle is won if one of the mobilization options of the army includes an aircraft mobilization (zeppelins and balloons excluded). This will happen always, not randomly.
+- New Action for Pilots: Air Combat.
+- Added Air Combat JE and several events for air combat.
+- In Air Combat, Pilots will passively gain kills/aerial victories per month. For each kill, they gain 5 experience. This depends on traits, experience and luck.
+- Pilots may gain traits like cautious, brave or persistent in air combat events, but may also be wounded and traumatized. (Remember that pilot traits have an effect on the Schneider Trophy Points!)
 - Airline Tycoon works like other void characters.
 - Adjusted modifiers which gave too much negative/positive IG approval.
 - Zeppelin Expedition no longer needs access to the Arctic or Airspace Convention.
