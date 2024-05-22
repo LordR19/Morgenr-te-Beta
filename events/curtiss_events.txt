@@ -10474,9 +10474,406 @@ curtiss.322 = {
 	}
 }
 
-#Curtiss 321: Enemy airfield captured!
+#Curtiss 323: Injured Prey
 
-#Curtiss 322: Pilot wounded
+curtiss.323 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	
+	title = curtiss.323.t
+	desc = curtiss.323.d
+	flavor = curtiss.323.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		var:curtiss_pilot_var ?= {
+			NOR = {
+				has_trait = wounded
+				has_trait = mr_seriously_injured
+				has_trait = persistent
+				has_trait = cautious
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = { #Keep up!
+		name = curtiss.323.g
+		default_option = yes
+		random_list = {
+			65 = {
+				curtiss_add_pilot_num_kills_effect = { AMOUNT = 1 }
+				pilot_experience_gain_effect = { AMOUNT = 10 }
+				if = {
+					limit = {
+						var:curtiss_pilot_var ?= {
+							NOT = {
+								has_trait = persistent
+							}
+						}
+					}
+					var:curtiss_pilot_var ?= {
+						add_trait = peristent
+					}
+				}
+			}
+			25 = {
+				trigger_event = {
+					id = curtiss.329
+					days = 1
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 20
+		}
+	}
+
+	option = { #This could be a trap.
+		name = curtiss.323.h
+		if = {
+			limit = {
+				var:curtiss_pilot_var ?= {
+					NOT = {
+						has_trait = cautious
+					}
+				}
+			}
+			var:curtiss_pilot_var ?= {
+				add_trait = cautious
+			}
+		}
+
+		ai_chance = {
+			base = 80
+		}
+	}
+}
+
+#Curtiss 324: Enemy Aircraft Seized
+
+curtiss.324 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	
+	title = curtiss.324.t
+	desc = curtiss.324.d
+	flavor = curtiss.324.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	cooldown = {
+		months = 9
+	}
+
+	trigger = {
+		any_country = {
+			has_war_with = ROOT
+			any_scope_war = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	immediate = {
+	}
+
+	option = { #Study their flying machines!
+		name = curtiss.324.g
+		default_option = yes
+		pilot_experience_gain_effect = { AMOUNT = 10 }
+		small_curtiss_aircraft_research_effect = yes
+	}
+}
+
+#Curtiss 325: Duel in the Sky
+
+#Curtiss 328: Pilot wounded
+
+curtiss.328 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	
+	title = curtiss.328.t
+	desc = curtiss.328.d
+	flavor = curtiss.328.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_4.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #That means a few weeks in hospital...
+		name = curtiss.328.g
+		default_option = yes
+		var:curtiss_pilot_var = {
+			add_trait = wounded
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = curtiss.330
+			days = { 30 90 }
+		}
+	}
+}
+
+#Curtiss 329: Pilot crashed
+
+curtiss.329 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	
+	title = curtiss.329.t
+	desc = curtiss.329.d
+	flavor = curtiss.329.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_4.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Horrible!
+		name = curtiss.329.g
+		default_option = yes
+		var:curtiss_pilot_var = {
+			add_trait = mr_seriously_injured
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = curtiss.330
+			days = { 180 360 }
+		}
+	}
+}
+
+#Curtiss 330: Pilot healthy again (hidden)
+
+curtiss.330 = {
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				var:curtiss_pilot_var ?= {
+					has_trait = mr_seriously_injured
+				}
+			}
+			var:curtiss_pilot_var ?= {
+				add_trait = scarred
+			}
+			random_list = {
+				1 = {}
+				1 = {
+					trigger_event = {
+						id = curtiss.331
+						days = 1
+					}
+				}
+			}
+		}
+		var:curtiss_pilot_var ?= {
+			remove_trait = mr_seriously_injured
+			remove_trait = wounded
+		}
+	}
+}
+
+#Curtiss 331: War Trauma
+
+curtiss.331 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curtiss.331.t
+
+	desc = curtiss.331.d
+
+	flavor = curtiss.331.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_pilot
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_pilot_var ?= {
+			save_scope_as = curtiss_pilot
+		}
+		random_list = { #randomizes vice
+			10 = { 
+				set_variable = {
+					name = curtiss_pilot_vice_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = curtiss_pilot_vice_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = curtiss_pilot_vice_randomizer_var
+					value = 3
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = curtiss_pilot_vice_randomizer_var
+					value = 4
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = curtiss_pilot_vice_randomizer_var
+					value = 5
+				}
+			}
+		}
+	}
+
+	option = {	#Worrying.
+		name = curtiss.301.g
+		default_option = yes
+		trigger = {
+			var:curtiss_pilot_vice_randomizer_var = 1
+		}
+		var:curtiss_pilot_var = {
+			add_trait = alcoholic
+		}
+	}
+
+	option = {	#Worrying.
+		name = curtiss.301.g
+		default_option = yes
+		trigger = {
+			var:curtiss_pilot_vice_randomizer_var = 2
+		}
+		var:curtiss_pilot_var = {
+			add_trait = opium_addiction
+		}
+	}
+
+	option = {	#Worrying.
+		name = curtiss.301.g
+		default_option = yes
+		trigger = {
+			var:curtiss_pilot_vice_randomizer_var = 3
+		}
+		var:curtiss_pilot_var = {
+			add_trait = cocaine_addiction
+		}
+	}
+
+	option = {	#Worrying.
+		name = curtiss.301.g
+		default_option = yes
+		trigger = {
+			var:curtiss_pilot_vice_randomizer_var = 4
+		}
+		var:curtiss_pilot_var = {
+			add_trait = shellshocked
+		}
+	}
+
+	option = {	#Worrying.
+		name = curtiss.301.g
+		default_option = yes
+		trigger = {
+			var:curtiss_pilot_vice_randomizer_var = 5
+		}
+		var:curtiss_pilot_var = {
+			add_trait = psychological_affliction
+		}
+	}
+}
 
 
 #######################################################################################################
