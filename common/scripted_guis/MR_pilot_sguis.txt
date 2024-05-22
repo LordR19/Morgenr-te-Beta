@@ -112,3 +112,45 @@ mr_curtiss_found_pilot_school_button = {
 		}
     }
 }
+
+#MR_CURTISS_AIR_COMBAT_MISSION_BUTTON
+mr_curtiss_air_combat_mission_button = {
+    scope = country
+    is_valid = {
+		curtiss_has_active_pilot = yes
+		is_at_war = yes
+		custom_tooltip = {
+			text = MR_CURTISS_FORMATION_HAS_MOBILIZATION_AERIAL_RECON_BUTTON_TRIGGER_TT
+			any_scope_war = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+				   	}
+				}
+			}
+		}
+    }
+    effect = {
+		set_character_busy_and_immortal = yes
+		add_modifier = {
+			name = curtiss_pilot_recently_sent_to_the_front_modifier
+			days = 180
+		}
+		add_journal_entry = {
+			type = je_curtiss_air_combat
+		}
+		trigger_event = {
+			id = curtiss.300
+			popup = yes
+		}
+    }
+}
