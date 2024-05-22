@@ -67,6 +67,9 @@ namespace = manzoni
 # Manzoni 610: Plunder the Library
 # Manzoni 611: National Library plundered
 
+### Writer Interactions ###
+#Manzoni 801: Beautiful Illustrations
+
 ### Italian Nationalism ###
 #Manzoni 901: The Fate of Lucca (for Parma)
 #Manzoni 902: The Fate of Lucca (for Tuscany)
@@ -3121,6 +3124,78 @@ manzoni.611 = {
 	option = { #They did WHAT?!
 		name = manzoni.611.g
 		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+################################################################################
+
+#Manzoni 801: Beautiful Illustrations
+manzoni.801 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.801.t
+	desc = manzoni.801.d
+	flavor = manzoni.801.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:manzoni_writer_scope
+	right_icon = scope:klimt_painter_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = { 7 12 }
+	}
+
+	trigger = {
+		manzoni_has_writer_no_tooltip = yes
+		klimt_has_painter_no_tooltip = yes
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+		var:klimt_painter_var = {
+			save_scope_as = klimt_painter_scope
+		}
+	}
+
+	option = { #The details are incredible!
+		name = manzoni.801.g
+		default_option = yes
+
+		manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = 5 }
+		klimt_add_x_painting_tradition_unscaled_effect = { AMOUNT = 5 }
+		writer_experience_gain_effect = { AMOUNT = 10 }
+		painter_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	option = { #This will become a bestseller!
+		name = manzoni.801.h
+		trigger = {
+			var:manzoni_writer_var = {
+				has_trait = manzoni_writer_fiction
+			}
+		}
+
+		var:manzoni_writer_var = {
+			add_modifier = {
+				name = manzoni_beautiful_illustrations_modfier
+				years = 4
+			}
+		}
+		custom_tooltip = manzoni.801.h_tt
+		writer_experience_gain_effect = { AMOUNT = 10 }
+		painter_experience_gain_effect = { AMOUNT = 10 }
 	}
 
 	after = {
