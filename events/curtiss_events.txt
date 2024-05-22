@@ -2761,9 +2761,7 @@ curtiss.120 = {
 	hidden = yes
 
 	immediate = {
-		random_list = {
-			curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
-		}
+		curtiss_add_x_schneider_trophy_point_unscaled_effect = { AMOUNT = 1 }
 	}
 }
 
@@ -9835,6 +9833,57 @@ curtiss.298 = {
 }
 
 #######################################################################################################
+
+#Curtiss 301: Pilot returns from Front
+
+curtiss.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curtiss.301.t
+
+	desc = curtiss.301.d
+
+	flavor = curtiss.301.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_pilot
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_pilot_var ?= {
+			save_scope_as = curtiss_pilot
+		}
+	}
+
+	option = {	#Good job.
+		name = curtiss.301.g
+		default_option = yes
+		scope:curtiss_pilot = {
+			set_character_busy_and_immortal = no
+			if = {
+				limit = {
+					var:curtiss_pilot_experience >= 100
+					NOT = {
+						has_trait = curtiss_pilot_fighter
+					}
+				}
+				add_trait = curtiss_pilot_fighter
+			}
+		}
+	}
+}
 
 #Curtiss 311: A new pilot
 
