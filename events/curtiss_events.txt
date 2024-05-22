@@ -10000,6 +10000,7 @@ curtiss.301 = {
 	option = {	#Good job.
 		name = curtiss.301.g
 		default_option = yes
+		remove_variable = curtiss_pilot_at_front_var
 		scope:curtiss_pilot = {
 			set_character_busy_and_immortal = no
 			if = {
@@ -10580,7 +10581,7 @@ curtiss.324 = {
 	flavor = curtiss.324.f
 	
 	event_image = { 
-		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_2.dds"
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_3.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -10629,6 +10630,401 @@ curtiss.324 = {
 }
 
 #Curtiss 325: Duel in the Sky
+
+curtiss.325 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = curtiss.128.t
+		
+    desc = curtiss.128.d
+
+	flavor = curtiss.128.f
+
+	duration = 3
+		
+	gui_window = event_window_2char
+
+	left_icon = scope:duel_participant_1
+	right_icon = scope:duel_participant_2
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		NOT = {
+			has_modifier = curtiss_the_red_chicken_modifier
+		}
+		any_country = {
+			has_war_with = ROOT
+			has_variable = curtiss_pilot_at_front_var
+			var:curtiss_pilot_var ?= {
+				NOR = {
+					has_trait = wounded
+					has_trait = mr_seriously_injured
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:curtiss_pilot_var ?= {
+			save_scope_as = duel_participant_1
+		}
+		random_country = {
+			limit = {
+				has_war_with = ROOT
+				has_variable = curtiss_pilot_at_front_var
+				var:curtiss_pilot_var ?= {
+					NOR = {
+						has_trait = wounded
+						has_trait = mr_seriously_injured
+					}
+				}
+			}
+			var:curtiss_pilot_var ?= {
+				save_scope_as = duel_participant_2
+			}
+		}
+	}
+
+	option = { #Attack!
+		name = curtiss.325.g
+		default_option = yes
+		random_list = {
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = curtiss_pilot_fighter
+							}
+						}
+					}
+					add = 20
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								var:curtiss_pilot_experience >= 300
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								var:curtiss_pilot_experience >= 200
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								var:curtiss_pilot_experience >= 100
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_modifier = curtiss_schneider_veteran_modifier
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = brave
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = ambitious
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = persistent
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = cruel
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = cautious
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								has_trait = tactful
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								OR = {
+									has_trait = wounded
+									has_trait = opium_addiction
+									has_trait = psychological_affliction
+								}
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_1 = {
+								OR = {
+									has_trait = shellshocked
+									has_trait = senile
+									has_trait = alcoholic
+								}
+							}
+						}
+					}
+					add = -10
+				}
+				pilot_experience_gain_effect = { AMOUNT = 30 }
+				curtiss_add_pilot_num_kills_effect = { AMOUNT = 1 }
+				small_curtiss_aircraft_research_effect = yes
+				scope:duel_participant_1 = {
+					if = {
+						limit = {
+							NOT = {
+								has_trait = curtiss_pilot_fighter
+							}
+						}
+						add_trait = curtiss_pilot_fighter
+					}
+				}
+			}
+			50 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = curtiss_pilot_fighter
+							}
+						}
+					}
+					add = 20
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								var:curtiss_pilot_experience >= 300
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								var:curtiss_pilot_experience >= 200
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								var:curtiss_pilot_experience >= 100
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_modifier = curtiss_schneider_veteran_modifier
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = brave
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = ambitious
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = persistent
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = cruel
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = cautious
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								has_trait = tactful
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								OR = {
+									has_trait = wounded
+									has_trait = opium_addiction
+									has_trait = psychological_affliction
+								}
+							}
+						}
+					}
+					add = -5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:duel_participant_2 = {
+								OR = {
+									has_trait = shellshocked
+									has_trait = senile
+									has_trait = alcoholic
+								}
+							}
+						}
+					}
+					add = -10
+				}
+				trigger_event = {
+					id = curtiss.329
+					days = 1
+				}
+			}
+		}
+			
+	}
+
+	option = { #Cancel Attack!
+		name = curtiss.325.h
+		add_modifier = {
+			name = curtiss_the_red_chicken_modifier
+			years = 3
+		}
+	}
+
+	option = { #Outmaneuver!
+		name = curtiss.325.i
+		custom_tooltip = curtiss.325.tt
+		trigger = {
+			var:curtiss_pilot_var = {
+				has_trait = curtiss_pilot_aerobatic
+			}
+		}
+	}
+
+	after = {
+		set_global_variable = {
+			name = curtiss_schneider_duel_cooldown
+			days = 10
+		}
+	}
+}
 
 #Curtiss 328: Pilot wounded
 
