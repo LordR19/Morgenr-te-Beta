@@ -69,6 +69,7 @@ namespace = manzoni
 
 ### Writer Interactions ###
 #Manzoni 801: Beautiful Illustrations
+#Manzoni 802: Theories about Extraterrestrial Life
 
 ### Italian Nationalism ###
 #Manzoni 901: The Fate of Lucca (for Parma)
@@ -3196,6 +3197,81 @@ manzoni.801 = {
 		custom_tooltip = manzoni.801.h_tt
 		writer_experience_gain_effect = { AMOUNT = 10 }
 		painter_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 802: Theories about Extraterrestrial Life
+manzoni.802 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.802.t
+	desc = manzoni.802.d
+	flavor = manzoni.802.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:manzoni_writer_scope
+	right_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = { 7 12 }
+	}
+
+	trigger = {
+		manzoni_has_writer_no_tooltip = yes
+		var:manzoni_writer_var ?= {
+			has_trait = manzoni_genre_science_fiction
+		}
+		verrier_has_astronomer_no_tooltip_trigger = yes
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = { #Maybe we should search for extraterrestials?
+		name = manzoni.802.g
+		default_option = yes
+
+		astronomer_experience_gain_effect = { AMOUNT = 15 }
+		writer_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	option = { #They should write a book about their theories!
+		name = manzoni.802.h
+		trigger = {
+			var:manzoni_writer_var = {
+				has_trait = manzoni_writer_fiction
+			}
+		}
+
+		var:manzoni_writer_var = {
+			add_modifier = {
+				name = manzoni_alien_theories_modfier
+				years = 4
+			}
+		}
+		custom_tooltip = manzoni.801.h_tt
+	}
+
+	option = { #Fascinating!
+		name = manzoni.802.i
+
+		verrier_medium_add_technology = yes
 	}
 
 	after = {
