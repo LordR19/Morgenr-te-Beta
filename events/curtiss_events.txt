@@ -3315,7 +3315,7 @@ curtiss.128 = {
 	duration = 1
 
 	placement = scope:curtiss_schneider_trophy_state
-
+		
 	gui_window = event_window_2char
 
 	left_icon = scope:duel_participant_1
@@ -9834,6 +9834,136 @@ curtiss.298 = {
 
 #######################################################################################################
 
+#Curtiss 300: Pilot arrives at Front
+
+curtiss.300 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curtiss.300.t
+
+	desc = curtiss.300.d
+
+	flavor = curtiss.300.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curtiss_pilot
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_pilot_var ?= {
+			save_scope_as = curtiss_pilot
+		}
+		random_scope_war = {
+			limit = {
+			   any_scope_front = {
+				   	any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+				   	}
+			   	}
+			}
+			save_scope_as = flying_circus_war
+			random_scope_front = {
+				limit = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+				   	}
+			  	}
+			   	random_scope_general = {
+				   limit = {
+					   	owner = ROOT
+					   	this.commander_military_formation = {
+							OR = {
+								has_mobilization_option = mobilization_option:mobilization_option_aerial_recon
+								has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_1
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_2
+								has_mobilization_option = mobilization_option:mobilization_option_advanced_aircrafts_3
+							}
+						}
+				   }
+				   save_scope_as = flying_circus_general
+			   	}
+				random_scope_state = {
+					save_scope_as = flying_circus_state
+				}
+			}
+		}
+	}
+
+	option = {	#He should take his position.
+		name = curtiss.300.g
+		default_option = yes
+		scope:flying_circus_general = {
+			if = {
+				limit = {
+					var:curtiss_pilot_var = {
+						has_trait = curtiss_pilot_ace
+						has_trait = curtiss_pilot_fighter
+					}
+				}
+				add_modifier = {
+					name = curtiss_fighter_ace_pilot_war_modifier
+				}
+			}
+			else_if = {
+				limit = {
+					var:curtiss_pilot_var = {
+						has_trait = curtiss_pilot_ace
+					}
+				}
+				add_modifier = {
+					name = curtiss_ace_pilot_war_modifier
+				}
+			}
+			else_if = {
+				limit = {
+					var:curtiss_pilot_var = {
+						has_trait = curtiss_pilot_fighter
+					}
+				}
+				add_modifier = {
+					name = curtiss_fighter_pilot_war_modifier
+				}
+			}
+			else = {
+				add_modifier = {
+					name = curtiss_pilot_war_modifier
+				}
+			}
+		}
+	}
+}
+
 #Curtiss 301: Pilot returns from Front
 
 curtiss.301 = {
@@ -9882,6 +10012,20 @@ curtiss.301 = {
 				add_trait = curtiss_pilot_fighter
 			}
 		}
+		random_scope_general = {
+			limit = {
+				OR = {
+					has_modifier = curtiss_pilot_war_modifier
+					has_modifier = curtiss_fighter_pilot_war_modifier
+					has_modifier = curtiss_ace_pilot_war_modifier
+					has_modifier = curtiss_fighter_ace_pilot_war_modifier
+				}
+			}
+			remove_modifier = curtiss_pilot_war_modifier
+			remove_modifier = curtiss_fighter_pilot_war_modifier
+			remove_modifier = curtiss_ace_pilot_war_modifier
+			remove_modifier = curtiss_fighter_ace_pilot_war_modifier
+		}
 	}
 }
 
@@ -9907,10 +10051,11 @@ curtiss.311 = {
 	
 	duration = 3
 
+	cooldown = {
+		years = 3
+	}
+
 	trigger = {
-		NOT = {
-			has_variable = curtiss_pilot_cooldown
-		}
 		any_scope_war = {
 			any_scope_front = {
 				any_scope_general = {
@@ -9956,10 +10101,6 @@ curtiss.311 = {
 		name = curtiss.311.g
 		default_option = yes
 		curtiss_set_new_pilot_as_pilot_effect = yes
-		set_variable = {
-			name = curtiss_pilot_cooldown
-			days = 1000
-		}
 	}
 	option = { #We need him for domestic propaganda.
 		name = curtiss.311.h
@@ -10121,6 +10262,214 @@ curtiss.314 = {
 		scope:curtiss_ace = {
 			remove_trait = curtiss_pilot
 			add_trait = curtiss_pilot_ace
+		}
+	}
+}
+
+#Curtiss 321: Gates of Hell
+
+curtiss.321 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	
+	title = curtiss.321.t
+	desc = curtiss.321.d
+	flavor = curtiss.321.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_war_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+	
+	duration = 3
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		has_modifier = curtiss_airplane_focus_modifier
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_general = {
+					owner = ROOT
+					this.commander_military_formation = {
+						has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+					}
+				}
+				any_scope_state = {
+					NOT = { owner = ROOT }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_war = {
+			limit = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+						}
+					}
+				}
+			}
+			random_scope_front = {
+				limit = {
+				   any_scope_general = {
+					   owner = ROOT
+					   this.commander_military_formation = {
+						   has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+					   }
+				   }
+				   any_scope_state = {
+					   NOT = { owner = ROOT }
+				   }
+				}
+				random_scope_general = {
+					limit = {
+					   owner = ROOT
+					   this.commander_military_formation = {
+						   has_mobilization_option = mobilization_option:mobilization_option_bomber_squadron
+					   }
+					}
+					save_scope_as = curtiss_bomber_general
+				}
+				random_scope_state = {
+					limit = {
+						NOT = { owner = ROOT }
+					}
+					save_scope_as = curtiss_bomber_state
+				}
+			}
+		}
+	}
+
+	option = { #Bomb the sector beyond recognition.
+		name = curtiss.321.g
+		default_option = yes
+		change_infamy = 2
+		scope:curtiss_bomber_state = {
+			add_devastation = 25
+			add_modifier = {  #mortality, welfare
+				name = curtiss_gates_of_hell_modifier
+				months = 6
+			}
+		}
+	}
+	option = { #War also knows its limits.
+		name = curtiss.321.h
+		change_infamy = -1
+	}
+}
+
+#Curtiss 322: Menacing Monsters of Steel
+
+curtiss.322 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	
+	title = curtiss.322.t
+	desc = curtiss.322.d
+	flavor = curtiss.322.f
+	
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_zeppelin.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	icon = "gfx/interface/icons/event_icons/event_zeppelin.dds"
+	
+	duration = 3
+
+	cooldown = {
+		years = 1
+	}
+
+	trigger = {
+		has_modifier = curtiss_zeppelin_focus_modifier
+		any_scope_war = {
+			any_scope_front = {
+				any_scope_general = {
+					owner = ROOT
+					this.commander_military_formation = {
+						has_mobilization_option = mobilization_option:mobilization_option_zeppelin_recon
+					}
+					NOT = {
+						has_modifier = curtiss_zeppelin_menace_modifier
+					}
+				}
+				any_scope_state = {
+					NOT = { owner = ROOT }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_war = {
+			limit = {
+				any_scope_front = {
+					any_scope_general = {
+						owner = ROOT
+						this.commander_military_formation = {
+							has_mobilization_option = mobilization_option:mobilization_option_zeppelin_recon
+						}
+					}
+				}
+			}
+			random_scope_front = {
+				limit = {
+				   any_scope_general = {
+					   	owner = ROOT
+					   	this.commander_military_formation = {
+						   has_mobilization_option = mobilization_option:mobilization_option_zeppelin_recon
+					   	}
+				   	}
+				   	any_scope_state = {
+					   NOT = { owner = ROOT }
+				   	}
+				}
+				random_scope_general = {
+					limit = {
+					   	owner = ROOT
+					   	this.commander_military_formation = {
+						   has_mobilization_option = mobilization_option:mobilization_option_zeppelin_recon
+					   	}
+						NOT = {
+							has_modifier = curtiss_zeppelin_menace_modifier
+						}
+					}
+					save_scope_as = curtiss_zeppelin_general
+				}
+				random_scope_state = {
+					limit = {
+						NOT = { owner = ROOT }
+					}
+					save_scope_as = curtiss_zeppelin_state
+				}
+			}
+		}
+	}
+
+	option = { #How something so beautiful can be so dangerous...
+		name = curtiss.322.g
+		default_option = yes
+		scope:curtiss_zeppelin_general= {
+			add_modifier = {
+				name = curtiss_zeppelin_menace_modifier
+				months = 6
+			}
 		}
 	}
 }
