@@ -6,6 +6,7 @@ Characters:
 - Robert Louis Stevenson (random Scottish Writer)
 - Fjodor Dostojewski (random Russian Writer)
 - Alexander Pushkin (Russian Writer)
+- Leo Tolstoy (random Russian Writer)
 - Harriet Beecher Stowe (random American Writer)
 
 Changes:
