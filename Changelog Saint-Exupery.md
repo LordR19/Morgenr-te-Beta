@@ -25,3 +25,4 @@ Aviation:
 - The calculation of whether the Giant Airplane flies or not has been fundamentally revised. The chance now depends primarily on the experience of your aircraft engineer and the characteristics of your pilot. If you decide to recreate the historical “Spruce Goose” when making construction decisions, this will still have an advantage in the calculation.
 
 Fixes:
+- Countries should no longer gain massive amounts of prestige from too many modifiers.
