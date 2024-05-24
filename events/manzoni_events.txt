@@ -3303,6 +3303,130 @@ manzoni.802 = {
 	}
 }
 
+#Manzoni 803: The Adventures of [Rapanui-Scientist]
+manzoni.803 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.803.t
+	desc = manzoni.803.d
+	flavor = manzoni.803.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:manzoni_writer_scope
+	right_icon = scope:manzoni_adventurer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = { 7 12 }
+	}
+
+	trigger = {
+		manzoni_has_writer_no_tooltip = yes
+		var:manzoni_writer_var ?= {
+			has_trait = manzoni_genre_adventure
+		}
+		OR = {
+			any_scope_character = {
+				has_variable = manzoni_recent_adventure_var
+			}
+			var:dubois_naturalist_var ?= {
+				has_variable = manzoni_recent_adventure_var
+			}
+			var:dubois_paleontologist_var ?= {
+				has_variable = manzoni_recent_adventure_var
+			}
+			var:verrier_astronomer_var ?= {
+				has_variable = manzoni_recent_adventure_var
+			}
+		}
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+		if = {
+			limit = {
+				any_scope_character = {
+					has_variable = manzoni_recent_adventure_var
+				}
+			}
+			random_scope_character = {
+				limit = {
+					has_variable = manzoni_recent_adventure_var
+				}
+				save_scope_as = manzoni_adventurer_scope
+			}
+		}
+		else_if = {
+			limit = {
+				var:dubois_naturalist_var ?= {
+					has_variable = manzoni_recent_adventure_var
+				}
+			}
+			var:dubois_naturalist_var ?= {
+				save_scope_as = manzoni_adventurer_scope
+			}
+		}
+		else_if = {
+			limit = {
+				var:dubois_paleontologist_var ?= {
+					has_variable = manzoni_recent_adventure_var
+				}
+			}
+			var:dubois_paleontologist_var ?= {
+				save_scope_as = manzoni_adventurer_scope
+			}
+		}
+		else_if = {
+			limit = {
+				var:verrier_astronomer_var ?= {
+					has_variable = manzoni_recent_adventure_var
+				}
+			}
+			var:verrier_astronomer_var ?= {
+				save_scope_as = manzoni_adventurer_scope
+			}
+		}
+	}
+
+	option = { #I hope this will prove fruitful!
+		name = manzoni.803.g
+		default_option = yes
+
+		scope:manzoni_adventurer_scope = {
+			remove_variable = manzoni_recent_adventure_var
+		}
+		writer_experience_gain_effect = { AMOUNT = 10 }
+		var:manzoni_writer_var = {
+			add_modifier = {
+				name = manzoni_adventure_idea_modifier
+			}
+		}
+		if = {
+			limit = { var:dubois_naturalist_var ?= scope:manzoni_adventurer_scope }
+			naturalist_experience_gain_effect = { AMOUNT = 5 }
+		}
+		else_if = {
+			limit = { var:dubois_paleontologist_var ?= scope:manzoni_adventurer_scope }
+			paleontologist_experience_gain_effect = { AMOUNT = 5 }
+		}
+		else_if = {
+			limit = { var:verrier_astronomer_var ?= scope:manzoni_adventurer_scope }
+			astronomer_experience_gain_effect = { AMOUNT = 5 }
+		}
+	}
+
+	after = {
+	}
+}
+
 ################################################################################
 
 #Manzoni 901: The Fate of Lucca (for Parma)
