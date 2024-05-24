@@ -70,6 +70,8 @@ namespace = manzoni
 ### Writer Interactions ###
 #Manzoni 801: Beautiful Illustrations
 #Manzoni 802: Theories about Extraterrestrial Life
+#Manzoni 803: The Adventures of [Rapanui-Scientist]
+#Manzoni 804: [Poet] inspired by Balloon Flight
 
 ### Italian Nationalism ###
 #Manzoni 901: The Fate of Lucca (for Parma)
@@ -3424,6 +3426,64 @@ manzoni.803 = {
 			limit = { var:verrier_astronomer_var ?= scope:manzoni_adventurer_scope }
 			astronomer_experience_gain_effect = { AMOUNT = 5 }
 		}
+	}
+
+	after = {
+	}
+}
+
+#Manzoni 804: [Poet] inspired by Balloon Flight
+manzoni.804 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.804.t
+	desc = manzoni.804.d
+	flavor = manzoni.804.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:manzoni_writer_scope
+	right_icon = scope:curtiss_balloonist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = { 7 12 }
+	}
+
+	trigger = {
+		manzoni_has_writer_no_tooltip = yes
+		var:manzoni_writer_var ?= {
+			has_trait = manzoni_genre_science_fiction
+		}
+		curtiss_has_balloonist_trigger_no_tooltip_trigger = yes
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+		var:curtiss_balloonist_var = {
+			save_scope_as = curtiss_balloonist_scope
+		}
+	}
+
+	option = { #Ah, the beauty of flight!
+		name = manzoni.804.g
+		default_option = yes
+
+		manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = 10 }
+	}
+
+	option = { #Sounds nice, but is the poem even good?
+		name = manzoni.804.h
+
+		writer_experience_gain_effect = { AMOUNT = 10 }
+		balloonist_experience_gain_effect = { AMOUNT = 5 }
 	}
 
 	after = {
