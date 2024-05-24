@@ -3498,6 +3498,76 @@ manzoni.804 = {
 	}
 }
 
+#Manzoni 805: Beauty of the Mountains
+manzoni.805 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = manzoni.805.t
+	desc = manzoni.805.d
+	flavor = manzoni.805.f
+
+	gui_window = event_window_2char
+
+	left_icon = scope:manzoni_writer_scope
+	right_icon = scope:mountaineer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	cooldown = {
+		years = { 7 12 }
+	}
+
+	trigger = {
+		manzoni_has_writer_no_tooltip = yes
+		var:manzoni_writer_var ?= {
+			has_trait = manzoni_writer_poet
+		}
+		any_scope_character = {
+			has_trait = dubois_mountaineer
+		}
+	}
+
+	immediate = {
+		var:manzoni_writer_var = {
+			save_scope_as = manzoni_writer_scope
+		}
+		random_scope_character = {
+			limit = {
+				has_trait = dubois_mountaineer
+			}
+			save_scope_as = mountaineer_scope
+		}
+	}
+
+	option = { #Mountains have inspired many Poets!
+		name = manzoni.805.g
+		default_option = yes
+
+		manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = 5 }
+	}
+
+	option = { #I hope the mountain air helps him to write better poems!
+		name = manzoni.805.h
+
+		writer_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	option = { #Maybe he should become a mountaineer himself?
+		name = manzoni.805.i
+
+		var:manzoni_writer_var = {
+			add_trait = dubois_mountaineer
+		}
+	}
+
+	after = {
+	}
+}
+
 ################################################################################
 
 #Manzoni 901: The Fate of Lucca (for Parma)
