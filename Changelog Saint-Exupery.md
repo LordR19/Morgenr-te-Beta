@@ -29,3 +29,5 @@ Aviation:
 
 Fixes:
 - Countries should no longer gain massive amounts of prestige from too many modifiers.
+- There should no longer be composers that do nothing after hiring them (evil frauds!).
+- You no longer improve relations with yourself on archaeological expeditions and get loyalists/radicals in the archaeological state instead.
