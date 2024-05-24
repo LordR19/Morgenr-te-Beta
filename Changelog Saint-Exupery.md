@@ -4,6 +4,7 @@ Characters:
 - Thomas Mann (random German Writer)
 - Joseph von Eichendorff (German Writer)
 - Robert Louis Stevenson (random Scottish Writer)
+- Adam Mickiewicz (random Polish Writer)
 - Mikhail Bulgakov (random Russian Writer)
 - Fjodor Dostojewski (random Russian Writer)
 - Alexander Pushkin (Russian Writer)
