@@ -8,6 +8,7 @@ Characters:
 - Alexander Pushkin (Russian Writer)
 - Leo Tolstoy (random Russian Writer)
 - Harriet Beecher Stowe (random American Writer)
+- In-Shik Kim (random Korean Composer)
 
 Changes:
 
