@@ -10,6 +10,7 @@ Characters:
 - Rosalía de Castro (random Spanish Writer)
 - Harriet Beecher Stowe (random American Writer)
 - In-Shik Kim (random Korean Composer)
+- Jung-sik An (random Korean Painter)
 - Hui-dong Go (random Korean Painter)
 - Seung-eop Jang (random Korean Painter)
 - Albert Anker (random Swiss Painter)
