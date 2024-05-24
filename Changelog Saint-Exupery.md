@@ -7,6 +7,7 @@ Characters:
 - Fjodor Dostojewski (random Russian Writer)
 - Alexander Pushkin (Russian Writer)
 - Leo Tolstoy (random Russian Writer)
+- Rosalía de Castro (random Spanish Writer)
 - Harriet Beecher Stowe (random American Writer)
 - In-Shik Kim (random Korean Composer)
 
