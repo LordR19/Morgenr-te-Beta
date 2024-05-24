@@ -20,6 +20,7 @@ Characters:
 - Édouard Castres (random Swiss Painter)
 - Ferdinand Hodler (random Swiss Painter)
 - Yun Kang (random Korean Engineer)
+- Ernest Malinowski (random Polish Engineer)
 
 Changes:
 
