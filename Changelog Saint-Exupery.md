@@ -14,6 +14,7 @@ Characters:
 - Hui-dong Go (random Korean Painter)
 - Seung-eop Jang (random Korean Painter)
 - Albert Anker (random Swiss Painter)
+- Ferdinand Hodler (random Swiss Painter)
 - Yun Kang (random Korean Engineer)
 
 Changes:
