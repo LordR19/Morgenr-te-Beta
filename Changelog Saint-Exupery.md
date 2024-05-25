@@ -17,6 +17,7 @@ Characters:
 - Jung-sik An (random Korean Painter)
 - Hui-dong Go (random Korean Painter)
 - Seung-eop Jang (random Korean Painter)
+- Narashge Koide (random Japanese Painter)
 - Albert Anker (random Swiss Painter)
 - Arnold Böcklin (random Swiss Painter)
 - Édouard Castres (random Swiss Painter)
