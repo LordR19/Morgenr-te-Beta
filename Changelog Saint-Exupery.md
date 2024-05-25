@@ -19,6 +19,7 @@ Characters:
 - Albert Anker (random Swiss Painter)
 - Arnold Böcklin (random Swiss Painter)
 - Édouard Castres (random Swiss Painter)
+- François Diday (random Swiss Painter)
 - Ferdinand Hodler (random Swiss Painter)
 - Yun Kang (random Korean Engineer)
 - Sakichi Toyoda (random Japanese Engineer)
