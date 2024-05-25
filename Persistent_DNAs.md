@@ -54295,11 +54295,12 @@ mr_jap_mishima_tokushichi={
 	entity={ 0 0 }
 }
 
-mr_jap_Koide_Narashige={
+mr_jap_koide_narashige={
 	type=male
 	id=675914423
 	age=0.315000
-	genes={ 		hair_color={ 28 229 28 229 }
+	genes={
+		hair_color={ 28 229 28 229 }
  		skin_color={ 51 21 51 76 }
  		eye_color={ 77 249 77 249 }
  		gene_cheek_fat={ "cheek_fat" 192 "cheek_fat" 219 }
@@ -54406,7 +54407,7 @@ mr_jap_Koide_Narashige={
  		eye_accessory={ "normal_eyes" 0 "normal_eyes" 0 }
  		eye_lashes_accessory={ "normal_eyelashes" 0 "normal_eyelashes" 0 }
  		teeth_accessory={ "normal_teeth" 0 "normal_teeth" 0 }
- }
+	}
 	entity={ 0 0 }
 }
 
