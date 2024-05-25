@@ -21,6 +21,7 @@ Characters:
 - Ferdinand Hodler (random Swiss Painter)
 - Yun Kang (random Korean Engineer)
 - Sakichi Toyoda (random Japanese Engineer)
+- Hidetsugu Yagi (random Japanese Engineer)
 - Ernest Malinowski (random Polish Engineer)
 
 Changes:
