@@ -13,6 +13,7 @@ Characters:
 - Henri-Frédéric Amiel (random Swiss Writer)
 - Alice de Chambrier (random Swiss Writer)
 - Harriet Beecher Stowe (random American Writer)
+- Sakunosuke Koyama (random Japanese Composer)
 - In-Shik Kim (random Korean Composer)
 - Jung-sik An (random Korean Painter)
 - Hui-dong Go (random Korean Painter)
