@@ -23,6 +23,7 @@ Characters:
 - François Diday (random Swiss Painter)
 - Ferdinand Hodler (random Swiss Painter)
 - Yun Kang (random Korean Engineer)
+- Tokushichi Mishima (random Japanese Engineer)
 - Sakichi Toyoda (random Japanese Engineer)
 - Hidetsugu Yagi (random Japanese Engineer)
 - Ernest Malinowski (random Polish Engineer)
