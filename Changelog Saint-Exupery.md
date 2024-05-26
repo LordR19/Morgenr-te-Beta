@@ -26,6 +26,7 @@ Characters:
 - Édouard Castres (random Swiss Painter)
 - François Diday (random Swiss Painter)
 - Augusto Giacometti (random Swiss Painter)
+- Giovanni Giacometti (random Swiss Painter)
 - Ferdinand Hodler (random Swiss Painter)
 - Yun Kang (random Korean Engineer)
 - Tokushichi Mishima (random Japanese Engineer)
