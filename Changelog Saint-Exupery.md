@@ -43,6 +43,8 @@ Aviation:
 - Added Air Combat JE and several events for air combat.
 - In Air Combat, Pilots will passively gain kills/aerial victories per month. For each kill, they gain 5 experience. This depends on traits, experience and luck.
 - Pilots may gain traits like cautious, brave or persistent in air combat events, but may also be wounded and traumatized. (Remember that pilot traits have an effect on the Schneider Trophy Points!)
+- New Action for Pilots: Aircraft Parade.
+- Pilots can acquire experience and the aerobatic trait during an air show. Additional events in the course of an aircraft parade. Pilots may die in an incident.
 - Airline Tycoon works like other void characters.
 - Adjusted modifiers which gave too much negative/positive IG approval.
 - Zeppelin Expedition no longer needs access to the Arctic or Airspace Convention.
