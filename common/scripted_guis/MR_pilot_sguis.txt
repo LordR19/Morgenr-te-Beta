@@ -1,4 +1,4 @@
-﻿### PILOT BUTTONS ###
+### PILOT BUTTONS ###
 
 #by Lord R
 
@@ -156,6 +156,64 @@ mr_curtiss_air_combat_mission_button = {
 		}
 		trigger_event = {
 			id = curtiss.300
+			popup = yes
+		}
+    }
+}
+
+#MR_CURTISS_AIRCRAFT_PARADE_BUTTON
+mr_curtiss_aircraft_parade_button = {
+    scope = country
+	is_shown = {
+		has_technology_researched = military_aviation
+	}
+    is_valid = {
+		curtiss_has_active_pilot = yes
+		custom_tooltip = {
+			text = MR_CURTISS_NO_RECENT_AIRCRAFT_PARADE_TRIGGER_TT
+			NOT = {
+				has_modifier = curtiss_recent_aircraft_parade_modifier
+			}
+		}
+		custom_tooltip = {
+			text = MR_CURTISS_HAS_AIRPORT_TRIGGER_TT
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_airport
+					level >= 1
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_CURTISS_MILITARY_INFLUENTIAL_TRIGGER_TT
+			OR = {
+				ig:ig_armed_forces = {
+					ig_approval >= 5
+				}
+				ig:ig_armed_forces = {
+					is_in_government = yes
+				}
+				ig:ig_armed_forces = {
+					is_powerful = yes
+				}
+			}
+		}
+    }
+    effect = {
+		var:curtiss_pilot_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+		add_modifier = {
+			name = curtiss_aircraft_parade_cost_modifier
+			multiplier = money_amount_multiplier_large
+			days = 365
+		}
+		ig:ig_armed_forces = {
+			add_modifier = curtiss_aviation_enthusiasm_modifier
+			years = 3
+		}
+		trigger_event = {
+			id = curtiss.400
 			popup = yes
 		}
     }
