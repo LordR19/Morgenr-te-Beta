@@ -57,3 +57,4 @@ Fixes:
 - There should no longer be composers that do nothing after hiring them (evil frauds!).
 - You no longer improve relations with yourself on archaeological expeditions and get loyalists/radicals in the archaeological state instead.
 - Gave some historical composers traits.
+- The Maze event should now disappear if you fail the journal entry.
