@@ -58,6 +58,7 @@ Aviation:
 
 Astronomy:
 - In rare cases, nations with an observatory and astronomer can observe a total solar eclipse; on average it only occurs twice per region.
+- Added new Astronomer Traits: Comet Observer (discovered Great Comet), Magnetic Storm Observer (observed Carrington Event) and Solar Observer (observed Solar Eclipse), giving +2 yearly Astronomical Objects.
 
 Fixes:
 - Countries should no longer gain massive amounts of prestige from too many modifiers.
