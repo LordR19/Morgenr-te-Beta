@@ -7133,6 +7133,189 @@ verrier.144 = {
 	}
 }
 
+#####################################################################################
+
+###SOLAR ECLIPSE###
+
+#Verrier 151: Solar Eclipse (hidden)
+
+verrier.151 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		NOT = {
+			has_global_variable = verrier_solar_eclipse_active_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = verrier_solar_eclipse_active_var
+			days = 400
+		}
+		verrier_solar_eclipse_effect = yes
+	}
+}
+
+#Verrier 152: Solar Eclipse
+
+verrier.152 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.152.t
+	desc = verrier.152.d
+	flavor = verrier.152.f
+
+	duration = 3
+
+	event_image = { #Solar Eclipse 1
+		trigger = {
+			var:verrier_solar_eclipse_picture_randomizer_var = 1
+		}
+		texture = "gfx/event_pictures/verrier_pictures/verrier_solar_eclipse_1.dds"
+	}
+	event_image = { #Solar Eclipse 2
+		trigger = {
+			var:verrier_solar_eclipse_picture_randomizer_var = 2
+		}
+		texture = "gfx/event_pictures/verrier_pictures/verrier_solar_eclipse_2.dds"
+	}
+	event_image = { #Solar Eclipse 2
+		trigger = {
+			var:verrier_solar_eclipse_picture_randomizer_var = 3
+		}
+		texture = "gfx/event_pictures/verrier_pictures/verrier_solar_eclipse_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		random_list = { #randomizes picture
+			10 = { 
+				set_variable = {
+					name = verrier_solar_eclipse_picture_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = verrier_solar_eclipse_picture_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = verrier_solar_eclipse_picture_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = verrier.152.g #An unique event.
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 1
+		}
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_verrier_astro_lab
+				}
+			}
+			verrier_large_add_technology = yes
+			astronomer_experience_gain_effect = {
+				AMOUNT = 30
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = pm_verrier_modern_telescope
+					has_active_production_method = pm_verrier_early_modern_telescope
+				}
+			}
+			verrier_medium_add_technology = yes
+			astronomer_experience_gain_effect = {
+				AMOUNT = 20
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_verrier_early_modern_telescope
+				}
+			}
+			verrier_small_add_technology = yes
+			astronomer_experience_gain_effect = {
+				AMOUNT = 10
+			}
+		}
+	}
+
+	after = {
+		remove_variable = verrier_solar_eclipse_picture_randomizer_var
+		#if = {
+		#	limit = {
+		#		NOT = {
+		#			has_global_variable = verrier_solar_eclipse_corona_var
+		#		}
+		#	}
+		#	ordered_country = {
+		#		limit = {
+		#			verrier_has_astronomer_no_tooltip_trigger = yes
+		#		}
+		#		order_by = verrier_carrington_astronomer_value
+		#		max = 1 #We only want the best country
+		#		check_range_bounds = no #prevents errors
+		#
+		#		trigger_event = {
+		#			id = verrier.153
+		#			days = 7
+		#		}
+		#	}
+		#}
+		#if = {
+		#	limit = {
+		#		NOT = {
+		#			has_global_variable = verrier_solar_eclipse_photo_var
+		#		}
+		#		has_technology_researched = camera
+		#	}
+		#	trigger_event = {
+		#		id = verrier.154
+		#		days = 14
+		#	}
+		#}
+		#if = {
+		#	limit = {
+		#		NOT = {
+		#			has_global_variable = verrier_helium_discovered_var
+		#		}
+		#		any_scope_building = {
+		#			is_building_type = building_verrier_observatory
+		#			has_active_production_method = pm_mendelejew_spectroscopy
+		#		}
+		#		mendelejew_has_chemist = yes
+		#	}
+		#	trigger_event = {
+		#		id = verrier.155
+		#		days = 21
+		#	}
+		#}
+	}
+}
+
 #################################################################################
 
 ######Technologies######
