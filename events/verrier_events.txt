@@ -141,6 +141,14 @@ namespace = verrier
 #Verrier 136: Success
 #Verrier 137: Crew returns
 
+#Solar Eclipse
+
+#Verrier 151: Solar Eclipse (hidden)
+#Verrier 152: Solar Eclipse
+#Verrier 153: Astronomer's Beads
+#Verrier 154: First Photo of a Solar Eclipse
+#Verrier 155: The Solar Element
+
 #Events for discovered Technologies
 
 #Verrier 200: [SCOPE] determines the distance of 61 Cygni to be 11.4 light years
@@ -204,6 +212,16 @@ verrier.1 = {
 			name = verrier_astronomical_objects_cooldown_var
 			days = 365
 		}
+		###Technology###
+		if = {
+			limit = {
+				has_technology_researched = camera
+			}
+			verrier_add_x_astronomical_objects_effect = {
+				AMOUNT = 2
+			}
+		}
+		###Observatory PMs###
 		if = {
 			limit = {
 				any_scope_state = {
@@ -215,27 +233,6 @@ verrier.1 = {
 			}
 			verrier_add_x_astronomical_objects_effect = {
 				AMOUNT = 1
-			}
-		}
-		if = {
-			limit = {
-				has_technology_researched = camera
-			}
-			verrier_add_x_astronomical_objects_effect = {
-				AMOUNT = 2
-			}
-		}
-		if = {
-			limit = {
-				any_scope_state = {
-					is_production_method_active = {
-						building_type = building_verrier_observatory
-						production_method = pm_mendelejew_spectroscopy
-					}
-				}
-			}
-			verrier_add_x_astronomical_objects_effect = {
-				AMOUNT = 3
 			}
 		}
 		if = {
@@ -264,6 +261,20 @@ verrier.1 = {
 				AMOUNT = 15
 			}
 		}
+		if = {
+			limit = {
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_verrier_observatory
+						production_method = pm_mendelejew_spectroscopy
+					}
+				}
+			}
+			verrier_add_x_astronomical_objects_effect = {
+				AMOUNT = 3
+			}
+		}
+		###Astronomer Experience###
 		if = {
 			limit = {
 				has_variable = verrier_astronomer_var
@@ -297,6 +308,41 @@ verrier.1 = {
 				AMOUNT = 8
 			}
 		}
+		###Astronomer Traits##
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+				var:verrier_astronomer_var = {
+					has_trait = verrier_comet_observer
+				}
+			}
+			verrier_add_x_astronomical_objects_effect = {
+				AMOUNT = 2
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+				var:verrier_astronomer_var = {
+					has_trait = verrier_megnetic_storm_observer
+				}
+			}
+			verrier_add_x_astronomical_objects_effect = {
+				AMOUNT = 2
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+				var:verrier_astronomer_var = {
+					has_trait = verrier_solar_observer
+				}
+			}
+			verrier_add_x_astronomical_objects_effect = {
+				AMOUNT = 2
+			}
+		}
+		###Yearly Notification###
 		if = {
 			limit = {
 				has_variable = verrier_yearly_astronomical_objects_var
@@ -3190,6 +3236,7 @@ verrier.61 = {
 	immediate = {
 		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1843_comet
+			add_trait = verrier_comet_observer
 			save_scope_as = verrier_1843_discoverer
 		}
 		set_variable = verrier_discovered_great_comet
@@ -3369,6 +3416,7 @@ verrier.64 = {
 	immediate = {
 		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1858_comet
+			add_trait = verrier_comet_observer
 			save_scope_as = verrier_1858_discoverer
 		}
 		set_variable = verrier_discovered_great_comet
@@ -3548,6 +3596,7 @@ verrier.67 = {
 	immediate = {
 		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1861_comet
+			add_trait = verrier_comet_observer
 			save_scope_as = verrier_1861_discoverer
 		}
 		set_variable = verrier_discovered_great_comet
@@ -3727,6 +3776,7 @@ verrier.70 = {
 	immediate = {
 		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1874_comet
+			add_trait = verrier_comet_observer
 			save_scope_as = verrier_1874_discoverer
 		}
 		set_variable = verrier_discovered_great_comet
@@ -3906,6 +3956,7 @@ verrier.73 = {
 	immediate = {
 		var:verrier_astronomer_var = {
 			set_variable = verrier_discovered_1882_comet
+			add_trait = verrier_comet_observer
 			save_scope_as = verrier_1882_discoverer
 		}
 		set_variable = verrier_discovered_great_comet
@@ -7023,7 +7074,14 @@ verrier.143 = {
 
 	option = {
 		name = verrier.143.g #This is terrible and fantastic at the same time.
-
+		if = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_magnetic_storm_observer
+			}
+		}
 		if = {
 			limit = {
 				NOT = {
@@ -7222,6 +7280,9 @@ verrier.152 = {
 
 	option = {
 		name = verrier.152.g #An unique event.
+		var:verrier_astronomer_var = {
+			add_trait = verrier_solar_observer
+		}
 		verrier_add_x_astronomical_objects_effect = {
 			AMOUNT = 1
 		}
@@ -7315,6 +7376,51 @@ verrier.152 = {
 		#}
 	}
 }
+
+#Verrier 153: Astronomer's Beads
+
+verrier.153 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.153.t
+	desc = verrier.153.d
+	flavor = verrier.153.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_solar_eclipse_special.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	immediate = {
+		set_global_variable = verrier_solar_eclipse_corona_var
+		var:verrier_astronomer_var = {
+			set_variable = {
+				name = verrier_astronomer_observed_corona_var
+				value = year
+			}
+		}
+	}
+
+	option = {
+		name = verrier.153.g #This effect should be named after ASTRONOMER.
+		astronomer_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		dubois_add_x_academy_progress = {
+			AMOUNT = 10
+		}
+	}
+}
+
+#Verrier 154: First Photo of a Solar Eclipse
+#Verrier 155: The Solar Element
 
 #################################################################################
 
