@@ -55,6 +55,7 @@ Aviation:
 - Giant Zeppelin (Hindenburg) is not a JE anymore; instead, the Aeronaticaul Engineer builds it.
 - Giant Airplane (Spruce Goose) is not a JE anymore; instead, the Aeronaticaul Engineer builds it.
 - The calculation of whether the Giant Airplane flies or not has been fundamentally revised. The chance now depends primarily on the experience of your aircraft engineer and the characteristics of your pilot. If you decide to recreate the historical “Spruce Goose” when making construction decisions, this will still have an advantage in the calculation.
+- Schneider Races & Victories will now be counted and shown in the Pilot GUI.
 
 Astronomy:
 - In rare cases, nations with an observatory and astronomer can observe a total solar eclipse; on average it only occurs twice per region.
