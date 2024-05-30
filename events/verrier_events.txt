@@ -7326,42 +7326,42 @@ verrier.152 = {
 
 	after = {
 		remove_variable = verrier_solar_eclipse_picture_randomizer_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = verrier_solar_eclipse_corona_var
+				}
+			}
+			ordered_country = {
+				limit = {
+					verrier_has_astronomer_no_tooltip_trigger = yes
+				}
+				order_by = verrier_carrington_astronomer_value
+				max = 1 #We only want the best country
+				check_range_bounds = no #prevents errors
+		
+				trigger_event = {
+					id = verrier.153
+					days = 7
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = verrier_solar_eclipse_photo_var
+				}
+				has_technology_researched = camera
+			}
+			trigger_event = {
+				id = verrier.154
+				days = 14
+			}
+		}
 		#if = {
 		#	limit = {
 		#		NOT = {
-		#			has_global_variable = verrier_solar_eclipse_corona_var
-		#		}
-		#	}
-		#	ordered_country = {
-		#		limit = {
-		#			verrier_has_astronomer_no_tooltip_trigger = yes
-		#		}
-		#		order_by = verrier_carrington_astronomer_value
-		#		max = 1 #We only want the best country
-		#		check_range_bounds = no #prevents errors
-		#
-		#		trigger_event = {
-		#			id = verrier.153
-		#			days = 7
-		#		}
-		#	}
-		#}
-		#if = {
-		#	limit = {
-		#		NOT = {
-		#			has_global_variable = verrier_solar_eclipse_photo_var
-		#		}
-		#		has_technology_researched = camera
-		#	}
-		#	trigger_event = {
-		#		id = verrier.154
-		#		days = 14
-		#	}
-		#}
-		#if = {
-		#	limit = {
-		#		NOT = {
-		#			has_global_variable = verrier_helium_discovered_var
+		#			has_global_variable = verrier_solar_eclipse_helium_var
 		#		}
 		#		any_scope_building = {
 		#			is_building_type = building_verrier_observatory
@@ -7398,6 +7398,12 @@ verrier.153 = {
 
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
+	trigger = {
+		NOT = {
+			has_global_variable = verrier_solar_eclipse_corona_var
+		}
+	}
+
 	immediate = {
 		set_global_variable = verrier_solar_eclipse_corona_var
 		var:verrier_astronomer_var = {
@@ -7410,6 +7416,62 @@ verrier.153 = {
 
 	option = {
 		name = verrier.153.g #This effect should be named after ASTRONOMER.
+		verrier_small_add_technology = yes
+		astronomer_experience_gain_effect = {
+			AMOUNT = 25
+		}
+		dubois_add_x_academy_progress = {
+			AMOUNT = 10
+		}
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 1
+		}
+	}
+}
+
+#Verrier 154: First Photo of a Solar Eclipse
+
+verrier.154 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.154.t
+	desc = verrier.154.d
+	flavor = verrier.154.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_solar_eclipse_special.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = verrier_solar_eclipse_photo_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = verrier_solar_eclipse_photo_var
+		var:verrier_astronomer_var = {
+			set_variable = {
+				name = verrier_astronomer_sun_photo_var
+				value = year
+			}
+		}
+	}
+
+	option = {
+		name = verrier.154.g #Perfect
+		add_modifier = {
+			name = verrier_first_sun_photo_modifier
+			years = 5
+		}
 		astronomer_experience_gain_effect = {
 			AMOUNT = 25
 		}
@@ -7419,8 +7481,60 @@ verrier.153 = {
 	}
 }
 
-#Verrier 154: First Photo of a Solar Eclipse
-#Verrier 155: The Solar Element
+#Verrier 155: The Solar Element (deactivated until chemists are activated)
+
+#verrier.155 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#
+#	title = verrier.155.t
+#	desc = verrier.155.d
+#	flavor = verrier.155.f
+#
+#	duration = 3
+#
+#	event_image = {
+#		texture = "gfx/event_pictures/verrier_pictures/verrier_solar_eclipse_special.dds"
+#	}
+#
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#
+#	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+#
+#	trigger = {
+#		NOT = {
+#			has_global_variable = verrier_solar_eclipse_helium_var
+#		}
+#	}
+#
+#	immediate = {
+#		set_global_variable = verrier_solar_eclipse_helium_var
+#		var:verrier_astronomer_var = {
+#			set_variable = {
+#				name = verrier_astronomer_helium_discovered_var
+#				value = year
+#			}
+#		}
+#	}
+#
+#	option = {
+#		name = verrier.155.g #Perfect
+#		add_modifier = {
+#			name = verrier_helium_discovered_modifier
+#			years = 10
+#		}
+#		astronomer_experience_gain_effect = {
+#			AMOUNT = 25
+#		}
+#		chemist_experience_gain_effect = {
+#			AMOUNT = 25
+#		}
+#		dubois_add_x_academy_progress = {
+#			AMOUNT = 10
+#		}
+#	}
+#}
 
 #################################################################################
 
