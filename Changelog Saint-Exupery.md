@@ -71,3 +71,4 @@ Fixes:
 - The Maze event should now disappear if you fail the journal entry.
 - Special Art Technologies no longer mention non-existing journal entry.
 - Having a better weather station no longer prevents you from the Arctic Expedition.
+- Archaeology Specializations should be available if you have better collections at your museum now.
