@@ -61,6 +61,7 @@ Astronomy:
 - In rare cases, nations with an observatory and astronomer can observe a total solar eclipse; on average it only occurs twice per region.
 - Added new Astronomer Traits: Comet Observer (discovered Great Comet), Magnetic Storm Observer (observed Carrington Event) and Solar Observer (observed Solar Eclipse), giving +2 yearly Astronomical Objects.
 - Added 3 special events for Solar Eclipses.
+- Moved the Observatory from Andalusia to Toledo as it would move there in the first year anyways.
 
 Fixes:
 - Countries should no longer gain massive amounts of prestige from too many modifiers.
