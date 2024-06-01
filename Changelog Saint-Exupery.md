@@ -63,7 +63,7 @@ Astronomy:
 - In rare cases, nations with an observatory and astronomer can observe a total solar eclipse; on average it only occurs twice per region.
 - Added new Astronomer Traits: Comet Observer (discovered Great Comet), Magnetic Storm Observer (observed Carrington Event) and Solar Observer (observed Solar Eclipse), giving +2 yearly Astronomical Objects.
 - Added 3 special events for Solar Eclipses.
-1- Moved the Observatory from Andalusia to Toledo as it would move there in the first year anyways.
+- Moved the Observatory from Andalusia to Toledo as it would move there in the first year anyways.
 
 Fixes:
 - There should no longer be composers that do nothing after hiring them (evil frauds!).
@@ -71,5 +71,6 @@ Fixes:
 - Gave some historical composers traits.
 - The Maze event should now disappear if you fail the journal entry.
 - Special Art Technologies no longer mention non-existing journal entry.
-1- Having a better weather station no longer prevents you from the Arctic Expedition.
-1- Archaeology Specializations should be available if you have better collections at your museum now.
+- Having a better weather station no longer prevents you from the Arctic Expedition.
+- Archaeology Specializations should be available if you have better collections at your museum now.
+- Fixed various Triggers
