@@ -1,4 +1,4 @@
-Changelog for 2.2.0 "Saint-Exupery"
+Changelog for 2.1.5 "Saint-Exupery"
 
 Characters:
 - Charles Baudelaire (random French Writer)
