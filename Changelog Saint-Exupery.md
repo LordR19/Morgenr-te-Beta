@@ -20,6 +20,7 @@ Characters:
 - Harriet Beecher Stowe (random American Writer)
 - Herman Melville (random American Writer)
 - Lew Wallace (random American Writer)
+- Walt Whitman (random American Writer)
 - Sakunosuke Koyama (random Japanese Composer)
 - In-Shik Kim (random Korean Composer)
 - Jung-sik An (random Korean Painter)
