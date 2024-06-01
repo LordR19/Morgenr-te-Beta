@@ -3,6 +3,7 @@ Changelog for 2.2.0 "Saint-Exupery"
 Characters:
 - Thomas Mann (random German Writer)
 - Joseph von Eichendorff (German Writer)
+- Shiki Masaoka (random Japanese Writer)
 - Sōseki Natsume (random Japanese Writer)
 - Robert Louis Stevenson (random Scottish Writer)
 - Henrik Ibsen (random Norwegian Writer)
