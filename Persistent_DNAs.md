@@ -56035,7 +56035,7 @@ mr_per_shirazi_habibollah_qaani={
 	entity={ 0 0 }
 }
 
-mr_gbr_carrol_lewis={
+mr_gbr_carroll_lewis={
 	type=male
 	id=0
 	age=0.290000
