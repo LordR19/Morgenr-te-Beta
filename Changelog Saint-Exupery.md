@@ -78,3 +78,4 @@ Fixes:
 - Having a better weather station no longer prevents you from the Arctic Expedition.
 - Archaeology Specializations should be available if you have better collections at your museum now.
 - Fixed various Triggers
+- Sabzavari does no longer have an identical twin.
