@@ -3,6 +3,7 @@ Changelog for 2.1.5 "Saint-Exupery"
 Characters:
 - Charles Baudelaire (random French Writer)
 - Alexandre Dumas Fils (random French Writer)
+- Mary Shelley (British Writer)
 - Thomas Mann (random German Writer)
 - Joseph von Eichendorff (German Writer)
 - Shiki Masaoka (random Japanese Writer)
