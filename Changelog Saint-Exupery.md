@@ -10,6 +10,7 @@ Characters:
 - Sōseki Natsume (random Japanese Writer)
 - Robert Louis Stevenson (random Scottish Writer)
 - Henrik Ibsen (random Norwegian Writer)
+- Habibollah "Qaani" Shirazi (random Persian Writer)
 - Adam Mickiewicz (random Polish Writer)
 - Mikhail Bulgakov (random Russian Writer)
 - Fjodor Dostojewski (random Russian Writer)
