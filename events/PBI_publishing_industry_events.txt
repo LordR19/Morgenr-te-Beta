@@ -2231,30 +2231,31 @@ pbi_publishing_industry_events.315 = {
 			is_building_type = building_manzoni_publishing_industry
 			is_under_construction = no
 		}
-		any_active_party = {
-			count >= 2
-		}
 	}
 
 	immediate = {
+		#Saves the Publishing Industry State as a scope
 		random_scope_state = {
 			limit = {
 				has_building = building_manzoni_publishing_industry
 			}
 			save_scope_as = target_state
 		}
-		random_interest_group = {
-			limit = {
-				has_party = yes
-			}
-			party = {
-				save_scope_as = target_party_1
-			}
-			save_scope_as = target_ig_1
-		}
+
 		if = {
-			limit = {
-				exists = scope:target_party_1
+			limit = { #If the country has at least two parties, those parties will be used.
+				any_active_party = {
+					count >= 2
+				}
+			}
+			random_interest_group = {
+				limit = {
+					has_party = yes
+				}
+				party = {
+					save_scope_as = target_party_1
+				}
+				save_scope_as = target_ig_1
 			}
 			random_interest_group = {
 				limit = {
@@ -2269,41 +2270,49 @@ pbi_publishing_industry_events.315 = {
 				save_scope_as = target_ig_2
 			}
 		}
-		else = {
+		else_if = { #If a country has 1 party, it will use that party and another IG that is not in the party.
+			limit = {
+				any_active_party = {
+					count = 1
+				}
+			}
 			random_interest_group = {
+				limit = {
+					has_party = yes
+				}
+				party = {
+					save_scope_as = target_party_1
+				}
 				save_scope_as = target_ig_1
 			}
 			random_interest_group = {
 				limit = {
-					NOT = {
-						THIS = scope:target_ig_1
+					NOR = {
+						is_member_of_party = scope:target_party_1
+						scope:target_ig_1 ?= this
 					}
 				}
 				save_scope_as = target_ig_2
 			}
 		}
-		if = {
+		else = { #If the country does not have parties, it will use two different igs
+		random_interest_group = {
+			limit = {
+				has_party = yes
+			}
+			party = {
+				save_scope_as = target_party_1
+			}
+			save_scope_as = target_ig_1
+		}
+		random_interest_group = {
 			limit = {
 				NOT = {
-					exists = scope:target_party_2
+					scope:target_ig_1 ?= this
 				}
 			}
-			random_interest_group = {
-				limit = {
-					OR = {
-						NOT = {
-							exists = scope:target_party_1
-						}
-						AND = {
-							exists = scope:target_party_1
-							NOT = {
-								is_member_of_party = scope:target_party_1
-							}
-						}
-					}
-				}
-				save_scope_as = target_ig_2
-			}
+			save_scope_as = target_ig_2
+		}
 		}
 	}
 
