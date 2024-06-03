@@ -5,6 +5,7 @@ Characters:
 - Alexandre Dumas Fils (random French Writer)
 - Lewis Carroll (random British Writer)
 - Mary Shelley (British Writer)
+- Machado de Assis (random Brazilian Writer)
 - Thomas Mann (random German Writer)
 - Joseph von Eichendorff (German Writer)
 - Shiki Masaoka (random Japanese Writer)
