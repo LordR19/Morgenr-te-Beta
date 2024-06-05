@@ -8,6 +8,7 @@ Characters:
 - Aluísio Azevedo (random Brazilian Writer)
 - José de Alencar (random Brazilian Writer)
 - Machado de Assis (random Brazilian Writer)
+- Gonçalves Dias (random Brazilian Writer)
 - Thomas Mann (random German Writer)
 - Joseph von Eichendorff (German Writer)
 - Shiki Masaoka (random Japanese Writer)
