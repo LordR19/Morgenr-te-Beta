@@ -9,6 +9,7 @@ Characters:
 - Gonçalves Dias (random Brazilian Writer)
 - Lu Xun (random Chinese Writer)
 - Charles Baudelaire (random French Writer)
+- Guy de Maupassant (random French Writer)
 - Alexandre Dumas Fils (random French Writer)
 - Gustave Flaubert (random French Writer)
 - Thomas Mann (random German Writer)
