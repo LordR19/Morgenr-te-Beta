@@ -12,6 +12,7 @@ Characters:
 - Guy de Maupassant (random French Writer)
 - Alexandre Dumas Fils (random French Writer)
 - Gustave Flaubert (random French Writer)
+- Maurice Leblanc (random French Writer)
 - Thomas Mann (random German Writer)
 - Joseph von Eichendorff (German Writer)
 - Shiki Masaoka (random Japanese Writer)
