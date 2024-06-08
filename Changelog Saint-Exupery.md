@@ -14,6 +14,7 @@ Characters:
 - Gustave Flaubert (random French Writer)
 - Maurice Leblanc (random French Writer)
 - Marcel Proust (random French Writer)
+- George Sand (random French Writer)
 - Thomas Mann (random German Writer)
 - Joseph von Eichendorff (German Writer)
 - Shiki Masaoka (random Japanese Writer)
