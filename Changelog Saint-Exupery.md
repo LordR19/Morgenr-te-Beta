@@ -28,6 +28,7 @@ Characters:
 - Alexander Pushkin (Russian Writer)
 - Leo Tolstoy (random Russian Writer)
 - Rosalía de Castro (random Spanish Writer)
+- Alfonso Daniel Rodríguez Castelao (random Spanish Writer)
 - Henri-Frédéric Amiel (random Swiss Writer)
 - Alice de Chambrier (random Swiss Writer)
 - Harriet Beecher Stowe (random American Writer)
