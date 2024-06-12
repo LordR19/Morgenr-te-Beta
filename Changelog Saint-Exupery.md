@@ -2,6 +2,7 @@ Changelog for 2.1.5 "Saint-Exupery"
 
 Characters:
 - Lewis Carroll (random British Writer)
+- Agatha Christe (random British Writer)
 - A.A. Milne (random British Writer)
 - Mary Shelley (British Writer)
 - Aluísio Azevedo (random Brazilian Writer)
