@@ -5,6 +5,7 @@ Characters:
 - Agatha Christe (random British Writer)
 - Rudyard Kipling (random British Writer)
 - A.A. Milne (random British Writer)
+- Beatrix Potter (random British Writer)
 - Mary Shelley (British Writer)
 - Aluísio Azevedo (random Brazilian Writer)
 - José de Alencar (random Brazilian Writer)
