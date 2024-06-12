@@ -4333,7 +4333,6 @@ create_new_writer_effect = {
 				set_variable = mr_no_headgear_var
 				writer_experience_set_up_effect = yes
 				place_character_in_void = 1200
-				set_variable = manzoni_crime_writer_var
 			}
 
 			set_variable = {
@@ -4342,6 +4341,37 @@ create_new_writer_effect = {
 			}
 
 			set_global_variable = mr_carroll_created_global_var
+		}
+		4 = { #Agatha Christie, Great Britain
+			trigger = {
+				NOT = { has_global_variable = mr_christie_created_global_var }
+				has_state_in_state_region = STATE_WEST_COUNTRY
+				NOT = {
+					cu:british = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1945.9.15 #Age 55
+				year >= 1909 #Wrote first short story at age 18
+			}
+			create_character = {
+				template = mr_gbr_christie_agatha_character_template
+				save_scope_as = manzoni_new_writer_scope
+			}
+			scope:manzoni_new_writer_scope = {
+				set_variable = mr_is_writer_var
+				set_variable = mr_no_headgear_var
+				writer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+				set_variable = manzoni_crime_writer_var
+			}
+
+			set_variable = {
+				name = manzoni_new_writer_var
+				value = scope:manzoni_new_writer_scope
+			}
+
+			set_global_variable = mr_christie_created_global_var
 		}
 		4 = { #Arthur Conan Doyle, Great Britain
 			trigger = {
