@@ -98,3 +98,4 @@ Fixes:
 - Special Art Technologies no longer mention non-existing journal entry.
 - Sabzavari does no longer have an identical twin.
 - Ishtar Gate Parts will trigger every year.
+- Fixed a bug with the Art Gallery not updating properly.
