@@ -299,6 +299,339 @@ klimt.10 = {
 	}
 }
 
+#Klimt 11: Gallery dissolution
+klimt.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = klimt.11.t
+	desc = klimt.11.d
+	flavor = klimt.11.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/klimt_pictures/klimt_gallery.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_literature.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_capital = no
+			has_building = building_klimt_gallery
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = no
+				has_building = building_klimt_gallery
+			}
+			save_scope_as = klimt_gallery_state
+			random_scope_building = {
+				limit = {
+					is_building_type = building_klimt_gallery
+				}
+				save_scope_as = klimt_gallery_building
+			}
+		}
+	}
+
+	option = {
+		name = klimt.11.g
+		default_option = yes
+
+		trigger = {
+			any_scope_state = {
+				is_capital = yes
+				has_building = building_klimt_gallery
+			}
+		}
+		scope:klimt_gallery_state = {
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_classic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_classic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_classicism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_classicism_masterwork_happened_var
+						klimt_save_classic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_romantic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_romantic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_romanticism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_romanticism_masterwork_happened_var
+						klimt_save_romantic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_realistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_realistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_realism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_realism_masterwork_happened_var
+						klimt_save_realistic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_impressionistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_impressionistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_impressionism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_impressionism_masterwork_happened_var
+						klimt_save_impressionistic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_expressionistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_expressionistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_expressionism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_expressionism_masterwork_happened_var
+						klimt_save_expressionistic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_art_nouveau_collection
+					}
+				}
+				ROOT = {
+					klimt_add_art_nouveau_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_art_nouveau_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_art_nouveau_masterwork_happened_var
+						klimt_save_art_nouveau_masterwork_year = yes
+					}
+				}
+			}
+		}
+		scope:klimt_gallery_state = {
+			remove_building = building_klimt_gallery
+		}
+	}
+
+	option = {
+		name = klimt.11.h
+
+		trigger = {
+			any_scope_state = {
+				is_capital = yes
+				NOT = {
+					has_building = building_klimt_gallery
+				}
+			}
+		}
+		random_scope_state = {
+    		limit = { 
+				is_capital = yes
+			}
+    		create_building={
+				building="building_klimt_gallery"
+				level=1
+				reserves=1
+			}
+			activate_building = {
+				building = "building_klimt_gallery"
+			}
+  		}
+		scope:klimt_gallery_state = {
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_classic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_classic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_classicism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_classicism_masterwork_happened_var
+						klimt_save_classic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_romantic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_romantic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_romanticism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_romanticism_masterwork_happened_var
+						klimt_save_romantic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_realistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_realistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_realism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_realism_masterwork_happened_var
+						klimt_save_realistic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_impressionistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_impressionistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_impressionism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_impressionism_masterwork_happened_var
+						klimt_save_impressionistic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_expressionistic_collection
+					}
+				}
+				ROOT = {
+					klimt_add_expressionistic_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_expressionism_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_expressionism_masterwork_happened_var
+						klimt_save_expressionistic_masterwork_year = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_klimt_gallery
+						production_method = pm_klimt_excellent_art_nouveau_collection
+					}
+				}
+				ROOT = {
+					klimt_add_art_nouveau_masterwork_effect = yes
+					if = {
+						limit = {
+							NOT = {
+								has_variable = klimt_art_nouveau_masterwork_happened_var
+							}
+						}
+						set_variable = klimt_art_nouveau_masterwork_happened_var
+						klimt_save_art_nouveau_masterwork_year = yes
+					}
+				}
+			}
+		}
+		scope:klimt_gallery_state = {
+			remove_building = building_klimt_gallery
+		}
+	}
+}
+
 #Klimt 20: Visit the Gallery 
 klimt.20 = {
 	dlc = dlc_morgenrote
