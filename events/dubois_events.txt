@@ -846,6 +846,122 @@ dubois.7 = {
 	}
 }
 
+#Dubois 10: Dissolve Zoo
+dubois.10 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.10.t
+	desc = dubois.10.d
+	flavor = dubois.10.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_diplomatic_action.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		any_scope_state = {
+			is_capital = no
+			has_building = building_dubois_zoo
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				is_capital = no
+				has_building = building_dubois_zoo
+			}
+			save_scope_as = dubois_zoo_state
+			random_scope_building = {
+				limit = {
+					is_building_type = building_dubois_zoo
+				}
+				save_scope_as = dubois_zoo_building
+			}
+		}
+	}
+
+	option = {
+		name = dubois.10.g
+		default_option = yes
+
+		scope:dubois_zoo_state = {
+			if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_1
+					}
+				}
+				ROOT = {
+					dubois_add_x_specimen_effect = { AMOUNT = 5000 }
+					add_treasury = 500000
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_2
+					}
+				}
+				ROOT = {
+					dubois_add_x_specimen_effect = { AMOUNT = 10000 }
+					add_treasury = 1000000
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_3
+					}
+				}
+				ROOT = {
+					dubois_add_x_specimen_effect = { AMOUNT = 20000 }
+					add_treasury = 2000000
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_4
+					}
+				}
+				ROOT = {
+					dubois_add_x_specimen_effect = { AMOUNT = 30000 }
+					add_treasury = 300000
+				}
+			}
+			else_if = {
+				limit = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_5
+					}
+				}
+				ROOT = {
+					dubois_add_x_specimen_effect = { AMOUNT = 50000 }
+					add_treasury = 5000000
+				}
+			}
+		}
+		scope:dubois_zoo_state = {
+			remove_building = building_dubois_zoo
+		}
+	}
+}
+
 
 ######Diplomatic action######
 
