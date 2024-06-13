@@ -7,6 +7,7 @@ Characters:
 - A.A. Milne (random British Writer)
 - Beatrix Potter (random British Writer)
 - Mary Shelley (British Writer)
+- Virginia Woolf (British Writer)
 - Aluísio Azevedo (random Brazilian Writer)
 - José de Alencar (random Brazilian Writer)
 - Machado de Assis (random Brazilian Writer)
