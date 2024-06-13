@@ -60,6 +60,7 @@ Characters:
 - Ernest Malinowski (random Polish Engineer)
 
 Changes:
+- Conquered National Galleries will be dissolved, but the paintings will be transfered to an existing National Gallery in the capital. If no Gallery exists, a new one will be build.
 
 Aviation:
 - Pilots will be generated after a battle is won if one of the mobilization options of the army includes an aircraft mobilization (zeppelins and balloons excluded). This will happen always, not randomly.
