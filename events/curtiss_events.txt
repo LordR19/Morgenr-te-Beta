@@ -41,6 +41,10 @@ namespace = curtiss
 #Curtiss 52: Helium reserve lost
 #Curtiss 53: Graf Ferdinand von Zeppelin
 
+#Tourism
+
+#Curtiss 60: First Tourist Agency
+
 #Schneider Trophy
 
 #Curtiss 100: Schneider Trophy founded
@@ -1523,6 +1527,58 @@ curtiss.54 = {
 			add_technology_progress = { 
 				progress = 8000 technology = curtiss_modern_aviation_tech
 			}
+		}
+	}
+}
+
+#Curtiss 60: First Tourist Agency
+
+curtiss.60 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curtiss.60.t
+
+	desc = curtiss.60.d
+
+	flavor = curtiss.60.f
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_early_tourism.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_tourism.dds"
+
+	trigger = {
+		has_technology_researched = curtiss_tourism_tech
+		NOT = {
+			has_variable = curtiss_tourism_inauguration_happened
+		}
+	}
+
+	immediate = {
+		set_variable = curtiss_tourism_inauguration_happened
+		create_character = {
+			save_scope_as = curtiss_cook_scope
+		}
+		scope:curtiss_cook_scope = {
+			place_character_in_void = 120
+		}
+	}
+
+	option = {
+		name = curtiss.60.g #Tourists pay for art and culture?
+		curtiss_update_tourism_income_effect = yes
+	}
+
+	after = {
+		scope:curtiss_cook_scope = {
+			free_character_from_void = no
 		}
 	}
 }
