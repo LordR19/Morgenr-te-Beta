@@ -3,7 +3,7 @@ Changelog for 2.2.0 "Cook"
 Tourism
 - Added Tourism tech (+1 Company Slots)
 - Researching the Tourism Technology gives a modifier with Tourism income.
-- Tourism Income depends on Monuments, Museums, Art Galeries, Centers of CUlture, Cultural Tradition and other fancy Morgenröte stuff. Airports heavily increase tourism income. Laws like laissez-faire and free market help, isolationism ... not so much.
+- Tourism Income depends on Monuments, Museums, Art Galeries, Centers of Culture, Cultural Tradition and other fancy Morgenröte stuff. Airports heavily increase tourism income. Laws like laissez-faire and free market help, isolationism ... not so much. It will be pretty low at the beginning.
 
 Changes
 - PBI events should now occur less frequently.
