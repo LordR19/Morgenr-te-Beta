@@ -2117,3 +2117,191 @@ set_up_records_je_effect = {
 		}
 	}
 }
+
+###TEST PLANE###
+
+#Speed
+curtiss_new_airplane_speed_effect = {
+	set_variable = {
+		name = new_airplane_speed_var
+		value = 50 #50 km/h was roughly the speed of aircraft in the first years
+	}
+	change_variable = {
+		name = new_airplane_speed_var
+		multiply = { 0.95 1.15 } #Luck
+	}
+	if = {
+		limit = {
+			has_technology_researched = curtiss_seaplanes_tech #This allows seaplanes
+		}
+		change_variable = {
+			name = new_airplane_speed_var
+			add = { 45 65 }
+		}
+	}
+	if = {
+		limit = {
+			has_technology_researched = arc_welding #This allows metallic airplanes
+		}
+		change_variable = {
+			name = new_airplane_speed_var
+			add = { 85 125 }
+		}
+	}
+	if = {
+		limit = {
+			has_technology_researched = curtiss_modern_aviation_tech #This allows monoplanes
+		}
+		change_variable = {
+			name = new_airplane_speed_var
+			add = { 85 125 }
+		}
+	}
+	#if = {
+	#	limit = {
+	#		has_technology_researched = curtiss_jet_engine_tech #This allows jets
+	#	}
+	#	change_variable = {
+	#		name = new_airplane_speed_var
+	#		add = { 400 500 }
+	#	}
+	#}
+	change_variable = {
+		name = new_airplane_speed_var
+		add = curtiss_testplane_engineer_value
+	}
+	change_variable = {
+		name = new_airplane_speed_var
+		add = curtiss_testplane_pilot_value
+	}
+
+	round_variable = {
+		name = new_airplane_speed_var
+		nearest = 0.1
+	}
+}
+
+curtiss_airplane_country_speed_record_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curtiss_airplane_speed_record_var
+			}
+		}
+		set_variable = {
+			name = curtiss_airplane_speed_record_var
+			value = var:new_airplane_speed_var
+		}
+	}
+	pilot_experience_gain_effect = { #if no record is broken, a total of 10 experience is added
+		AMOUNT = 10
+	}
+	aeronautical_engineer_experience_gain_effect = {
+		AMOUNT = 10
+	}
+	if = {
+		limit = {
+			var:new_airplane_speed_var > var:curtiss_airplane_speed_record_var
+		}
+		set_variable = {
+			name = curtiss_airplane_speed_record_var
+			value = var:new_airplane_speed_var
+		}
+		pilot_experience_gain_effect = { #if country record is broken, a total of 25 experience is added
+			AMOUNT = 25
+		}
+		aeronautical_engineer_experience_gain_effect = {
+			AMOUNT = 25
+		}
+	}
+	if = {
+		limit = {
+			var:new_airplane_speed_var > global_var:curtiss_airplane_speed_record_global_var
+		}
+		set_global_variable = {
+			name = curtiss_airplane_speed_record_global_var
+			value = var:new_airplane_speed_var
+		}
+		set_global_variable = {
+			name = curtiss_airplane_speed_record_holder_global_var
+			value = root
+		}
+		save_scope_as = curtiss_record_breaking_country
+
+		if = {
+			limit = { NOT = { has_modifier = curtiss_airplane_speed_record_modifier } }
+			every_country = { #removes modifier from old country
+				limit = {
+					has_modifier = curtiss_airplane_speed_record_modifier
+				}
+				post_notification = curtiss_speed_record_broken_notification
+				remove_modifier = curtiss_airplane_speed_record_modifier
+			}
+			add_modifier = { #adds modifier to new country
+				name = curtiss_airplane_speed_record_modifier
+			}
+		}
+
+		pilot_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
+			AMOUNT = 50
+		}
+		aeronautical_engineer_experience_gain_effect = {
+			AMOUNT = 50
+		}
+	}
+}
+
+curtiss_airplane_country_speed_record_experience_only_world_record_effect = { #only used for the first flight event
+	if = {
+		limit = {
+			NOT = {
+				has_variable = curtiss_airplane_speed_record_var
+			}
+		}
+		set_variable = {
+			name = curtiss_airplane_speed_record_var
+			value = var:new_airplane_speed_var
+		}
+	}
+	if = {
+		limit = {
+			var:new_airplane_speed_var > var:curtiss_airplane_speed_record_var
+		}
+		set_variable = {
+			name = curtiss_airplane_speed_record_var
+			value = var:new_airplane_speed_var
+		}
+	}
+	if = {
+		limit = {
+			var:new_airplane_speed_var > global_var:curtiss_airplane_speed_record_global_var
+		}
+		set_global_variable = {
+			name = curtiss_airplane_speed_record_global_var
+			value = var:new_airplane_speed_var
+		}
+		set_global_variable = {
+			name = curtiss_airplane_speed_record_holder_global_var
+			value = root
+		}
+		save_scope_as = curtiss_record_breaking_country
+
+		if = {
+			limit = { NOT = { has_modifier = curtiss_airplane_speed_record_modifier } }
+			every_country = { #removes modifier from old country
+				limit = {
+					has_modifier = curtiss_airplane_speed_record_modifier
+				}
+				post_notification = curtiss_speed_record_broken_notification
+				remove_modifier = curtiss_airplane_speed_record_modifier
+			}
+			add_modifier = { #adds modifier to new country
+				name = curtiss_airplane_speed_record_modifier
+			}
+		}
+
+		pilot_experience_gain_effect = { #if world record is broken, a total of 50 experience is added
+			AMOUNT = "50"
+		}
+	}
+}
