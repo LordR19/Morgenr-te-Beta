@@ -17624,6 +17624,8 @@ curtiss.700 = {
 		var:gaudi_engineer_var = {
 			save_scope_as = gaudi_engineer_scope
 		}
+		###Name Creation###
+
 		#Sets up a variable that sets the Letter of the Test Airplane
 		set_variable = {
 			name = curtiss_testplane_letter_randomizer_var
@@ -17659,6 +17661,76 @@ curtiss.700 = {
 		round_variable = {
 			name = curtiss_testplane_nick_randomizer_var
 			nearest = 1
+		}
+		###Airplane Creation###
+		remove_variable = curtiss_testplane_biplane_var
+		remove_variable = curtiss_testplane_triplane_var
+		remove_variable = curtiss_testplane_monoplane_var
+		remove_variable = curtiss_testplane_airplane_var
+		remove_variable = curtiss_testplane_seaplane_var
+		remove_variable = curtiss_testplane_metal_var
+		remove_variable = curtiss_testplane_wood_var
+		#remove_variable = curtiss_testplane_jet_var
+		remove_variable = curtiss_testplane_radial_var
+		remove_variable = curtiss_testplane_rotary_var
+		#Type of Airplane: Biplane, Triplane, Monoplane
+		if = {
+			limit = {
+				has_technology_researched = curtiss_modern_aviation_tech
+			}
+			set_variable = curtiss_testplane_monoplane_var
+		}
+		else = {
+			random_list = {
+				7 = { set_variable = curtiss_testplane_biplane_var }
+				2 = { set_variable = curtiss_testplane_triplane_var }
+				1 = { set_variable = curtiss_testplane_monoplane_var }
+			}
+		}
+		#Seaplane or airplane
+		if = {
+			limit = {
+				has_technology_researched = curtiss_seaplanes_tech
+				any_scope_state = {
+					is_incorporated = yes
+					any_scope_building = {
+						is_building_type = building_port
+					}
+				}
+			}
+			random_list = {
+				6 = { set_variable = curtiss_testplane_seaplane_var }
+				4 = { set_variable = curtiss_testplane_airplane_var }
+			}
+		}
+		else = {
+			set_variable = curtiss_testplane_airplane_var
+		}
+		#Material
+		if = {
+			limit = {
+				has_technology_researched = arc_welding
+			}
+			set_variable = curtiss_testplane_metal_var
+		}
+		else = {
+			set_variable = curtiss_testplane_wood_var
+		}
+		#Engine
+		#if = {
+		#	limit = {
+		#		has_technology_researched = curtiss_jet_engine_tech
+		#	}
+		#	set_variable = curtiss_testplane_jet_var
+		#}
+		if = {
+			limit = {
+				has_technology_researched = verrier_modern_physics_tech
+			}
+			set_variable = curtiss_testplane_radial_var
+		}
+		else = {
+			set_variable = curtiss_testplane_rotary_var
 		}
 	}
 
