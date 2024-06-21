@@ -17608,9 +17608,10 @@ curtiss.700 = {
 
 	duration = 3
 		
-	gui_window = event_window_1char_tabloid
+	gui_window = event_window_2char
 
 	left_icon = scope:gaudi_engineer_scope
+	right_icon = scope:curtiss_pilot_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
@@ -17621,9 +17622,16 @@ curtiss.700 = {
 	}
 
 	immediate = {
+		#Scope the characters
 		var:gaudi_engineer_var = {
 			save_scope_as = gaudi_engineer_scope
 		}
+		var:curtiss_pilot_var = {
+			save_scope_as = curtiss_pilot_scope
+		}
+		#Remove Cost Modifier
+		remove_modifier = curtiss_testplane_cost_modifier
+
 		###Test Speed###
 		curtiss_test_airplane_speed_effect = yes
 
@@ -17737,8 +17745,363 @@ curtiss.700 = {
 		}
 	}
 
-	option = { #Bravissimo
+	option = { #Get the plane ready for takeoff!
 		name = curtiss.700.g
+		random_list = {
+			30 = {
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_pilot_scope = {
+								has_trait = curtiss_pilot_fighter
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_pilot_scope = {
+								var:curtiss_pilot_experience >= 300
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_pilot_scope = {
+								var:curtiss_pilot_experience >= 200
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_pilot_scope = {
+								var:curtiss_pilot_experience >= 100
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_pilot_scope = {
+								has_modifier = curtiss_schneider_veteran_modifier
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_pilot_scope = {
+								has_trait = brave
+							}
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							is_ai = yes
+						}
+					}
+					add = 1000 #The AI shouldn't lose pilots
+				}
+				trigger_event = {
+					id = curtiss.701 #Successful Test Flight
+					days = 3
+					popup = yes
+				}
+			}
+			5 = {
+				modifier = {
+					if = {
+						limit = {
+							var:test_airplane_speed_var > 100
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:test_airplane_speed_var > 200
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:test_airplane_speed_var > 300
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:test_airplane_speed_var > 400
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:test_airplane_speed_var > 500
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:test_airplane_speed_var > 600
+						}
+					}
+					add = 10
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_pilot_scope = {
+								OR = {
+									has_trait = wounded
+									has_trait = opium_addiction
+									has_trait = psychological_affliction
+								}
+							}
+						}
+					}
+					add = 5
+				}
+				modifier = {
+					if = {
+						limit = {
+							scope:curtiss_pilot_scope = {
+								OR = {
+									has_trait = shellshocked
+									has_trait = senile
+									has_trait = alcoholic
+								}
+							}
+						}
+					}
+					add = 10
+				}
+				trigger_event = {
+					id = curtiss.702 #Test flight ends in catastrophe
+					days = 3
+					popup = yes
+				}
+			}
+		}
+	}
+
+	option = { #This is too risky!
+		name = curtiss.700.h
+		trigger = {
+			is_player = yes
+		}
+		scope:gaudi_engineer_scope= {
+			set_character_busy_and_immortal = yes
+		}
+		scope:curtiss_pilot_scope = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	after = {
+	}
+}
+
+#Curtiss 701: Successful Test 
+curtiss.701 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				curtiss_speed_record_country_broken_trigger = no
+			}
+			desc = curtiss.701.t1
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_speed_record_country_broken_trigger = yes
+				curtiss_speed_record_global_broken_trigger = no
+			}
+			desc = curtiss.701.t2
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_speed_record_global_broken_trigger = yes
+			}
+			desc = curtiss.701.t3
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				curtiss_speed_record_country_broken_trigger = no
+			}
+			desc = curtiss.701.d1
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_speed_record_country_broken_trigger = yes
+				curtiss_speed_record_global_broken_trigger = no
+			}
+			desc = curtiss.701.d2
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_speed_record_global_broken_trigger = yes
+			}
+			desc = curtiss.701.d3
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				curtiss_speed_record_country_broken_trigger = no
+			}
+			desc = curtiss.701.f1
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_speed_record_country_broken_trigger = yes
+				curtiss_speed_record_global_broken_trigger = no
+			}
+			desc = curtiss.701.f2
+		}
+		triggered_desc = {
+			trigger = {
+				curtiss_speed_record_global_broken_trigger = yes
+			}
+			desc = curtiss.701.f3
+		}
+	}
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:scope:curtiss_pilot_scope
+
+	icon = "gfx/interface/icons/event_icons/event_ballooning.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#triggered by on_action in journal entry
+		has_variable = curtiss_balloonist_var
+		NOT = { #only happens if player wants to see results.
+			has_variable = curtiss_no_balloonist_flight_events
+		}
+	}
+
+	immediate = {
+		curtiss_airplane_country_speed_record_effect = yes
+
+		var:curtiss_pilot_var = {
+			save_scope_as = curtiss_pilot_scope
+		}
+	}
+
+	option = {	#Was it the plane or the pilot?
+		name = curtiss.701.g
+		default_option = yes
+
+		trigger = {
+			curtiss_speed_record_country_broken_trigger = no
+		}
+
+		gaudi_aeronautical_engineering_small_add_technology = yes
+		curtiss_airplane_country_speed_record_effect = yes
+	}
+
+	option = {	#That was satisfactory, but not enough.
+		name = curtiss.701.h
+
+		trigger = {
+			curtiss_speed_record_country_broken_trigger = yes
+			curtiss_speed_record_global_broken_trigger = no
+		}
+
+		gaudi_aeronautical_engineering_medium_add_technology = yes
+		curtiss_airplane_country_speed_record_effect = yes
+	}
+
+	option = {	#Wonderful! Congratulations!
+		name = curtiss.701.i
+
+		trigger = {
+			curtiss_speed_record_global_broken_trigger = yes
+		}
+
+		gaudi_aeronautical_engineering_large_add_technology = yes
+		curtiss_airplane_country_speed_record_effect = yes
+	}
+}
+
+#Curtiss 702: Test flight ends in catastrophe
+curtiss.702 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = curtiss.702.t
+
+	desc = curtiss.702.d
+
+	flavor = curtiss.702.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/curtiss_pictures/curtiss_hercules_8.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_aviation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/unspecific/airplane"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curtiss_pilot_var = {
+			save_scope_as = curtiss_pilot_scope
+		}
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = {	#No. No! Noooo!
+		name = curtiss.702.g
+		default_option = yes
+		kill_pilot_effect = yes
+		scope:gaudi_engineer_scope= {
+			set_character_busy_and_immortal = yes
+		}
 	}
 
 	after = {
