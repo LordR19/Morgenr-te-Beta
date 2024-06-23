@@ -1183,3 +1183,45 @@ mr_aeronautical_engineer_giant_airplane_button = {
 		}
 	}
 }
+
+#MR_AERONAUTICAL_ENGINEER_SPEED_AIRPLANE_BUTTON
+mr_aeronautical_engineer_speed_airplane_button = {
+	scope = country
+	is_shown = {
+		gaudi_has_aeronautical_engineer_trigger = yes
+		NOT = {
+			has_modifier = curtiss_testplane_cost_modifier
+		}
+	}
+	is_valid = {
+		gaudi_has_active_engineer = yes
+		curtiss_has_pilot = yes
+		custom_tooltip = {
+			text = MR_AERONAUTICAL_ENGINEER_NO_RECORD_TECH_TRIGGER_TT
+			NOT = {
+				has_modifier = curtiss_airplane_speed_record_modifier
+			}
+		}
+		custom_tooltip = {
+			text = MR_AERONAUTICAL_ENGINEER_COMBUSTION_ENGINE_TECH_TRIGGER_TT
+			has_technology_researched = combustion_engine
+		}
+		custom_tooltip = {
+			text = MR_ELECTRICAL_ENGINEER_MILITARY_AVIATION_TECH_TRIGGER_TT
+			has_technology_researched = military_aviation
+		}
+		curtiss_has_war_machine_industry_size_x_tooltip_trigger = { LEVEL = 1 }
+	}
+	effect = {
+		add_journal_entry = {
+        	type = je_curtiss_testplane_build
+        }
+		add_modifier = {
+			name = curtiss_testplane_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+		var:gaudi_engineer_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
