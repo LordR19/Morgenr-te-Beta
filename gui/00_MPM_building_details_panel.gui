@@ -1,0 +1,471 @@
+# COPY-PASTED FOR NOW
+@panel_width_minus_10 = 530			# used to be 450
+@panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
+@panel_width_plus_10 = 550  		# used to be 470
+@panel_width_plus_14 = 554			# used to be 474
+@panel_width_plus_14_half = 277		# used to be 237
+@panel_width_plus_20 = 560			# used to be 480
+@panel_width_plus_30 = 570			# used to be 490
+@panel_width_plus_70 = 610			# used to be 530
+
+types building_panels
+{
+	type condensed_building_information = flowcontainer {
+		direction = vertical
+		parentanchor = hcenter
+		datacontext = "[Building.AccessState]"
+
+		block "animated_building_controls_trigger" {
+			onmousehierarchyenter = "[PdxGuiWidget.FindChild('building_goto').InterruptThenTriggerAnimation('hide_building_goto','show_building_goto')]"
+			onmousehierarchyleave = "[PdxGuiWidget.FindChild('building_goto').InterruptThenTriggerAnimation('show_building_goto','hide_building_goto')]"
+			onmousehierarchyenter = "[PdxGuiWidget.FindChild('building_controls').InterruptThenTriggerAnimation('hide_building_controls','show_building_controls')]"
+			onmousehierarchyleave = "[PdxGuiWidget.FindChild('building_controls').InterruptThenTriggerAnimation('show_building_controls','hide_building_controls')]"
+		}
+
+		alwaystransparent = no
+
+		### EXPAND / SUBSIDIZE ETC
+		container = {
+			minimumsize = { @panel_width -1 }
+
+			block "background" {
+				background = {
+					using = entry_bg_simple
+				}
+			}
+
+			flowcontainer = {
+				margin = { 4 4 }
+				flowcontainer = {
+					direction = vertical
+					spacing = 8
+					parentanchor = top
+
+					### DOWNSIZE / EXPAND
+					building_level_controls = {
+						blockoverride "controller_size" {
+							size = { 130 35 }
+						}
+					}
+
+					### BUILD PROGRESS
+					flowcontainer = {
+						visible = "[Building.HasConstructionQueued]"
+						margin_bottom = 4
+						using = default_list_position
+
+						default_progressbar_horizontal = {
+							tooltip = "BUILDING_PROGRESS_TOOLTIP"
+							size = { 110 5 }
+
+							blockoverride "values" {
+								value = "[Building.GetConstructionProgressPercentage]"
+								min = 0
+								max = 1
+							}
+						}
+					}
+				}
+
+				flowcontainer = {
+					parentanchor = top
+					margin_left = 5
+					margin_right = 7
+					margin_top = 7
+					spacing = 5
+
+					block "state_name" {
+						textbox = {
+							text = "[Building.GetState.GetName]"
+							autoresize = yes
+							parentanchor = vcenter
+							align = nobaseline
+							max_width = 90
+							elide =  right
+						}
+					}	
+
+					button_icon_goto = {
+						parentanchor = vcenter
+						alpha = 0
+						name = building_goto
+
+						state = {
+							name = show_building_goto
+							delay = 0.15
+							alpha = 1
+							duration = 0.15
+							using = Animation_Curve_Default
+						}
+						state = {
+							name = hide_building_goto
+							alpha = 0
+							duration = 0
+							using = Animation_Curve_Default
+						}
+
+						size = { 28 28 }
+						onclick = "[InformationPanelBar.OpenBuildingDetailsPanel(Building.AccessSelf)]"
+						tooltip = "GO_TO_BUTTON_BUILDING"
+					}
+				}
+			}
+
+
+			### ACTION BUTTONS
+			flowcontainer = {
+				parentanchor = right|top
+				spacing = 10
+				margin = { 4 4 }
+
+				flowcontainer = {
+
+					block "animated_building_controls" {
+						alpha = 0
+						name = building_controls
+
+						state = {
+							name = show_building_controls
+							delay = 0.15
+							alpha = 1
+							duration = 0.15
+							using = Animation_Curve_Default
+						}
+						state = {
+							name = hide_building_controls
+							alpha = 0
+							duration = 0
+							using = Animation_Curve_Default
+						}
+					}
+
+					### NATIONALIZE
+					building_nationalize_button = {}
+
+					widget = { size = { 5 5 }}
+
+					vertical_divider = {}
+
+					widget = { size = { 5 5 }}
+
+					### PRIVATIZE
+					building_privatize_toggle = {}
+
+					### SUBSIDIZE
+					widget = {
+						visible = "[Building.GetBuildingType.CanBeSubsidized]"
+						size = { 35 35 }
+						icon = {
+							using = rotate_glow_blue
+							size = { 130% 130% }
+							visible = "[And(Building.GetBuildingType.CanBeSubsidized,Building.IsSubsidized)]"
+							alwaystransparent = yes
+							parentanchor = center
+							using = default_fade_in_out
+						}
+						button_icon_round_action = {
+							size = { 100% 100% }
+							visible = "[And(Building.GetBuildingType.CanBeSubsidized,Building.IsSubsidized)]"
+							enabled = "[IsValid( Building.ToggleSubsidies )]"
+							onclick = "[Execute( Building.ToggleSubsidies )]"
+							tooltip = SUBSIDIZED_YES
+							using = icon_toggle_single_off_sound
+
+							blockoverride "icon" {
+								texture = "gfx/interface/production_methods/subsidized.dds"
+							}
+							blockoverride "icon_size" {
+								size = { 80% 80% }
+							}
+						}
+
+						button_icon_round_action = {
+							size = { 100% 100% }
+							visible = "[And(Building.GetBuildingType.CanBeSubsidized,Not(Building.IsSubsidized))]"
+							enabled = "[IsValid( Building.ToggleSubsidies )]"
+							onclick = "[Execute( Building.ToggleSubsidies )]"
+							tooltip = SUBSIDIZED_NO
+							using = icon_toggle_single_on_sound
+
+							blockoverride "icon" {
+								texture = "gfx/interface/production_methods/subsidized_not.dds"
+							}
+							blockoverride "icon_size" {
+								size = { 80% 80% }
+							}
+						}
+					}
+
+					### AUTOEXPAND
+					building_auto_expand = {}
+				}
+
+				flowcontainer = {
+					visible = "[Not(IsDataModelEmpty(State.AccessStateRegion.AccessTraits))]"
+					datamodel = "[State.AccessStateRegion.AccessTraits]"
+					parentanchor = vcenter
+
+					item = {
+						icon = {
+							size = { 35 35 }
+							tooltip = TOOLTIP_STATE_TRAIT
+							onmousehierarchyenter = "[AccessHighlightManager.HighlightStateTrait(StateTrait.Self)]"
+							onmousehierarchyleave = "[AccessHighlightManager.RemoveHighlight]"
+							alwaystransparent = no
+							texture = "[StateTrait.GetTexture]"
+						}
+					}
+				}
+
+				### TIMED MODIFIERS
+				flowcontainer = {
+					parentanchor = vcenter
+					margin = { 5 0 }
+					visible = "[Not(IsDataModelEmpty(Building.GetTimedModifiers))]"
+
+					datamodel = "[Building.GetTimedModifiers]"
+					spacing = 5
+
+					item = {
+						icon = {
+							tooltip = "[TimedModifier.GetTooltip]"
+							texture = "[TimedModifier.GetIcon]"
+							size = { 30 30 }
+						}
+					}
+				}
+
+				block "productivity" {
+					textbox = {
+						visible = "[And(Not(Building.IsGovernmentFunded), Not(Building.IsSubsistenceBuilding))]"
+						using = productivity_tooltip_with_graph
+						raw_text = "@money![Building.GetAverageAnnualEarningsPerEmployeeFormatted|+]"
+						align = hcenter|nobaseline
+						autoresize = yes
+						parentanchor = vcenter
+						margin_right = 10
+					}
+				}
+			}
+		}
+
+		block "divider" {}
+
+		### PMS / EMPLOYMENT / CASH RESERVES
+		flowcontainer = {
+			minimumsize = { @panel_width 80 }
+            direction = vertical
+			container = {
+				# parentanchor = vcenter # MPM
+                minimumsize = { @panel_width 80 } # MPM
+
+				flowcontainer = {
+					parentanchor = vcenter
+					margin_left = 2
+					
+					condensed_building_information_pms = {
+						blockoverride "pms_slot_sizes" {
+							addcolumn = 72
+							addrow = 70
+						}
+						blockoverride "pms_minimumsize" {
+							minimumsize = { 208 -1 }
+						}
+						blockoverride "pms_item_size" {
+							size = { 70 70 }
+						}
+					}
+				}
+
+				block "extra_items_in_production_methods_list" {}
+                
+                building_progressbars = { # MPM - Moved inside of the container
+                    position = { -5 0 }
+                    parentanchor = right|vcenter
+
+                    blockoverride "progressbar_size" {
+                        size = { 230 26 }
+                    }
+                }
+			}
+            
+            container = { # MPM
+                visible = "[GreaterThan_int32(GetDataModelSize(Building.AccessProductionMethodGroups), '(int32)4')]"
+                
+                flowcontainer = {
+                    parentanchor = vcenter
+                    margin_left = 2
+                    
+                    MPM_condensed_building_information_pms_row_2 = {
+                        blockoverride "pms_slot_sizes" {
+							addcolumn = 72
+							addrow = 75 # MPM - Up from 70
+						}
+						blockoverride "pms_minimumsize" {
+							minimumsize = { 208 -1 }
+						}
+						blockoverride "pms_item_size" {
+							size = { 70 70 }
+						}
+                    }
+                }
+            }
+            
+            widget = { # MPM - Spacer
+                minimumsize = { 100% 5 }
+            }
+		}
+	}
+    
+    type condensed_building_information_pms = fixedgridbox {
+		name = "tutorial_highlight_condensed_production_methods"
+		datamodel = "[DataModelFirst(Building.AccessProductionMethodGroups, '(int32)4')]" # MPM - Only first 4
+		flipdirection = yes
+
+		block "pms_slot_sizes" {
+			addcolumn = 52
+			addrow = 50
+		}
+		parentanchor = vcenter
+
+		block "pms_minimumsize" {
+			minimumsize = { 208 -1 }
+		}
+
+		item = {
+			widget = {
+				block "pms_item_size" {
+					size = { 50 50 }
+				}
+				datacontext = "[Building.AccessProductionMethod(ProductionMethodGroup.Self)]"
+				datacontext = "[ProductionMethod]"
+				datacontext = "[Building]"
+				datacontext = "[ProductionMethodGroup]"
+				using = tooltip_above
+				tooltip = "CHANGE_FROM_CURRENT_PRODUCTION_METHOD_TOOLTIP"
+
+				button = {
+					visible = "[NotEqualTo_int32( GetDataModelSize( ProductionMethodGroup.AccessBuildingProductionMethods( Building.Self ) ), '(int32)1' )]"
+					using = expand_button_bg_dropdown
+					size = { 100% 100% }
+					onclick = "[RightClickMenuManager.ToggleSwitchProductionMethodMenu(Building.AccessSelf, ProductionMethodGroup.AccessSelf, PdxGuiWidget.AccessSelf)]"
+				}
+
+				icon = {
+					size = { 80% 80% }
+					parentanchor = center
+					texture = "[ProductionMethod.GetTexture]"
+				}
+
+				### new pm
+				has_new_pm_icon = {
+					position = { -2 2 }
+					parentanchor = bottom|left
+					blockoverride "visible" {
+						visible = "[And(Building.IsOwner( GetPlayer.Self ), GetPlayer.HasNewProductionMethodInSameGroup( Building.GetBuildingType.Self, ProductionMethod.Self ))]"
+					}
+				}
+
+				### nr available
+				textbox = {
+					raw_text = "#P #bold [ProductionMethodGroup.GetNumAvailableOptions(Building.AccessSelf)]#!#!"
+					parentanchor = top|right
+					position = { -5 0 }
+					autoresize = yes
+					align = right|nobaseline
+					block "pms_number_visibility" {
+						visible = "[NotEqualTo_int32( ProductionMethodGroup.GetNumAvailableOptions(Building.AccessSelf), '(int32)1')]"
+					}
+					tooltip = "PRODUCTION_METHOD_OPTIONS"
+					using = tooltip_above
+					using = fontsize_small
+
+					background = {
+						using = default_background
+						margin = { 8 4 }
+
+					}
+				}
+			}
+		}
+	}
+    
+    # Duplicate of `condensed_building_information_pms` but skips first 4 instead
+    type MPM_condensed_building_information_pms_row_2 = fixedgridbox {
+        name = "tutorial_highlight_condensed_production_methods"
+		datamodel = "[DataModelSkipFirst(Building.AccessProductionMethodGroups, '(int32)4')]" # MPM - Skip first 4
+		flipdirection = yes
+        
+        block "pm_wrap" {
+            datamodel_wrap = 7 # MPM
+        }
+
+		block "pms_slot_sizes" {
+			addcolumn = 52
+			addrow = 50
+		}
+		parentanchor = vcenter
+
+		block "pms_minimumsize" {
+			minimumsize = { 208 -1 }
+		}
+
+		item = {
+			widget = {
+				block "pms_item_size" {
+					size = { 50 50 }
+				}
+				datacontext = "[Building.AccessProductionMethod(ProductionMethodGroup.Self)]"
+				datacontext = "[ProductionMethod]"
+				datacontext = "[Building]"
+				datacontext = "[ProductionMethodGroup]"
+				using = tooltip_above
+				tooltip = "CHANGE_FROM_CURRENT_PRODUCTION_METHOD_TOOLTIP"
+
+				button = {
+					visible = "[NotEqualTo_int32( GetDataModelSize( ProductionMethodGroup.AccessBuildingProductionMethods( Building.Self ) ), '(int32)1' )]"
+					using = expand_button_bg_dropdown
+					size = { 100% 100% }
+					onclick = "[RightClickMenuManager.ToggleSwitchProductionMethodMenu(Building.AccessSelf, ProductionMethodGroup.AccessSelf, PdxGuiWidget.AccessSelf)]"
+				}
+
+				icon = {
+					size = { 80% 80% }
+					parentanchor = center
+					texture = "[ProductionMethod.GetTexture]"
+				}
+
+				### new pm
+				has_new_pm_icon = {
+					position = { -2 2 }
+					parentanchor = bottom|left
+					blockoverride "visible" {
+						visible = "[And(Building.IsOwner( GetPlayer.Self ), GetPlayer.HasNewProductionMethodInSameGroup( Building.GetBuildingType.Self, ProductionMethod.Self ))]"
+					}
+				}
+
+				### nr available
+				textbox = {
+					raw_text = "#P #bold [ProductionMethodGroup.GetNumAvailableOptions(Building.AccessSelf)]#!#!"
+					parentanchor = top|right
+					position = { -5 0 }
+					autoresize = yes
+					align = right|nobaseline
+					block "pms_number_visibility" {
+						visible = "[NotEqualTo_int32( ProductionMethodGroup.GetNumAvailableOptions(Building.AccessSelf), '(int32)1')]"
+					}
+					tooltip = "PRODUCTION_METHOD_OPTIONS"
+					using = tooltip_above
+					using = fontsize_small
+
+					background = {
+						using = default_background
+						margin = { 8 4 }
+
+					}
+				}
+			}
+		}
+	}
+}
