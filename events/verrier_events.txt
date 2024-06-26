@@ -188,6 +188,8 @@ namespace = verrier
 #Verrier 9004: Niagara Falls ice bridge collapsed - several fatalities
 #Verrier 9005: The ice at Niagara Falls has melted
 #Verrier 9010: The Sound of Science
+#Verrier 9020: Pultusk meteor shower happens
+#Verrier 9021: Pultusk astronomer decides to study the meteor
 
 #################################################################################
 
@@ -9155,3 +9157,112 @@ verrier.9010 = {
 		}
 	}
 }
+
+#Verrier 9020: Pulkuts meteor shower happens
+
+verrier.9020 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.9020.t
+	desc = verrier.9020.d
+	flavor = verrier.9020.f
+
+	duration = 1 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger { 
+		verrier_astronomical_observation = yes
+		trigger_if = {
+			
+			NOT {
+				has_variable = verrier_pultusk_event_var
+			}
+			current_game_date = 1868.30.1 #yyyy.mm.dd
+			STATE_MAZOVIA{
+				owner = root
+			}
+		}
+	}
+		
+	option = { #"What a wonderful view!"
+		name = verrier.9020.g 
+		verrier_add_x_astronomical_objects_effect = {
+			random_list = {
+				2 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 5 }} #17%
+				3 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 4 }} #25%
+				4 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 3 }} #33%
+				2 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 2 }} #17%
+				1 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }} #8%
+			}
+			
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_pultusk_event_var
+	}
+
+	after = {
+		if{
+			limit = {verrier_has_astronomer = yes}
+			trigger_event = {
+				id = verrier.9021
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 9021: Pultusk astronomer decides to study the meteor
+
+verrier.9021 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.9021.t
+	desc = verrier.9021.d
+	flavor = verrier.9021.f
+
+	duration = 1 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger {
+	}	
+
+	option{ #"Our astronomer must give all the meteoroids to our Academy of science!"
+		name = verrier.9021.g
+		default_option = yes
+		verrier_small_add_technology = yes
+	}
+			
+	option{ #Astronomer can study one of the meteorites
+		name = verrier.9021.h 
+		astronomer_experience_gain_effect = {
+			AMOUNT = 20 #adds 20 experience to the astronomer
+		}
+		verrier_add_x_astronomical_objects_effect = {
+			amount = -1
+		}
+	}	
+}	
