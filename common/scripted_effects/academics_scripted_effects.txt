@@ -9035,6 +9035,246 @@ geologist_experience_gain_effect = { #adds XP to the Geologist
 	}
 }
 
+######Chemist######
+
+#Effect to kill the current Chemist
+# !!! Change stuff in both of the following effects !!!
+kill_chemist_effect = {
+	var:mendelejew_chemist_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = mendelejew_chemist_var
+}
+#This Effect retires the current Chemist
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_chemist_effect = {
+	custom_tooltip = {
+		text = retire_chemist_effect_tt
+
+		var:mendelejew_chemist_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = mendelejew_chemist_var
+}
+
+# Creates a new Chemist without losing the old one
+create_new_chemist_effect = {
+	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		1 = { #Random Chemist (fallback and to make it uncertain for historical once to appear)
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						trait_generation = {}
+						save_scope_as = mendelejew_new_chemist_scope
+					}
+					scope:mendelejew_new_chemist_scope = {
+						add_trait = mendelejew_chemist
+						set_variable = mr_is_chemist_var
+						mr_trait_generation_chemist_effect = yes
+						chemist_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = mendelejev_new_chemist_var
+						value = scope:mendelejew_new_chemist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						trait_generation = {}
+						save_scope_as = mendelejew_new_chemist_scope
+					}
+					scope:mendelejew_new_chemist_scope = {
+						add_trait = mendelejew_chemist
+						set_variable = mr_is_chemist_var
+						mr_trait_generation_chemist_effect = yes
+						chemist_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = mendelejev_new_chemist_var
+						value = scope:mendelejew_new_chemist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var:mendelejev_new_chemist_var = {
+		save_scope_as = mendelejew_new_chemist_scope
+	}
+}
+
+# Set new Chemist as official Chemist
+mendelejew_set_new_chemist_as_chemist_effect = {
+	custom_tooltip = {
+		text = mendelejew_replace_chemist_with_new_chemist_tt
+	
+		if = {
+			limit = {
+				has_variable = mendelejew_chemist_var
+			}
+			var:mendelejew_chemist_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = mendelejew_chemist_var
+			value = scope:mendelejew_new_chemist_scope
+		}
+	}
+}
+
+# Remove new Chemist
+mendelejew_remove_new_chemist_effect = {
+	scope:mendelejew_new_chemist_scope = {
+		free_character_from_void = no
+	}
+}
+
+# Used to set up the Experience of a character
+chemist_experience_set_up_effect = {
+	#Adds chemist experience (see effect for further information)
+	general_experience_set_up_effect = {
+		TYPE = mendelejew_chemist_experience
+		UNI_PM = pm_dubois_university_mathematics
+	}
+	
+	if = { #Adds the Experienced Astronomer Trait if Experience is above 100
+		limit = {
+			var:mendelejew_chemist_experience >= 100
+			NOT = {
+				var:mendelejew_chemist_experience >= 300
+			}
+			NOR = {
+				has_trait = mendelejew_chemist_experienced
+				has_trait = mendelejew_chemist_famous
+			}
+		}
+		remove_trait = mendelejew_chemist
+		add_trait = mendelejew_chemist_experienced
+	}
+	if = { #Adds the Famous Astronomer Trait if Experience is above 300
+		limit = {
+			var:mendelejew_chemist_experience >= 300
+			NOT = {
+				has_trait = mendelejew_chemist_famous
+			}
+		}
+		remove_trait = mendelejew_chemist
+		remove_trait = mendelejew_chemist_experienced
+		add_trait = mendelejew_chemist_famous
+	}
+}
+
+
+#Chemist Experience gain
+chemist_experience_gain_effect = { #adds XP to the Chemist
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = mendelejew_chemist_var #should only add experience if there actually is an Chemist
+		}
+		custom_tooltip = {
+			text = mendelejew_chemist_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:mendelejew_chemist_var = { #Fallback to make sure there are no errors if the Chemist does not have the variable yet
+							has_variable = mendelejew_chemist_experience
+						}
+					}
+				}
+				var:mendelejew_chemist_var = { #Sets the experience in case it was not set yet
+					chemist_experience_set_up_effect = yes
+				}
+			}
+			var:mendelejew_chemist_var = {
+				change_variable = {
+					name = mendelejew_chemist_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:mendelejew_chemist_var = {
+			if = {
+				limit = {
+					var:mendelejew_chemist_experience >= 100
+					NOT = {
+						var:mendelejew_chemist_experience >= 300
+					}
+					NOR = {
+						has_trait = mendelejew_chemist_experienced
+						has_trait = mendelejew_chemist_famous
+					}
+				}
+				root = {
+					trigger_event = {
+						id = academics.114
+						popup = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					var:mendelejew_chemist_experience >= 300
+					NOT = {
+						has_trait = mendelejew_chemist_famous
+					}
+				}
+				root = {
+					trigger_event = {
+						id = academics.115
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
+
 ##########################################################################
 
 ######ACADEMIC FOCUS######
