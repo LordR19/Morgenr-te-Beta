@@ -9,7 +9,243 @@
 
 ######NATIONALIZATION CALCULATION######
 
+###ITALY###
 
+#This is just a copy of the original effect for the moment
+nationalization_italy_set_national_identity_vars = {
+	set_variable = { name = national_identity_progress_from_igs value = 0 }
+	set_variable = { name = national_identity_progress_from_wars value = 0 }
+	set_variable = { name = national_identity_progress_from_universities value = 0 }
+	set_variable = { name = national_identity_progress_from_prestige value = 0 }
+	set_variable = { name = national_identity_progress_from_homelands value = 0 }
+	set_variable = { name = national_identity_progress_var_add value = 0 }
+	set_variable = { name = ig_weight value = 0 }
+}
+
+#This is just a copy of the original effect for the moment
+nationalization_italy_calculate_national_identity_progress = {
+	set_variable = { name = national_identity_progress_var_next value = 0 }
+	set_variable = { name = national_identity_progress_from_igs value = 0 }
+
+	# From Interest Groups
+	every_interest_group = {
+		limit = {
+			OR = {
+				has_ideology = ideology:ideology_patriotic
+				has_ideology = ideology:ideology_liberal
+				has_ideology = ideology:ideology_liberal_modern
+			}
+		}
+		ROOT = {
+			set_variable = { name = ig_weight value = prev.ig_clout }
+		}
+		if = {
+			limit = {
+				is_in_government = yes
+			}
+			ROOT = {
+				change_variable = { name = ig_weight multiply = 3 }
+			}
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_igs add = var:ig_weight }
+		}
+	}
+
+	#Wars
+	set_variable = { name = national_identity_progress_from_wars value = 0 }
+	every_scope_war = {
+		limit = {
+			has_war_support = { target = root value > 50 }
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_wars add = 0.50 }
+		}
+	}
+	every_scope_war = {
+		limit = {
+			has_war_support = { target = root value <= 50 }
+			has_war_support = { target = root value > 25 }
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_wars add = 0.25 }
+		}
+	}
+	every_scope_war = {
+		limit = {
+			has_war_support = { target = root value <= 25 }
+			has_war_support = { target = root value > 0 }
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_wars add = 0.10 }
+		}
+	}
+
+	#Buildings
+	set_variable = { name = national_identity_progress_from_universities value = 0 }
+	every_scope_building = {
+		limit = {
+			OR = {
+				is_building_type = building_arts_academy
+				is_building_type = building_university
+				is_building_type = building_government_administration
+			}
+			occupancy >= 0.75
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_universities add = prev.level }
+		}
+	}
+	change_variable = { name = national_identity_progress_from_universities divide = 25 }
+
+	set_variable = { name = national_identity_progress_from_prestige value = 0 }
+
+	#Prestige
+	ROOT = {
+		change_variable = { name = national_identity_progress_from_prestige add = root.prestige }
+	}
+	change_variable = { name = national_identity_progress_from_prestige divide = 100 }
+
+	set_variable = { name = national_identity_progress_from_homelands value = 0 }
+
+	#Homelands
+	every_scope_state = {
+		limit = {
+			NOT = {
+				is_homeland_of_country_cultures = ROOT
+			}
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_homelands subtract = 0.25 }
+		}
+	}
+
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_igs }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_wars }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_universities }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_prestige }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_homelands }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_var_add }
+}
+
+###GERMANY###
+
+#This is just a copy of the original effect for the moment
+nationalization_germany_set_national_identity_vars = {
+	set_variable = { name = national_identity_progress_from_igs value = 0 }
+	set_variable = { name = national_identity_progress_from_wars value = 0 }
+	set_variable = { name = national_identity_progress_from_universities value = 0 }
+	set_variable = { name = national_identity_progress_from_prestige value = 0 }
+	set_variable = { name = national_identity_progress_from_homelands value = 0 }
+	set_variable = { name = national_identity_progress_var_add value = 0 }
+	set_variable = { name = ig_weight value = 0 }
+}
+
+#This is just a copy of the original effect for the moment
+nationalization_germany_calculate_national_identity_progress = {
+	set_variable = { name = national_identity_progress_var_next value = 0 }
+	set_variable = { name = national_identity_progress_from_igs value = 0 }
+
+	# From Interest Groups
+	every_interest_group = {
+		limit = {
+			OR = {
+				has_ideology = ideology:ideology_patriotic
+				has_ideology = ideology:ideology_liberal
+				has_ideology = ideology:ideology_liberal_modern
+			}
+		}
+		ROOT = {
+			set_variable = { name = ig_weight value = prev.ig_clout }
+		}
+		if = {
+			limit = {
+				is_in_government = yes
+			}
+			ROOT = {
+				change_variable = { name = ig_weight multiply = 3 }
+			}
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_igs add = var:ig_weight }
+		}
+	}
+
+	#Wars
+	set_variable = { name = national_identity_progress_from_wars value = 0 }
+	every_scope_war = {
+		limit = {
+			has_war_support = { target = root value > 50 }
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_wars add = 0.50 }
+		}
+	}
+	every_scope_war = {
+		limit = {
+			has_war_support = { target = root value <= 50 }
+			has_war_support = { target = root value > 25 }
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_wars add = 0.25 }
+		}
+	}
+	every_scope_war = {
+		limit = {
+			has_war_support = { target = root value <= 25 }
+			has_war_support = { target = root value > 0 }
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_wars add = 0.10 }
+		}
+	}
+
+	#Buildings
+	set_variable = { name = national_identity_progress_from_universities value = 0 }
+	every_scope_building = {
+		limit = {
+			OR = {
+				is_building_type = building_arts_academy
+				is_building_type = building_university
+				is_building_type = building_government_administration
+			}
+			occupancy >= 0.75
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_universities add = prev.level }
+		}
+	}
+	change_variable = { name = national_identity_progress_from_universities divide = 25 }
+
+	set_variable = { name = national_identity_progress_from_prestige value = 0 }
+
+	#Prestige
+	ROOT = {
+		change_variable = { name = national_identity_progress_from_prestige add = root.prestige }
+	}
+	change_variable = { name = national_identity_progress_from_prestige divide = 100 }
+
+	set_variable = { name = national_identity_progress_from_homelands value = 0 }
+
+	#Homelands
+	every_scope_state = {
+		limit = {
+			NOT = {
+				is_homeland_of_country_cultures = ROOT
+			}
+		}
+		ROOT = {
+			change_variable = { name = national_identity_progress_from_homelands subtract = 0.25 }
+		}
+	}
+
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_igs }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_wars }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_universities }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_prestige }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_from_homelands }
+	change_variable = { name = national_identity_progress_var_next add = var:national_identity_progress_var_add }
+}
 
 # Multiplies the National Identity Progress by a multiplier defined in "nationalization_script_values"
 nationalization_multiply_national_identity_progress_year_effect = {
