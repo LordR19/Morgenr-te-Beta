@@ -7,26 +7,119 @@
 
 ############################
 
-#NOTE: Italian Nationalization under Manzoni
+#####ITALIANIZATION######
 
-
-#####GERMANIZATION######
-
-je_nationalization_germanization = {
-	icon = "gfx/interface/icons/event_icons/event_germany.dds"
+je_nationalization_italianization = {
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
 
 	group = je_group_internal_affairs
 
 	is_shown_when_inactive = {
-		c:GER ?= ROOT
+		c:ITA ?= ROOT
 		hidden_trigger = {
-			always = no
-			#has_game_rule = manzoni_united_cultures_rule
+			is_player = yes
 		}
 	}
 
 	possible = {
 		has_technology_researched = nationalism
+		OR = {
+			institution_investment_level = {
+				institution = institution_schools
+				value >= 2
+			}
+			has_law = law_type:law_national_militia
+			has_law = law_type:law_mass_conscription
+		}
+		hidden_trigger = {
+			is_player = yes
+		}
+	}
+
+	immediate = {
+		set_variable = { name = national_identity_progress_var value = 0 }
+		nationalization_italy_set_national_identity_vars = yes
+		nationalization_italy_calculate_national_identity_progress = yes
+		nationalization_multiply_national_identity_progress_year_effect = yes
+	}
+
+	on_weekly_pulse = {
+		effect = {
+			nationalization_italy_calculate_national_identity_progress = yes
+			nationalization_multiply_national_identity_progress_year_effect = yes
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = { name = national_identity_progress_var add = var:national_identity_progress_var_next }
+		}
+
+		random_events = {
+			120 = 0
+			5 = nationalization.12 #Nationalization 12: Brigants in $STATE$
+			5 = nationalization.13 #Nationalization 13: Fear for regional heritage
+			5 = nationalization.14 #Nationalization 14: Dialects or languages?
+			15 = nationalization.15 #Nationalization 15: Ugo Foscolo
+			15 = nationalization.18 #Nationalization 18: Italian Opera Culture
+			15 = nationalization.19 #Nationalization 19: Dante Cult
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		remove_modifier = nationalization_disunited_italy_modifier
+		artists_add_x_artistic_progress = {
+			AMOUNT = 100
+		}
+		dubois_add_x_academy_progress = {
+			AMOUNT = 50
+		}
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = root.var:national_identity_progress_var
+	}
+
+	goal_add_value = {
+		add = 250
+	}
+
+	weight = 100
+
+	progressbar = yes
+
+	should_be_pinned_by_default = yes
+}
+
+je_nationalization_italianization_ai = { #AI should do this more often regarding perfomance issues
+	icon = "gfx/interface/icons/event_icons/event_italy.dds"
+
+	group = je_group_internal_affairs
+
+	is_shown_when_inactive = {
+		c:ITA ?= ROOT
+		hidden_trigger = {
+			is_player = no
+		}
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+		hidden_trigger = {
+			is_player = no
+		}
 	}
 
 	immediate = {
@@ -47,10 +140,82 @@ je_nationalization_germanization = {
 		effect = {
 			change_variable = { name = national_identity_progress_var add = var:national_identity_progress_var_next }
 		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		remove_modifier = manzoni_disunited_italy
+		artists_add_x_artistic_progress = {
+			AMOUNT = 100
+		}
+		dubois_add_x_academy_progress = {
+			AMOUNT = 50
+		}
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	current_value = {
+		value = root.var:national_identity_progress_var
+	}
+
+	goal_add_value = {
+		add = 200
+	}
+
+	weight = 100
+
+	progressbar = yes
+
+	should_be_pinned_by_default = yes
+}
+
+#####GERMANIZATION######
+
+je_nationalization_germanization = {
+	icon = "gfx/interface/icons/event_icons/event_germany.dds"
+
+	group = je_group_internal_affairs
+
+	is_shown_when_inactive = {
+		c:GER ?= ROOT
+	}
+
+	possible = {
+		has_technology_researched = nationalism
+	}
+
+	immediate = {
+		set_variable = { name = national_identity_progress_var value = 0 }
+		nationalization_germany_set_national_identity_vars = yes
+		nationalization_germany_calculate_national_identity_progress = yes
+		nationalization_multiply_national_identity_progress_year_effect = yes
+	}
+
+	on_weekly_pulse = {
+		effect = {
+			nationalization_germany_calculate_national_identity_progress = yes
+			nationalization_multiply_national_identity_progress_year_effect = yes
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = { name = national_identity_progress_var add = var:national_identity_progress_var_next }
+		}
 
 		random_events = {
 			120 = 0
-			25 = nationalization.111 #Nationalization 111: Character becomes German
+			#25 = nationalization.111 #Nationalization 111: Character becomes German
 			15 = nationalization.112 #Nationalization 112: German Culture
 			15 = nationalization.113 #Nationalization 113: German Monuments
 		}
@@ -63,40 +228,12 @@ je_nationalization_germanization = {
 	}
 
 	on_complete = {
-		custom_tooltip = {
-			text = nationalization_german_consiousness_capital_tt
-			clear_national_identity_vars = yes
-			add_primary_culture = cu:united_german
-			remove_primary_culture = cu:north_german
-			remove_primary_culture = cu:south_german
-			capital.state_region = {
-				add_homeland = cu:united_german
-				remove_homeland = cu:north_german
-				remove_homeland = cu:south_german
-				region_state:GER = {
-					every_scope_pop = {
-						limit = {
-							culture = cu:north_german
-						}
-						change_pop_culture = {
-							target = cu:united_german
-							value = 1
-						}
-					}
-					every_scope_pop = {
-						limit = {
-							culture = cu:south_german
-						}
-						change_pop_culture = {
-							target = cu:united_german
-							value = 1
-						}
-					}
-				}
-			}
-			add_journal_entry = {
-				type = je_nationalization_german_national_identity
-			}
+		remove_modifier = nationalization_disunited_germany_modifier
+		artists_add_x_artistic_progress = {
+			AMOUNT = 100
+		}
+		dubois_add_x_academy_progress = {
+			AMOUNT = 50
 		}
 	}
 
