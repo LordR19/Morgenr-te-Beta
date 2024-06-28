@@ -14,3 +14,8 @@ Changes
 Fixes
 - Fixed Professor not showing up in the "Professor Criticizes Voting System"-Event.
 - Fixed NULL_STATE in Radio [SCOPE.sState('radio_state').GetName] Event.
+
+
+NEW:
+Fixes
+- Fixed Lu Xun's name.
