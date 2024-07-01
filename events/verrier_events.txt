@@ -188,8 +188,13 @@ namespace = verrier
 #Verrier 9004: Niagara Falls ice bridge collapsed - several fatalities
 #Verrier 9005: The ice at Niagara Falls has melted
 #Verrier 9010: The Sound of Science
+
 #Verrier 9020: Pultusk meteor shower happens
 #Verrier 9021: Pultusk astronomer decides to study the meteor
+#Verrier 9022: Holbrok meteor fall happens
+#Verrier 9023: Holbrok astronomer decides to study the meteor
+#Verrier 9024: Cape York meteorite found by scientist
+#Verrier 9025: Cape York astronomer decides to study the meteor
 
 #################################################################################
 
@@ -2149,6 +2154,9 @@ verrier.42 = {
 		verrier_small_add_technology = yes
 		astronomer_experience_gain_effect = {
 			AMOUNT = 5
+		}
+		verrier_add_x_meteorites_effect = {
+			AMOUNT = 1
 		}
 	}
 
@@ -9193,11 +9201,10 @@ verrier.9020 = {
 	option = { #"What a wonderful view!"
 		name = verrier.9020.g 
 		random_list = {
-			2 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 5 } } #17%
-			3 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 4 } } #25%
-			4 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 3 } } #33%
-			2 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 2 } } #17%
-			1 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 } } #8%
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 5 } } #13%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 3 } } #50%
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 2 } } #13%
 		}
 	}
 	
@@ -9253,8 +9260,181 @@ verrier.9021 = {
 		astronomer_experience_gain_effect = {
 			amount = 20 #adds 20 experience to the astronomer
 		}
-		verrier_add_x_astronomical_objects_effect = {
+		verrier_add_x_meteorites_effect = {
 			amount = -1
 		}
 	}	
 }	
+
+#Verrier 9022: Holbrok meteor shower happens
+
+verrier.9022 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.9022.t
+	desc = verrier.9022.d
+	flavor = verrier.9022.f
+
+	duration = 1 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = { 
+		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_holbrok_event_var
+		}
+		year >= 1912
+		has_state_in_state_region = STATE_ARIZONA
+	}
+		
+	option = { #"What a wonderful view!"
+		name = verrier.9022.g 
+		random_list = {
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 5 } } #13%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 3 } } #50%
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 2 } } #13%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_holbrok_event_var
+	}
+
+	after = {
+		if = {
+			limit = {verrier_has_astronomer = yes}
+			trigger_event = {
+				id = verrier.9023
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 9023: Holbrok astronomer decides to study the meteor
+
+verrier.2023{
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.9023.t
+	desc = verrier.9023.d
+	flavor = verrier.9023.f
+
+	duration = 1 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}	
+
+
+}
+
+
+#Verrier 9024: Cape York meteorite found by scientist
+
+verrier.9024 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.9024.t
+	desc = verrier.9024.d
+	flavor = verrier.9024.f
+
+	duration = 1 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = { 
+		verrier_astronomical_observation = yes
+		NOT = {
+			has_variable = verrier_cape_york_event_var
+		}
+		year >= 1894
+		has_state_in_state_region = STATE_GREENLAND
+	}
+		
+	option = { #"What a wonderful view!"
+		name = verrier.9024.g 
+		random_list = {
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 5 } } #13%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 3 } } #50%
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 2 } } #13%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_cape_york_event_var
+	}
+
+	after = {
+		if = {
+			limit = {verrier_has_astronomer = yes}
+			trigger_event = {
+				id = verrier.9025
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 9025: Cape York astronomer decides to study the meteor
+
+verrier.9025 {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.9025.t
+	desc = verrier.9025.d
+	flavor = verrier.9025.f
+
+	duration = 1 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}	
+
+
+}
