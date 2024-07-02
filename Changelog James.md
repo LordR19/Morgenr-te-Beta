@@ -10,6 +10,10 @@ Pop Needs
 Buy Package
 - Completely new buy package for entertainment need. It begins with wealth 10.
 
+Obsessions
+- Removed Print obsession from North German, South German and Alemannic
+- Removed Fine Art obsession from French
+
 Production Methods
 - Reworked output in the Publishing Industry (old output).
 - Printing Press now gives 25 (20)
