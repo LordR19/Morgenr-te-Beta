@@ -46,5 +46,9 @@ Buildings at game start
 - Added a publishing industry in Moscow
 - Added a publishing industry in Catalonia
 
+Nationalization
+- Game rule for culture fusion completely removed
+- After national unity, Germany and Italy receive a negative administration modifier, which they get rid of in the course of a journal entry
+
 Fixes
 - Fixed Lu Xun's name.
