@@ -6,7 +6,7 @@
 
 #################
 
-fullscreen_block_window = {
+mr_fullscreen_block_window = {
 	name = "mr_main_science_and_culture_window"
 
 	parentanchor = top|hcenter
@@ -17,6 +17,14 @@ fullscreen_block_window = {
 	alwaystransparent = no
 	
 	visible = "[GetScriptedGui('mr_main_window_visible_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	state = {
+		name = _show
+		on_finish = "[GetVariableSystem.Set( 'com_fullscreen')]"
+	}
+	state = {
+		name = _hide
+		on_finish = "[GetVariableSystem.Clear( 'com_fullscreen')]"
+	}
 
 	blockoverride "back_button_fullscreen" {
 		blockoverride "button_close"
@@ -30,6 +38,10 @@ fullscreen_block_window = {
 			onclick = "[GetScriptedGui('mr_main_window_toggle_off_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 			input_action = "back"
 		}
+	}
+
+	blockoverride "close_button_onclick" {
+		onclick = "[GetScriptedGui('mr_main_window_toggle_off_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 	}
 
 	blockoverride "animation_state_block" {
