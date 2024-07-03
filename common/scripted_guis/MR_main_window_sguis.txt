@@ -2,11 +2,8 @@
 
 #by Lord R
 
-#Window Variable Trigger and Toggle
-mr_main_window_toggle_sgui = {
-	is_shown = {
-		has_variable = mr_main_window_is_active_var
-	}
+#Window Variable to Toggle through the main windows
+mr_main_window_toggle_through_sgui = {
 	effect = {
 		if = {
 			limit = {
@@ -14,10 +11,45 @@ mr_main_window_toggle_sgui = {
 					has_variable = mr_main_window_is_active_var
 				}
 			}
-			set_variable = mr_main_window_is_active_var
+			set_variable = {
+				name = mr_main_window_is_active_var
+				value = 1
+			}
 		}
 		else = {
-			remove_variable = mr_main_window_is_active_var
+			if = {
+				limit = {
+					var:mr_main_window_is_active_var < 3
+				}
+				change_variable = {
+					name = mr_main_window_is_active_var
+					add = 1
+				}
+			}
+			else = {
+				set_variable = {
+					name = mr_main_window_is_active_var
+					value = 0
+				}
+			}
+		}
+	}
+}
+
+mr_main_window_toggle_off_sgui = {
+	effect = {
+		set_variable = {
+			name = mr_main_window_is_active_var
+			value = 0
+		}
+	}
+}
+
+mr_main_window_visible_sgui = {
+	is_shown = {
+		has_variable = mr_main_window_is_active_var
+		NOT = {
+			var:mr_main_window_is_active_var = 0
 		}
 	}
 }
