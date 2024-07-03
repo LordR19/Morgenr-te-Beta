@@ -14,15 +14,26 @@ Obsessions
 - Removed Print obsession from North German, South German and Alemannic
 - Removed Fine Art obsession from French
 
-Production Methods
+Production Methods (Publishing Industry)
 - Reworked output in the Publishing Industry (old output).
 - Printing Press now gives 25 (20)
 - Cylindric Press now gives 40 (60)
 - Rotary Press now gives 65 (200)
 - Linotype Press now gives 100 (300)
 
+Production Methods (Observatory)
+- Chemistry Lab PMG starts with Pre-Modern Chemistry instead of No Chemistry. Activated with Distillation.
+- Added Cyclotron as fourth PM to the Chemistry Lab PMG. Activated with Nuclear Physics.
+
 Technology
 - Russia and Spain start with Mass Communication.
+
+Nationalization
+- Game rule for culture fusion completely removed
+- After national unity, Germany and Italy receive a negative administration modifier, which they get rid of in the course of a journal entry
+
+Fixes
+- Fixed Lu Xun's name.
 
 Buildings at game start
 - All opera houses start with Early Romantic Orchestra (if possible)
@@ -45,10 +56,3 @@ Buildings at game start
 - Added a publishing industry in Ingria
 - Added a publishing industry in Moscow
 - Added a publishing industry in Catalonia
-
-Nationalization
-- Game rule for culture fusion completely removed
-- After national unity, Germany and Italy receive a negative administration modifier, which they get rid of in the course of a journal entry
-
-Fixes
-- Fixed Lu Xun's name.
