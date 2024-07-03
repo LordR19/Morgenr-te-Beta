@@ -17,9 +17,11 @@ mr_fullscreen_block_window = {
 	alwaystransparent = no
 	
 	visible = "[GetScriptedGui('mr_main_window_visible_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+	#This is necessary to remove the overlay even if the scripted button is used.
+	#It uses the community variable to hide and show the overlay if the window is open/closed
 	state = {
 		name = _show
-		on_finish = "[GetVariableSystem.Set( 'com_fullscreen', 'com_fullscreen')]"
+		on_finish = "[GetVariableSystem.Set( 'com_fullscreen', 'com_fullscreen')]" #Toggle doesn't work here as it is still toggled on reload, so I have to set it instead
 	}
 	state = {
 		name = _hide
@@ -27,6 +29,7 @@ mr_fullscreen_block_window = {
 	}
 
 	blockoverride "back_button_fullscreen" {
+		#This just removes deactivates the whole window.
 		blockoverride "button_close"
 		{
 			onclick = "[GetScriptedGui('mr_main_window_toggle_off_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
