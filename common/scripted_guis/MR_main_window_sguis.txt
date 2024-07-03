@@ -16,6 +16,16 @@ mr_main_window_toggle_through_sgui = {
 				value = 1
 			}
 		}
+		if = {
+			limit = {
+				has_variable = mr_main_window_last_active_tab_var
+				var:mr_main_window_is_active_var = 0
+			}
+			set_variable = {
+				name = mr_main_window_is_active_var
+				value = var:mr_main_window_last_active_tab_var
+			}
+		}
 		else = {
 			if = {
 				limit = {
@@ -33,11 +43,16 @@ mr_main_window_toggle_through_sgui = {
 				}
 			}
 		}
+		remove_variable = mr_main_window_last_active_tab_var
 	}
 }
 
 mr_main_window_toggle_off_sgui = {
 	effect = {
+		set_variable = {
+			name = mr_main_window_last_active_tab_var
+			value = var:mr_main_window_is_active_var
+		}
 		set_variable = {
 			name = mr_main_window_is_active_var
 			value = 0
