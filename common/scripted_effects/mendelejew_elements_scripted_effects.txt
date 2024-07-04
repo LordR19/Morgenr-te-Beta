@@ -5,36 +5,47 @@
 ######THEORY OF ELEMENTS######
 
 #Effect to add a theorized element
-mendelejew_add_theorized_element = {
+mendelejew_add_theorized_element_effect = {
+	#NUMBER --> Number of the Element in the Periodic Table
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	#Actual Effect
 	if = {
 		limit = {
 			NOT = {
-				has_global_variable = mendelejew_theorized_element_$NUMBER$_var
+				has_global_variable = mendelejew_theorized_element_$NUMBER$_global_var
 			}
 		}
-		set_global_variable = mendelejew_theorized_element_$NUMBER$_var
-		set_global_variable = {
-			name = mendelejew_theorized_element_$NUMBER$_country_global_var
-			value = this
-		}
-		country_definition = {
+		custom_tooltip = {
+			text = mendelejew_add_theorized_element_effect_tt
+
 			set_global_variable = {
-				name = mendelejew_theorized_element_$NUMBER$_global_var
+				name = mendelejew_theorized_element_$NUMBER$_country_global_var
 				value = this
 			}
-		}
-		change_global_variable = {
-			name = mendelejew_theorized_elements_global_number
-			add = 1
-		}
-		change_variable = {
-			name = mendelejew_theorized_elements_country_number
-			add = 1
-		}
-		var:mendelejew_chemist_var ?= {
-			change_variable = {
-				name = mendelejew_theorized_elements_character_number
+			country_definition = {
+				set_global_variable = {
+					name = mendelejew_theorized_element_$NUMBER$_global_var
+					value = this
+				}
+			}
+			change_global_variable = {
+				name = mendelejew_theorized_elements_global_number_var
 				add = 1
+			}
+			change_variable = {
+				name = mendelejew_theorized_elements_country_number_var
+				add = 1
+			}
+			var:mendelejew_chemist_var ?= {
+				change_variable = {
+					name = mendelejew_theorized_elements_character_number_var
+					add = 1
+				}
 			}
 		}
 	}
