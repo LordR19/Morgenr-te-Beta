@@ -7,21 +7,21 @@
 #Effect to add theorized, discovered and isolated elements in 1836 [MORGENRÖTE]
 mendelejew_set_elements_in_1836_effect = {
 	#Theorized
-	set_global_variable = mendelejew_theorized_element_9_fluorine_var
+	set_global_variable = mendelejew_theorized_element_9_country_global_var
 	#Discovered
-	set_global_variable = mendelejew_discovered_element_92_uranium_var
+	set_global_variable = mendelejew_discovered_element_92_country_global_var
 	#Isolated
-	set_global_variable = mendelejew_isolated_element_6_carbon_var
+	set_global_variable = mendelejew_isolated_element_6_country_global_var
 }
 
 #Effect to add theorized, discovered and isolated elements in 1736 [BASILEIA]
 mendelejew_set_elements_in_1736_effect = {
 	#Theorized
-	set_global_variable = mendelejew_theorized_element_20_calcium_var
+	set_global_variable = mendelejew_theorized_element_20_country_global_var
 	#Discovered
-	set_global_variable = mendelejew_discovered_element_19_potassium_var
+	set_global_variable = mendelejew_discovered_element_19_country_global_var
 	#Isolated
-	set_global_variable = mendelejew_isolated_element_6_carbon_var
+	set_global_variable = mendelejew_isolated_element_6_country_global_var
 }
 
 ############################################################################################################################################
@@ -811,97 +811,3 @@ mendelejew_large_add_technology = {
 }
 
 ################################################################################################################################################
-
-######ADD ELEMENTS#######
-
-###Theoretical Element###
-
-#Effect to add a theorized element
-mendelejew_add_theorized_element = {
-
-	###Post game theoretical Elements (With Cyclotron)###
-	if = {
-		limit = {
-			any_scope_building = {
-				has_active_production_method = pm_mendelejew_cyclotron
-			}
-		}
-		mendelejew_add_postgame_theorized_element = yes
-	}
-	###Late game theoretical Elements (With Modern Physics)###
-	else_if = {
-		limit = {
-			any_scope_building = {
-				has_active_production_method = pm_mendelejew_spectroscopy
-				has_active_production_method = pm_curie_physics_modern
-			}
-		}
-		mendelejew_add_lategame_theorized_element = yes
-	}
-	###Mid game theoretical Element###
-	else_if = {
-		limit = {
-			any_scope_building = {
-				has_active_production_method = pm_mendelejew_spectroscopy
-			}
-			NOT = {
-				any_scope_building = {
-					has_active_production_method = pm_curie_physics_modern
-				}
-			}
-		}
-		mendelejew_add_midgame_theorized_element = yes
-	}
-	###Early game theoretical Element###
-	else_if = {
-		limit = {
-			any_scope_building = {
-				has_active_production_method = pm_mendelejew_chemistry
-			}
-		}
-		mendelejew_add_earlygame_theorized_element = yes
-	}
-	###Pre-game theoretical Element###
-	else_if = {
-		limit = {
-			any_scope_building = {
-				has_active_production_method = pm_mendelejew_chemistry_classical
-			}
-		}
-		mendelejew_add_pregame_theorized_element = yes
-	}
-}
-
-###Discovered Element###
-
-#Effect to add a discovered element
-mendelejew_add_discovered_element = {
-
-	if = {
-		limit = {
-			has_variable = mendelejew_search_element_57_lanthanum_var
-		}
-		remove_variable = mendelejew_search_element_57_lanthanum_var
-		set_global_variable = {
-			name = mendelejew_discovered_element_57_lanthanum_country_global_var
-			value = this
-		}
-		country_definition = {
-			set_global_variable = {
-				name = mendelejew_discovered_element_57_lanthanum_global_var
-				value = this
-			}
-		}
-		change_global_variable = {
-			name = mendelejew_discovered_elements_global_number_global_var
-			add = 1
-		}
-		var:mendelejew_chemist_var = {
-			change_variable = {
-				name = mendelejew_discovered_elements_character_number_var
-				add = 1
-			}
-		}
-	}
-
-}
