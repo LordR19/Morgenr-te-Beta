@@ -34,7 +34,6 @@ Nationalization
 
 Fixes
 - Fixed Lu Xun's name.
-- Added a fallback for lepsius.404 in case the triggers don't work so you don't see Mr. Smiley.
 
 Buildings at game start
 - All opera houses start with Early Romantic Orchestra (if possible)
