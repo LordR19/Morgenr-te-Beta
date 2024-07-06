@@ -22,6 +22,28 @@ mendelejew_has_active_chemist_no_tooltip_trigger = {
 	}
 }
 
+#############################################################################################################
+
+###Theorized, Discovered, Isolated###
+
+#Trigger to check if a specific element was not theorized
+mendelejew_element_x_is_not_theorized_trigger = {
+	#NUMBER --> Number of the Element in the Periodic Table
+	hidden_trigger = {
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = value
+			value = $NUMBER$
+		}
+	}
+
+	custom_tooltip = {
+		text = mendelejew_element_x_is_not_theorized_tt
+		NOT = {
+			has_global_variable = mendelejew_theorized_element_$NUMBER$_global_var
+		}
+	}
+}
+
 #Trigger to check if a specific element was already theorized
 mendelejew_element_x_is_theorized_trigger = {
 	#NUMBER --> Number of the Element in the Periodic Table
@@ -33,12 +55,84 @@ mendelejew_element_x_is_theorized_trigger = {
 	}
 
 	custom_tooltip = {
-		text = mendelejew_element_x_is_theorized_trigger_tt
+		text = mendelejew_element_x_is_theorized_tt
 		has_global_variable = mendelejew_theorized_element_$NUMBER$_global_var
 	}
 }
 
-###Trigger to check when an element can be theorized
+#Trigger to check if a specific element was already theorized, but not discovered yet
+mendelejew_element_x_is_theorized_not_discovered_trigger = {
+	#NUMBER --> Number of the Element in the Periodic Table
+	hidden_trigger = {
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = value
+			value = $NUMBER$
+		}
+	}
+
+	custom_tooltip = {
+		text = mendelejew_element_x_is_theorized_not_discovered_tt
+		has_global_variable = mendelejew_theorized_element_$NUMBER$_global_var
+		NOT = {
+			has_global_variable = mendelejew_discovered_element_$NUMBER$_global_var
+		}
+	}
+}
+
+#Trigger to check if a specific element was already discovered
+mendelejew_element_x_is_discovered_trigger = {
+	#NUMBER --> Number of the Element in the Periodic Table
+	hidden_trigger = {
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = value
+			value = $NUMBER$
+		}
+	}
+
+	custom_tooltip = {
+		text = mendelejew_element_x_is_discovered_tt
+		has_global_variable = mendelejew_discovered_element_$NUMBER$_global_var
+	}
+}
+
+#Trigger to check if a specific element was already discovered, but not isolated yet
+mendelejew_element_x_is_discovered_not_isolated_trigger = {
+	#NUMBER --> Number of the Element in the Periodic Table
+	hidden_trigger = {
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = value
+			value = $NUMBER$
+		}
+	}
+
+	custom_tooltip = {
+		text = mendelejew_element_x_is_discovered_not_isolated_tt
+		has_global_variable = mendelejew_discovered_element_$NUMBER$_global_var
+		NOT = {
+			has_global_variable = mendelejew_isolated_element_$NUMBER$_global_var
+		}
+	}
+}
+
+#Trigger to check if a specific element was already isolated
+mendelejew_element_x_is_isolated_trigger = {
+	#NUMBER --> Number of the Element in the Periodic Table
+	hidden_trigger = {
+		save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+			name = value
+			value = $NUMBER$
+		}
+	}
+
+	custom_tooltip = {
+		text = mendelejew_element_x_is_isolated_tt
+		has_global_variable = mendelejew_isolated_element_$NUMBER$_global_var
+	}
+}
+
+##############################################################################################################################
+
+###Trigger to check when an element can be theorized###
 
 #Trigger for Post Game Elements
 mendelejew_theory_post_game_element_trigger = {
@@ -102,6 +196,178 @@ mendelejew_theory_early_game_element_trigger = {
 
 #Trigger for Pre-Game Elements
 mendelejew_theory_pre_game_element_trigger = {
+	OR = {
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_chemistry_classical
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_chemistry
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_spectroscopy
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_cyclotron
+		}
+	}
+}
+
+##############################################################################################################################
+
+###Trigger to check when an element can be discovered###
+
+#Trigger for Post Game Elements
+mendelejew_discovery_post_game_element_trigger = {
+	any_scope_building = {
+		is_building_type = building_verrier_observatory
+		has_active_production_method = pm_mendelejew_cyclotron
+	}
+}
+
+#Trigger for Late Game Elements
+mendelejew_discovery_late_game_element_trigger = {
+	OR = {
+		AND = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_mendelejew_spectroscopy
+			}
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curie_physics_modern
+			}
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_cyclotron
+		}
+	}
+}
+
+#Trigger for Mid Game Elements
+mendelejew_discovery_mid_game_element_trigger = {
+	OR = {
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_spectroscopy
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_cyclotron
+		}
+	}
+}
+
+#Trigger for Early Game Elements
+mendelejew_discovery_early_game_element_trigger = {
+	OR = {
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_chemistry
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_spectroscopy
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_cyclotron
+		}
+	}
+}
+
+#Trigger for Pre-Game Elements
+mendelejew_discovery_pre_game_element_trigger = {
+	OR = {
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_chemistry_classical
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_chemistry
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_spectroscopy
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_cyclotron
+		}
+	}
+}
+
+##############################################################################################################################
+
+###Trigger to check when an element can be isolated###
+
+#Trigger for Post Game Elements
+mendelejew_isolation_post_game_element_trigger = {
+	any_scope_building = {
+		is_building_type = building_verrier_observatory
+		has_active_production_method = pm_mendelejew_cyclotron
+	}
+}
+
+#Trigger for Late Game Elements
+mendelejew_isolation_late_game_element_trigger = {
+	OR = {
+		AND = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_mendelejew_spectroscopy
+			}
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_curie_physics_modern
+			}
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_cyclotron
+		}
+	}
+}
+
+#Trigger for Mid Game Elements
+mendelejew_isolation_mid_game_element_trigger = {
+	OR = {
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_spectroscopy
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_cyclotron
+		}
+	}
+}
+
+#Trigger for Early Game Elements
+mendelejew_isolation_early_game_element_trigger = {
+	OR = {
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_chemistry
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_spectroscopy
+		}
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			has_active_production_method = pm_mendelejew_cyclotron
+		}
+	}
+}
+
+#Trigger for Pre-Game Elements
+mendelejew_isolation_pre_game_element_trigger = {
 	OR = {
 		any_scope_building = {
 			is_building_type = building_verrier_observatory

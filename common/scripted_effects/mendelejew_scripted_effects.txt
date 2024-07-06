@@ -2,36 +2,11 @@
 # MENDELEJEW SCRPITED EFFECTS #
 ###############################
 
-######ELEMENTS AT BEGINNING######
-
-#Effect to add theorized, discovered and isolated elements in 1836 [MORGENRÖTE]
-mendelejew_set_elements_in_1836_effect = {
-	#Theorized
-	set_global_variable = mendelejew_theorized_element_9_country_global_var
-	#Discovered
-	set_global_variable = mendelejew_discovered_element_92_country_global_var
-	#Isolated
-	set_global_variable = mendelejew_isolated_element_6_country_global_var
-}
-
-#Effect to add theorized, discovered and isolated elements in 1736 [BASILEIA]
-mendelejew_set_elements_in_1736_effect = {
-	#Theorized
-	set_global_variable = mendelejew_theorized_element_20_country_global_var
-	#Discovered
-	set_global_variable = mendelejew_discovered_element_19_country_global_var
-	#Isolated
-	set_global_variable = mendelejew_isolated_element_6_country_global_var
-}
-
 ############################################################################################################################################
 
 ######ADD TECHNOLOGIES######
 
-###Add Technology###
-
 #Small Add
-
 mendelejew_small_add_technology = {
 	if = {
 		limit = { has_game_rule = mr_tech_normal_rule }
@@ -291,7 +266,6 @@ mendelejew_small_add_technology = {
 }
 
 #Medium Add
-
 mendelejew_medium_add_technology = {
 	if = {
 		limit = { has_game_rule = mr_tech_normal_rule }
@@ -551,7 +525,6 @@ mendelejew_medium_add_technology = {
 }
 
 #Large Add
-
 mendelejew_large_add_technology = {
 	if = {
 		limit = { has_game_rule = mr_tech_normal_rule }
@@ -810,4 +783,493 @@ mendelejew_large_add_technology = {
 	}
 }
 
-################################################################################################################################################
+############################################################################################################################################
+
+######ELEMENTS AT BEGINNING######
+
+#Effect to add theorized, discovered and isolated elements in 1836 [MORGENRÖTE]
+mendelejew_set_elements_in_1836_effect = {
+	#Theorized
+	set_global_variable = mendelejew_theorized_element_9_country_global_var
+	#Discovered
+	set_global_variable = mendelejew_discovered_element_92_country_global_var
+	#Isolated
+	set_global_variable = mendelejew_isolated_element_6_country_global_var
+}
+
+#Effect to add theorized, discovered and isolated elements in 1736 [BASILEIA]
+mendelejew_set_elements_in_1736_effect = {
+	#Theorized
+	set_global_variable = mendelejew_theorized_element_20_country_global_var
+	#Discovered
+	set_global_variable = mendelejew_discovered_element_19_country_global_var
+	#Isolated
+	set_global_variable = mendelejew_isolated_element_6_country_global_var
+}
+
+############################################################################################################################################
+
+######THEORY, DISCOVERY AND ISOLATION ELEMENTS######
+
+#Effect to add a specific theorized element
+mendelejew_add_theorized_element_effect = {
+	#NUMBER --> Number of the Element in the Periodic Table
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	#Actual Effect
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = mendelejew_theorized_element_$NUMBER$_global_var
+			}
+		}
+		set_global_variable = {
+			name = mendelejew_theorized_element_$NUMBER$_country_global_var
+			value = this
+		}
+		country_definition = {
+			set_global_variable = {
+				name = mendelejew_theorized_element_$NUMBER$_global_var
+				value = this
+			}
+		}
+		change_global_variable = {
+			name = mendelejew_theorized_elements_global_number_var
+			add = 1
+		}
+		change_variable = {
+			name = mendelejew_theorized_elements_country_number_var
+			add = 1
+		}
+		var:mendelejew_chemist_var ?= {
+			change_variable = {
+				name = mendelejew_theorized_elements_character_number_var
+				add = 1
+			}
+		}
+		set_variable = {
+			name = mendelejew_theorized_variable
+			value = $NUMBER$
+		}
+	}
+}
+
+#Effect to add a specific searched element
+mendelejew_add_searched_element_effect = {
+	#NUMBER --> Number of the Element in the Periodic Table
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	#Actual Effect
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = mendelejew_discovered_element_$NUMBER$_global_var
+			}
+		}
+		set_variable = {
+			name = mendelejew_searched_variable
+			value = $NUMBER$
+		}
+	}
+}
+
+#Effect to add the specific element which a chemist searched as a discovered element
+mendelejew_add_discovered_element_effect = {
+	#NUMBER --> Number of the Element in the Periodic Table
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = var:mendelejew_searched_variable
+	}
+
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = mendelejew_discovered_element_$NUMBER$_global_var
+			}
+		}
+		custom_tooltip = {
+			text = mendelejew_add_discovered_element_effect_tt
+			set_global_variable = {
+				name = mendelejew_discovered_element_$NUMBER$_country_global_var
+				value = this
+			}
+			country_definition = {
+				set_global_variable = {
+					name = mendelejew_discovered_element_$NUMBER$_global_var
+					value = this
+				}
+			}
+			change_global_variable = {
+				name = mendelejew_discovered_elements_global_number_var
+				add = 1
+			}
+			change_variable = {
+				name = mendelejew_discovered_elements_country_number_var
+				add = 1
+			}
+			var:mendelejew_chemist_var ?= {
+				change_variable = {
+					name = mendelejew_discovered_elements_character_number_var
+					add = 1
+				}
+			}
+		}
+	}
+}
+
+#Effect to add a specific examined element
+mendelejew_add_examined_element_effect = {
+	#NUMBER --> Number of the Element in the Periodic Table
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = $NUMBER$
+	}
+
+	#Actual Effect
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = mendelejew_isolated_element_$NUMBER$_global_var
+			}
+		}
+		set_variable = {
+			name = mendelejew_examined_variable
+			value = $NUMBER$
+		}
+	}
+}
+
+#Effect to add the specific element which a chemist examined as a isolated element
+mendelejew_add_isolated_element_effect = {
+	#NUMBER --> Number of the Element in the Periodic Table
+
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = value
+		value = var:mendelejew_examined_variable
+	}
+
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = mendelejew_isolated_element_$NUMBER$_global_var
+			}
+		}
+		set_global_variable = {
+			name = mendelejew_isolated_element_$NUMBER$_country_global_var
+			value = this
+		}
+		country_definition = {
+			set_global_variable = {
+				name = mendelejew_isolated_element_$NUMBER$_global_var
+				value = this
+			}
+		}
+		change_global_variable = {
+			name = mendelejew_isolated_elements_global_number_var
+			add = 1
+		}
+		change_variable = {
+			name = mendelejew_isolated_elements_country_number_var
+			add = 1
+		}
+		var:mendelejew_chemist_var ?= {
+			change_variable = {
+				name = mendelejew_isolated_elements_character_number_var
+				add = 1
+			}
+		}
+	}
+}
+
+############################################################################################################################################
+
+######LISTS OF ELEMENTS######
+
+#Effect to add a theorized element from List
+mendelejew_add_theorized_element_from_list_effect = {
+	random_list = {
+		###POST GAME ELEMENTS (1936-1946)###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 93 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 93 } mendelejew_theory_post_game_element_trigger = yes } } ###93, Neptunium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 94 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 94 } mendelejew_theory_post_game_element_trigger = yes } } ###94, Plutonium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 95 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 95 } mendelejew_theory_post_game_element_trigger = yes } } ###95, Americium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 96 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 96 } mendelejew_theory_post_game_element_trigger = yes } } ###96, Curium###
+		###LATE GAME ELEMENTS###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 43 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 43 } mendelejew_theory_late_game_element_trigger = yes } } ###43, Technetium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 61 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 61 } mendelejew_theory_late_game_element_trigger = yes } } ###61, Promethium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 72 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 72 } mendelejew_theory_late_game_element_trigger = yes } } ###72, Hafnium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 85 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 85 } mendelejew_theory_late_game_element_trigger = yes } } ###85, Astatine###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 87 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 87 } mendelejew_theory_late_game_element_trigger = yes } } ###87, Francium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 89 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 89 } mendelejew_theory_late_game_element_trigger = yes } } ###89, Actinium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 91 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 91 } mendelejew_theory_late_game_element_trigger = yes } } ###91, Proactinium###
+		###MID GAME ELEMENTS###
+		#1 = { mendelejew_add_theorized_element_effect = { NUMBER = 10 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 10 } mendelejew_theory_mid_game_element_trigger = yes } } ###10, Neon### Noble Gas
+		#1 = { mendelejew_add_theorized_element_effect = { NUMBER = 18 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 18 } mendelejew_theory_mid_game_element_trigger = yes } } ###18, Argon### Noble Gas
+		#1 = { mendelejew_add_theorized_element_effect = { NUMBER = 36 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 36 } mendelejew_theory_mid_game_element_trigger = yes } } ###36, Krypton### Noble Gas
+		#1 = { mendelejew_add_theorized_element_effect = { NUMBER = 54 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 54 } mendelejew_theory_mid_game_element_trigger = yes } } ###54, Xenon### Noble Gas
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 59 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 59 } mendelejew_theory_mid_game_element_trigger = yes } } ###59, Praesodymium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 63 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 63 } mendelejew_theory_mid_game_element_trigger = yes } } ###63, Europium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 64 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 64 } mendelejew_theory_mid_game_element_trigger = yes } } ###64, Gadolinium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 66 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 66 } mendelejew_theory_mid_game_element_trigger = yes } } ###66, Dysprosium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 71 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 71 } mendelejew_theory_mid_game_element_trigger = yes } } ###71, Lutetium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 75 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 75 } mendelejew_theory_mid_game_element_trigger = yes } } ###75, Rhenium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 84 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 84 } mendelejew_theory_mid_game_element_trigger = yes } } ###84, Polonium###
+		#1 = { mendelejew_add_theorized_element_effect = { NUMBER = 86 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 86 } mendelejew_theory_mid_game_element_trigger = yes } } ###86, Radon### Noble Gas
+		#1 = { mendelejew_add_theorized_element_effect = { NUMBER = 88 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 88 } mendelejew_theory_mid_game_element_trigger = yes } } ###88, Radium### Radium has a special event
+		###EARLY GAME ELEMENTS###
+		#1 = { mendelejew_add_theorized_element_effect = { NUMBER = 2 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 2 } mendelejew_theory_early_game_element_trigger = yes } } ###2, Helium### Helium has a special event
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 21 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 21 } mendelejew_theory_early_game_element_trigger = yes } } ###21, Scandium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 31 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 31 } mendelejew_theory_early_game_element_trigger = yes } } ###31, Gallium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 37 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 37 } mendelejew_theory_early_game_element_trigger = yes } } ###37, Rubidium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 49 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 49 } mendelejew_theory_early_game_element_trigger = yes } } ###49, Indium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 55 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 55 } mendelejew_theory_early_game_element_trigger = yes } } ###55, Caesium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 62 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 62 } mendelejew_theory_early_game_element_trigger = yes } } ###62, Samarium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 67 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 67 } mendelejew_theory_early_game_element_trigger = yes } } ###67, Holmium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 69 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 69 } mendelejew_theory_early_game_element_trigger = yes } } ###69, Thulium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 70 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 70 } mendelejew_theory_early_game_element_trigger = yes } } ###70, Ytterbium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 81 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 81 } mendelejew_theory_early_game_element_trigger = yes } } ###81, Thallium###
+		###PRE-GAME ELEMENTS###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 44 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 44 } mendelejew_theory_pre_game_element_trigger = yes } } ###44, Ruthenium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 57 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 57 } mendelejew_theory_pre_game_element_trigger = yes } } ###57, Lanthanum###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 60 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 60 } mendelejew_theory_pre_game_element_trigger = yes } } ###60, Neodymium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 65 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 65 } mendelejew_theory_pre_game_element_trigger = yes } } ###65, Terbium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 68 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 68 } mendelejew_theory_pre_game_element_trigger = yes } } ###68, Erbium###
+		###PRE-GAME ELEMENTS (1669-1836)###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 1 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 1 } mendelejew_theory_pre_game_element_trigger = yes } } ###1, Hydrogen
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 3 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 3 } mendelejew_theory_pre_game_element_trigger = yes } } ###3, Lithium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 4 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 4 } mendelejew_theory_pre_game_element_trigger = yes } } ###4, Beryllium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 5 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 5 } mendelejew_theory_pre_game_element_trigger = yes } } ###5, Boron###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 7 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 7 } mendelejew_theory_pre_game_element_trigger = yes } } ###7, Nitrogen###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 8 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 8 } mendelejew_theory_pre_game_element_trigger = yes } } ###8, Oxygen###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 9 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 9 } mendelejew_theory_pre_game_element_trigger = yes } } ###9, Fluorine###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 11 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 11 } mendelejew_theory_pre_game_element_trigger = yes } } ###11, Sodium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 12 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 12 } mendelejew_theory_pre_game_element_trigger = yes } } ###12, Magnesium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 13 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 13 } mendelejew_theory_pre_game_element_trigger = yes } } ###13, Aluminium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 14 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 14 } mendelejew_theory_pre_game_element_trigger = yes } } ###14, Silicon###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 15 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 15 } mendelejew_theory_pre_game_element_trigger = yes } } ###15, Phosphorus###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 17 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 17 } mendelejew_theory_pre_game_element_trigger = yes } } ###17, Chlorine###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 19 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 19 } mendelejew_theory_pre_game_element_trigger = yes } } ###19, Potassium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 20 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 20 } mendelejew_theory_pre_game_element_trigger = yes } } ###20, Calcium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 22 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 22 } mendelejew_theory_pre_game_element_trigger = yes } } ###22, Titanium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 23 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 23 } mendelejew_theory_pre_game_element_trigger = yes } } ###23, Vanadium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 24 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 24 } mendelejew_theory_pre_game_element_trigger = yes } } ###24, Chromium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 25 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 25 } mendelejew_theory_pre_game_element_trigger = yes } } ###25, Manganese###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 27 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 27 } mendelejew_theory_pre_game_element_trigger = yes } } ###27, Cobalt###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 28 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 28 } mendelejew_theory_pre_game_element_trigger = yes } } ###28, Nickel###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 34 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 34 } mendelejew_theory_pre_game_element_trigger = yes } } ###34, Selenium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 35 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 35 } mendelejew_theory_pre_game_element_trigger = yes } } ###35, Bromine###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 38 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 38 } mendelejew_theory_pre_game_element_trigger = yes } } ###38, Strontium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 39 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 39 } mendelejew_theory_pre_game_element_trigger = yes } } ###39, Yttrium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 40 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 40 } mendelejew_theory_pre_game_element_trigger = yes } } ###40, Zirconium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 41 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 41 } mendelejew_theory_pre_game_element_trigger = yes } } ###41, Niobium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 42 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 42 } mendelejew_theory_pre_game_element_trigger = yes } } ###42, Molybdenum###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 45 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 45 } mendelejew_theory_pre_game_element_trigger = yes } } ###45, Rhodium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 46 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 46 } mendelejew_theory_pre_game_element_trigger = yes } } ###46, Palladium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 48 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 48 } mendelejew_theory_pre_game_element_trigger = yes } } ###48, Cadmium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 52 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 52 } mendelejew_theory_pre_game_element_trigger = yes } } ###52, Tellurium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 53 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 53 } mendelejew_theory_pre_game_element_trigger = yes } } ###53, Iodine###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 56 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 56 } mendelejew_theory_pre_game_element_trigger = yes } } ###56, Barium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 58 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 58 } mendelejew_theory_pre_game_element_trigger = yes } } ###58, Cerium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 73 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 73 } mendelejew_theory_pre_game_element_trigger = yes } } ###73, Tantalum###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 74 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 74 } mendelejew_theory_pre_game_element_trigger = yes } } ###74, Tungsten###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 76 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 76 } mendelejew_theory_pre_game_element_trigger = yes } } ###76, Osmium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 77 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 77 } mendelejew_theory_pre_game_element_trigger = yes } } ###77, Iridium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 90 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 90 } mendelejew_theory_pre_game_element_trigger = yes } } ###90, Thorium###
+		1 = { mendelejew_add_theorized_element_effect = { NUMBER = 92 } trigger = { mendelejew_element_x_is_not_theorized_trigger = { NUMBER = 92 } mendelejew_theory_pre_game_element_trigger = yes } } ###92, Uranium###
+	}
+}
+
+#Effect to add a searched element from List
+mendelejew_add_searched_element_from_list_effect = {
+	random_list = {
+		###POST GAME ELEMENTS (1936-1946)###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 43 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 43 } mendelejew_discovery_post_game_element_trigger = yes } } ###43, Technetium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 61 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 61 } mendelejew_discovery_post_game_element_trigger = yes } } ###61, Promethium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 85 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 85 } mendelejew_discovery_post_game_element_trigger = yes } } ###85, Astatine###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 87 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 87 } mendelejew_discovery_post_game_element_trigger = yes } } ###87, Francium###
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 93 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 93 } mendelejew_discovery_post_game_element_trigger = yes } } ###93, Neptunium### Nuclear Reactor
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 94 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 94 } mendelejew_discovery_post_game_element_trigger = yes } } ###94, Plutonium### Nuclear Reactor
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 95 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 95 } mendelejew_discovery_post_game_element_trigger = yes } } ###95, Americium### Nuclear Reactor
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 96 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 96 } mendelejew_discovery_post_game_element_trigger = yes } } ###96, Curium### Nuclear Reactor
+		###LATE GAME ELEMENTS###
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 10 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 10 } mendelejew_discovery_late_game_element_trigger = yes } } ###10, Neon### Noble Gas
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 18 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 18 } mendelejew_discovery_late_game_element_trigger = yes } } ###18, Argon### Noble Gas
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 36 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 36 } mendelejew_discovery_late_game_element_trigger = yes } } ###36, Krypton### Noble Gas
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 54 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 54 } mendelejew_discovery_late_game_element_trigger = yes } } ###54, Xenon### Noble Gas
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 63 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 63 } mendelejew_discovery_late_game_element_trigger = yes } } ###63, Europium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 71 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 71 } mendelejew_discovery_late_game_element_trigger = yes } } ###71, Lutetium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 72 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 72 } mendelejew_discovery_late_game_element_trigger = yes } } ###72, Hafnium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 75 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 75 } mendelejew_discovery_late_game_element_trigger = yes } } ###75, Rhenium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 84 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 84 } mendelejew_discovery_late_game_element_trigger = yes } } ###84, Polonium###
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 86 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 86 } mendelejew_discovery_late_game_element_trigger = yes } } ###86, Radon### Noble Gas
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 88 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 88 } mendelejew_discovery_late_game_element_trigger = yes } } ###88, Radium### Radium has a special event
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 89 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 89 } mendelejew_discovery_late_game_element_trigger = yes } } ###89, Actinium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 91 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 91 } mendelejew_discovery_late_game_element_trigger = yes } } ###91, Proactinium###
+		###MID GAME ELEMENTS###
+		#1 = { mendelejew_add_searched_element_effect = { NUMBER = 2 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 2 } mendelejew_discovery_mid_game_element_trigger = yes } } ###2, Helium### Helium has a special event
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 21 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 21 } mendelejew_discovery_mid_game_element_trigger = yes } } ###21, Scandium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 31 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 31 } mendelejew_discovery_mid_game_element_trigger = yes } } ###31, Gallium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 32 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 32 } mendelejew_discovery_mid_game_element_trigger = yes } } ###32, Germanium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 37 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 37 } mendelejew_discovery_mid_game_element_trigger = yes } } ###37, Rubidium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 49 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 49 } mendelejew_discovery_mid_game_element_trigger = yes } } ###49, Indium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 55 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 55 } mendelejew_discovery_mid_game_element_trigger = yes } } ###55, Caesium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 59 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 59 } mendelejew_discovery_mid_game_element_trigger = yes } } ###59, Praesodymium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 62 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 62 } mendelejew_discovery_mid_game_element_trigger = yes } } ###62, Samarium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 64 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 64 } mendelejew_discovery_mid_game_element_trigger = yes } } ###64, Gadolinium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 66 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 66 } mendelejew_discovery_mid_game_element_trigger = yes } } ###66, Dysprosium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 67 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 67 } mendelejew_discovery_mid_game_element_trigger = yes } } ###67, Holmium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 69 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 69 } mendelejew_discovery_mid_game_element_trigger = yes } } ###69, Thulium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 70 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 70 } mendelejew_discovery_mid_game_element_trigger = yes } } ###70, Ytterbium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 81 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 81 } mendelejew_discovery_mid_game_element_trigger = yes } } ###81, Thallium###
+		###EARLY-GAME ELEMENTS###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 9 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 9 } mendelejew_discovery_early_game_element_trigger = yes } } ###9, Fluorine###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 44 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 44 } mendelejew_discovery_early_game_element_trigger = yes } } ###44, Ruthenium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 57 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 57 } mendelejew_discovery_early_game_element_trigger = yes } } ###57, Lanthanum###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 60 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 60 } mendelejew_discovery_early_game_element_trigger = yes } } ###60, Neodymium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 65 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 65 } mendelejew_discovery_early_game_element_trigger = yes } } ###65, Terbium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 68 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 68 } mendelejew_discovery_early_game_element_trigger = yes } } ###68, Erbium###
+		###PRE-GAME ELEMENTS (1669-1836)###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 1 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 1 } mendelejew_discovery_pre_game_element_trigger = yes } } ###1, Hydrogen
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 3 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 3 } mendelejew_discovery_pre_game_element_trigger = yes } } ###3, Lithium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 4 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 4 } mendelejew_discovery_pre_game_element_trigger = yes } } ###4, Beryllium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 5 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 5 } mendelejew_discovery_pre_game_element_trigger = yes } } ###5, Boron###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 7 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 7 } mendelejew_discovery_pre_game_element_trigger = yes } } ###7, Nitrogen###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 8 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 8 } mendelejew_discovery_pre_game_element_trigger = yes } } ###8, Oxygen###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 11 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 11 } mendelejew_discovery_pre_game_element_trigger = yes } } ###11, Sodium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 12 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 12 } mendelejew_discovery_pre_game_element_trigger = yes } } ###12, Magnesium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 13 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 13 } mendelejew_discovery_pre_game_element_trigger = yes } } ###13, Aluminium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 14 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 14 } mendelejew_discovery_pre_game_element_trigger = yes } } ###14, Silicon###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 15 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 15 } mendelejew_discovery_pre_game_element_trigger = yes } } ###15, Phosphorus###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 17 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 17 } mendelejew_discovery_pre_game_element_trigger = yes } } ###17, Chlorine###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 19 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 19 } mendelejew_discovery_pre_game_element_trigger = yes } } ###19, Potassium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 20 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 20 } mendelejew_discovery_pre_game_element_trigger = yes } } ###20, Calcium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 22 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 22 } mendelejew_discovery_pre_game_element_trigger = yes } } ###22, Titanium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 23 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 23 } mendelejew_discovery_pre_game_element_trigger = yes } } ###23, Vanadium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 24 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 24 } mendelejew_discovery_pre_game_element_trigger = yes } } ###24, Chromium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 25 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 25 } mendelejew_discovery_pre_game_element_trigger = yes } } ###25, Manganese###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 27 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 27 } mendelejew_discovery_pre_game_element_trigger = yes } } ###27, Cobalt###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 28 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 28 } mendelejew_discovery_pre_game_element_trigger = yes } } ###28, Nickel###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 34 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 34 } mendelejew_discovery_pre_game_element_trigger = yes } } ###34, Selenium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 35 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 35 } mendelejew_discovery_pre_game_element_trigger = yes } } ###35, Bromine###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 38 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 38 } mendelejew_discovery_pre_game_element_trigger = yes } } ###38, Strontium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 39 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 39 } mendelejew_discovery_pre_game_element_trigger = yes } } ###39, Yttrium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 40 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 40 } mendelejew_discovery_pre_game_element_trigger = yes } } ###40, Zirconium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 41 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 41 } mendelejew_discovery_pre_game_element_trigger = yes } } ###41, Niobium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 42 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 42 } mendelejew_discovery_pre_game_element_trigger = yes } } ###42, Molybdenum###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 45 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 45 } mendelejew_discovery_pre_game_element_trigger = yes } } ###45, Rhodium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 46 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 46 } mendelejew_discovery_pre_game_element_trigger = yes } } ###46, Palladium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 48 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 48 } mendelejew_discovery_pre_game_element_trigger = yes } } ###48, Cadmium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 52 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 52 } mendelejew_discovery_pre_game_element_trigger = yes } } ###52, Tellurium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 53 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 53 } mendelejew_discovery_pre_game_element_trigger = yes } } ###53, Iodine###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 56 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 56 } mendelejew_discovery_pre_game_element_trigger = yes } } ###56, Barium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 58 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 58 } mendelejew_discovery_pre_game_element_trigger = yes } } ###58, Cerium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 73 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 73 } mendelejew_discovery_pre_game_element_trigger = yes } } ###73, Tantalum###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 74 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 74 } mendelejew_discovery_pre_game_element_trigger = yes } } ###74, Tungsten###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 76 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 76 } mendelejew_discovery_pre_game_element_trigger = yes } } ###76, Osmium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 77 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 77 } mendelejew_discovery_pre_game_element_trigger = yes } } ###77, Iridium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 90 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 90 } mendelejew_discovery_pre_game_element_trigger = yes } } ###90, Thorium###
+		1 = { mendelejew_add_searched_element_effect = { NUMBER = 92 } trigger = { mendelejew_element_x_is_theorized_not_discovered_trigger = { NUMBER = 92 } mendelejew_discovery_pre_game_element_trigger = yes } } ###92, Uranium###
+	}
+}
+
+#Effect to add an examined element from List
+mendelejew_add_examined_element_from_list_effect = {
+	random_list = {
+		###POST GAME ELEMENTS (1936-1946)###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 43 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 43 } mendelejew_isolation_post_game_element_trigger = yes } } ###43, Technetium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 61 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 61 } mendelejew_isolation_post_game_element_trigger = yes } } ###61, Promethium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 85 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 85 } mendelejew_isolation_post_game_element_trigger = yes } } ###85, Astatine###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 87 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 87 } mendelejew_isolation_post_game_element_trigger = yes } } ###87, Francium###
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 93 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 93 } mendelejew_isolation_post_game_element_trigger = yes } } ###93, Neptunium### Nuclear Reactor
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 94 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 94 } mendelejew_isolation_post_game_element_trigger = yes } } ###94, Plutonium### Nuclear Reactor
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 95 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 95 } mendelejew_isolation_post_game_element_trigger = yes } } ###95, Americium### Nuclear Reactor
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 96 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 96 } mendelejew_isolation_post_game_element_trigger = yes } } ###96, Curium### Nuclear Reactor
+		###LATE GAME ELEMENTS###
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 10 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 10 } mendelejew_isolation_late_game_element_trigger = yes } } ###10, Neon### Noble Gas
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 18 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 18 } mendelejew_isolation_late_game_element_trigger = yes } } ###18, Argon### Noble Gas
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 36 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 36 } mendelejew_isolation_late_game_element_trigger = yes } } ###36, Krypton### Noble Gas
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 54 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 54 } mendelejew_isolation_late_game_element_trigger = yes } } ###54, Xenon### Noble Gas
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 63 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 63 } mendelejew_isolation_late_game_element_trigger = yes } } ###63, Europium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 71 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 71 } mendelejew_isolation_late_game_element_trigger = yes } } ###71, Lutetium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 72 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 72 } mendelejew_isolation_late_game_element_trigger = yes } } ###72, Hafnium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 75 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 75 } mendelejew_isolation_late_game_element_trigger = yes } } ###75, Rhenium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 84 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 84 } mendelejew_isolation_late_game_element_trigger = yes } } ###84, Polonium###
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 86 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 86 } mendelejew_isolation_late_game_element_trigger = yes } } ###86, Radon### Noble Gas
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 88 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 88 } mendelejew_isolation_late_game_element_trigger = yes } } ###88, Radium### Radium has a special event
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 89 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 89 } mendelejew_isolation_late_game_element_trigger = yes } } ###89, Actinium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 91 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 91 } mendelejew_isolation_late_game_element_trigger = yes } } ###91, Proactinium###
+		###MID GAME ELEMENTS###
+		#1 = { mendelejew_add_examined_element_effect = { NUMBER = 2 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 2 } mendelejew_isolation_mid_game_element_trigger = yes } } ###2, Helium### Helium has a special event
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 21 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 21 } mendelejew_isolation_mid_game_element_trigger = yes } } ###21, Scandium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 31 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 31 } mendelejew_isolation_mid_game_element_trigger = yes } } ###31, Gallium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 32 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 32 } mendelejew_isolation_mid_game_element_trigger = yes } } ###32, Germanium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 37 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 37 } mendelejew_isolation_mid_game_element_trigger = yes } } ###37, Rubidium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 44 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 44 } mendelejew_isolation_mid_game_element_trigger = yes } } ###44, Ruthenium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 49 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 49 } mendelejew_isolation_mid_game_element_trigger = yes } } ###49, Indium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 55 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 55 } mendelejew_isolation_mid_game_element_trigger = yes } } ###55, Caesium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 57 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 57 } mendelejew_isolation_mid_game_element_trigger = yes } } ###57, Lanthanum###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 59 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 59 } mendelejew_isolation_mid_game_element_trigger = yes } } ###59, Praesodymium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 60 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 60 } mendelejew_isolation_mid_game_element_trigger = yes } } ###60, Neodymium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 62 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 62 } mendelejew_isolation_mid_game_element_trigger = yes } } ###62, Samarium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 64 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 64 } mendelejew_isolation_mid_game_element_trigger = yes } } ###64, Gadolinium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 65 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 65 } mendelejew_isolation_mid_game_element_trigger = yes } } ###65, Terbium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 66 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 66 } mendelejew_isolation_mid_game_element_trigger = yes } } ###66, Dysprosium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 67 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 67 } mendelejew_isolation_mid_game_element_trigger = yes } } ###67, Holmium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 68 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 68 } mendelejew_isolation_mid_game_element_trigger = yes } } ###68, Erbium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 69 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 69 } mendelejew_isolation_mid_game_element_trigger = yes } } ###69, Thulium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 70 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 70 } mendelejew_isolation_mid_game_element_trigger = yes } } ###70, Ytterbium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 81 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 81 } mendelejew_isolation_mid_game_element_trigger = yes } } ###81, Thallium###
+		###EARLY-GAME ELEMENTS###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 9 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 9 } mendelejew_isolation_early_game_element_trigger = yes } } ###9, Fluorine###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 23 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 23 } mendelejew_isolation_early_game_element_trigger = yes } } ###23, Vanadium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 39 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 39 } mendelejew_isolation_early_game_element_trigger = yes } } ###39, Yttrium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 41 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 41 } mendelejew_isolation_early_game_element_trigger = yes } } ###41, Niobium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 90 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 90 } mendelejew_isolation_early_game_element_trigger = yes } } ###90, Thorium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 92 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 92 } mendelejew_isolation_early_game_element_trigger = yes } } ###92, Uranium###
+		###PRE-GAME ELEMENTS (1669-1836)###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 1 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 1 } mendelejew_isolation_pre_game_element_trigger = yes } } ###1, Hydrogen
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 3 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 3 } mendelejew_isolation_pre_game_element_trigger = yes } } ###3, Lithium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 4 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 4 } mendelejew_isolation_pre_game_element_trigger = yes } } ###4, Beryllium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 5 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 5 } mendelejew_isolation_pre_game_element_trigger = yes } } ###5, Boron###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 7 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 7 } mendelejew_isolation_pre_game_element_trigger = yes } } ###7, Nitrogen###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 8 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 8 } mendelejew_isolation_pre_game_element_trigger = yes } } ###8, Oxygen###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 11 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 11 } mendelejew_isolation_pre_game_element_trigger = yes } } ###11, Sodium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 12 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 12 } mendelejew_isolation_pre_game_element_trigger = yes } } ###12, Magnesium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 13 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 13 } mendelejew_isolation_pre_game_element_trigger = yes } } ###13, Aluminium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 14 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 14 } mendelejew_isolation_pre_game_element_trigger = yes } } ###14, Silicon###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 15 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 15 } mendelejew_isolation_pre_game_element_trigger = yes } } ###15, Phosphorus###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 17 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 17 } mendelejew_isolation_pre_game_element_trigger = yes } } ###17, Chlorine###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 19 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 19 } mendelejew_isolation_pre_game_element_trigger = yes } } ###19, Potassium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 20 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 20 } mendelejew_isolation_pre_game_element_trigger = yes } } ###20, Calcium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 22 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 22 } mendelejew_isolation_pre_game_element_trigger = yes } } ###22, Titanium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 24 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 24 } mendelejew_isolation_pre_game_element_trigger = yes } } ###24, Chromium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 25 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 25 } mendelejew_isolation_pre_game_element_trigger = yes } } ###25, Manganese###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 27 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 27 } mendelejew_isolation_pre_game_element_trigger = yes } } ###27, Cobalt###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 28 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 28 } mendelejew_isolation_pre_game_element_trigger = yes } } ###28, Nickel###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 34 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 34 } mendelejew_isolation_pre_game_element_trigger = yes } } ###34, Selenium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 35 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 35 } mendelejew_isolation_pre_game_element_trigger = yes } } ###35, Bromine###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 38 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 38 } mendelejew_isolation_pre_game_element_trigger = yes } } ###38, Strontium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 40 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 40 } mendelejew_isolation_pre_game_element_trigger = yes } } ###40, Zirconium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 42 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 42 } mendelejew_isolation_pre_game_element_trigger = yes } } ###42, Molybdenum###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 45 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 45 } mendelejew_isolation_pre_game_element_trigger = yes } } ###45, Rhodium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 46 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 46 } mendelejew_isolation_pre_game_element_trigger = yes } } ###46, Palladium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 48 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 48 } mendelejew_isolation_pre_game_element_trigger = yes } } ###48, Cadmium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 52 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 52 } mendelejew_isolation_pre_game_element_trigger = yes } } ###52, Tellurium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 53 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 53 } mendelejew_isolation_pre_game_element_trigger = yes } } ###53, Iodine###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 56 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 56 } mendelejew_isolation_pre_game_element_trigger = yes } } ###56, Barium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 58 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 58 } mendelejew_isolation_pre_game_element_trigger = yes } } ###58, Cerium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 73 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 73 } mendelejew_isolation_pre_game_element_trigger = yes } } ###73, Tantalum###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 74 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 74 } mendelejew_isolation_pre_game_element_trigger = yes } } ###74, Tungsten###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 76 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 76 } mendelejew_isolation_pre_game_element_trigger = yes } } ###76, Osmium###
+		1 = { mendelejew_add_examined_element_effect = { NUMBER = 77 } trigger = { mendelejew_element_x_is_discovered_not_isolated_trigger = { NUMBER = 77 } mendelejew_isolation_pre_game_element_trigger = yes } } ###77, Iridium###
+	}
+}
