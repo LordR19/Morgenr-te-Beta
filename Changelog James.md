@@ -34,6 +34,7 @@ Nationalization
 
 Fixes
 - Fixed Lu Xun's name.
+- Hopefully fixed a bug with the library that caused CTDs.
 
 Buildings at game start
 - All opera houses start with Early Romantic Orchestra (if possible)
@@ -56,3 +57,7 @@ Buildings at game start
 - Added a publishing industry in Ingria
 - Added a publishing industry in Moscow
 - Added a publishing industry in Catalonia
+
+Outfits
+- Academics now have unique academic gowns.
+- Academics that are busy have a special expedition clothing style now.
