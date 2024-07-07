@@ -3,6 +3,7 @@ Changelog for 2.2.1 "James"
 General
 - Integrated 1230james Multi-line Production Methods Framework Mod.
 - Morgenröte has now a unique button instead of using the Techtree. However, alerts wil not lead to the tab anymore.
+- Morgenröte Opening Theme (I vow to thee, my country) is back!
 
 Pop Needs
 - New Pop Need "Entertainment": Prints (Default, Weight 1, Max. Share 100%, Min. Share 20%), Music (Weight 1.5, Max Share 100%, Min Share 10%), Fine Art (Weight 0.5, Max Share 50%), Services (Weight 0.1, Max. Share 25%)
