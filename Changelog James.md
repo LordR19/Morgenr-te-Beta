@@ -63,4 +63,4 @@ Buildings at game start
 
 Outfits
 - Academics now have unique academic gowns.
-- Academics that are busy have a special expedition clothing style now.
+- Academics that are busy have a special expedition clothing style now. (Huge thanks to Miss Duce for providing the fantastic pith helmets and fedora!)
