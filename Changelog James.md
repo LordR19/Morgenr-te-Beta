@@ -40,6 +40,7 @@ Nationalization
 Fixes
 - Fixed Lu Xun's name.
 - Hopefully fixed a bug with the library that caused CTDs.
+- Botanical Expeditions no longer cost money after ending (Naturalists are such grifters!)
 
 Buildings at game start
 - All opera houses start with Early Romantic Orchestra (if possible)
