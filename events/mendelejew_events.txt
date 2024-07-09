@@ -124,6 +124,295 @@ mendelejew.102 = {
 	}
 }
 
+#Mendelejew 103: Element theorized by another nation
+
+#Mendelejew 111: An Exemplary Professor
+mendelejew.111 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:mendelejew_university_state
+
+	title = mendelejew.111.t
+
+	desc = mendelejew.111.d
+
+	flavor = mendelejew.111.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_theory.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		var:mendelejew_chemist_theory_progress_var >= 6
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_university
+				production_method = pm_dubois_university_mathematics
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_building = {
+			limit = {
+				is_building_type = building_university
+				has_active_production_method = pm_dubois_university_mathematics
+			}
+			save_scope_as = mendelejew_university_building
+			state = {
+				save_scope_as = mendelejew_university_state
+			}
+		}
+	}
+
+	option = {	#DOCTOR should concentrate on research
+		name = mendelejew.111.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 12 }
+		scope:mendelejew_university_building = {
+			add_modifier = {
+				name = mendelejew_absent_chemist_modifier 
+				years = 3
+			}
+		}
+	}
+
+	option = {	#DOCTOR should concentrate on lectureship
+		name = mendelejew.111.h
+		dubois_add_x_academy_progress = { AMOUNT = 9 }
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -6 }
+	}
+
+	option = {	#DOCTOR should find a balance
+		name = mendelejew.111.i
+		default_option = yes
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -3 }
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 112: A Dream
+mendelejew.112 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.112.t
+
+	desc = mendelejew.112.d
+
+	flavor = mendelejew.112.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_theory.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Are you saying that a CHEMIST even works in his sleep?
+		name = mendelejew.112.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 113: Theoretic Treatise on Chemistry
+mendelejew.113 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.113.t
+
+	desc = mendelejew.113.d
+
+	flavor = mendelejew.113.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_theory.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		var:mendelejew_chemist_theory_progress_var >= 12
+	}
+
+	immediate = {
+	}
+
+	option = { #This should advance his research.
+		name = mendelejew.113.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 9 }
+	}
+
+	option = { #This study should be taught in the courses.
+		name = mendelejew.113.h
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -6 }
+		dubois_add_x_academy_progress = { AMOUNT = 5 }
+	}
+
+	option = { #This publication is of scientific value - it should be freely available!
+		name = mendelejew.113.i
+		trigger = {
+			any_scope_state = {
+				is_production_method_active = {
+					building_type = building_manzoni_publishing_industry
+					production_method = manzoni_pm_publisher_general
+				}
+			}
+		}
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -12 }
+		mendelejew_small_add_technology = yes
+		hidden_effect = {
+			random_list = {
+				3 = {}
+				2 = {
+					var:mendelejew_chemist_var = {
+						save_scope_as = manzoni_scientist_scope
+					}
+					trigger_event = {
+						id = manzoni.13
+						days = { 7 21 }
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 114: Daydreaming
+mendelejew.114 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.114.t
+
+	desc = mendelejew.114.d
+
+	flavor = mendelejew.114.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_theory.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		var:mendelejew_chemist_theory_progress_var >= 6
+	}
+
+	immediate = {
+	}
+
+	option = { #Are you saying he was just lazing around the whole time?!
+		name = mendelejew.114.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -6 }
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 115: Astronomer helps Chemist
+mendelejew.115 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.115.t
+
+	desc = mendelejew.115.d
+
+	flavor = mendelejew.115.f
+	
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:mendelejew_chemist_scope
+	right_icon = scope:verrier_astronomer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		verrier_has_astronomer = yes
+		mendelejew_has_chemist = yes
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = { #An academic synthesis!
+		name = mendelejew.115.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 12 }
+	}
+
+	after = {
+	}
+}
+
 #################################################################################
 
 #Mendelejew 201: A new Element discovered
