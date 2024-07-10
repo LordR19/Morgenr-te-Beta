@@ -42,6 +42,7 @@ Fixes
 - Hopefully fixed a bug with the library that caused CTDs.
 - Botanical Expeditions no longer cost money after ending (Naturalists are such grifters!)
 - Countires invited to Congresses of Natural History will no longer wrongly be informed that every congress is about the Origin of humanity.
+- You no longer create airlines after establishing new companies
 
 Buildings at game start
 - All opera houses start with Early Romantic Orchestra (if possible)
