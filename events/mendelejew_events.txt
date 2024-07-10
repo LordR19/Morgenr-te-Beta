@@ -383,7 +383,7 @@ mendelejew.114 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	cooldown = {
-		years = 10
+		years = 20
 	}
 
 	trigger = {
@@ -576,6 +576,276 @@ mendelejew.203 = {
 
 	after = {
 		remove_variable = mendelejew_searched_variable
+	}
+}
+
+#Mendelejew 211: A new Laboratory
+mendelejew.211 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:mendelejew_university_state
+
+	title = mendelejew.211.t
+
+	desc = mendelejew.211.d
+
+	flavor = mendelejew.211.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_discovery.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		var:mendelejew_chemist_theory_progress_var >= 6
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_university
+				production_method = pm_dubois_university_mathematics
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_building = {
+			limit = {
+				is_building_type = building_university
+				has_active_production_method = pm_dubois_university_mathematics
+			}
+			save_scope_as = mendelejew_university_building
+			state = {
+				save_scope_as = mendelejew_university_state
+			}
+		}
+	}
+
+	option = {	#Fund a new laboratory with state-of-the-art equipment.
+		name = mendelejew.211.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 9 }
+		scope:mendelejew_university_building = {
+			add_modifier = {
+				name = mendelejew_new_laboratory_modifier 
+				years = 3
+			}
+		}
+		add_modifier = {
+			name = mendelejew_chemistry_investment_modifier
+			multiplier = money_amount_multiplier_very_small
+			years = 3
+		}
+	}
+
+	option = {	#Make savings at the university to purchase new instruments.
+		name = mendelejew.211.h
+		dubois_add_x_academy_progress = { AMOUNT = -6 }
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -6 }
+	}
+
+	option = {	#And who is going to finance all of this?
+		name = mendelejew.211.i
+		default_option = yes
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -6 }
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 212: Unknown Chemical Compound
+mendelejew.212 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:mendelejew_university_state
+
+	title = mendelejew.212.t
+
+	desc = mendelejew.212.d
+
+	flavor = mendelejew.212.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_discovery.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Great!
+		name = mendelejew.212.g
+		mendelejew_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 213: Chemical Assistant
+mendelejew.213 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:mendelejew_university_state
+
+	title = mendelejew.213.t
+
+	desc = mendelejew.213.d
+
+	flavor = mendelejew.213.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_discovery.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#The assistant should focus on element research.
+		name = mendelejew.213.g
+		default_option = yes
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
+	}
+
+	option = {	#Encourage this scientific talent.
+		name = mendelejew.213.h
+		dubois_add_x_academy_progress = { AMOUNT = 6 }
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 214: Bad Samples
+mendelejew.214 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:mendelejew_university_state
+
+	title = mendelejew.214.t
+
+	desc = mendelejew.214.d
+
+	flavor = mendelejew.214.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_discovery.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+		var:mendelejew_chemist_theory_progress_var >= 9
+	}
+
+	immediate = {
+	}
+
+	option = {	#A scientific setback.
+		name = mendelejew.214.g
+		default_option = yes
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -9 }
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 215: Geologist helps Chemist
+mendelejew.215 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.215.t
+
+	desc = mendelejew.215.d
+
+	flavor = mendelejew.215.f
+	
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:mendelejew_chemist_scope
+	right_icon = scope:dubois_geologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		verrier_has_astronomer = yes
+		dubois_has_geologist = yes
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+		var:dubois_geologist_var = {
+			save_scope_as = dubois_geologist_scope
+		}
+	}
+
+	option = { #An academic synthesis!
+		name = mendelejew.115.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 12 }
+	}
+
+	after = {
 	}
 }
 
