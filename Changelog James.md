@@ -79,3 +79,5 @@ Fixes
 - Pilot shpuld be available again after Air Parade.
 - Astronomers should get now their achievements for first solar eclipse photo and astronomer's beads.
 - Pilot GUI will show the Global Speed Record.
+- Disallowed foreign investments in Operas.
+- Fixed pulse in JE Freedom of the press (monthly instead of yearly).
