@@ -1194,23 +1194,37 @@ mr_aeronautical_engineer_speed_airplane_button = {
 		}
 	}
 	is_valid = {
-		gaudi_has_active_engineer = yes
-		curtiss_has_pilot = yes
-		custom_tooltip = {
-			text = MR_AERONAUTICAL_ENGINEER_NO_RECORD_TECH_TRIGGER_TT
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			curtiss_has_pilot = yes
 			NOT = {
 				has_modifier = curtiss_airplane_speed_record_modifier
 			}
-		}
-		custom_tooltip = {
-			text = MR_AERONAUTICAL_ENGINEER_COMBUSTION_ENGINE_TECH_TRIGGER_TT
 			has_technology_researched = combustion_engine
-		}
-		custom_tooltip = {
-			text = MR_ELECTRICAL_ENGINEER_MILITARY_AVIATION_TECH_TRIGGER_TT
 			has_technology_researched = military_aviation
+			curtiss_has_war_machine_industry_size_x_tooltip_trigger = { LEVEL = 1 }
 		}
-		curtiss_has_war_machine_industry_size_x_tooltip_trigger = { LEVEL = 1 }
+		trigger_else = {
+			gaudi_has_active_engineer = yes
+			curtiss_has_pilot = yes
+			custom_tooltip = {
+				text = MR_AERONAUTICAL_ENGINEER_NO_RECORD_TECH_TRIGGER_TT
+				NOT = {
+					has_modifier = curtiss_airplane_speed_record_modifier
+				}
+			}
+			custom_tooltip = {
+				text = MR_AERONAUTICAL_ENGINEER_COMBUSTION_ENGINE_TECH_TRIGGER_TT
+				has_technology_researched = combustion_engine
+			}
+			custom_tooltip = {
+				text = MR_ELECTRICAL_ENGINEER_MILITARY_AVIATION_TECH_TRIGGER_TT
+				has_technology_researched = military_aviation
+			}
+			curtiss_has_war_machine_industry_size_x_tooltip_trigger = { LEVEL = 1 }
+		}
 	}
 	effect = {
 		add_journal_entry = {
@@ -1224,4 +1238,10 @@ mr_aeronautical_engineer_speed_airplane_button = {
 			set_character_busy_and_immortal = yes
 		}
 	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 12 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
