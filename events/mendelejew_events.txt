@@ -1246,3 +1246,294 @@ mendelejew.315 = {
 	after = {
 	}
 }
+
+#################################################################################
+
+#Mendelejew 401: A Chemical Experiment
+mendelejew.401 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.401.t
+
+	desc = mendelejew.401.d
+
+	flavor = mendelejew.401.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_experiment.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 15
+	}
+
+	trigger = {
+		var:mendelejew_chemist_theory_progress_var >= 6
+	}
+
+	immediate = {
+	}
+
+	option = {	#Do an experiment!
+		name = mendelejew.401.g
+		default_option = yes
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:mendelejew_chemist_var = {
+								OR = {
+									has_trait = mendelejew_chemist_analyst
+									has_trait = mendelejew_chemist_inspector
+								}
+							}
+						}
+					}
+					add = 1
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:mendelejew_chemist_var = {
+								OR = {
+									has_trait = meticulous
+									has_trait = innovative
+									has_trait = cautious
+								}
+							}
+						}
+					}
+					add = 1
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:mendelejew_chemist_var.var:mendelejew_chemist_experience >= 200
+						}
+					}
+					add = 1
+				}
+				trigger_event = {
+					id = mendelejew.401 #Successful Experiment
+					days = 3
+					popup = yes
+				}
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:mendelejew_chemist_var = {
+								OR = {
+									has_trait = alcoholic
+									has_trait = senile
+									has_trait = opium_addiction
+									has_trait = cocaine_addiction
+								}
+							}
+						}
+					}
+					add = 1
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:mendelejew_chemist_var = {
+								OR = {
+									has_trait = ambitious
+									has_trait = brave
+									has_trait = reckless
+								}
+							}
+						}
+					}
+					add = 1
+				}
+				modifier = {
+					if = {
+						limit = {
+							var:mendelejew_chemist_var.var:mendelejew_chemist_experience < 100
+						}
+					}
+					add = 1
+				}
+				trigger_event = {
+					id = mendelejew.402 #Failed Experiment
+					days = 3
+					popup = yes
+				}
+			}
+		}
+	}
+
+	option = {	#Don't do an experiment
+		name = mendelejew.401.h
+		random_scope_building = {
+			limit = {
+				is_building_type = building_verrier_observatory
+			}
+			add_modifier = {
+				name = mendelejew_no_experiments_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 402: Successfull Experiment
+mendelejew.402 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.402.t
+
+	desc = mendelejew.402.d
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:mendelejew_experiment_randomizer_var = 1
+			}
+			desc = mendelejew.402.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:mendelejew_experiment_randomizer_var = 2
+			}
+			desc = mendelejew.402.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:mendelejew_experiment_randomizer_var = 3
+			}
+			desc = mendelejew.402.f3
+		}
+	}
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_experiment.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			1 = { 
+				set_variable = {
+					name = mendelejew_experiment_randomizer_var
+					value = 1
+				}
+			}
+			1 = { 
+				set_variable = {
+					name = mendelejew_experiment_randomizer__var
+					value = 2
+				}
+			}
+			1 = { 
+				set_variable = {
+					name = mendelejew_experiment_randomizer__var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {	#Success!
+		name = mendelejew.402.g
+		trigger = {
+			var:mendelejew_experiment_randomizer_var = 1
+		}
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
+		add_moddifier = {
+			name = mendelejew_new_agriculture_fertilizer_modifier
+			years = 10
+		}
+	}
+
+	option = {	#Success!
+		name = mendelejew.402.h
+		trigger = {
+			var:mendelejew_experiment_randomizer_var = 2
+		}
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
+		add_moddifier = {
+			name = mendelejew_new_plantation_fertilizer_modifier
+			years = 10
+		}
+	}
+
+	option = {	#Success!
+		name = mendelejew.402.i
+		trigger = {
+			var:mendelejew_experiment_randomizer_var = 3
+		}
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
+		add_moddifier = {
+			name = mendelejew_new_chemist_industry_modifier
+			years = 10
+		}
+	}
+
+	after = {
+		remove_variable = mendelejew_experiment_randomizer_var
+	}
+}
+
+#Mendelejew 403: Failed Experiment
+mendelejew.403 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.403.t
+
+	desc = mendelejew.403.d
+
+	flavor = mendelejew.403.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_experiment.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Dissapointing
+		name = mendelejew.403.g
+		default_option = yes
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -6 }
+	}
+
+	after = {
+	}
+}
