@@ -35,17 +35,16 @@ Production Methods (Observatory)
 Technology
 - Russia and Spain start with Mass Communication.
 
-Nationalization
-- Game rule for culture fusion completely removed
-- After national unity, Germany and Italy receive a negative administration modifier, which they get rid of in the course of a journal entry
+Tourism
+- Max. Tourism Income capped at 1,000,000.
 
-Fixes
-- Fixed Lu Xun's name.
-- Hopefully fixed a bug with the library that caused CTDs.
-- Botanical Expeditions no longer cost money after ending (Naturalists are such grifters!)
-- Countires invited to Congresses of Natural History will no longer wrongly be informed that every congress is about the Origin of humanity.
-- You no longer create airlines after establishing new companies.
-- Airline companies no longer have a advanced R&D department better than any university. (Global Airline Companies no longer give you +1000% innovation)
+Nationalization
+- Game rule for culture fusion completely removed.
+- After national unity, Germany and Italy receive a negative administration modifier, which they get rid of in the course of a journal entry.
+
+Outfits
+- Academics now have unique academic gowns.
+- Academics that are busy have a special expedition clothing style now. (Huge thanks to Miss Duce for providing the fantastic pith helmets and fedora!)
 
 Buildings at game start
 - All opera houses start with Early Romantic Orchestra (if possible)
@@ -69,6 +68,14 @@ Buildings at game start
 - Added a publishing industry in Moscow
 - Added a publishing industry in Catalonia
 
-Outfits
-- Academics now have unique academic gowns.
-- Academics that are busy have a special expedition clothing style now. (Huge thanks to Miss Duce for providing the fantastic pith helmets and fedora!)
+Fixes
+- Fixed Lu Xun's name.
+- Hopefully fixed a bug with the library that caused CTDs.
+- Botanical Expeditions no longer cost money after ending (Naturalists are such grifters!)
+- Countries invited to Congresses of Natural History will no longer wrongly be informed that every congress is about the Origin of humanity.
+- You no longer create airlines after establishing new companies.
+- Airline companies no longer have a advanced R&D department better than any university. (Global Airline Companies no longer give you +1000% innovation).
+- Schneider Trophy Foundation should now work as intended.
+- Pilot shpuld be available again after Air Parade.
+- Astronomers should get now their achievements for first solar eclipse photo and astronomer's beads.
+- Pilot GUI will show the Global Speed Record.
