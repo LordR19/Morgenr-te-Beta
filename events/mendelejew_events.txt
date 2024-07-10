@@ -827,7 +827,7 @@ mendelejew.215 = {
 	}
 
 	trigger = {
-		verrier_has_astronomer = yes
+		mendelejew_has_chemist = yes
 		dubois_has_geologist = yes
 	}
 
@@ -973,5 +973,275 @@ mendelejew.303 = {
 
 	after = {
 		remove_variable = mendelejew_examined_variable
+	}
+}
+
+#Mendelejew 311: Chemical Synthesis
+mendelejew.311 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.311.t
+
+	desc = mendelejew.312.d
+
+	flavor = mendelejew.311.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_isolation.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Great!
+		name = mendelejew.311.g
+		mendelejew_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 312: Element Dissociation
+mendelejew.312 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.312.t
+
+	desc = mendelejew.312.d
+
+	flavor = mendelejew.312.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_isolation.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Fantastic!
+		name = mendelejew.312.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 313: Neglected Duties
+mendelejew.313 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:mendelejew_university_state
+
+	title = mendelejew.313.t
+
+	desc = mendelejew.313.d
+
+	flavor = mendelejew.313.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_isolation.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 15
+	}
+
+	trigger = {
+		var:mendelejew_chemist_theory_progress_var >= 12
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_university
+				production_method = pm_dubois_university_mathematics
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_building = {
+			limit = {
+				is_building_type = building_university
+				has_active_production_method = pm_dubois_university_mathematics
+			}
+			save_scope_as = mendelejew_university_building
+			state = {
+				save_scope_as = mendelejew_university_state
+			}
+		}
+	}
+
+	option = {	#Dr. Chemist has more important things to do!
+		name = mendelejew.313.g
+		mendelejew_small_add_technology = yes
+		dubois_add_x_academy_progress = { AMOUNT = -12 }
+		scope:mendelejew_university_building = {
+			add_modifier = {
+				name = mendelejew_absent_chemist_modifier
+				years = 3
+			}
+		}
+	}
+
+	option = {	#Dr. Chemist must fulfill his other obligations.
+		name = mendelejew.313.h
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -12 }
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 314: An unforeseen Chemical Reaction
+mendelejew.314 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	placement = scope:mendelejew_university_state
+
+	title = mendelejew.314.t
+
+	desc = mendelejew.314.d
+
+	flavor = mendelejew.314.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_isolation.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+		var:mendelejew_chemist_theory_progress_var >= 12
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_university
+				production_method = pm_dubois_university_mathematics
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_building = {
+			limit = {
+				is_building_type = building_university
+				has_active_production_method = pm_dubois_university_mathematics
+			}
+			save_scope_as = mendelejew_university_building
+			state = {
+				save_scope_as = mendelejew_university_state
+			}
+		}
+	}
+
+	option = {	#A disaster!
+		name = mendelejew.314.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = -12 }
+		scope:mendelejew_university_building = {
+			add_modifier = {
+				name = mendelejew_destroyed_laboratory_modifier
+				years = 5
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 315: Engineer helps Chemist
+mendelejew.315 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.315.t
+
+	desc = mendelejew.315.d
+
+	flavor = mendelejew.315.f
+	
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:mendelejew_chemist_scope
+	right_icon = scope:gaudi_engineer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		mendelejew_has_chemist = yes
+		gaudi_has_engineer = yes
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+		var:gaudi_engineer_var = {
+			save_scope_as = gaudi_engineer_scope
+		}
+	}
+
+	option = { #An academic synthesis!
+		name = mendelejew.115.g
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 12 }
+	}
+
+	after = {
 	}
 }
