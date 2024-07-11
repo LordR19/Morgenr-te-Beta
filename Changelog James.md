@@ -3,6 +3,7 @@ Changelog for 2.2.1 "James"
 General
 - Integrated 1230james Multi-line Production Methods Framework Mod.
 - Morgenröte has now a unique button instead of using the Techtree. However, alerts wil not lead to the tab anymore.
+- Added Bavaria and Mexico as suggested countries for "Thriving Culture" ojective.
 - Morgenröte Opening Theme (I vow to thee, my country) is back!
 
 Pop Needs
