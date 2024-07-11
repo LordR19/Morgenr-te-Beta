@@ -69,6 +69,9 @@ Buildings at game start
 - Added a publishing industry in Moscow
 - Added a publishing industry in Catalonia
 
+GFX
+- Some improved Icons for Modern Physics, Genetics, Nature Protection, Irrationalism and Uranium by litmaster.
+
 Fixes
 - Fixed Lu Xun's name.
 - Hopefully fixed a bug with the library that caused CTDs.
