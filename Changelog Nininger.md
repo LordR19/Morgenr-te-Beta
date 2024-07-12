@@ -6,3 +6,4 @@ Archaeology
 GUI
 - No more void ghosts for Academics.
 - No more void ghosts for Artists.
+- No more void ghosts for People in Sports.
