@@ -5,4 +5,4 @@ Archaeology
 
 GUI
 - No more void ghosts for Academics.
-- No more Void Ghosts for Artists.
+- No more void ghosts for Artists.
