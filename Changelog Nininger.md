@@ -11,4 +11,5 @@ GUI
 - No more void ghosts for Artists.
 - No more void ghosts for People in Sports.
 - Promote buttons for academics and artists now show when they are active.
+- General Expedition buttons now get highlighted if an expedition is underway.
 - The dynamic Academy of Science names are now kept on forming a new nation.
