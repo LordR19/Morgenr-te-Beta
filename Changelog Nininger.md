@@ -14,4 +14,5 @@ GUI
 - General Expedition buttons now get highlighted if an expedition is underway.
 - The current specialization of your Engineers are now highlighted.
 - The expeditions of Naturalists now get highlighted in the GUI.
+- Added "M" as the Shortcut button to the Morgenröte Window
 - The dynamic Academy of Science names are now kept on forming a new nation.
