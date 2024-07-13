@@ -12,33 +12,6 @@ namespace = mendelejew
 
 #################################################################################
 
-#Mendelejew 99: Dummy
-mendelejew.99 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	immediate = {
-		mendelejew_add_theorized_element_effect = { NUMBER = 73 }
-	}
-}
-
-#Mendelejew 100: Dummy
-mendelejew.100 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	immediate = {
-		create_new_chemist_effect = yes
-		mendelejew_set_new_chemist_as_chemist_effect = yes
-	}
-}
-
 #Mendelejew 101: A new Element theorized
 mendelejew.101 = {
 	dlc = dlc_morgenrote
@@ -1486,6 +1459,7 @@ mendelejew.402 = {
 		trigger = {
 			var:mendelejew_experiment_randomizer_var = 1
 		}
+		chemist_experience_gain_effect = { AMOUNT = 5 }
 		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
 		add_modifier = {
 			name = mendelejew_new_agriculture_fertilizer_modifier
@@ -1498,6 +1472,7 @@ mendelejew.402 = {
 		trigger = {
 			var:mendelejew_experiment_randomizer_var = 2
 		}
+		chemist_experience_gain_effect = { AMOUNT = 5 }
 		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
 		add_modifier = {
 			name = mendelejew_new_plantation_fertilizer_modifier
@@ -1510,6 +1485,7 @@ mendelejew.402 = {
 		trigger = {
 			var:mendelejew_experiment_randomizer_var = 3
 		}
+		chemist_experience_gain_effect = { AMOUNT = 5 }
 		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
 		add_modifier = {
 			name = mendelejew_new_chemist_industry_modifier
@@ -1557,5 +1533,45 @@ mendelejew.403 = {
 	}
 
 	after = {
+	}
+}
+
+#########################################################################################################
+
+#Mendelejew 501: Improving Fertilizer finished
+mendelejew.501 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.501.t
+	desc = mendelejew.501.d
+	flavor = mendelejew.501.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_experiment.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = { has_variable = mendelejew_chemist_var }
+			var:mendelejew_chemist_var = {
+				set_variable = mendelejew_fertilizer_improvement_finished_var
+			}
+		}
+	}
+
+	option = {
+		name = mendelejew.501.g #Our profits will skyrocket!
+		default_option = yes
+		chemist_experience_gain_effect = { AMOUNT = 5 }
+	}
+	after = {
+		remove_variable = mendelejew_building_chemist_improvement_var
 	}
 }
