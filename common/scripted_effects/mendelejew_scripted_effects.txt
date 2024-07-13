@@ -1690,3 +1690,143 @@ mendelejew_add_isolated_element_from_list_effect = {
 		1 = { mendelejew_add_isolated_element_effect = { NUMBER = 92 } trigger = { var:mendelejew_examined_variable = 92 } } ###92, Uranium###
 	}
 }
+
+#######################################################################################################################################################################
+
+######IMPROVEMENTS######
+
+#This Scripted Effect calculates the Chemist Improvement Progress
+mendelejew_chemist_improvement_progress = {
+	set_variable = {
+		name = mendelejew_monthly_chemist_improvement_progress_var
+		value = 1 #Base Value
+	}
+	if = { #Has Chemist
+		limit = {
+			mendelejew_has_chemist = yes
+		}
+		change_variable = {
+			name = mendelejew_monthly_chemist_improvement_progress_var
+			add = 1
+		}
+	}
+	if = { #Experience of the chemist divided by 100
+		limit = {
+			mendelejew_has_chemist = yes
+		}
+		if = {
+			limit = {
+				var:mendelejew_chemist_var.var:mendelejew_chemist_experience < 300
+			}
+			set_local_variable = {
+				name = chemist_experience_add
+				value = var:mendelejew_chemist_var.var:mendelejew_chemist_experience
+			}
+			change_local_variable = {
+				name = chemist_experience_add
+				divide = 300
+			}
+			change_variable = {
+				name = mendelejew_monthly_chemist_improvement_progress_var
+				add = local_var:chemist_experience_add
+			}
+		}
+		else = {
+			change_variable = {
+				name = mendelejew_monthly_chemist_improvement_progress_var
+				add = 1
+			}
+		}
+		if = {
+			limit = {
+				var:mendelejew_chemist_var.var:mendelejew_chemist_experience < 300
+			}
+			set_variable = {
+				name = chemist_experience_add
+				value = var:mendelejew_chemist_var.var:mendelejew_chemist_experience
+			}
+			change_variable = {
+				name = chemist_experience_add
+				divide = 300
+			}
+		}
+		else = {
+			set_variable = {
+				name = chemist_mechanical_experience_add_var
+				value = 1
+			}
+		}
+	}
+	if = { #Chemist has Specialization
+		limit = {
+			mendelejew_chemist_has_specialization_trigger = yes
+		}
+		change_variable = {
+			name = mendelejew_monthly_chemist_improvement_progress_var
+			add = 1
+		}
+	}
+	if = { #chemist has Meticulous Trait
+		limit = {
+			mendelejew_has_chemist = yes
+			var:mendelejew_chemist_var = {
+				has_trait = meticulous
+			}
+		}
+		change_variable = {
+			name = mendelejew_monthly_chemist_improvement_progress_var
+			add = 0.1
+		}
+	}
+	if = { #chemist has Persistent Trait
+		limit = {
+			mendelejew_has_chemist = yes
+			var:mendelejew_chemist_var = {
+				has_trait = persistent
+			}
+		}
+		change_variable = {
+			name = mendelejew_monthly_chemist_improvement_progress_var
+			add = 0.1
+		}
+	}
+	if = { #chemist has Innovative Trait
+		limit = {
+			mendelejew_has_chemist = yes
+			var:mendelejew_chemist_var = {
+				has_trait = innovative
+			}
+		}
+		change_variable = {
+			name = mendelejew_monthly_chemist_improvement_progress_var
+			add = 0.1
+		}
+	}
+	if = { #chemist has Physicist Trait
+		limit = {
+			mendelejew_has_chemist = yes
+			var:mendelejew_chemist_var = {
+				has_trait = curie_physicist
+			}
+		}
+		change_variable = {
+			name = mendelejew_monthly_chemist_improvement_progress_var
+			add = 0.1
+		}
+	}
+}
+
+mendelejew_remove_je_cost_modifiers_effect = {
+	if = {
+		limit = { has_modifier = mendelejew_chemist_fertilizer_cost_modifier }
+		remove_modifier = mendelejew_chemist_fertilizer_cost_modifier
+	}
+	if = {
+		limit = { has_modifier = mendelejew_chemist_explosives_cost_modifier }
+		remove_modifier = mendelejew_chemist_explosives_cost_modifier
+	}
+	if = {
+		limit = { has_modifier = mendelejew_chemist_synthetics_cost_modifier }
+		remove_modifier = mendelejew_chemist_synthetics_cost_modifier
+	}
+}
