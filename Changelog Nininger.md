@@ -7,3 +7,5 @@ GUI
 - No more void ghosts for Academics.
 - No more void ghosts for Artists.
 - No more void ghosts for People in Sports.
+- Promote buttons for academics now show when they are active.
+- The dynamic Academy of Science names are now kept on forming a new nation.
