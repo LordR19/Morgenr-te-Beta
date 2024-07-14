@@ -625,85 +625,207 @@ types arts_view
 											ignoreinvisible = yes
 											spacing = 8
 											margin = { 25 15 }
-	
-											button = {
-												#Compose a Musical Work
-												using = default_button_primary_big_action
-												size = { 300 45 }
-												raw_text = "MR_COMPOSE_A_WORK_BUTTON"
-												using = fontsize_medium
-						
-												datacontext = "[GetScriptedGui('mr_compose_a_work_button')]"
-												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												tooltip = "MR_COMPOSE_A_WORK_BUTTON_TT"
-											}
-											button = {
-												#Stop Composing
-												using = default_button_primary_big_action
-												size = { 300 45 }
-												raw_text = "MR_STOP_COMPOSING_A_WORK_BUTTON"
-												using = fontsize_medium
-						
-												datacontext = "[GetScriptedGui('mr_stop_composing_a_work_button')]"
-												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												tooltip = "MR_STOP_COMPOSING_A_WORK_BUTTON_TT"
-											}
-											button = {
-												#Conduct a season
-												using = default_button_primary_big_action
-												size = { 300 45 }
-												raw_text = "MR_CONDUCT_A_SEASON_BUTTON"
-												using = fontsize_medium
-						
-												datacontext = "[GetScriptedGui('mr_conduct_a_season_button')]"
-												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												tooltip = "MR_CONDUCT_A_SEASON_BUTTON_TT"
-											}
-											button = {
-												#Go on a Music Tour
-												using = default_button_primary_big_action
-												size = { 300 45 }
-												raw_text = "MR_GO_ON_A_MUSIC_TOUR_BUTTON"
-												using = fontsize_medium
-						
-												datacontext = "[GetScriptedGui('mr_go_on_a_music_tour_button')]"
-												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												tooltip = "MR_GO_ON_A_MUSIC_TOUR_BUTTON_TT"
-											}
-											button = {
-												#Create a Masterpiece
-												using = default_button_primary_big_action
-												size = { 300 45 }
-												raw_text = "MR_CREATE_A_MASTERPIECE_BUTTON"
-												using = fontsize_medium
 
-												datacontext = "[GetScriptedGui('mr_create_a_masterpiece_button')]"
-												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												tooltip = "MR_CREATE_A_MASTERPIECE_BUTTON_TT"
-											}
-											button = {
-												#Stop creating a Masterpiece
-												using = default_button_primary_big_action
-												size = { 300 45 }
-												raw_text = "MR_STOP_CREATING_MASTERWORK_BUTTON"
-												using = fontsize_medium
+											### Engineer Specialization ###
+											flowcontainer = {
+												direction = horizontal
+												parentanchor = hcenter
+												ignoreinvisible = yes
+												spacing = 4
 
-												datacontext = "[GetScriptedGui('mr_stop_creating_masterwork_button')]"
-												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												tooltip = "MR_STOP_CREATING_MASTERWORK_BUTTON_TT"
+												# Compose a Musical Work
+												widget = {
+													size = { 50 50 }
+
+													#Button when it is not active
+													button_icon_round = {
+														parentanchor = center
+														size = { 45 45 }
+
+														datacontext = "[GetScriptedGui('mr_compose_a_work_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_COMPOSE_A_WORK_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_composer_composing_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 75% 75% }
+														}
+													}
+
+													#highlight circle to indicate that it is currently active
+													icon = {
+														parentanchor = center
+														size = { 100% 100%}
+														using = highlighted_circle_selection_small
+														visible = "[GetScriptedGui('mr_stop_composing_a_work_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													}
+													#Stop Composing
+													button_icon_round = {
+														parentanchor = center
+														size = { 45 45 }
+
+														datacontext = "[GetScriptedGui('mr_stop_composing_a_work_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_STOP_COMPOSING_A_WORK_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_composer_composing_stop_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 75% 75% }
+														}
+													}
+												}
+
+												# Conduct a season
+												widget = {
+													size = { 50 50 }
+
+													#Button when it is not active
+													button_icon_round = {
+														parentanchor = center
+														size = { 45 45 }
+
+														datacontext = "[GetScriptedGui('mr_conduct_a_season_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_CONDUCT_A_SEASON_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_composer_conducting_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 75% 75% }
+														}
+													}
+
+													# Three Icons for when it is active (normal color plus highlight circle)
+													#highlight circle to indicate that it is currently active
+													icon = {
+														parentanchor = center
+														size = { 100% 100%}
+														using = highlighted_circle_selection_small
+														visible = "[GetScriptedGui('mr_conducting_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													}
+													#Button background
+													icon = {
+														parentanchor = center
+														size = { 42 42 }
+														texture = "gfx/interface/buttons/round_button_small_wood.dds"
+														visible = "[GetScriptedGui('mr_conducting_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+														tooltip = "MR_CONDUCTING_ACTIVE_TT"
+													}
+													#Button Icon
+													icon = {
+														parentanchor = center
+														size = { 34 34 }
+														texture = "gfx/interface/icons/GUI_icons/GUI_composer_conducting_button.dds"
+														visible = "[GetScriptedGui('mr_conducting_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													}
+												}
+
+												# Go on a Music Tour
+												widget = {
+													size = { 50 50 }
+
+													#Button when it is not active
+													button_icon_round = {
+														parentanchor = center
+														size = { 45 45 }
+
+														datacontext = "[GetScriptedGui('mr_go_on_a_music_tour_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_GO_ON_A_MUSIC_TOUR_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_composer_musical_tour_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 75% 75% }
+														}
+													}
+
+													# Three Icons for when it is active (normal color plus highlight circle)
+													#highlight circle to indicate that it is currently active
+													icon = {
+														parentanchor = center
+														size = { 100% 100%}
+														using = highlighted_circle_selection_small
+														visible = "[GetScriptedGui('mr_music_tour_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													}
+													#Button background
+													icon = {
+														parentanchor = center
+														size = { 42 42 }
+														texture = "gfx/interface/buttons/round_button_small_wood.dds"
+														visible = "[GetScriptedGui('mr_music_tour_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+														tooltip = "MR_MUSIC_TOUR_ACTIVE_TT"
+													}
+													#Button Icon
+													icon = {
+														parentanchor = center
+														size = { 34 34 }
+														texture = "gfx/interface/icons/GUI_icons/GUI_composer_musical_tour_button.dds"
+														visible = "[GetScriptedGui('mr_music_tour_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													}
+												}
+
+												# Compose a Masterwork
+												widget = {
+													size = { 50 50 }
+
+													#Button when it is not active
+													button_icon_round = {
+														parentanchor = center
+														size = { 45 45 }
+
+														datacontext = "[GetScriptedGui('mr_create_a_masterpiece_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_CREATE_A_MASTERPIECE_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_composer_composing_masterwork_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 75% 75% }
+														}
+													}
+
+													#highlight circle to indicate that it is currently active
+													icon = {
+														parentanchor = center
+														size = { 100% 100%}
+														using = highlighted_circle_selection_small
+														visible = "[GetScriptedGui('mr_stop_creating_masterwork_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													}
+													#Stop Composing Masterwork
+													button_icon_round = {
+														parentanchor = center
+														size = { 45 45 }
+
+														datacontext = "[GetScriptedGui('mr_stop_creating_masterwork_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_STOP_CREATING_MASTERWORK_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_composer_composing_masterwork_stop_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 75% 75% }
+														}
+													}
+												}
 											}
+
 											button = {
 												#Mozart Monument
 												using = default_button_primary_big_action
