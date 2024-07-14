@@ -19,5 +19,7 @@ GUI
 - The current expedition of the Archaeologist will now be highlighted.
 - Created a round button for the Anthropologist identifying fossils.
 - The current activity of the Anthropologist will now be highlighted.
+- Composer activities now use the round button.
+- The current activity of the composer is now highlighted.
 - Added "M" as the Shortcut button to the Morgenröte Window.
 - The dynamic Academy of Science names are now kept on forming a new nation.
