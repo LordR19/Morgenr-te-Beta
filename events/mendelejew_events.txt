@@ -801,7 +801,7 @@ mendelejew.215 = {
 	gui_window = event_window_2char
 
 	left_icon = scope:mendelejew_chemist_scope
-	right_icon = scope:dubois_geologist_scope
+	right_icon = scope:mendelejew_geologist_scope
 
 	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
 
@@ -813,15 +813,15 @@ mendelejew.215 = {
 
 	trigger = {
 		mendelejew_has_chemist = yes
-		dubois_has_geologist = yes
+		mendelejew_has_geologist = yes
 	}
 
 	immediate = {
 		var:mendelejew_chemist_var = {
 			save_scope_as = mendelejew_chemist_scope
 		}
-		var:dubois_geologist_var = {
-			save_scope_as = dubois_geologist_scope
+		var:mendelejew_geologist_var = {
+			save_scope_as = mendelejew_geologist_scope
 		}
 	}
 
@@ -1649,5 +1649,559 @@ mendelejew.503 = {
 	}
 	after = {
 		remove_variable = mendelejew_building_chemist_improvement_var
+	}
+}
+
+#########################################################################################################
+
+#Mendelejew 601: Congress - Invitation
+mendelejew.601 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.601.t
+	desc = mendelejew.601.d
+	flavor = mendelejew.601.f
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_chemist_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	immediate = {
+		set_global_variable = mendelejew_atomic_weight_national
+		set_global_variable = mendelejew_atomic_weight_international
+		var:mendelejew_chemist_var = {
+			set_variable = mendelejew_attended_chemist_congress_var
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = { 
+		name = mendelejew.601.g # Invite the leading chemist nations
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_variable = mendelejew_chemist_var
+			}
+			trigger_event = {
+				id = mendelejew.602
+				popup = yes
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = mendelejew.604
+			days = { 7 14 }
+		}
+		trigger_event = {
+			id = mendelejew.609
+			days = 180
+		}
+	}
+}
+
+#Mendelejew 602: Congress - An Invitation
+mendelejew.602 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.601.t
+	desc = mendelejew.602.d
+	flavor = mendelejew.601.f
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_chemist_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = mendelejew_congress_host_modifier
+			}
+			save_scope_as = mendelejew_congress_host_country
+		}
+		var:mendelejew_chemist_var = {
+			set_variable = mendelejew_attended_chemist_congress_var
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = { 
+		name = mendelejew.602.g #We'll come
+		add_modifier = {
+			name = mendelejew_congress_attend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = mendelejew.604
+			days = { 7 14 }
+		}
+	}
+}
+
+#mendelejew 604: Congress - Debate
+mendelejew.604 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.604.t
+	desc = mendelejew.604.d
+	flavor = mendelejew.604.f
+
+	duration = 2
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_chemist_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = { 
+		name = mendelejew.604.g #We stay with our own, national weight.
+		if = {
+			limit = {
+				var:mendelejew_chemist_var ?= {
+					has_trait = mendelejew_chemist_famous
+				}
+			}
+			change_global_variable = {
+				name = mendelejew_atomic_weight_national
+				add = 3
+			}
+			custom_tooltip = mendelejew_conference_chemist_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:mendelejew_chemist_var ?= {
+					has_trait = mendelejew_chemist_experienced
+				}
+			}
+			change_global_variable = {
+				name = mendelejew_atomic_weight_national
+				add = 2
+			}
+			custom_tooltip = mendelejew_conference_chemist_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = mendelejew_atomic_weight_national
+				add = 1
+			}
+		}
+		
+		ai_chance = {
+			base = 1
+			modifier = { #Powerful Petty Bourgeoisie
+				trigger = {
+					ig:ig_petty_bourgeoisie = {
+						is_powerful = yes
+					}
+				}
+				add = 1
+			}
+			modifier = { #Cautious Character preserves status quo
+				trigger = {
+					var:mendelejew_chemist_var ?= {
+						has_trait = cautious
+					}
+				}
+				add = 1
+			}
+			modifier = { #Less experiences remains conformist
+				trigger = {
+					var:mendelejew_chemist_var ?= {
+						var:mendelejew_chemist_experience < 100
+					}
+				}
+				add = 1
+			}
+		}
+	}
+
+	option = { 
+		name = mendelejew.604.h #We need a common, international atomic weight.
+		default_option = yes
+		if = {
+			limit = {
+				var:mendelejew_chemist_var ?= {
+					has_trait = mendelejew_chemist_famous
+				}
+			}
+			change_global_variable = {
+				name = mendelejew_national_no
+				add = 3
+			}
+			custom_tooltip = mendelejew_conference_chemist_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:mendelejew_chemist_var ?= {
+					has_trait = mendelejew_chemist_experienced
+				}
+			}
+			change_global_variable = {
+				name = mendelejew_national_no
+				add = 2
+			}
+			custom_tooltip = mendelejew_conference_chemist_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = mendelejew_national_no
+				add = 1
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #Powerful Intelligentsia
+				trigger = {
+					ig:ig_intelligentsia = {
+						is_powerful = yes
+					}
+				}
+				add = 1
+			}
+			modifier = { #Chemist is innovative
+				trigger = {
+					var:mendelejew_chemist_var ?= {
+						has_trait = innovative
+					}
+				}
+			add = 1
+			}
+			modifier = { #More experience ist non-conformist
+				trigger = {
+					var:mendelejew_chemist_var ?= {
+						var:mendelejew_chemist_experience >= 100
+					}
+				}
+				add = 2
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = mendelejew.605 #Chemist Congress
+			days = { 14 21 }
+		}
+	}
+}
+
+#Mendelejew 605: Congress - Extra
+mendelejew.605 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.605.t
+	desc = mendelejew.605.d
+	flavor = mendelejew.605.f
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_chemist_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = mendelejew_congress_host_modifier
+			}
+			save_scope_as = mendelejew_congress_host_country
+		}
+		var:mendelejew_chemist_var = {
+			set_variable = mendelejew_attended_chemist_congress_var
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = { 
+		name = mendelejew.605.g #Our chemist is supposed to collect new insights for the future.
+		default_option = yes
+		chemist_experience_gain_effect = { AMOUNT = 10 }
+	}
+
+	option = { 
+		name = mendelejew.605.h #Our chemist should look for solutions to current problems in his research.
+		default_option = yes
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 10 }
+	}
+
+	option = { 
+		name = mendelejew.605.i #Our chemist should send his assistants ahead so that they can learn something.
+		default_option = yes
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 609: Congress - Decision for Host
+mendelejew.609 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_national
+			}
+			desc = mendelejew.609.t_national
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_intenational
+			}
+			desc = mendelejew.609.t_international
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_national
+			}
+			desc = mendelejew.609.d_national
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_intenational
+			}
+			desc = mendelejew.609.d_international
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_national
+			}
+			desc = mendelejew.609.f_national
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_intenational
+			}
+			desc = mendelejew.609.f_international
+		}
+	}
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_chemist_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = mendelejew_congress_host_modifier
+			}
+			save_scope_as = mendelejew_congress_host_country
+		}
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+		if = {
+			limit = {
+				global_var:mendelejew_atomic_weight_national > global_var:mendelejew_atomic_weight_international
+			}
+			set_global_variable = mendelejew_chemist_national
+		}
+		else_if = {
+			limit = {
+				global_var:mendelejew_atomic_weight_national = global_var:mendelejew_atomic_weight_international
+			}
+			set_global_variable = mendelejew_chemist_intenational
+		}
+		else_if = {
+			limit = {
+				global_var:mendelejew_atomic_weight_national < global_var:mendelejew_atomic_weight_international
+			}
+			set_global_variable = mendelejew_chemist_intenational
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = mendelejew_chemist_national
+		}
+		name = mendelejew.609.g #This will set us back years.
+		default_option = yes
+		chemist_experience_gain_effect = {
+			AMOUNT = "5"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = mendelejew_chemist_intenational
+		}
+		name = mendelejew.609.h #A breakthrough for chemistry!
+		mendelejew_large_add_technology = yes
+		chemist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_modifier = mendelejew_congress_attend_modifier
+			}
+			trigger_event = {
+				id = mendelejew.610
+				popup = yes
+			}
+		}
+		remove_global_variable = mendelejew_atomic_weight_national
+		remove_global_variable = mendelejew_atomic_weight_international
+	}
+}
+
+#Mendelejew 610: Congress - Decision for Others
+mendelejew.610 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_national
+			}
+			desc = mendelejew.609.t_national
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_intenational
+			}
+			desc = mendelejew.609.t_international
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_national
+			}
+			desc = mendelejew.609.d_national
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_intenational
+			}
+			desc = mendelejew.609.d_international
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_national
+			}
+			desc = mendelejew.609.f_national
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = mendelejew_chemist_intenational
+			}
+			desc = mendelejew.609.f_international
+		}
+	}
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_chemist_congress.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = mendelejew_congress_host_modifier
+			}
+			save_scope_as = mendelejew_congress_host_country
+		}
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = mendelejew_chemist_national
+		}
+		name = mendelejew.609.g #This will set us back years.
+		remove_modifier = mendelejew_congress_attend_modifier
+		default_option = yes
+		chemist_experience_gain_effect = {
+			AMOUNT = "5"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = mendelejew_chemist_intenational
+		}
+		name = mendelejew.609.h #A breakthrough for chemistry!
+		remove_modifier = mendelejew_congress_attend_modifier
+		mendelejew_large_add_technology = yes
+		chemist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	after = {
 	}
 }
