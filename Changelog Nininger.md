@@ -25,6 +25,7 @@ GUI
 - The current activity of the Writer is now highlighted.
 - Painter activities now use the round button.
 - The current activity of the Painter is now highlighted.
+- The current Sports activities (round buttons) now get highlighted.
 - Added "M" as the Shortcut button to the Morgenröte Window.
 - The dynamic Academy of Science names are now kept on forming a new nation.
 
