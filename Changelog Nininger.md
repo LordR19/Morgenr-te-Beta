@@ -23,3 +23,12 @@ GUI
 - The current activity of the composer is now highlighted.
 - Added "M" as the Shortcut button to the Morgenröte Window.
 - The dynamic Academy of Science names are now kept on forming a new nation.
+
+############
+
+Changelog for 2.2.3 "Ball"
+
+Chemistry
+- Added a button for Chemist to improve fertilizer. Chemists will improve Fertilizer Plants, giving modifiers for throughput, input and output.
+- Added a button for Chemist to improve explosives. Chemists will improve Explosives Factories, giving modifiers for throughput, input and output.
+- Added a button for Chemist to improve Synthetics. Chemists will improve Synthetic Fuel Factories and Synthetic Plants, giving modifiers for throughput, input and output.
