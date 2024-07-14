@@ -1145,7 +1145,7 @@ types arts_view
 											ignoreinvisible = yes
 											spacing = 8
 											margin = { 25 15 }
-	
+
 											### Writer Activities ###
 											flowcontainer = {
 												direction = horizontal
@@ -1500,19 +1500,84 @@ types arts_view
 											ignoreinvisible = yes
 											spacing = 8
 											margin = { 25 15 }
-	
-											button = {
-												#Painter Trip
-												using = default_button_primary_big_action
-												size = { 300 45 }
-												raw_text = "MR_PAINTER_TRIP_BUTTON"
-												using = fontsize_medium
-						
-												datacontext = "[GetScriptedGui('mr_painter_trip_button')]"
-												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												tooltip = "MR_PAINTER_TRIP_BUTTON_TT"
+
+											### Painter Activities ###
+											flowcontainer = {
+												direction = horizontal
+												parentanchor = hcenter
+												ignoreinvisible = yes
+												spacing = 4
+
+												# Painter Trip
+												widget = {
+													size = { 50 50 }
+
+													#Button when it is not active
+													button_icon_round = {
+														parentanchor = center
+														size = { 45 45 }
+
+														datacontext = "[GetScriptedGui('mr_painter_trip_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_PAINTER_TRIP_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_painter_trip_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 75% 75% }
+														}
+													}
+
+													# Three Icons for when it is active (normal color plus highlight circle)
+													#highlight circle to indicate that it is currently active
+													icon = {
+														parentanchor = center
+														size = { 100% 100%}
+														using = highlighted_circle_selection_small
+														visible = "[GetScriptedGui('mr_painter_trip_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													}
+													#Button background
+													icon = {
+														parentanchor = center
+														size = { 42 42 }
+														texture = "gfx/interface/buttons/round_button_small_wood.dds"
+														visible = "[GetScriptedGui('mr_painter_trip_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+														tooltip = "MR_PAINTER_TRIP_ACTIVE_TT"
+													}
+													#Button Icon
+													icon = {
+														parentanchor = center
+														size = { 34 34 }
+														texture = "gfx/interface/icons/GUI_icons/GUI_painter_trip_button.dds"
+														visible = "[GetScriptedGui('mr_painter_trip_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													}
+												}
+
+												# Vernissage
+												widget = {
+													size = { 50 50 }
+
+													#Button when it is not active
+													button_icon_round = {
+														parentanchor = center
+														size = { 45 45 }
+
+														datacontext = "[GetScriptedGui('mr_vernissage_button')]"
+														onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														tooltip = "MR_VERNISSAGE_BUTTON_TT"
+														blockoverride "icon" {
+															texture = "gfx/interface/icons/GUI_icons/GUI_painter_vernissage_button.dds"
+														}
+														blockoverride "icon_size" {
+															size = { 65% 65% }
+														}
+													}
+												}
 											}
 											button = {
 												#Acquire a Masterwork
@@ -1526,19 +1591,6 @@ types arts_view
 												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 												tooltip = "MR_ACQUIRE_MASTERWORK_BUTTON_TT"
-											}
-											button = {
-												#Vernissage Button
-												using = default_button_primary_big_action
-												size = { 300 45 }
-												raw_text = "MR_VERNISSAGE_BUTTON"
-												using = fontsize_medium
-						
-												datacontext = "[GetScriptedGui('mr_vernissage_button')]"
-												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-												tooltip = "MR_VERNISSAGE_BUTTON_TT"
 											}
 										}
 									}
