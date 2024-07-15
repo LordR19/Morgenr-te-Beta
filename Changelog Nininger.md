@@ -29,6 +29,9 @@ GUI
 - Added "M" as the Shortcut button to the Morgenröte Window.
 - The dynamic Academy of Science names are now kept on forming a new nation.
 
+Fixes
+- Schneider Trophy races should end now properly and Schneider Trophy Points should be shown again.
+
 ############
 
 Changelog for 2.2.3 "Ball"
