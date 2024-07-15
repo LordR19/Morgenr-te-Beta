@@ -13,8 +13,8 @@ mr_chemist_fertilizer_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
-			text = MR_CHEMIST_TRIGGER_TT
-			mendelejew_has_chemist = yes
+			text = MR_CHEMIST_ACTIVE_TRIGGER_TT
+			mendelejew_has_active_chemist = yes
 		}
 		custom_tooltip = {
 			text = MR_CHEMIST_IMPROVE_FERTILIZER_TRIGGER_TT
@@ -46,8 +46,8 @@ mr_chemist_explosives_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
-			text = MR_CHEMIST_TRIGGER_TT
-			mendelejew_has_chemist = yes
+			text = MR_CHEMIST_ACTIVE_TRIGGER_TT
+			mendelejew_has_active_chemist = yes
 		}
 		custom_tooltip = {
 			text = MR_CHEMIST_IMPROVE_EXPLOSIVES_TRIGGER_TT
@@ -79,13 +79,16 @@ mr_chemist_synthetics_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
-			text = MR_CHEMIST_TRIGGER_TT
-			mendelejew_has_chemist = yes
+			text = MR_CHEMIST_ACTIVE_TRIGGER_TT
+			mendelejew_has_active_chemist = yes
 		}
 		custom_tooltip = {
 			text = MR_CHEMIST_IMPROVE_SYNTHETICS_TRIGGER_TT
 			any_scope_building = {
-				is_building_type = building_synthetics_plants
+				OR = {
+					is_building_type = building_synthetics_plants
+					is_building_type = building_mendelejew_hydrogenation_plants
+				}
 				level > 0
 				NOR = {
 					has_modifier = mendelejew_building_throughput_add_modifier
@@ -168,6 +171,63 @@ mr_chemist_congress_button = {
 		add_modifier = {
 			name = mendelejew_congress_host_modifier
 			years = 5
+		}
+    }
+}
+
+#MR_CHEMIST_SYNTHETIC_OIL_BUTTON
+mr_chemist_synthetic_oil_button = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_CHEMIST_ACTIVE_TRIGGER_TT
+			mendelejew_has_active_chemist = yes
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_MODERN_PHYSICS_TECH_TRIGGER_TT
+			has_technology_researched = verrier_modern_physics_tech
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_PLASTICS_TECH_TRIGGER_TT
+			has_technology_researched = plastics
+		}
+		custom_tooltip = {
+			text = MR_COMBUSTION_ENGINE_TECH_TRIGGER_TT
+			has_technology_researched = combustion_engine
+		}
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_HAS_IMPROVED_SYNTHETICS_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_synthetics_plants
+				level > 0
+				has_modifier = mendelejew_building_throughput_add_modifier
+				has_modifier = mendelejew_building_production_mult_modifier
+				has_modifier = mendelejew_building_goods_input_mult_modifier
+			}
+		}
+    }
+    effect = {
+        add_journal_entry = { type = je_mendelejew_synthetic_oil }
+		add_modifier = {
+			name = mendelejew_chemist_synthetic_oil_cost_modifier
+			multiplier = money_amount_multiplier_high
+		}
+		var:mendelejew_chemist_var = {
+			set_character_busy_and_immortal = yes
 		}
     }
 }
