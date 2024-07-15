@@ -44,6 +44,12 @@ types sports_view
 							blockoverride "character" {
 								datacontext = "[GetPlayer.MakeScope.Var('curtiss_balloonist_var').GetCharacter]"
 							}
+							blockoverride "character_visible" {
+								visible = "[GetScriptedGui('mr_has_balloonist_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "no_character_visible" {
+								visible = "[Not( GetScriptedGui('mr_has_balloonist_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('sports_has_balloonist_gui_type')]"
 							}
@@ -182,6 +188,12 @@ types sports_view
 							blockoverride "character" {
 								datacontext = "[GetPlayer.MakeScope.Var('GUI_dubois_mountaineer_var').GetCharacter]"
 							}
+							blockoverride "character_visible" {
+								visible = "[GetScriptedGui('mr_has_mountaineer_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "no_character_visible" {
+								visible = "[Not( GetScriptedGui('mr_has_mountaineer_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('sports_has_mountaineer_gui_type')]"
 							}
@@ -245,22 +257,53 @@ types sports_view
 										direction = horizontal
 										parentanchor = hcenter
 										ignoreinvisible = yes
-										spacing = 10
+										spacing = 4
 
-										button_icon_round = {
-											# Mountain Expedition
-											size = { 45 45 }
-						
-											datacontext = "[GetScriptedGui('mr_mountain_expedition_button')]"
-											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-											tooltip = "MR_MOUNTAIN_EXPEDITION_TT"
-											blockoverride "icon" {
-												texture = "gfx/interface/icons/GUI_icons/GUI_expedition_mountain_button.dds"
+										# Mountain Expedition
+										widget = {
+											size = { 50 50 }
+
+											#Button when it is not active
+											button_icon_round = {
+												parentanchor = center
+												size = { 45 45 }
+
+												datacontext = "[GetScriptedGui('mr_mountain_expedition_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_MOUNTAIN_EXPEDITION_TT"
+												blockoverride "icon" {
+													texture = "gfx/interface/icons/GUI_icons/GUI_expedition_mountain_button.dds"
+												}
+												blockoverride "icon_size" {
+													size = { 75% 75% }
+												}
 											}
-											blockoverride "icon_size" {
-												size = { 75% 75% }
-											}					
+
+											# Three Icons for when it is active (normal color plus highlight circle)
+											#highlight circle to indicate that it is currently active
+											icon = {
+												parentanchor = center
+												size = { 100% 100%}
+												using = highlighted_circle_selection_small
+												visible = "[GetScriptedGui('mr_mountain_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											}
+											#Button background
+											icon = {
+												parentanchor = center
+												size = { 42 42 }
+												texture = "gfx/interface/buttons/round_button_small_wood.dds"
+												visible = "[GetScriptedGui('mr_mountain_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+												tooltip = "MR_MOUNTAIN_EXPEDITION_ACTIVE_TT"
+											}
+											#Button Icon
+											icon = {
+												parentanchor = center
+												size = { 34 34 }
+												texture = "gfx/interface/icons/GUI_icons/GUI_expedition_mountain_button.dds"
+												visible = "[GetScriptedGui('mr_mountain_expedition_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											}
 										}
 									}
 								}
@@ -289,6 +332,12 @@ types sports_view
 							} 
 							blockoverride "character" {
 								datacontext = "[GetPlayer.MakeScope.Var('GUI_vikelas_athlete_var').GetCharacter]"
+							}
+							blockoverride "character_visible" {
+								visible = "[GetScriptedGui('mr_has_athlete_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "no_character_visible" {
+								visible = "[Not( GetScriptedGui('mr_has_athlete_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 							}
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('sports_has_athlete_gui_type')]"
@@ -454,6 +503,12 @@ types sports_view
 							blockoverride "character" {
 								datacontext = "[GetPlayer.MakeScope.Var('curtiss_pilot_var').GetCharacter]"
 							}
+							blockoverride "character_visible" {
+								visible = "[GetScriptedGui('mr_has_pilot_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "no_character_visible" {
+								visible = "[Not( GetScriptedGui('mr_has_pilot_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+							}
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('curtiss_has_pilot_gui_type')]"
 							}
@@ -520,38 +575,100 @@ types sports_view
 										direction = horizontal
 										parentanchor = hcenter
 										ignoreinvisible = yes
-										spacing = 10
+										spacing = 4
 
-										button_icon_round = {
-											# Air Combat
-											size = { 45 45 }
-						
-											datacontext = "[GetScriptedGui('mr_curtiss_air_combat_mission_button')]"
-											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-											tooltip = "MR_AIR_COMBAR_MISSION_BUTTON_TT"
-											blockoverride "icon" {
-												texture = "gfx/interface/icons/GUI_icons/GUI_curtiss_air_combat_button.dds"
+										# Air Combat Mission
+										widget = {
+											size = { 50 50 }
+
+											#Button when it is not active
+											button_icon_round = {
+												parentanchor = center
+												size = { 45 45 }
+
+												datacontext = "[GetScriptedGui('mr_curtiss_air_combat_mission_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_AIR_COMBAR_MISSION_BUTTON_TT"
+												blockoverride "icon" {
+													texture = "gfx/interface/icons/GUI_icons/GUI_curtiss_air_combat_button.dds"
+												}
+												blockoverride "icon_size" {
+													size = { 75% 75% }
+												}
 											}
-											blockoverride "icon_size" {
-												size = { 75% 75% }
-											}					
+
+											# Three Icons for when it is active (normal color plus highlight circle)
+											#highlight circle to indicate that it is currently active
+											icon = {
+												parentanchor = center
+												size = { 100% 100%}
+												using = highlighted_circle_selection_small
+												visible = "[GetScriptedGui('mr_curtiss_air_combat_mission_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											}
+											#Button background
+											icon = {
+												parentanchor = center
+												size = { 42 42 }
+												texture = "gfx/interface/buttons/round_button_small_wood.dds"
+												visible = "[GetScriptedGui('mr_curtiss_air_combat_mission_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+												tooltip = "MR_AIR_COMBAT_MISSION_ACTIVE_TT"
+											}
+											#Button Icon
+											icon = {
+												parentanchor = center
+												size = { 34 34 }
+												texture = "gfx/interface/icons/GUI_icons/GUI_curtiss_air_combat_button.dds"
+												visible = "[GetScriptedGui('mr_curtiss_air_combat_mission_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											}
 										}
 
-										button_icon_round = {
-											# Aircraft Parade
-											size = { 45 45 }
-						
-											datacontext = "[GetScriptedGui('mr_curtiss_aircraft_parade_button')]"
-											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-											tooltip = "MR_AIRCRAFT_PARADE_BUTTON_TT"
-											blockoverride "icon" {
-												texture = "gfx/interface/icons/GUI_icons/GUI_curtiss_aircraft_parade_button.dds"
+										# Aircraft Parade
+										widget = {
+											size = { 50 50 }
+
+											#Button when it is not active
+											button_icon_round = {
+												parentanchor = center
+												size = { 45 45 }
+
+												datacontext = "[GetScriptedGui('mr_curtiss_aircraft_parade_button')]"
+												onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+												tooltip = "MR_AIRCRAFT_PARADE_BUTTON_TT"
+												blockoverride "icon" {
+													texture = "gfx/interface/icons/GUI_icons/GUI_curtiss_aircraft_parade_button.dds"
+												}
+												blockoverride "icon_size" {
+													size = { 75% 75% }
+												}
 											}
-											blockoverride "icon_size" {
-												size = { 75% 75% }
-											}					
+
+											# Three Icons for when it is active (normal color plus highlight circle)
+											#highlight circle to indicate that it is currently active
+											icon = {
+												parentanchor = center
+												size = { 100% 100%}
+												using = highlighted_circle_selection_small
+												visible = "[GetScriptedGui('mr_curtiss_aircraft_parade_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											}
+											#Button background
+											icon = {
+												parentanchor = center
+												size = { 42 42 }
+												texture = "gfx/interface/buttons/round_button_small_wood.dds"
+												visible = "[GetScriptedGui('mr_curtiss_aircraft_parade_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+												tooltip = "MR_AIRCRAFT_PARADE_ACTIVE_TT"
+											}
+											#Button Icon
+											icon = {
+												parentanchor = center
+												size = { 34 34 }
+												texture = "gfx/interface/icons/GUI_icons/GUI_curtiss_aircraft_parade_button.dds"
+												visible = "[GetScriptedGui('mr_curtiss_aircraft_parade_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											}
 										}
 									}
 
@@ -610,6 +727,12 @@ types sports_view
 							} 
 							blockoverride "character" {
 								datacontext = "[GetPlayer.MakeScope.Var('vikelas_racer_var').GetCharacter]"
+							}
+							blockoverride "character_visible" {
+								visible = "[GetScriptedGui('mr_has_car_racer_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							}
+							blockoverride "no_character_visible" {
+								visible = "[Not( GetScriptedGui('mr_has_car_racer_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 							}
 							blockoverride "character_name" {
 								text = "[GetPlayer.GetCustom('sports_has_racer_gui_type')]"
@@ -743,6 +866,8 @@ types sports_view
 		# role_name
 		# fontsize_role
 		# character
+		# character_visible
+		# no_character_visible
 		# character_name
 		# character_traits
 		# achievements_icon_visibility
@@ -764,10 +889,15 @@ types sports_view
 			{
 				datacontext = "[AccessPlayer.AccessRuler]"
 			}
+			block "character_visible"{}
 			blockoverride "show_hat" {}
 			blockoverride "tooltip" {} #TODO Remove when Tooltip doesn't cause error anymore
 			blockoverride "portrait_icons" {} #TODO Remove when Tooltip doesn't cause error anymore
 			blockoverride "portrait_button" {} #TODO Remove when Tooltip doesn't cause error anymore
+		}
+		mr_no_character = {
+			position = { 40 65 }
+			block "no_character_visible"{}
 		}
 		default_header_clean_faded = {
 			size = { 250 40 }
@@ -915,6 +1045,8 @@ types sports_view
 		# role_name
 		# fontsize_role
 		# character
+		# character_visible
+		# no_character_visible
 		# character_name
 		# achievements_icon_visibility
 		# experience_bar_visibility
@@ -936,10 +1068,15 @@ types sports_view
 			{
 				datacontext = "[AccessPlayer.AccessRuler]"
 			}
+			block "character_visible"{}
 			blockoverride "show_hat" {}
 			blockoverride "tooltip" {} #TODO Remove when Tooltip doesn't cause error anymore
 			blockoverride "portrait_icons" {} #TODO Remove when Tooltip doesn't cause error anymore
 			blockoverride "portrait_button" {} #TODO Remove when Tooltip doesn't cause error anymore
+		}
+		mr_no_character = {
+			position = { 40 65 }
+			block "no_character_visible"{}
 		}
 		default_header_clean_faded = {
 			size = { 250 40 }

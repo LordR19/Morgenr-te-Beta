@@ -3938,6 +3938,7 @@ lepsius.200 = {
 
 	immediate = {
 		lepsius_archaeological_expedition_location = yes
+		lepsius_archaeologist_location_variable_setup_effect = yes
 	}
 		
 	option = { #Egypt
@@ -5306,6 +5307,7 @@ lepsius.310 = {
 		set_archaeological_expedition_leader_effect = yes
 		set_military_attache_effect = yes
 		lepsius_archaeological_expedition_add = yes
+		lepsius_archaeologist_location_variable_removal_effect = yes
 	}
 
 	option = { #End expedition and come home
@@ -16899,7 +16901,7 @@ lepsius.701 = {
 				id = lepsius.702
 				days = 2
 			}
-		}	
+		}
 	}
 	option = { #What shall we do with this old gibberish?
 		name = lepsius.701.h
@@ -16910,7 +16912,7 @@ lepsius.701 = {
 					days = 7
 				}
 			}
-		}	
+		}
 	}
 }
 
@@ -17070,6 +17072,15 @@ lepsius.703 = {
 		add_modifier = {
 			name = lepsius_lost_against_arch_rival_modifier
 			years = 3
+		}
+
+		create_political_lobby = {  
+			type = lobby_anti_country  
+			target = scope:lepsius_smuggler_country 
+			add_interest_group = ig:ig_intelligentsia
+			add_interest_group = ig:ig_petty_bourgeoisie
+			add_interest_group = ig:ig_armed_forces
+			lobby_formation_reason = diplomacy
 		}
 	}
 	after = {
@@ -23830,6 +23841,7 @@ lepsius.1201 = {
 		}
 		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_archaeologist_scope
+			set_variable = lepsius_archaeologist_in_local_var
 		}
 	}
 
@@ -23974,6 +23986,7 @@ lepsius.1202 = {
 		}
 		var:lepsius_archaeologist_var = {
 			save_scope_as = lepsius_archaeologist_scope
+			remove_variable = lepsius_archaeologist_in_local_var
 		}
 	}
 
@@ -24489,7 +24502,7 @@ lepsius.1302 = {
 
 	trigger = {
 		any_scope_state = {
-			state_region = s:STATE_RUHR
+			mr_state_in_ruhr_trigger = yes
 			lepsius_has_discovered_cave = no
 		}
 		game_date >= 1850.1.1
@@ -24498,7 +24511,7 @@ lepsius.1302 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				state_region = s:STATE_RUHR
+				mr_state_in_ruhr_trigger = yes
 				lepsius_has_discovered_cave = no
 			}
 			save_scope_as = lepsius_cave_state
@@ -25419,7 +25432,7 @@ lepsius.1331 = {
 	trigger = {
 		game_date >= 1860.1.1
 		any_scope_state = {
-			state_region = s:STATE_RUHR
+			mr_state_in_ruhr_trigger = yes
 		}
 		NOT = {
 			has_global_variable = lepsius_neanderthalensis_systemized
@@ -25430,7 +25443,7 @@ lepsius.1331 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				state_region = s:STATE_RUHR
+				mr_state_in_ruhr_trigger = yes
 			}
 			save_scope_as = lepsius_cave_state
 		}

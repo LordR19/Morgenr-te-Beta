@@ -2,6 +2,14 @@
 
 #by Lord R
 
+#Does the country have a paleontologist
+mr_has_paleontologist_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = dubois_paleontologist_var
+	}
+}
+
 #MR_PALEONTOLOGICAL_EXPEDITION_BUTTON
 mr_paleontological_expedition_button = {
     scope = country
@@ -74,6 +82,13 @@ mr_paleontological_expedition_recall_button = {
 			limit = { has_variable = dubois_paleontologist_var }
 			var:dubois_paleontologist_var = {
 				set_character_busy_and_immortal = no
+				remove_variable = dubois_paleontologist_in_south_america_var
+				remove_variable = dubois_paleontologist_in_north_america_var
+				remove_variable = dubois_paleontologist_in_europe_var
+				remove_variable = dubois_paleontologist_in_africa_var
+				remove_variable = dubois_paleontologist_in_asia_var
+				remove_variable = dubois_paleontologist_in_australia_var
+				remove_variable = dubois_paleontologist_in_local_var
 			}
 		}
 		dubois_set_paleontologist_to_default = yes
@@ -273,6 +288,18 @@ mr_mount_skeleton_button = {
     }
 }
 
+mr_mount_skeleton_active_sgui = {
+    scope = country
+    is_shown = {
+		OR = {
+			has_variable = mr_mount_dinosaur_skeleton_button_var
+			var:dubois_paleontologist_var ?= {
+				has_variable = mr_paleontologist_is_mounting_dinosaur_var
+			}
+		}
+    }
+}
+
 #MR_REMOUNT_SKELETON_BUTTON
 mr_remount_skeleton_button = {
     scope = country
@@ -339,6 +366,18 @@ mr_remount_skeleton_button = {
 		trigger_event = {
 			id = dubois.2181
 			popup = yes
+		}
+    }
+}
+
+mr_remount_skeleton_active_sgui = {
+    scope = country
+    is_shown = {
+		OR = {
+			has_variable = mr_remount_dinosaur_skeleton_button_var
+			var:dubois_paleontologist_var ?= {
+				has_variable = mr_paleontologist_is_remounting_dinosaur_var
+			}
 		}
     }
 }

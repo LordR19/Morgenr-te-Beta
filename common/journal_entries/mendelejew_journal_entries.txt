@@ -7,6 +7,9 @@
 
 ############################
 
+######ELEMENTS######
+
+###Theory of a New Element###
 je_mendelejew_element_theory = {
 	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
 
@@ -29,9 +32,15 @@ je_mendelejew_element_theory = {
 			}
 		}
 		random_events = {
-			600 = 0
+			700 = 0
 			
-			#10 = mendelejew.111
+			10 = mendelejew.111 #Mendelejew 111: An absent Professor?
+			10 = mendelejew.112 #Mendelejew 112: A Dream
+			10 = mendelejew.113 #Mendelejew 113: Publication on Chemistry
+			10 = mendelejew.114 #Mendelejew 114: Daydreaming
+			10 = mendelejew.115 #Mendelejew 115: ASTRONOMER helps
+
+			20 = mendelejew.401 #Mendelejew 401: A Chemical Experiment
 		}
 	}
 
@@ -52,7 +61,6 @@ je_mendelejew_element_theory = {
 	on_complete = {
 		trigger_event = {
 			id = mendelejew.101
-			popup = yes
 		}
 	}
 
@@ -66,13 +74,24 @@ je_mendelejew_element_theory = {
 	}
 
 	on_invalid = {
-		remove_variable = mendelejew_thinking_variable
+		remove_variable = mendelejew_thought_variable
 	}
 
 	fail = {
-		custom_tooltip = {
-			text = je_element_theory_failed_tt
-			
+		save_temporary_scope_value_as = {
+			name = arg
+			value = var:mendelejew_thought_variable
+		}
+		any_in_global_list = {
+			variable = mendelejew_theorized_elements_global_list
+			save_temporary_scope_as = val
+			scope:val = scope:arg
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = mendelejew.103
 		}
 	}
 
@@ -81,6 +100,7 @@ je_mendelejew_element_theory = {
 	weight = 50
 }
 
+###Discovery of a New Element###
 je_mendelejew_element_discovery = {
 	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
 
@@ -103,9 +123,15 @@ je_mendelejew_element_discovery = {
 			}
 		}
 		random_events = {
-			600 = 0
+			700 = 0
 			
-			#10 = mendelejew.211
+			10 = mendelejew.211 #Mendelejew 211: A new Laboratory
+			10 = mendelejew.212 #Mendelejew 212: Unknown Chemical Compound
+			10 = mendelejew.213 #Mendelejew 213: Chemical Assistant
+			10 = mendelejew.214 #Mendelejew 214: Bad samples
+			10 = mendelejew.215 #Mendelejew 215: GEOLOGIST helps
+
+			20 = mendelejew.401 #Mendelejew 401: A Chemical Experiment
 		}
 	}
 
@@ -126,7 +152,6 @@ je_mendelejew_element_discovery = {
 	on_complete = {
 		trigger_event = {
 			id = mendelejew.201
-			popup = yes
 		}
 	}
 
@@ -145,8 +170,22 @@ je_mendelejew_element_discovery = {
 
 	fail = {
 		custom_tooltip = {
-			text = je_element_discovery_failed_tt
-			
+			text = je_element_theory_failed_tt
+			save_temporary_scope_value_as = {
+				name = arg
+				value = var:mendelejew_searched_variable
+			}
+			any_in_global_list = {
+				variable = mendelejew_discovered_elements_global_list
+				save_temporary_scope_as = val
+				scope:val = scope:arg
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = mendelejew.203
 		}
 	}
 
@@ -155,6 +194,7 @@ je_mendelejew_element_discovery = {
 	weight = 50
 }
 
+###Isolation of a New Element###
 je_mendelejew_element_isolation = {
 	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
 
@@ -177,9 +217,15 @@ je_mendelejew_element_isolation = {
 			}
 		}
 		random_events = {
-			600 = 0
+			700 = 0
 			
-			#10 = mendelejew.311
+			10 = mendelejew.311 #Mendelejew 311: Chemical Synthesis
+			10 = mendelejew.312 #Mendelejew 312: Chemical Dissociation
+			10 = mendelejew.313 #Mendelejew 313: Neglected duties
+			10 = mendelejew.314 #Mendelejew 314: An unforeseen Chemical Reaction
+			10 = mendelejew.315 #Mendelejew 315: chemist helps
+
+			20 = mendelejew.401 #Mendelejew 401: A Chemical Experiment
 		}
 	}
 
@@ -200,7 +246,6 @@ je_mendelejew_element_isolation = {
 	on_complete = {
 		trigger_event = {
 			id = mendelejew.301
-			popup = yes
 		}
 	}
 
@@ -220,11 +265,662 @@ je_mendelejew_element_isolation = {
 	fail = {
 		custom_tooltip = {
 			text = je_element_isolation_failed_tt
-			
+			save_temporary_scope_value_as = {
+				name = arg
+				value = var:mendelejew_examined_variable
+			}
+			any_in_global_list = {
+				variable = mendelejew_isolated_elements_global_list
+				save_temporary_scope_as = val
+				scope:val = scope:arg
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = mendelejew.303
 		}
 	}
 
 	progressbar = yes
 
 	weight = 50
+}
+
+###########################################################################
+
+######IMPROVEMENTS######
+
+###Improve Fertilizer Factories###
+je_mendelejew_improve_fertilizer_project = {
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	scripted_button = mendelejew_stop_chemistry_project_button
+
+	group = je_group_mendelejew_chemistry
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see mendelejew_scripted_effects for calculation)
+			mendelejew_chemist_improvement_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = mendelejew_chemist_improvement_progress_var
+				add = var:mendelejew_monthly_chemist_improvement_progress_var
+			}
+			if = {
+				limit = { var:mendelejew_chemist_improvement_progress_var > mendelejew_improvement_progress_cost }
+				if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_throughput_add_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_throughput_add_modifier }
+						}
+						add_modifier = {
+							name = mendelejew_building_throughput_add_modifier
+						}
+					}
+					change_variable = {
+						name = mendelejew_chemist_improvement_progress_var
+						subtract = mendelejew_improvement_progress_cost
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_production_mult_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_production_mult_modifier }
+						}
+						add_modifier = {
+							name = mendelejew_building_production_mult_modifier
+						}
+					}
+					change_variable = {
+						name = mendelejew_chemist_improvement_progress_var
+						subtract = mendelejew_improvement_progress_cost
+					}
+				}
+				else = {
+					random_scope_building = {
+						limit = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_goods_input_mult_modifier }
+						}
+						add_modifier = {
+							name = mendelejew_building_goods_input_mult_modifier
+						}
+					}
+					change_variable = {
+						name = mendelejew_chemist_improvement_progress_var
+						subtract = mendelejew_improvement_progress_cost
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = mendelejew_can_stop_active_improvement_project_var #This is used to check if the country has a project already
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				is_building_type = building_chemical_plants
+				NOR = {
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+			order_by = earnings
+			add_modifier = {
+				name = mendelejew_chemist_focus_building_modifier
+			}
+			root = {
+				set_variable = {
+					name = mendelejew_building_chemist_improvement_var
+					value = prev
+				}
+			}
+		}
+		#Sets the Chemist Improvement Progress at the beginning
+		set_variable = {
+			name = mendelejew_chemist_improvement_progress_var
+			value = 0
+		}
+		mendelejew_chemist_improvement_progress = yes #Determines how much Chemist Improvement Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = mendelejew_building_has_throughput_modifier_tt
+			any_scope_building = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+				has_modifier = mendelejew_building_throughput_add_modifier
+			}
+		}
+		custom_tooltip = {
+			text = mendelejew_building_has_production_modifier_tt
+			any_scope_building = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+				has_modifier = mendelejew_building_production_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = mendelejew_building_has_input_modifier_tt
+			any_scope_building = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+				has_modifier = mendelejew_building_goods_input_mult_modifier
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = mendelejew_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		mendelejew_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every mechanical chemisting je
+		remove_variable = mendelejew_chemist_improvement_progress_var
+		remove_variable = mendelejew_monthly_chemist_improvement_progress_var
+		remove_variable = chemist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+			}
+			remove_modifier = mendelejew_chemist_focus_building_modifier
+		}
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		trigger_event = {
+			id = mendelejew.501
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the chemisting Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:mendelejew_chemist_improvement_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in mendelejew_script_values
+		value = mendelejew_improvement_progress_cost
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = mendelejew_stop_chemist_improving_project_tt
+			OR = {
+				trigger_if = {
+					limit = { is_ai = yes }
+					mendelejew_has_chemist = yes
+					mendelejew_has_chemist_no_tooltip_trigger = yes
+				}
+				has_variable = mendelejew_stop_chemist_improving_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = mendelejew_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		mendelejew_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every mechanical chemisting je
+		remove_variable = mendelejew_chemist_improvement_progress_var
+		remove_variable = mendelejew_monthly_chemist_improvement_progress_var
+		remove_variable = chemist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+			}
+			remove_modifier = mendelejew_chemist_focus_building_modifier
+		}
+		remove_variable = mendelejew_stop_chemist_improving_project_var
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+###Improve Explosives Factories###
+je_mendelejew_improve_explosives_project = {
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	scripted_button = mendelejew_stop_chemistry_project_button
+
+	group = je_group_mendelejew_chemistry
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see mendelejew_scripted_effects for calculation)
+			mendelejew_chemist_improvement_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = mendelejew_chemist_improvement_progress_var
+				add = var:mendelejew_monthly_chemist_improvement_progress_var
+			}
+			if = {
+				limit = { var:mendelejew_chemist_improvement_progress_var > mendelejew_improvement_progress_cost }
+				if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_throughput_add_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_throughput_add_modifier }
+						}
+						add_modifier = {
+							name = mendelejew_building_throughput_add_modifier
+						}
+					}
+					change_variable = {
+						name = mendelejew_chemist_improvement_progress_var
+						subtract = mendelejew_improvement_progress_cost
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_production_mult_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_production_mult_modifier }
+						}
+						add_modifier = {
+							name = mendelejew_building_production_mult_modifier
+						}
+					}
+					change_variable = {
+						name = mendelejew_chemist_improvement_progress_var
+						subtract = mendelejew_improvement_progress_cost
+					}
+				}
+				else = {
+					random_scope_building = {
+						limit = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_goods_input_mult_modifier }
+						}
+						add_modifier = {
+							name = mendelejew_building_goods_input_mult_modifier
+						}
+					}
+					change_variable = {
+						name = mendelejew_chemist_improvement_progress_var
+						subtract = mendelejew_improvement_progress_cost
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = mendelejew_can_stop_active_improvement_project_var #This is used to check if the country has a project already
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				is_building_type = building_chemical_plants
+				NOR = {
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+			order_by = earnings
+			add_modifier = {
+				name = mendelejew_chemist_focus_building_modifier
+			}
+			root = {
+				set_variable = {
+					name = mendelejew_building_chemist_improvement_var
+					value = prev
+				}
+			}
+		}
+		#Sets the Chemist Improvement Progress at the beginning
+		set_variable = {
+			name = mendelejew_chemist_improvement_progress_var
+			value = 0
+		}
+		mendelejew_chemist_improvement_progress = yes #Determines how much Chemist Improvement Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = mendelejew_building_has_throughput_modifier_tt
+			any_scope_building = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+				has_modifier = mendelejew_building_throughput_add_modifier
+			}
+		}
+		custom_tooltip = {
+			text = mendelejew_building_has_production_modifier_tt
+			any_scope_building = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+				has_modifier = mendelejew_building_production_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = mendelejew_building_has_input_modifier_tt
+			any_scope_building = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+				has_modifier = mendelejew_building_goods_input_mult_modifier
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = mendelejew_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		mendelejew_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every mechanical chemisting je
+		remove_variable = mendelejew_chemist_improvement_progress_var
+		remove_variable = mendelejew_monthly_chemist_improvement_progress_var
+		remove_variable = chemist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+			}
+			remove_modifier = mendelejew_chemist_focus_building_modifier
+		}
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		trigger_event = {
+			id = mendelejew.502
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the chemisting Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:mendelejew_chemist_improvement_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in mendelejew_script_values
+		value = mendelejew_improvement_progress_cost
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = mendelejew_stop_chemist_improving_project_tt
+			OR = {
+				trigger_if = {
+					limit = { is_ai = yes }
+					mendelejew_has_chemist = yes
+					mendelejew_has_chemist_no_tooltip_trigger = yes
+				}
+				has_variable = mendelejew_stop_chemist_improving_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = mendelejew_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		mendelejew_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every mechanical chemisting je
+		remove_variable = mendelejew_chemist_improvement_progress_var
+		remove_variable = mendelejew_monthly_chemist_improvement_progress_var
+		remove_variable = chemist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+			}
+			remove_modifier = mendelejew_chemist_focus_building_modifier
+		}
+		remove_variable = mendelejew_stop_chemist_improving_project_var
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+###Improve Synthetics Factories###
+je_mendelejew_improve_synthetics_project = {
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	scripted_button = mendelejew_stop_chemistry_project_button
+
+	group = je_group_mendelejew_chemistry
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see mendelejew_scripted_effects for calculation)
+			mendelejew_chemist_improvement_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = mendelejew_chemist_improvement_progress_var
+				add = var:mendelejew_monthly_chemist_improvement_progress_var
+			}
+			if = {
+				limit = { var:mendelejew_chemist_improvement_progress_var > mendelejew_improvement_progress_cost }
+				if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_throughput_add_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_throughput_add_modifier }
+						}
+						add_modifier = {
+							name = mendelejew_building_throughput_add_modifier
+						}
+					}
+					change_variable = {
+						name = mendelejew_chemist_improvement_progress_var
+						subtract = mendelejew_improvement_progress_cost
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_production_mult_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_production_mult_modifier }
+						}
+						add_modifier = {
+							name = mendelejew_building_production_mult_modifier
+						}
+					}
+					change_variable = {
+						name = mendelejew_chemist_improvement_progress_var
+						subtract = mendelejew_improvement_progress_cost
+					}
+				}
+				else = {
+					random_scope_building = {
+						limit = {
+							has_modifier = mendelejew_chemist_focus_building_modifier
+							NOT = { has_modifier = mendelejew_building_goods_input_mult_modifier }
+						}
+						add_modifier = {
+							name = mendelejew_building_goods_input_mult_modifier
+						}
+					}
+					change_variable = {
+						name = mendelejew_chemist_improvement_progress_var
+						subtract = mendelejew_improvement_progress_cost
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = mendelejew_can_stop_active_improvement_project_var #This is used to check if the country has a project already
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				is_building_type = building_chemical_plants
+				NOR = {
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+			order_by = earnings
+			add_modifier = {
+				name = mendelejew_chemist_focus_building_modifier
+			}
+			root = {
+				set_variable = {
+					name = mendelejew_building_chemist_improvement_var
+					value = prev
+				}
+			}
+		}
+		#Sets the Chemist Improvement Progress at the beginning
+		set_variable = {
+			name = mendelejew_chemist_improvement_progress_var
+			value = 0
+		}
+		mendelejew_chemist_improvement_progress = yes #Determines how much Chemist Improvement Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = mendelejew_building_has_throughput_modifier_tt
+			any_scope_building = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+				has_modifier = mendelejew_building_throughput_add_modifier
+			}
+		}
+		custom_tooltip = {
+			text = mendelejew_building_has_production_modifier_tt
+			any_scope_building = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+				has_modifier = mendelejew_building_production_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = mendelejew_building_has_input_modifier_tt
+			any_scope_building = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+				has_modifier = mendelejew_building_goods_input_mult_modifier
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = mendelejew_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		mendelejew_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every mechanical chemisting je
+		remove_variable = mendelejew_chemist_improvement_progress_var
+		remove_variable = mendelejew_monthly_chemist_improvement_progress_var
+		remove_variable = chemist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+			}
+			remove_modifier = mendelejew_chemist_focus_building_modifier
+		}
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		trigger_event = {
+			id = mendelejew.503
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the chemisting Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:mendelejew_chemist_improvement_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in mendelejew_script_values
+		value = mendelejew_improvement_progress_cost
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = mendelejew_stop_chemist_improving_project_tt
+			OR = {
+				trigger_if = {
+					limit = { is_ai = yes }
+					mendelejew_has_chemist = yes
+					mendelejew_has_chemist_no_tooltip_trigger = yes
+				}
+				has_variable = mendelejew_stop_chemist_improving_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = mendelejew_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		mendelejew_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every mechanical chemisting je
+		remove_variable = mendelejew_chemist_improvement_progress_var
+		remove_variable = mendelejew_monthly_chemist_improvement_progress_var
+		remove_variable = chemist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = mendelejew_chemist_focus_building_modifier
+			}
+			remove_modifier = mendelejew_chemist_focus_building_modifier
+		}
+		remove_variable = mendelejew_stop_chemist_improving_project_var
+		var:mendelejew_chemist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }

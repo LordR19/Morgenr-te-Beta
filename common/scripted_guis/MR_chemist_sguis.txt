@@ -1,0 +1,165 @@
+﻿### CHEMIST BUTTONS ###
+
+#MR_CHEMIST_FERTILIZER_BUTTON
+mr_chemist_fertilizer_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_CHEMIST_TRIGGER_TT
+			mendelejew_has_chemist = yes
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_IMPROVE_FERTILIZER_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_chemical_plants
+				level > 0
+				NOR = {
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_mendelejew_improve_fertilizer_project }
+		add_modifier = {
+			name = mendelejew_chemist_fertilizer_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		var:mendelejew_chemist_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
+
+#MR_CHEMIST_EXPLOSIVES_BUTTON
+mr_chemist_explosives_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_CHEMIST_TRIGGER_TT
+			mendelejew_has_chemist = yes
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_IMPROVE_EXPLOSIVES_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_explosives_factory
+				level > 0
+				NOR = {
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_mendelejew_improve_explosives_project }
+		add_modifier = {
+			name = mendelejew_chemist_explosives_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		var:mendelejew_chemist_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
+
+#MR_CHEMIST_SYNTHETICS_BUTTON
+mr_chemist_synthetics_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_CHEMIST_TRIGGER_TT
+			mendelejew_has_chemist = yes
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_IMPROVE_SYNTHETICS_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_synthetics_plants
+				level > 0
+				NOR = {
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_mendelejew_improve_synthetics_project }
+		add_modifier = {
+			name = mendelejew_chemist_synthetics_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		var:mendelejew_chemist_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
+
+#MR_CHEMIST_CONGRESS_BUTTON
+mr_chemist_congress_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = mendelejew_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = mendelejew_congress_host_modifier
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_MAJOR_POWER_HIGHER_TRIGGER_TT
+			country_rank >= rank_value:major_power
+		}
+		custom_tooltip = {
+			text = MR_CARTE_DE_CIEL_CONGRESS_ELECTROMAGNETISM_TECH_TRIGGER_TT
+			has_technology_researched = verrier_electromagnetism_tech
+		}
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_TRIGGER_TT
+			mendelejew_has_chemist = yes
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_CONGRESS_5_CHEMISTS_TRIGGER_TT
+			any_country = {
+				mendelejew_has_chemist = yes
+				count >= 5
+			}
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_CONGRESS_ELEMENTS_TRIGGER_TT
+			global_var:mendelejew_isolated_elements_global_number_var >= 60
+		}
+    }
+    effect = {
+        trigger_event = { 
+			id = mendelejew.601
+			popup = yes 
+		}
+		set_global_variable = mendelejew_congress_hosted_var
+		add_modifier = {
+			name = mendelejew_congress_host_modifier
+			years = 5
+		}
+    }
+}
