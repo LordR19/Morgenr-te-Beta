@@ -927,3 +927,73 @@ je_mendelejew_improve_synthetics_project = {
 
 	should_be_pinned_by_default = yes
 }
+
+###########################################################################
+
+######SYNTHETIC OIL######
+je_mendelejew_synthetic_oil = {
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	group = je_group_mendelejew_chemistry
+
+	immediate = {
+		set_variable = {
+			name = mendelejew_chemist_synthetic_oil_progress_var
+			value = 0
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = mendelejew_chemist_synthetic_oil_progress_var
+				add = {
+					value = mendelejew_element_isolation_progress_value
+				}
+			}
+		}
+	}
+
+	current_value = {
+		value = var:mendelejew_chemist_synthetic_oil_progress_var
+	}
+
+	goal_add_value = {
+		add = 100
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = mendelejew.701
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_chemist_dies_tt
+			NOT = {
+				has_variable = mendelejew_chemist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = mendelejew_examined_variable
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
