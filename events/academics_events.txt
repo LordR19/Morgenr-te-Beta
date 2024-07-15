@@ -663,6 +663,85 @@ academics.6 = {
 	}
 }
 
+#Academics 7: Chemist retires
+academics.7 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.7.t
+
+	desc = academics.7.d
+
+	flavor = academics.7.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = academics_chemist_emeritus_delayed_var
+		}
+		has_variable = mendelejew_chemist_var
+		var:mendelejew_chemist_var ?= {
+			age >= 65
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:mendelejew_chemist_var ?= {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = academics_retired_person_scope
+			set_retirement_variable_effect = yes
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		retire_anthropologist_effect = yes
+	}
+	
+	option = {	#We need him! Pay him extra!
+		name = academics.1.h
+
+		trigger = {
+			NOT = {
+				has_modifier = academics_chemist_emeritus_delayed_modifier
+			}
+		}
+
+		add_modifier = {
+			name = academics_chemist_emeritus_delayed_modifier
+			years = 5
+		}
+		set_variable = {
+			name = academics_chemist_emeritus_delayed_var
+			years = { 1 5 }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
 
 #################################################################################
 
