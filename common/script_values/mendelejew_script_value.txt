@@ -420,6 +420,145 @@ mendelejew_element_isolation_progress_value = {
 	}
 }
 
+#This Script value defines the progress when a chemist researches synthetic oil
+mendelejew_element_synthetic_oil_progress_value = {
+	### 1 basic point ###
+	value = 1
+	### Experience ###
+	#Chemist Experience: Experience divided by 60 = Progress
+	if = {
+		limit = {
+			has_variable = mendelejew_chemist_var
+		}
+		add = {
+			value = var:mendelejew_chemist_var.var:mendelejew_chemist_experience
+			divide = 60
+			floor = yes
+			max = 5
+		}
+	}
+	### Positive Traits ###
+	#Chemist Traits: Specialization
+	if = {
+		limit = {
+			mendelejew_chemist_has_specialization_trigger = yes
+		}
+		add = 3
+	}
+	if = {
+		limit = {
+			var:mendelejew_chemist_var = {
+				has_trait = innovative
+			}
+		}
+		add = 1
+	}
+	#Personality of Chemist: Persistent
+	if = {
+		limit = {
+			var:mendelejew_chemist_var = {
+				has_trait = persistent
+			}
+		}
+		add = 1
+	}
+	#Personality of Chemist: Meticulous
+	if = {
+		limit = {
+			var:mendelejew_chemist_var = {
+				has_trait = meticulous
+			}
+		}
+		add = 1
+	}
+	### Negative Traits ###
+	#Vices: -1 point for each trait
+	if = {
+		limit = {
+			var:mendelejew_chemist_var = {
+				has_trait = alcoholic
+			}
+		}
+		subtract = 1
+	}
+	if = {
+		limit = {
+			var:mendelejew_chemist_var = {
+				has_trait = opium_addiction
+			}
+		}
+		subtract = 1
+	}
+	if = {
+		limit = {
+			var:mendelejew_chemist_var = {
+				has_trait = cocaine_addiction
+			}
+		}
+		subtract = 1
+	}
+	if = {
+		limit = {
+			var:mendelejew_chemist_var = {
+				has_trait = senile
+			}
+		}
+		subtract = 1
+	}
+	### Chemistry Lab ###
+	#Chemistry Lab
+	if = {
+		limit = {
+			any_scope_building = {
+				has_active_production_method = pm_mendelejew_chemistry
+				building_has_goods_shortage = no
+			}
+		}
+		add = 2
+	}
+	#Spectroscopic Analysis
+	if = {
+		limit = {
+			any_scope_building = {
+				has_active_production_method = pm_mendelejew_spectroscopy
+				building_has_goods_shortage = no
+			}
+		}
+		add = 5
+	}
+	#Cyclotron
+	if = {
+		limit = {
+			any_scope_building = {
+				has_active_production_method = pm_mendelejew_cyclotron
+				building_has_goods_shortage = no
+			}
+		}
+		add = 10
+	}
+	### Physics Institute ###
+	#Institute of Modern Physics
+	if = {
+		limit = {
+			any_scope_building = {
+				has_active_production_method = pm_curie_physics_modern
+				building_has_goods_shortage = no
+			}
+		}
+		add = 3
+	}
+	#Institute of Nuclear Physics
+	if = {
+		limit = {
+			any_scope_building = {
+				has_active_production_method = pm_curie_physics_nuclear
+				building_has_goods_shortage = no
+			}
+		}
+		add = 6
+	}
+}
+
 #Defines the base cost of the Chemistry Improvement Cost modifiers
 mendelejew_improvement_progress_cost = {
 	value = 24
