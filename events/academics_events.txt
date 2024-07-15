@@ -27,6 +27,7 @@ namespace = academics
 #Academics 14: Paleontologist died
 #Academics 15: Archaeologist died
 #Academics 16: Anthropologist died
+#Academics 17: Chemist died
 
 ###Character Overview###
 
@@ -46,6 +47,7 @@ namespace = academics
 #Academics 54: Paleontologist
 #Academics 55: Archaeologist
 #Academics 56: Anthropologist
+#Academics 57: Chemist
 
 #Academics 60: Foreign Scientist
 #Academics 61: Set up for academics_country_tech_advance_var variable (hidden)
@@ -661,6 +663,85 @@ academics.6 = {
 	}
 }
 
+#Academics 7: Chemist retires
+academics.7 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.7.t
+
+	desc = academics.7.d
+
+	flavor = academics.7.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = academics_chemist_emeritus_delayed_var
+		}
+		has_variable = mendelejew_chemist_var
+		var:mendelejew_chemist_var ?= {
+			age >= 65
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:mendelejew_chemist_var ?= {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = academics_retired_person_scope
+			set_retirement_variable_effect = yes
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		retire_anthropologist_effect = yes
+	}
+	
+	option = {	#We need him! Pay him extra!
+		name = academics.1.h
+
+		trigger = {
+			NOT = {
+				has_modifier = academics_chemist_emeritus_delayed_modifier
+			}
+		}
+
+		add_modifier = {
+			name = academics_chemist_emeritus_delayed_modifier
+			years = 5
+		}
+		set_variable = {
+			name = academics_chemist_emeritus_delayed_var
+			years = { 1 5 }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
 
 #################################################################################
 
@@ -890,6 +971,45 @@ academics.16 = {
 
 	immediate = {
 		remove_variable = lepsius_anthropologist_var
+		remove_modifier = academics_anthropologist_emeritus_delayed_modifier
+	}
+
+	option = {	#This is a huge loss!
+		name = academics.11.g
+		default_option = yes
+
+		custom_tooltip = academics.11_tt
+	}
+}
+
+#Academics 17: Chemist died
+academics.17 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.17.t
+
+	desc = academics.17.d
+
+#	flavor = academics.11.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = mendelejew_chemist_var
 		remove_modifier = academics_anthropologist_emeritus_delayed_modifier
 	}
 
@@ -1889,6 +2009,71 @@ academics.56 = {
 				trigger = { 
 					has_variable = lepsius_anthropologist_var
 					var:lepsius_anthropologist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 57: Chemist
+
+academics.57 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.57.t
+
+	desc = academics.57.d
+
+	flavor = academics.57.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:mendelejew_new_chemist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_chemist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.57.g
+		default_option = yes
+
+		mendelejew_set_new_chemist_as_chemist_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.57.h
+		mendelejew_medium_add_technology = yes
+		mendelejew_remove_new_chemist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has an Anthropologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = mendelejew_chemist_var
+					var:mendelejew_chemist_var = {
 						age <= 60
 					}
 				}
@@ -4093,6 +4278,7 @@ academics.1002 = {
 	trigger = {
 		OR = {
 			has_variable = academics_promote_engineer_active
+			has_variable = academics_promote_chemist_active
 			has_variable = academics_promote_astronomer_active
 			has_variable = academics_promote_archaeologist_active
 			has_variable = academics_promote_anthropologist_active
@@ -4232,6 +4418,7 @@ academics.1003 = {
 	trigger = {
 		OR = {
 			has_variable = academics_promote_engineer_active
+			has_variable = academics_promote_chemist_active
 			has_variable = academics_promote_astronomer_active
 			has_variable = academics_promote_archaeologist_active
 			has_variable = academics_promote_anthropologist_active
@@ -4371,6 +4558,7 @@ academics.1004 = {
 	trigger = {
 		OR = {
 			has_variable = academics_promote_engineer_active
+			has_variable = academics_promote_chemist_active
 			has_variable = academics_promote_astronomer_active
 			has_variable = academics_promote_naturalist_active
 			has_variable = academics_promote_paleontologist_active
@@ -4510,6 +4698,7 @@ academics.1005 = {
 	trigger = {
 		OR = {
 			has_variable = academics_promote_engineer_active
+			has_variable = academics_promote_chemist_active
 			has_variable = academics_promote_astronomer_active
 			has_variable = academics_promote_naturalist_active
 			has_variable = academics_promote_paleontologist_active

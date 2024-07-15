@@ -67,10 +67,11 @@ types academy_view
 							}
 
 							### Promotion and Academic Investmen Buttons
-							flowcontainer = {
-								direction = horizontal
-								spacing = 35
-								position = { 135 157 }
+							hbox = {
+								spacing = 15
+								position = { 0 67 }
+
+								expand = {}
 								
 								#Promote Engineer
 								widget = {
@@ -103,6 +104,39 @@ types academy_view
 										visible = "[GetScriptedGui('mr_academics_engineer_is_promoted_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 
 										tooltip = "MR_PROMOTING_ENGINEER_TT"
+									}	
+								}
+								#Promote Chemist
+								widget = {
+									size = { 62 62 }
+									button_icon_round = {
+										parentanchor = center
+										size = { 55 55 }
+
+										datacontext = "[GetScriptedGui('mr_academics_promote_chemist')]"
+										onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										tooltip = "MR_PROMOTE_CHEMIST_TT"
+										blockoverride "icon" {
+											texture = "gfx/interface/icons/character_role_icons/mendelejew_chemist_role.dds"
+										}
+										blockoverride "icon_size" {
+											size = { 100% 100% }
+										}
+									}
+									icon = {
+										parentanchor = center
+										size = { 100% 100%}
+										using = highlighted_circle_selection_small
+										visible = "[GetScriptedGui('mr_academics_chemist_is_promoted_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									}
+									icon = {
+										parentanchor = center
+										size = { 55 55 }
+										texture = "gfx/interface/icons/character_role_icons/mendelejew_chemist_role.dds"
+										visible = "[GetScriptedGui('mr_academics_chemist_is_promoted_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+										tooltip = "MR_PROMOTING_CHEMIST_TT"
 									}	
 								}
 								#Promote Astronomer
@@ -319,6 +353,8 @@ types academy_view
 										visible = "[GetScriptedGui('mr_academics_academy_investment_is_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 									}
 								}
+
+								expand = {}
 							}
 						}
 						### Academic focus container ###
@@ -1606,7 +1642,177 @@ types academy_view
 											}
 										}
 									}
-			
+
+									#Chemist
+									academics_widget_character_with_button = {
+										blockoverride "role_icon" {
+											texture = "gfx/interface/icons/character_role_icons/mendelejew_chemist_role.dds"
+										}
+										blockoverride "role_tooltip" {
+											tooltip = "[concept_mendelejew_chemist_desc]"
+										}
+										blockoverride "role_name" {
+											text = "CHEMISTRY_HEADER_TEXT"
+										}
+										blockoverride "character" {
+											datacontext = "[GetPlayer.MakeScope.Var('mendelejew_chemist_var').GetCharacter]"
+										}
+										blockoverride "character_visible" {
+											visible = "[GetScriptedGui('mr_has_chemist_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										}
+										blockoverride "no_character_visible" {
+											visible = "[Not( GetScriptedGui('mr_has_chemist_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+										}
+										blockoverride "character_name" {
+											text = "[GetPlayer.GetCustom('academics_has_chemist_gui_type')]"
+										}
+										blockoverride "achievements_icon_visibility" {
+											visible = no
+										}
+										blockoverride "scientist_achievement_tooltip" {
+											tooltip = "MR_ASTRONOMER_ACHIEVEMENTS_TT"
+										}
+										blockoverride "character_traits" {
+											datacontext = "[GetPlayer.MakeScope.Var('mendelejew_chemist_var').GetCharacter]"
+											datamodel = "[Character.AccessTraits]"
+										}
+										blockoverride "experience_bar_visibility" {
+											visible = yes
+										}
+										blockoverride "values" {
+											min = 0
+											max = 300
+											value = "[GetPlayer.MakeScope.Var('mendelejew_chemist_var').GetVariable('mendelejew_chemist_experience').GetValue]"
+										}
+										blockoverride "experience_tooltip" {
+											tooltip = "[GetPlayer.GetCustom('GUI_mendelejew_chemist_experience_type')]"
+										}
+										blockoverride "experience_bar_text" {
+											text = "[GetPlayer.GetCustom('GUI_mendelejew_chemist_experience_text_type')]"
+										}
+										blockoverride "small_box_content" {
+										#	widget = { #This Icon allows an overview of the 10 Nations with the most Astronomical Objects
+												#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
+												#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+												#used in the mr_GUI_l_english.yml file to display the global variables.
+										#		size = { 30 30 }
+										#		parentanchor = top|right
+										#		position = { 5 -5 }
+										#	
+										#		icon = {
+										#			size = { 100% 100% }
+										#			texture = "gfx/interface/backgrounds/round_button_bg.dds"
+										#			block "enabled" {}
+										#		}
+										#		icon = {
+										#			size = { 100% 100% }
+										#			texture = "gfx/interface/buttons/button_icons/list.dds"
+										#			block "enabled" {}
+										#			tooltip = "RANKING_ASTRONOMICAL_OBJECTS_VAR_TT"
+										#		}
+										#	}
+											flowcontainer = {
+												direction = vertical
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 20 }
+
+												textbox = {
+													#Theorized Elements of Total theorized Elements
+													text = "TOTAL_THEORIZED_ELEMENTS_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xl
+													tooltip = "TOTAL_THEORIZED_ELEMENTS_VAR_TT"
+												}
+												textbox = {
+													#Discovered Elements of Total discovered Elements
+													text = "TOTAL_DISCOVERED_ELEMENTS_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xl
+													tooltip = "TOTAL_DISCOVERED_ELEMENTS_VAR_TT"
+												}
+												textbox = {
+													#Isolated Elements of Total isolated Elements
+													text = "TOTAL_ISOLATED_ELEMENTS_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xl
+													tooltip = "TOTAL_ISOLATED_ELEMENTS_VAR_TT"
+												}
+											}
+										}
+									#	blockoverride "visit_button" {
+									#		text = "VISIT_OBSERVATORY_BUTTON"
+									#		datacontext = "[GetScriptedGui('mr_visit_observatory')]"
+									#		onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									#		enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+									#		tooltip = "VISIT_OBSERVATORY_BUTTON_TT"
+									#	}
+										blockoverride "big_box_content" {
+											flowcontainer = {
+												direction = vertical
+												parentanchor = hcenter
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 15 }
+		
+												button = {
+													#Congress on Asteroids
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_ASTEROID_CONGRESS_BUTTON"
+													using = fontsize_medium
+							
+													datacontext = "[GetScriptedGui('mr_asteroid_congress_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_ASTEROID_CONGRESS_BUTTON_TT"
+												}
+												button = {
+													#Carte de Ciel
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_CARTE_DE_CIEL_CONGRESS_BUTTON"
+													using = fontsize_medium
+							
+													datacontext = "[GetScriptedGui('mr_carte_congress_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_CARTE_DE_CIEL_CONGRESS_BUTTON_TT"
+												}
+												button = {
+													#Great Debate
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_GREAT_DEBATE_CONGRESS_BUTTON"
+													using = fontsize_medium
+							
+													datacontext = "[GetScriptedGui('mr_great_debate_congress_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_GREAT_DEBATE_CONGRESS_BUTTON_TT"
+												}
+											}
+										}
+									}
+								}
+					
+								# Second Row
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 15
+
 									#Astronomer
 									academics_widget_character_with_button = {
 										blockoverride "role_icon" {
@@ -1782,13 +1988,7 @@ types academy_view
 											}
 										}
 									}
-								}
-					
-								# Second Row
-								hbox = {
-									layoutpolicy_horizontal = expanding
-									spacing = 15
-			
+
 									#Naturalist
 									academics_widget_character_with_button = {
 										blockoverride "role_icon" {
@@ -2189,7 +2389,13 @@ types academy_view
 											}
 										}
 									}
-			
+								}
+
+								# Third Row
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 15
+
 									#Paleontologist
 									academics_widget_character_with_button = {
 										blockoverride "role_icon" {
@@ -2517,13 +2723,7 @@ types academy_view
 											}
 										}
 									}
-								}
-			
-								# Third Row
-								hbox = {
-									layoutpolicy_horizontal = expanding
-									spacing = 15
-			
+
 									#Archaeologist
 									academics_widget_character_with_button = {
 										blockoverride "role_icon" {
@@ -3307,7 +3507,13 @@ types academy_view
 											}
 										}
 									}
-			
+								}
+								
+								# Third Row
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 15
+
 									#Anthropologist
 									academics_widget_character_with_button = {
 										blockoverride "role_icon" {
@@ -3591,6 +3797,8 @@ types academy_view
 											}
 										}
 									}
+
+									academics_placeholder = {}
 								}
 							}	
 						}
