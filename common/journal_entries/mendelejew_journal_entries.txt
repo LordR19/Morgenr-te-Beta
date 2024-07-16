@@ -997,3 +997,70 @@ je_mendelejew_synthetic_oil = {
 
 	weight = 50
 }
+
+###########################################################################
+
+je_mendelejew_periodic_table = {
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	group = je_group_mendelejew_chemistry
+
+	can_deactivate = yes
+
+	is_shown_when_inactive = {
+		has_technology_researched = distillation
+		NOT = {
+			has_global_variable = mendelejew_periodic_table_var
+		}
+	}
+
+	possible = {
+		has_technology_researched = verrier_chemistry_tech
+	}
+
+	complete = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_mendelejew_spectroscopy
+			}
+		}
+		custom_tooltip = {
+			text = je_mendelejew_periodic_table_has_good_chemist_tt
+			has_variable = mendelejew_chemist_var
+			var:mendelejew_chemist_var ?= {
+				OR = {
+					has_trait = mendelejew_chemist_theorist
+					has_trait = mendelejew_chemist_experienced
+				}
+			}
+		}
+		custom_tooltip = {
+			text = je_mendelejew_periodic_table_elements_discovered
+			global_var:mendelejew_discovered_elements_global_number_var >= 70
+		}
+		custom_tooltip = {
+			text = je_mendelejew_periodic_table_elements_isolated
+			global_var:mendelejew_isolated_elements_global_number_var >= 70
+		}
+	}
+
+	on_complete = {
+		set_global_variable = mendelejew_periodic_table_var
+		trigger_event = { 
+			id = mendelejew.801 
+			popup = yes 
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_mendelejew_periodic_table_invalid
+			has_global_variable = mendelejew_periodic_table_var
+		}
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
