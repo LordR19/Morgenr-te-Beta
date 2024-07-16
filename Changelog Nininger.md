@@ -14,3 +14,4 @@ Chemistry
 - Added Hydrogenation Plants Building (possible with Synthetic Fuel Tech).
 - Added JE for the Periodic Table.
 - Removed Mendeleyev Event for Russia (you can do the Periodic Table on your own!).
+- Renamed Inorganic Chemistry to Organic and Inorganic Chemistry.
