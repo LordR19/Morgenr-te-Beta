@@ -4,6 +4,10 @@ Changelog for 2.2.2 "Nininger"
 
 Changelog for 2.2.3 "Ball"
 
+Geology
+- Added Geology Tech
+- Natural History University available with Geology instead of Theory of Evolution
+
 Chemistry
 - 15 Random Chemist Events theorizing, discovering or isolating an element.
 - Added a button for Chemist to improve fertilizer. Chemists will improve Fertilizer Plants, giving modifiers for throughput, input and output.
