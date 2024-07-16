@@ -12,4 +12,5 @@ Chemistry
 - Added the possibility to arrange a Chemist Congress based on the Karlrsuhe Congress of 1860 to determine atomic weight.
 - Added Synthetic Fuel Tech.
 - Added Hydrogenation Plants Building (possible with Synthetic Fuel Tech).
-- Added JE for the Periodic Table
+- Added JE for the Periodic Table.
+- Removed Mendeleyev Event for Russia (you can do the Periodic Table on your own!).
