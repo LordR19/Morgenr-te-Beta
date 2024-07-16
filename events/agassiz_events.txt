@@ -1,0 +1,42 @@
+﻿###################
+# AGASSIZ EVENTS  #
+###################
+
+#by Marco Dandolo
+
+###################
+
+namespace = agassiz
+
+###################
+
+#################################################################################
+
+#Agassiz 1: Yearly minerals
+agassiz.1 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		NOT = {
+			has_variable = agassiz_mineral_cooldown_var
+		}
+		has_technology_researched = agassiz_geology_tech
+	}
+
+	immediate = {
+		set_variable = {
+			name = agassiz_mineral_cooldown_var
+			days = 365
+		}
+
+		agassiz_add_x_generic_minerals_effect = {
+			AMOUNT = agassiz_yearly_mineral_value
+		}
+
+		post_notification = agassiz_yearly_minerals_notification
+	}
+}
