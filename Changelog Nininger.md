@@ -1,5 +1,8 @@
 Changelog for 2.2.2 "Nininger"
 
+Fixes
+-Smugglers get 5 points of infamy when they fail (instead of 10)
+
 ############
 
 Changelog for 2.2.3 "Ball"
