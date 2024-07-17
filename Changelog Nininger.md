@@ -1,8 +1,9 @@
 Changelog for 2.2.2 "Nininger"
 
-Fixes
--Smugglers get 5 points of infamy when they fail (instead of 10).
--Early Aviation, not Steel-frame buildings is needed for the Airship JE to trigger.
+Changes
+- Smugglers get 5 points of infamy when they fail (instead of 10).
+- Early Aviation, not Steel-frame buildings is needed for the Airship JE to trigger.
+- Replaced some loading screens for more variety.
 
 ############
 
