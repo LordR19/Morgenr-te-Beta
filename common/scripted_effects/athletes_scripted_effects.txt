@@ -299,3 +299,284 @@ pilot_experience_gain_effect = { #adds XP to the Pilot
 		}
 	}
 }
+
+######Racer######
+
+#This effect kills the current racer
+kill_racer_effect = {
+	var:vikelas_racer_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_racer_var
+}
+
+#This effect kills the current racer and creates a new one
+kill_and_replace_racer_effect = {
+	kill_racer_effect = yes
+	create_new_racer_effect = yes
+	vikelas_set_new_racer_as_racer_effect = yes
+}
+
+# Creates a new Racer without losing the old one
+#This one was a little harder as the scope was only valid in the random_list
+#Therefore a Variable is set to save the scope again. then gets deleted
+create_new_racer_effect = {
+	random_list = {
+		4 = { #Marcel Renault, France
+			trigger = {
+				NOT = { has_global_variable = vikelas_renault_marcel_created_global_var }
+				has_state_in_state_region = STATE_ILE_DE_FRANCE
+				NOT = {
+					cu:french = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1927.5.14 #Age 55
+				year >= 1899 #Renault founded
+			}
+			create_character = {
+				template = mr_fra_renault_marcel_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_renault_marcel_created_global_var
+		}
+		4 = { #Rudolf Caracciola, Germany
+			trigger = {
+				NOT = { has_global_variable = vikelas_caracciola_created_global_var }
+				has_state_in_state_region = STATE_HESSE
+				NOT = {
+					cu:north_german = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1956.1.30 #Age 55
+				year >= 1922 #participated in the first races
+			}
+			create_character = {
+				template = mr_ger_caracciola_rudolf_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_caracciola_created_global_var
+		}
+		4 = { #Antonio Ascari, Italy
+			trigger = {
+				NOT = { has_global_variable = vikelas_ascari_created_global_var }
+				has_state_in_state_region = STATE_LOMBARDY
+				NOT = {
+					cu:north_italian = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1943.9.15 #Age 55
+				year >= 1911 #First drive
+			}
+			create_character = {
+				template = mr_ita_ascari_antonio_character_template
+				save_scope_as = vikelas_new_racer_scope
+			}
+			scope:vikelas_new_racer_scope = {
+				set_variable = mr_flatcap_var
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+			set_global_variable = vikelas_ascari_created_global_var
+		}
+		1 = { #Random Racer
+			create_character = {
+				save_scope_as = vikelas_new_racer_scope
+				age = { 18 30 }
+				trait_generation = {
+					add_random_trait = personality
+					random_list = {
+						20 = {}
+						40 = { add_trait = brave }
+						40 = { add_trait = ambitious }
+					}
+					random_list = {
+						20 = {}
+						35 = { add_trait = engineer }
+						35 = { add_trait = gaudi_mechanical_engineer }
+						5 = { add_trait = explorer }
+						5 = { add_trait = erudite }
+					}
+					random_list = {
+						80 = {}
+						5 = { add_trait = alcoholic }
+						5 = { add_trait = opium_addiction }
+						5 = { add_trait = cocaine_addiction }
+						5 = { add_trait = expensive_tastes }
+					}
+				}
+			}
+
+			scope:vikelas_new_racer_scope = {
+				add_trait = vikelas_racer
+				set_variable = mr_is_racer_var
+				racer_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = vikelas_new_racer_var
+				value = scope:vikelas_new_racer_scope
+			}
+		}
+	}
+
+	var:vikelas_new_racer_var = {
+		save_scope_as = vikelas_new_racer_scope
+	}
+}
+
+# Set new Racer as official Racer
+vikelas_set_new_racer_as_racer_effect = {
+	custom_tooltip = {
+		text = vikelas_replace_racer_with_new_racer_tt
+	
+		if = {
+			limit = {
+				has_variable = vikelas_racer_var
+			}
+			var:vikelas_racer_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = vikelas_racer_var
+			value = scope:vikelas_new_racer_scope
+		}
+
+		remove_variable = vikelas_new_racer_var
+	}
+}
+
+# Remove new Racer
+vikelas_remove_new_racer_effect = {
+	scope:vikelas_new_racer_scope = {
+		free_character_from_void = no
+	}
+
+	remove_variable = vikelas_new_racer_var
+}
+
+# Used to set up the Experience of a character 
+racer_experience_set_up_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_variable = vikelas_racer_experience
+			}
+		}
+		if = {
+			limit = {
+				age > 20
+			}
+			set_variable = {
+				name = vikelas_racer_experience
+				value = age
+			}
+			change_variable = {
+				name = vikelas_racer_experience
+				subtract = 20
+			}
+			change_variable = {
+				name = vikelas_racer_experience
+				multiply = 10
+			}
+		}
+		else = {
+			set_variable = {
+				name = vikelas_racer_experience
+				value = 0
+			}
+		}
+		if = { #Adds the Famous Racer Trait if Experience is above 150
+			limit = {
+				var:vikelas_racer_experience >= 150
+				NOT = {
+					has_trait = vikelas_racer_champion
+				}
+			}
+			remove_trait = vikelas_racer
+			add_trait = vikelas_racer_champion
+		}
+	}
+}
+
+#Racer Experience gain
+racer_experience_gain_effect = { #adds XP to the Racer
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = vikelas_racer_var #should only add experience if there actually is a Painter
+		}
+		custom_tooltip = {
+			text = vikelas_racer_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:vikelas_racer_var = { #Fallback to make sure there are no errors if the Painter does not have the variable yet
+							has_variable = vikelas_racer_experience
+						}
+					}
+				}
+				var:vikelas_racer_var = { #Sets the experience in case it was not set yet
+					racer_experience_set_up_effect = yes
+				}
+			}
+			var:vikelas_racer_var = {
+				change_variable = {
+					name = vikelas_racer_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:vikelas_racer_var = {
+			if = {
+				limit = {
+					var:vikelas_racer_experience >= 150
+					NOT = {
+						has_trait = vikelas_racer_champion
+					}
+				}
+				root = {
+					trigger_event = {
+						id = vikelas.590
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
