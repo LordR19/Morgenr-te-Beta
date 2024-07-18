@@ -2182,6 +2182,11 @@ mendelejew_create_chemical_ranking_list_effect = {
 	#Removes the global variable list
 	clear_global_variable_list = mr_chemical_ranking_global_list
 
+	set_local_variable = {
+		name = mr_current_rank_local_var
+		value = 0
+	}
+
 	ordered_country = {
 		limit = {
 			is_revolutionary = no #Hopefully keeps revolutions from appearing in the ranking
@@ -2193,6 +2198,23 @@ mendelejew_create_chemical_ranking_list_effect = {
 		order_by = var:mendelejew_chemical_score_country_var
 		max = 1000 #Limits the list to the ten top countires
 		check_range_bounds = no #prevents errors
+
+		#Keeps Track of the rank so it can be saved as a variable
+		change_local_variable = {
+			name = mr_current_rank_local_var
+			add = 1
+		}
+		if = {
+			limit = {
+				this = {
+					is_player = yes
+				}
+			}
+			set_variable = {
+				name = mendelejew_player_rank_var
+				value = local_var:mr_current_rank_local_var
+			}
+		}
 
 		#This part adds all the countries to the list
 		add_to_global_variable_list = {
@@ -2209,6 +2231,11 @@ verrier_create_astronomical_ranking_list_effect = {
 	#Removes the global variable list
 	clear_global_variable_list = mr_astronomical_ranking_global_list
 
+	set_local_variable = {
+		name = mr_current_rank_local_var
+		value = 0
+	}
+
 	ordered_country = {
 		limit = {
 			is_revolutionary = no #Hopefully keeps revolutions from appearing in the ranking
@@ -2220,6 +2247,23 @@ verrier_create_astronomical_ranking_list_effect = {
 		order_by = var:verrier_astronomical_objects
 		max = 1000 #Limits the list to the ten top countires
 		check_range_bounds = no #prevents errors
+
+		#Keeps Track of the rank so it can be saved as a variable
+		change_local_variable = {
+			name = mr_current_rank_local_var
+			add = 1
+		}
+		if = {
+			limit = {
+				this = {
+					is_player = yes
+				}
+			}
+			set_variable = {
+				name = verrier_player_rank_var
+				value = local_var:mr_current_rank_local_var
+			}
+		}
 
 		#This part adds all the countries to the list
 		add_to_global_variable_list = {
