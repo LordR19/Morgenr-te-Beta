@@ -1729,6 +1729,21 @@ academics.52 = {
 		default_option = yes
 
 		verrier_set_new_astronomer_as_astronomer_effect = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+						}
+					}
+				}
+				trigger_event = {
+					id = academics.80
+					days = { 7 21 }
+				}
+			}
+		}
 
 		ai_chance = {
 			base = 100
@@ -2057,6 +2072,21 @@ academics.57 = {
 		default_option = yes
 
 		mendelejew_set_new_chemist_as_chemist_effect = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+						}
+					}
+				}
+				trigger_event = {
+					id = academics.80
+					days = { 7 21 }
+				}
+			}
+		}
 
 		ai_chance = {
 			base = 100
@@ -2976,6 +3006,100 @@ academics.70 = {
 			text = leave_scientific_society_tt
 			remove_variable = academics_character_overview_var
 		}
+	}
+}
+
+#Academics 80: New Academic wants Observatory
+
+academics.80 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.80.t
+
+	desc = academics.80.d
+
+	flavor = academics.80.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academic_scientist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				save_scope_as = academic_scientist_scope
+			}
+		}
+		#else_if = {
+		#	limit = {
+		#		has_variable = curie_physicist_var
+		#	}
+		#	var:curie_physicist_var = {
+		#		save_scope_as = academic_scientist_scope
+		#	}
+		#}
+		else_if = {
+			limit = {
+				has_variable = mendelejew_chemist_var
+			}
+			var:mendelejew_chemist_var = {
+				save_scope_as = academic_scientist_scope
+			}
+		}
+	}
+
+	option = {
+		name = academics.80.g
+		default_option = yes
+		add_treasury = -100000
+		
+		if = {
+			limit = {
+				NOT = {
+					any_scope_building = {
+						is_building_type = building_verrier_observatory
+					}
+				}
+			}
+			capital = {
+				start_building_construction = building_verrier_observatory
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				trigger = {
+					gold_reserves < 1
+				}
+				add = -1000
+			}
+		}
+	}
+
+	option = {
+		name = academics.80.h
+
+		ai_chance = {
+			base = 1
+		}
+	}
+
+	after = {
 	}
 }
 
