@@ -1710,6 +1710,9 @@ types academy_view
 													block "enabled" {}
 													tooltipwidget = {
 														MR_TooltipType = {
+															blockoverride "ranking_on_finish" {
+																on_finish = "[GetScriptedGui('mr_astronomy_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+															}
 															blockoverride "text" {
 																raw_text = "CHEMIST_RANKING_HEADER"
 															}
@@ -2176,7 +2179,19 @@ types academy_view
 													size = { 100% 100% }
 													texture = "gfx/interface/buttons/button_icons/list.dds"
 													block "enabled" {}
-													tooltip = "RANKING_ASTRONOMICAL_OBJECTS_VAR_TT"
+													tooltipwidget = {
+														MR_TooltipType = {
+															blockoverride "text" {
+																raw_text = "ASTRONOMY_RANKING_HEADER"
+															}
+															blockoverride "ranking_datamodel" {
+																datamodel = "[GetGlobalList('mr_astronomical_ranking_global_list')]"
+															}
+															blockoverride "ranking_variable_used" {
+																text = "[Country.MakeScope.GetVariable('verrier_astronomical_objects').GetValue|V0]"
+															}
+														}
+													}
 												}
 											}
 											flowcontainer = {
