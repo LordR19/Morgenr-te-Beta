@@ -1,6 +1,7 @@
 Changelog for 2.2.2 "Nininger"
 
 Changes
+- To build an observatory, you need an university and either Modern Astronomy or Organic&Inorganic Chemistry.
 - Astronomer and Chemists will offer to build an observatory if none exists yet.
 - Smugglers get 5 points of infamy when they fail (instead of 10).
 - Early Aviation, not Steel-frame buildings is needed for the Airship JE to trigger.
