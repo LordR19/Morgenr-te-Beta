@@ -2302,3 +2302,30 @@ artists_set_yearly_tradition_gain_variable = {
 		}
 	}
 }
+
+### Chemical Score Ranking List ###
+#Creates a list of the countries ranked by their chemical score.
+#As this effect is called in an effect, it creates a lobal variable list.
+mendelejew_create_chemical_ranking_list_effect = {
+	#Removes the global variable list
+	clear_global_variable_list = mr_chemical_ranking_global_list
+
+	ordered_country = {
+		limit = {
+			is_revolutionary = no #Hopefully keeps revolutions from appearing in the ranking
+			NOR = {
+				c:PRC ?= this
+				is_country_type = decentralized
+			}
+		}
+		order_by = var:mendelejew_chemical_score_country_var
+		max = 1000 #Limits the list to the ten top countires
+		check_range_bounds = no #prevents errors
+
+		#This part adds all the countries to the list
+		add_to_global_variable_list = {
+			name = mr_chemical_ranking_global_list
+			target = this
+		}
+	}
+}

@@ -1,0 +1,53 @@
+types MR_TooltipTypes
+{
+	type MR_TooltipType = TooltipWidgetType {
+		state = {
+			name = _show
+			block "ranking_on_finish" {
+				on_finish = "[GetScriptedGui('mr_chemistry_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+			}
+		}
+
+		blockoverride "tooltip_content_after" {
+			scrollbox = {
+				size = { 300 240 }
+				blockoverride "scrollbox_background"{}
+				blockoverride "scrollbox_content"
+				{
+					vbox = {
+						block "ranking_datamodel" {
+							datamodel = "[GetGlobalList('mr_test_global_list')]"
+						}
+	
+						item = {
+							hbox = {
+								layoutpolicy_horizontal = expanding
+								spacing = 10
+								datacontext = "[Scope.GetCountry]"
+	
+								textbox = {
+									align = left|nobaseline
+									autoresize = yes
+									text = "[PdxGuiWidget.GetIndexInDataModel]."
+								}
+								textbox = {
+									align = left|nobaseline
+									autoresize = yes
+									text = "[Country.GetName]"
+								}
+								expand = {}
+								textbox = {
+									align = right|nobaseline
+									autoresize = yes
+									block "ranking_variable_used" {
+										text = "[Country.MakeScope.Var('je_artifacts_rival_nation_var').GetVariable('lepsius_total_artifacts').GetValue|0+]"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1691,26 +1691,38 @@ types academy_view
 											text = "[GetPlayer.GetCustom('GUI_mendelejew_chemist_experience_text_type')]"
 										}
 										blockoverride "small_box_content" {
-										#	widget = { #This Icon allows an overview of the 10 Nations with the most Astronomical Objects
+											widget = { #This Icon allows an overview of the 10 Nations with the most Astronomical Objects
 												#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
 												#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
 												#used in the mr_GUI_l_english.yml file to display the global variables.
-										#		size = { 30 30 }
-										#		parentanchor = top|right
-										#		position = { 5 -5 }
-										#	
-										#		icon = {
-										#			size = { 100% 100% }
-										#			texture = "gfx/interface/backgrounds/round_button_bg.dds"
-										#			block "enabled" {}
-										#		}
-										#		icon = {
-										#			size = { 100% 100% }
-										#			texture = "gfx/interface/buttons/button_icons/list.dds"
-										#			block "enabled" {}
-										#			tooltip = "RANKING_ASTRONOMICAL_OBJECTS_VAR_TT"
-										#		}
-										#	}
+												size = { 30 30 }
+												parentanchor = top|right
+												position = { 5 -5 }
+											
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/backgrounds/round_button_bg.dds"
+													block "enabled" {}
+												}
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/buttons/button_icons/list.dds"
+													block "enabled" {}
+													tooltipwidget = {
+														MR_TooltipType = {
+															blockoverride "text" {
+																raw_text = "CHEMIST_RANKING_HEADER"
+															}
+															block "ranking_datamodel" {
+																datamodel = "[GetGlobalList('mr_chemical_ranking_global_list')]"
+															}
+															blockoverride "ranking_variable_used" {
+																text = "[Country.GetVariable('lepsius_total_artifacts').GetValue|0+]"
+															}
+														}
+													}
+												}
+											}
 											flowcontainer = {
 												direction = vertical
 												ignoreinvisible = yes
