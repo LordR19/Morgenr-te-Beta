@@ -5,6 +5,8 @@ Changes
 - Astronomer and Chemists will offer to build an observatory if none exists yet.
 - Smugglers get 5 points of infamy when they fail (instead of 10).
 - Early Aviation, not Steel-frame buildings is needed for the Airship JE to trigger.
+- Renamed Inorganic Chemistry to Organic and Inorganic Chemistry.
+- Drastically reduced the number of countries starting with Organic&Inorganic Chemistry (57->25)
 - Replaced some loading screens for more variety.
 
 ############
@@ -29,4 +31,3 @@ Chemistry
 - Added Hydrogenation Plants Building (possible with Synthetic Fuel Tech).
 - Added JE for the Periodic Table.
 - Removed Mendeleyev Event for Russia (you can do the Periodic Table on your own!).
-- Renamed Inorganic Chemistry to Organic and Inorganic Chemistry.
