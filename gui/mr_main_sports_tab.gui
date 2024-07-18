@@ -384,7 +384,22 @@ types sports_view
 										size = { 100% 100% }
 										texture = "gfx/interface/buttons/button_icons/list.dds"
 										block "enabled" {}
-										tooltip = "RANKING_TOTAL_GOLD_MEDALS_VAR_TT"
+										tooltipwidget = {
+											MR_TooltipRankingType = {
+												blockoverride "ranking_on_finish" {
+													on_finish = "[GetScriptedGui('mr_olympic_medals_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+												}
+												blockoverride "text" {
+													raw_text = "OLYMPIC_GOLD_MEDALS_RANKING_HEADER"
+												}
+												blockoverride "ranking_datamodel" {
+													datamodel = "[GetGlobalList('mr_olympic_medals_ranking_global_list')]"
+												}
+												blockoverride "ranking_variable_used" {
+													raw_text = "[Country.MakeScope.GetVariable('vikelas_gold_medals_var').GetValue|*V0]"
+												}
+											}
+										}
 									}
 								}
 
