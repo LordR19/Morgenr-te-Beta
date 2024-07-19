@@ -11837,3 +11837,139 @@ dubois_add_x_paleontological_progress_effect = {
 		}
 	}
 }
+
+#######################################################
+
+######IMPROVEMENTS######
+
+#This Scripted Effect calculates the naturalist Improvement Progress
+dubois_naturalist_improvement_progress = {
+	set_variable = {
+		name = dubois_monthly_naturalist_improvement_progress_var
+		value = 1 #Base Value
+	}
+	if = { #Has naturalist
+		limit = {
+			dubois_has_naturalist = yes
+		}
+		change_variable = {
+			name = dubois_monthly_naturalist_improvement_progress_var
+			add = 1
+		}
+	}
+	if = { #Experience of the naturalist divided by 100
+		limit = {
+			dubois_has_naturalist = yes
+		}
+		if = {
+			limit = {
+				var:dubois_naturalist_var.var:dubois_naturalist_experience < 300
+			}
+			set_local_variable = {
+				name = naturalist_experience_add
+				value = var:dubois_naturalist_var.var:dubois_naturalist_experience
+			}
+			change_local_variable = {
+				name = naturalist_experience_add
+				divide = 300
+			}
+			change_variable = {
+				name = dubois_monthly_naturalist_improvement_progress_var
+				add = local_var:naturalist_experience_add
+			}
+		}
+		else = {
+			change_variable = {
+				name = dubois_monthly_naturalist_improvement_progress_var
+				add = 1
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_naturalist_var.var:dubois_naturalist_experience < 300
+			}
+			set_variable = {
+				name = naturalist_experience_add_var
+				value = var:dubois_naturalist_var.var:dubois_naturalist_experience
+			}
+			change_variable = {
+				name = naturalist_experience_add_var
+				divide = 300
+			}
+		}
+		else = {
+			set_variable = {
+				name = naturalist_experience_add_var
+				value = 1
+			}
+		}
+	}
+	if = { #naturalist has Specialization
+		limit = {
+			dubois_naturalist_has_specialization_trigger = yes
+		}
+		change_variable = {
+			name = dubois_monthly_naturalist_improvement_progress_var
+			add = 1
+		}
+	}
+	if = { #naturalist has Meticulous Trait
+		limit = {
+			dubois_has_naturalist = yes
+			var:dubois_naturalist_var = {
+				has_trait = meticulous
+			}
+		}
+		change_variable = {
+			name = dubois_monthly_naturalist_improvement_progress_var
+			add = 0.1
+		}
+	}
+	if = { #naturalist has Persistent Trait
+		limit = {
+			dubois_has_naturalist = yes
+			var:dubois_naturalist_var = {
+				has_trait = persistent
+			}
+		}
+		change_variable = {
+			name = dubois_monthly_naturalist_improvement_progress_var
+			add = 0.1
+		}
+	}
+	if = { #naturalist has Innovative Trait
+		limit = {
+			dubois_has_naturalist = yes
+			var:dubois_naturalist_var = {
+				has_trait = innovative
+			}
+		}
+		change_variable = {
+			name = dubois_monthly_naturalist_improvement_progress_var
+			add = 0.1
+		}
+	}
+	if = { #naturalist has chemist Trait
+		limit = {
+			dubois_has_naturalist = yes
+			var:dubois_naturalist_var = {
+				has_trait = mendelejew_chemist
+			}
+		}
+		change_variable = {
+			name = dubois_monthly_naturalist_improvement_progress_var
+			add = 0.1
+		}
+	}
+}
+
+dubois_remove_je_cost_modifiers_effect = {
+	if = {
+		limit = { has_modifier = dubois_naturalist_forestry_cost_modifier }
+		remove_modifier = dubois_naturalist_forestry_cost_modifier
+	}
+	if = {
+		limit = { has_modifier = dubois_naturalist_rubber_cost_modifier }
+		remove_modifier = dubois_naturalist_rubber_cost_modifier
+	}
+}
