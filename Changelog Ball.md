@@ -34,3 +34,4 @@ Chemistry
 
 Fixes
 - Devout scientists no longer wear their silly hats.
+- An Academic that was retiriing and just got replaced will no longer cause the young academic to also retire.
