@@ -1,4 +1,4 @@
-Changelog for 2.2.2 "Nininger"
+Changelog for 2.2.2 "Ball"
 
 Game Rules
 - Academic at Game Start: You can chose that every nation with an university starts with a random academic or with no academics at all.
@@ -12,10 +12,6 @@ Changes
 - Drastically reduced the number of countries starting with Organic&Inorganic Chemistry (57->25).
 - Switzerland starts with Atmospheric Engine.
 - Replaced some loading screens for more variety.
-
-############
-
-Changelog for 2.2.3 "Ball"
 
 Geology
 - Added Geology Tech.
