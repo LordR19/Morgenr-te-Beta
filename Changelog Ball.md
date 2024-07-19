@@ -4,13 +4,13 @@ Game Rules
 - Academic at Game Start: You can chose that every nation with an university starts with a random academic or with no academics at all.
 
 Changes
-- Renamed Inorganic Chemistry to Organic and Inorganic Chemistry.
+- Renamed Inorganic Chemistry to Organic&Inorganic Chemistry.
 - Drastically reduced the number of countries starting with Organic&Inorganic Chemistry (57->25).
 - To build an observatory, you need an university and either Modern Astronomy or Organic&Inorganic Chemistry.
 - Astronomer and Chemists will offer to build an observatory if none exists yet.
 - Smugglers get 5 points of infamy when they fail (instead of 10).
 - Early Aviation, not Steel-frame buildings is needed for the Airship JE to trigger.
-- Switzerland starts with Atmospheric Engine.
+- Switzerland and Sweden start with Atmospheric Engine.
 - Replaced some loading screens for more variety.
 
 Geology
