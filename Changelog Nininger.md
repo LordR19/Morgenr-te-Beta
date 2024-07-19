@@ -35,3 +35,6 @@ Chemistry
 - Added Hydrogenation Plants Building (possible with Synthetic Fuel Tech).
 - Added JE for the Periodic Table.
 - Removed Mendeleyev Event for Russia (you can do the Periodic Table on your own!).
+
+Fixes
+- Devout scientists no longer wear their silly hats.
