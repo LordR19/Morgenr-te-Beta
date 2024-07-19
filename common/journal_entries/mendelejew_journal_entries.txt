@@ -1088,6 +1088,73 @@ je_mendelejew_synthetic_oil = {
 	weight = 50
 }
 
+######SYNTHETIC RUBBER######
+je_mendelejew_synthetic_rubber = {
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	group = je_group_mendelejew_chemistry
+
+	immediate = {
+		set_variable = {
+			name = mendelejew_chemist_synthetic_rubber_progress_var
+			value = 0
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = mendelejew_chemist_synthetic_rubber_progress_var
+				add = {
+					value = mendelejew_element_isolation_progress_value
+				}
+			}
+		}
+	}
+
+	current_value = {
+		value = var:mendelejew_chemist_synthetic_rubber_progress_var
+	}
+
+	goal_add_value = {
+		add = 75
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = mendelejew.702
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_chemist_dies_tt
+			NOT = {
+				has_variable = mendelejew_chemist_var
+			}
+		}
+	}
+
+	on_invalid = {
+	}
+
+	fail = {
+	}
+
+	on_fail = {
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
 ###########################################################################
 
 ######PERIODIC TABLE######
