@@ -8829,28 +8829,80 @@ retire_geologist_effect = {
 # Creates a new Geologist without losing the old one
 create_new_geologist_effect = {
 	random_list = { #Each Entry has a chance to appear if the triggers are met.
-		1 = { #Random Geologist (fallback and to make it uncertain for historical once to appear)
-			create_character = {
-				save_scope_as = dubois_new_geologist_scope
-			}
+		1 = { #Random Chemist (fallback and to make it uncertain for historical once to appear)
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						trait_generation = {}
+						save_scope_as = dubois_new_geologist_scope
+					}
+					scope:dubois_new_geologist_scope = {
+						add_trait = dubois_geologist
+						set_variable = mr_is_geologist_var
+						geologist_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = dubois_new_geologist_var
+						value = scope:dubois_new_geologist_scope
+					}
 
-			scope:dubois_new_geologist_scope = {
-				add_trait = dubois_geologist
-				set_variable = mr_is_geologist_var
-				geologist_experience_set_up_effect = yes
-				place_character_in_void = 1200
-			}
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						trait_generation = {}
+						save_scope_as = dubois_new_geologist_scope
+					}
+					scope:dubois_new_geologist_scope = {
+						add_trait = dubois_geologist
+						set_variable = mr_is_geologist_var
+						geologist_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = dubois_new_geologist_var
+						value = scope:dubois_new_geologist_scope
+					}
 
-			set_variable = {
-				name = dubois_new_geologist_var
-				value = scope:dubois_new_geologist_scope
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
 			}
 		}
 	}
 
 	var:dubois_new_geologist_var = {
 		save_scope_as = dubois_new_geologist_scope
-	}
+	}	
 }
 
 # Set new Geologist as official Geologist
