@@ -551,3 +551,96 @@ mr_chemist_synthetic_oil_button = {
 	}
 	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
+
+#MR_CHEMIST_SYNTHETIC_RUBBER_BUTTON
+mr_chemist_synthetic_rubber_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = mendelejew_no_synthetic_rubber_global_var
+		}
+	}
+    is_valid = {
+		NOT = {
+			has_technology_researched = mendelejew_synthetic_rubber_tech
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_ACTIVE_TRIGGER_TT
+			mendelejew_has_active_chemist = yes
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_MODERN_PHYSICS_TECH_TRIGGER_TT
+			has_technology_researched = verrier_modern_physics_tech
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_PLASTICS_TECH_TRIGGER_TT
+			has_technology_researched = plastics
+		}
+		custom_tooltip = {
+			text = MR_ART_SILK_TECH_TRIGGER_TT
+			has_technology_researched = art_silk
+		}
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_HAS_IMPROVED_SYNTHETICS_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_synthetics_plants
+				level > 0
+				has_modifier = mendelejew_building_throughput_add_modifier
+				has_modifier = mendelejew_building_production_mult_modifier
+				has_modifier = mendelejew_building_goods_input_mult_modifier
+			}
+		}
+    }
+    effect = {
+        add_journal_entry = { type = je_mendelejew_synthetic_rubber }
+		add_modifier = {
+			name = mendelejew_chemist_synthetic_rubber_cost_modifier
+			multiplier = money_amount_multiplier_medium
+		}
+		if = {
+			limit = {
+				has_variable = mendelejew_chemist_var
+			}
+			var:mendelejew_chemist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+		modifier = {
+			trigger = {
+				OR = {
+					c:GER ?= this
+					was_formed_from = GER
+				}
+			}
+			add = 2000
+		}
+		modifier = {
+			trigger = {
+				market = {
+					mg:rubber ?= { market_goods_has_goods_shortage = yes }
+				}
+			}
+			add = 5000
+		}
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
