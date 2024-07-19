@@ -58,3 +58,94 @@ mendelejew_first_congress_possible_alert = {
 	type = important_action
 	alert_group = morgenroete
 }
+
+mendelejew_jobless_chemist_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/mendelejew_chemistry_alert.dds"
+
+	valid = {
+		mendelejew_has_active_chemist = yes
+		OR = {
+			any_scope_building = { #Better Fertilizer
+				is_building_type = building_chemical_plants
+				level > 0
+				NOR = {
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+			any_scope_building = { #Better Explosives
+				is_building_type = building_explosives_factory
+				level > 0
+				NOR = {
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+			any_scope_building = { #Better Synthetics
+				OR = {
+					is_building_type = building_synthetics_plants
+					is_building_type = building_mendelejew_hydrogenation_plants
+				}
+				level > 0
+				NOR = {
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+			AND = { #Synthetic Oil
+				NOT = {
+					has_technology_researched = mendelejew_synthetic_fuel_tech
+				}
+				has_technology_researched = verrier_modern_physics_tech
+				has_technology_researched = plastics
+				has_technology_researched = combustion_engine
+				country_has_building_type_levels = {  
+					target = bt:building_university  
+					value  >= 10
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					level > 0
+				}
+				any_scope_building = {
+					is_building_type = building_synthetics_plants
+					level > 0
+					has_modifier = mendelejew_building_throughput_add_modifier
+					has_modifier = mendelejew_building_production_mult_modifier
+					has_modifier = mendelejew_building_goods_input_mult_modifier
+				}
+			}
+			AND = { #Elements
+				any_scope_state = {
+					is_production_method_active = {
+						building_type = building_university
+						production_method = pm_dubois_university_mathematics
+					}
+				}
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					level > 0
+				}
+				OR = {
+					mendelejew_element_can_theorize_trigger = yes #Theorize
+					AND = { #Discover
+						var:agassiz_generic_minerals_var >= 5000
+						mendelejew_element_can_discover_trigger = yes
+					}
+					AND = { #Isolate
+						var:agassiz_generic_minerals_var >= 10000
+						mendelejew_element_can_isolate_trigger = yes
+					}
+				}
+			}
+		}
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
