@@ -1,5 +1,8 @@
 Changelog for 2.2.2 "Nininger"
 
+Game Rules
+- Academic at Game Start: You can chose that every nation with an university starts with a random academic or with no academics at all.
+
 Changes
 - To build an observatory, you need an university and either Modern Astronomy or Organic&Inorganic Chemistry.
 - Astronomer and Chemists will offer to build an observatory if none exists yet.
