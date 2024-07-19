@@ -27,6 +27,9 @@ Chemistry
 - Added a button for Chemist to improve explosives. Chemists will improve Explosives Factories, giving modifiers for throughput, input and output.
 - Added a button for Chemist to improve Synthetics. Chemists will improve Synthetic Fuel Factories and Synthetic Plants, giving modifiers for throughput, input and output.
 - Added the possibility to arrange a Chemist Congress based on the Karlrsuhe Congress of 1860 to determine atomic weight.
+- Chemists can research Synthetic Fuel and Synthetic Rubber (both are hidden techs).
+- Added Synthetic Fuel Tech.
+- Added Hydrogenation Plants Building (possible with Synthetic Fuel Tech).
 - Added Synthetic Fuel Tech.
 - Added Hydrogenation Plants Building (possible with Synthetic Fuel Tech).
 - Added JE for the Noble Gases.
