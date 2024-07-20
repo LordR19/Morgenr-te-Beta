@@ -487,7 +487,94 @@ dubois_paleontologist_character_rating_value = {
 	}
 }
 
+############################################################################
+
 #Defines the base cost of the Naturalist Improvement Cost modifiers
 dubois_improvement_progress_cost = {
 	value = 24
+}
+
+############################################################################
+
+#This Script value defines the progress when a naturalist documents an animal
+naturalist_native_animal_progress_value = {
+	### 1 basic point ###
+	value = 1
+	### Experience ###
+	#Naturalist Experience: Experience divided by 60 = Progress
+	if = {
+		limit = {
+			has_variable = dubois_naturalist_var
+		}
+		add = {
+			value = var:dubois_naturalist_var.var:dubois_naturalist_experience
+			divide = 60
+			floor = yes
+			max = 5
+		}
+	}
+	### Positive Traits ###
+	#Naturalist Traits: Zoologist
+	if = {
+		limit = {
+			var:dubois_naturalist_var = {
+				has_trait = dubois_zoologist 
+			}
+		}
+		add = 1
+	}
+	#Personality of Naturalist: Meticulous
+	if = {
+		limit = {
+			var:dubois_naturalist_var = {
+				has_trait = meticulous
+			}
+		}
+		add = 1
+	}
+	### Negative Traits ###
+	#Vices: -1 point for each trait
+	if = {
+		limit = {
+			var:dubois_naturalist_var = {
+				has_trait = alcoholic
+			}
+		}
+		subtract = 1
+	}
+	if = {
+		limit = {
+			var:dubois_naturalist_var = {
+				has_trait = opium_addiction
+			}
+		}
+		subtract = 1
+	}
+	if = {
+		limit = {
+			var:dubois_naturalist_var = {
+				has_trait = cocaine_addiction
+			}
+		}
+		subtract = 1
+	}
+	if = {
+		limit = {
+			var:dubois_naturalist_var = {
+				has_trait = senile
+			}
+		}
+		subtract = 1
+	}
+	### University ###
+	#Natural History Faculty
+	if = {
+		limit = {
+			any_scope_building = {
+				is_building_type = building_university
+				has_active_production_method = pm_dubois_university_natural_history
+			}
+		}
+		add = 1
+	}
 }
