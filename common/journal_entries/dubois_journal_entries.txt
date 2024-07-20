@@ -72,6 +72,69 @@ je_dubois_safari = {
 	weight = 35
 }
 
+######NATIVE ANIMAL######
+
+je_dubois_native_animal = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = group = je_group_dubois_nature
+
+	immediate = {
+		set_variable = {
+			name = naturalist_native_animal_progress_var
+			value = 0
+		}
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = naturalist_native_animal_progress_var
+				add = {
+					value = naturalist_native_animal_progress_value
+				}
+			}
+		}
+	}
+
+	current_value = {
+		value = var:naturalist_native_animal_progress_var
+	}
+
+	goal_add_value = {
+		value = 50
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.22
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_ongoing_animal_documentation_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 50
+}
+
 ######ANIMAL BREEDING######
 
 je_animal_breeding = {	
