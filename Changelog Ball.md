@@ -36,6 +36,9 @@ Chemistry
 - Added JE for the Periodic Table.
 - Removed Mendeleyev Event for Russia (you can do the Periodic Table on your own!).
 
+Engineering
+- Civil Engineers on Infrastructure Projects will no longer go to the nice unincorporated islands first and instead focus on incorporated states.
+
 Fixes
 - Devout scientists no longer wear their silly hats.
 - An Academic that was retiriing and just got replaced will no longer cause the young academic to also retire.
