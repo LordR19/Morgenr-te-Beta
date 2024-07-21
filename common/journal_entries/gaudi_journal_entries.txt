@@ -3273,12 +3273,33 @@ je_gaudi_road_project = {
 				limit = {
 					var:gaudi_civil_engineering_progress_var > gaudi_road_progress_cost
 				}
-				#The state with the least available infrastructure will be chosen
-				ordered_scope_state = {
-					limit = { NOT = { has_modifier = gaudi_modern_roads_modifier } }
-					order_by = gaudi_infrastructure_balance
-					add_modifier = {
-						name = gaudi_modern_roads_modifier
+				if = {
+					limit = {
+						any_scope_state = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_modern_roads_modifier }
+						}
+					}
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_modern_roads_modifier }
+						}
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_modern_roads_modifier
+						}
+					}
+				}
+				else = {
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = { NOT = { has_modifier = gaudi_modern_roads_modifier } }
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_modern_roads_modifier
+						}
 					}
 				}
 				#The cost will be subtracted from the current progress
@@ -3414,12 +3435,33 @@ je_gaudi_canal_project = {
 				limit = {
 					var:gaudi_civil_engineering_progress_var > gaudi_canal_progress_cost
 				}
-				#The state with the least available infrastructure will be chosen
-				ordered_scope_state = {
-					limit = { NOT = { has_modifier = gaudi_canal_systems_modifier } }
-					order_by = gaudi_infrastructure_balance
-					add_modifier = {
-						name = gaudi_canal_systems_modifier
+				if = {
+					limit = {
+						any_scope_state = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_canal_systems_modifier }
+						}
+					}
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_canal_systems_modifier }
+						}
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_canal_systems_modifier
+						}
+					}
+				}
+				else = {
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = { NOT = { has_modifier = gaudi_canal_systems_modifier } }
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_canal_systems_modifier
+						}
 					}
 				}
 				#The cost will be subtracted from the current progress
@@ -3555,12 +3597,33 @@ je_gaudi_bridge_project = {
 				limit = {
 					var:gaudi_civil_engineering_progress_var > gaudi_bridge_progress_cost
 				}
-				#The state with the least available infrastructure will be chosen
-				ordered_scope_state = {
-					limit = { NOT = { has_modifier = gaudi_new_bridge_modifier } }
-					order_by = gaudi_infrastructure_balance
-					add_modifier = {
-						name = gaudi_new_bridge_modifier
+				if = {
+					limit = {
+						any_scope_state = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_new_bridge_modifier }
+						}
+					}
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_new_bridge_modifier }
+						}
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_new_bridge_modifier
+						}
+					}
+				}
+				else = {
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = { NOT = { has_modifier = gaudi_new_bridge_modifier } }
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_new_bridge_modifier
+						}
 					}
 				}
 				#The cost will be subtracted from the current progress
@@ -3696,12 +3759,33 @@ je_gaudi_tunnel_project = {
 				limit = {
 					var:gaudi_civil_engineering_progress_var > gaudi_tunnel_progress_cost
 				}
-				#The state with the least available infrastructure will be chosen
-				ordered_scope_state = {
-					limit = { NOT = { has_modifier = gaudi_new_tunnel_modifier } }
-					order_by = gaudi_infrastructure_balance
-					add_modifier = {
-						name = gaudi_new_tunnel_modifier
+				if = {
+					limit = {
+						any_scope_state = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_new_tunnel_modifier }
+						}
+					}
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_new_tunnel_modifier }
+						}
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_new_tunnel_modifier
+						}
+					}
+				}
+				else = {
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = { NOT = { has_modifier = gaudi_new_tunnel_modifier } }
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_new_tunnel_modifier
+						}
 					}
 				}
 				#The cost will be subtracted from the current progress
@@ -3837,18 +3921,47 @@ je_gaudi_railway_project = {
 				limit = {
 					var:gaudi_civil_engineering_progress_var > gaudi_road_progress_cost
 				}
-				#The state with the least available infrastructure will be chosen
-				ordered_scope_state = {
+				if = {
 					limit = {
-						NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
-						any_scope_building = {
-							is_building_type = building_railway
-							level > 0
+						any_scope_state = {
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_railway
+								level > 0
+							}
+							NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
 						}
 					}
-					order_by = gaudi_infrastructure_balance
-					add_modifier = {
-						name = gaudi_modernized_railway_lines_modifier
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = {
+							is_incorporated = yes
+							any_scope_building = {
+								is_building_type = building_railway
+								level > 0
+							}
+							NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
+						}
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_modernized_railway_lines_modifier
+						}
+					}
+				}
+				else = {
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = {
+							NOT = { has_modifier = gaudi_modernized_railway_lines_modifier }
+							any_scope_building = {
+								is_building_type = building_railway
+								level > 0
+							}
+						}
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_modernized_railway_lines_modifier
+						}
 					}
 				}
 				#The cost will be subtracted from the current progress
@@ -4173,12 +4286,33 @@ je_gaudi_topographic_map_project = {
 				limit = {
 					var:gaudi_civil_engineering_progress_var > gaudi_topographic_map_progress_cost
 				}
-				#The state with the least available infrastructure will be chosen
-				ordered_scope_state = {
-					limit = { NOT = { has_modifier = gaudi_topographic_state_map_modifier } }
-					order_by = gaudi_infrastructure_balance
-					add_modifier = {
-						name = gaudi_topographic_state_map_modifier
+				if = {
+					limit = {
+						any_scope_state = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_topographic_state_map_modifier }
+						}
+					}
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = {
+							is_incorporated = yes
+							NOT = { has_modifier = gaudi_topographic_state_map_modifier }
+						}
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_topographic_state_map_modifier
+						}
+					}
+				}
+				else = {
+					#The state with the least available infrastructure will be chosen
+					ordered_scope_state = {
+						limit = { NOT = { has_modifier = gaudi_topographic_state_map_modifier } }
+						order_by = gaudi_infrastructure_balance
+						add_modifier = {
+							name = gaudi_topographic_state_map_modifier
+						}
 					}
 				}
 				#The cost will be subtracted from the current progress
