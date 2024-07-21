@@ -38,6 +38,7 @@ Chemistry
 
 Engineering
 - Civil Engineers on Infrastructure Projects will no longer go to the nice unincorporated islands first and instead focus on incorporated states.
+- You can now invest additional money to accelerate your civil engineering projects.
 
 Fixes
 - Devout scientists no longer wear their silly hats.
