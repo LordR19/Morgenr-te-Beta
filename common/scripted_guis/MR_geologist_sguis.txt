@@ -1,0 +1,72 @@
+﻿### GEOLOGIST BUTTONS ###
+
+#Does the country have a goelogist
+mr_has_geologist_sgui = {
+	scope = country
+	is_shown = {
+		has_variable = dubois_geologist_var
+	}
+}
+
+#Sets the Ranking up
+#mr_geologist_ranking_sgui = {
+#	scope = country
+#	effect = {
+#		agassiz_create_geological_ranking_list_effect = yes
+#	}
+#}
+
+####################################################################################################################
+
+#MR_GEOLOGIST_ORE_VEIN_BUTTON
+mr_geologist_ore_vein_button = {
+	scope = country
+	is_shown = {
+		NOT = {
+			has_variable = agassiz_decide_ore_vein_var
+		}
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_GEOLOGIST_ACTIVE_TRIGGER_TT
+			dubois_has_active_geologist = yes
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_FIND_ORE_TRIGGER_TT
+			agassiz_can_find_new_vein_trigger = yes
+		}
+	}
+	effect = {
+		set_variable = agassiz_decide_ore_vein_var
+		if = {
+			limit = {
+				has_variable = dubois_geologist_var
+			}
+			var:dubois_geologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		trigger_event = {
+			id = agassiz.100
+			popup = yes
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 10 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+mr_geologist_ore_vein_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_agassiz_find_coal_project
+		has_journal_entry = je_agassiz_find_iron_project
+		has_journal_entry = je_agassiz_find_lead_project
+		has_journal_entry = je_agassiz_find_sulfur_project
+		has_journal_entry = je_agassiz_find_gold_project
+		has_journal_entry = je_agassiz_find_uranium_project
+	}
+}
