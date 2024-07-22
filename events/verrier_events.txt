@@ -154,6 +154,11 @@ namespace = verrier
 #Verrier 200: [SCOPE] determines the distance of 61 Cygni to be 11.4 light years
 #Verrier 201: [SCOPE] found the cause for the Fraunhofer Lines
 
+#Venus Transit
+
+#Verrier 300: Notification for Venus Transit in 1872
+#Verrier 301: Venus Transit 1874
+
 #Historical Observatories and Astronomers
 
 #Verrier 1001: Construction of the Tara Wali Kothi (Awadh)
@@ -7671,6 +7676,109 @@ verrier.201 = {
 		default_option = yes
 		chemist_experience_gain_effect = {
 			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
+######Venus Transit######
+
+#Verrier 300: Notification for Venus Transit in 1872
+verrier.300 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.300.t
+	desc = verrier.300.d
+	flavor = verrier.300.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		is_player = yes
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = verrier.300.g #We should outfit an expedition
+	}
+
+	after = {
+	}
+}
+
+#Verrier 301: Venus Transit 1874
+verrier.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.301.t
+	desc = verrier.301.d
+	flavor = verrier.301.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		year = 1874
+		month = 10 # November. The trigger for months is on a 0-11 scale.
+		var:verrier_astronomer_var = {
+			has_variable = rapanui_scientist_var
+		}
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+		scope:rapanui_scientist = {
+			set_variable = verrier_astronomer_observed_venus_transit_var
+		}
+	}
+
+	option = {
+		name = verrier.301.g #Excellent
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 5
+		}
+		verrier_large_add_technology = yes
+		add_modifier = {
+			name = rapanui_venus_transit_modifier
+			years = 10
 		}
 	}
 
