@@ -41,6 +41,10 @@ Engineering
 - Civil Engineers on Infrastructure Projects will no longer go to the nice unincorporated islands first and instead focus on incorporated states.
 - You can now invest additional money to accelerate your civil engineering projects.
 
+Fixes
+- Devout scientists no longer wear their silly hats.
+- An Academic that was retiriing and just got replaced will no longer cause the young academic to also retire.
+
 #############
 
 Changelog for 2.2.3 "Miss Duce"
@@ -49,5 +53,4 @@ Geology
 - Added Geologist
 - Added a button for Geologists to find new ore veins. Geologists will give all mining buildings a modifier.
 - Added a button for Geologists to find new oil wells. Geologists will give all oil rigs a modifier.
-- Devout scientists no longer wear their silly hats.
-- An Academic that was retiriing and just got replaced will no longer cause the young academic to also retire.
+- Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
