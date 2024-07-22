@@ -961,3 +961,162 @@ je_agassiz_find_uranium_project = {
 
 	should_be_pinned_by_default = yes
 }
+
+#Find Oil
+je_agassiz_find_oil_project = {
+	icon = "gfx/interface/icons/goods_icons/oil.dds"
+
+	scripted_button = agassiz_stop_geologist_project_button
+
+	group = je_group_agassiz_geology
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see agassiz_scripted_effects for calculation)
+			agassiz_geologist_improvement_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = agassiz_geologist_improvement_progress_var
+				add = var:agassiz_monthly_geologist_improvement_progress_var
+			}
+			if = {
+				limit = { var:agassiz_geologist_improvement_progress_var > agassiz_improvement_progress_cost }
+				if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = agassiz_geologist_focus_building_modifier
+							NOT = { has_modifier = agassiz_building_production_2_mult_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = agassiz_geologist_focus_building_modifier
+							NOT = { has_modifier = agassiz_building_production_2_mult_modifier }
+						}
+						add_modifier = {
+							name = agassiz_building_production_2_mult_modifier
+						}
+					}
+					change_variable = {
+						name = agassiz_geologist_improvement_progress_var
+						subtract = agassiz_improvement_progress_cost
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = agassiz_can_stop_active_improvement_project_var #This is used to check if the country has a project already
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				is_building_type = building_oil_rig
+				NOT = {
+					has_modifier = agassiz_building_production_2_mult_modifier
+				}
+			}
+			order_by = earnings
+			add_modifier = {
+				name = agassiz_geologist_focus_building_modifier
+			}
+			root = {
+				set_variable = {
+					name = agassiz_building_geologist_improvement_var
+					value = prev
+				}
+			}
+		}
+		#Sets the Geologist Improvement Progress at the beginning
+		set_variable = {
+			name = agassiz_geologist_improvement_progress_var
+			value = 0
+		}
+		agassiz_geologist_improvement_progress = yes #Determines how much Geologist Improvement Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = agassiz_building_has_production_modifier_tt
+			any_scope_building = {
+				has_modifier = agassiz_geologist_focus_building_modifier
+				has_modifier = agassiz_building_production_2_mult_modifier
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = agassiz_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		agassiz_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every geology je
+		remove_variable = agassiz_geologist_improvement_progress_var
+		remove_variable = agassiz_monthly_geologist_improvement_progress_var
+		remove_variable = geologist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = agassiz_geologist_focus_building_modifier
+			}
+			remove_modifier = agassiz_geologist_focus_building_modifier
+		}
+		var:dubois_geologist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		trigger_event = {
+			id = agassiz.102
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the Geology Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:agassiz_geologist_improvement_progress_var
+	}
+
+	goal_add_value = {
+		#Normal value for Coal and Iron: 24
+		value = 30
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = agassiz_stop_geologist_improving_project_tt
+			OR = {
+				trigger_if = {
+					limit = { is_ai = yes }
+					dubois_has_geologist = yes
+					dubois_has_geologist_no_tooltip_trigger = yes
+				}
+				has_variable = agassiz_stop_geologist_improving_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = agassiz_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		agassiz_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every geology je
+		remove_variable = agassiz_geologist_improvement_progress_var
+		remove_variable = agassiz_monthly_geologist_improvement_progress_var
+		remove_variable = geologist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = agassiz_geologist_focus_building_modifier
+			}
+			remove_modifier = agassiz_geologist_focus_building_modifier
+		}
+		remove_variable = agassiz_stop_geologist_improving_project_var
+		var:dubois_geologist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
