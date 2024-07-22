@@ -11108,9 +11108,135 @@ rapanui.268 = {
 	}
 }
 
-#Rapanui 268: Rare Mineral
-
 #Rapanui 269: Ring of Fire (Polynesia, Indonesia)
+
+rapanui.269 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = rapanui.269.t
+	desc = rapanui.269.d
+	flavor = rapanui.269.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			OR = {
+				has_trait = dubois_geologist
+				has_trait = dubois_geologist_experienced
+				has_trait = dubois_geologist_famous
+			}
+		}
+		OR = {
+			has_variable = rapanui_pacific_expedition_location_polynesia
+			has_variable = rapanui_pacific_expedition_location_indonesia
+		}
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.269.g #Is the Pacific actually a single volcanic crater with side vents?
+		geologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+		random_list = {
+			1 = { 
+				if = {
+					limit = {
+						NOT = {
+							var:dubois_geologist_var = {
+								has_trait = agassiz_volcanologist
+							}
+						}
+					}
+					var:dubois_geologist_var = {
+						add_trait = agassiz_volcanologist
+					}
+				}
+			}
+			1 = {}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Rapanui 270: Rare Mineral (Australia)
+
+rapanui.270 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = rapanui.270.t
+	desc = rapanui.270.d
+	flavor = rapanui.270.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			OR = {
+				has_trait = dubois_geologist
+				has_trait = dubois_geologist_experienced
+				has_trait = dubois_geologist_famous
+			}
+		}
+		has_variable = rapanui_pacific_expedition_location_australia
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.270.g #What a lovely souvenir!
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
 
 #Rapanui 300: End of an Era
 
