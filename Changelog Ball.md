@@ -17,6 +17,7 @@ Geology
 - Added Geology Tech.
 - Natural History University available with Geology instead of Theory of Evolution.
 - Added Minerals as a new object. Minerals will be found yearly in states with special state traits, like caves, mountains or special deposits. Arctic and desert traits add a little bit, too. Volcanoes and Great Geological Formation are the best, however.
+- Minerals obtained at the end of a Pacific Expedition.
 
 Chemistry
 - Added Chemist as a new Academic.
@@ -40,6 +41,13 @@ Engineering
 - Civil Engineers on Infrastructure Projects will no longer go to the nice unincorporated islands first and instead focus on incorporated states.
 - You can now invest additional money to accelerate your civil engineering projects.
 
-Fixes
+#############
+
+Changelog for 2.2.3 "Miss Duce"
+
+Geology
+- Added Geologist
+- Added a button for Geologists to find new ore veins. Geologists will give all mining buildings a modifier.
+- Added a button for Geologists to find new oil wells. Geologists will give all oil rigs a modifier.
 - Devout scientists no longer wear their silly hats.
 - An Academic that was retiriing and just got replaced will no longer cause the young academic to also retire.
