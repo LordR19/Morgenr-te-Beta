@@ -53,6 +53,9 @@ Geology
 - Added Geologist
 - Added a button for Geologists to find new ore veins. Geologists will give all mining buildings a modifier.
 - Added a button for Geologists to find new oil wells. Geologists will give all oil rigs a modifier.
+- Rare Minerals can be found on expeditions when a Geologist is present.
+- 20,000 minerals can be exchanged for 1 rare mineral.
+- With 50 rare minerals, a Mineral Cabinet can be added to the Zoo.
 
 Pacific Expedition
 - Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
