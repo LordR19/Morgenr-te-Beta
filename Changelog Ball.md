@@ -54,3 +54,4 @@ Geology
 - Added a button for Geologists to find new ore veins. Geologists will give all mining buildings a modifier.
 - Added a button for Geologists to find new oil wells. Geologists will give all oil rigs a modifier.
 - Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
+- Added 4 new Geologist Events for Pacific Expedition.
