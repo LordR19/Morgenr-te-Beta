@@ -120,12 +120,12 @@ mr_geologist_oil_active_sgui = {
 	}
 }
 
-#MR_INSPECT_MINERALS_TO_RARE_MINERALS_BUTTON
-mr_inspect_minerals_for_rare_mineral_button = {
+#MR_SELL_MINERALS_FOR_RARE_MINERAL_BUTTON
+mr_sell_minerals_for_rare_mineral_button = {
     scope = country
     is_valid = {
 		custom_tooltip = {
-			text = MR_INSPECT_MINERALS_FOR_RARE_MINERALS_TRIGGER
+			text = MR_SELL_MINERALS_FOR_RARE_MINERAL_TRIGGER
 			var:agassiz_generic_minerals_var >= 20000
 		}
 		custom_tooltip = {
@@ -136,5 +136,66 @@ mr_inspect_minerals_for_rare_mineral_button = {
     effect = {
 		agassiz_add_x_generic_minerals_effect = { AMOUNT = -20000 }
 		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+    }
+}
+
+#MR_MINERAL_CABINET_BUTTON
+mr_mineral_cabinet_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			capital = {
+				is_production_method_active = {
+					building_type = building_dubois_zoo
+					production_method = pm_mineral_cabinet
+				}
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_VISIT_ZOO_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_ACTIVE_TRIGGER_TT
+			dubois_has_active_geologist = yes
+		}
+		custom_tooltip = {
+			text = MR_MINERAL_CABINET_NUMBER_TRIGGER_TT
+			var:agassiz_rare_minerals_var >= 50
+		}
+    }
+    effect = {
+        agassiz_add_x_rare_minerals_effect = { AMOUNT = -50 }
+		if = {
+			limit = { NOT = { has_building = building_dubois_zoo } }
+			custom_tooltip = MR_SPECIMEN_GARDEN_EFFECT_TT
+		}
+		if = {
+			limit = {
+				capital = {
+					has_building = building_dubois_zoo
+				}
+			}
+			activate_production_method = {
+				building_type = building_dubois_zoo
+				production_method = pm_mineral_cabinet
+			}
+		}
+		else = {
+			random_scope_state = {
+				limit = {
+					has_building = building_dubois_zoo
+				}
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_mineral_cabinet
+				}
+			}
+		}
     }
 }
