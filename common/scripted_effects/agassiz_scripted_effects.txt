@@ -59,6 +59,100 @@ agassiz_add_x_generic_minerals_effect = {
 	}
 }
 
+######GEOLOGY IMPROVEMENT######
+
+#This Scripted Effect calculates the Geologist Improvement Progress
+agassiz_geologist_improvement_progress = {
+	set_variable = {
+		name = agassiz_monthly_geologist_improvement_progress_var
+		value = 1 #Base Value
+	}
+	if = { #Has Chemist
+		limit = {
+			dubois_has_geologist = yes
+		}
+		change_variable = {
+			name = agassiz_monthly_geologist_improvement_progress_var
+			add = 1
+		}
+	}
+	if = { #Experience of the chemist divided by 100
+		limit = {
+			dubois_has_geologist = yes
+		}
+		if = {
+			limit = {
+				var:dubois_geologist_var.var:dubois_geologist_experience < 300
+			}
+			set_local_variable = {
+				name = geologist_experience_add
+				value = var:dubois_geologist_var.var:dubois_geologist_experience
+			}
+			change_local_variable = {
+				name = geologist_experience_add
+				divide = 300
+			}
+			change_variable = {
+				name = agassiz_monthly_geologist_improvement_progress_var
+				add = local_var:geologist_experience_add
+			}
+		}
+		else = {
+			change_variable = {
+				name = agassiz_monthly_geologist_improvement_progress_var
+				add = 1
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_geologist_var.var:dubois_geologist_experience < 300
+			}
+			set_variable = {
+				name = geologist_experience_add_var
+				value = var:dubois_geologist_var.var:dubois_geologist_experience
+			}
+			change_variable = {
+				name = geologist_experience_add_var
+				divide = 300
+			}
+		}
+		else = {
+			set_variable = {
+				name = geologist_experience_add_var
+				value = 1
+			}
+		}
+	}
+	if = { #Geologist has Specialization
+		limit = {
+			agassiz_geologist_has_specialization_trigger = yes
+		}
+		change_variable = {
+			name = agassiz_monthly_geologist_improvement_progress_var
+			add = 1
+		}
+	}
+	if = { #Geologist has Persistent Trait
+		limit = {
+			dubois_has_geologist = yes
+			var:dubois_geologist_var = {
+				has_trait = persistent
+			}
+		}
+		change_variable = {
+			name = agassiz_monthly_geologist_improvement_progress_var
+			add = 0.5
+		}
+	}
+}
+
+agassiz_remove_je_cost_modifiers_effect = {
+	if = {
+		limit = { has_modifier = agassiz_ore_search_cost_modifier }
+		remove_modifier = agassiz_ore_search_cost_modifier
+	}
+}
+
 agassiz_add_variables = {
 	set_variable = {
 		name = agassiz_generic_minerals_var
