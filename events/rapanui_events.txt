@@ -6051,6 +6051,14 @@ rapanui.203 = {
 		}
 		if = {
 			limit = {
+				has_variable = dubois_geologist_var
+			}
+			var:dubois_geologist_var = {
+				save_scope_as = dubois_geologist_scope
+			}
+		}
+		if = {
+			limit = {
 				has_variable = verrier_astronomer_var
 			}
 			var:verrier_astronomer_var = {
@@ -6100,6 +6108,21 @@ rapanui.203 = {
 			}
 		}
 		scope:dubois_paleontologist_scope = {
+			set_variable = rapanui_scientist_var
+			set_character_busy_and_immortal = yes
+			set_variable = rapanui_character_on_pacific_expedition_var
+		}
+	}
+
+	option = {
+		name = rapanui.203.l
+		trigger = {
+			exists = scope:dubois_geologist_scope
+			scope:dubois_geologist_scope = {
+				is_busy = no
+			}
+		}
+		scope:dubois_geologist_scope = {
 			set_variable = rapanui_scientist_var
 			set_character_busy_and_immortal = yes
 			set_variable = rapanui_character_on_pacific_expedition_var
@@ -6476,6 +6499,7 @@ rapanui.211 = {
 			}
 			rapanui_add_x_oceanographic_understanding_effect = { AMOUNT = 3 }
 			dubois_add_x_specimen_effect = { AMOUNT = 3000 }
+			agassiz_add_x_generic_minerals_effect = { AMOUNT = 1000 }
 			dubois_add_x_fossils_effect = { AMOUNT = 2 }
 			dubois_small_add_technology = yes
 			verrier_add_x_astronomical_objects_effect = {
@@ -6495,6 +6519,7 @@ rapanui.211 = {
 				has_variable = rapanui_pe_nature_var
 			}
 			dubois_add_x_specimen_effect = { AMOUNT = 5000 }
+			agassiz_add_x_generic_minerals_effect = { AMOUNT = 2500 }
 			dubois_add_x_fossils_effect = { AMOUNT = 3 }
 			dubois_medium_add_technology = yes
 		}
@@ -6616,6 +6641,17 @@ rapanui.211 = {
 				}
 			}
 			var:dubois_paleontologist_var = {
+				remove_variable = rapanui_character_on_pacific_expedition_var
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_geologist_var
+				var:dubois_geologist_var = {
+					has_variable = rapanui_scientist_var
+				}
+			}
+			var:dubois_geologist_var = {
 				remove_variable = rapanui_character_on_pacific_expedition_var
 			}
 		}
@@ -6791,6 +6827,63 @@ rapanui.213 = {
 			limit = {
 				scope:rapanui_scientist = {
 					OR = {
+						has_trait = dubois_geologist
+						has_trait = dubois_geologist_experienced
+						has_trait = dubois_geologist_famous
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				set_variable = dubois_geologist_finished_pacific_expedition_var
+			}
+			add_modifier = {
+				name = rapanui_science_report_biology_modifier
+				years = 5
+			}
+			if = {
+				limit = {
+					NOR = {
+						var:dubois_geologist_var = {
+							has_trait = agassiz_geophysicist
+						}
+						var:dubois_geologist_var = {
+							has_trait = agassiz_oceanographer
+						}
+					}
+				}
+				random_list = {
+					3 = {}
+					2 = {
+						var:dubois_geologist_var = {
+							add_trait = agassiz_oceanographer
+						}
+					}
+					1 = {
+						var:dubois_geologist_var = {
+							add_trait = agassiz_geophysicist
+						}
+					}
+				}
+			}
+			hidden_effect = {
+				random_list = {
+					3 = {}
+					1 = {
+						var:dubois_geologist_var = {
+							save_scope_as = manzoni_scientist_scope
+						}
+						trigger_event = {
+							id = manzoni.13
+							days = { 7 21 }
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:rapanui_scientist = {
+					OR = {
 						has_trait = verrier_astronomer
 						has_trait = verrier_astronomer_experienced
 						has_trait = verrier_astronomer_famous
@@ -6828,7 +6921,7 @@ rapanui.213 = {
 
 ######Expedition Events######
 
-###Oceanographie
+###Oceanography
 
 #Rapanui 221: Ocean currents
 
@@ -6875,7 +6968,10 @@ rapanui.221 = {
 			limit = {
 				exists = scope:rapanui_scientist
 				scope:rapanui_scientist = {
-					has_trait = surveyor
+					OR = {
+						has_trait = surveyor
+						has_trait = oceanographer
+					}
 				}
 			}
 			rapanui_add_x_oceanographic_understanding_effect = { AMOUNT = 3 }
@@ -6893,7 +6989,10 @@ rapanui.221 = {
 			limit = {
 				exists = scope:rapanui_scientist
 				scope:rapanui_scientist = {
-					has_trait = surveyor
+					OR = {
+						has_trait = surveyor
+						has_trait = oceanographer
+					}
 				}
 			}
 			rapanui_add_x_oceanographic_understanding_effect = { AMOUNT = 5 }
@@ -6947,7 +7046,10 @@ rapanui.221 = {
 		modifier = {
 			exists = scope:rapanui_scientist
 			scope:rapanui_scientist = {
-				has_trait = curie_physicist
+				OR = {
+					has_trait = curie_physicist
+					has_trait = agassiz_oceanographer
+				}
 			}
 			factor = 2
 		}
@@ -7073,6 +7175,7 @@ rapanui.223 = {
 					has_trait = verrier_astronomer
 					has_trait = verrier_astronomer_experienced
 					has_trait = verrier_astronomer_famous
+					has_trait = agassiz_geophysicist
 				}
 			}
 		}
@@ -7118,6 +7221,7 @@ rapanui.223 = {
 				OR = {
 					has_trait = verrier_mathematician
 					has_trait = curie_physicist
+					has_trait = agassiz_geophysicist
 				}
 			}
 			factor = 2
@@ -7195,6 +7299,8 @@ rapanui.224 = {
 					exists = scope:rapanui_scientist
 					scope:rapanui_scientist = {
 						has_trait = surveyor
+						has_trait = agassiz_oceanographer
+						has_trait = agassiz_geophysicist
 					}
 				}
 				trigger_event = {
@@ -7216,6 +7322,8 @@ rapanui.224 = {
 			exists = scope:rapanui_scientist
 			scope:rapanui_scientist = {
 				has_trait = surveyor
+				has_trait = agassiz_oceanographer
+				has_trait = agassiz_geophysicist
 			}
 			factor = 2
 		}
@@ -7268,6 +7376,7 @@ rapanui.225 = {
 			exists = scope:rapanui_scientist
 			scope:rapanui_scientist = {
 				has_trait = surveyor
+				has_trait = agassiz_oceanographer
 			}
 		}
 		verrier_medium_add_technology = yes
@@ -7283,6 +7392,7 @@ rapanui.225 = {
 					has_trait = verrier_astronomer
 					has_trait = verrier_astronomer_experienced
 					has_trait = verrier_astronomer_famous
+					has_trait = agassiz_geophysicist
 				}
 			}
 		}
@@ -7320,6 +7430,7 @@ rapanui.225 = {
 			AMOUNT = 1
 		}
 		dubois_add_x_specimen_effect = { AMOUNT = 1000 }
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 500 }
 	}
 
 	after = {
@@ -7482,6 +7593,19 @@ rapanui.227 = {
 			dubois_medium_add_technology = yes
 			dubois_add_x_specimen_effect = { AMOUNT = 5000 }
 		}
+		if = {
+			limit = {
+				scope:rapanui_scientist = {
+					OR = {
+						has_trait = dubois_geologist
+						has_trait = dubois_geologist_experienced
+						has_trait = dubois_geologist_famous
+					}
+				}
+			}
+			dubois_medium_add_technology = yes
+			agassiz_add_x_generic_minerals_effect = { AMOUNT = 5000 }
+		}
 	}
 
 	option = {
@@ -7491,6 +7615,8 @@ rapanui.227 = {
 			20 = { rapanui_add_x_oceanographic_understanding_effect = { AMOUNT = 1 } }
 			15 = { dubois_add_x_specimen_effect = { AMOUNT = 3000 } }
 			15 = { dubois_add_x_specimen_effect = { AMOUNT = 1000 } }
+			15 = { agassiz_add_x_generic_minerals_effect = { AMOUNT = 3000 } }
+			15 = { agassiz_add_x_generic_minerals_effect = { AMOUNT = 1000 } }
 			10 = { verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 } }
 			15 = {}
 		}
@@ -9384,6 +9510,10 @@ rapanui.247 = {
 		}
 	}
 }
+
+#Rapanui 248: Minerals
+
+#Rapanui 249: Minerals
 
 #Rapanui 250: Java man (alternative to Dubois.6)
 
