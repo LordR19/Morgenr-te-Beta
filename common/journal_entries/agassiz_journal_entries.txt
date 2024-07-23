@@ -1178,3 +1178,70 @@ je_agassiz_find_oil_project = {
 }
 
 ######################################################################################
+
+#Mid-Atlantic Ridge
+je_agassiz_mid_atlantic_ridge = {
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	group = je_group_agassiz_geology
+
+	on_monthly_pulse = {
+		effect = {
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = agassiz_mid_atlantic_expedition_progress_var
+				add = 1
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = agassiz_mid_atlantic_expedition_progress_var
+			value = 0
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_agassiz_mid_atlantic_ridge_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = agassiz.201
+			popup = yes
+		}
+	}
+
+	current_value = {
+		value = var:agassiz_mid_atlantic_expedition_progress_var
+	}
+
+	goal_add_value = {
+		value = 12
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_geologist_dies_tt
+			NOT = {
+				has_variable = dubois_geologist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
