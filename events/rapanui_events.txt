@@ -155,8 +155,6 @@ namespace = rapanui
 #Rapanui 266: Composita
 #Rapanui 267: Southern celestial hemisphere
 #Rapanui 268: Solar Eclipse of 1845 (Australia), 1857 (Polynesia), 1868 (Indonesia/Australia), 1871 (All), 1875 (Indonesia), 1883 (Polynesia), 1885 (Polynesia)
-#Rapanui 269: Notification for Venus Transit in 1872
-#Rapanui 270: Venus Transit 1874
 
 
 ###############
@@ -6834,7 +6832,7 @@ rapanui.213 = {
 				}
 			}
 			var:dubois_geologist_var = {
-				set_variable = dubois_geologist_finished_pacific_expedition_var
+				set_variable = agassiz_geologist_finished_pacific_expedition_var
 			}
 			add_modifier = {
 				name = rapanui_science_report_biology_modifier
@@ -6970,7 +6968,7 @@ rapanui.221 = {
 				scope:rapanui_scientist = {
 					OR = {
 						has_trait = surveyor
-						has_trait = oceanographer
+						has_trait = agassiz_oceanographer
 					}
 				}
 			}
@@ -6991,7 +6989,7 @@ rapanui.221 = {
 				scope:rapanui_scientist = {
 					OR = {
 						has_trait = surveyor
-						has_trait = oceanographer
+						has_trait = agassiz_oceanographer
 					}
 				}
 			}
@@ -9511,9 +9509,254 @@ rapanui.247 = {
 	}
 }
 
-#Rapanui 248: Minerals
+#Rapanui 248: Minerals (Australia, Indonesia)
 
-#Rapanui 249: Minerals
+rapanui.248 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = rapanui.248.t
+	desc = rapanui.248.d
+	flavor = rapanui.248.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_minerals.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		OR = {
+			has_variable = rapanui_pacific_expedition_location_australia
+			has_variable = rapanui_pacific_expedition_location_indonesia
+		}
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.248.g #Collect as many minerals as possible
+		default_option = yes
+		random_list = {
+			1 = {
+				agassiz_add_x_generic_minerals_effect = { AMOUNT = 3000 }
+			}
+			3 = {
+				agassiz_add_x_generic_minerals_effect = { AMOUNT = 2000 }
+			}
+			2 = {
+				agassiz_add_x_generic_minerals_effect = { AMOUNT = 1000 }
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					OR = {
+						has_trait = dubois_geologist
+						has_trait = dubois_geologist_experienced
+						has_trait = dubois_geologist_famous
+					}
+				}
+			}
+			geologist_experience_gain_effect = {
+				AMOUNT = "10"
+			}
+		}
+	}
+
+	option = {
+		name = rapanui.248.h #Study this geological area more closely
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				OR = {
+					has_trait = dubois_geologist
+					has_trait = dubois_geologist_experienced
+					has_trait = dubois_geologist_famous
+				}
+			}
+		}
+		dubois_small_add_technology = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		  has_variable = rapanui_pe_nature_var
+		  factor = 10
+		}
+	}
+}
+
+#Rapanui 249: Manganese nodule (Polynesia)
+
+rapanui.249 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = rapanui.249.t
+	desc = rapanui.249.d
+	flavor = rapanui.249.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_minerals.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		months = 6
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_polynesia
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+	}
+
+	option = {
+		name = rapanui.249.g #Smash it and use the resources.
+		trigger = {
+			NOT = {
+				exists = scope:rapanui_scientist
+				scope:rapanui_scientist = {
+					OR = {
+						has_trait = dubois_geologist
+						has_trait = dubois_geologist_experienced
+						has_trait = dubois_geologist_famous
+					}
+				}
+			}
+		}
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 1000 }
+	}
+
+	option = {
+		name = rapanui.249.h #GEOLOGIST should take it apart carefully.
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				OR = {
+					has_trait = dubois_geologist
+					has_trait = dubois_geologist_experienced
+					has_trait = dubois_geologist_famous
+				}
+			}
+		}
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 2500 }
+	}
+
+	option = {
+		name = rapanui.249.i #This strange node should be studied and exhibited in a scientific institute.
+		default_option = yes
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				OR = {
+					has_trait = dubois_geologist
+					has_trait = dubois_geologist_experienced
+					has_trait = dubois_geologist_famous
+				}
+			}
+		}
+		dubois_small_add_technology = yes
+	}
+
+	option = {
+		name = rapanui.249.j #GEOLOGIST should keep the piece as a souvenir and draw conclusions from it.
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				OR = {
+					has_trait = dubois_geologist
+					has_trait = dubois_geologist_experienced
+					has_trait = dubois_geologist_famous
+				}
+			}
+		}
+		geologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+		random_list = {
+			1 = { 
+				if = {
+					limit = {
+						NOT = {
+							var:dubois_geologist_var = {
+								has_trait = agassiz_mineralogist 
+							}
+						}
+					}
+					var:dubois_geologist_var = {
+						add_trait = agassiz_mineralogist 
+					}
+				}
+			}
+			1 = { 
+				if = {
+					limit = {
+						NOT = {
+							var:dubois_geologist_var = {
+								has_trait = agassiz_oceanographer 
+							}
+						}
+					}
+					var:dubois_geologist_var = {
+						add_trait = agassiz_oceanographer
+					}
+				}
+			}
+			2 = {}
+		}
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		  has_variable = rapanui_pe_nature_var
+		  factor = 10
+		}
+	}
+}
 
 #Rapanui 250: Java man (alternative to Dubois.6)
 
@@ -10867,7 +11110,7 @@ rapanui.268 = {
 	}
 }
 
-#Rapanui 269: Notification for Venus Transit in 1872
+#Rapanui 269: Ring of Fire (Polynesia, Indonesia)
 
 rapanui.269 = {
 	dlc = dlc_morgenrote
@@ -10878,37 +11121,72 @@ rapanui.269 = {
 	desc = rapanui.269.d
 	flavor = rapanui.269.f
 
+	placement = scope:rapanui_pacific_expedition_location
+
 	duration = 3
 
-	event_image = {
-		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
-	}
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
 
 	cooldown = { 
-		years = 3
+		years = 5
 	}
 
 	trigger = {
-		is_player = yes
+		any_scope_character = {
+			has_variable = rapanui_scientist_var
+			OR = {
+				has_trait = dubois_geologist
+				has_trait = dubois_geologist_experienced
+				has_trait = dubois_geologist_famous
+			}
+		}
+		OR = {
+			has_variable = rapanui_pacific_expedition_location_polynesia
+			has_variable = rapanui_pacific_expedition_location_indonesia
+		}
 	}
 
 	immediate = {
-		
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
 	}
 
 	option = {
-		name = rapanui.269.g #We should outfit an expedition
+		name = rapanui.269.g #Is the Pacific actually a single volcanic crater with side vents?
+		geologist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+		random_list = {
+			1 = { 
+				if = {
+					limit = {
+						NOT = {
+							var:dubois_geologist_var = {
+								has_trait = agassiz_volcanologist
+							}
+						}
+					}
+					var:dubois_geologist_var = {
+						add_trait = agassiz_volcanologist
+					}
+				}
+			}
+			1 = {}
+		}
 	}
 
 	after = {
 	}
 }
 
-#Rapanui 270: Venus Transit 1874
+#Rapanui 270: Rare Mineral (Australia)
 
 rapanui.270 = {
 	dlc = dlc_morgenrote
@@ -10923,55 +11201,44 @@ rapanui.270 = {
 
 	duration = 3
 
-	event_image = {
-		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
-	}
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:rapanui_scientist
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
 
 	cooldown = { 
-		years = 3
+		years = 5
 	}
 
 	trigger = {
-		year = 1874
-		month = 10 # November. The trigger for months is on a 0-11 scale.
-		var:verrier_astronomer_var = {
+		any_scope_character = {
 			has_variable = rapanui_scientist_var
+			OR = {
+				has_trait = dubois_geologist
+				has_trait = dubois_geologist_experienced
+				has_trait = dubois_geologist_famous
+			}
 		}
+		has_variable = rapanui_pacific_expedition_location_australia
 	}
 
 	immediate = {
 		set_rapanui_expedition_leader_effect = yes
 		set_rapanui_scientist_effect = yes
 		rapanui_pacific_expedition_location_effect = yes
-		scope:rapanui_scientist = {
-			set_variable = verrier_astronomer_observed_venus_transit_var
-		}
 	}
 
 	option = {
-		name = rapanui.270.g #Excellent
-		verrier_add_x_astronomical_objects_effect = {
-			AMOUNT = 5
-		}
-		verrier_large_add_technology = yes
-		add_modifier = {
-			name = rapanui_venus_transit_modifier
-			years = 10
-		}
+		name = rapanui.270.g #What a lovely souvenir!
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
 	}
 
 	after = {
 	}
 }
-
-
-###Generic
-
-#Rapanui 271
 
 #Rapanui 300: End of an Era
 
