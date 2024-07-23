@@ -268,3 +268,92 @@ agassiz.102 = {
 		remove_variable = agassiz_building_geologist_improvement_var
 	}
 }
+
+#################################################################################
+
+#Agassiz 201: Mid Atlantic Ridge
+agassiz.201 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.201.t
+
+	desc = agassiz.201.d
+
+	flavor = agassiz.201.f
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_transatlantic_cable.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = dubois_mid_atlantic_ridge_examined_var
+	}
+
+	option = {	#This will improve the geologist's geophysical understanding.
+		name = agassiz.201.g
+		trigger = {
+			NOT = {
+				var:dubois_geologist_var = {
+					has_trait = agassiz_geophysicist
+				}
+			}
+		}
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_geologist_var = {
+						has_trait = agassiz_geophysicist
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = agassiz_geophysicist
+			}
+		}
+	}
+
+	option = {	#This will improve the geologist's oceanographic understanding.
+		name = agassiz.201.h
+		trigger = {
+			NOT = {
+				var:dubois_geologist_var = {
+					has_trait = agassiz_oceanographer
+				}
+			}
+		}
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_geologist_var = {
+						has_trait = agassiz_oceanographer
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = agassiz_oceanographer
+			}
+		}
+	}
+
+	option = {	#This will improve the geologist's general understanding.
+		name = agassiz.201.h
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		geologist_experience_gain_effect = { AMOUNT = 30 }
+	}
+
+	after = {
+	}
+}
