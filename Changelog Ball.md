@@ -15,6 +15,7 @@ Changes
 
 Geology
 - Added Geology Tech.
+- Added Echo Sounding Tech.
 - Natural History University available with Geology instead of Theory of Evolution.
 - Added Minerals as a new object. Minerals will be found yearly in states with special state traits, like caves, mountains or special deposits. Arctic and desert traits add a little bit, too. Volcanoes and Great Geological Formation are the best, however.
 - Minerals obtained at the end of a Pacific Expedition.
