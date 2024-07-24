@@ -261,3 +261,59 @@ mr_geologist_expedition_active_sgui = {
 		has_journal_entry = je_agassiz_mid_atlantic_ridge
 	}
 }
+
+#MR_GEOLOGIST_PALEONTOLOGIST_SYMPOSIUM_BUTTON
+mr_geologist_paleontologist_symposium_button = {
+	scope = country
+	is_shown = {
+		NOT = {
+			has_variable = dubois_geologist_paleontologist_smyposium_var
+		}
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_GEOLOGY_TECH_TRIGGER_TT
+			has_technology_researched = agassiz_geology_tech
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_PALEONTOLOGY_TECH_TRIGGER_TT
+			has_technology_researched = dubois_paleontology_tech
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_ACTIVE_TRIGGER_TT
+			dubois_has_active_geologist = yes
+		}
+		custom_tooltip = {
+			text = MR_ACTIVE_PALEONTOLOGIST_TRIGGER
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var = {
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_FAMOUS_TRIGGER_TT
+			var:dubois_geologist_var = {
+				has_trait = dubois_geologist_famous
+			}
+		}
+		custom_tooltip = {
+			text = MR_PALEONTOLOGIST_FAMOUS_TRIGGER_TT
+			var:dubois_geologist_var = {
+				has_trait = dubois_paleontologist_famous
+			}
+		}
+	}
+	effect = {
+		set_variable = dubois_geologist_paleontologist_smyposium_var
+		trigger_event = {
+			id = agassiz.202
+			popup = yes
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 10 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
