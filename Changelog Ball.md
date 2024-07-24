@@ -39,6 +39,9 @@ Chemistry
 - Removed Mendeleyev Event for Russia (you can do the Periodic Table on your own!).
 - First nation that researches Dynamite or Electromagnetism gets a free chemist.
 
+Characters
+- Robert Bunsen (random German Chemist)
+
 Engineering
 - Civil Engineers on Infrastructure Projects will no longer go to the nice unincorporated islands first and instead focus on incorporated states.
 - You can now invest additional money to accelerate your civil engineering projects.
