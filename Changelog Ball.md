@@ -37,6 +37,7 @@ Chemistry
 - Added JE for the Noble Gases.
 - Added JE for the Periodic Table.
 - Removed Mendeleyev Event for Russia (you can do the Periodic Table on your own!).
+- First nation that researches Dynamite or Electromagnetism gets a free chemist.
 
 Engineering
 - Civil Engineers on Infrastructure Projects will no longer go to the nice unincorporated islands first and instead focus on incorporated states.
@@ -53,6 +54,7 @@ Changelog for 2.2.3 "Miss Duce"
 
 Geology
 - Added Geologist
+- Added Volcano Observatory building. Can be build in states with volcanoes.
 - Added a button for Geologists to find new ore veins. Geologists will give all mining buildings a modifier.
 - Added a button for Geologists to find new oil wells. Geologists will give all oil rigs a modifier.
 - Rare Minerals can be found on expeditions when a Geologist is present.
