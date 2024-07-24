@@ -9107,6 +9107,41 @@ retire_chemist_effect = {
 # Creates a new Chemist without losing the old one
 create_new_chemist_effect = {
 	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		4 = { #Robert Bunsen, Germany
+			trigger = {
+				NOT = { has_global_variable = mendelejew_bunsen_created }
+				any_scope_state = {
+					OR = {
+						region = sr:region_south_germany
+						region = sr:region_north_germany
+					}
+				}
+				NOT = {
+					cu:north_german = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1866.03.30 #Age 55
+				year >= 1834 #Started working in Göttingen
+			}
+			create_character = {
+				template = mr_ger_bunsen_robert_character_template
+
+				save_scope_as = mendelejew_new_chemist_scope
+			}
+			scope:mendelejew_new_chemist_scope = {
+				set_variable = mr_is_chemist_var
+				chemist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = mendelejev_new_chemist_var
+				value = scope:mendelejew_new_chemist_scope
+			}
+
+			set_global_variable = mendelejew_bunsen_created
+		}
 		1 = { #Random Chemist (fallback and to make it uncertain for historical once to appear)
 			random_list = {
 				1 = {
