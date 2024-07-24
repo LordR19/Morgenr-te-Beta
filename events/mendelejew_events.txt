@@ -10,6 +10,179 @@ namespace = mendelejew
 
 ###################
 
+#Mendelejew 11: An Explosive Business
+mendelejew.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.101.t
+
+	desc = mendelejew.101.d
+
+	flavor = mendelejew.101.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:mendelejew_chemist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_technology_researched = dynamite
+		NOT = {
+			has_global_variable = mendelejew_dynamite_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = mendelejew_dynamite_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = mendelejew_chemist_var
+				}
+			}
+			if = {
+				limit = {
+					c:SWE ?= this
+					NOT = {
+						has_global_variable = mendelejew_nobel_created
+					}
+				}
+				create_nobel_alfred_effect = yes
+			}
+			else = {
+				create_new_chemist_effectt = yes
+				mendelejew_set_new_chemist_as_chemist_effect = yes
+				var:mendelejew_chemist_var = {
+					save_scope_as = scope:mendelejew_chemist_scope
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:mendelejew_chemist_var = {
+					NOT = { has_trait = mendelejew_chemist_inspector }
+				}
+			}
+			var:mendelejew_chemist_var = {
+				add_trait = mendelejew_chemist_inspector
+			}
+		}
+		var:mendelejew_chemist_var = {
+			set_variable = mendelejew_chemist_invented_dynamite_var
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = {	#Is he also an entrepreneur?
+		name = mendelejew.11.g
+		default_option = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			create_building = {
+				building = "building_explosives_factory"
+				level = 1
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 12: [SCOPE] found the cause for the Fraunhofer Lines
+mendelejew.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.12.t
+
+	desc = mendelejew.12.d
+
+	flavor = mendelejew.12.f
+
+	placement = ROOT
+
+	event_image = { #Original by Joseph Fraunhofer 1815, photo by Astroschmidt, CC 4.0 BY SA, https://commons.wikimedia.org/wiki/File:Fraunhofer_Spektrum_Medium.jpg
+		texture = "gfx/event_pictures/verrier_pictures/verrier_fraunhofer_lines.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	trigger = {
+		has_technology_researched = verrier_electromagnetism_tech
+		NOT = {
+			has_global_variable = verrier_electromagnetism_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = verrier_electromagnetism_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = mendelejew_chemist_var
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						country_has_primary_culture = cu:south_german
+						country_has_primary_culture = cu:north_german
+					}
+					NOT = {
+						has_global_variable = mendelejew_bunsen_created
+					}
+				}
+				create_bunsen_robert_effect = yes
+			}
+			else = {
+				create_new_chemist_effectt = yes
+				mendelejew_set_new_chemist_as_chemist_effect = yes
+				var:mendelejew_chemist_var = {
+					save_scope_as = scope:mendelejew_chemist_scope
+				}
+			}
+		}
+		if = {
+			limit = {
+				var:mendelejew_chemist_var = {
+					NOT = { has_trait = mendelejew_chemist_analyst }
+				}
+			}
+			var:mendelejew_chemist_var = {
+				add_trait = mendelejew_chemist_analyst
+			}
+		}
+		var:mendelejew_chemist_var = {
+			set_variable = verrier_discovered_reason_fraunhofer_lines_var
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = { #Another mystery of the universe is solved!
+		name = mendelejew.12.g
+		default_option = yes
+		chemist_experience_gain_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
 #################################################################################
 
 #Mendelejew 101: A new Element theorized
