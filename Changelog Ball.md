@@ -46,6 +46,10 @@ Engineering
 - Civil Engineers on Infrastructure Projects will no longer go to the nice unincorporated islands first and instead focus on incorporated states.
 - You can now invest additional money to accelerate your civil engineering projects.
 
+Astronomy
+- After a Meteor shower, meteorites can be discovered by astronomers and analyzed by chemists.
+- Added three historical meteorites.
+
 Fixes
 - Devout scientists no longer wear their silly hats.
 - An Academic that was retiriing and just got replaced will no longer cause the young academic to also retire.
@@ -64,6 +68,7 @@ Geology
 - 20,000 minerals can be exchanged for 1 rare mineral.
 - With 50 rare minerals, a Mineral Cabinet can be added to the Zoo.
 - Added a button to explore the Mid-Atlantic Ridge after it was detected by the Transatlantic Cable Expedition.
+- Geologists may find meteorites, which can be analyzed by chemists. Added 5 historical giant meteorites.
 
 Pacific Expedition
 - Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
