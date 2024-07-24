@@ -41,6 +41,7 @@ Chemistry
 
 Characters
 - Robert Bunsen (random German Chemist)
+- Alfred Nobel (random Swedish Chemist)
 
 Engineering
 - Civil Engineers on Infrastructure Projects will no longer go to the nice unincorporated islands first and instead focus on incorporated states.
