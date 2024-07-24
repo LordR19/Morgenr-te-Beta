@@ -58,6 +58,7 @@ Geology
 - Rare Minerals can be found on expeditions when a Geologist is present.
 - 20,000 minerals can be exchanged for 1 rare mineral.
 - With 50 rare minerals, a Mineral Cabinet can be added to the Zoo.
+- Added a button to explore the Mid-Atlantic Ridge after it was detected by the Transatlantic Cable Expedition.
 
 Pacific Expedition
 - Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
