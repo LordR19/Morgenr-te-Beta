@@ -408,3 +408,72 @@ agassiz.202 = {
 	after = {
 	}
 }
+
+#################################################################################
+
+#Agassiz 311: Meteorite
+agassiz.311 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.311.t
+	desc = agassiz.311.d
+	flavor = agassiz.311.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		has_variable = verrier_astronomer_var
+		has_technology_researched = verrier_modern_physics_tech
+		OR = {
+			agassiz_has_terrain_arctic = yes
+			agassiz_has_terrain_desert = yes
+		}
+	}
+		
+	option = { #Where in space does it come from?
+		name = agassiz.311.g
+		verrier_small_add_technology = yes
+		verrier_add_x_meteorites_effect = {
+			AMOUNT = 1
+		}
+	}
+	
+	immediate = {
+	}
+
+	after = {
+		if = {
+			limit = {
+				mendelejew_has_chemist = yes
+				var:verrier_meteorites_var >= 1
+				OR = {
+					has_journal_entry = je_mendelejew_element_theory
+					has_journal_entry = je_mendelejew_element_discovery
+					has_journal_entry = je_mendelejew_element_isolation
+					has_journal_entry = je_mendelejew_synthetic_oil
+					has_journal_entry = je_mendelejew_synthetic_rubber
+				}
+			}
+			trigger_event = {
+				id = verrier.422
+				days = { 7 21 }
+			}
+		}
+	}
+}
