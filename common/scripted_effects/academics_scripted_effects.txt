@@ -9142,6 +9142,58 @@ create_new_chemist_effect = {
 
 			set_global_variable = mendelejew_bunsen_created
 		}
+		2 = { #Alfred Nobel, Sweden
+			trigger = {
+				NOT = { has_global_variable = mendelejew_nobel_created }
+				any_scope_building = {
+					is_building_type = building_explosives_factory
+				}
+				NOT = {
+					cu:swedish = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1888.10.21 #Age 55
+				year >= 1855 #20 years old
+			}
+			create_character = {
+				template = mr_swe_nobel_alfred_character_template
+
+				save_scope_as = mendelejew_new_chemist_scope
+			}
+			scope:mendelejew_new_chemist_scope = {
+				set_variable = mr_is_chemist_var
+				chemist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = mendelejev_new_chemist_var
+				value = scope:mendelejew_new_chemist_scope
+			}
+
+			set_global_variable = mendelejew_nobel_created
+
+			modifier = {
+				if = {
+					limit = {
+						c:SWE ?= this
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						OR = {
+							c:RUS ?= this
+							c:SWI ?= this
+							c:USA ?= this
+							c:FRA ?= this
+						}
+					}
+					add = 2
+				}
+			}
+		}
 		1 = { #Random Chemist (fallback and to make it uncertain for historical once to appear)
 			random_list = {
 				1 = {
