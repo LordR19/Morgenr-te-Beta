@@ -38,6 +38,7 @@ Chemistry
 - Added JE for the Periodic Table.
 - Removed Mendeleyev Event for Russia (you can do the Periodic Table on your own!).
 - First nation that researches Dynamite or Electromagnetism gets a free chemist.
+- Added 3 Chemistry achievements.
 
 Characters
 - Robert Bunsen (random German Chemist)
@@ -48,13 +49,18 @@ Engineering
 - Civil Engineers on Infrastructure Projects will no longer go to the nice unincorporated islands first and instead focus on incorporated states.
 - You can now invest additional money to accelerate your civil engineering projects.
 
+Zoology
+- Naturalists can document native animals in integrated states with a habitat.
+- With the Film technology, Naturalists can document animals in all owned states with a habitat.
+- Naturalists can improve logging camps and rubber plantations.
+
 Astronomy
 - After a Meteor shower, meteorites can be discovered by astronomers and analyzed by chemists.
 - Added three historical meteorites.
 
 Fixes
 - Devout scientists no longer wear their silly hats.
-- An Academic that was retiriing and just got replaced will no longer cause the young academic to also retire.
+- An Academic that was retiring and just got replaced will no longer cause the young academic to also retire.
 - The tooltips of the character traits in the GUI work properly again.
 
 #############
