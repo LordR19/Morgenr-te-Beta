@@ -41,6 +41,7 @@ Chemistry
 
 Characters
 - Robert Bunsen (random German Chemist)
+- Dmitri Mendeleev (random Russian Chemist)
 - Alfred Nobel (random Swedish Chemist)
 
 Engineering
