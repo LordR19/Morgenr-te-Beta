@@ -104,9 +104,15 @@ mr_animal_documentation_button = {
 			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
 			dubois_has_active_naturalist = yes
 		}
-		custom_tooltip = {
-			text = MR_CAN_DOCUMENT_ANIMAL_TRIGGER_TT
-			dubois_has_undocumented_animal = yes
+		OR = {
+			custom_tooltip = {
+				text = MR_CAN_DOCUMENT_ANIMAL_FILM_TRIGGER_TT
+				dubois_has_undocumented_animal_film = yes
+			}
+			custom_tooltip = {
+				text = MR_CAN_DOCUMENT_ANIMAL_TRIGGER_TT
+				dubois_has_undocumented_animal = yes
+			}
 		}
     }
 	effect = {
@@ -119,7 +125,15 @@ mr_animal_documentation_button = {
 				set_variable = dubois_naturalist_on_zoological_expedition_var
 			}
 		}
-		dubois_begin_animal_documentation_effect = yes
+		if = {
+			limit = {
+				has_technology_researched = film
+			}
+			dubois_begin_animal_documentation_film_effect = yes
+		}
+		else = {
+			dubois_begin_animal_documentation_effect = yes
+		}
 		add_journal_entry = { type = je_dubois_native_animal }
 	}
 }
