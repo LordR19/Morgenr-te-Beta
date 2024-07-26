@@ -453,9 +453,6 @@ agassiz.311 = {
 			AMOUNT = 1
 		}
 	}
-	
-	immediate = {
-	}
 
 	after = {
 		if = {
@@ -475,5 +472,316 @@ agassiz.311 = {
 				days = { 7 21 }
 			}
 		}
+	}
+}
+
+#################################################################################
+
+#Agassiz 401: Age of Earth Calculations
+agassiz.401 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.401.t
+	desc = agassiz.401.d
+	flavor = agassiz.401.f
+
+	duration = 3 
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		var:dubois_geologist_var = {
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = agassiz_age_of_earth_yes_global_var
+			value = 0
+		}
+		set_global_variable = {
+			name = agassiz_age_of_earth_no_global_var
+			value = 0
+		}
+	}
+		
+	option = { #Send the paper to all well-known geologists worldwide.
+		name = agassiz.401.g
+		dubois_small_add_technology = yes
+		change_global_variable = {
+			name = agassiz_age_of_earth_yes_global_var
+			add = 1
+		}
+		custom_tooltip = agassiz.401.tt
+		hidden_effect = {
+			every_country = {
+				limit = {
+					has_variable = dubois_geologist_var
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_event = {
+					id = agassiz.402
+					days = { 14 28 }
+				}
+			}
+		}
+	}
+	
+	after = {
+		trigger_event = {
+			id = agassiz.403
+			days = { 90 120 }
+		}
+	}
+	
+}
+
+#Agassiz 402: Age of Earth Calculations - other nations
+agassiz.402 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.402.t
+	desc = agassiz.402.d
+	flavor = agassiz.402.f
+
+	duration = 3 
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+		
+	option = { #These calculations are convincing.
+		name = agassiz.402.g
+		change_global_variable = {
+			name = agassiz_age_of_earth_yes_global_var
+			add = 1
+		}
+		ai_chance = {
+			base = 60
+			modifier = { #Experienced Geologist
+				trigger = {
+					scope:dubois_geologist_scope = {
+						var:dubois_geologist_experience >= 200
+					}
+				}
+				add = 10
+			}
+			modifier = { #Geologist is Geophisicist
+				trigger = {
+					scope:dubois_geologist_scope = {
+						has_trait = agassiz_geophysicist
+					}
+				}
+				add = 10
+			}
+			modifier = { #Geologist has another specialization
+				trigger = {
+					scope:dubois_geologist_scope = {
+						OR = {
+							has_trait = agassiz_volcanologist
+							has_trait = agassiz_mineralogist
+							has_trait = agassiz_prospector
+							has_trait = agassiz_oceanographer
+						}
+					}
+				}
+				add = 5
+			}
+			modifier = { #Geologist has another positive trait
+				trigger = {
+					scope:dubois_geologist_scope = {
+						OR = {
+							has_trait = erudite
+							has_trait = innovative
+							has_trait = meticulous
+							has_trait = charismatic
+						}
+					}
+				}
+				add = 5
+			}
+			modifier = { #Geologist has respected age
+				trigger = {
+					scope:dubois_geologist_scope = {
+						age >= 50
+					}
+				}
+				add = 5
+			}
+		}
+	}
+
+	option = { #Who is supposed to believe this pseudo-geological nonsense?
+		name = agassiz.402.h
+		change_global_variable = {
+			name = agassiz_age_of_earth_no_global_var
+			add = 1
+		}
+		ai_chance = {
+			base = 40
+			modifier = { #Unexperienced Geologist
+				trigger = {
+					scope:dubois_geologist_scope = {
+						var:dubois_geologist_experience < 200
+					}
+				}
+				add = 10
+			}
+			modifier = { #Geologist does not have any specialization
+				trigger = {
+					scope:dubois_geologist_scope = {
+						OR = {
+							has_trait = agassiz_volcanologist
+							has_trait = agassiz_mineralogist
+							has_trait = agassiz_prospector
+							has_trait = agassiz_oceanographer
+							has_trait = agassiz_geophysicist
+						}
+					}
+				}
+				add = 5
+			}
+			modifier = { #Geologist has a negative trait
+				trigger = {
+					scope:dubois_geologist_scope = {
+						OR = {
+							has_trait = arrogant
+							has_trait = bigot
+							has_trait = cruel
+							has_trait = wrathful
+						}
+					}
+				}
+				add = 5
+			}
+			modifier = { #Geologist is young
+				trigger = {
+					scope:dubois_geologist_scope = {
+						age < 35
+					}
+				}
+				add = 5
+			}
+		}
+	}
+}
+
+#Agassiz 403: Success/Failure
+agassiz.403 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var >= global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.t_yes
+		}
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var < global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.t_no
+		}
+	}
+	desc = {
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var >= global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.d_yes
+		}
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var < global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.d_no
+		}
+	}
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var >= global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.f_yes
+		}
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var < global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.f_no
+		}
+	}
+
+	duration = 3 
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		var:dubois_geologist_var = {
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+
+	immediate = {
+	}
+		
+	option = { #Success!
+		name = agassiz.403.g
+		trigger = {
+			global_var:agassiz_age_of_earth_yes_global_var >= global_var:agassiz_age_of_earth_no_global_var
+		}
+		var:dubois_geologist_var = {
+			set_variable = agassiz_geologist_calculated_age_earth_var
+		}
+		agassiz_set_new_age_of_earth_effect = yes
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+		geologist_experience_add = { AMOUNT = 30 }
+		dubois_small_add_technology = yes
+	}
+
+	option = { #Fail ...
+		name = agassiz.403.h
+		trigger = {
+			global_var:agassiz_age_of_earth_yes_global_var < global_var:agassiz_age_of_earth_no_global_var
+		}
+	}
+
+	after = {
+		remove_global_variable = agassiz_age_of_earth_yes_global_var
+		remove_global_variable = agassiz_age_of_earth_no_global_var
+		remove_global_variable = agassiz_age_of_eart_debate_global_var
 	}
 }
