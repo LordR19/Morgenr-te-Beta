@@ -40,6 +40,10 @@ Chemistry
 - First nation that researches Dynamite or Electromagnetism gets a free chemist.
 - Added 3 Chemistry achievements.
 
+GUI
+- Complete List of Elements which are theorized, discovered or isolated from 26,000 BC until 1945.
+- List will change to Periodic Table when invented.
+
 Characters
 - Robert Bunsen (random German Chemist)
 - Dmitri Mendeleev (random Russian Chemist)
