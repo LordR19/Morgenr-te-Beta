@@ -73,6 +73,246 @@ agassiz_yearly_mineral_value = {
 	}
 }
 
+agassiz_country_age_of_earth_calculation_value = {
+	#Base: Geological Knowledge x 10
+	value = var:agassiz_geological_knowledge_var
+	multiply = 10
+
+	### Experience ###
+	#Geologist Experience: Experience divided by 10 = Value
+	if = {
+		limit = {
+			has_variable = dubois_geologist_var
+		}
+		add = {
+			value = var:dubois_geologist_var.var:dubois_geologist_experience
+			divide = 10
+			floor = yes
+			max = 30
+		}
+	}
+	#Total: 30
+
+	### Geologist Specialization Traits ###
+	#Geologist Traits: Each Specialization gives 5
+	if = {
+		limit = {
+			var:dubois_geologist_var = {
+				has_trait = agassiz_mineralogist
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:dubois_geologist_var = {
+				has_trait = agassiz_geophysicist
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:dubois_geologist_var = {
+				has_trait = agassiz_prospector
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:dubois_geologist_var = {
+				has_trait = agassiz_oceanographer
+			}
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			var:dubois_geologist_var = {
+				has_trait = agassiz_volcanologist
+			}
+		}
+		add = 5
+	}
+	#Total: 25
+
+	### Technologies ###
+	if = {
+		limit = {
+			has_technology_researched = agassiz_geology_tech
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_technology_researched = agassiz_seismology_tech
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_technology_researched = agassiz_sounding_tech
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			has_technology_researched = dubois_theory_of_evolution_tech
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			has_technology_researched = dubois_paleontology_tech
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			has_technology_researched = verrier_modern_physics_tech
+		}
+		add = 25
+	}
+	if = {
+		limit = {
+			has_technology_researched = verrier_nuclear_physics_tech
+		}
+		add = 25
+	}
+	#Total: 90
+
+	### Other Academics ###
+	# Each Academic which can help gives 10
+	if = {
+		limit = {
+			verrier_has_astronomer = yes
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			mendelejew_has_chemist = yes
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			curie_has_physicist = yes
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			dubois_has_paleontologist = yes
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			dubois_has_naturalist = yes
+		}
+		add = 10
+	}
+	#Total: 50
+
+	### Meteroites ###
+	# Meteorites exmained with radiometric dating can give valuable information
+	if = {
+		limit = {
+			var:verrier_meteorites_var >= 3
+			has_technology_researched = verrier_nuclear_physics_tech
+		}
+		add = 10
+	}
+	#Total: 10
+
+	### Minerals ###
+	# Minerals may give important information
+	if = {
+		limit = {
+			has_variable = agassiz_generic_minerals_var
+		}
+		add = {
+			value = var:agassiz_generic_minerals_var
+			divide = 10000
+			floor = yes
+			max = 50
+		}
+	}
+	#Total: 50
+
+	### Fossils ###
+	# Fossils may give important information
+	if = {
+		limit = {
+			has_variable = dubois_fossil
+		}
+		add = {
+			value = var:dubois_fossil
+			divide = 10
+			floor = yes
+			max = 50
+		}
+	}
+	#Total: 50
+
+	### Specimen ###
+	# Specimen may give important information (how long did it take to evolve to the current form?
+	if = {
+		limit = {
+			has_variable = dubois_specimen
+		}
+		add = {
+			value = var:dubois_specimen
+			divide = 10000
+			floor = yes
+			max = 10 #Not as informative as minerals or fossils
+		}
+	}
+	#Total: 10
+
+	### Volcano Observatory ###
+	if = {
+		limit = {
+			any_scope_state = {
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+					level > 0
+				}
+			}
+		}
+		add = 10
+	}
+	#Total 10
+
+	#Total Points needed for 4,6 Billion years -> this should be possible, but 3 Billion is already ok
+
+	#Lyell in 1830: "Several hundred thousand years"
+	#Philips in 1860: 100 Million years
+	#Darwin in 1860: 300 Million years
+	#Kelvin in 1862: 20-400 Million years 
+	#Lyell in 1867: 240 Million years
+	#Holmes in 1913: At least 1,6 Billion years
+	#Holmes in 1927: 1,6 to 3,0 Billion years
+	#Holmes in 1940s: 4,5 Billion years
+
+	#25 Points: 1 Million Years - This should be the first (minimum) possible estimate for a new geologist at game start
+	#50 Points: 20 Million Years
+	#75 Points: 50 Million Years
+	#100 Points: 100 Million Years
+	#125 Points: 200 Million Years
+	#150 Points: 300 Million Years
+	#175 Points: 400 Million Years
+	#200 Points: 500 Million Years
+	#250 Points: 1 Billion Years #This needs At least Modern Physics
+	#260 Points: 2 Billion Years
+	#270 Points: 3 Billion Years
+	#280 Points: 4 Billion Years
+	#290 Points: 4,5 Billion Years
+	#300 Points and more: 4,6 Billion years
+}
+
 #Defines the base cost of the Geology Improvement Cost modifiers
 agassiz_improvement_progress_cost = {
 	value = 24
