@@ -32,8 +32,8 @@ Chemistry
 - Chemists can research Synthetic Fuel and Synthetic Rubber (both are hidden techs).
 - Added Synthetic Fuel Tech.
 - Added Hydrogenation Plants Building (possible with Synthetic Fuel Tech).
-- Added Synthetic Fuel Tech.
-- Added Hydrogenation Plants Building (possible with Synthetic Fuel Tech).
+- Added Synthetic Rubber Tech.
+- Added Hydrogenation Plants Building (possible with Rubber Fuel Tech).
 - Added JE for the Noble Gases.
 - Added JE for the Periodic Table.
 - Removed Mendeleyev Event for Russia (you can do the Periodic Table on your own!).
