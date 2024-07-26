@@ -18,6 +18,58 @@ mr_has_geologist_sgui = {
 
 ####################################################################################################################
 
+#MR_GEOLOGIST_AGE_EARTH_BUTTON
+mr_geologist_age_earth_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_GEOLOGY_TECH_TRIGGER_TT
+			has_technology_researched = agassiz_geology_tech
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_CAN_CALCULATE_TRIGGER_TT
+			dubois_has_geologist = yes
+			NOT = {
+				var:dubois_geologist_var ?= {
+					has_variable = agassiz_geologist_calculated_age_earth_var
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_EXPERIENCED_TRIGGER_TT
+			var:dubois_geologist_var ?= {
+				OR = {
+					has_trait = dubois_geologist_experienced
+					has_trait = dubois_geologist_famous
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_CALCULATE_AGE_TRIGGER_TT
+			agassiz_can_calculate_new_age_of_earth_trigger = yes
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_NO_AGE_DEBATE_TRIGGER_TT
+			NOT = {
+				has_global_var = agassiz_age_of_eart_debate_global_var
+			}
+		}
+	}
+	effect = {
+		set_global_var = agassiz_age_of_eart_debate_global_var
+		trigger_event = {
+			id = agassiz.401
+			popup = yes
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 10 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
 #MR_GEOLOGIST_ORE_VEIN_BUTTON
 mr_geologist_ore_vein_button = {
 	scope = country
