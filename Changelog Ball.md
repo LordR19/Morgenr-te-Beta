@@ -81,6 +81,7 @@ Geology
 - 20,000 minerals can be exchanged for 1 rare mineral.
 - With 50 rare minerals, a Mineral Cabinet can be added to the Zoo.
 - Added a button to explore the Mid-Atlantic Ridge after it was detected by the Transatlantic Cable Expedition.
+- Added a button to determine the Age of Earth. This can be done once in a life time of a geologist. Other nations have to accept the theory, however.
 - Geologists may find meteorites, which can be analyzed by chemists. Added 5 historical giant meteorites.
 
 Pacific Expedition

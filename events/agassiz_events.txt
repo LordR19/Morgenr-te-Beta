@@ -499,12 +499,12 @@ agassiz.401 = {
 	icon = "gfx/interface/icons/event_icons/event_geology.dds"
 
 	trigger = {
-		var:dubois_geologist_var = {
-			save_scope_as = agassiz_geologist_scope
-		}
 	}
 
 	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = agassiz_geologist_scope
+		}
 		set_global_variable = {
 			name = agassiz_age_of_earth_yes_global_var
 			value = 0
@@ -557,7 +557,7 @@ agassiz.402 = {
 
 	title = agassiz.402.t
 	desc = agassiz.402.d
-	flavor = agassiz.402.f
+	flavor = agassiz.401.f
 
 	duration = 3 
 
@@ -574,6 +574,7 @@ agassiz.402 = {
 		
 	option = { #These calculations are convincing.
 		name = agassiz.402.g
+		default_option = yes
 		change_global_variable = {
 			name = agassiz_age_of_earth_yes_global_var
 			add = 1
@@ -668,7 +669,7 @@ agassiz.402 = {
 					scope:dubois_geologist_scope = {
 						OR = {
 							has_trait = arrogant
-							has_trait = bigot
+							has_trait = bigoted
 							has_trait = cruel
 							has_trait = wrathful
 						}
@@ -749,16 +750,17 @@ agassiz.403 = {
 	icon = "gfx/interface/icons/event_icons/event_geology.dds"
 
 	trigger = {
+	}
+
+	immediate = {
 		var:dubois_geologist_var = {
 			save_scope_as = agassiz_geologist_scope
 		}
 	}
-
-	immediate = {
-	}
 		
 	option = { #Success!
 		name = agassiz.403.g
+		default_option = yes
 		trigger = {
 			global_var:agassiz_age_of_earth_yes_global_var >= global_var:agassiz_age_of_earth_no_global_var
 		}
@@ -768,7 +770,7 @@ agassiz.403 = {
 		agassiz_set_new_age_of_earth_effect = yes
 		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
 		dubois_add_x_academy_progress = { AMOUNT = 10 }
-		geologist_experience_add = { AMOUNT = 30 }
+		geologist_experience_gain_effect = { AMOUNT = 30 }
 		dubois_small_add_technology = yes
 	}
 
@@ -777,11 +779,15 @@ agassiz.403 = {
 		trigger = {
 			global_var:agassiz_age_of_earth_yes_global_var < global_var:agassiz_age_of_earth_no_global_var
 		}
+		add_modifier = {
+			name = agassiz_geologist_demotivated_modifier
+			years = 5
+		}
 	}
 
 	after = {
 		remove_global_variable = agassiz_age_of_earth_yes_global_var
 		remove_global_variable = agassiz_age_of_earth_no_global_var
-		remove_global_variable = agassiz_age_of_eart_debate_global_var
+		remove_global_variable = agassiz_age_of_earth_debate_global_var
 	}
 }
