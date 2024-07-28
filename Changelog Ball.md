@@ -88,6 +88,7 @@ Geology
 - When doing Geological Research, Geologists may find meteorites, which can be analyzed by chemists. Added 5 historical giant meteorites.
 - Added other random events for Geological Research.
 - Oceanography JE also gives Geological Knowledge when completed.
+- When Oceanography JE is completed, a second Ocenaography JE will trigger, giving tech boost and geological knowledge when completed.
 
 Pacific Expedition
 - Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
