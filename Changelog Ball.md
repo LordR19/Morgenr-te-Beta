@@ -87,6 +87,7 @@ Geology
 - Added a button for Geological Research. Geologists may discover Formations, Caves and Uranium. If a Geologist has the mineralogist trait, yearly minerals are doubled. If not, he may get the trait after five years.
 - When doing Geological Research, Geologists may find meteorites, which can be analyzed by chemists. Added 5 historical giant meteorites.
 - Added other random events for Geological Research.
+- Oceanography JE also gives Geological Knowledge when completed.
 
 Pacific Expedition
 - Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
