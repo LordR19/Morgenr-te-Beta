@@ -70,6 +70,8 @@ Fixes
 #############
 
 Changelog for 2.2.3 "Miss Duce"
+Changes
+- Paleontologists and Anthropologists will not discover formations/caves anymore. Geologists will do that instead.
 
 Geology
 - Added Geologist
@@ -82,7 +84,9 @@ Geology
 - With 50 rare minerals, a Mineral Cabinet can be added to the Zoo.
 - Added a button to explore the Mid-Atlantic Ridge after it was detected by the Transatlantic Cable Expedition.
 - Added a button to determine the Age of Earth. This can be done once in a life time of a geologist. Other nations have to accept the theory, however.
-- Geologists may find meteorites, which can be analyzed by chemists. Added 5 historical giant meteorites.
+- Added a button for Geological Research. Geologists may discover Formations, Caves and Uranium. If a Geologist has the mineralogist trait, yearly minerals are doubled. If not, he may get the trait after five years.
+- When doing Geological Research, Geologists may find meteorites, which can be analyzed by chemists. Added 5 historical giant meteorites.
+- Added other random events for Geological Research.
 
 Pacific Expedition
 - Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
