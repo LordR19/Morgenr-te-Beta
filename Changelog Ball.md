@@ -90,6 +90,7 @@ Geology
 - Oceanography JE also gives Geological Knowledge when completed.
 - When Oceanography JE is completed, a second Ocenaography JE will trigger, giving tech boost and geological knowledge when completed.
 - First country that invents Seismology gets a free Geologist.
+- Added Geological COngress on Plate Tectonics.
 
 Pacific Expedition
 - Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
