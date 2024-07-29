@@ -463,3 +463,59 @@ mr_geologist_paleontologist_symposium_button = {
 	}
 	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
+
+#MR_GEOLOGIST_TECTONICS_CONGRESS_BUTTON
+mr_geologist_tectonics_congress_button = {
+	scope = country
+	is_shown = {
+		NOT = {
+			has_global_variable = agassiz_tectonic_congress_hosted_var
+		}
+		NOT = {
+			any_country = {
+				has_modifier = agassiz_congress_host_modifier
+			}
+		}
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = MR_GEOLOGIST_FAMOUS_TRIGGER_TT
+			var:dubois_geologist_var = {
+				has_trait = dubois_geologist_famous
+			}
+		}
+		custom_tooltip = {
+			text = MR_UNDERWATER_MOUNTAINS_SOUNDING_TRIGGER_TT
+			has_technology_researched = agassiz_seismology_tech
+		}
+		custom_tooltip = {
+			text = MR_EXTINCTION_CONGRESS_PALEONTOLOGY_TECH_TRIGGER_TT
+			has_technology_researched = dubois_paleontology_tech
+		}
+		custom_tooltip = {
+			text = MR_UNDERWATER_MOUNTAINS_SOUNDING_TRIGGER_TT
+			has_technology_researched = agassiz_sounding_tech
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_CONGRESS_KNOWLEDGE_TRIGGER_TT
+			var:agassiz_geological_knowledge_var > 15
+		}
+	}
+	effect = {
+		trigger_event = { 
+			id = agassiz.501
+			popup = yes 
+		}
+		set_global_variable = agassiz_tectonic_congress_hosted_var
+		add_modifier = {
+			name = agassiz_congress_host_modifier
+			years = 5
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 10 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
