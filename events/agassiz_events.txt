@@ -756,6 +756,194 @@ agassiz.315 = {
 	}
 }
 
+#Agassiz 316: Geological survey in the neighboring country
+agassiz.316 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.316.t
+	desc = agassiz.316.d
+	flavor = agassiz.316.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_geologist.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_country = {
+			is_adjacent_to_country = ROOT
+			NOT = {
+				has_war_with = ROOT
+			}
+			OR = {
+				any_scope_state = {
+					lepsius_has_cave = yes
+					lepsius_has_discovered_cave = no
+				}
+				any_scope_state = {
+					has_variable = dubois_has_normal_formation_var
+					NOT = {
+						has_state_trait = dubois_state_trait_normal_formation
+					}
+				}
+				any_scope_state = {
+					has_variable = dubois_has_great_formation_var
+					NOR = {
+						has_state_trait = dubois_state_trait_great_north_american_formation
+						has_state_trait = dubois_state_trait_south_american_formation
+						has_state_trait = dubois_state_trait_great_european_formation
+						has_state_trait = dubois_state_trait_great_african_formation
+						has_state_trait = dubois_state_trait_great_asian_formation
+						has_state_trait = dubois_state_trait_great_australian_formation
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
+		random_country = {
+			limit = {
+				is_adjacent_to_country = ROOT
+				NOT = {
+					has_war_with = ROOT
+				}
+				OR = {
+					any_scope_state = {
+						lepsius_has_cave = yes
+						lepsius_has_discovered_cave = no
+					}
+					AND = {
+						any_scope_state = {
+							has_variable = dubois_has_normal_formation_var
+							NOT = {
+								has_state_trait = dubois_state_trait_normal_formation
+							}
+						}
+					}
+					AND = {
+						any_scope_state = {
+							has_variable = dubois_has_great_formation_var
+							NOR = {
+								has_state_trait = dubois_state_trait_great_north_american_formation
+								has_state_trait = dubois_state_trait_south_american_formation
+								has_state_trait = dubois_state_trait_great_european_formation
+								has_state_trait = dubois_state_trait_great_african_formation
+								has_state_trait = dubois_state_trait_great_asian_formation
+								has_state_trait = dubois_state_trait_great_australian_formation
+							}
+						}
+					}
+				}
+			}
+			save_scope_as = agassiz_neighbour_country_scope
+		}
+	}
+		
+	option = { #Excellent
+		name = agassiz.316.g
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 5000 }
+	}
+
+	after = {
+		scope:agassiz_neighbour_country_scope = {
+			trigger_event = {
+				id = agassiz.317
+				days = 7
+			}
+		}
+	}
+}
+
+#Agassiz 317: Foreign Geologist
+agassiz.317 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.317.t
+	desc = agassiz.317.d
+	flavor = agassiz.316.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_geologist.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+	}
+
+	trigger = {
+	}
+		
+	option = { #So ...?
+		name = agassiz.317.g
+		if = {
+			limit = {
+				any_scope_state = {
+					has_variable = dubois_has_great_formation_var
+					NOR = {
+						has_state_trait = dubois_state_trait_great_north_american_formation
+						has_state_trait = dubois_state_trait_south_american_formation
+						has_state_trait = dubois_state_trait_great_european_formation
+						has_state_trait = dubois_state_trait_great_african_formation
+						has_state_trait = dubois_state_trait_great_asian_formation
+						has_state_trait = dubois_state_trait_great_australian_formation
+					}
+				}
+			}
+			trigger_event = {
+				id = dubois.73 #Dubois 73: Great Formation discovered
+				days = 3
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_state = {
+					has_variable = dubois_has_normal_formation_var
+					NOT = {
+						has_state_trait = dubois_state_trait_normal_formation
+					}
+				}
+			}
+			trigger_event = {
+				id = dubois.72 #Dubois 72: Normal Formation discovered
+				days = 3
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_state = {
+					lepsius_has_cave = yes
+					lepsius_has_discovered_cave = no
+				}
+			}
+			trigger_event = {
+				id = lepsius.1301 #Lepsius 1301: Cave found
+				days = 3
+			}
+		}
+	}
+}
+
 #################################################################################
 
 #Agassiz 401: Age of Earth Calculations
