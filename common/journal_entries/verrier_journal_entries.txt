@@ -547,7 +547,58 @@ je_verrier_charter_moon = {
 
 ###########################################################
 
-######MODERN PHYSICS######
+je_verrier_meteorites = {
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	group = je_group_verrier_astronomy
+
+	immediate = {
+		set_variable = {
+			name = je_verrier_charter_moon_var
+			days = 1
+		}
+	}
+
+	current_value = {
+		if = {
+			limit = {
+				scope:journal_entry = {
+					goal_value = 0
+				}
+			}
+			value = 0
+		}
+		else = {
+			value = var:verrier_meteorites_var #value or variable you use to meassure progress
+		}
+	}
+
+	goal_add_value = {
+		value = 10 #value you want the variable to reach
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+		hidden_trigger = {
+			NOT = { has_variable = je_verrier_charter_moon_var }
+		}
+	}
+
+	on_complete = {
+		set_variable = verrier_meteorites_je_done_var
+		verrier_large_add_technology = yes
+	}
+
+	progressbar = yes
+
+	weight = 25
+}
+
+###########################################################
+
+######ASTRO PHYSICS######
 
 je_verrier_astro_physics = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
