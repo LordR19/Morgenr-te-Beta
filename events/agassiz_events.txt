@@ -56,6 +56,77 @@ agassiz.1 = {
 
 #################################################################################
 
+#Agassiz 11: On the Dynamics Of Earthquakes
+agassiz.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.11.t
+
+	desc = agassiz.11.d
+
+	flavor = agassiz.11.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_geologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_technology_researched = agassiz_seismology_tech
+		NOT = {
+			has_global_variable = agassiz_seismology_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = agassiz_seismology_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = dubois_geologist_var
+				}
+			}
+			create_new_geologist_effect = yes
+			dubois_set_new_geologist_as_geologist_effect = yes
+			var:dubois_geologist_var = {
+				save_scope_as = dubois_geologist_scope
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_geologist_var = {
+					NOT = { has_trait = agassiz_geophysicist }
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = agassiz_geophysicist
+			}
+		}
+		var:dubois_geologist_var = {
+			set_variable = agassiz_geologist_invented_seismology_var
+			save_scope_as = dubois_geologist_scope
+		}
+	}
+
+	option = {	#Can we call him the father of seismology?
+		name = agassiz.11.g
+		default_option = yes
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
 #Agassiz 100: Searching new ore veins
 agassiz.100 = {
 	dlc = dlc_morgenrote
@@ -564,6 +635,7 @@ agassiz.312 = {
 
 	option = { #Use the knowledge practically.
 		name = agassiz.312.h
+		default_option = yes
 		agassiz_add_x_generic_minerals_effect = { AMOUNT = 10000 }
 		dubois_add_x_academy_progress = { AMOUNT = 10 }
 		geologist_experience_gain_effect = { AMOUNT = 10 }
@@ -601,6 +673,7 @@ agassiz.313 = {
 	option = { #Quantity
 		name = agassiz.313.g
 		agassiz_add_x_generic_minerals_effect = { AMOUNT = 15000 }
+		default_option = yes
 	}
 
 	option = { #Quality
@@ -640,6 +713,7 @@ agassiz.314 = {
 	option = { #This will boost his reputation.
 		name = agassiz.313.g
 		geologist_experience_gain_effect = { AMOUNT = 10 }
+		default_option = yes
 	}
 
 	option = { #This will boost the reputation of his university.
