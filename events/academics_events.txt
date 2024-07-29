@@ -2179,6 +2179,71 @@ academics.57 = {
 	}
 }
 
+#Academics 58: Geologist
+
+academics.58 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.58.t
+
+	desc = academics.58.d
+
+	flavor = academics.58.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_new_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_geologist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.58.g
+		default_option = yes
+
+		dubois_set_new_geologist_as_geologist_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.58.h
+		dubois_medium_add_technology = yes
+		dubois_remove_new_geologist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has a Geologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = dubois_geologist_var
+					var:dubois_geologist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
 #Academics 60: Foreign Scientist
 
 academics.60 = {
