@@ -101,3 +101,6 @@ Mountaineering
 - Having a Geologist in your team will give you a better chance fo success for every mountain step.
 - Having a Geologist will give you one free step if you have done at least 3 steps.
 - Don't climb without your Geologist.
+
+Astronomy
+- Added a JE to find Meteorites. 10 Meteroites will give a large astronomical tech boost.
