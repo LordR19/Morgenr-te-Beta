@@ -1278,3 +1278,699 @@ agassiz.403 = {
 		remove_global_variable = agassiz_age_of_earth_debate_global_var
 	}
 }
+
+#################################################################################
+
+######CONGRESS######
+
+#Agassiz 501 Congress on Plate Tectonics
+agassiz.501 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.501.t
+	desc = agassiz.501.d
+	flavor = agassiz.501.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		set_global_variable = {
+			name = agassiz_plate_tectonics_yes
+			value = 0
+		}
+		set_global_variable = {
+			name = agassiz_plate_tectonics_no
+			value = 0
+		}
+		var:dubois_geologist_var = {
+			set_variable = agassiz_attended_geologist_congress_var
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+
+	option = { 
+		name = agassiz.501.g # Invite the leading geological nations
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_variable = dubois_geologist_var
+			}
+			trigger_event = {
+				id = agassiz.502
+				days = { 7 14 }
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = agassiz.504
+			days = { 14 28 }
+		}
+		trigger_event = {
+			id = agassiz.509
+			days = 180
+		}
+	}
+}
+
+#Agassiz 502 Congress on Plate Tectonics - An Invitation
+agassiz.502 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.502.t
+	desc = agassiz.502.d
+	flavor = agassiz.502.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		var:dubois_geologist_var = {
+			set_variable = agassiz_attended_geologist_congress_var
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+
+	option = { 
+		name = agassiz.502.g #We'll come
+		add_modifier = {
+			name = verrier_congress_attend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:agassiz_geological_knowledge_var < 6
+			}
+			set_variable = agassiz_congress_laughed_var
+		}
+		if = {
+			limit = {
+				var:agassiz_geological_knowledge_var >= 6
+				var:agassiz_geological_knowledge_var < 12
+			}
+			set_variable = agassiz_congress_respected_var
+		}
+		if = {
+			limit = {
+				var:agassiz_geological_knowledge_var >= 12
+			}
+			set_variable = agassiz_congress_lauded_var
+		}
+		trigger_event = {
+			id = agassiz.503
+			days = { 7 14 }
+		}
+	}
+}
+
+#Agassiz 503 Congress on Plate Tectonics - Lauded, respected, laughed
+agassiz.503 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_laughed_var
+			}
+			desc = agassiz.503.t_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_respected_var
+			}
+			desc = agassiz.503.t_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_lauded_var
+			}
+			desc = agassiz.503.t_lauded
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_laughed_var
+			}
+			desc = agassiz.503.d_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_respected_var
+			}
+			desc = agassiz.503.d_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_lauded_var
+			}
+			desc = agassiz.503.d_lauded
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_laughed_var
+			}
+			desc = agassiz.503.f_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_respected_var
+			}
+			desc = agassiz.503.f_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_lauded_var
+			}
+			desc = agassiz.503.f_lauded
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		trigger_event = {
+			id = agassiz.504
+			days = { 7 14 }
+		}
+	}
+
+	option = { 
+		name = agassiz.503.g #
+		trigger = {
+			has_variable = agassiz_congress_laughed_var
+		}
+		add_modifier = {
+			name = verrier_laughed_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = agassiz.503.h #
+		trigger = {
+			has_variable = agassiz_congress_respected_var
+		}
+		add_modifier = {
+			name = verrier_respected_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = agassiz.503.i #
+		trigger = {
+			has_variable = agassiz_congress_lauded_var
+		}
+		default_option = yes
+		add_modifier = {
+			name = verrier_lauded_congress_modifier
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 504 Congress on Plate Tectonics - Debate
+agassiz.504 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.504.t
+	desc = agassiz.504.d
+	flavor = agassiz.504.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = dubois_geologist_scope
+		}
+	}
+
+	option = { 
+		name = agassiz.504.g #The continents do not move.
+		if = {
+			limit = {
+				var:dubois_geologist_var ?= {
+					has_trait = dubois_geologist_famous
+				}
+			}
+			change_global_variable = {
+				name = agassiz_plate_tectonics_no
+				add = 3
+			}
+			custom_tooltip = agassiz_conference_geologist_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:dubois_geologist_var ?= {
+					has_trait = dubois_geologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = agassiz_plate_tectonics_no
+				add = 2
+			}
+			custom_tooltip = agassiz_conference_geologist_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = agassiz_plate_tectonics_no
+				add = 1
+			}
+		}
+		
+		ai_chance = {
+			base = 1
+			modifier = { #Cautious Character preserves status quo
+				trigger = {
+					var:dubois_geologist_var ?= {
+						has_trait = cautious
+					}
+				}
+				add = 1
+			}
+			modifier = { #Less experiences remains conformist
+				trigger = {
+					var:dubois_geologist_var ?= {
+						var:dubois_geologist_experience < 100
+					}
+				}
+				add = 1
+			}
+			modifier = { #Less knowledge means they vote against
+				trigger = {
+					var:agassiz_geological_knowledge_var < 10
+				}
+				add = 1
+			}
+			modifier = { #Less knowledge means they vote against
+				trigger = {
+					global_var:agassiz_geological_knowledge_global_var < 100
+				}
+				add = 1
+			}
+		}
+	}
+
+	option = { 
+		name = agassiz.504.h #The continents move
+		default_option = yes
+		if = {
+			limit = {
+				var:dubois_geologist_var ?= {
+					has_trait = dubois_geologist_famous
+				}
+			}
+			change_global_variable = {
+				name = agassiz_plate_tectonics_yes
+				add = 3
+			}
+			custom_tooltip = agassiz_conference_geologist_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:dubois_geologist_var ?= {
+					has_trait = dubois_geologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = agassiz_plate_tectonics_yes
+				add = 2
+			}
+			custom_tooltip = agassiz_conference_geologist_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = agassiz_plate_tectonics_yes
+				add = 1
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #Geologist is innovative
+				trigger = {
+					var:dubois_geologist_var ?= {
+						has_trait = innovative
+					}
+				}
+			add = 1
+			}
+			modifier = { #More experience ist non-conformist
+				trigger = {
+					var:dubois_geologist_var ?= {
+						var:dubois_geologist_experience >= 250
+					}
+				}
+				add = 1
+			}
+			modifier = { #More knowledge means they vote for
+				trigger = {
+					var:agassiz_geological_knowledge_var > 10
+				}
+				add = 1
+			}
+			modifier = { #More global knowledge means they vote for
+				trigger = {
+					global_var:agassiz_geological_knowledge_global_var > 150
+				}
+				add = 1
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = agassiz.505 #Congress on Plate Tectonics - Extra
+			days = { 14 21 }
+		}
+	}
+}
+
+#Agassiz 505 Congress on Plate Tectonics - Extra
+agassiz.505 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.505.t
+	desc = agassiz.505.d
+	flavor = agassiz.505.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		var:dubois_geologist_var = {
+			set_variable = agassiz_attended_geologist_congress_var
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+
+	option = { 
+		name = agassiz.503.g #Geological Knowledge
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+	}
+
+	option = { 
+		name = agassiz.503.h #Oceanographic Knowledge
+		rapanui_add_x_oceanographic_understanding_effect = { AMOUNT = 5 }
+	}
+
+	option = { 
+		name = agassiz.503.i #Rare Minerals
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 3 }
+	}
+
+	option = { 
+		name = agassiz.503.j #New Talents
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+	}
+}
+
+#Agassiz 509: Congress - Decision for Host
+agassiz.509 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.t_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.t_tectonics
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.d_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.d_tectonics
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.f_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.f_tectonics
+		}
+	}
+
+	duration = 3
+
+	eevent_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = agassiz_congress_host_modifier
+			}
+			save_scope_as = agassiz_congress_host_country
+		}
+		var:dubois_geologist_var = {
+			save_scope_as = dubois_geologist_scope
+		}
+		if = {
+			limit = {
+				global_var:agassiz_plate_tectonics_no > global_var:agassiz_plate_tectonics_yes
+			}
+			remove_global_variable = agassiz_plate_tectonics_yes
+		}
+		else_if = {
+			limit = {
+				global_var:agassiz_plate_tectonics_no = global_var:agassiz_plate_tectonics_yes
+			}
+			remove_global_variable = agassiz_plate_tectonics_yes #One of the rare cases in which status quo will lead to non-acceptance
+		}
+		else_if = {
+			limit = {
+				global_var:agassiz_plate_tectonics_no < global_var:agassiz_plate_tectonics_yes
+			}
+			remove_global_variable = agassiz_plate_tectonics_no
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = agassiz_plate_tectonics_no
+		}
+		name = agassiz.509.g #This will set us back years.
+		default_option = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = "5"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = agassiz_plate_tectonics_yes
+		}
+		name = agassiz.509.h #A breakthrough for geology!
+		dubois_large_add_technology = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_modifier = agassiz_congress_attend_modifier
+			}
+			trigger_event = {
+				id = agassiz.510
+				popup = yes
+			}
+		}
+	}
+}
+
+#Agassiz 510: Congress - Decision for Others
+agassiz.510 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.t_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.t_tectonics
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.d_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.d_tectonics
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.f_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.f_tectonics
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = agassiz_congress_host_modifier
+			}
+			save_scope_as = agassiz_congress_host_country
+		}
+		var:dubois_geologist_var = {
+			save_scope_as = dubois_geologist_scope
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = agassiz_plate_tectonics_no
+		}
+		name = agassiz.509.g #This will set us back years.
+		remove_modifier = agassiz_congress_attend_modifier
+		default_option = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = "5"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = agassiz_plate_tectonics_yes
+		}
+		name = agassiz.509.h #A breakthrough for geology!
+		remove_modifier = agassiz_congress_attend_modifier
+		dubois_large_add_technology = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	after = {
+	}
+}
