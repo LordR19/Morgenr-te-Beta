@@ -467,22 +467,9 @@ je_verrier_pluto = {
 je_verrier_charter_moon = {
 	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
 
+	scripted_button = verrier_stop_astronomer_project_button
+
 	group = je_group_verrier_astronomy
-
-	is_shown_when_inactive = {
-		has_technology_researched = verrier_astronomy_tech
-	}
-
-	possible = {
-		country_has_building_type_levels = {  
-			target = bt:building_university  
-			value  >= 10
-		}
-		any_scope_building = {
-			is_building_type = building_verrier_observatory
-		}
-		has_technology_researched = camera
-	}
 
 	immediate = {
 		set_variable = {
@@ -538,6 +525,35 @@ je_verrier_charter_moon = {
 			popup = yes 
 		}
 		remove_modifier = verrier_charter_moon_modifier
+	}
+
+	invalid = {
+		OR = {
+			custom_tooltip = {
+				text = je_astronomer_dies_tt
+				NOT = {
+					has_variable = verrier_astronomer_var
+				}
+			}
+			custom_tooltip = {
+				text = verrier_stop_astronomer_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						verrier_has_astronomer = yes
+						verrier_has_astronomer_no_tooltip_trigger = yes
+					}
+					has_variable = verrier_stop_astronomer_project_var
+				}
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = verrier_can_stop_active_project_var #Needs to be removed, when the JE is removed
+		var:verrier_astronomer_var = {
+			set_character_busy_and_immortal = no
+		}
 	}
 
 	progressbar = yes
