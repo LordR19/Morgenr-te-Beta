@@ -103,4 +103,5 @@ Mountaineering
 - Don't climb without your Geologist.
 
 Astronomy
+- Moon Mapping is an astronomer action/button now.
 - Added a JE to find Meteorites. 10 Meteroites will give a large astronomical tech boost.
