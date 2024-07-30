@@ -18,6 +18,109 @@ mr_astronomy_ranking_sgui = {
 	}
 }
 
+#MR_ASTRONOMER_DISCOVER_SATELLITES_BUTTON
+mr_astronomer_discover_satellites_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_variable = verrier_decide_planet_var
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ASTRONOMER_ACTIVE_TRIGGER_TT
+			verrier_has_active_astronomer = yes
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTRONOMER_CAN_DISCOVER_SATELLITES_TRIGGER_TT
+			verrier_can_discover_satellite_trigger = yes
+		}
+    }
+    effect = {
+		set_variable = verrier_decide_planet_var
+		trigger_event = {
+			id = verrier.500
+			popup = yes
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 10 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_ASTRONOMER_MOON_MAP_BUTTON
+mr_astronomer_moon_map_button = {
+    scope = country
+	is_shown = {
+		NOT = {
+			has_modifier = verrier_moon_chartered_modifier
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+			text = MR_ASTRONOMER_ACTIVE_TRIGGER_TT
+			verrier_has_active_astronomer = yes
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_ASTRONOMY_TECH_TRIGGER_TT
+			has_technology_researched = verrier_astronomy_tech
+		}
+		custom_tooltip = {
+			text = MR_CARTE_DE_CIEL_CONGRESS_CAMERA_TECH_TRIGGER_TT
+			has_technology_researched = camera
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+		}
+    }
+    effect = {
+		add_journal_entry = { type = je_verrier_charter_moon }
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+			}
+			var:verrier_astronomer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 10 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
 #MR_ASTEROID_CONGRESS_BUTTON
 mr_asteroid_congress_button = {
     scope = country

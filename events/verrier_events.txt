@@ -232,6 +232,14 @@ verrier.1 = {
 				AMOUNT = 2
 			}
 		}
+		if = {
+			limit = {
+				has_technology_researched = verrier_modern_physics_tech
+			}
+			verrier_add_x_astronomical_objects_effect = {
+				AMOUNT = 4
+			}
+		}
 		###Observatory PMs###
 		if = {
 			limit = {
@@ -275,9 +283,15 @@ verrier.1 = {
 		if = {
 			limit = {
 				any_scope_state = {
-					is_production_method_active = {
-						building_type = building_verrier_observatory
-						production_method = pm_mendelejew_spectroscopy
+					OR = {
+						is_production_method_active = {
+							building_type = building_verrier_observatory
+							production_method = pm_mendelejew_spectroscopy
+						}
+						is_production_method_active = {
+							building_type = building_verrier_observatory
+							production_method = pm_mendelejew_cyclotron
+						}
 					}
 				}
 			}
@@ -291,6 +305,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_astronomer
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -302,6 +317,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_astronomer_experienced
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -313,6 +329,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_astronomer_famous
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -325,6 +342,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_comet_observer
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -336,6 +354,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_magnetic_storm_observer
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -347,6 +366,19 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_solar_observer
+					is_busy = no
+				}
+			}
+			verrier_add_x_astronomical_objects_effect = {
+				AMOUNT = 2
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+				var:verrier_astronomer_var = {
+					has_trait = verrier_moon_observer
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -2967,6 +2999,18 @@ verrier.50 = {
 		verrier_large_add_technology = yes
 		astronomer_experience_gain_effect = {
 			AMOUNT = 15
+		}
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
 		}
 	}
 }
@@ -8026,7 +8070,7 @@ verrier.421 = {
 	desc = verrier.421.d
 	flavor = verrier.421.f
 
-	duration = 1 
+	duration = 3 
 
 	gui_window = event_window_1char_tabloid
 
@@ -8130,6 +8174,85 @@ verrier.422 = {
 	}
 
 	after = {
+	}
+}
+
+#################################################################################
+
+######SATELLITES######
+
+#Verrier 500: Planet Observation
+verrier.500 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.500.t
+	desc = verrier.500.d
+	flavor = verrier.500.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_planets.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Mars
+		name = verrier.500.g
+		trigger = {
+			verrier_can_discover_mars_satellite_trigger = yes
+		}
+	}
+			
+	option = { #Jupiter
+		name = verrier.500.h
+		trigger = {
+			verrier_can_discover_jupiter_satellite_trigger = yes
+		}
+	}
+
+	option = { #Saturn
+		name = verrier.500.i
+		trigger = {
+			verrier_can_discover_saturn_satellite_trigger = yes
+		}
+	}
+
+	option = { #Uranus
+		name = verrier.500.j
+		trigger = {
+			verrier_can_discover_uranus_satellite_trigger = yes
+		}
+	}
+
+	option = { #Neptune
+		name = verrier.500.k
+		trigger = {
+			verrier_can_discover_neptune_satellite_trigger = yes
+		}
+	}
+
+	option = { #Nevermind
+		name = verrier.500.l
+		default_option = yes
+		var:verrier_astronomer_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = verrier_decide_planet_var
 	}
 }
 
