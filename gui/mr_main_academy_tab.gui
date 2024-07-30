@@ -2339,6 +2339,530 @@ types academy_view
 										}
 									}
 
+									#Geologist
+									academics_widget_character_with_button = {
+										blockoverride "role_icon" {
+											texture = "gfx/interface/icons/character_role_icons/mr_geologist_role.dds"
+										}
+										blockoverride "role_tooltip" {
+											tooltip = "[concept_agassiz_geologist_desc]"
+										}
+										blockoverride "role_name" {
+											text = "GEOLOGY_HEADER_TEXT"
+										}
+										blockoverride "character" {
+											datacontext = "[GetPlayer.MakeScope.Var('dubois_geologist_var').GetCharacter]"
+										}
+										blockoverride "character_visible" {
+											visible = "[GetScriptedGui('mr_has_astronomer_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										}
+										blockoverride "no_character_visible" {
+											visible = "[Not( GetScriptedGui('mr_has_astronomer_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+										}
+										blockoverride "character_name" {
+											text = "[GetPlayer.GetCustom('academics_has_astronomer_gui_type')]"
+										}
+										blockoverride "achievements_icon_visibility" {
+											visible = yes
+										}
+										blockoverride "scientist_achievement_tooltip" {
+											tooltip = "MR_ASTRONOMER_ACHIEVEMENTS_TT"
+										}
+										blockoverride "character_traits" {
+											datacontext = "[GetPlayer.MakeScope.Var('verrier_astronomer_var').GetCharacter]"
+											datamodel = "[Character.AccessTraits]"
+										}
+										blockoverride "experience_bar_visibility" {
+											visible = yes
+										}
+										blockoverride "values" {
+											min = 0
+											max = 300
+											value = "[GetPlayer.MakeScope.Var('verrier_astronomer_var').GetVariable('verrier_astronomer_experience').GetValue]"
+										}
+										blockoverride "experience_tooltip" {
+											tooltip = "[GetPlayer.GetCustom('GUI_verrier_astronomer_experience_type')]"
+										}
+										blockoverride "experience_bar_text" {
+											text = "[GetPlayer.GetCustom('GUI_verrier_astronomer_experience_text_type')]"
+										}
+										blockoverride "small_box_content" {
+											widget = { #This Icon allows an overview of the 10 Nations with the most Astronomical Objects
+												#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
+												#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+												#used in the mr_GUI_l_english.yml file to display the global variables.
+												size = { 30 30 }
+												parentanchor = top|right
+												position = { 5 -5 }
+											
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/backgrounds/round_button_bg.dds"
+													block "enabled" {}
+												}
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/buttons/button_icons/list.dds"
+													block "enabled" {}
+													tooltipwidget = {
+														MR_TooltipRankingType = {
+															blockoverride "ranking_on_finish" {
+																on_finish = "[GetScriptedGui('mr_astronomy_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+															}
+															blockoverride "text" {
+																raw_text = "ASTRONOMY_RANKING_HEADER"
+															}
+															blockoverride "ranking_datamodel" {
+																datamodel = "[GetGlobalList('mr_astronomical_objects_ranking_global_list')]"
+															}
+															blockoverride "ranking_variable_used" {
+																raw_text = "[Country.MakeScope.GetVariable('verrier_astronomical_objects').GetValue|V0]"
+															}
+														}
+													}
+												}
+											}
+											flowcontainer = {
+												direction = vertical
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 20 }
+
+												textbox = {
+													#Astronomical Objects of Total Astronomical Objects
+													text = "TOTAL_ASTRONOMICAL_OBJECTS_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "TOTAL_ASTRONOMICAL_OBJECTS_VAR_TT"
+												}
+												textbox = {
+													#Total Number of Meteorites
+													text = "NUMBER_METEORITES_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "NUMBER_METEORITES_VAR_TT"
+												}
+												textbox = {
+													## "verrier_comet" Texticon followed by "#G [ROOT.Var('verrier_great_comet').GetValue]#!/#BLUE [GetGlobalVariable('verrier_total_verrier_great_comet').GetValue]#!"
+													# followed by text "Great Comets"
+													text = "COMETS_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "COMETS_VAR_TT"
+												}	
+												textbox = {
+													## "verrier_moon_photo" Texticon followed by "[ROOT.Var('verrier_moon_photo').GetValue]#!/#BLUE 10#!"
+													#followed by "Lunar Photos"
+													text = "MOON_PHOTO_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "MOON_PHOTO_VAR_TT"
+												}
+												textbox = {
+													#Total Number of Planets
+													text = "NUMBER_PLANETS_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "NUMBER_PLANETS_VAR_TT"
+												}			
+											}
+										}
+										blockoverride "visit_button" {
+											text = "VISIT_OBSERVATORY_BUTTON"
+											datacontext = "[GetScriptedGui('mr_visit_planetarium')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "VISIT_OBSERVATORY_BUTTON_TT"
+										}
+										blockoverride "big_box_content" {
+											flowcontainer = {
+												direction = vertical
+												parentanchor = hcenter
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 15 }
+		
+												button = {
+													#Congress on Asteroids
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_ASTEROID_CONGRESS_BUTTON"
+													using = fontsize_medium
+							
+													datacontext = "[GetScriptedGui('mr_asteroid_congress_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_ASTEROID_CONGRESS_BUTTON_TT"
+												}
+											}
+										}
+									}
+								}
+
+								# Third Row
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 15
+
+									#Paleontologist
+									academics_widget_character_with_button = {
+										blockoverride "role_icon" {
+											texture = "gfx/interface/icons/character_role_icons/dubois_paleontologist_role.dds"
+										}
+										blockoverride "role_tooltip" {
+											tooltip = "[concept_dubois_paleontologist_desc]"
+										}
+										blockoverride "role_name" {
+											text = "PALEONTOLOGY_HEADER_TEXT"
+										}
+										blockoverride "character" {
+											datacontext = "[GetPlayer.MakeScope.Var('dubois_paleontologist_var').GetCharacter]"
+										}
+										blockoverride "character_visible" {
+											visible = "[GetScriptedGui('mr_has_paleontologist_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										}
+										blockoverride "no_character_visible" {
+											visible = "[Not( GetScriptedGui('mr_has_paleontologist_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+										}
+										blockoverride "character_name" {
+											text = "[GetPlayer.GetCustom('academics_has_paleontologist_gui_type')]"
+										}
+										blockoverride "achievements_icon_visibility" {
+											visible = yes
+										}
+										blockoverride "scientist_achievement_tooltip" {
+											tooltip = "MR_PALEONTOLOGIST_ACHIEVEMENTS_TT"
+										}
+										blockoverride "character_traits" {
+											datacontext = "[GetPlayer.MakeScope.Var('dubois_paleontologist_var').GetCharacter]"
+											datamodel = "[Character.AccessTraits]"
+										}
+										blockoverride "experience_bar_visibility" {
+											visible = yes
+										}
+										blockoverride "values" {
+											min = 0
+											max = 300
+											value = "[GetPlayer.MakeScope.Var('dubois_paleontologist_var').GetVariable('dubois_paleontologist_experience').GetValue]"
+										}
+										blockoverride "experience_tooltip" {
+											tooltip = "[GetPlayer.GetCustom('GUI_dubois_paleontologist_experience_type')]"
+										}
+										blockoverride "experience_bar_text" {
+											text = "[GetPlayer.GetCustom('GUI_dubois_paleontologist_experience_text_type')]"
+										}
+										blockoverride "small_box_content" {
+											widget = { #This Icon allows an overview of the 10 Nations with the most Dinosaur Skeletons
+												#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
+												#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+												#used in the mr_GUI_l_english.yml file to display the global variables.
+												size = { 30 30 }
+												parentanchor = top|right
+												position = { 5 -5 }
+											
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/backgrounds/round_button_bg.dds"
+													block "enabled" {}
+												}
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/buttons/button_icons/list.dds"
+													block "enabled" {}
+													tooltipwidget = {
+														MR_TooltipRankingType = {
+															blockoverride "ranking_on_finish" {
+																on_finish = "[GetScriptedGui('mr_dinosaur_skeleton_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+															}
+															blockoverride "text" {
+																raw_text = "PALEONTOLOGIST_DINOSAUR_SKELETON_RANKING_HEADER"
+															}
+															blockoverride "ranking_datamodel" {
+																datamodel = "[GetGlobalList('mr_dinosaur_skeleton_ranking_global_list')]"
+															}
+															blockoverride "ranking_variable_used" {
+																raw_text = "[Country.MakeScope.GetVariable('dubois_dinosaur_skeleton').GetValue|V0]"
+															}
+														}
+													}
+												}
+											}
+											flowcontainer = {
+												direction = vertical
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 20 }
+
+												textbox = {
+													#Fossils
+													text = "FOSSIL_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "FOSSIL_VAR_TT"
+												}
+												textbox = {
+													#Special Fossils
+													text = "SPECIAL_FOSSIL_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "SPECIAL_FOSSIL_VAR_TT"
+												}
+												textbox = {
+													#Dinosaur Bones
+													text = "DINOSAUR_BONE_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "DINOSAUR_BONE_VAR_TT"
+												}	
+												textbox = {
+													#Dinosaur Skeletons
+													text = "DINOSAUR_SKELETONS_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "DINOSAUR_SKELETONS_VAR_TT"
+												}			
+											}
+										}
+										blockoverride "visit_button" {
+											raw_text = "VISIT_PALEONTOLOGICAL_COLLECTION_BUTTON"
+											datacontext = "[GetScriptedGui('mr_visit_paleontological_collection')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "VISIT_PALEONTOLOGICAL_COLLECTION_BUTTON_TT"
+										}
+										blockoverride "big_box_content" {
+											flowcontainer = {
+												direction = vertical
+												parentanchor = hcenter
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 15 }
+		
+												### Expeditions ###
+												flowcontainer = {
+													direction = horizontal
+													parentanchor = hcenter
+													ignoreinvisible = yes
+													spacing = 4
+
+													# Paleontological Expedition
+													widget = {
+														size = { 50 50 }
+
+														#Button when it is not active
+														button_icon_round = {
+															parentanchor = center
+															size = { 45 45 }
+										
+															datacontext = "[GetScriptedGui('mr_paleontological_expedition_button')]"
+															onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															tooltip = "MR_PALEONTOLOGICAL_EXPEDITION_BUTTON_TT"
+															blockoverride "icon" {
+																texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontological_expedition_button.dds"
+															}
+															blockoverride "icon_size" {
+																size = { 75% 75% }
+															}					
+														}
+
+														#highlight circle to indicate that it is currently active
+														icon = {
+															parentanchor = center
+															size = { 100% 100%}
+															using = highlighted_circle_selection_small
+															visible = "[GetScriptedGui('mr_paleontological_expedition_recall_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														}
+														# Paleontological Expedition Recall
+														button_icon_round = {
+															parentanchor = center
+															size = { 45 45 }
+										
+															datacontext = "[GetScriptedGui('mr_paleontological_expedition_recall_button')]"
+															onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															tooltip = "MR_PALEONTOLOGICAL_EXPEDITION_RECALL_BUTTON_TT"
+															blockoverride "icon" {
+																texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontological_expedition_recall_button.dds"
+															}
+															blockoverride "icon_size" {
+																size = { 75% 75% }
+															}					
+														}
+													}
+
+													# Mount Skeleton
+													widget = {
+														size = { 50 50 }
+
+														#Button when it is not active
+														button_icon_round = {
+															parentanchor = center
+															size = { 45 45 }
+										
+															datacontext = "[GetScriptedGui('mr_mount_skeleton_button')]"
+															onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															tooltip = "MR_MOUNT_SKELETON_BUTTON_TT"
+															blockoverride "icon" {
+																texture = "gfx/interface/icons/GUI_icons/GUI_dubois_construct_skeleton_button.dds"
+															}
+															blockoverride "icon_size" {
+																size = { 75% 75% }
+															}					
+														}
+
+														# Three Icons for when it is active (normal color plus highlight circle)
+														#highlight circle to indicate that it is currently active
+														icon = {
+															parentanchor = center
+															size = { 100% 100%}
+															using = highlighted_circle_selection_small
+															visible = "[GetScriptedGui('mr_mount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														}
+														#Button background
+														icon = {
+															parentanchor = center
+															size = { 45 45 }
+															texture = "gfx/interface/buttons/round_button_small_wood.dds"
+															visible = "[GetScriptedGui('mr_mount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+															tooltip = "MR_MOUNT_SKELETON_ACTIVE_TT"
+														}
+														#Button Icon
+														icon = {
+															parentanchor = center
+															size = { 34 34 }
+															
+															texture = "gfx/interface/icons/GUI_icons/GUI_dubois_construct_skeleton_button.dds"
+															visible = "[GetScriptedGui('mr_mount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														}
+													}
+
+													# Remount Dinosaur Skeleton
+													widget = {
+														size = { 50 50 }
+
+														#Button when it is not active
+														button_icon_round = {
+															parentanchor = center
+															size = { 45 45 }
+										
+															datacontext = "[GetScriptedGui('mr_remount_skeleton_button')]"
+															onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+															tooltip = "MR_REMOUNT_SKELETON_BUTTON_TT"
+															blockoverride "icon" {
+																texture = "gfx/interface/icons/GUI_icons/GUI_dubois_remount_skeleton_button.dds"
+															}
+															blockoverride "icon_size" {
+																size = { 60% 60% }
+															}					
+														}
+
+														# Three Icons for when it is active (normal color plus highlight circle)
+														#highlight circle to indicate that it is currently active
+														icon = {
+															parentanchor = center
+															size = { 100% 100%}
+															using = highlighted_circle_selection_small
+															visible = "[GetScriptedGui('mr_remount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														}
+														#Button background
+														icon = {
+															parentanchor = center
+															size = { 45 45 }
+															texture = "gfx/interface/buttons/round_button_small_wood.dds"
+															visible = "[GetScriptedGui('mr_remount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+															tooltip = "MR_REMOUNT_SKELETON_ACTIVE_TT"
+														}
+														#Button Icon
+														icon = {
+															parentanchor = center
+															size = { 27 27 }
+															
+															texture = "gfx/interface/icons/GUI_icons/GUI_dubois_remount_skeleton_button.dds"
+															visible = "[GetScriptedGui('mr_remount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+														}
+													}
+												}
+		
+												### Other Buttons ###
+												button = {
+													#Transform Fossils into a Bone
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_TRANSFORM_FOSSILS_TO_BONES_BUTTON"
+													using = fontsize_medium
+		
+													datacontext = "[GetScriptedGui('mr_transform_fossils_to_bones_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_TRANSFORM_FOSSILS_TO_BONES_BUTTON_TT"
+												}
+												button = {
+													#Extinction Congress
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_EXTINCTION_CONGRESS_BUTTON"
+													using = fontsize_medium
+							
+													datacontext = "[GetScriptedGui('mr_extinction_congress_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_EXTINCTION_CONGRESS_BUTTON_TT"
+												}
+												button = {
+													#Paleontological Collection
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_PALEONTOLOGICAL_COLECTION_BUTTON"
+													using = fontsize_medium
+
+													datacontext = "[GetScriptedGui('mr_paleontological_collection_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_PALEONTOLOGICAL_COLECTION_BUTTON_TT"
+												}
+											}
+										}
+									}
+
 									#Naturalist
 									academics_widget_character_with_button = {
 										blockoverride "role_icon" {
@@ -2917,355 +3441,13 @@ types academy_view
 										}
 									}
 								}
-
+								
 								# Third Row
 								hbox = {
 									layoutpolicy_horizontal = expanding
 									spacing = 15
 
-									#Paleontologist
-									academics_widget_character_with_button = {
-										blockoverride "role_icon" {
-											texture = "gfx/interface/icons/character_role_icons/dubois_paleontologist_role.dds"
-										}
-										blockoverride "role_tooltip" {
-											tooltip = "[concept_dubois_paleontologist_desc]"
-										}
-										blockoverride "role_name" {
-											text = "PALEONTOLOGY_HEADER_TEXT"
-										}
-										blockoverride "character" {
-											datacontext = "[GetPlayer.MakeScope.Var('dubois_paleontologist_var').GetCharacter]"
-										}
-										blockoverride "character_visible" {
-											visible = "[GetScriptedGui('mr_has_paleontologist_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-										}
-										blockoverride "no_character_visible" {
-											visible = "[Not( GetScriptedGui('mr_has_paleontologist_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
-										}
-										blockoverride "character_name" {
-											text = "[GetPlayer.GetCustom('academics_has_paleontologist_gui_type')]"
-										}
-										blockoverride "achievements_icon_visibility" {
-											visible = yes
-										}
-										blockoverride "scientist_achievement_tooltip" {
-											tooltip = "MR_PALEONTOLOGIST_ACHIEVEMENTS_TT"
-										}
-										blockoverride "character_traits" {
-											datacontext = "[GetPlayer.MakeScope.Var('dubois_paleontologist_var').GetCharacter]"
-											datamodel = "[Character.AccessTraits]"
-										}
-										blockoverride "experience_bar_visibility" {
-											visible = yes
-										}
-										blockoverride "values" {
-											min = 0
-											max = 300
-											value = "[GetPlayer.MakeScope.Var('dubois_paleontologist_var').GetVariable('dubois_paleontologist_experience').GetValue]"
-										}
-										blockoverride "experience_tooltip" {
-											tooltip = "[GetPlayer.GetCustom('GUI_dubois_paleontologist_experience_type')]"
-										}
-										blockoverride "experience_bar_text" {
-											text = "[GetPlayer.GetCustom('GUI_dubois_paleontologist_experience_text_type')]"
-										}
-										blockoverride "small_box_content" {
-											widget = { #This Icon allows an overview of the 10 Nations with the most Dinosaur Skeletons
-												#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
-												#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
-												#used in the mr_GUI_l_english.yml file to display the global variables.
-												size = { 30 30 }
-												parentanchor = top|right
-												position = { 5 -5 }
-											
-												icon = {
-													size = { 100% 100% }
-													texture = "gfx/interface/backgrounds/round_button_bg.dds"
-													block "enabled" {}
-												}
-												icon = {
-													size = { 100% 100% }
-													texture = "gfx/interface/buttons/button_icons/list.dds"
-													block "enabled" {}
-													tooltipwidget = {
-														MR_TooltipRankingType = {
-															blockoverride "ranking_on_finish" {
-																on_finish = "[GetScriptedGui('mr_dinosaur_skeleton_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
-															}
-															blockoverride "text" {
-																raw_text = "PALEONTOLOGIST_DINOSAUR_SKELETON_RANKING_HEADER"
-															}
-															blockoverride "ranking_datamodel" {
-																datamodel = "[GetGlobalList('mr_dinosaur_skeleton_ranking_global_list')]"
-															}
-															blockoverride "ranking_variable_used" {
-																raw_text = "[Country.MakeScope.GetVariable('dubois_dinosaur_skeleton').GetValue|V0]"
-															}
-														}
-													}
-												}
-											}
-											flowcontainer = {
-												direction = vertical
-												ignoreinvisible = yes
-												spacing = 8
-												margin = { 25 20 }
-
-												textbox = {
-													#Fossils
-													text = "FOSSIL_VAR"
-													parentanchor = top|left
-													maximumsize = { 255 310 }
-													autoresize = yes
-													multiline = yes
-													using = fontsize_xxl
-													tooltip = "FOSSIL_VAR_TT"
-												}
-												textbox = {
-													#Special Fossils
-													text = "SPECIAL_FOSSIL_VAR"
-													parentanchor = top|left
-													maximumsize = { 255 310 }
-													autoresize = yes
-													multiline = yes
-													using = fontsize_xxl
-													tooltip = "SPECIAL_FOSSIL_VAR_TT"
-												}
-												textbox = {
-													#Dinosaur Bones
-													text = "DINOSAUR_BONE_VAR"
-													parentanchor = top|left
-													maximumsize = { 255 310 }
-													autoresize = yes
-													multiline = yes
-													using = fontsize_xxl
-													tooltip = "DINOSAUR_BONE_VAR_TT"
-												}	
-												textbox = {
-													#Dinosaur Skeletons
-													text = "DINOSAUR_SKELETONS_VAR"
-													parentanchor = top|left
-													maximumsize = { 255 310 }
-													autoresize = yes
-													multiline = yes
-													using = fontsize_xxl
-													tooltip = "DINOSAUR_SKELETONS_VAR_TT"
-												}			
-											}
-										}
-										blockoverride "visit_button" {
-											raw_text = "VISIT_PALEONTOLOGICAL_COLLECTION_BUTTON"
-											datacontext = "[GetScriptedGui('mr_visit_paleontological_collection')]"
-											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-											tooltip = "VISIT_PALEONTOLOGICAL_COLLECTION_BUTTON_TT"
-										}
-										blockoverride "big_box_content" {
-											flowcontainer = {
-												direction = vertical
-												parentanchor = hcenter
-												ignoreinvisible = yes
-												spacing = 8
-												margin = { 25 15 }
-		
-												### Expeditions ###
-												flowcontainer = {
-													direction = horizontal
-													parentanchor = hcenter
-													ignoreinvisible = yes
-													spacing = 4
-
-													# Paleontological Expedition
-													widget = {
-														size = { 50 50 }
-
-														#Button when it is not active
-														button_icon_round = {
-															parentanchor = center
-															size = { 45 45 }
-										
-															datacontext = "[GetScriptedGui('mr_paleontological_expedition_button')]"
-															onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															tooltip = "MR_PALEONTOLOGICAL_EXPEDITION_BUTTON_TT"
-															blockoverride "icon" {
-																texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontological_expedition_button.dds"
-															}
-															blockoverride "icon_size" {
-																size = { 75% 75% }
-															}					
-														}
-
-														#highlight circle to indicate that it is currently active
-														icon = {
-															parentanchor = center
-															size = { 100% 100%}
-															using = highlighted_circle_selection_small
-															visible = "[GetScriptedGui('mr_paleontological_expedition_recall_button').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-														}
-														# Paleontological Expedition Recall
-														button_icon_round = {
-															parentanchor = center
-															size = { 45 45 }
-										
-															datacontext = "[GetScriptedGui('mr_paleontological_expedition_recall_button')]"
-															onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															tooltip = "MR_PALEONTOLOGICAL_EXPEDITION_RECALL_BUTTON_TT"
-															blockoverride "icon" {
-																texture = "gfx/interface/icons/GUI_icons/GUI_dubois_paleontological_expedition_recall_button.dds"
-															}
-															blockoverride "icon_size" {
-																size = { 75% 75% }
-															}					
-														}
-													}
-
-													# Mount Skeleton
-													widget = {
-														size = { 50 50 }
-
-														#Button when it is not active
-														button_icon_round = {
-															parentanchor = center
-															size = { 45 45 }
-										
-															datacontext = "[GetScriptedGui('mr_mount_skeleton_button')]"
-															onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															tooltip = "MR_MOUNT_SKELETON_BUTTON_TT"
-															blockoverride "icon" {
-																texture = "gfx/interface/icons/GUI_icons/GUI_dubois_construct_skeleton_button.dds"
-															}
-															blockoverride "icon_size" {
-																size = { 75% 75% }
-															}					
-														}
-
-														# Three Icons for when it is active (normal color plus highlight circle)
-														#highlight circle to indicate that it is currently active
-														icon = {
-															parentanchor = center
-															size = { 100% 100%}
-															using = highlighted_circle_selection_small
-															visible = "[GetScriptedGui('mr_mount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-														}
-														#Button background
-														icon = {
-															parentanchor = center
-															size = { 45 45 }
-															texture = "gfx/interface/buttons/round_button_small_wood.dds"
-															visible = "[GetScriptedGui('mr_mount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-
-															tooltip = "MR_MOUNT_SKELETON_ACTIVE_TT"
-														}
-														#Button Icon
-														icon = {
-															parentanchor = center
-															size = { 34 34 }
-															
-															texture = "gfx/interface/icons/GUI_icons/GUI_dubois_construct_skeleton_button.dds"
-															visible = "[GetScriptedGui('mr_mount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-														}
-													}
-
-													# Remount Dinosaur Skeleton
-													widget = {
-														size = { 50 50 }
-
-														#Button when it is not active
-														button_icon_round = {
-															parentanchor = center
-															size = { 45 45 }
-										
-															datacontext = "[GetScriptedGui('mr_remount_skeleton_button')]"
-															onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-															tooltip = "MR_REMOUNT_SKELETON_BUTTON_TT"
-															blockoverride "icon" {
-																texture = "gfx/interface/icons/GUI_icons/GUI_dubois_remount_skeleton_button.dds"
-															}
-															blockoverride "icon_size" {
-																size = { 60% 60% }
-															}					
-														}
-
-														# Three Icons for when it is active (normal color plus highlight circle)
-														#highlight circle to indicate that it is currently active
-														icon = {
-															parentanchor = center
-															size = { 100% 100%}
-															using = highlighted_circle_selection_small
-															visible = "[GetScriptedGui('mr_remount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-														}
-														#Button background
-														icon = {
-															parentanchor = center
-															size = { 45 45 }
-															texture = "gfx/interface/buttons/round_button_small_wood.dds"
-															visible = "[GetScriptedGui('mr_remount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-
-															tooltip = "MR_REMOUNT_SKELETON_ACTIVE_TT"
-														}
-														#Button Icon
-														icon = {
-															parentanchor = center
-															size = { 27 27 }
-															
-															texture = "gfx/interface/icons/GUI_icons/GUI_dubois_remount_skeleton_button.dds"
-															visible = "[GetScriptedGui('mr_remount_skeleton_active_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-														}
-													}
-												}
-		
-												### Other Buttons ###
-												button = {
-													#Transform Fossils into a Bone
-													using = default_button_primary_big_action
-													size = { 250 40 }
-													raw_text = "MR_TRANSFORM_FOSSILS_TO_BONES_BUTTON"
-													using = fontsize_medium
-		
-													datacontext = "[GetScriptedGui('mr_transform_fossils_to_bones_button')]"
-													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-													tooltip = "MR_TRANSFORM_FOSSILS_TO_BONES_BUTTON_TT"
-												}
-												button = {
-													#Extinction Congress
-													using = default_button_primary_big_action
-													size = { 250 40 }
-													raw_text = "MR_EXTINCTION_CONGRESS_BUTTON"
-													using = fontsize_medium
-							
-													datacontext = "[GetScriptedGui('mr_extinction_congress_button')]"
-													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-													tooltip = "MR_EXTINCTION_CONGRESS_BUTTON_TT"
-												}
-												button = {
-													#Paleontological Collection
-													using = default_button_primary_big_action
-													size = { 250 40 }
-													raw_text = "MR_PALEONTOLOGICAL_COLECTION_BUTTON"
-													using = fontsize_medium
-
-													datacontext = "[GetScriptedGui('mr_paleontological_collection_button')]"
-													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-													tooltip = "MR_PALEONTOLOGICAL_COLECTION_BUTTON_TT"
-												}
-											}
-										}
-									}
-
+									
 									#Archaeologist
 									academics_widget_character_with_button = {
 										blockoverride "role_icon" {
@@ -4064,12 +4246,6 @@ types academy_view
 											}
 										}
 									}
-								}
-								
-								# Third Row
-								hbox = {
-									layoutpolicy_horizontal = expanding
-									spacing = 15
 
 									#Anthropologist
 									academics_widget_character_with_button = {
@@ -4369,8 +4545,6 @@ types academy_view
 											}
 										}
 									}
-
-									academics_placeholder = {}
 								}
 							}	
 						}
