@@ -233,12 +233,18 @@ mr_geologist_age_earth_active = {
 	}
 }
 
-#MR_GEOLOGIST_ORE_VEIN_BUTTON
+#MR_GEOLOGIST_ORE_VEIN_BUTTON_TT
 mr_geologist_ore_vein_button = {
 	scope = country
 	is_shown = {
-		NOT = {
+		NOR = {
 			has_variable = agassiz_decide_ore_vein_var
+			has_journal_entry = je_agassiz_find_coal_project
+			has_journal_entry = je_agassiz_find_iron_project
+			has_journal_entry = je_agassiz_find_lead_project
+			has_journal_entry = je_agassiz_find_sulfur_project
+			has_journal_entry = je_agassiz_find_gold_project
+			has_journal_entry = je_agassiz_find_uranium_project
 		}
 	}
 	is_valid = {
@@ -276,6 +282,36 @@ mr_geologist_ore_vein_button = {
 		base = 10 # The chance that the AI will activate this SGUI (script value between 1 and 100)
 	}
 	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_GEOLOGIST_ORE_VEIN_BUTTON_STOP_TT
+mr_geologist_ore_vein_stop_button = {
+	scope = country
+	is_shown = {
+		OR = {
+			has_variable = agassiz_decide_ore_vein_var
+			has_journal_entry = je_agassiz_find_coal_project
+			has_journal_entry = je_agassiz_find_iron_project
+			has_journal_entry = je_agassiz_find_lead_project
+			has_journal_entry = je_agassiz_find_sulfur_project
+			has_journal_entry = je_agassiz_find_gold_project
+			has_journal_entry = je_agassiz_find_uranium_project
+		}
+	}
+	is_valid = {
+		NOT = { has_variable = agassiz_stop_geologist_improving_project_var }
+		OR = {
+			has_journal_entry = je_agassiz_find_coal_project
+			has_journal_entry = je_agassiz_find_iron_project
+			has_journal_entry = je_agassiz_find_lead_project
+			has_journal_entry = je_agassiz_find_sulfur_project
+			has_journal_entry = je_agassiz_find_gold_project
+			has_journal_entry = je_agassiz_find_uranium_project
+		}
+	}
+	effect = {
+		set_variable = agassiz_stop_geologist_improving_project_var
+	}
 }
 
 mr_geologist_ore_vein_active_sgui = {
