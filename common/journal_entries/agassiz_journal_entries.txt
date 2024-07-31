@@ -1396,3 +1396,107 @@ je_agassiz_advanced_oceanography = {
 
 	should_be_pinned_by_default = yes
 }
+
+######################################################################################
+
+#Volcano Expedition
+je_agassiz_volcano_expedition = {
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	scripted_progress_bar = agassiz_volcano_expedition_progress_bar
+	scripted_progress_bar = agassiz_volcano_danger_progress_bar
+
+	group = je_group_agassiz_geology
+
+	immediate = {
+	}
+
+	on_monthly_pulse = {
+		events = {
+			10 = agassiz.627 #Agassiz 627: The Solar Element on Earth
+		}
+		random_events = {
+			50 = 0
+
+			10 = agassiz.611 #Agassiz 611: Chemical Insights
+			10 = agassiz.612 #Agassiz 612: Trapped
+			10 = agassiz.613 #Agassiz 613: A hardened Leader
+			10 = agassiz.614 #Agassiz 614: Toxic Gases
+			10 = agassiz.615 #Agassiz 615: Volcanic ejecta
+			10 = agassiz.616 #Agassiz 616: Lava sample
+			10 = agassiz.619 #Agassiz 619: Crystalls
+			10 = agassiz.620 #Agassiz 620: River of Fire
+			10 = agassiz.621 #Agassiz 621: Theories on Volcanism
+			10 = agassiz.622 #Agassiz 622: Earthquake
+			10 = agassiz.623 #Agassiz 623: Minerals everywhere
+			10 = agassiz.624 #Agassiz 624: Exotic Specimen
+			10 = agassiz.625 #Agassiz 625: Unknown Fossils
+			10 = agassiz.626 #Agassiz 626: Geomagnetic data
+			10 = agassiz.628 #Agassiz 628: Team begs for a rest
+			10 = agassiz.629 #Agassiz 629: Inferno
+			10 = agassiz.630 #Agassiz 630: Hell on Earth
+			10 = agassiz.631 #Agassiz 631: Quite active Volcano
+			10 = agassiz.632 #Agassiz 632: Newspaper Report
+			10 = agassiz.633 #Agassiz 633: A safe resting place
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_progress_bar_at_full_tt
+			je:je_agassiz_volcano_expedition = {
+				"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 18
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = agassiz.603
+			popup = yes
+		}
+		var:verrier_astronomer_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_geologist_dies_tt
+			NOT = {
+				has_variable = dubois_geologist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		agassiz_remove_volcano_expedition_effect = yes
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = agassiz_volcano_danger_progress_bar_at_full_tt
+			je:je_agassiz_volcano_expedition = {
+				"scripted_bar_progress(agassiz_volcano_danger_progress_bar)" >= 6
+			}
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = agassiz.604
+			popup = yes
+		}
+	}
+
+	timeout = 730
+
+	on_timeout = {
+		trigger_event = { 
+			id = agassiz.605
+			popup = yes 
+		}
+	}
+
+	weight = 25
+}
