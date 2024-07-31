@@ -127,6 +127,68 @@ agassiz.11 = {
 	}
 }
 
+#Agassiz 21: Vesuvius Observatory
+agassiz.21 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.21.t
+
+	desc = agassiz.21.d
+
+	flavor = agassiz.21.f
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius_observatory.dds"  
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		game_date < 1850.1.1
+		game_date >= 1841.1.1
+		ROOT ?= c:SIC
+		NOT = {
+			has_global_variable = agassiz_vesuvius_observatory_global_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_CAMPANIA
+			NOT = {
+				has_building = building_agassiz_volcano_observatory
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = agassiz_vesuvius_observatory_global_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_CAMPANIA
+			}
+			save_scope_as = agassiz_observatory_state
+		}
+	}
+
+	option = {	#We're the first nation of vulcanology.
+		name = agassiz.21.g
+		default_option = yes
+		scope:agassiz_observatory_state = {
+			create_building = {
+ 				building = "building_agassiz_volcano_observatory"
+				level = 1
+ 			}
+        }
+	}
+
+	after = {
+	}
+}
+
 #################################################################################
 
 ######ORE&OIL######
