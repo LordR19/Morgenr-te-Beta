@@ -12,6 +12,8 @@ namespace = agassiz
 
 #################################################################################
 
+######GENERAL######
+
 #Agassiz 1: Yearly minerals
 agassiz.1 = {
 	dlc = dlc_morgenrote
@@ -125,7 +127,71 @@ agassiz.11 = {
 	}
 }
 
+#Agassiz 21: Vesuvius Observatory
+agassiz.21 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.21.t
+
+	desc = agassiz.21.d
+
+	flavor = agassiz.21.f
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius_observatory.dds"  
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		game_date < 1850.1.1
+		game_date >= 1841.1.1
+		ROOT ?= c:SIC
+		NOT = {
+			has_global_variable = agassiz_vesuvius_observatory_global_var
+		}
+		any_scope_state = {
+			state_region = s:STATE_CAMPANIA
+			NOT = {
+				has_building = building_agassiz_volcano_observatory
+			}
+		}
+	}
+
+	immediate = {
+		set_global_variable = agassiz_vesuvius_observatory_global_var
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_CAMPANIA
+			}
+			save_scope_as = agassiz_observatory_state
+		}
+	}
+
+	option = {	#We're the first nation of vulcanology.
+		name = agassiz.21.g
+		default_option = yes
+		scope:agassiz_observatory_state = {
+			create_building = {
+ 				building = "building_agassiz_volcano_observatory"
+				level = 1
+ 			}
+        }
+	}
+
+	after = {
+	}
+}
+
 #################################################################################
+
+######ORE&OIL######
 
 #Agassiz 100: Searching new ore veins
 agassiz.100 = {
@@ -342,6 +408,8 @@ agassiz.102 = {
 
 #################################################################################
 
+######ONE ACTION BUTTONS######
+
 #Agassiz 201: Mid Atlantic Ridge
 agassiz.201 = {
 	dlc = dlc_morgenrote
@@ -481,6 +549,8 @@ agassiz.202 = {
 }
 
 #################################################################################
+
+######GEOLOGICAL RESEARCH######
 
 #Agassiz 301: Geological research completed
 agassiz.301 = {
@@ -942,6 +1012,8 @@ agassiz.317 = {
 }
 
 #################################################################################
+
+######AGE OF EARTH######
 
 #Agassiz 401: Age of Earth Calculations
 agassiz.401 = {
@@ -1987,6 +2059,1952 @@ agassiz.510 = {
 		}
 	}
 
+	after = {
+	}
+}
+
+#################################################################################
+
+######VOLCANOLOGY######
+
+#Agassiz 601: Volcano Location
+agassiz.601 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.601.t
+	desc = agassiz.601.d
+	flavor = agassiz.601.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		random_state = {
+			limit = {
+				agassiz_state_has_unexplored_volcano = yes
+			}
+			save_scope_as = agassiz_volcano_1
+		}
+		random_state = {
+			limit = {
+				agassiz_state_has_unexplored_volcano = yes
+				NOT = {
+					this = scope:agassiz_volcano_1
+				}
+			}
+			save_scope_as = agassiz_volcano_2
+		}
+		random_state = {
+			limit = {
+				agassiz_state_has_unexplored_volcano = yes
+				NOR = {
+					this = scope:agassiz_volcano_1
+					this = scope:agassiz_volcano_2
+				}
+			}
+			save_scope_as = agassiz_volcano_3
+		}
+	}
+
+	option = {
+		name = agassiz.601.g #Volcano State 1
+		default_option = yes
+		trigger = {
+			exists = scope:agassiz_volcano_1
+		}
+		scope:agassiz_volcano_1 = {
+			set_variable = agassiz_targeted_volcano_var
+		}
+	}
+
+	option = {
+		name = agassiz.601.h #Volcano State 2
+		trigger = {
+			exists = scope:agassiz_volcano_2
+		}
+		scope:agassiz_volcano_2 = {
+			set_variable = agassiz_targeted_volcano_var
+		}
+	}
+
+	option = {
+		name = agassiz.601.i #Volcano State 3
+		trigger = {
+			exists = scope:agassiz_volcano_3
+		}
+		scope:agassiz_volcano_3 = {
+			set_variable = agassiz_targeted_volcano_var
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = agassiz.602
+			days = { 30 60 }
+		}
+	}
+}
+
+#Agassiz 602: Arrival in VOLCANO STATE
+agassiz.602 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.602.t
+	desc = agassiz.602.d
+	flavor = agassiz.602.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.602.g #It's not as dangerous as it sounds, is it?
+		default_option = yes
+		add_journal_entry = {
+			type = je_agassiz_volcano_expedition
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 603: Volcano Expedition Ends
+agassiz.603 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.603.t
+	desc = agassiz.603.d
+	flavor = agassiz.603.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.603.g #And all without third degree burns.
+		default_option = yes
+		dubois_medium_add_technology = yes
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+		geologist_experience_gain_effect = { AMOUNT = 30 }
+		var:dubois_geologist_var = {
+			set_variable = agassiz_geologist_explored_volcano_var
+		}
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_geologist_var = {
+						has_trait = agassiz_volcanologist
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = agassiz_volcanologist
+			}
+		}
+		scope:agassiz_volcano_state = {
+			activate_production_method = {
+				building_type = building_agassiz_volcano_observatory
+				production_method = pm_agassiz_advanced_volcanology
+			}
+		}
+	}
+
+	after = {
+		agassiz_remove_volcano_expedition_effect = yes
+	}
+}
+
+#Agassiz 604: Volcano Expedition ends in Catastrophe
+agassiz.604 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.604.t
+	desc = agassiz.604.d
+	flavor = agassiz.604.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		video = "unspecific_devastation"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.604.g #Horrible!
+		default_option = yes
+		kill_geologist_effect = yes
+		add_modifier = {
+			name = agassiz_geological_disaster_modifier
+			years = 5
+		}
+		scope:agassiz_volcano_state.state_region = {
+			add_devastation = 15
+		}
+	}
+
+	after = {
+		agassiz_remove_volcano_expedition_effect = yes
+	}
+}
+
+#Agassiz 605: Volcano Expedition ends without results
+agassiz.605 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.605.t
+	desc = agassiz.605.d
+	flavor = agassiz.605.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.605.g #Disappointing
+		default_option = yes
+	}
+
+	after = {
+		agassiz_remove_volcano_expedition_effect = yes
+	}
+}
+
+###Expedition Events###
+
+#Agassiz 611: Chemical Insights
+agassiz.611 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.611.t
+	desc = agassiz.611.d
+	flavor = agassiz.611.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		OR = {
+			has_journal_entry = je_mendelejew_element_theory
+			has_journal_entry = je_mendelejew_element_discovery
+			has_journal_entry = je_mendelejew_element_isolation
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.611.g #This might help CHEMIST
+		default_option = yes
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 612: Trapped
+agassiz.612 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.612.t
+	desc = agassiz.612.d
+	flavor = agassiz.612.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 6
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.612.g #Find another path
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.612.h #Try to cross it
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 613: A hardened Leader
+agassiz.613 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.613.t
+	desc = agassiz.613.d
+	flavor = agassiz.613.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 8
+		}
+		var:dubois_geologist_var = {
+			has_trait = agassiz_volcanologist
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.613.g #Dr. Geologist is a superb Vulcanologist.
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = 2
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 614: Toxic Gases
+agassiz.614 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.614.t
+	desc = agassiz.614.d
+	flavor = agassiz.614.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.614.g #We have to study these gases.
+		default_option = yes
+		mendelejew_small_add_technology = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.614.h #That's insane!
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -2
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 615: Volcanic ejecta
+agassiz.615 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.615.t
+	desc = agassiz.615.d
+	flavor = agassiz.615.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 9
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 2
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.615.g #Bad luck
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 616: Lava sample
+agassiz.616 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.616.t
+	desc = agassiz.616.d
+	flavor = agassiz.616.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.616.g #We are here for experiments like this.
+		default_option = yes
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = agassiz_volcanologist
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = dubois_geologist_experienced
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = dubois_geologist_famous
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = brave
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = explorer
+							}
+						}
+						add = 1
+					}
+				}
+				trigger_event = { 
+					id = agassiz.617 #Success
+					days = 1
+					popup = yes
+				}
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								OR = {
+									has_trait = alcoholic
+									has_trait = opium_addiction
+									has_trait = cocaine_addiction
+									has_trait = senile
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				trigger_event = { 
+					id = agassiz.618 #Fail
+					days = 1
+					popup = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.614.h #That's insane!
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 617: Lava sample - Success
+agassiz.617 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.617.t
+	desc = agassiz.617.d
+	flavor = agassiz.617.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.617.g #Fantastic!
+		default_option = yes
+		mendelejew_medium_add_technology = yes
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_geologist_var = {
+						has_trait = brave
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = brave
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 618: Lava sample - Fail
+agassiz.618 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.618.t
+	desc = agassiz.618.d
+	flavor = agassiz.618.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.618.g #Catastrophic!
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 619: Crystalls
+agassiz.619 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.619.t
+	desc = agassiz.619.d
+	flavor = agassiz.619.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_4.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.619.g #One sample is enough.
+		default_option = yes
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+	}
+
+	option = {
+		name = agassiz.619.h #Take as many samples as you can!
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 5 }
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.619.i #A few stones are not worth a researcher's life.
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 620: River of Fire
+agassiz.620 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.620.t
+	desc = agassiz.620.d
+	flavor = agassiz.620.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_4.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.619.g #Dr. Geologist should study it.
+		default_option = yes
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = 1
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.619.h #This is far too dangerous!
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 621: Theories on Volcanism
+agassiz.621 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.621.t
+	desc = agassiz.621.d
+	flavor = agassiz.621.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_5.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 5
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.621.g #Dr. Geologist should take time to study the phenomenon thoroughly.
+		default_option = yes
+		dubois_medium_add_technology = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_3_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -3
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.621.h #Don't waste time!
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 622: Earthquake
+agassiz.622 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.622.t
+	desc = agassiz.622.d
+	flavor = agassiz.622.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_5.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 20
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 12
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.622.g #Was this whole expedition such a good idea...?
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 623: Minerals everywhere
+agassiz.623 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.623.t
+	desc = agassiz.623.d
+	flavor = agassiz.623.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.623.g #Minerals!
+		default_option = yes
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 10000 }
+		random_list = {
+			2 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_expedition_decrease_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_expedition_progress_bar
+							value = -1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.623.g #No.
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 624: Exotic Specimen
+agassiz.624 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.624.t
+	desc = agassiz.624.d
+	flavor = agassiz.624.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.624.g #Specimen!
+		default_option = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 5000 }
+		random_list = {
+			2 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_expedition_decrease_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_expedition_progress_bar
+							value = -1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.624.g #No.
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 625: Unknown Fossils
+agassiz.625 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.625.t
+	desc = agassiz.625.d
+	flavor = agassiz.625.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.625.g #Fossils!
+		default_option = yes
+		dubois_add_x_fossils_effect = { AMOUNT = 3 }
+		random_list = {
+			2 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_expedition_decrease_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_expedition_progress_bar
+							value = -1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.623.g #No.
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 626: Geomagnetic data
+agassiz.626 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.626.t
+	desc = agassiz.626.d
+	flavor = agassiz.626.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 24
+	}
+
+	trigger = {
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_verrier_observatory
+				production_method = pm_gaudi_magnetic_observatory
+			}
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.626.g #Perfect.
+		default_option = yes
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 2
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 627: The Solar Element on Earth
+agassiz.627 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.627.t
+	desc = agassiz.627.d
+	flavor = agassiz.627.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = agassiz_helium_disocvered_on_earth_global_var
+		}
+		mendelejew_element_x_is_discovered_trigger = { NUMBER = 2 }
+		var:dubois_geologist_var = {
+			has_trait = dubois_geologist_experienced
+		}
+	}
+
+	immediate = {
+		set_global_variable = agassiz_helium_disocvered_on_earth_global_var
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.627.g #This opens ... interesting possibilities.
+		default_option = yes
+		mendelejew_medium_add_technology = yes
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = 2
+				}
+			}
+		}
+		var:dubois_geologist_var = {
+			set_variable = agassiz_discovered_helium_on_earth_var
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 628: Team begs for a rest
+agassiz.628 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.628.t
+	desc = agassiz.628.d
+	flavor = agassiz.628.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 12
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.628.g #Give them as much rest as they need.
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_5_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -5
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.628.h #A short break, nothing more.
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -2
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.628.i #These useless assistants are supposed to work, not idle!
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 629: Inferno
+agassiz.629 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.629.t
+	desc = agassiz.629.d
+	flavor = agassiz.629.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_6.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 9
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.629.g #Exercise caution
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_3_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -3
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.629.h #Take the risk
+		default_option = yes
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_2_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 2
+						}
+					}
+				}
+			}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_3_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 3
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 630: Hell on Earth
+agassiz.630 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.630.t
+	desc = agassiz.630.d
+	flavor = agassiz.630.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_6.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_danger_progress_bar)" >= 2
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		trigger = { has_technology_researched = camera }
+		name = agassiz.630.g #This is a fascinating spectacle and we should take photos of it!
+		default_option = yes
+		dubois_small_add_technology = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_3_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -3
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.630.h #Frightening
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.630.i #Withdraw!
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_3_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -3
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 631: Quite active Volcano
+agassiz.631 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.631.t
+	desc = agassiz.631.d
+	flavor = agassiz.631.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_6.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 24
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.631.g #More knowledge!
+		default_option = yes
+		dubois_small_add_technology = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.631.h #More experience!
+		geologist_experience_gain_effect = { AMOUNT = 15 }
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.631.i #More minerals!
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 100000 }
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 632: Newspaper Report
+agassiz.632 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.632.t
+	desc = agassiz.632.d
+	flavor = agassiz.632.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 24
+	}
+
+	trigger = {
+		any_scope_state = {
+			any_scope_building = {
+				is_building_type = building_manzoni_publishing_industry
+				level >= 5
+			}
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_manzoni_publishing_industry
+					level >= 5
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	option = {
+		name = agassiz.632.g #This will inspire a new generation of scientists.
+		default_option = yes
+		dubois_add_x_academy_progress = { AMOUNT = 15 }
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 633: A safe resting place
+agassiz.633 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.633.t
+	desc = agassiz.633.d
+	flavor = agassiz.633.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 24
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.633.g #Cool.
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+	
 	after = {
 	}
 }
