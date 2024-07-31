@@ -1505,3 +1505,66 @@ je_agassiz_volcano_expedition = {
 
 	weight = 25
 }
+
+#Volcano Expedition AI 
+je_agassiz_volcano_expedition_ai = {
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	group = je_group_agassiz_geology
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	on_monthly_pulse = {
+		events = {
+			agassiz.627 #Agassiz 627: The Solar Element on Earth
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_progress_bar_at_full_tt
+			je:je_agassiz_volcano_expedition = {
+				"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 18
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = agassiz.603
+			popup = yes
+		}
+		var:dubois_geologist_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_geologist_dies_tt
+			NOT = {
+				has_variable = dubois_geologist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		agassiz_remove_volcano_expedition_effect = yes
+	}
+
+	timeout = 540
+
+	on_timeout = {
+		trigger_event = {
+			id = agassiz.603
+			popup = yes
+		}
+		var:dubois_geologist_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 25
+}
