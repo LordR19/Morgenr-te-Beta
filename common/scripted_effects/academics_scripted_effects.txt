@@ -8845,6 +8845,7 @@ create_new_geologist_effect = {
 					scope:dubois_new_geologist_scope = {
 						add_trait = dubois_geologist
 						set_variable = mr_is_geologist_var
+						mr_trait_generation_geologist_effect = yes
 						geologist_experience_set_up_effect = yes
 						place_character_in_void = 1200
 					}
@@ -8877,6 +8878,7 @@ create_new_geologist_effect = {
 					scope:dubois_new_geologist_scope = {
 						add_trait = dubois_geologist
 						set_variable = mr_is_geologist_var
+						mr_trait_generation_geologist_effect = yes
 						geologist_experience_set_up_effect = yes
 						place_character_in_void = 1200
 					}
@@ -8939,63 +8941,39 @@ dubois_remove_new_geologist_effect = {
 	}
 }
 
-# Used to set up the Experience of a character
+# Used to set up the Experience of a character 
 geologist_experience_set_up_effect = {
-	if = {
+	general_experience_set_up_effect = {
+		TYPE = dubois_geologist_experience
+		UNI_PM = pm_dubois_university_natural_history
+	}
+	
+	if = { #Adds the Experienced Geologist Trait if Experience is above 100
 		limit = {
+			var:dubois_geologist_experience >= 100
 			NOT = {
-				has_variable = dubois_geologist_experience
-			}
-		}
-		if = {
-			limit = { age > 30 }
-			set_variable = {
-				name = dubois_geologist_experience
-				value = age
-			}
-			change_variable = {
-				name = dubois_geologist_experience
-				subtract = 30
-			}
-			change_variable = {
-				name = dubois_geologist_experience
-				multiply = 10
-			}
-		}
-		else = {
-			set_variable = {
-				name = dubois_geologist_experience
-				value = 0
-			}
-		}
-		if = { #Adds the Experienced Geologist Trait if Experience is above 100
-			limit = {
-				var:dubois_geologist_experience >= 100
-				NOT = {
-					var:dubois_geologist_experience >= 300
-				}
-				NOR = {
-					has_trait = dubois_geologist_experienced
-					has_trait = dubois_geologist_famous
-				}
-			}
-			remove_trait = dubois_geologist
-			add_trait = dubois_geologist_experienced
-		}
-		if = { #Adds the Famous Geologist Trait if Experience is above 100
-			limit = {
 				var:dubois_geologist_experience >= 300
-				NOT = {
-					has_trait = dubois_geologist_famous
-				}
 			}
-			remove_trait = dubois_geologist
-			remove_trait = dubois_geologist_experienced
-			add_trait = dubois_geologist_famous
+			NOR = {
+				has_trait = dubois_geologist_experienced
+				has_trait = dubois_geologist_famous
+			}
 		}
+		remove_trait = dubois_geologist
+		add_trait = dubois_geologist_experienced
+	}
+	if = { #Adds the Famous Geologist Trait if Experience is above 100
+		limit = {
+			var:dubois_geologist_experience >= 300
+			NOT = {
+				has_trait = dubois_geologist_famous
+			}
+		}
+		remove_trait = dubois_geologist
+		remove_trait = dubois_geologist_experienced
+		add_trait = dubois_geologist_famous
 	}
 }
-
 
 #Geologist Experience gain
 geologist_experience_gain_effect = { #adds XP to the Geologist
