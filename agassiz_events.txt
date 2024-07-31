@@ -1,0 +1,3862 @@
+﻿###################
+# AGASSIZ EVENTS  #
+###################
+
+#by Marco Dandolo
+
+###################
+
+namespace = agassiz
+
+###################
+
+#################################################################################
+
+######GENERAL######
+
+#Agassiz 1: Yearly minerals
+agassiz.1 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+		
+	hidden = yes
+
+	trigger = {
+		NOT = {
+			has_variable = agassiz_mineral_cooldown_var
+		}
+		has_technology_researched = agassiz_geology_tech
+	}
+
+	immediate = {
+		set_variable = {
+			name = agassiz_mineral_cooldown_var
+			days = 365
+		}
+
+		agassiz_add_x_generic_minerals_effect = {
+			AMOUNT = agassiz_yearly_mineral_value
+		}
+
+		if = {
+			limit = {
+				has_variable = agassiz_yearly_generic_minerals_var
+			}
+			set_variable = {
+				name = agassiz_generic_minerals_notification_var
+				value = var:agassiz_yearly_generic_minerals_var
+			}
+			set_variable = {
+				name = agassiz_yearly_generic_minerals_var
+				value = 0
+			}
+		}
+		post_notification = agassiz_yearly_minerals_notification
+	}
+}
+
+#################################################################################
+
+#Agassiz 11: On the Dynamics Of Earthquakes
+agassiz.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.11.t
+
+	desc = agassiz.11.d
+
+	flavor = agassiz.11.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_geologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_technology_researched = agassiz_seismology_tech
+		NOT = {
+			has_global_variable = agassiz_seismology_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = agassiz_seismology_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = dubois_geologist_var
+				}
+			}
+			create_new_geologist_effect = yes
+			dubois_set_new_geologist_as_geologist_effect = yes
+			var:dubois_geologist_var = {
+				save_scope_as = dubois_geologist_scope
+			}
+		}
+		if = {
+			limit = {
+				var:dubois_geologist_var = {
+					NOT = { has_trait = agassiz_geophysicist }
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = agassiz_geophysicist
+			}
+		}
+		var:dubois_geologist_var = {
+			set_variable = agassiz_geologist_invented_seismology_var
+			save_scope_as = dubois_geologist_scope
+		}
+	}
+
+	option = {	#Can we call him the father of seismology?
+		name = agassiz.11.g
+		default_option = yes
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
+######ORE&OIL######
+
+#Agassiz 100: Searching new ore veins
+agassiz.100 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.100.t
+
+	desc = agassiz.100.d
+
+	flavor = agassiz.100.f
+	
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_gold_prospectors"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Coal
+		name = agassiz.100.h
+		trigger = { agassiz_can_find_coal_vein_trigger = yes }
+		add_journal_entry = { type = je_agassiz_find_coal_project }
+		add_modifier = {
+			name = agassiz_ore_search_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+	}
+
+	option = {	#Iron
+		name = agassiz.100.i
+		trigger = { agassiz_can_find_iron_vein_trigger = yes }
+		add_journal_entry = { type = je_agassiz_find_iron_project }
+		add_modifier = {
+			name = agassiz_ore_search_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+	}
+
+	option = {	#Lead
+		name = agassiz.100.j
+		trigger = { agassiz_can_find_lead_vein_trigger = yes }
+		add_journal_entry = { type = je_agassiz_find_lead_project }
+		add_modifier = {
+			name = agassiz_ore_search_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+	}
+
+	option = {	#Sulfur
+		name = agassiz.100.k
+		trigger = { agassiz_can_find_sulfur_vein_trigger = yes }
+		add_journal_entry = { type = je_agassiz_find_sulfur_project }
+		add_modifier = {
+			name = agassiz_ore_search_cost_modifier
+			multiplier = money_amount_multiplier_very_small
+		}
+	}
+
+	option = {	#Gold
+		name = agassiz.100.l
+		trigger = { agassiz_can_find_gold_vein_trigger = yes }
+		add_journal_entry = { type = je_agassiz_find_gold_project }
+		add_modifier = {
+			name = agassiz_ore_search_cost_modifier
+			multiplier = money_amount_multiplier_medium
+		}
+	}
+
+	option = {	#Uranium
+		name = agassiz.100.m
+		trigger = { agassiz_can_find_uranium_vein_trigger = yes }
+		add_journal_entry = { type = je_agassiz_find_uranium_project }
+		add_modifier = {
+			name = agassiz_ore_search_cost_modifier
+			multiplier = money_amount_multiplier_medium
+		}
+	}
+
+	option = {	#None of them
+		name = agassiz.100.g
+		trigger = { is_ai = no }
+		default_option = yes
+		var:dubois_geologist_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = agassiz_decide_ore_vein_var
+	}
+}
+
+#Agassiz 101: New ore vein
+agassiz.101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.101.t
+
+	desc = agassiz.101.d
+
+	flavor = agassiz.101.f
+	
+	duration = 3
+
+	event_image = {
+		video = "europenorthamerica_gold_prospectors"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Good
+		name = agassiz.101.g
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 2500 }
+		random_list = {
+			1 = {
+				if = {
+					limit = {
+						NOT = {
+							var:dubois_geologist_var = {
+								has_trait = agassiz_prospector
+							}
+						}
+					}
+					var:dubois_geologist_var = {
+						add_trait = agassiz_prospector
+					}
+				}
+			}
+			1 = {}
+		}
+	}
+
+	after = {
+		remove_variable = agassiz_building_geologist_improvement_var
+	}
+}
+
+#Agassiz 102: Oil!
+agassiz.102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.102.t
+
+	desc = agassiz.102.d
+
+	flavor = agassiz.102.f
+	
+	duration = 3
+
+	event_image = {
+		video = "middleeast_oil_derricks"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Good
+		name = agassiz.102.g
+		geologist_experience_gain_effect = { AMOUNT = 15 }
+		random_list = {
+			1 = {
+				if = {
+					limit = {
+						NOT = {
+							var:dubois_geologist_var = {
+								has_trait = agassiz_prospector
+							}
+						}
+					}
+					var:dubois_geologist_var = {
+						add_trait = agassiz_prospector
+					}
+				}
+			}
+			1 = {}
+		}
+	}
+
+	after = {
+		remove_variable = agassiz_building_geologist_improvement_var
+	}
+}
+
+#################################################################################
+
+######ONE ACTION BUTTONS######
+
+#Agassiz 201: Mid Atlantic Ridge
+agassiz.201 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.201.t
+
+	desc = agassiz.201.d
+
+	flavor = agassiz.201.f
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_electrical_transatlantic_cable.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		set_variable = dubois_mid_atlantic_ridge_examined_var
+		remove_modifier = agassiz_mid_atlantic_ridge_cost_modifier
+	}
+
+	option = {	#This will improve the geologist's geophysical understanding.
+		name = agassiz.201.g
+		trigger = {
+			NOT = {
+				var:dubois_geologist_var = {
+					has_trait = agassiz_geophysicist
+				}
+			}
+		}
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		rapanui_add_x_oceanographic_understanding_effect = { AMOUNT = 5 }
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_geologist_var = {
+						has_trait = agassiz_geophysicist
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = agassiz_geophysicist
+			}
+		}
+	}
+
+	option = {	#This will improve the geologist's oceanographic understanding.
+		name = agassiz.201.h
+		trigger = {
+			NOT = {
+				var:dubois_geologist_var = {
+					has_trait = agassiz_oceanographer
+				}
+			}
+		}
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		rapanui_add_x_oceanographic_understanding_effect = { AMOUNT = 5 }
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_geologist_var = {
+						has_trait = agassiz_oceanographer
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = agassiz_oceanographer
+			}
+		}
+	}
+
+	option = {	#This will improve the geologist's general understanding.
+		name = agassiz.201.i
+		default_option = yes
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		rapanui_add_x_oceanographic_understanding_effect = { AMOUNT = 5 }
+		geologist_experience_gain_effect = { AMOUNT = 30 }
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 202: Geological-Paleontological Symposium
+agassiz.202 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.202.t
+
+	desc = agassiz.202.d
+
+	flavor = agassiz.202.f
+	
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:dubois_geologist_scope
+	right_icon = scope:dubois_paleontologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = dubois_geologist_scope
+		}
+		var:dubois_paleontologist_var = {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {	#A fruitful academic exchange
+		name = agassiz.202.g
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		dubois_add_x_academy_progress = { AMOUNT = 25 }
+		dubois_medium_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
+######GEOLOGICAL RESEARCH######
+
+#Agassiz 301: Geological research completed
+agassiz.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.301.t
+
+	desc = agassiz.301.d
+
+	flavor = agassiz.301.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_geologist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+
+	option = {	#Minerals are exactly his thing, right?
+		name = agassiz.301.g
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 25000 }
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_geologist_var = {
+						has_trait = agassiz_mineralogist
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = agassiz_mineralogist
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 311: Meteorite
+agassiz.311 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.311.t
+	desc = agassiz.311.d
+	flavor = agassiz.311.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		has_variable = verrier_astronomer_var
+		has_technology_researched = verrier_modern_physics_tech
+		OR = {
+			agassiz_has_terrain_arctic = yes
+			agassiz_has_terrain_desert = yes
+		}
+	}
+		
+	option = { #Where in space does it come from?
+		name = agassiz.311.g
+		verrier_small_add_technology = yes
+		verrier_add_x_meteorites_effect = {
+			AMOUNT = 1
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				mendelejew_has_chemist = yes
+				var:verrier_meteorites_var >= 1
+				OR = {
+					has_journal_entry = je_mendelejew_element_theory
+					has_journal_entry = je_mendelejew_element_discovery
+					has_journal_entry = je_mendelejew_element_isolation
+					has_journal_entry = je_mendelejew_synthetic_oil
+					has_journal_entry = je_mendelejew_synthetic_rubber
+				}
+			}
+			trigger_event = {
+				id = verrier.422
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Agassiz 312: Geological Survey
+agassiz.312 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.312.t
+	desc = agassiz.312.d
+	flavor = agassiz.312.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_chart.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+		
+	option = { #Use the knowledge theoretically.
+		name = agassiz.312.g
+		dubois_medium_add_technology = yes
+	}
+
+	option = { #Use the knowledge practically.
+		name = agassiz.312.h
+		default_option = yes
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 10000 }
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+	}
+}
+
+#Agassiz 313: Mineral Deposits
+agassiz.313 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.313.t
+	desc = agassiz.313.d
+	flavor = agassiz.313.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_minerals.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+		
+	option = { #Quantity
+		name = agassiz.313.g
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 15000 }
+		default_option = yes
+	}
+
+	option = { #Quality
+		name = agassiz.313.h
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+	}
+}
+
+#Agassiz 314: Inspiring Geologist
+agassiz.314 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.314.t
+	desc = agassiz.314.d
+	flavor = agassiz.314.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_minerals.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+	}
+		
+	option = { #This will boost his reputation.
+		name = agassiz.313.g
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		default_option = yes
+	}
+
+	option = { #This will boost the reputation of his university.
+		name = agassiz.313.h
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+	}
+}
+
+#Agassiz 315: Geological Insights
+agassiz.315 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.315.t
+	desc = agassiz.315.d
+	flavor = agassiz.315.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_chart.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		years = 20
+	}
+
+	trigger = {
+	}
+		
+	option = { #Excellent
+		name = agassiz.315.g
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+	}
+}
+
+#Agassiz 316: Geological survey in the neighboring country
+agassiz.316 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.316.t
+	desc = agassiz.316.d
+	flavor = agassiz.316.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_geologist.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_country = {
+			is_adjacent_to_country = ROOT
+			NOT = {
+				has_war_with = ROOT
+			}
+			OR = {
+				any_scope_state = {
+					lepsius_has_cave = yes
+					lepsius_has_discovered_cave = no
+				}
+				any_scope_state = {
+					has_variable = dubois_has_normal_formation_var
+					NOT = {
+						has_state_trait = dubois_state_trait_normal_formation
+					}
+				}
+				any_scope_state = {
+					has_variable = dubois_has_great_formation_var
+					NOR = {
+						has_state_trait = dubois_state_trait_great_north_american_formation
+						has_state_trait = dubois_state_trait_south_american_formation
+						has_state_trait = dubois_state_trait_great_european_formation
+						has_state_trait = dubois_state_trait_great_african_formation
+						has_state_trait = dubois_state_trait_great_asian_formation
+						has_state_trait = dubois_state_trait_great_australian_formation
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = lepsius_anthropologist_scope
+		}
+		random_country = {
+			limit = {
+				is_adjacent_to_country = ROOT
+				NOT = {
+					has_war_with = ROOT
+				}
+				OR = {
+					any_scope_state = {
+						lepsius_has_cave = yes
+						lepsius_has_discovered_cave = no
+					}
+					AND = {
+						any_scope_state = {
+							has_variable = dubois_has_normal_formation_var
+							NOT = {
+								has_state_trait = dubois_state_trait_normal_formation
+							}
+						}
+					}
+					AND = {
+						any_scope_state = {
+							has_variable = dubois_has_great_formation_var
+							NOR = {
+								has_state_trait = dubois_state_trait_great_north_american_formation
+								has_state_trait = dubois_state_trait_south_american_formation
+								has_state_trait = dubois_state_trait_great_european_formation
+								has_state_trait = dubois_state_trait_great_african_formation
+								has_state_trait = dubois_state_trait_great_asian_formation
+								has_state_trait = dubois_state_trait_great_australian_formation
+							}
+						}
+					}
+				}
+			}
+			save_scope_as = agassiz_neighbour_country_scope
+		}
+	}
+		
+	option = { #Excellent
+		name = agassiz.316.g
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 5000 }
+	}
+
+	after = {
+		scope:agassiz_neighbour_country_scope = {
+			trigger_event = {
+				id = agassiz.317
+				days = 7
+			}
+		}
+	}
+}
+
+#Agassiz 317: Foreign Geologist
+agassiz.317 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.317.t
+	desc = agassiz.317.d
+	flavor = agassiz.316.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_geologist.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+		
+	option = { #So ...?
+		name = agassiz.317.g
+		if = {
+			limit = {
+				any_scope_state = {
+					has_variable = dubois_has_great_formation_var
+					NOR = {
+						has_state_trait = dubois_state_trait_great_north_american_formation
+						has_state_trait = dubois_state_trait_south_american_formation
+						has_state_trait = dubois_state_trait_great_european_formation
+						has_state_trait = dubois_state_trait_great_african_formation
+						has_state_trait = dubois_state_trait_great_asian_formation
+						has_state_trait = dubois_state_trait_great_australian_formation
+					}
+				}
+			}
+			trigger_event = {
+				id = dubois.73 #Dubois 73: Great Formation discovered
+				days = 3
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_state = {
+					has_variable = dubois_has_normal_formation_var
+					NOT = {
+						has_state_trait = dubois_state_trait_normal_formation
+					}
+				}
+			}
+			trigger_event = {
+				id = dubois.72 #Dubois 72: Normal Formation discovered
+				days = 3
+			}
+		}
+		else_if = {
+			limit = {
+				any_scope_state = {
+					lepsius_has_cave = yes
+					lepsius_has_discovered_cave = no
+				}
+			}
+			trigger_event = {
+				id = lepsius.1301 #Lepsius 1301: Cave found
+				days = 3
+			}
+		}
+	}
+}
+
+#################################################################################
+
+######AGE OF EARTH######
+
+#Agassiz 401: Age of Earth Calculations
+agassiz.401 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.401.t
+	desc = agassiz.401.d
+	flavor = agassiz.401.f
+
+	duration = 3 
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = agassiz_geologist_scope
+		}
+		set_global_variable = {
+			name = agassiz_age_of_earth_yes_global_var
+			value = 0
+		}
+		set_global_variable = {
+			name = agassiz_age_of_earth_no_global_var
+			value = 0
+		}
+	}
+		
+	option = { #Send the paper to all well-known geologists worldwide.
+		name = agassiz.401.g
+		dubois_small_add_technology = yes
+		change_global_variable = {
+			name = agassiz_age_of_earth_yes_global_var
+			add = 1
+		}
+		custom_tooltip = agassiz.401.tt
+		hidden_effect = {
+			every_country = {
+				limit = {
+					has_variable = dubois_geologist_var
+					NOT = {
+						this = ROOT
+					}
+				}
+				trigger_event = {
+					id = agassiz.402
+					days = { 14 28 }
+				}
+			}
+		}
+	}
+	
+	after = {
+		trigger_event = {
+			id = agassiz.403
+			days = { 90 120 }
+		}
+	}
+	
+}
+
+#Agassiz 402: Age of Earth Calculations - other nations
+agassiz.402 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.402.t
+	desc = agassiz.402.d
+	flavor = agassiz.401.f
+
+	duration = 3 
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+		
+	option = { #These calculations are convincing.
+		name = agassiz.402.g
+		default_option = yes
+		change_global_variable = {
+			name = agassiz_age_of_earth_yes_global_var
+			add = 1
+		}
+		ai_chance = {
+			base = 60
+			modifier = { #Will be more interested to accept new age when no new age was estimated in the last 10 years
+				trigger = {
+					NOT = {
+						has_global_variable = agassiz_age_of_earth_recent_calculation_global_var
+					}
+				}
+				add = 20
+			}
+			modifier = { #Experienced Geologist
+				trigger = {
+					scope:dubois_geologist_scope = {
+						var:dubois_geologist_experience >= 200
+					}
+				}
+				add = 10
+			}
+			modifier = { #Geologist is Geophisicist
+				trigger = {
+					scope:dubois_geologist_scope = {
+						has_trait = agassiz_geophysicist
+					}
+				}
+				add = 10
+			}
+			modifier = { #Geologist has another specialization
+				trigger = {
+					scope:dubois_geologist_scope = {
+						OR = {
+							has_trait = agassiz_volcanologist
+							has_trait = agassiz_mineralogist
+							has_trait = agassiz_prospector
+							has_trait = agassiz_oceanographer
+						}
+					}
+				}
+				add = 5
+			}
+			modifier = { #Geologist has another positive trait
+				trigger = {
+					scope:dubois_geologist_scope = {
+						OR = {
+							has_trait = erudite
+							has_trait = innovative
+							has_trait = meticulous
+							has_trait = charismatic
+						}
+					}
+				}
+				add = 5
+			}
+			modifier = { #Geologist has respected age
+				trigger = {
+					scope:dubois_geologist_scope = {
+						age >= 50
+					}
+				}
+				add = 5
+			}
+		}
+	}
+
+	option = { #Who is supposed to believe this pseudo-geological nonsense?
+		name = agassiz.402.h
+		change_global_variable = {
+			name = agassiz_age_of_earth_no_global_var
+			add = 1
+		}
+		ai_chance = {
+			base = 40
+			modifier = { #Unexperienced Geologist
+				trigger = {
+					scope:dubois_geologist_scope = {
+						var:dubois_geologist_experience < 200
+					}
+				}
+				add = 10
+			}
+			modifier = { #Geologist does not have any specialization
+				trigger = {
+					scope:dubois_geologist_scope = {
+						OR = {
+							has_trait = agassiz_volcanologist
+							has_trait = agassiz_mineralogist
+							has_trait = agassiz_prospector
+							has_trait = agassiz_oceanographer
+							has_trait = agassiz_geophysicist
+						}
+					}
+				}
+				add = 5
+			}
+			modifier = { #Geologist has a negative trait
+				trigger = {
+					scope:dubois_geologist_scope = {
+						OR = {
+							has_trait = arrogant
+							has_trait = bigoted
+							has_trait = cruel
+							has_trait = wrathful
+						}
+					}
+				}
+				add = 5
+			}
+			modifier = { #Geologist is young
+				trigger = {
+					scope:dubois_geologist_scope = {
+						age < 35
+					}
+				}
+				add = 5
+			}
+		}
+	}
+}
+
+#Agassiz 403: Success/Failure
+agassiz.403 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var >= global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.t_yes
+		}
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var < global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.t_no
+		}
+	}
+	desc = {
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var >= global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.d_yes
+		}
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var < global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.d_no
+		}
+	}
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var >= global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.f_yes
+		}
+		triggered_desc = {
+			trigger = {
+				global_var:agassiz_age_of_earth_yes_global_var < global_var:agassiz_age_of_earth_no_global_var
+			}
+			desc = agassiz.403.f_no
+		}
+	}
+
+	duration = 3 
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+		
+	option = { #Success!
+		name = agassiz.403.g
+		default_option = yes
+		trigger = {
+			global_var:agassiz_age_of_earth_yes_global_var >= global_var:agassiz_age_of_earth_no_global_var
+		}
+		var:dubois_geologist_var = {
+			set_variable = agassiz_geologist_calculated_age_earth_var
+		}
+		agassiz_set_new_age_of_earth_effect = yes
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+		geologist_experience_gain_effect = { AMOUNT = 30 }
+		dubois_small_add_technology = yes
+		set_global_variable = {
+			name = agassiz_age_of_earth_recent_calculation_global_var
+			years = 10
+		}
+		every_country = {
+			limit = {
+				is_player = yes
+			}
+			post_notification = agassiz_new_earth_age_notification
+		}
+	}
+
+	option = { #Fail ...
+		name = agassiz.403.h
+		trigger = {
+			global_var:agassiz_age_of_earth_yes_global_var < global_var:agassiz_age_of_earth_no_global_var
+		}
+		add_modifier = {
+			name = agassiz_geologist_demotivated_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		remove_global_variable = agassiz_age_of_earth_yes_global_var
+		remove_global_variable = agassiz_age_of_earth_no_global_var
+		remove_global_variable = agassiz_age_of_earth_debate_global_var
+	}
+}
+
+#################################################################################
+
+######CONGRESS######
+
+#Agassiz 501 Congress on Plate Tectonics
+agassiz.501 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.501.t
+	desc = agassiz.501.d
+	flavor = agassiz.501.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		set_global_variable = {
+			name = agassiz_plate_tectonics_yes
+			value = 0
+		}
+		set_global_variable = {
+			name = agassiz_plate_tectonics_no
+			value = 0
+		}
+		var:dubois_geologist_var = {
+			set_variable = agassiz_attended_geologist_congress_var
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+
+	option = { 
+		name = agassiz.501.g # Invite the leading geological nations
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_variable = dubois_geologist_var
+			}
+			trigger_event = {
+				id = agassiz.502
+				days = { 7 14 }
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = agassiz.504
+			days = { 14 28 }
+		}
+		trigger_event = {
+			id = agassiz.509
+			days = 180
+		}
+	}
+}
+
+#Agassiz 502 Congress on Plate Tectonics - An Invitation
+agassiz.502 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.502.t
+	desc = agassiz.502.d
+	flavor = agassiz.501.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		var:dubois_geologist_var = {
+			set_variable = agassiz_attended_geologist_congress_var
+			save_scope_as = agassiz_geologist_scope
+		}
+		random_country = {
+			limit = {
+				has_modifier = agassiz_congress_host_modifier
+			}
+			save_scope_as = agassiz_congress_host_country
+		}
+	}
+
+	option = { 
+		name = agassiz.502.g #We'll come
+		add_modifier = {
+			name = verrier_congress_attend_modifier
+			years = 5
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				var:agassiz_geological_knowledge_var < 6
+			}
+			set_variable = agassiz_congress_laughed_var
+		}
+		if = {
+			limit = {
+				var:agassiz_geological_knowledge_var >= 6
+				var:agassiz_geological_knowledge_var < 12
+			}
+			set_variable = agassiz_congress_respected_var
+		}
+		if = {
+			limit = {
+				var:agassiz_geological_knowledge_var >= 12
+			}
+			set_variable = agassiz_congress_lauded_var
+		}
+		trigger_event = {
+			id = agassiz.503
+			days = { 7 14 }
+		}
+	}
+}
+
+#Agassiz 503 Congress on Plate Tectonics - Lauded, respected, laughed
+agassiz.503 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_laughed_var
+			}
+			desc = agassiz.503.t_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_respected_var
+			}
+			desc = agassiz.503.t_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_lauded_var
+			}
+			desc = agassiz.503.t_lauded
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_laughed_var
+			}
+			desc = agassiz.503.d_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_respected_var
+			}
+			desc = agassiz.503.d_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_lauded_var
+			}
+			desc = agassiz.503.d_lauded
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_laughed_var
+			}
+			desc = agassiz.503.f_laughed
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_respected_var
+			}
+			desc = agassiz.503.f_respected
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_congress_lauded_var
+			}
+			desc = agassiz.503.f_lauded
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		trigger_event = {
+			id = agassiz.504
+			days = { 7 14 }
+		}
+		random_character = {
+			limit = {
+				has_variable = agassiz_geologist_invented_plate_tectonics_var
+			}
+			save_scope_as = agassiz_alfred_wegener_scope
+		}
+	}
+
+	option = { 
+		name = agassiz.503.g #
+		trigger = {
+			has_variable = agassiz_congress_laughed_var
+		}
+		add_modifier = {
+			name = verrier_laughed_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = agassiz.503.h #
+		trigger = {
+			has_variable = agassiz_congress_respected_var
+		}
+		add_modifier = {
+			name = verrier_respected_congress_modifier
+			years = 5
+		}
+	}
+	option = { 
+		name = agassiz.503.i #
+		trigger = {
+			has_variable = agassiz_congress_lauded_var
+		}
+		default_option = yes
+		add_modifier = {
+			name = verrier_lauded_congress_modifier
+			years = 5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 504 Congress on Plate Tectonics - Debate
+agassiz.504 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.504.t
+	desc = agassiz.504.d
+	flavor = agassiz.504.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = agassiz_congress_host_modifier
+			}
+			save_scope_as = agassiz_congress_host_country
+			var:dubois_geologist_var = {
+				save_scope_as = agassiz_alfred_wegener_scope
+			}
+		}
+	}
+
+	option = { 
+		name = agassiz.504.g #The continents do not move.
+		if = {
+			limit = {
+				var:dubois_geologist_var ?= {
+					has_trait = dubois_geologist_famous
+				}
+			}
+			change_global_variable = {
+				name = agassiz_plate_tectonics_no
+				add = 3
+			}
+			custom_tooltip = agassiz_conference_geologist_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:dubois_geologist_var ?= {
+					has_trait = dubois_geologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = agassiz_plate_tectonics_no
+				add = 2
+			}
+			custom_tooltip = agassiz_conference_geologist_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = agassiz_plate_tectonics_no
+				add = 1
+			}
+		}
+		
+		ai_chance = {
+			base = 1
+			modifier = { #Cautious Character preserves status quo
+				trigger = {
+					var:dubois_geologist_var ?= {
+						has_trait = cautious
+					}
+				}
+				add = 1
+			}
+			modifier = { #Less experiences remains conformist
+				trigger = {
+					var:dubois_geologist_var ?= {
+						var:dubois_geologist_experience < 100
+					}
+				}
+				add = 1
+			}
+			modifier = { #Less knowledge means they vote against
+				trigger = {
+					var:agassiz_geological_knowledge_var < 10
+				}
+				add = 1
+			}
+			modifier = { #Less knowledge means they vote against
+				trigger = {
+					global_var:agassiz_geological_knowledge_global_var < 100
+				}
+				add = 1
+			}
+		}
+	}
+
+	option = { 
+		name = agassiz.504.h #The continents move
+		default_option = yes
+		if = {
+			limit = {
+				var:dubois_geologist_var ?= {
+					has_trait = dubois_geologist_famous
+				}
+			}
+			change_global_variable = {
+				name = agassiz_plate_tectonics_yes
+				add = 3
+			}
+			custom_tooltip = agassiz_conference_geologist_triple_vote_tt
+		}
+		else_if = {
+			limit = {
+				var:dubois_geologist_var ?= {
+					has_trait = dubois_geologist_experienced
+				}
+			}
+			change_global_variable = {
+				name = agassiz_plate_tectonics_yes
+				add = 2
+			}
+			custom_tooltip = agassiz_conference_geologist_double_vote_tt
+		}
+		else = {
+			change_global_variable = {
+				name = agassiz_plate_tectonics_yes
+				add = 1
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = { #Geologist is innovative
+				trigger = {
+					var:dubois_geologist_var ?= {
+						has_trait = innovative
+					}
+				}
+			add = 1
+			}
+			modifier = { #More experience ist non-conformist
+				trigger = {
+					var:dubois_geologist_var ?= {
+						var:dubois_geologist_experience >= 250
+					}
+				}
+				add = 1
+			}
+			modifier = { #More knowledge means they vote for
+				trigger = {
+					var:agassiz_geological_knowledge_var > 10
+				}
+				add = 1
+			}
+			modifier = { #More global knowledge means they vote for
+				trigger = {
+					global_var:agassiz_geological_knowledge_global_var > 150
+				}
+				add = 1
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = agassiz.505 #Congress on Plate Tectonics - Extra
+			days = { 14 21 }
+		}
+	}
+}
+
+#Agassiz 505 Congress on Plate Tectonics - Extra
+agassiz.505 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.505.t
+	desc = agassiz.505.d
+	flavor = agassiz.505.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		var:dubois_geologist_var = {
+			set_variable = agassiz_attended_geologist_congress_var
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+
+	option = { 
+		name = agassiz.505.g #Geological Knowledge
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		default_option = yes
+	}
+
+	option = { 
+		name = agassiz.505.h #Oceanographic Knowledge
+		rapanui_add_x_oceanographic_understanding_effect = { AMOUNT = 5 }
+	}
+
+	option = { 
+		name = agassiz.505.i #Rare Minerals
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 3 }
+	}
+
+	option = { 
+		name = agassiz.505.j #New Talents
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+	}
+}
+
+#Agassiz 509: Congress - Decision for Host
+agassiz.509 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.t_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.t_tectonics
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.d_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.d_tectonics
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.f_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.f_tectonics
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = agassiz_congress_host_modifier
+			}
+			save_scope_as = agassiz_congress_host_country
+			var:dubois_geologist_var = {
+				save_scope_as = agassiz_alfred_wegener_scope
+			}
+		}
+		if = {
+			limit = {
+				global_var:agassiz_plate_tectonics_no > global_var:agassiz_plate_tectonics_yes
+			}
+			remove_global_variable = agassiz_plate_tectonics_yes
+		}
+		else_if = {
+			limit = {
+				global_var:agassiz_plate_tectonics_no = global_var:agassiz_plate_tectonics_yes
+			}
+			remove_global_variable = agassiz_plate_tectonics_yes #One of the rare cases in which status quo will lead to non-acceptance
+		}
+		else_if = {
+			limit = {
+				global_var:agassiz_plate_tectonics_no < global_var:agassiz_plate_tectonics_yes
+			}
+			remove_global_variable = agassiz_plate_tectonics_no
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = agassiz_plate_tectonics_no
+		}
+		name = agassiz.509.g #This will set us back years.
+		default_option = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = "5"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = agassiz_plate_tectonics_yes
+		}
+		name = agassiz.509.h #A breakthrough for geology!
+		dubois_large_add_technology = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	after = {
+		every_country = {
+			limit = {
+				NOT = { 
+					this = ROOT 
+				}
+				has_modifier = agassiz_congress_attend_modifier
+			}
+			trigger_event = {
+				id = agassiz.510
+				popup = yes
+			}
+		}
+	}
+}
+
+#Agassiz 510: Congress - Decision for Others
+agassiz.510 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.t_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.t_tectonics
+		}
+	}
+
+	desc = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.d_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.d_tectonics
+		}
+	}
+
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_no
+			}
+			desc = agassiz.509.f_fix
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = agassiz_plate_tectonics_yes
+			}
+			desc = agassiz.509.f_tectonics
+		}
+	}
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_tectonics.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		random_country = {
+			limit = {
+				has_modifier = agassiz_congress_host_modifier
+			}
+			save_scope_as = agassiz_congress_host_country
+			var:dubois_geologist_var = {
+				save_scope_as = agassiz_alfred_wegener_scope
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = agassiz_plate_tectonics_no
+		}
+		name = agassiz.509.g #This will set us back years.
+		remove_modifier = agassiz_congress_attend_modifier
+		default_option = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = "5"
+		}
+	}
+
+	option = {
+		trigger = {
+			has_global_variable = agassiz_plate_tectonics_yes
+		}
+		name = agassiz.509.h #A breakthrough for geology!
+		remove_modifier = agassiz_congress_attend_modifier
+		dubois_large_add_technology = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = "20"
+		}
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
+######VOLCANOLOGY######
+
+#Agassiz 601: Volcano Location
+agassiz.601 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.601.t
+	desc = agassiz.601.d
+	flavor = agassiz.601.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		random_state = {
+			limit = {
+				agassiz_state_has_unexplored_volcano = yes
+			}
+			save_scope_as = agassiz_volcano_1
+		}
+		random_state = {
+			limit = {
+				agassiz_state_has_unexplored_volcano = yes
+				NOT = {
+					this = scope:agassiz_volcano_1
+				}
+			}
+			save_scope_as = agassiz_volcano_2
+		}
+		random_state = {
+			limit = {
+				agassiz_state_has_unexplored_volcano = yes
+				NOR = {
+					this = scope:agassiz_volcano_1
+					this = scope:agassiz_volcano_2
+				}
+			}
+			save_scope_as = agassiz_volcano_3
+		}
+	}
+
+	option = {
+		name = agassiz.601.g #Volcano State 1
+		default_option = yes
+		trigger = {
+			exists = scope:agassiz_volcano_1
+		}
+		scope:agassiz_volcano_1 = {
+			set_variable = agassiz_targeted_volcano_var
+		}
+	}
+
+	option = {
+		name = agassiz.601.h #Volcano State 2
+		trigger = {
+			exists = scope:agassiz_volcano_2
+		}
+		scope:agassiz_volcano_2 = {
+			set_variable = agassiz_targeted_volcano_var
+		}
+	}
+
+	option = {
+		name = agassiz.601.i #Volcano State 3
+		trigger = {
+			exists = scope:agassiz_volcano_3
+		}
+		scope:agassiz_volcano_3 = {
+			set_variable = agassiz_targeted_volcano_var
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = agassiz.602
+			days = { 30 60 }
+		}
+	}
+}
+
+#Agassiz 602: Arrival in VOLCANO STATE
+agassiz.602 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.602.t
+	desc = agassiz.602.d
+	flavor = agassiz.602.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.602.g #It's not as dangerous as it sounds, is it?
+		default_option = yes
+		add_journal_entry = {
+			type = je_agassiz_volcano_expedition
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 603: Volcano Expedition Ends
+agassiz.603 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.603.t
+	desc = agassiz.603.d
+	flavor = agassiz.603.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.603.g #And all without third degree burns.
+		default_option = yes
+		dubois_medium_add_technology = yes
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+		geologist_experience_gain_effect = { AMOUNT = 30 }
+		var:dubois_geologist_var = {
+			set_variable = agassiz_geologist_explored_volcano_var
+		}
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_geologist_var = {
+						has_trait = agassiz_volcanologist
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = agassiz_volcanologist
+			}
+		}
+		scope:agassiz_volcano_state = {
+			activate_production_method = {
+				building_type = building_agassiz_volcano_observatory
+				production_method = pm_agassiz_advanced_volcanology
+			}
+		}
+	}
+
+	after = {
+		agassiz_remove_volcano_expedition_effect = yes
+	}
+}
+
+###Expedition Events###
+
+#Agassiz 611: Chemical Insights
+agassiz.611 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.611.t
+	desc = agassiz.611.d
+	flavor = agassiz.611.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		OR = {
+			has_journal_entry = je_mendelejew_element_theory
+			has_journal_entry = je_mendelejew_element_discovery
+			has_journal_entry = je_mendelejew_element_isolation
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.611.g #This might help CHEMIST
+		default_option = yes
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 6 }
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 612: Trapped
+agassiz.612 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.612.t
+	desc = agassiz.612.d
+	flavor = agassiz.612.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 6
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.612.g #Find another path
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.612.h #Try to cross it
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 613: A hardened Leader
+agassiz.613 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.613.t
+	desc = agassiz.613.d
+	flavor = agassiz.613.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 8
+		}
+		var:dubois_geologist_var = {
+			has_trait = agassiz_volcanologist
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.613.g #Dr. Geologist is a superb Vulcanologist.
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = 2
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 614: Toxic Gases
+agassiz.614 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.614.t
+	desc = agassiz.614.d
+	flavor = agassiz.614.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.614.g #We have to study these gases.
+		default_option = yes
+		mendelejew_small_add_technology = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.614.h #That's insane!
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -2
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 615: Volcanic ejecta
+agassiz.615 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.615.t
+	desc = agassiz.615.d
+	flavor = agassiz.615.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 9
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 2
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.615.g #Bad luck
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 616: Lava sample
+agassiz.616 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.616.t
+	desc = agassiz.616.d
+	flavor = agassiz.616.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.616.g #We are here for experiments like this.
+		default_option = yes
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = agassiz_volcanologist
+							}
+						}
+						add = 2
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = dubois_geologist_experienced
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = dubois_geologist_famous
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = brave
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = explorer
+							}
+						}
+						add = 1
+					}
+				}
+				trigger_event = { 
+					id = agassiz.617 #Success
+					days = 1
+					popup = yes
+				}
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								OR = {
+									has_trait = alcoholic
+									has_trait = opium_addiction
+									has_trait = cocaine_addiction
+									has_trait = senile
+								}
+							}
+						}
+						add = 1
+					}
+				}
+				trigger_event = { 
+					id = agassiz.618 #Fail
+					days = 1
+					popup = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.614.h #That's insane!
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 617: Lava sample - Success
+agassiz.617 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.617.t
+	desc = agassiz.617.d
+	flavor = agassiz.617.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.617.g #Fantastic!
+		default_option = yes
+		mendelejew_medium_add_technology = yes
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_geologist_var = {
+						has_trait = brave
+					}
+				}
+			}
+			var:dubois_geologist_var = {
+				add_trait = brave
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 618: Lava sample - Fail
+agassiz.618 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.618.t
+	desc = agassiz.618.d
+	flavor = agassiz.618.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.618.g #Catastrophic!
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 619: Crystalls
+agassiz.619 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.619.t
+	desc = agassiz.619.d
+	flavor = agassiz.619.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_4.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 10
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.619.g #One sample is enough.
+		default_option = yes
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+	}
+
+	option = {
+		name = agassiz.619.h #Take as many samples as you can!
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 5 }
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.619.i #A few stones are not worth a researcher's life.
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 620: River of Fire
+agassiz.620 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.620.t
+	desc = agassiz.620.d
+	flavor = agassiz.620.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_4.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.619.g #Dr. Geologist should study it.
+		default_option = yes
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = 1
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.619.h #This is far too dangerous!
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 621: Theories on Volcanism
+agassiz.621 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.621.t
+	desc = agassiz.621.d
+	flavor = agassiz.621.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_5.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 5
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.621.g #Dr. Geologist should take time to study the phenomenon thoroughly.
+		default_option = yes
+		dubois_medium_add_technology = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_3_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -3
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.621.h #Don't waste time!
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 622: Earthquake
+agassiz.622 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.622.t
+	desc = agassiz.622.d
+	flavor = agassiz.622.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_5.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 20
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 12
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.622.g #Was this whole expedition such a good idea...?
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 623: Minerals everywhere
+agassiz.623 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.623.t
+	desc = agassiz.623.d
+	flavor = agassiz.623.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.623.g #Minerals!
+		default_option = yes
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 10000 }
+		random_list = {
+			2 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_expedition_decrease_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_expedition_progress_bar
+							value = -1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.623.g #No.
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 624: Exotic Specimen
+agassiz.624 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.624.t
+	desc = agassiz.624.d
+	flavor = agassiz.624.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.624.g #Specimen!
+		default_option = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 5000 }
+		random_list = {
+			2 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_expedition_decrease_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_expedition_progress_bar
+							value = -1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.624.g #No.
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 625: Unknown Fossils
+agassiz.625 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.625.t
+	desc = agassiz.625.d
+	flavor = agassiz.625.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.625.g #Fossils!
+		default_option = yes
+		dubois_add_x_fossils_effect = { AMOUNT = 3 }
+		random_list = {
+			2 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_expedition_decrease_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_expedition_progress_bar
+							value = -1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.623.g #No.
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 626: Geomagnetic data
+agassiz.626 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.626.t
+	desc = agassiz.626.d
+	flavor = agassiz.626.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 24
+	}
+
+	trigger = {
+		any_scope_state = {
+			is_production_method_active = {
+				building_type = building_verrier_observatory
+				production_method = pm_gaudi_magnetic_observatory
+			}
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.626.g #Perfect.
+		default_option = yes
+		gaudi_add_x_magnetic_data = {
+			AMOUNT = 2
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 627: The Solar Element on Earth
+agassiz.627 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.627.t
+	desc = agassiz.627.d
+	flavor = agassiz.627.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		NOT = {
+			has_global_variable = agassiz_helium_disocvered_on_earth_global_var
+		}
+		mendelejew_element_x_is_discovered_trigger = { NUMBER = 2 }
+		var:dubois_geologist_var = {
+			has_trait = dubois_geologist_experienced
+		}
+	}
+
+	immediate = {
+		set_global_variable = agassiz_helium_disocvered_on_earth_global_var
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.627.g #This opens ... interesting possibilities.
+		default_option = yes
+		mendelejew_medium_add_technology = yes
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = 2
+				}
+			}
+		}
+		var:dubois_geologist_var = {
+			set_variable = agassiz_discovered_helium_on_earth_var
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 628: Team begs for a rest
+agassiz.628 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.628.t
+	desc = agassiz.628.d
+	flavor = agassiz.628.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 12
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.628.g #Give them as much rest as they need.
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_5_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -5
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.628.h #A short break, nothing more.
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -2
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.628.i #These useless assistants are supposed to work, not idle!
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_2_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 2
+				}
+			}
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 629: Inferno
+agassiz.629 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.629.t
+	desc = agassiz.629.d
+	flavor = agassiz.629.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_6.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_expedition_progress_bar)" >= 9
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.629.g #Exercise caution
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_3_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -3
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.629.h #Take the risk
+		default_option = yes
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_2_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 2
+						}
+					}
+				}
+			}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_3_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 3
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 630: Hell on Earth
+agassiz.630 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.630.t
+	desc = agassiz.630.d
+	flavor = agassiz.630.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_6.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		je:je_agassiz_volcano_expedition = {
+			"scripted_bar_progress(agassiz_volcano_danger_progress_bar)" >= 2
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		trigger = { has_technology_researched = camera }
+		name = agassiz.630.g #This is a fascinating spectacle and we should take photos of it!
+		default_option = yes
+		dubois_small_add_technology = yes
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_3_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -3
+				}
+			}
+		}
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.630.h #Frightening
+		random_list = {
+			1 = {}
+			1 = {
+				custom_tooltip = {
+					text = agassiz_volcano_danger_increase_1_tt
+					je:je_agassiz_volcano_expedition = {
+						add_progress = { 
+							name = agassiz_volcano_danger_progress_bar
+							value = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.630.i #Withdraw!
+		custom_tooltip = {
+			text = agassiz_volcano_expedition_decrease_3_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_expedition_progress_bar
+					value = -3
+				}
+			}
+		}
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 631: Quite active Volcano
+agassiz.631 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.631.t
+	desc = agassiz.631.d
+	flavor = agassiz.631.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_6.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 24
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.631.g #More knowledge!
+		default_option = yes
+		dubois_small_add_technology = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.631.h #More experience!
+		geologist_experience_gain_effect = { AMOUNT = 15 }
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.631.i #More minerals!
+		agassiz_add_x_generic_minerals_effect = { AMOUNT = 100000 }
+		custom_tooltip = {
+			text = agassiz_volcano_danger_increase_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = 1
+				}
+			}
+		}
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 632: Newspaper Report
+agassiz.632 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.632.t
+	desc = agassiz.632.d
+	flavor = agassiz.632.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 24
+	}
+
+	trigger = {
+		random_scope_state = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_manzoni_publishing_industry
+					level >= 5
+				}
+			}
+			save_scope_as = manzoni_publisher_state
+		}
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.632.g #This will inspire a new generation of scientists.
+		default_option = yes
+		dubois_add_x_academy_progress = { AMOUNT = 15 }
+	}
+	
+	after = {
+	}
+}
+
+#Agassiz 633: A safe resting place
+agassiz.633 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.633.t
+	desc = agassiz.633.d
+	flavor = agassiz.633.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	cooldown = {
+		months = 24
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		agassiz_set_volcano_state_effect = yes
+	}
+
+	option = {
+		name = agassiz.633.g #Cool.
+		default_option = yes
+		custom_tooltip = {
+			text = agassiz_volcano_danger_decrease_1_tt
+			je:je_agassiz_volcano_expedition = {
+				add_progress = { 
+					name = agassiz_volcano_danger_progress_bar
+					value = -1
+				}
+			}
+		}
+	}
+	
+	after = {
+	}
+}
