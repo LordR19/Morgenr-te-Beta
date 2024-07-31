@@ -18,7 +18,7 @@ mr_geologist_ranking_sgui = {
 
 ####################################################################################################################
 
-#MR_GEOLOGIST_geological_research_BUTTON
+#MR_GEOLOGIST_GEOLOGICAL_Research_BUTTON
 mr_geologist_geological_research_button = {
 	scope = country
 	is_valid = {
@@ -96,6 +96,43 @@ mr_geologist_geological_research_button = {
 			}
 			add = 100
 		}
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_GEOLOGIST_VOLCANO_EXPEDITION_BUTTON
+mr_geologist_volcano_expedition_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_GEOLOGIST_ACTIVE_TRIGGER_TT
+			dubois_has_active_geologist = yes
+		}
+		custom_tooltip = {
+			text = MR_GEOLOGIST_HAS_UNEXPLORED_VOLCANO_WITH_OBSERVATORY_TRIGGER_TT
+			any_scope_state = {
+				agassiz_state_has_unexplored_volcano = yes
+			}
+		}
+	}
+	effect = {
+		trigger_event = {
+			id = agassiz.601
+			popup = yes
+		}
+		if = {
+			limit = {
+				has_variable = dubois_geologist_var
+			}
+			var:dubois_geologist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
 	}
 	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
