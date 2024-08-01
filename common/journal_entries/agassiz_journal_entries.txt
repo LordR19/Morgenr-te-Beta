@@ -1568,3 +1568,55 @@ je_agassiz_volcano_expedition_ai = {
 
 	weight = 25
 }
+
+######################################################################################
+
+#Journey to the Center of the Earth
+je_agassiz_journey_coe = {
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	group = je_group_agassiz_geology
+
+	complete = {
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+			is_busy = no
+		}
+		has_interest_marker_in_region = region_north_sea_coast
+		has_technology_researched = dynamite
+		has_technology_researched = agassiz_seismology_tech
+		NOT = {
+			has_modifier = agassiz_journey_coe_preparation_modifier
+		}
+	}
+
+	on_complete = {
+		trigger_event = { 
+			id = agassiz.911
+			days = 7
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_agassiz_journey_coe_fail
+			NOT = {
+				var:dubois_geologist_var ?= {
+					has_variable = agassiz_journey_coe_var
+				}
+			}
+		}
+    }
+	
+	on_fail = {
+		trigger_event = { 
+			id = agassiz.903
+			popup = yes 
+		}
+	}
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
