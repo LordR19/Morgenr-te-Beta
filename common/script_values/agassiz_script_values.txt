@@ -322,3 +322,103 @@ agassiz_country_age_of_earth_calculation_value = {
 agassiz_improvement_progress_cost = {
 	value = 24
 }
+
+
+############################################################################
+
+#This value determines the rating of a geologist
+agassiz_geologist_character_rating_value = {
+	### Experience: 1 point per 50 Experience ###
+	value = var:dubois_geologist_experience
+	divide = 50
+	### Positive Traits ###
+	#Experience Trait
+	if = {
+		limit = {
+			has_trait = dubois_geologist_famous
+		}
+		add = 3
+	}
+	else_if = {
+		limit = {
+			has_trait = dubois_geologist_experienced
+		}
+		add = 2
+	}
+	else = {
+		add = 1
+	}
+	#General
+	if = {
+		limit = {
+			has_trait = agassiz_mineralogist
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = agassiz_geophysicist
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = agassiz_prospector
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = agassiz_oceanographer
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = agassiz_volcanologist
+		}
+		add = 2
+	}
+	### Negative Traits ###
+	if = {
+		limit = {
+			OR = {
+				has_trait = alcoholic
+				has_trait = opium_addiction
+				has_trait = cocaine_addiction
+				has_trait = psychological_affliction
+				has_trait = reckless
+				has_trait = wrathful
+				has_trait = arrogant
+			}
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = senile
+		}
+		subtract = 5
+	}
+	### Age Factor, the older the worse for the ranking ###
+	if = {
+		limit = { age > 30 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 40 }
+		subtract = 2
+	}
+	if = {
+		limit = { age > 50 }
+		subtract = 3
+	}
+	if = {
+		limit = { age > 60 }
+		subtract = 4
+	}
+	if = {
+		limit = { age > 70 }
+		subtract = 5
+	}
+}
