@@ -212,7 +212,7 @@ namespace = lepsius
 
 #Lepsius 471: Karnak (Upper Egypt) / Memphis (Lower Egypt) / Uruk (Babylonia) / Niniveh (Assyria) / Tiryns (Argolis) / Phaistos (Crete) / Chichen Itza (Yucatan) / Ollantaytambo (Peru)
 #Lepsius 472: A Lost World? (Yucatán, may lead to the LOST WORLD)
-#Lepsius 473: The Diary of Prof. Lidenbrock (Argolis), may lead to CENTER OF THE EARTH
+#Lepsius 473: REMOVED
 #Lepsius 474: The mysterious Quipu (Peru), may lead to the QUEST FOR THE MASCAPAICHA
 
 #Lepsius 481: Saqqara (Lower Egypt)
@@ -10551,90 +10551,7 @@ lepsius.472 = {
 	}
 }
 
-#Lepsius 473: The Diary of Prof. Lidenbrock (Argolis)
-
-lepsius.473 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-    placement = scope:lepsius_arrival_state
-
-    title = lepsius.473.t
-		
-    desc = lepsius.473.d
-
-	flavor = lepsius.473.f
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:lepsius_archaeological_expedition_leader
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_archaeology.dds"
-
-	trigger = {
-		OR = {
-			has_modifier = lepsius_argolis_expedition_modifier
-			has_modifier = lepsius_argolis_excavation_modifier
-		}
-		NOT = {
-			has_variable = lepsius_found_lidenbrock_diary_var #only once in a game
-		}
-		scope:lepsius_archaeological_expedition_leader = {
-			has_modifier = lepsius_museum_lead_scientist_modifier
-		}
-		game_date >= 1864.11.25 #Journey to the Center of the Earth published
-		is_player = yes
-	}
-
-	immediate = {
-		lepsius_archaeological_expedition_location = yes
-		set_archaeological_expedition_leader_effect = yes
-	}
-	option = { #A discovery that will benefit everyone.
-		name = lepsius.473.g
-		lepsius_large_add_technology = yes
-	}
-	option = { #The leader should keep and study it.
-		name = lepsius.473.h
-		trigger = {
-			NOT = {
-				has_game_rule = lepsius_only_historical_rule
-			}
-		}
-		default_option = yes
-		custom_tooltip = lepsius.473.tt
-		scope:lepsius_archaeological_expedition_leader = {
-			add_modifier = {
-				name = lepsius_lidenbrock_diary_modifier
-			}
-			set_variable = lepsius_journey_coe_var
-		}
-		hidden_effect = {
-			trigger_event = {
-				id = lepsius.591
-				days = { 250 350 }
-				popup = yes
-			}
-		}
-	}
-	after = {
-		hidden_effect = {
-			lepsius_archaeological_expedition_progress = yes
-			set_variable = lepsius_found_lidenbrock_diary_var #only once in a game
-		}
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			has_variable = lepsius_mysterious_guide_var
-			factor = 5
-		}
-	}
-}
+#Lepsius 473: Removed
 
 #Lepsius 474: The mysterious Quipu (Peru)
 
