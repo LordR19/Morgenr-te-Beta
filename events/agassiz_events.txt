@@ -4041,6 +4041,981 @@ agassiz.633 = {
 
 ####################################################################################################################
 
+######ERUPTIONS&EARTHQUAKES######
+
+#Agassiz 701: Volcano Eruption Trigger
+agassiz.701 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	cooldown = {
+		years = 25 #No Eruption for 25 years
+	}
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_has_volcano = yes
+		}
+	}
+
+	immediate = {
+		random_list = {
+			150 = {}
+			40 = {
+				trigger_event = {
+					id = agassiz.713 #Normal Eruption
+					days = { 100 600 }
+				}
+			}
+			20 = {
+				trigger_event = {
+					id = agassiz.712 #Small Eruption
+					days = { 100 600 }
+				}
+			}
+			25 = {
+				trigger_event = {
+					id = agassiz.714 #Big Eruption
+					days = { 100 600 }
+				}
+			}
+			15 = {
+				trigger_event = {
+					id = agassiz.711 #Volcano Spectacle
+					days = { 100 600 }
+				}
+			}
+		}
+	}
+}
+
+#Agassiz 711: Volcano Spectacle
+agassiz.711 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.711.t
+	desc = agassiz.711.d
+	flavor = agassiz.711.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_vesuvius.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_has_volcano = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				agassiz_state_has_volcano = yes
+			}
+			save_scope_as = agassiz_volcano_state
+		}
+	}
+
+	option = {
+		name = agassiz.711.g #Wonderful!
+		default_option = yes
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+					}
+				}
+			}
+			dubois_small_add_technology = yes
+		}
+		if = {
+			limit = {
+				has_variable = dubois_geologist_var
+			}
+			geologist_experience_gain_effect = { AMOUNT = 10 }
+			dubois_add_x_academy_progress = { AMOUNT = 10 }
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 712: Volcano Euroption - Small
+agassiz.712 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.712.t
+	desc = agassiz.712.d
+	flavor = {
+		desc = agassiz.712.f
+		triggered_desc = {
+			trigger = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			desc = agassiz.712.f_basic
+		}
+		triggered_desc = {
+			trigger = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			desc = agassiz.712.f_advanced
+		}
+	}
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_3.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_has_volcano = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				agassiz_state_has_volcano = yes
+			}
+			save_scope_as = agassiz_volcano_state
+		}
+	}
+
+	option = {
+		name = agassiz.712.g #Just a bit of Lava
+		trigger = {
+			NOR = {
+				has_variable = dubois_geologist_var
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+					}
+				}
+			}
+		}
+		scope:agassiz_volcano_state.state_region = {
+			add_devastation = 15
+		}
+		scope:agassiz_volcano_state = {
+			add_modifier = {
+				name = agassiz_small_volcano_eruption_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.712.h #Any news from the Observatory?
+		trigger = {
+			scope:agassiz_volcano_state = {
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+				}
+			}
+		}
+		dubois_small_add_technology = yes
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					has_variable = agassiz_targeted_volcano_var
+				}
+				has_journal_entry = je_agassiz_volcano_expedition
+			}
+			custom_tooltip = {
+				text = agassiz_volcano_danger_increase_2_tt
+				je:je_agassiz_volcano_expedition = {
+					add_progress = { 
+						name = agassiz_volcano_danger_progress_bar
+						value = 2
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 5
+			}
+		}
+		else_if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 10
+			}
+		}
+		else = {
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 15
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_small_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.712.i #This might be interesting for Dr. Geologist and his students
+		default_option = yes
+		trigger = {
+			has_variable = dubois_geologist_var
+		}
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					has_variable = agassiz_targeted_volcano_var
+				}
+				has_journal_entry = je_agassiz_volcano_expedition
+			}
+			custom_tooltip = {
+				text = agassiz_volcano_danger_increase_1_tt
+				je:je_agassiz_volcano_expedition = {
+					add_progress = { 
+						name = agassiz_volcano_danger_progress_bar
+						value = 1
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 5
+			}
+		}
+		else_if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 10
+			}
+		}
+		else = {
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 15
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_small_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 713: Volcano Euroption - Medium
+agassiz.713 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.713.t
+	desc = agassiz.713.d
+	flavor = {
+		desc = agassiz.713.f
+		triggered_desc = {
+			trigger = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			desc = agassiz.712.f_basic
+		}
+		triggered_desc = {
+			trigger = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			desc = agassiz.712.f_advanced
+		}
+	}
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_6.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_has_volcano = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				agassiz_state_has_volcano = yes
+			}
+			save_scope_as = agassiz_volcano_state
+		}
+	}
+
+	option = {
+		name = agassiz.713.g #A tragedy!
+		trigger = {
+			NOR = {
+				has_variable = dubois_geologist_var
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+					}
+				}
+			}
+		}
+		scope:agassiz_volcano_state.state_region = {
+			add_devastation = 30
+		}
+		scope:agassiz_volcano_state = {
+			add_modifier = {
+				name = agassiz_medium_volcano_eruption_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.712.h #Any news from the Observatory?
+		trigger = {
+			scope:agassiz_volcano_state = {
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+				}
+			}
+		}
+		dubois_small_add_technology = yes
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					has_variable = agassiz_targeted_volcano_var
+				}
+				has_journal_entry = je_agassiz_volcano_expedition
+			}
+			custom_tooltip = {
+				text = agassiz_volcano_danger_increase_2_tt
+				je:je_agassiz_volcano_expedition = {
+					add_progress = { 
+						name = agassiz_volcano_danger_progress_bar
+						value = 2
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 20
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_small_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 25
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_small_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else = {
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 30
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_medium_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.712.i #This might be interesting for Dr. Geologist and his students
+		default_option = yes
+		trigger = {
+			has_variable = dubois_geologist_var
+		}
+		geologist_experience_gain_effect = { AMOUNT = 15 }
+		dubois_add_x_academy_progress = { AMOUNT = 15 }
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					has_variable = agassiz_targeted_volcano_var
+				}
+				has_journal_entry = je_agassiz_volcano_expedition
+			}
+			custom_tooltip = {
+				text = agassiz_volcano_danger_increase_2_tt
+				je:je_agassiz_volcano_expedition = {
+					add_progress = { 
+						name = agassiz_volcano_danger_progress_bar
+						value = 2
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 20
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_small_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 25
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_small_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else = {
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 30
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_medium_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.713.j #Concentrate on helping the local populace
+		default_option = yes
+		add_modifier = {
+			name = modifier_volcano_relief
+			multiplier = money_amount_multiplier_small
+			months = short_modifier_time
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					has_variable = agassiz_targeted_volcano_var
+				}
+				has_journal_entry = je_agassiz_volcano_expedition
+			}
+			custom_tooltip = {
+				text = agassiz_volcano_danger_increase_2_tt
+				je:je_agassiz_volcano_expedition = {
+					add_progress = { 
+						name = agassiz_volcano_danger_progress_bar
+						value = 2
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 20
+			}
+		}
+		else_if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 25
+			}
+		}
+		else = {
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 30
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 714: Volcano Euroption - Big
+agassiz.714 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.714.t
+	desc = agassiz.714.d
+	flavor = {
+		desc = agassiz.714.f
+		triggered_desc = {
+			trigger = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			desc = agassiz.712.f_basic
+		}
+		triggered_desc = {
+			trigger = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			desc = agassiz.712.f_advanced
+		}
+	}
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_mega_eruption.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_has_volcano = yes
+		}
+		NOT = {
+			has_variable = mega_eruption
+		}
+		NOT = {
+			global_var:number_of_mega_eruptions > 5
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				agassiz_state_has_volcano = yes
+			}
+			save_scope_as = agassiz_volcano_state
+		}
+		set_variable = {
+			name = mega_eruption
+			value = yes
+		}
+		if = {
+			limit = { exists = var:number_of_mega_eruptions }
+			change_global_variable = {
+				name = number_of_mega_eruptions
+				add = 1
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = number_of_mega_eruptions
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.714.g #A tragedy!
+		trigger = {
+			NOR = {
+				has_variable = dubois_geologist_var
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+					}
+				}
+			}
+		}
+		scope:agassiz_volcano_state.state_region = {
+			add_devastation = 50
+		}
+		scope:agassiz_volcano_state = {
+			add_modifier = {
+				name = agassiz_big_volcano_eruption_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.712.h #Any news from the Observatory?
+		trigger = {
+			scope:agassiz_volcano_state = {
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+				}
+			}
+		}
+		dubois_medium_add_technology = yes
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					has_variable = agassiz_targeted_volcano_var
+				}
+				has_journal_entry = je_agassiz_volcano_expedition
+			}
+			custom_tooltip = {
+				text = agassiz_volcano_danger_increase_3_tt
+				je:je_agassiz_volcano_expedition = {
+					add_progress = { 
+						name = agassiz_volcano_danger_progress_bar
+						value = 3
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 30
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_medium_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 40
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_medium_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else = {
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 50
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_big_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.712.i #This might be interesting for Dr. Geologist and his students
+		default_option = yes
+		trigger = {
+			has_variable = dubois_geologist_var
+		}
+		geologist_experience_gain_effect = { AMOUNT = 20 }
+		dubois_add_x_academy_progress = { AMOUNT = 20 }
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					has_variable = agassiz_targeted_volcano_var
+				}
+				has_journal_entry = je_agassiz_volcano_expedition
+			}
+			custom_tooltip = {
+				text = agassiz_volcano_danger_increase_3_tt
+				je:je_agassiz_volcano_expedition = {
+					add_progress = { 
+						name = agassiz_volcano_danger_progress_bar
+						value = 3
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 30
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_medium_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 40
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_medium_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else = {
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 50
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_big_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.713.j #Concentrate on helping the local populace
+		default_option = yes
+		add_modifier = {
+			name = modifier_mega_volcanic_relief
+			multiplier = money_amount_multiplier_large
+			months = normal_modifier_time
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					has_variable = agassiz_targeted_volcano_var
+				}
+				has_journal_entry = je_agassiz_volcano_expedition
+			}
+			custom_tooltip = {
+				text = agassiz_volcano_danger_increase_3_tt
+				je:je_agassiz_volcano_expedition = {
+					add_progress = { 
+						name = agassiz_volcano_danger_progress_bar
+						value = 3
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_advanced_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 30
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_medium_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:agassiz_volcano_state = {
+					any_scope_building = {
+						is_building_type = building_agassiz_volcano_observatory
+						has_active_production_method = pm_agassiz_basic_volcanology
+					}
+				}
+			}
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 40
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_medium_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+		else = {
+			scope:agassiz_volcano_state.state_region = {
+				add_devastation = 50
+			}
+			scope:agassiz_volcano_state = {
+				add_modifier = {
+					name = agassiz_big_volcano_eruption_modifier
+					years = 5
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+####################################################################################################################
+
 ######CENTER OF THE EARTH######
 
 #Agassiz 901: The Diary of Prof. Lidenbrock
