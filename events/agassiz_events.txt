@@ -10,6 +10,22 @@ namespace = agassiz
 
 ###################
 
+###JOURNEY TO THE CENTER OF THE EARTH###
+
+#Agassiz 901: The Diary of Prof. Lidenbrock
+#Agassiz 902: The Secrets of Lidenbrock's Diary
+#Agassiz 903: The Journey to the Center of the Earth
+#Agassiz 909: Leader dies before being able to make the Journey
+
+#Agassiz 911: Iceland
+#Agassiz 912: Snaefells Jökull
+#Agassiz 913: Search for water
+#Agassiz 914: Mare Internum
+#Agassiz 915: The Giant
+#Agassiz 916: Arne Saknussemm's Manuscript
+#Agassiz 917: Journey to the Center of the Earth vanishes
+#Agassiz 918: Stromboli
+
 #################################################################################
 
 ######GENERAL######
@@ -4009,5 +4025,859 @@ agassiz.633 = {
 	}
 	
 	after = {
+	}
+}
+
+####################################################################################################################
+
+######CENTER OF THE EARTH######
+
+#Agassiz 901: The Diary of Prof. Lidenbrock
+agassiz.901 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+    placement = scope:lepsius_arrival_state
+
+    title = agassiz.901.t
+		
+    desc = agassiz.901.d
+
+	flavor = agassiz.901.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_game_rule = lepsius_historical_and_fictional_rule
+		NOT = {
+			has_variable = agassiz_found_lidenbrock_diary_var #only once in a game
+		}
+		game_date >= 1864.11.25 #Journey to the Center of the Earth published
+		is_player = yes
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = agassiz_geologist_scope
+		}
+	}
+	option = { #A discovery that will benefit everyone.
+		name = agassiz.901.g
+		dubois_medium_add_technology = yes
+	}
+	option = { #The leader should keep and study it.
+		name = agassiz.901.h
+		default_option = yes
+		custom_tooltip = agassiz.901.tt
+		scope:agassiz_geologist_scope = {
+			add_modifier = {
+				name = agassiz_lidenbrock_diary_modifier
+			}
+			set_variable = agassiz_journey_coe_var
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.902
+				days = { 60 90 }
+				popup = yes
+			}
+		}
+	}
+	after = {
+		set_variable = agassiz_found_lidenbrock_diary_var #only once in a game
+	}
+}
+
+#Lepsius 902: The Secret of Prof. Otto Lidenbrock
+agassiz.902 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = agassiz.902.t
+		
+    desc = agassiz.902.d
+
+	flavor = agassiz.902.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:agassiz_journey_coe_leader
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+	}
+
+	option = { #Disturbing.
+		name = agassiz.902.g
+		default_option = yes
+		scope:agassiz_journey_coe_leader = {
+			add_trait = psychological_affliction
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.903
+				days = { 60 90 }
+			}
+		}
+	}
+}
+
+#Agassiz 903: The Journey to the Center of the Earth
+agassiz.903 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = agassiz.903.t
+		
+    desc = agassiz.903.d
+
+	flavor = agassiz.903.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+	}
+
+	option = { #The man knows what he's doing. Support him!
+		name = agassiz.903.h
+		default_option = yes
+		scope:agassiz_journey_coe_leader = {
+			remove_modifier = agassiz_lidenbrock_diary_modifier
+		}
+		add_modifier = {
+			name = lepsius_support_for_suicide_mission_modifier
+		}
+		add_modifier = {
+			name = agassiz_journey_coe_preparation_modifier
+			days = 90
+		}
+		add_journal_entry = {
+			type = je_agassiz_journey_coe
+		}
+	}
+	option = { #He's gone completely insane!
+		name = agassiz.903.g
+		scope:agassiz_journey_coe_leader = {
+			remove_modifier = agassiz_lidenbrock_diary_modifier
+			add_modifier = {
+				name = lepsius_lost_honor_modifier
+			}
+		}
+	}
+}
+
+#Agassiz 909: Leader dies before being able to make the Journey
+agassiz.909 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = agassiz.909.t
+		
+    desc = agassiz.917.d
+
+	flavor = agassiz.909.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+	}
+
+	option = { #What a bad luck.
+		name = agassiz.909.g
+		custom_tooltip = agassiz.909.tt
+		remove_modifier = lepsius_support_for_suicide_mission_modifier
+	}
+}
+
+#Agassiz 911: Iceland
+agassiz.911 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:agassiz_coe_state
+
+    title = agassiz.911.t
+		
+    desc = agassiz.911.d
+
+	flavor = agassiz.911.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe_iceland.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_ICELAND
+			}
+			save_scope_as = agassiz_coe_state
+		}
+	}
+
+	option = { #So it begins
+		name = agassiz.911.g
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.912
+				days = { 3 7 }
+			}
+		}
+	}
+}
+
+#Agassiz 912: Snaefells Jökull
+agassiz.912 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:agassiz_coe_state
+
+    title = agassiz.912.t
+		
+    desc = agassiz.912.d
+
+	flavor = agassiz.912.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe_iceland.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_ICELAND
+			}
+			save_scope_as = agassiz_coe_state
+		}
+	}
+
+	option = { #So it begins
+		name = agassiz.912.g
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.913
+				days = { 3 7 }
+			}
+		}
+	}
+}
+
+#Agassiz 913: Search for water
+agassiz.913 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:agassiz_coe_state
+
+    title = agassiz.913.t
+		
+    desc = agassiz.913.d
+
+	flavor = agassiz.913.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe_iceland.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_ICELAND
+			}
+			save_scope_as = agassiz_coe_state
+		}
+	}
+
+	option = { #We have to go deeper!
+		name = agassiz.913.g
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.914 
+				days = { 3 10 }
+			}
+		}
+	}
+
+	option = { #Return to the surface!
+		name = agassiz.913.h
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.917 
+				days = { 3 10 }
+			}
+		}
+	}
+}
+
+#Agassiz 914: Mare internum
+agassiz.914 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:agassiz_coe_state
+
+    title = agassiz.914.t
+		
+    desc = agassiz.914.d
+
+	flavor = agassiz.914.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe_mare.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_ICELAND
+			}
+			save_scope_as = agassiz_coe_state
+		}
+	}
+
+	option = { #Incredible
+		name = agassiz.911.g
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.915 
+				days = { 7 14 }
+			}
+		}
+	}
+}
+
+#Agassiz 915: The Giant
+agassiz.915 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:agassiz_coe_state
+
+    title = agassiz.915.t
+		
+    desc = agassiz.915.d
+
+	flavor = agassiz.915.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe_fungi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_ICELAND
+			}
+			save_scope_as = agassiz_coe_state
+		}
+	}
+
+	option = { #A unique opportunity!
+		name = agassiz.915.g
+		random_list = {
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = agassiz_volcanologist
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = dubois_geologist_experienced
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = dubois_geologist_famous
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = brave
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = explorer
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = persistent
+							}
+						}
+						add = 1
+					}
+				}
+				trigger_event = { 
+					id = agassiz.916 #Success
+					days = 1
+					popup = yes
+				}
+			}
+			1 = {
+				modifier = {
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = alcoholic
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = opium_addiction
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = cocaine_addiction
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = senile
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = recktless
+							}
+						}
+						add = 1
+					}
+					if = {
+						limit = {
+							var:dubois_geologist_var = {
+								has_trait = arrogant
+							}
+						}
+						add = 1
+					}
+				}
+				trigger_event = { 
+					id = agassiz.919 #Fail
+					days = 1
+					popup = yes
+				}
+			}
+		}
+	}
+
+	option = { #This is too dangerous - return to the surface, now!
+		name = agassiz.915.h
+		default_option = yes
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.918
+				days = { 7 14 }
+			}
+		}
+	}
+}
+
+#Agassiz 916: Arne Saknussemm's Manuscript
+agassiz.916 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:agassiz_coe_state
+
+    title = agassiz.916.t
+		
+    desc = agassiz.916.d
+
+	flavor = agassiz.916.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe_fungi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_ICELAND
+			}
+			save_scope_as = agassiz_coe_state
+		}
+		#This is used to keep track of the country and year of the discovery of the Artifact
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = lepsius_arne_discoverer_global_var
+				}
+			}
+			set_global_variable = {
+				name = lepsius_arne_discoverer_global_var
+				value = root.country_definition
+			}
+			set_global_variable = {
+				name = lepsius_arne_year_global_var
+				value = year
+			}
+		}
+	}
+
+	option = { #It's ours!
+		name = agassiz.916.g
+		lepsius_add_1_major_local_artifact = yes
+		set_variable = lepsius_major_artifact_arne_found_var
+		add_modifier = {
+			name = lepsius_arne_saknussemm_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = agassiz.918
+				days = { 7 14 }
+			}
+		}
+	}
+}
+
+#Agassiz 917: Journey to the Center of Earth vanishes (fail)
+agassiz.917 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:agassiz_coe_state
+
+    title = agassiz.917.t
+		
+    desc = agassiz.917.d
+
+	flavor = agassiz.917.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_ICELAND
+			}
+			save_scope_as = agassiz_coe_state
+		}
+	}
+
+	option = { #He really wasn't a bad guy. A bad explorer yes, but not a bad guy.
+		name = agassiz.917.g
+		custom_tooltip = agassiz.917.tt
+		remove_modifier = lepsius_support_for_suicide_mission_modifier
+		add_modifier = {
+			name = agassiz_tragic_subterranean_accident_modifier
+			years = 5
+		}
+		kill_geologist_effect = yes
+	}
+}
+
+#Agassiz 918: Stromboli (success)
+agassiz.918 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:agassiz_coe_state
+
+    title = agassiz.918.t
+		
+    desc = agassiz.918.d
+
+	flavor = agassiz.918.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe_stromboli.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_SICILY
+			}
+			save_scope_as = agassiz_coe_state
+		}
+		if = {
+			limit = {
+				has_variable = dubois_geologist_var
+			}
+			var:dubois_geologist_var ?= {
+				set_variable = lepsius_returned_from_center_of_earth_var
+			}
+		}
+	}
+
+	option = { #What an adventure!
+		name = agassiz.918.g
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 3 }
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 5 }
+		dubois_large_add_technology = yes
+		geologist_experience_gain_effect = {
+			AMOUNT = 50
+		}
+		remove_modifier = agassiz_support_for_suicide_mission_modifier
+		add_modifier = {
+			name = lepsius_supported_a_hero_modifier
+			years = 5
+		}
+	}
+}
+
+#Agassiz 919: Fight with the Giant (fail)
+agassiz.919 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = scope:agassiz_coe_state
+
+    title = agassiz.919.t
+		
+    desc = agassiz.919.d
+
+	flavor = agassiz.919.f
+		
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/coe/agassiz_coe_fungi.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			has_variable = agassiz_journey_coe_var
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var ?= {
+			save_scope_as = agassiz_journey_coe_leader
+		}
+		random_state = {
+			limit = {
+				state_region = s:STATE_ICELAND
+			}
+			save_scope_as = agassiz_coe_state
+		}
+	}
+
+	option = { #He really wasn't a bad guy. A bad explorer yes, but not a bad guy.
+		name = agassiz.917.g
+		custom_tooltip = agassiz.917.tt
+		remove_modifier = lepsius_support_for_suicide_mission_modifier
+		add_modifier = {
+			name = agassiz_tragic_subterranean_accident_modifier
+			years = 5
+		}
+		kill_geologist_effect = yes
 	}
 }
