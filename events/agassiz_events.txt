@@ -4099,6 +4099,51 @@ agassiz.701 = {
 	}
 }
 
+#Agassiz 702: Earthquake Trigger
+agassiz.702 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	cooldown = {
+		years = 35 #No Earthquake for 35 years
+	}
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_in_earthquake_zone = yes
+		}
+	}
+
+	immediate = {
+		random_list = {
+			50 = {}
+			25 = {
+				trigger_event = {
+					id = agassiz.721 #Small Earthquake (only with observatory)
+					days = { 50 300 }
+				}
+			}
+			15 = {
+				trigger_event = {
+					id = agassiz.722 #Normal Eartquake
+					days = { 50 300 }
+				}
+			}
+			10 = {
+				trigger_event = {
+					id = agassiz.723 #Big Earthquake
+					days = { 50 300 }
+				}
+			}
+		}
+	}
+}
+
+###Volcano Eruptions###
+
 #Agassiz 711: Volcano Spectacle
 agassiz.711 = {
 	dlc = dlc_morgenrote
@@ -4801,7 +4846,7 @@ agassiz.714 = {
 			}
 		}
 		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
-		mendelejew_medium_add_technology = yes
+		mendelejew_large_add_technology = yes
 		if = {
 			limit = {
 				scope:agassiz_volcano_state = {
@@ -4984,12 +5029,6 @@ agassiz.714 = {
 			scope:agassiz_volcano_state.state_region = {
 				add_devastation = 30
 			}
-			scope:agassiz_volcano_state = {
-				add_modifier = {
-					name = agassiz_medium_volcano_eruption_modifier
-					years = 5
-				}
-			}
 		}
 		else_if = {
 			limit = {
@@ -5003,22 +5042,10 @@ agassiz.714 = {
 			scope:agassiz_volcano_state.state_region = {
 				add_devastation = 40
 			}
-			scope:agassiz_volcano_state = {
-				add_modifier = {
-					name = agassiz_medium_volcano_eruption_modifier
-					years = 5
-				}
-			}
 		}
 		else = {
 			scope:agassiz_volcano_state.state_region = {
 				add_devastation = 50
-			}
-			scope:agassiz_volcano_state = {
-				add_modifier = {
-					name = agassiz_big_volcano_eruption_modifier
-					years = 5
-				}
 			}
 		}
 	}
@@ -5073,6 +5100,435 @@ agassiz.715 = {
 				has_variable = dubois_geologist_var
 			}
 			geologist_experience_gain_effect = { AMOUNT = 5 }
+		}
+	}
+
+	after = {
+	}
+}
+
+###Earthquakes###
+
+#Agassiz 721: Earthquake - Small
+agassiz.721 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.721.t
+	desc = agassiz.721.d
+	flavor = agassiz.721.d
+
+	duration = 3
+
+	placement = scope:agassiz_earthquake_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_in_earthquake_zone = yes
+		}
+		has_variable = dubois_geologist_scope
+		OR = {
+			has_variable = agassiz_seismoscope_var
+			has_variable = agassiz_seismometer_var
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				agassiz_state_in_earthquake_zone = yes
+			}
+			save_scope_as = agassiz_earthquake_state
+		}
+		var:dubois_geologist_var = {
+			save_scope_as = dubois_geologist_scope
+		}
+	}
+
+	option = {
+		name = agassiz.721.g #Interesting
+		dubois_small_add_technology = yes
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+		scope:agassiz_earthquake_state.state_region = {
+			add_devastation = 5
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 722: Earthquake - Medium
+agassiz.722 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.722.t
+	desc = agassiz.722.d
+	flavor = {
+		desc = agassiz.722.f
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_seismometer_var
+			}
+			desc = agassiz.722.f_basic
+		}
+	}
+
+	duration = 3
+
+	placement = scope:agassiz_earthquake_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_earthquake.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_in_earthquake_zone = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				agassiz_state_in_earthquake_zone = yes
+			}
+			save_scope_as = agassiz_earthquake_state
+		}
+	}
+
+	option = {
+		name = agassiz.722.g #A tragedy!
+		trigger = {
+			NOR = {
+				has_variable = dubois_geologist_var
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+					has_active_production_method = pm_agassiz_basic_seismology
+				}
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+					has_active_production_method = pm_agassiz_advanced_seismology
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_variable = agassiz_seismometer_var
+			}
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 25
+			}
+		}
+		else = {
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 30
+			}
+		}
+		scope:agassiz_earthquake_state = {
+			add_modifier = {
+				name = agassiz_medium_earthquake_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.722.h #Any news from the Observatory?
+		trigger = {
+			OR = {
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+					has_active_production_method = pm_agassiz_basic_seismology
+				}
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+					has_active_production_method = pm_agassiz_advanced_seismology
+				}
+			}
+		}
+		dubois_small_add_technology = yes
+		if = {
+			limit = {
+				has_variable = agassiz_seismometer_var
+			}
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 25
+			}
+		}
+		else = {
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 30
+			}
+		}
+		scope:agassiz_earthquake_state = {
+			add_modifier = {
+				name = agassiz_medium_earthquake_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.722.i #This might be interesting for Dr. Geologist and his students
+		default_option = yes
+		trigger = {
+			has_variable = dubois_geologist_var
+		}
+		geologist_experience_gain_effect = { AMOUNT = 15 }
+		dubois_add_x_academy_progress = { AMOUNT = 15 }
+		if = {
+			limit = {
+				has_variable = agassiz_seismometer_var
+			}
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 25
+			}
+		}
+		else = {
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 30
+			}
+		}
+		scope:agassiz_earthquake_state = {
+			add_modifier = {
+				name = agassiz_medium_earthquake_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.722.j #Concentrate on helping the local populace
+		default_option = yes
+		add_modifier = {
+			name = modifier_earthquake_relief
+			multiplier = money_amount_multiplier_small
+			months = short_modifier_time
+		}
+		if = {
+			limit = {
+				has_variable = agassiz_seismometer_var
+			}
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 25
+			}
+		}
+		else = {
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 30
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 723: Earthquake - Big
+agassiz.723 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.723.t
+	desc = agassiz.723.d
+	flavor = {
+		desc = agassiz.723.f
+		triggered_desc = {
+			trigger = {
+				has_variable = agassiz_seismometer_var
+			}
+			desc = agassiz.722.f_basic
+		}
+	}
+
+	duration = 3
+
+	placement = scope:agassiz_earthquake_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_earthquake.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_in_earthquake_zone = yes
+		}
+		NOT = {
+			has_variable = mega_earthquake
+		}
+
+		NOT = {
+			global_var:number_of_mega_earthquakes > 5
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				agassiz_state_in_earthquake_zone = yes
+			}
+			save_scope_as = agassiz_earthquake_state
+		}
+		if = {
+			limit = {
+				exists = var:mega_earthquake
+			}
+			change_global_variable = {
+				name = number_of_mega_earthquakes
+				add = 1
+			}
+		}
+		else = {
+			set_variable = {
+				name = mega_earthquake
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.722.g #A tragedy!
+		trigger = {
+			NOR = {
+				has_variable = dubois_geologist_var
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+					has_active_production_method = pm_agassiz_basic_seismology
+				}
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+					has_active_production_method = pm_agassiz_advanced_seismology
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_variable = agassiz_seismometer_var
+			}
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 50
+			}
+		}
+		else = {
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 60
+			}
+		}
+		scope:agassiz_earthquake_state = {
+			add_modifier = {
+				name = agassiz_big_earthquake_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.722.h #Any news from the Observatory?
+		trigger = {
+			OR = {
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+					has_active_production_method = pm_agassiz_basic_seismology
+				}
+				any_scope_building = {
+					is_building_type = building_agassiz_volcano_observatory
+					has_active_production_method = pm_agassiz_advanced_seismology
+				}
+			}
+		}
+		dubois_medium_add_technology = yes
+		if = {
+			limit = {
+				has_variable = agassiz_seismometer_var
+			}
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 50
+			}
+		}
+		else = {
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 60
+			}
+		}
+		scope:agassiz_earthquake_state = {
+			add_modifier = {
+				name = agassiz_big_earthquake_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.722.i #This might be interesting for Dr. Geologist and his students
+		default_option = yes
+		trigger = {
+			has_variable = dubois_geologist_var
+		}
+		geologist_experience_gain_effect = { AMOUNT = 25 }
+		dubois_add_x_academy_progress = { AMOUNT = 25 }
+		if = {
+			limit = {
+				has_variable = agassiz_seismometer_var
+			}
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 50
+			}
+		}
+		else = {
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 60
+			}
+		}
+		scope:agassiz_earthquake_state = {
+			add_modifier = {
+				name = agassiz_big_earthquake_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agassiz.722.j #Concentrate on helping the local populace
+		default_option = yes
+		add_modifier = {
+			name = modifier_earthquake_relief
+			multiplier = money_amount_multiplier_small
+			months = short_modifier_time
+		}
+		if = {
+			limit = {
+				has_variable = agassiz_seismometer_var
+			}
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 60
+			}
+		}
+		else = {
+			scope:agassiz_earthquake_state.state_region = {
+				add_devastation = 50
+			}
 		}
 	}
 
