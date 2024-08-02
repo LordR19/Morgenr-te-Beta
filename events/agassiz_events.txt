@@ -25,6 +25,7 @@ namespace = agassiz
 #Agassiz 916: Arne Saknussemm's Manuscript
 #Agassiz 917: Journey to the Center of the Earth vanishes
 #Agassiz 918: Stromboli
+#Agassiz 919: Journey to the Center of Earth eaten by Giants
 
 #################################################################################
 
@@ -4052,7 +4053,7 @@ agassiz.701 = {
 	hidden = yes
 
 	cooldown = {
-		years = 25 #No Eruption for 25 years
+		years = 15 #No Eruption for 15 years
 	}
 
 	trigger = {
@@ -4063,29 +4064,35 @@ agassiz.701 = {
 
 	immediate = {
 		random_list = {
-			150 = {}
-			40 = {
+			100 = {}
+			50 = {
 				trigger_event = {
 					id = agassiz.713 #Normal Eruption
-					days = { 100 600 }
+					days = { 250 1000 }
+				}
+			}
+			30 = {
+				trigger_event = {
+					id = agassiz.712 #Small Eruption
+					days = { 250 1000 }
 				}
 			}
 			20 = {
 				trigger_event = {
-					id = agassiz.712 #Small Eruption
-					days = { 100 600 }
-				}
-			}
-			25 = {
-				trigger_event = {
 					id = agassiz.714 #Big Eruption
-					days = { 100 600 }
+					days = { 250 1000 }
 				}
 			}
-			15 = {
+			60 = {
 				trigger_event = {
 					id = agassiz.711 #Volcano Spectacle
-					days = { 100 600 }
+					days = { 250 1000 }
+				}
+			}
+			40 = {
+				trigger_event = {
+					id = agassiz.711 #Smoke and rumble
+					days = { 250 1000 }
 				}
 			}
 		}
@@ -4132,6 +4139,10 @@ agassiz.711 = {
 	option = {
 		name = agassiz.711.g #Wonderful!
 		default_option = yes
+		add_modifier = {
+			name = agassiz_volcano_tourist_modifier
+			years = 3
+		}
 		if = {
 			limit = {
 				scope:agassiz_volcano_state = {
@@ -4140,7 +4151,7 @@ agassiz.711 = {
 					}
 				}
 			}
-			dubois_small_add_technology = yes
+			mendelejew_small_add_technology = yes
 		}
 		if = {
 			limit = {
@@ -4248,7 +4259,7 @@ agassiz.712 = {
 				}
 			}
 		}
-		dubois_small_add_technology = yes
+		mendelejew_small_add_technology = yes
 		if = {
 			limit = {
 				scope:agassiz_volcano_state = {
@@ -4466,7 +4477,7 @@ agassiz.713 = {
 				}
 			}
 		}
-		dubois_small_add_technology = yes
+		mendelejew_small_add_technology = yes
 		if = {
 			limit = {
 				scope:agassiz_volcano_state = {
@@ -4789,7 +4800,8 @@ agassiz.714 = {
 				}
 			}
 		}
-		dubois_medium_add_technology = yes
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
+		mendelejew_medium_add_technology = yes
 		if = {
 			limit = {
 				scope:agassiz_volcano_state = {
@@ -4864,6 +4876,7 @@ agassiz.714 = {
 		trigger = {
 			has_variable = dubois_geologist_var
 		}
+		agassiz_add_x_geological_knowledge_effect = { AMOUNT = 1 }
 		geologist_experience_gain_effect = { AMOUNT = 20 }
 		dubois_add_x_academy_progress = { AMOUNT = 20 }
 		if = {
@@ -5007,6 +5020,59 @@ agassiz.714 = {
 					years = 5
 				}
 			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Agassiz 715: Smoke and Rumble
+agassiz.715 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.715.t
+	desc = agassiz.715.d
+	flavor = agassiz.715.f
+
+	duration = 3
+
+	placement = scope:agassiz_volcano_state
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_volcano_1.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_scope_state = {
+			agassiz_state_has_volcano = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				agassiz_state_has_volcano = yes
+			}
+			save_scope_as = agassiz_volcano_state
+		}
+	}
+
+	option = {
+		name = agassiz.715.g #Does it wake up or stay asleep?
+		default_option = yes
+		dubois_add_x_academy_progress = { AMOUNT = 5 }
+		if = {
+			limit = {
+				has_variable = dubois_geologist_var
+			}
+			geologist_experience_gain_effect = { AMOUNT = 5 }
 		}
 	}
 
