@@ -9374,6 +9374,42 @@ create_new_chemist_effect = {
 
 			set_global_variable = mendelejew_erlenmeyer_created
 		}
+		4 = { #Justus von Liebig, Germany
+			trigger = {
+				NOT = { has_global_variable = mendelejew_von_liebig_created }
+				any_scope_state = {
+					OR = {
+						region = sr:region_south_germany
+						region = sr:region_north_germany
+					}
+				}
+				NOT = {
+					cu:north_german = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1858.05.12 #Age 55
+				year >= 1824 #became Professor in Giessen
+			}
+			create_character = {
+				template = mr_ger_von_liebig_justus_character_template
+
+				save_scope_as = mendelejew_new_chemist_scope
+			}
+			scope:mendelejew_new_chemist_scope = {
+				set_variable = mr_is_chemist_var
+				set_variable = mr_no_headgear_var
+				chemist_experience_set_up_effect = yes
+				place_character_in_void = 1200
+			}
+
+			set_variable = {
+				name = mendelejev_new_chemist_var
+				value = scope:mendelejew_new_chemist_scope
+			}
+
+			set_global_variable = mendelejew_von_liebig_created
+		}
 		4 = { #Dmitri Mendeleev, Russia
 			trigger = {
 				NOT = { has_global_variable = mendelejew_mendeleev_created }
