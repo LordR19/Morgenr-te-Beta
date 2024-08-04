@@ -35,6 +35,7 @@ Volcanology
 
 Characters
 - Emil Erlenmeyer (random German Chemist)
+- Justus von Liebig (random German Chemist)
 - Louis Agassiz (random Swiss Geologist)
 
 Pacific Expedition
