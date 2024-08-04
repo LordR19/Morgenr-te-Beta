@@ -623,6 +623,60 @@ agassiz.301 = {
 	}
 }
 
+#Agassiz 302: Geyser
+agassiz.302 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = agassiz.302.t
+	desc = agassiz.302.d
+	flavor = agassiz.302.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_geyser.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+		any_scope_state = {
+			has_variable = agassiz_has_geyser_var
+			NOT = {
+				has_state_trait = agassiz_state_trait_geyser
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				has_variable = agassiz_has_geyser_var
+				NOT = {
+					has_state_trait = agassiz_state_trait_geyser
+				}
+			}
+			save_scope_as = agassiz_geyser_state
+		}
+	}
+		
+	option = { #Excellent
+		name = agassiz.302.g
+		mendelejew_small_add_technology = yes
+		geologist_experience_gain_effect = { AMOUNT = 10 }
+		scope:agassiz_geyser_state = {
+			state_region = {
+				add_state_trait = agassiz_state_trait_geyser
+			}
+		}
+	}
+}
+
 #Agassiz 311: Meteorite
 agassiz.311 = { 
 
