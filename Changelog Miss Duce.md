@@ -24,6 +24,7 @@ Geology
 - First country that invents Seismology gets a free Geologist.
 - Added Geological Congress on Plate Tectonics.
 - Moved Journey to the Center of the Earth from Archaeology to Geology.
+- Geologist may find (historical) Geysers.
 - Added 4 achievements.
 
 Volcanology
@@ -53,6 +54,8 @@ Mountaineering
 Astronomy
 - Moon Mapping is an astronomer action/button now.
 - Added a JE to find Meteorites. 10 Meteroites will give a large astronomical tech boost.
+- New action: Discover Satellite. About 20 different moons can be found for Mars, Jupiter, Uranus and Neptune, depending on your tech levels and other recquirements.
+- Astronomers searching for Satellites and doing Moon Mapping will find less astronomical objects.
 
 Fixes
 - The Retirement of the Chemist no longer causes the Anthropologist to retire.
