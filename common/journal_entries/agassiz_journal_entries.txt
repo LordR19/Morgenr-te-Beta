@@ -1571,88 +1571,25 @@ je_agassiz_volcano_expedition_ai = {
 
 ######################################################################################
 
-#Early Seismometer
-je_agassiz_early_seismometer = { 
+#Seismometer
+je_agassiz_seismometer = { 
 	icon = "gfx/interface/icons/event_icons/event_geology.dds"
 
 	group = je_group_agassiz_geology
 
 	is_shown_when_inactive = {
+		has_technology_researched = prospecting
+	}
+
+	possible = {
 		has_technology_researched = agassiz_geology_tech
 	}
 
-	possible = {
-		has_technology_researched = agassiz_seismology_tech
-	}
-
 	immediate = {
-	}
-
-	on_weekly_pulse = {
-		effect = {
-			if = {
-				limit = {
-					has_variable = agassiz_seismoscope_done_var
-					var:agassiz_build_seismoscope_var < 12
-				}
-				change_variable = {
-					name = agassiz_build_seismoscope_var
-					add = 1
-			   }
-			}
+		set_variable = {
+			name = agassiz_build_seismometer_var
+			value = 0
 		}
-	}
-
-	complete = {
-		gaudi_has_engineer = yes
-		dubois_has_geologist = yes
-		scope:journal_entry = {
-			is_goal_complete = yes
-		}
-	}
-
-	on_complete = {
-		set_variable = agassiz_seismoscope_var
-		trigger_event = {
-			id = agassiz.801
-		}
-	}
-
-	invalid = {
-	}
-
-	goal_add_value = {
-		add = 12
-	}
-
-	current_value = {
-		value = var:agassiz_build_seismoscope_var
-	}
-
-	progressbar = yes
-
-	scripted_button = agassiz_build_seismoscope_button
-
-	weight = 10
-
-	should_be_pinned_by_default = yes
-}
-
-#Advanced Seismometer
-je_agassiz_advanced_seismometer = { 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
-
-	group = je_group_agassiz_geology
-
-	is_shown_when_inactive = {
-		has_technology_researched = agassiz_seismology_tech
-	}
-
-	possible = {
-		has_technology_researched = agassiz_sounding_tech
-	}
-
-	immediate = {
 	}
 
 	on_weekly_pulse = {
@@ -1660,7 +1597,7 @@ je_agassiz_advanced_seismometer = {
 			if = {
 				limit = {
 					has_variable = agassiz_seismometer_done_var
-					var:agassiz_build_seismoscope_var < 12
+					var:agassiz_build_seismometer_var < 12
 				}
 				change_variable = {
 					name = agassiz_build_seismometer_var
@@ -1681,7 +1618,7 @@ je_agassiz_advanced_seismometer = {
 	on_complete = {
 		set_variable = agassiz_seismometer_var
 		trigger_event = {
-			id = agassiz.802
+			id = agassiz.801
 		}
 	}
 
@@ -1699,6 +1636,77 @@ je_agassiz_advanced_seismometer = {
 	progressbar = yes
 
 	scripted_button = agassiz_build_seismometer_button
+
+	weight = 10
+
+	should_be_pinned_by_default = yes
+}
+
+#Seismograph
+je_agassiz_seismograph = { 
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	group = je_group_agassiz_geology
+
+	is_shown_when_inactive = {
+		has_variable = agassiz_seismometer_var
+	}
+
+	possible = {
+		has_technology_researched = agassiz_seismology_tech
+	}
+
+	immediate = {
+		set_variable = {
+			name = agassiz_build_seismograph_var
+			value = 0
+		}
+	}
+
+	on_weekly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					has_variable = agassiz_seismograph_done_var
+					var:agassiz_build_seismometer_var < 12
+				}
+				change_variable = {
+					name = agassiz_build_seismograph_var
+					add = 1
+			   }
+			}
+		}
+	}
+
+	complete = {
+		gaudi_has_engineer = yes
+		dubois_has_geologist = yes
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		set_variable = agassiz_seismograph_var
+		trigger_event = {
+			id = agassiz.802
+		}
+	}
+
+	invalid = {
+	}
+
+	goal_add_value = {
+		add = 12
+	}
+
+	current_value = {
+		value = var:agassiz_build_seismograph_var
+	}
+
+	progressbar = yes
+
+	scripted_button = agassiz_build_seismograph_button
 
 	weight = 10
 
