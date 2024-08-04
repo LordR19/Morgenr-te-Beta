@@ -2,6 +2,7 @@ Changelog for 2.2.3 "Miss Duce"
 
 Changes
 - Paleontologists and Anthropologists will not discover formations/caves anymore. Geologists will do that instead.
+- Cologne Cathedral, Mole Antonelliana, Gotthard Railway, Cristo Redentor and Vienna Reingstrasse no longer need gold reserves to be build.
 
 Geology
 - Added Geologist
