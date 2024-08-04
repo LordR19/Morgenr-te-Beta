@@ -33,6 +33,9 @@ Volcanology
 - Geologists become volcanologists when succesfully exploring a volcano.
 - After a succesful expedition, the Basic Volcanology PM in the Volcano Observatory will be elevated to Advanced Volcanology.
 
+Characters
+- Louis Agassiz (random Swiss Geologist)
+
 Pacific Expedition
 - Geologist may go on Pacific Expeditions and get the Oceanographer or Geophysicist trait.
 - Added 4 new Geologist Events for Pacific Expedition.
