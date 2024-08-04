@@ -52,7 +52,9 @@ Mountaineering
 - Don't climb without your Geologist.
 
 Astronomy
+- ENTIRE REWORK of the Planetarium (once Observatory) -> have a look!
 - Moon Mapping is an astronomer action/button now.
+- Moon Mapping events will trigger more frequently.
 - Added a JE to find Meteorites. 10 Meteroites will give a large astronomical tech boost.
 - New action: Discover Satellite. About 20 different moons can be found for Mars, Jupiter, Uranus and Neptune, depending on your tech levels and other recquirements.
 - Astronomers searching for Satellites and doing Moon Mapping will find less astronomical objects.
