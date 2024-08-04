@@ -34,6 +34,7 @@ Volcanology
 - After a succesful expedition, the Basic Volcanology PM in the Volcano Observatory will be elevated to Advanced Volcanology.
 
 Characters
+- Emil Erlenmeyer (random German Chemist)
 - Louis Agassiz (random Swiss Geologist)
 
 Pacific Expedition
