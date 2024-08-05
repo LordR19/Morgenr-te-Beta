@@ -797,15 +797,19 @@ verrier_add_x_meteorites_effect = {
 ###GREAT COMETS###
 
 verrier_add_great_comet_object = {
-	change_variable = {
- 		name = verrier_great_comet
- 		add = 1
+	custom_tooltip = {
+		text = verrier_add_great_comet_object_tt
+		change_variable = {
+			name = verrier_great_comet
+			add = 1
+		}
+		change_global_variable = {
+			name = verrier_total_verrier_great_comet
+			add = 1
+		}
+
+		verrier_update_astronomical_prestige_effect = yes
 	}
-	change_global_variable = {
- 		name = verrier_total_verrier_great_comet
- 		add = 1
-	}
-	custom_tooltip = verrier_add_great_comet_object_tt
 }
 
 #############################
@@ -1581,6 +1585,8 @@ verrier_discover_phobos_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_deimos_effect = {
@@ -1614,6 +1620,8 @@ verrier_discover_deimos_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 #Jupiter Moons
@@ -1649,6 +1657,8 @@ verrier_discover_amalthea_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_himalia_effect = {
@@ -1682,6 +1692,8 @@ verrier_discover_himalia_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_elara_effect = {
@@ -1715,6 +1727,8 @@ verrier_discover_elara_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_pasiphae_effect = {
@@ -1748,6 +1762,8 @@ verrier_discover_pasiphae_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_sinope_effect = {
@@ -1781,6 +1797,8 @@ verrier_discover_sinope_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_lysithea_effect = {
@@ -1814,6 +1832,8 @@ verrier_discover_lysithea_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_carme_effect = {
@@ -1847,6 +1867,8 @@ verrier_discover_carme_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 #Saturn Moons
@@ -1882,6 +1904,8 @@ verrier_discover_mimas_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_enceladus_effect = {
@@ -1915,6 +1939,8 @@ verrier_discover_enceladus_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_hyperion_effect = {
@@ -1948,6 +1974,8 @@ verrier_discover_hyperion_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_phoebe_effect = {
@@ -1981,6 +2009,8 @@ verrier_discover_phoebe_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 #Uranus Moons
@@ -2015,6 +2045,8 @@ verrier_discover_ariel_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_umbriel_effect = {
@@ -2048,6 +2080,8 @@ verrier_discover_umbriel_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_titania_effect = {
@@ -2081,6 +2115,8 @@ verrier_discover_titania_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_oberon_effect = {
@@ -2114,6 +2150,8 @@ verrier_discover_oberon_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_miranda_effect = {
@@ -2147,6 +2185,8 @@ verrier_discover_miranda_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 #Neptune Moons
@@ -2181,6 +2221,8 @@ verrier_discover_triton_effect = {
 			value = this
 		}
 	}
+
+	verrier_update_astronomical_prestige_effect = yes
 }
 
 verrier_discover_nereid_effect = {
@@ -2212,6 +2254,27 @@ verrier_discover_nereid_effect = {
 		set_global_variable = {
 			name = verrier_nereid_discovered_global_var
 			value = this
+		}
+	}
+
+	verrier_update_astronomical_prestige_effect = yes
+}
+
+#Effect to update Astronomical Prestige
+verrier_update_astronomical_prestige_effect = {
+	#This part removes every Astronomical Prestige Modifier
+	while = {
+		limit = {
+			has_modifier = verrier_astronomical_prestige_modifier
+		}
+		remove_modifier = verrier_astronomical_prestige_modifier
+	}
+	#Adds the Astronomical Prestige Modifier if the country has any astronomical prestige
+	if = {
+		limit = { verrier_astronomical_prestige > 0 }
+		add_modifier = {
+			name = verrier_astronomical_prestige_modifier
+			multiplier = verrier_astronomical_prestige
 		}
 	}
 }
