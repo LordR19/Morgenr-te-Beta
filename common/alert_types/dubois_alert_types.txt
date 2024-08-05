@@ -163,10 +163,34 @@ dubois_naturalist_unused_alert = {
 	texture = "gfx/interface/icons/alert_icons/dubois_botanical_expedition_alert.dds"
 
 	valid = {
-		has_technology_researched = malaria_prevention
 		has_variable = dubois_naturalist_var
 		var:dubois_naturalist_var = {
 			is_busy = no
+		}
+		OR = {
+			has_technology_researched = malaria_prevention
+			any_scope_building = {
+				is_building_type = building_logging_camp
+				level > 0
+				NOR = {
+					has_modifier = dubois_building_throughput_add_modifier
+					has_modifier = dubois_building_production_mult_modifier
+					has_modifier = dubois_building_goods_input_mult_modifier
+				}
+			}
+			AND = {
+				has_technology_researched = dubois_theory_of_evolution_tech
+				dubois_has_local_animal = yes
+				NOT = {
+					has_modifier = dubois_search_local_animal_modifier
+				}
+			}
+			AND = {
+				OR = {
+					dubois_has_undocumented_animal_film = yes
+					dubois_has_undocumented_animal = yes
+				}
+			}
 		}
 	}
 

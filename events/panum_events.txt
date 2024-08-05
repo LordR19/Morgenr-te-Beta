@@ -1,0 +1,693 @@
+﻿#################
+# PANUM EVENTS  #
+#################
+
+#by Lord R & Marco Dandolo
+
+###################
+
+namespace = panum
+
+###################
+
+#Panum 101: Cholera in STATE
+#Panum 111: Tuberculosis in STATE
+#Panum 121: Smallpox in STATE
+#Panum 131: Typhus in STATE
+
+#################################################################################
+
+#Panum 101: Cholera in STATE
+panum.101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.101.t
+
+	desc = panum.101.d
+
+	flavor = panum.101.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		any_scope_state = {
+			NOT = {
+				has_variable = panum_recent_cholera_var
+			}
+			any_scope_pop = {
+				strata = poor
+				standard_of_living < 16
+			}
+			total_urbanization >= 5
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 16
+				}
+				total_urbanization >= 5
+			}
+			set_variable = {
+				name = panum_recent_cholera_var
+				years = 10
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Cholera!
+		name = panum.101.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_epidemic_cholera_modifier
+				days = 500
+			}
+		}
+	}
+
+	after = {
+		random_country = {
+			limit = {
+				NOT = {
+					has_variable = panum_recent_cholera_var
+				}
+				any_scope_state = {
+					any_scope_pop = {
+						strata = poor
+						standard_of_living < 16
+					}
+					total_urbanization >= 5
+				}
+			}
+			random_list = {
+				1 = {}
+				1 = {
+					trigger_event = {
+						id = panum.101
+						days = { 14 28 }
+					}
+				}
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			any_neighbouring_state = {
+				has_modifier = panum_epidemic_cholera_modifier
+			}
+			factor = 100
+		}
+		modifier = {
+			any_country  = {
+				any_scope_state = {
+					has_modifier = panum_epidemic_cholera_modifier
+				}
+				is_adjacent_to_country = ROOT
+			}
+			factor = 100
+		}
+		modifier = {
+			has_journal_entry = je_famine
+			factor = 2
+		}
+		modifier = {
+			has_journal_entry = je_sol_1
+			factor = 2
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 15
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 10
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 9
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 8
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 7
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 6
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			has_law = law_type:law_no_health_system
+			factor = 1.5
+		}
+		modifier = {
+			has_law = law_type:law_charitable_health_system
+			factor = 0.8
+		}
+		modifier = {
+			has_law = law_type:law_private_health_insurance
+			factor = 0.65
+		}
+		modifier = {
+			has_law = law_type:law_public_health_insurance
+			factor = 0.5
+		}
+		modifier = {
+			has_technology_researched = modern_sewerage
+			factor = 0.5
+		}
+	}
+}
+
+#Panum 111: Tuberculosis in STATE
+panum.111 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.111.t
+
+	desc = panum.111.d
+
+	flavor = panum.111.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_tuberculosis.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		any_scope_state = {
+			NOT = {
+				has_variable = panum_recent_tuberculosis_var
+			}
+			any_scope_pop = {
+				strata = poor
+				standard_of_living < 16
+			}
+			total_urbanization >= 5
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 16
+				}
+				total_urbanization >= 5
+			}
+			set_variable = {
+				name = panum_recent_tuberculosis_var
+				years = 10
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Tuberculosis
+		name = panum.111.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_epidemic_tuberculosis_modifier
+				days = 500
+			}
+		}
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			any_neighbouring_state = {
+				has_modifier = panum_epidemic_tuberculosis_modifier
+			}
+			factor = 10
+		}
+		modifier = {
+			any_country  = {
+				any_scope_state = {
+					has_modifier = panum_epidemic_tuberculosis_modifier
+				}
+				is_adjacent_to_country = ROOT
+			}
+			factor = 10
+		}
+		modifier = {
+			has_journal_entry = je_famine
+			factor = 2
+		}
+		modifier = {
+			has_journal_entry = je_sol_1
+			factor = 2
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 15
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 10
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 9
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 8
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 7
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 6
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			has_law = law_type:law_no_health_system
+			factor = 1.5
+		}
+		modifier = {
+			has_law = law_type:law_charitable_health_system
+			factor = 0.8
+		}
+		modifier = {
+			has_law = law_type:law_private_health_insurance
+			factor = 0.65
+		}
+		modifier = {
+			has_law = law_type:law_public_health_insurance
+			factor = 0.5
+		}
+		modifier = {
+			has_technology_researched = pasteurization
+			factor = 0.5
+		}
+	}
+}
+
+#Panum 121: Smallpox in STATE
+panum.121 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.121.t
+
+	desc = panum.121.d
+
+	flavor = panum.121.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		any_scope_state = {
+			NOT = {
+				has_variable = panum_recent_smallpox_var
+			}
+			any_scope_pop = {
+				strata = poor
+				standard_of_living < 16
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 16
+				}
+			}
+			set_variable = {
+				name = panum_recent_smallpox_var
+				years = 10
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Smallpox
+		name = panum.121.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_epidemic_smallpox_modifier
+				days = 500
+			}
+		}
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			any_neighbouring_state = {
+				has_modifier = panum_epidemic_smallpox_modifier
+			}
+			factor = 10
+		}
+		modifier = {
+			any_country  = {
+				any_scope_state = {
+					has_modifier = panum_epidemic_smallpox_modifier
+				}
+				is_adjacent_to_country = ROOT
+			}
+			factor = 10
+		}
+		modifier = {
+			has_journal_entry = je_famine
+			factor = 2
+		}
+		modifier = {
+			has_journal_entry = je_sol_1
+			factor = 2
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 15
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 10
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 9
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 8
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 7
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 6
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			has_law = law_type:law_no_health_system
+			factor = 1.5
+		}
+		modifier = {
+			has_law = law_type:law_charitable_health_system
+			factor = 0.8
+		}
+		modifier = {
+			has_law = law_type:law_private_health_insurance
+			factor = 0.65
+		}
+		modifier = {
+			has_law = law_type:law_public_health_insurance
+			factor = 0.5
+		}
+		modifier = {
+			has_technology_researched = panum_vaccination_tech
+			factor = 0.5
+		}
+	}
+}
+
+#Panum 131: Typhus in STATE
+panum.131 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.131.t
+
+	desc = panum.131.d
+
+	flavor = panum.131.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		any_scope_state = {
+			NOT = {
+				has_variable = panum_recent_typhus_var
+			}
+			devastation > 0.15
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				devastation > 0.15
+			}
+			set_variable = {
+				name = panum_recent_typhus_var
+				years = 10
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Typhus!
+		name = panum.131.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_epidemic_typhus_modifier
+				days = 500
+			}
+		}
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			any_neighbouring_state  = {
+				has_modifier = panum_epidemic_typhus_modifier
+			}
+			factor = 50
+		}
+		modifier = {
+			any_country  = {
+				any_scope_state = {
+					has_modifier = panum_epidemic_typhus_modifier
+				}
+				is_adjacent_to_country = ROOT
+			}
+			factor = 50
+		}
+		modifier = {
+			has_journal_entry = je_famine
+			factor = 2
+		}
+		modifier = {
+			has_journal_entry = je_sol_1
+			factor = 2
+		}
+		modifier = {
+			any_scope_state = {
+				devastation > 0.20
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				devastation > 0.25
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				devastation > 0.30
+			}
+			factor = 1.5
+		}
+		modifier = {
+			any_scope_state = {
+				devastation > 0.35
+			}
+			factor = 1.5
+		}
+		modifier = {
+			any_scope_state = {
+				devastation > 0.40
+			}
+			factor = 2
+		}
+		modifier = {
+			any_scope_state = {
+				devastation > 0.50
+			}
+			factor = 2
+		}
+		modifier = {
+			has_law = law_type:law_no_health_system
+			factor = 1.5
+		}
+		modifier = {
+			has_law = law_type:law_charitable_health_system
+			factor = 0.8
+		}
+		modifier = {
+			has_law = law_type:law_private_health_insurance
+			factor = 0.65
+		}
+		modifier = {
+			has_law = law_type:law_public_health_insurance
+			factor = 0.5
+		}
+		modifier = {
+			has_technology_researched = antibiotics
+			factor = 0.5
+		}
+	}
+}
