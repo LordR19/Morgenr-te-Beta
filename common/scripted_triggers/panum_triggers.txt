@@ -1,0 +1,68 @@
+﻿############################
+# PANUM SCRIPTED TRIGGERS  #
+############################
+
+#by Marco Dandolo
+
+############################
+
+######GENERAL DISEASES TRIGGER######
+
+panum_has_epidemic_trigger = {
+	has_journal_entry = je_panum_cholera
+}
+
+######DISEASES TRIGGER#####
+
+#Cholera
+panum_country_can_have_cholera_trigger = {
+	game_date >= 1846.1.1 #First 10 Years should be peaceful
+	NOT = {
+		has_variable = panum_recent_cholera_in_country_var
+	}
+	panum_has_cholera_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_cholera_var
+		}
+		any_scope_pop = {
+			strata = poor
+			standard_of_living <= 15
+		}
+		total_urbanization >= 500
+	}
+}
+
+panum_state_can_have_cholera_trigger = {
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_cholera_var
+		}
+		any_scope_pop = {
+			strata = poor
+			standard_of_living <= 15
+		}
+		total_urbanization >= 500
+	}
+}
+
+panum_has_cholera_prevention_trigger = {
+	has_technology_researched = modern_sewerage
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 3
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_cholera_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_cholera_deadly_modifier
+		has_modifier = panum_epidemic_cholera_severe_modifier
+		has_modifier = panum_epidemic_cholera_normal_modifier
+		has_modifier = panum_epidemic_cholera_mild_modifier
+	}
+}
