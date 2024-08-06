@@ -1,0 +1,141 @@
+﻿##########################
+# PANUM SCRIPTED EFFECTS #
+##########################
+
+#by Marco Dandolo
+
+# This effect chosses a random_scope_state with the highest urbanization
+panum_set_cholera_state_effect = {
+	ordered_scope_state = {
+		limit = {
+			NOT = {
+				has_variable = panum_recent_cholera_var
+			}
+			any_scope_pop = {
+				strata = poor
+				standard_of_living <= 15
+			}
+			total_urbanization >= 5
+		}
+		order_by = total_urbanization
+		max = 1 #Limits to the state with highest urbanization
+		check_range_bounds = no #prevents errors
+
+		set_variable = {
+			name = panum_recent_cholera_var
+			years = 10
+		}
+		save_scope_as = panum_disease_state
+	}
+}
+
+panum_add_cholera_modifier_effect = {
+	scope:panum_disease_state = {
+		if = {
+			limit = {
+				has_technology_researched = modern_sewerage
+				institution_investment_level = {
+					institution	= institution_health_system
+					value >= 2
+				}
+				NOT = {
+					has_law = law_type:law_no_health_system
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_cholera_mild_modifier
+				days = 365
+			}
+		}
+		else_if = {
+			limit = {
+				has_technology_researched = modern_sewerage
+				NOT = {
+					has_law = law_type:law_no_health_system
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_cholera_normal_modifier
+				days = 365
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					has_technology_researched = modern_sewerage
+					NOT = {
+						has_law = law_type:law_no_health_system
+					}
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_cholera_severe_modifier
+				days = 365
+			}
+		}
+		else = {
+			add_modifier = {
+				name = panum_epidemic_cholera_deadly_modifier
+				days = 365
+			}
+		}
+	}
+}
+
+panum_remove_disease_effect = {
+	if = {
+		limit = {
+			has_modifier = panum_personal_treatment_cost_modifier
+		}
+		remove_modifier = panum_personal_treatment_cost_modifier
+	}
+	if = {
+		limit = {
+			has_modifier = panum_cholera_hospitals_modifier
+		}
+		remove_modifier = panum_cholera_hospitals_modifier
+	}
+	every_scope_state = {
+		limit = {
+			has_modifier = panum_factory_quarantine_modifier
+		}
+		remove_modifier = panum_factory_quarantine_modifier
+	}
+	every_scope_state = {
+		limit = {
+			has_modifier = panum_the_great_equalizer_modifier
+		}
+		remove_modifier = panum_the_great_equalizer_modifier
+	}
+	every_scope_state = {
+		limit = {
+			has_modifier = panum_unjust_death_modifier
+		}
+		remove_modifier = panum_unjust_death_modifier
+	}
+	every_scope_state = {
+		limit = {
+			has_modifier = panum_mass_graves_modifier
+		}
+		remove_modifier = panum_mass_graves_modifier
+	}
+	every_scope_state = {
+		limit = {
+			has_modifier = panum_slow_burials_modifier
+		}
+		remove_modifier = panum_slow_burials_modifier
+	}
+	every_scope_character = {
+		limit = {
+			has_trait = panum_cholera
+		}
+		remove_trait = panum_cholera
+		set_variable = panum_cholera_immunity_var
+	}
+	every_scope_character = {
+		limit = {
+			has_modifier = panum_personal_treatment_modifier
+		}
+		remove_modifier = panum_personal_treatment_modifier
+	}
+}
