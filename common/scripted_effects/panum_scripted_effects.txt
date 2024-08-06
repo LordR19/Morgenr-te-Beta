@@ -33,13 +33,15 @@ panum_add_cholera_modifier_effect = {
 	scope:panum_disease_state = {
 		if = {
 			limit = {
-				has_technology_researched = modern_sewerage
-				institution_investment_level = {
-					institution	= institution_health_system
-					value >= 2
-				}
-				NOT = {
-					has_law = law_type:law_no_health_system
+				owner = {
+					has_technology_researched = modern_sewerage
+					institution_investment_level = {
+						institution	= institution_health_system
+						value >= 2
+					}
+					NOT = {
+						has_law = law_type:law_no_health_system
+					}
 				}
 			}
 			add_modifier = {
@@ -49,9 +51,11 @@ panum_add_cholera_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				has_technology_researched = modern_sewerage
-				NOT = {
-					has_law = law_type:law_no_health_system
+				owner = {
+					has_technology_researched = modern_sewerage
+					NOT = {
+						has_law = law_type:law_no_health_system
+					}
 				}
 			}
 			add_modifier = {
@@ -61,10 +65,12 @@ panum_add_cholera_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				OR = {
-					has_technology_researched = modern_sewerage
-					NOT = {
-						has_law = law_type:law_no_health_system
+				owner = {
+					OR = {
+						has_technology_researched = modern_sewerage
+						NOT = {
+							has_law = law_type:law_no_health_system
+						}
 					}
 				}
 			}
@@ -124,6 +130,12 @@ panum_remove_disease_effect = {
 			has_modifier = panum_slow_burials_modifier
 		}
 		remove_modifier = panum_slow_burials_modifier
+	}
+	every_scope_state = {
+		limit = {
+			has_modifier = panum_public_panic_modifier
+		}
+		remove_modifier = panum_public_panic_modifier
 	}
 	every_scope_character = {
 		limit = {
