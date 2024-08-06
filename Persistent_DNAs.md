@@ -59052,7 +59052,7 @@ mr_swi_soret_jaques_louis={
 	entity={ 0 0 }
 }
 
-mr_ger_stadeler_georg={
+mr_ger_staedeler_georg={
 	type=male
 	id=0
 	age=0.385000
