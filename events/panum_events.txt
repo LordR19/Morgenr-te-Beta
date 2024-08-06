@@ -10,24 +10,30 @@ namespace = panum
 
 ###################
 
+#Panum 100: The Cholera Epidemic in YEAR
 #Panum 101: Cholera in STATE
-#Panum 111: Tuberculosis in STATE
-#Panum 121: Smallpox in STATE
-#Panum 131: Typhus in STATE
+#Panum 102: Cholera spreads to COUNTRY
+#Panum 103: Cholera in Factory
+#Panum 104: CHARACTER gets Cholera!
+#Panum 105: The Exodus of the Rich
+#Panum 106: Opposition tries to exploit cholera
+#Panum 107: Mass Graves
+#Panum 108: Cholera Hospitals
+#Panum 109: Cholera epidemic over
 
 #################################################################################
 
-#Panum 101: Cholera in STATE
-panum.101 = {
+#Panum 100: The Cholera Epidemic in YEAR
+panum.100 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = panum.101.t
+	title = panum.100.t
 
-	desc = panum.101.d
+	desc = panum.100.d
 
-	flavor = panum.101.f
+	flavor = panum.100.f
 	
 	duration = 3
 
@@ -42,84 +48,38 @@ panum.101 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		any_scope_state = {
-			NOT = {
-				has_variable = panum_recent_cholera_var
-			}
-			any_scope_pop = {
-				strata = poor
-				standard_of_living < 16
-			}
-			total_urbanization >= 5
-		}
+		panum_country_can_have_cholera_trigger = yes
 	}
 
 	immediate = {
-		random_scope_state = {
-			limit = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 16
-				}
-				total_urbanization >= 5
-			}
-			set_variable = {
-				name = panum_recent_cholera_var
-				years = 10
-			}
-			save_scope_as = panum_disease_state
-		}
+		panum_set_cholera_state_effect = yes
 	}
 
 	option = {	#Cholera!
-		name = panum.101.g
+		name = panum.100.g
 		default_option = yes
-		scope:panum_disease_state = {
-			add_modifier = {
-				name = panum_epidemic_cholera_modifier
-				days = 500
-			}
+		panum_add_cholera_modifier_effect = yes
+		add_journal_entry = {
+			type = je_panum_cholera
 		}
 	}
 
+
 	after = {
-		random_country = {
-			limit = {
-				NOT = {
-					has_variable = panum_recent_cholera_var
-				}
-				any_scope_state = {
-					any_scope_pop = {
-						strata = poor
-						standard_of_living < 16
-					}
-					total_urbanization >= 5
-				}
-			}
-			random_list = {
-				1 = {}
-				1 = {
-					trigger_event = {
-						id = panum.101
-						days = { 14 28 }
-					}
-				}
-			}
-		}
 	}
 
 	weight_multiplier = {
 		base = 1
 		modifier = {
 			any_neighbouring_state = {
-				has_modifier = panum_epidemic_cholera_modifier
+				panum_state_has_cholera_trigger = yes
 			}
 			factor = 100
 		}
 		modifier = {
 			any_country  = {
 				any_scope_state = {
-					has_modifier = panum_epidemic_cholera_modifier
+					panum_state_has_cholera_trigger = yes
 				}
 				is_adjacent_to_country = ROOT
 			}
@@ -135,55 +95,49 @@ panum.101 = {
 		}
 		modifier = {
 			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 15
-				}
+				total_urbanization > 2500
+			}
+			factor = 2
+		}
+		modifier = {
+			any_scope_state = {
+				total_urbanization > 2000
+			}
+			factor = 1.5
+		}
+		modifier = {
+			any_scope_state = {
+				total_urbanization > 1500
+			}
+			factor = 1.5
+		}
+		modifier = {
+			any_scope_state = {
+				total_urbanization > 1000
 			}
 			factor = 1.1
 		}
 		modifier = {
 			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 10
-				}
+				total_urbanization > 900
 			}
 			factor = 1.1
 		}
 		modifier = {
 			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 9
-				}
+				total_urbanization > 800
 			}
 			factor = 1.1
 		}
 		modifier = {
 			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 8
-				}
+				total_urbanization > 700
 			}
 			factor = 1.1
 		}
 		modifier = {
 			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 7
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 6
-				}
+				total_urbanization > 600
 			}
 			factor = 1.1
 		}
@@ -210,24 +164,24 @@ panum.101 = {
 	}
 }
 
-#Panum 111: Tuberculosis in STATE
-panum.111 = {
+#Panum 101: Cholera in STATE
+panum.101 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = panum.111.t
+	title = panum.101.t
 
-	desc = panum.111.d
+	desc = panum.101.d
 
-	flavor = panum.111.f
+	flavor = panum.100.f
 	
 	duration = 3
 
 	placement = scope:panum_disease_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/panum_pictures/panum_tuberculosis.dds"
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
 	}
 
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
@@ -235,337 +189,602 @@ panum.111 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		any_scope_state = {
-			NOT = {
-				has_variable = panum_recent_tuberculosis_var
-			}
-			any_scope_pop = {
-				strata = poor
-				standard_of_living < 16
-			}
-			total_urbanization >= 5
-		}
+		panum_state_can_have_cholera_trigger = yes
 	}
 
 	immediate = {
-		random_scope_state = {
-			limit = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 16
-				}
-				total_urbanization >= 5
-			}
-			set_variable = {
-				name = panum_recent_tuberculosis_var
-				years = 10
-			}
-			save_scope_as = panum_disease_state
-		}
+		panum_set_cholera_state_effect = yes
 	}
 
-	option = {	#Tuberculosis
-		name = panum.111.g
+	option = {	#Cholera!
+		name = panum.101.g
 		default_option = yes
-		scope:panum_disease_state = {
-			add_modifier = {
-				name = panum_epidemic_tuberculosis_modifier
-				days = 500
-			}
-		}
+		panum_add_cholera_modifier_effect = yes
 	}
+
 
 	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			any_neighbouring_state = {
-				has_modifier = panum_epidemic_tuberculosis_modifier
-			}
-			factor = 10
-		}
-		modifier = {
-			any_country  = {
-				any_scope_state = {
-					has_modifier = panum_epidemic_tuberculosis_modifier
-				}
-				is_adjacent_to_country = ROOT
-			}
-			factor = 10
-		}
-		modifier = {
-			has_journal_entry = je_famine
-			factor = 2
-		}
-		modifier = {
-			has_journal_entry = je_sol_1
-			factor = 2
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 15
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 10
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 9
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 8
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 7
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 6
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			has_law = law_type:law_no_health_system
-			factor = 1.5
-		}
-		modifier = {
-			has_law = law_type:law_charitable_health_system
-			factor = 0.8
-		}
-		modifier = {
-			has_law = law_type:law_private_health_insurance
-			factor = 0.65
-		}
-		modifier = {
-			has_law = law_type:law_public_health_insurance
-			factor = 0.5
-		}
-		modifier = {
-			has_technology_researched = pasteurization
-			factor = 0.5
-		}
 	}
 }
 
-#Panum 121: Smallpox in STATE
-panum.121 = {
+#Panum 102: Cholera spreads to COUNTRY
+panum.102 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = panum.121.t
+	title = panum.102.t
 
-	desc = panum.121.d
+	desc = panum.102.d
 
-	flavor = panum.121.f
+	flavor = panum.100.f
 	
 	duration = 3
 
-	placement = scope:panum_disease_state
-
 	event_image = { 
-		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
 	}
 
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
+	cooldown = {
+		months = 3
+	}
+
 	trigger = {
-		any_scope_state = {
-			NOT = {
-				has_variable = panum_recent_smallpox_var
-			}
-			any_scope_pop = {
-				strata = poor
-				standard_of_living < 16
-			}
+		any_country = {
+			panum_country_can_have_cholera_trigger = yes
+			is_adjacent_to_country = ROOT
 		}
 	}
 
 	immediate = {
-		random_scope_state = {
+		random_country = {
 			limit = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 16
-				}
-			}
-			set_variable = {
-				name = panum_recent_smallpox_var
-				years = 10
-			}
-			save_scope_as = panum_disease_state
-		}
-	}
-
-	option = {	#Smallpox
-		name = panum.121.g
-		default_option = yes
-		scope:panum_disease_state = {
-			add_modifier = {
-				name = panum_epidemic_smallpox_modifier
-				days = 500
-			}
-		}
-	}
-
-	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			any_neighbouring_state = {
-				has_modifier = panum_epidemic_smallpox_modifier
-			}
-			factor = 10
-		}
-		modifier = {
-			any_country  = {
-				any_scope_state = {
-					has_modifier = panum_epidemic_smallpox_modifier
-				}
+				panum_country_can_have_cholera_trigger = yes
 				is_adjacent_to_country = ROOT
 			}
-			factor = 10
+			save_scope_as = panum_infected_country
 		}
-		modifier = {
-			has_journal_entry = je_famine
-			factor = 2
+	}
+
+	option = {	#This plague is completely out of control!
+		name = panum.102.g
+		default_option = yes
+		add_modifier = {
+			name = panum_useless_plague_fighter_modifier
+			years = 2
 		}
-		modifier = {
-			has_journal_entry = je_sol_1
-			factor = 2
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 15
-				}
+		scope:panum_infected_country = {
+			trigger_event = {
+				id = panum.100
 			}
-			factor = 1.1
 		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 10
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 9
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 8
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 7
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				any_scope_pop = {
-					strata = poor
-					standard_of_living < 6
-				}
-			}
-			factor = 1.1
-		}
-		modifier = {
-			has_law = law_type:law_no_health_system
-			factor = 1.5
-		}
-		modifier = {
-			has_law = law_type:law_charitable_health_system
-			factor = 0.8
-		}
-		modifier = {
-			has_law = law_type:law_private_health_insurance
-			factor = 0.65
-		}
-		modifier = {
-			has_law = law_type:law_public_health_insurance
-			factor = 0.5
-		}
-		modifier = {
-			has_technology_researched = panum_vaccination_tech
-			factor = 0.5
-		}
+	}
+
+
+	after = {
 	}
 }
 
-#Panum 131: Typhus in STATE
-panum.131 = {
+#Panum 103: Cholera in Factory
+panum.103 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = panum.131.t
+	title = panum.103.t
 
-	desc = panum.131.d
+	desc = panum.103.d
 
-	flavor = panum.131.f
+	flavor = panum.103.f
 	
 	duration = 3
 
 	placement = scope:panum_disease_state
 
 	event_image = { 
-		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_cholera_trigger = yes
+			NOT = {
+				has_modifier = panum_factory_quarantine_modifier
+			}
+			any_scope_building = {
+				is_building_group = bg_manufacturing
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_cholera_trigger = yes
+				NOT = {
+					has_modifier = panum_factory_quarantine_modifier
+				}
+				any_scope_building = {
+					is_building_group = bg_manufacturing
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Quarantine the Factories!
+		name = panum.103.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_factory_quarantine_modifier
+				days = 365
+			}
+		}
+	}
+
+	option = {	#The factories must continue to run, at all costs!
+		name = panum.103.h
+		default_option = yes
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = laborers
+				percent = 0.005
+			}
+		}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = machinists
+				percent = 0.003
+			}
+		}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = engineers
+				percent = 0.001
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 104: CHARACTER gets Cholera!
+panum.104 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.104.t
+
+	desc = panum.104.d
+
+	flavor = panum.104.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:disease_victim_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_character = {
+			NOR = {
+				has_trait = panum_cholera
+				has_variable = panum_cholera_immunity_var
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_character = {
+			limit = {
+				NOR = {
+					has_trait = panum_cholera
+					has_variable = panum_cholera_immunity_var
+				}
+			}
+			save_scope_as = disease_victim_scope
+		}
+	}
+
+	option = {	#Ensures the best possible treatment!
+		name = panum.104.g
+		default_option = yes
+		add_modifier = {
+			name = panum_personal_treatment_cost_modifier
+		}
+		scope:disease_victim_scope = {
+			add_trait = panum_cholera
+			add_modifier = {
+				name = panum_personal_treatment_modifier
+			}
+		}
+	}
+
+	option = {	#Call Doctor Hasenbein!
+		name = panum.104.h
+		trigger = {
+			has_variable = panum_physician_var
+		}
+		scope:disease_victim_scope = {
+			set_variable = panum_cholera_immunity_var
+		}
+	}
+
+	option = {	#He's not that important...
+		name = panum.104.i
+		scope:disease_victim_scope = {
+			add_trait = panum_cholera
+		}
+		random_list = {
+			3 = {}
+			1 = { 
+				scope:disease_victim_scope = {
+					kill_character = yes
+				}
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 105: The Exodus of the Rich
+panum.105 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.105.t
+
+	desc = panum.105.d
+
+	flavor = panum.105.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_cholera_trigger = yes
+			NOR = {
+				has_modifier = panum_the_great_equalizer_modifier
+				has_modifier = panum_unjust_death_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_cholera_trigger = yes
+				NOT = {
+					has_modifier = panum_the_great_equalizer_modifier
+					has_modifier = panum_unjust_death_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Let them go.
+		name = panum.105.g
+		default_option = yes
+		add_treasury = 100000
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_unjust_death_modifier
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				strata = poor
+			}
+		}
+	}
+
+	option = {	#There is a motive we call him THE GREAT EQUALIZER.
+		name = panum.105.h
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_the_great_equalizer_modifier
+			}
+		}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = capitalists
+				percent = 0.003
+			}
+		}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = aristocrats
+				percent = 0.003
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 106: Opposition tries to exploit cholera
+panum.106 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.106.t
+
+	desc = panum.106.d
+
+	flavor = panum.106.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_opposition_leader
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		
+	}
+
+	immediate = {
+		random_interest_group = {
+			limit = {
+    			is_in_government = no
+	        }
+			save_scope_as = panum_opposition_ig
+			leader = {
+				save_scope_as = panum_opposition_leader
+			}
+		}
+	}
+
+	option = {	#You're right, we're wrong. Now let's fight the epidemic!
+		name = panum.106.g
+		scope:panum_opposition_ig = {
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 5
+			}
+		}
+	}
+
+	option = {	#This government has the situation perfectly under control.
+		name = panum.106.h
+		default_option = yes
+		add_modifier = {
+			name = panum_epidemic_lies_modifier
+			years = 3
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 107: Mass Graves
+panum.107 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.107.t
+
+	desc = panum.107.d
+
+	flavor = panum.107.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_cholera_trigger = yes
+			NOR = {
+				has_modifier = panum_mass_graves_modifier
+				has_modifier = panum_slow_burials_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_cholera_trigger = yes
+				NOT = {
+					has_modifier = panum_mass_graves_modifier
+					has_modifier = panum_slow_burials_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#We have no time to waste with the funerals!
+		name = panum.107.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_mass_graves_modifier
+			}
+			add_radicals_in_state = {
+				value = 0.02
+				strata = poor
+			}
+		}
+	}
+
+	option = {	#Everyone deserves a dignified burial.
+		name = panum.107.h
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_treasury = -100000
+		}
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_slow_burials_modifier
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 108: Cholera Hospitals
+panum.108 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.108.t
+
+	desc = panum.108.d
+
+	flavor = panum.108.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		NOT = {
+			has_modifier = panum_cholera_hospitals_modifier
+		}
+		any_scope_state = {
+			panum_state_has_cholera_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_cholera_trigger = yes
+				NOT = {
+					has_modifier = panum_cholera_hospitals_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Beat them in the hospitals if you have to!
+		name = panum.108.g
+		default_option = yes
+		add_modifier = {
+			name = panum_cholera_hospitals_modifier
+		}
+	}
+
+	option = {	#You can't force these stubborn oxen to live.
+		name = panum.108.h
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				strata = poor
+				percent = 0.002
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 120: Cholera epidemic over
+panum.120 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.120.t
+
+	desc = panum.120.d
+
+	flavor = panum.120.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
 	}
 
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
@@ -573,121 +792,17 @@ panum.131 = {
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
 	trigger = {
-		any_scope_state = {
-			NOT = {
-				has_variable = panum_recent_typhus_var
-			}
-			devastation > 0.15
-		}
 	}
 
 	immediate = {
-		random_scope_state = {
-			limit = {
-				devastation > 0.15
-			}
-			set_variable = {
-				name = panum_recent_typhus_var
-				years = 10
-			}
-			save_scope_as = panum_disease_state
-		}
 	}
 
-	option = {	#Typhus!
-		name = panum.131.g
+	option = {	#But at what cost?
+		name = panum.120.g
 		default_option = yes
-		scope:panum_disease_state = {
-			add_modifier = {
-				name = panum_epidemic_typhus_modifier
-				days = 500
-			}
-		}
 	}
+
 
 	after = {
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			any_neighbouring_state  = {
-				has_modifier = panum_epidemic_typhus_modifier
-			}
-			factor = 50
-		}
-		modifier = {
-			any_country  = {
-				any_scope_state = {
-					has_modifier = panum_epidemic_typhus_modifier
-				}
-				is_adjacent_to_country = ROOT
-			}
-			factor = 50
-		}
-		modifier = {
-			has_journal_entry = je_famine
-			factor = 2
-		}
-		modifier = {
-			has_journal_entry = je_sol_1
-			factor = 2
-		}
-		modifier = {
-			any_scope_state = {
-				devastation > 0.20
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				devastation > 0.25
-			}
-			factor = 1.1
-		}
-		modifier = {
-			any_scope_state = {
-				devastation > 0.30
-			}
-			factor = 1.5
-		}
-		modifier = {
-			any_scope_state = {
-				devastation > 0.35
-			}
-			factor = 1.5
-		}
-		modifier = {
-			any_scope_state = {
-				devastation > 0.40
-			}
-			factor = 2
-		}
-		modifier = {
-			any_scope_state = {
-				devastation > 0.50
-			}
-			factor = 2
-		}
-		modifier = {
-			has_law = law_type:law_no_health_system
-			factor = 1.5
-		}
-		modifier = {
-			has_law = law_type:law_charitable_health_system
-			factor = 0.8
-		}
-		modifier = {
-			has_law = law_type:law_private_health_insurance
-			factor = 0.65
-		}
-		modifier = {
-			has_law = law_type:law_public_health_insurance
-			factor = 0.5
-		}
-		modifier = {
-			has_technology_researched = antibiotics
-			factor = 0.5
-		}
 	}
 }
