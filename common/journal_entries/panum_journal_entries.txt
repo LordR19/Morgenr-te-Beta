@@ -1,0 +1,71 @@
+﻿##########################
+# PANUM JOURNAL ENTRIES  #
+##########################
+
+#by Marco Dandolo
+
+############################
+
+je_panum_cholera = {
+	icon = "gfx/interface/icons/event_icons/event_skull.dds"
+
+	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		random_events = {
+			300 = 0
+			125 = panum.101 #Panum 101: Cholera in STATE
+			25 = panum.102 #Panum 102: Cholera spreads to COUNTRY
+			10 = panum.103 #Panum 103: Cholera in Factory
+			5 = panum.104 #Panum 104: CHARACTER gets Cholera!
+			25 = panum.105 #Panum 105: The Exodus of the Rich
+			10 = panum.106 #Panum 106: Opposition is trying to take advantage of Cholera
+			25 = panum.107 #Panum 107: Mass Graves
+			25 = panum.108 #Panum 108: Cholera Hospitals
+		}
+	}
+
+	immediate = {
+	}
+	
+    fail = {
+    }
+
+	on_fail = {
+	}
+
+	complete = {
+		NOT = {
+			any_scope_state = {
+				panum_state_has_cholera_trigger = yes
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = {
+			name = panum_recent_cholera_in_country_var
+			years = 10
+		}
+		panum_remove_disease_effect = yes
+		trigger_event = {
+			id = panum.120
+			popup = yes
+		}
+	}
+
+	invalid = {
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	progressbar = no
+
+	should_be_pinned_by_default = yes
+
+	weight = 50
+}
