@@ -19,7 +19,9 @@ namespace = panum
 #Panum 106: Opposition tries to exploit cholera
 #Panum 107: Mass Graves
 #Panum 108: Cholera Hospitals
-#Panum 109: Cholera epidemic over
+#Panum 109: Public Panic
+#Panum 110: Common Purpose
+#Panum 120: Cholera epidemic over
 
 #################################################################################
 
@@ -764,6 +766,240 @@ panum.108 = {
 		}
 	}
 
+
+	after = {
+	}
+}
+
+#Panum 109: Public Panic
+panum.109 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.109.t
+
+	desc = panum.109.d
+
+	flavor = panum.109.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 4
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_cholera_trigger = yes
+			NOT = {
+				has_modifier = panum_public_panic_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_cholera_trigger = yes
+				NOT = {
+					has_modifier = panum_public_panic_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Damnable fear!
+		name = panum.109.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_public_panic_modifier
+			}
+			add_radicals_in_state = {
+				value = 0.03
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 110: Common Purpose
+panum.110 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.110.t
+
+	desc = panum.110.d
+
+	flavor = panum.110.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	gui_window = event_window_2char
+
+	left_icon = scope:panum_opposition_leader
+	right_icon = scope:panum_government_leader
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 8
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_cholera_trigger = yes
+			has_modifier = panum_public_panic_modifier
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_cholera_trigger = yes
+				has_modifier = panum_public_panic_modifier
+			}
+			save_scope_as = panum_disease_state
+		}
+		random_interest_group = {
+			limit = {
+    			is_in_government = no
+	        }
+			save_scope_as = panum_opposition_ig
+			leader = {
+				save_scope_as = panum_opposition_leader
+			}
+		}
+		random_interest_group = {
+			limit = {
+    			is_in_government = yes
+	        }
+			save_scope_as = panum_government_ig
+			leader = {
+				save_scope_as = panum_government_leader
+			}
+		}
+	}
+
+	option = {	#We stand united!
+		name = panum.110.g
+		default_option = yes
+		scope:panum_disease_state = {
+			remove_modifier = panum_public_panic_modifier
+			add_loyalists_in_state = {
+				value = 0.05
+			}
+		}
+		scope:panum_opposition_ig = {
+			add_modifier = {
+				name = panum_common_purpose_modifier
+				years = 3
+			}
+		}
+		scope:panum_government_ig = {
+			add_modifier = {
+				name = panum_common_purpose_modifier
+				years = 3
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 111: The Horror
+panum.111 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.111.t
+
+	desc = panum.111.d
+
+	flavor = panum.111.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 4
+	}
+
+	trigger = {
+		any_scope_state = {
+			OR = {
+				has_modifier = panum_epidemic_cholera_deadly_modifier
+				has_modifier = panum_epidemic_cholera_severe_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				OR = {
+					has_modifier = panum_epidemic_cholera_deadly_modifier
+					has_modifier = panum_epidemic_cholera_severe_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#How many more dead?!
+		name = panum.111.g
+		default_option = yes
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_cholera_severe_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.0025
+				}
+			}
+		}
+		else = {
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.005
+				}
+			}
+		}
+	}
 
 	after = {
 	}
