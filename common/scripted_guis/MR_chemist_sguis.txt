@@ -16,8 +16,191 @@ mr_chemistry_ranking_sgui = {
 	}
 }
 
-#MR_CHEMIST_THEORY_BUTTON
-mr_chemist_theory_button = {
+###############################################################################################################
+
+#MR_CHEMIST_SYNTHETIC_OIL_BUTTON
+mr_chemist_synthetic_oil_button = {
+    scope = country
+    is_valid = {
+		NOT = {
+			has_technology_researched = mendelejew_synthetic_fuel_tech
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_ACTIVE_TRIGGER_TT
+			mendelejew_has_active_chemist = yes
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_MODERN_PHYSICS_TECH_TRIGGER_TT
+			has_technology_researched = verrier_modern_physics_tech
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_PLASTICS_TECH_TRIGGER_TT
+			has_technology_researched = plastics
+		}
+		custom_tooltip = {
+			text = MR_COMBUSTION_ENGINE_TECH_TRIGGER_TT
+			has_technology_researched = combustion_engine
+		}
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_HAS_IMPROVED_SYNTHETICS_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_synthetics_plants
+				level > 0
+				has_modifier = mendelejew_building_throughput_add_modifier
+				has_modifier = mendelejew_building_production_mult_modifier
+				has_modifier = mendelejew_building_goods_input_mult_modifier
+			}
+		}
+    }
+    effect = {
+        add_journal_entry = { type = je_mendelejew_synthetic_oil }
+		add_modifier = {
+			name = mendelejew_chemist_synthetic_oil_cost_modifier
+			multiplier = money_amount_multiplier_medium
+		}
+		if = {
+			limit = {
+				has_variable = mendelejew_chemist_var
+			}
+			var:mendelejew_chemist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+		modifier = {
+			trigger = {
+				OR = {
+					c:GER ?= this
+					was_formed_from = GER
+				}
+			}
+			add = 2000
+		}
+		modifier = {
+			trigger = {
+				market = {
+					mg:oil ?= { market_goods_has_goods_shortage = yes }
+				}
+			}
+			add = 5000
+		}
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+#MR_CHEMIST_SYNTHETIC_RUBBER_BUTTON
+mr_chemist_synthetic_rubber_button = {
+    scope = country
+	is_shown = {
+		IEX_is_active_trigger = no
+	}
+    is_valid = {
+		NOT = {
+			has_technology_researched = mendelejew_synthetic_rubber_tech
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_ACTIVE_TRIGGER_TT
+			mendelejew_has_active_chemist = yes
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_MODERN_PHYSICS_TECH_TRIGGER_TT
+			has_technology_researched = verrier_modern_physics_tech
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_PLASTICS_TECH_TRIGGER_TT
+			has_technology_researched = plastics
+		}
+		custom_tooltip = {
+			text = MR_ART_SILK_TECH_TRIGGER_TT
+			has_technology_researched = art_silk
+		}
+		custom_tooltip = {
+			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 10
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				level > 0
+			}
+		}
+		custom_tooltip = {
+			text = MR_CHEMIST_HAS_IMPROVED_SYNTHETICS_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_synthetics_plants
+				level > 0
+				has_modifier = mendelejew_building_throughput_add_modifier
+				has_modifier = mendelejew_building_production_mult_modifier
+				has_modifier = mendelejew_building_goods_input_mult_modifier
+			}
+		}
+    }
+    effect = {
+        add_journal_entry = { type = je_mendelejew_synthetic_rubber }
+		add_modifier = {
+			name = mendelejew_chemist_synthetic_rubber_cost_modifier
+			multiplier = money_amount_multiplier_medium
+		}
+		if = {
+			limit = {
+				has_variable = mendelejew_chemist_var
+			}
+			var:mendelejew_chemist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+		modifier = {
+			trigger = {
+				OR = {
+					c:GER ?= this
+					was_formed_from = GER
+				}
+			}
+			add = 2000
+		}
+		modifier = {
+			trigger = {
+				market = {
+					mg:rubber ?= { market_goods_has_goods_shortage = yes }
+				}
+			}
+			add = 5000
+		}
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+###############################################################################################################
+
+#MR_CHEMIST_ISOLATION_BUTTON
+mr_chemist_isolation_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
@@ -25,11 +208,13 @@ mr_chemist_theory_button = {
 			mendelejew_has_active_chemist = yes
 		}
 		custom_tooltip = {
-            text = MR_PACIFIC_UNIVERSITY_BUILDING_TRIGGER_TT
-            any_scope_building = {
-				is_building_type = building_university
-				level > 0
-			}
+            text = MR_ACADEMICS_PROMOTE_UNIVERSITY_MATHEMATICS_TT
+            any_scope_state = {
+                is_production_method_active = {
+                    building_type = building_university
+                    production_method = pm_dubois_university_mathematics
+                }
+            }
         }
 		custom_tooltip = {
 			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
@@ -39,13 +224,17 @@ mr_chemist_theory_button = {
 			}
 		}
 		custom_tooltip = {
-			mendelejew_element_can_theorize_trigger = yes
-			text = mendelejew_element_can_theorize_trigger_tt
+			text = MR_CHEMIST_MINERALS_ISOLATION_TRIGGER_TT
+			var:agassiz_generic_minerals_var >= 10000
+		}
+		custom_tooltip = {
+			text = mendelejew_element_can_isolate_trigger_tt
+			mendelejew_element_can_isolate_trigger = yes
 		}
 	}
 	effect = {
 		trigger_event = {
-			id = mendelejew.102
+			id = mendelejew.302
 			popup = yes
 		}
 		if = {
@@ -56,23 +245,18 @@ mr_chemist_theory_button = {
 				set_character_busy_and_immortal = yes
 			}
 		}
+		agassiz_add_x_generic_minerals_effect = {
+			AMOUNT = -10000
+		}
 	}
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
 	ai_chance = {
-		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+		base = 300 # The chance that the AI will activate this SGUI (script value between 1 and 100)
 		modifier = {
 			trigger = {
 				var:mendelejew_chemist_var ?= {
-					has_trait = mendelejew_chemist_theorist
-				}
-			}
-			add = 1000
-		}
-		modifier = {
-			trigger = {
-				var:mendelejew_chemist_var ?= {
-					has_trait = mendelejew_chemist_periodic_table_inventor
+					has_trait = mendelejew_chemist_inspector
 				}
 			}
 			add = 1000
@@ -81,10 +265,10 @@ mr_chemist_theory_button = {
 	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
 
-mr_chemist_theorize_active_sgui = {
+mr_chemist_isolation_active_sgui = {
 	scope = country
 	is_shown = {
-		has_journal_entry = je_mendelejew_element_theory
+		has_journal_entry = je_mendelejew_element_isolation
 	}
 }
 
@@ -159,8 +343,8 @@ mr_chemist_discovery_active_sgui = {
 	}
 }
 
-#MR_CHEMIST_ISOLATION_BUTTON
-mr_chemist_isolation_button = {
+#MR_CHEMIST_THEORY_BUTTON
+mr_chemist_theory_button = {
 	scope = country
 	is_valid = {
 		custom_tooltip = {
@@ -168,13 +352,11 @@ mr_chemist_isolation_button = {
 			mendelejew_has_active_chemist = yes
 		}
 		custom_tooltip = {
-            text = MR_ACADEMICS_PROMOTE_UNIVERSITY_MATHEMATICS_TT
-            any_scope_state = {
-                is_production_method_active = {
-                    building_type = building_university
-                    production_method = pm_dubois_university_mathematics
-                }
-            }
+            text = MR_PACIFIC_UNIVERSITY_BUILDING_TRIGGER_TT
+            any_scope_building = {
+				is_building_type = building_university
+				level > 0
+			}
         }
 		custom_tooltip = {
 			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
@@ -184,17 +366,13 @@ mr_chemist_isolation_button = {
 			}
 		}
 		custom_tooltip = {
-			text = MR_CHEMIST_MINERALS_ISOLATION_TRIGGER_TT
-			var:agassiz_generic_minerals_var >= 10000
-		}
-		custom_tooltip = {
-			text = mendelejew_element_can_isolate_trigger_tt
-			mendelejew_element_can_isolate_trigger = yes
+			mendelejew_element_can_theorize_trigger = yes
+			text = mendelejew_element_can_theorize_trigger_tt
 		}
 	}
 	effect = {
 		trigger_event = {
-			id = mendelejew.302
+			id = mendelejew.102
 			popup = yes
 		}
 		if = {
@@ -205,18 +383,23 @@ mr_chemist_isolation_button = {
 				set_character_busy_and_immortal = yes
 			}
 		}
-		agassiz_add_x_generic_minerals_effect = {
-			AMOUNT = -10000
-		}
 	}
 
 	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
 	ai_chance = {
-		base = 300 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
 		modifier = {
 			trigger = {
 				var:mendelejew_chemist_var ?= {
-					has_trait = mendelejew_chemist_inspector
+					has_trait = mendelejew_chemist_theorist
+				}
+			}
+			add = 1000
+		}
+		modifier = {
+			trigger = {
+				var:mendelejew_chemist_var ?= {
+					has_trait = mendelejew_chemist_periodic_table_inventor
 				}
 			}
 			add = 1000
@@ -225,10 +408,10 @@ mr_chemist_isolation_button = {
 	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
 }
 
-mr_chemist_isolation_active_sgui = {
+mr_chemist_theorize_active_sgui = {
 	scope = country
 	is_shown = {
-		has_journal_entry = je_mendelejew_element_isolation
+		has_journal_entry = je_mendelejew_element_theory
 	}
 }
 
@@ -462,187 +645,6 @@ mr_chemist_congress_button = {
 				global_var:mendelejew_isolated_elements_global_number_var >= 62
 			}
 			add = 1000
-		}
-	}
-	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
-}
-
-###############################################################################################################
-
-#MR_CHEMIST_SYNTHETIC_OIL_BUTTON
-mr_chemist_synthetic_oil_button = {
-    scope = country
-    is_valid = {
-		NOT = {
-			has_technology_researched = mendelejew_synthetic_fuel_tech
-		}
-		custom_tooltip = {
-			text = MR_CHEMIST_ACTIVE_TRIGGER_TT
-			mendelejew_has_active_chemist = yes
-		}
-		custom_tooltip = {
-			text = MR_CHEMIST_MODERN_PHYSICS_TECH_TRIGGER_TT
-			has_technology_researched = verrier_modern_physics_tech
-		}
-		custom_tooltip = {
-			text = MR_CHEMIST_PLASTICS_TECH_TRIGGER_TT
-			has_technology_researched = plastics
-		}
-		custom_tooltip = {
-			text = MR_COMBUSTION_ENGINE_TECH_TRIGGER_TT
-			has_technology_researched = combustion_engine
-		}
-		custom_tooltip = {
-			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
-			country_has_building_type_levels = {  
-				target = bt:building_university  
-				value  >= 10
-			}
-		}
-		custom_tooltip = {
-			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
-			any_scope_building = {
-				is_building_type = building_verrier_observatory
-				level > 0
-			}
-		}
-		custom_tooltip = {
-			text = MR_CHEMIST_HAS_IMPROVED_SYNTHETICS_TRIGGER_TT
-			any_scope_building = {
-				is_building_type = building_synthetics_plants
-				level > 0
-				has_modifier = mendelejew_building_throughput_add_modifier
-				has_modifier = mendelejew_building_production_mult_modifier
-				has_modifier = mendelejew_building_goods_input_mult_modifier
-			}
-		}
-    }
-    effect = {
-        add_journal_entry = { type = je_mendelejew_synthetic_oil }
-		add_modifier = {
-			name = mendelejew_chemist_synthetic_oil_cost_modifier
-			multiplier = money_amount_multiplier_medium
-		}
-		if = {
-			limit = {
-				has_variable = mendelejew_chemist_var
-			}
-			var:mendelejew_chemist_var = {
-				set_character_busy_and_immortal = yes
-			}
-		}
-    }
-
-	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
-	ai_chance = {
-		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
-		modifier = {
-			trigger = {
-				OR = {
-					c:GER ?= this
-					was_formed_from = GER
-				}
-			}
-			add = 2000
-		}
-		modifier = {
-			trigger = {
-				market = {
-					mg:oil ?= { market_goods_has_goods_shortage = yes }
-				}
-			}
-			add = 5000
-		}
-	}
-	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
-}
-
-#MR_CHEMIST_SYNTHETIC_RUBBER_BUTTON
-mr_chemist_synthetic_rubber_button = {
-    scope = country
-	is_shown = {
-		IEX_is_active_trigger = no
-	}
-    is_valid = {
-		NOT = {
-			has_technology_researched = mendelejew_synthetic_rubber_tech
-		}
-		custom_tooltip = {
-			text = MR_CHEMIST_ACTIVE_TRIGGER_TT
-			mendelejew_has_active_chemist = yes
-		}
-		custom_tooltip = {
-			text = MR_CHEMIST_MODERN_PHYSICS_TECH_TRIGGER_TT
-			has_technology_researched = verrier_modern_physics_tech
-		}
-		custom_tooltip = {
-			text = MR_CHEMIST_PLASTICS_TECH_TRIGGER_TT
-			has_technology_researched = plastics
-		}
-		custom_tooltip = {
-			text = MR_ART_SILK_TECH_TRIGGER_TT
-			has_technology_researched = art_silk
-		}
-		custom_tooltip = {
-			text = MR_UNIVERSITY_BUILDING_LEVEL_10_TRIGGER_TT
-			country_has_building_type_levels = {  
-				target = bt:building_university  
-				value  >= 10
-			}
-		}
-		custom_tooltip = {
-			text = MR_ASTEROID_CONGRESS_OBSERVATORY_BUILDING_TRIGGER_TT
-			any_scope_building = {
-				is_building_type = building_verrier_observatory
-				level > 0
-			}
-		}
-		custom_tooltip = {
-			text = MR_CHEMIST_HAS_IMPROVED_SYNTHETICS_TRIGGER_TT
-			any_scope_building = {
-				is_building_type = building_synthetics_plants
-				level > 0
-				has_modifier = mendelejew_building_throughput_add_modifier
-				has_modifier = mendelejew_building_production_mult_modifier
-				has_modifier = mendelejew_building_goods_input_mult_modifier
-			}
-		}
-    }
-    effect = {
-        add_journal_entry = { type = je_mendelejew_synthetic_rubber }
-		add_modifier = {
-			name = mendelejew_chemist_synthetic_rubber_cost_modifier
-			multiplier = money_amount_multiplier_medium
-		}
-		if = {
-			limit = {
-				has_variable = mendelejew_chemist_var
-			}
-			var:mendelejew_chemist_var = {
-				set_character_busy_and_immortal = yes
-			}
-		}
-    }
-
-	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
-	ai_chance = {
-		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
-		modifier = {
-			trigger = {
-				OR = {
-					c:GER ?= this
-					was_formed_from = GER
-				}
-			}
-			add = 2000
-		}
-		modifier = {
-			trigger = {
-				market = {
-					mg:rubber ?= { market_goods_has_goods_shortage = yes }
-				}
-			}
-			add = 5000
 		}
 	}
 	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
