@@ -67,3 +67,4 @@ Fixes
 - Licence cost is now determined by the GDP of the counrtry buying the licence.
 - Printing PMs are now less overpowered.
 - State secrets are no longer shared by the newspaper all the time.
+- Writers should no longer meet themselves or noone
