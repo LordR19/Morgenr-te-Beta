@@ -63,7 +63,6 @@ Astronomy
 Fixes
 - The Retirement of the Chemist no longer causes the Anthropologist to retire.
 - Major Artifacts should arrive in your country again.
-- The GUI should perform slightly better now.
 - Licence cost is now determined by the GDP of the counrtry buying the licence.
 - Printing PMs are now less overpowered.
 - State secrets are no longer shared by the newspaper all the time.
