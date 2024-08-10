@@ -49,6 +49,7 @@
 - Malayan Tapir
 - Snow Leopard
 - [Asiatic Cheetah 1.8.3]
+- Red Panda (SECRET)
 - [The Paradox Cat]
 
 ###Australia&Oceania
