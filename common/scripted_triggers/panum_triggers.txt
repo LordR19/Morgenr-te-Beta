@@ -14,7 +14,8 @@ panum_has_epidemic_trigger = {
 
 ######DISEASES TRIGGER#####
 
-#Cholera
+###Cholera###
+
 panum_country_can_have_cholera_trigger = {
 	game_date >= 1846.1.1 #First 10 Years should be peaceful
 	NOT = {
@@ -22,16 +23,7 @@ panum_country_can_have_cholera_trigger = {
 	}
 	panum_has_cholera_prevention_trigger = no
 	panum_has_epidemic_trigger = no
-	any_scope_state = {
-		NOT = {
-			has_variable = panum_recent_cholera_var
-		}
-		any_scope_pop = {
-			strata = poor
-			standard_of_living <= 15
-		}
-		total_urbanization >= 500
-	}
+	panum_state_can_have_cholera_trigger = yes
 }
 
 panum_state_can_have_cholera_trigger = {
@@ -64,5 +56,67 @@ panum_state_has_cholera_trigger = {
 		has_modifier = panum_epidemic_cholera_severe_modifier
 		has_modifier = panum_epidemic_cholera_normal_modifier
 		has_modifier = panum_epidemic_cholera_mild_modifier
+	}
+}
+
+###Yellow fever###
+
+panum_country_can_have_yellow_fever_trigger = {
+	NOT = {
+		has_variable = panum_recent_yellow_fever_in_country_var
+	}
+	panum_has_yellow_fever_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	panum_state_can_have_yellow_fever_trigger = yes
+}
+
+panum_state_can_have_yellow_fever_trigger = {
+	any_scope_state = {
+		OR = {
+			region = sr:region_dixie
+			region = sr:region_mexico
+			region = sr:region_central_america
+			region = sr:region_caribbean
+
+			region = sr:region_brazil
+			region = sr:region_gran_colombia
+			state_region = s:STATE_SANTA_CRUZ
+			state_region = s:STATE_LA_PAZ
+			state_region = s:STATE_PASTAZA
+			state_region = s:STATE_ACRE
+			state_region = s:STATE_ALTO_PARAGUAY
+			state_region = s:STATE_BAJO_PARAGUAY
+			state_region = s:STATE_CORRIENTES
+			state_region = s:STATE_SANTA_FE
+			state_region = s:STATE_BUENOS_AIRES
+
+			AND = {
+				state_is_in_africa = yes
+				has_state_trait = state_trait_malaria
+			}
+			AND = {
+				state_is_in_africa = yes
+				has_state_trait = state_trait_severe_malaria
+			}
+		}
+	}
+}
+
+panum_has_yellow_fever_prevention_trigger = {
+	has_technology_researched = malaria_prevention
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 3
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_yellow_fever_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_yellow_fever_severe_modifier
+		has_modifier = panum_epidemic_yellow_fever_normal_modifier
+		has_modifier = panum_epidemic_yellow_fever_mild_modifier
 	}
 }
