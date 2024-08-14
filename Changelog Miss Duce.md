@@ -9,3 +9,4 @@ Fixes
 - Added missing Cholera description.
 - Stopping astronomer Projects will no longer cause them to auto-close if you start them again.
 - Arts window no longer spams the error log.
+- Fixed some Loc issues.
