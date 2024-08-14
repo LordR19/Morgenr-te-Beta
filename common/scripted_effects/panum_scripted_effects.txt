@@ -13,7 +13,11 @@ panum_set_cholera_state_effect = {
 			NOT = {
 				has_variable = panum_recent_cholera_var
 			}
-			panum_state_can_have_cholera_trigger = yes
+			any_scope_pop = {
+				strata = poor
+				standard_of_living <= 15
+			}
+			total_urbanization >= 500
 		}
 		order_by = total_urbanization
 		max = 1 #Limits to the state with highest urbanization
@@ -32,7 +36,7 @@ panum_add_cholera_modifier_effect = {
 	scope:panum_disease_state = {
 		if = {
 			limit = {
-				owner = {
+				ROOT = {
 					has_technology_researched = modern_sewerage
 					institution_investment_level = {
 						institution	= institution_health_system
@@ -50,7 +54,7 @@ panum_add_cholera_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				owner = {
+				ROOT = {
 					has_technology_researched = modern_sewerage
 					NOT = {
 						has_law = law_type:law_no_health_system
@@ -64,7 +68,7 @@ panum_add_cholera_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				owner = {
+				ROOT = {
 					OR = {
 						has_technology_researched = modern_sewerage
 						NOT = {
@@ -152,7 +156,10 @@ panum_set_tuberculosis_state_effect = {
 			NOT = {
 				has_variable = panum_recent_tuberculosis_var
 			}
-			panum_state_can_have_tuberculosis_trigger = yes
+			any_scope_pop = {
+				strata = poor
+				standard_of_living <= 20
+			}
 		}
 		order_by = panum_negative_sol_value
 		max = 1 #Limits to the state with lowest standard of living
@@ -171,7 +178,7 @@ panum_add_tuberculosis_modifier_effect = {
 	scope:panum_disease_state = {
 		if = {
 			limit = {
-				owner = {
+				ROOT = {
 					has_technology_researched = pasteurization
 					institution_investment_level = {
 						institution	= institution_health_system
@@ -189,7 +196,7 @@ panum_add_tuberculosis_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				owner = {
+				ROOT = {
 					OR = {
 						has_technology_researched = pasteurization
 						AND = {
@@ -283,7 +290,10 @@ panum_set_smallpox_state_effect = {
 			NOT = {
 				has_variable = panum_recent_smallpox_var
 			}
-			panum_state_can_have_smallpox_trigger = yes
+			any_scope_pop = {
+				strata = poor
+				standard_of_living <= 16
+			}
 		}
 		order_by = panum_negative_sol_value
 		max = 1 #Limits to the state with lowest standard of living
@@ -302,7 +312,7 @@ panum_add_smallpox_modifier_effect = {
 	scope:panum_disease_state = {
 		if = {
 			limit = {
-				owner = {
+				ROOT = {
 					has_technology_researched = panum_vaccination_tech
 					institution_investment_level = {
 						institution	= institution_health_system
@@ -320,7 +330,7 @@ panum_add_smallpox_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				owner = {
+				ROOT = {
 					has_technology_researched = panum_vaccination_tech
 				}
 			}
@@ -403,7 +413,7 @@ panum_set_typhus_state_effect = {
 			NOT = {
 				has_variable = panum_recent_typhus_var
 			}
-			panum_state_can_have_typhus_trigger = yes
+			devastation > 0.15
 		}
 		order_by = devastation
 		max = 1 #Limits to the state with lowest standard of living
@@ -422,7 +432,7 @@ panum_add_typhus_modifier_effect = {
 	scope:panum_disease_state = {
 		if = {
 			limit = {
-				owner = {
+				ROOT = {
 					has_technology_researched = antibiotics
 					institution_investment_level = {
 						institution	= institution_health_system
@@ -440,7 +450,7 @@ panum_add_typhus_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				owner = {
+				ROOT = {
 					OR = {
 						has_technology_researched = antibiotics
 						AND = {
@@ -534,7 +544,33 @@ panum_set_yellow_fever_state_effect = {
 			NOT = {
 				has_variable = panum_recent_yellow_fever_var
 			}
-			panum_state_can_have_yellow_fever_trigger = yes
+			OR = {
+				region = sr:region_dixie
+				region = sr:region_mexico
+				region = sr:region_central_america
+				region = sr:region_caribbean
+	
+				region = sr:region_brazil
+				region = sr:region_gran_colombia
+				state_region = s:STATE_SANTA_CRUZ
+				state_region = s:STATE_LA_PAZ
+				state_region = s:STATE_PASTAZA
+				state_region = s:STATE_ACRE
+				state_region = s:STATE_ALTO_PARAGUAY
+				state_region = s:STATE_BAJO_PARAGUAY
+				state_region = s:STATE_CORRIENTES
+				state_region = s:STATE_SANTA_FE
+				state_region = s:STATE_BUENOS_AIRES
+	
+				AND = {
+					state_is_in_africa = yes
+					has_state_trait = state_trait_malaria
+				}
+				AND = {
+					state_is_in_africa = yes
+					has_state_trait = state_trait_severe_malaria
+				}
+			}
 		}
 		order_by = panum_mosquito_terrain_value
 		max = 1 #Limits to the state with the highest Mosquito Terrain
@@ -553,7 +589,7 @@ panum_add_yellow_fever_modifier_effect = {
 	scope:panum_disease_state = {
 		if = {
 			limit = {
-				owner = {
+				ROOT = {
 					has_technology_researched = malaria_prevention
 					institution_investment_level = {
 						institution	= institution_health_system
@@ -571,7 +607,7 @@ panum_add_yellow_fever_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				owner = {
+				ROOT = {
 					OR = {
 						has_technology_researched = malaria_prevention
 						AND = {
