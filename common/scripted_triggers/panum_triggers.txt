@@ -9,7 +9,13 @@
 ######GENERAL DISEASES TRIGGER######
 
 panum_has_epidemic_trigger = {
-	has_journal_entry = je_panum_cholera
+	OR = {
+		has_journal_entry = je_panum_cholera
+		has_journal_entry = je_panum_tuberculosis
+		has_journal_entry = je_panum_smallpox
+		has_journal_entry = je_panum_typhus
+		has_journal_entry = je_panum_yellow_fever
+	}
 }
 
 ######DISEASES TRIGGER#####
@@ -17,7 +23,7 @@ panum_has_epidemic_trigger = {
 ###Cholera###
 
 panum_country_can_have_cholera_trigger = {
-	game_date >= 1846.1.1 #First 10 Years should be peaceful
+	game_date >= 1852.1.1 #We start with the third wave
 	NOT = {
 		has_variable = panum_recent_cholera_in_country_var
 	}
@@ -56,6 +62,185 @@ panum_state_has_cholera_trigger = {
 		has_modifier = panum_epidemic_cholera_severe_modifier
 		has_modifier = panum_epidemic_cholera_normal_modifier
 		has_modifier = panum_epidemic_cholera_mild_modifier
+	}
+}
+
+panum_has_cholera_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_cholera_description_tt
+		has_variable = panum_cholera_description_var
+	}
+}
+
+panum_has_cholera_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_cholera_treatment_tt
+		has_variable = panum_cholera_treatment_var
+	}
+}
+
+###Tuberculosis###
+
+panum_country_can_have_tuberculosis_trigger = {
+	NOT = {
+		has_variable = panum_recent_tuberculosis_in_country_var
+	}
+	panum_has_tuberculosis_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	panum_state_can_have_tuberculosis_trigger = yes
+}
+
+panum_state_can_have_tuberculosis_trigger = {
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_tuberculosis_var
+		}
+		any_scope_pop = {
+			strata = poor
+			standard_of_living <= 20
+		}
+	}
+}
+
+panum_has_tuberculosis_prevention_trigger = {
+	has_technology_researched = pasteurization
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 4
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_tuberculosis_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_tuberculosis_severe_modifier
+		has_modifier = panum_epidemic_tuberculosis_normal_modifier
+		has_modifier = panum_epidemic_tuberculosis_mild_modifier
+	}
+}
+
+panum_has_tuberculosis_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_tuberculosis_description_tt
+		has_variable = panum_tuberculosis_description_var
+	}
+}
+
+panum_has_tuberculosis_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_tuberculosis_treatment_tt
+		has_variable = panum_tuberculosis_treatment_var
+	}
+}
+
+###Smallpox###
+
+panum_country_can_have_smallpox_trigger = {
+	NOT = {
+		has_variable = panum_recent_smallpox_in_country_var
+	}
+	panum_has_smallpox_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	panum_state_can_have_smallpox_trigger = yes
+}
+
+panum_state_can_have_smallpox_trigger = {
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_smallpox_var
+		}
+		any_scope_pop = {
+			strata = poor
+			standard_of_living <= 16
+		}
+	}
+}
+
+panum_has_smallpox_prevention_trigger = {
+	has_technology_researched = panum_vaccination_tech
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 2
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_smallpox_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_smallpox_severe_modifier
+		has_modifier = panum_epidemic_smallpox_normal_modifier
+		has_modifier = panum_epidemic_smallpox_mild_modifier
+	}
+}
+
+panum_has_smallpox_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_smallpox_description_tt
+		has_variable = panum_smallpox_description_var
+	}
+}
+
+panum_has_smallpox_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_smallpox_treatment_tt
+		has_variable = panum_smallpox_treatment_var
+	}
+}
+
+###Typhus###
+
+panum_country_can_have_typhus_trigger = {
+	NOT = {
+		has_variable = panum_recent_typhus_in_country_var
+	}
+	panum_has_typhus_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	panum_state_can_have_typhus_trigger = yes
+}
+
+panum_state_can_have_typhus_trigger = {
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_typhus_var
+		}
+		devastation > 0.15
+	}
+}
+
+panum_has_typhus_prevention_trigger = {
+	has_technology_researched = antibiotics
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 3
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_typhus_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_typhus_severe_modifier
+		has_modifier = panum_epidemic_typhus_normal_modifier
+		has_modifier = panum_epidemic_typhus_mild_modifier
+	}
+}
+
+panum_has_typhus_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_typhus_description_tt
+		has_variable = panum_typhus_description_var
+	}
+}
+
+panum_has_typhus_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_typhus_treatment_tt
+		has_variable = panum_typhus_treatment_var
 	}
 }
 
@@ -118,5 +303,19 @@ panum_state_has_yellow_fever_trigger = {
 		has_modifier = panum_epidemic_yellow_fever_severe_modifier
 		has_modifier = panum_epidemic_yellow_fever_normal_modifier
 		has_modifier = panum_epidemic_yellow_fever_mild_modifier
+	}
+}
+
+panum_has_yellow_fever_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_yellow_fever_description_tt
+		has_variable = panum_yellow_fever_description_var
+	}
+}
+
+panum_has_yellow_fever_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_yellow_fever_treatment_tt
+		has_variable = panum_yellow_fever_treatment_var
 	}
 }
