@@ -4,18 +4,16 @@
 
 #by Marco Dandolo
 
-# This effect chosses a random_scope_state with the highest urbanization
+### Cholera ###
+
+# This effect choses a random_scope_state with the highest urbanization
 panum_set_cholera_state_effect = {
 	ordered_scope_state = {
 		limit = {
 			NOT = {
 				has_variable = panum_recent_cholera_var
 			}
-			any_scope_pop = {
-				strata = poor
-				standard_of_living <= 15
-			}
-			total_urbanization >= 5
+			panum_state_can_have_cholera_trigger = yes
 		}
 		order_by = total_urbanization
 		max = 1 #Limits to the state with highest urbanization
@@ -29,6 +27,7 @@ panum_set_cholera_state_effect = {
 	}
 }
 
+# This effect adds the Cholera Modifier; time and type depends on several factors
 panum_add_cholera_modifier_effect = {
 	scope:panum_disease_state = {
 		if = {
@@ -46,7 +45,7 @@ panum_add_cholera_modifier_effect = {
 			}
 			add_modifier = {
 				name = panum_epidemic_cholera_mild_modifier
-				days = 365
+				days = panum_cholera_time_value
 			}
 		}
 		else_if = {
@@ -60,7 +59,7 @@ panum_add_cholera_modifier_effect = {
 			}
 			add_modifier = {
 				name = panum_epidemic_cholera_normal_modifier
-				days = 365
+				days = panum_cholera_time_value
 			}
 		}
 		else_if = {
@@ -76,17 +75,588 @@ panum_add_cholera_modifier_effect = {
 			}
 			add_modifier = {
 				name = panum_epidemic_cholera_severe_modifier
-				days = 365
+				days = panum_cholera_time_value
 			}
 		}
 		else = {
 			add_modifier = {
 				name = panum_epidemic_cholera_deadly_modifier
-				days = 365
+				days = panum_cholera_time_value
 			}
 		}
 	}
 }
+
+# This effect adds the Cholera Description
+panum_add_cholera_description_effect = {
+	custom_tooltip = {
+		text = panum_add_cholera_description_effect_tt
+		set_variable = panum_cholera_description_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_cholera_description_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_cholera_description_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_cholera_description_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_cholera_description_inventor_var
+			}
+		}
+	}
+}
+
+# This effect adds the Cholera Treatment
+panum_add_cholera_treatment_effect = {
+	custom_tooltip = {
+		text = panum_add_cholera_treatment_effect_tt
+		set_variable = panum_cholera_treatment_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_cholera_treatment_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_cholera_treatment_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_cholera_treatment_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_cholera_treatment_inventor_var
+			}
+		}
+	}
+}
+
+### Tuberculosis ###
+
+# This effect choses a random_scope_state with the lowest standard of living
+panum_set_tuberculosis_state_effect = {
+	ordered_scope_state = {
+		limit = {
+			NOT = {
+				has_variable = panum_recent_tuberculosis_var
+			}
+			panum_state_can_have_tuberculosis_trigger = yes
+		}
+		order_by = panum_negative_sol_value
+		max = 1 #Limits to the state with lowest standard of living
+		check_range_bounds = no #prevents errors
+
+		set_variable = {
+			name = panum_recent_tuberculosis_var
+			years = 10
+		}
+		save_scope_as = panum_disease_state
+	}
+}
+
+# This effect adds the Tuberculosis Modifier; time and type depends on several factors
+panum_add_tuberculosis_modifier_effect = {
+	scope:panum_disease_state = {
+		if = {
+			limit = {
+				owner = {
+					has_technology_researched = pasteurization
+					institution_investment_level = {
+						institution	= institution_health_system
+						value >= 3
+					}
+					NOT = {
+						has_law = law_type:law_no_health_system
+					}
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_tuberculosis_mild_modifier
+				days = panum_tuberculosis_time_value
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					OR = {
+						has_technology_researched = pasteurization
+						AND = {
+							institution_investment_level = {
+								institution	= institution_health_system
+								value >= 3
+							}
+							NOT = {
+								has_law = law_type:law_no_health_system
+							}
+						}
+					}
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_tuberculosis_normal_modifier
+				days = panum_tuberculosis_time_value
+			}
+		}
+		else = {
+			add_modifier = {
+				name = panum_epidemic_tuberculosis_severe_modifier
+				days = panum_tuberculosis_time_value
+			}
+		}
+	}
+}
+
+# This effect adds the Tuberculosis Description
+panum_add_tuberculosis_description_effect = {
+	custom_tooltip = {
+		text = panum_add_tuberculosis_description_effect_tt
+		set_variable = panum_tuberculosis_description_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_tuberculosis_description_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_tuberculosis_description_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_tuberculosis_description_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_tuberculosis_description_inventor_var
+			}
+		}
+	}
+}
+
+# This effect adds the Tuberculosis Treatment
+panum_add_tuberculosis_treatment_effect = {
+	custom_tooltip = {
+		text = panum_add_tuberculosis_treatment_effect_tt
+		set_variable = panum_tuberculosis_treatment_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_tuberculosis_treatment_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_tuberculosis_treatment_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_tuberculosis_treatment_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_tuberculosis_treatment_inventor_var
+			}
+		}
+	}
+}
+
+### Smallpox ###
+
+# This effect choses a random_scope_state with the lowest standard of living
+panum_set_smallpox_state_effect = {
+	ordered_scope_state = {
+		limit = {
+			NOT = {
+				has_variable = panum_recent_smallpox_var
+			}
+			panum_state_can_have_smallpox_trigger = yes
+		}
+		order_by = panum_negative_sol_value
+		max = 1 #Limits to the state with lowest standard of living
+		check_range_bounds = no #prevents errors
+
+		set_variable = {
+			name = panum_recent_smallpox_var
+			years = 10
+		}
+		save_scope_as = panum_disease_state
+	}
+}
+
+# This effect adds the Smallpox Modifier; time and type depends on several factors
+panum_add_smallpox_modifier_effect = {
+	scope:panum_disease_state = {
+		if = {
+			limit = {
+				owner = {
+					has_technology_researched = panum_vaccination_tech
+					institution_investment_level = {
+						institution	= institution_health_system
+						value >= 1
+					}
+					NOT = {
+						has_law = law_type:law_no_health_system
+					}
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_smallpox_mild_modifier
+				days = panum_smallpox_time_value
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					has_technology_researched = panum_vaccination_tech
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_smallpox_normal_modifier
+				days = panum_smallpox_time_value
+			}
+		}
+		else = {
+			add_modifier = {
+				name = panum_epidemic_smallpox_severe_modifier
+				days = panum_smallpox_time_value
+			}
+		}
+	}
+}
+
+# This effect adds the Smallpox Description
+panum_add_smallpox_description_effect = {
+	custom_tooltip = {
+		text = panum_add_smallpox_description_effect_tt
+		set_variable = panum_smallpox_description_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_smallpox_description_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_smallpox_description_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_smallpox_description_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_smallpox_description_inventor_var
+			}
+		}
+	}
+}
+
+# This effect adds the Smallpox Treatment
+panum_add_smallpox_treatment_effect = {
+	custom_tooltip = {
+		text = panum_add_smallpox_treatment_effect_tt
+		set_variable = panum_smallpox_treatment_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_smallpox_treatment_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_smallpox_treatment_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_smallpox_treatment_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_smallpox_treatment_inventor_var
+			}
+		}
+	}
+}
+
+### Typhus ###
+
+# This effect choses a random_scope_state with the highest devastation
+panum_set_typhus_state_effect = {
+	ordered_scope_state = {
+		limit = {
+			NOT = {
+				has_variable = panum_recent_typhus_var
+			}
+			panum_state_can_have_typhus_trigger = yes
+		}
+		order_by = devastation
+		max = 1 #Limits to the state with lowest standard of living
+		check_range_bounds = no #prevents errors
+
+		set_variable = {
+			name = panum_recent_typhus_var
+			years = 10
+		}
+		save_scope_as = panum_disease_state
+	}
+}
+
+# This effect adds the Typhus Modifier; time and type depends on several factors
+panum_add_typhus_modifier_effect = {
+	scope:panum_disease_state = {
+		if = {
+			limit = {
+				owner = {
+					has_technology_researched = antibiotics
+					institution_investment_level = {
+						institution	= institution_health_system
+						value >= 2
+					}
+					NOT = {
+						has_law = law_type:law_no_health_system
+					}
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_typhus_mild_modifier
+				days = panum_typhus_time_value
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					OR = {
+						has_technology_researched = antibiotics
+						AND = {
+							institution_investment_level = {
+								institution	= institution_health_system
+								value >= 2
+							}
+							NOT = {
+								has_law = law_type:law_no_health_system
+							}
+						}
+					}
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_typhus_normal_modifier
+				days = panum_typhus_time_value
+			}
+		}
+		else = {
+			add_modifier = {
+				name = panum_epidemic_typhus_severe_modifier
+				days = panum_typhus_time_value
+			}
+		}
+	}
+}
+
+# This effect adds the Typhus Description
+panum_add_typhus_description_effect = {
+	custom_tooltip = {
+		text = panum_add_typhus_description_effect_tt
+		set_variable = panum_typhus_description_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_typhus_description_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_typhus_description_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_typhus_description_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_typhus_description_inventor_var
+			}
+		}
+	}
+}
+
+# This effect adds the Typhus Treatment
+panum_add_typhus_treatment_effect = {
+	custom_tooltip = {
+		text = panum_add_typhus_treatment_effect_tt
+		set_variable = panum_typhus_treatment_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_typhus_treatment_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_typhus_treatment_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_typhus_treatment_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_typhus_treatment_inventor_var
+			}
+		}
+	}
+}
+
+### Yellow Fever ###
+
+# This effect choses a random_scope_state with the highest Mosquito Terrain
+panum_set_yellow_fever_state_effect = {
+	ordered_scope_state = {
+		limit = {
+			NOT = {
+				has_variable = panum_recent_yellow_fever_var
+			}
+			panum_state_can_have_yellow_fever_trigger = yes
+		}
+		order_by = panum_mosquito_terrain_value
+		max = 1 #Limits to the state with the highest Mosquito Terrain
+		check_range_bounds = no #prevents errors
+
+		set_variable = {
+			name = panum_recent_yellow_fever_var
+			years = 10
+		}
+		save_scope_as = panum_disease_state
+	}
+}
+
+# This effect adds the Yellow Fever Modifier; time and type depends on several factors
+panum_add_yellow_fever_modifier_effect = {
+	scope:panum_disease_state = {
+		if = {
+			limit = {
+				owner = {
+					has_technology_researched = malaria_prevention
+					institution_investment_level = {
+						institution	= institution_health_system
+						value >= 2
+					}
+					NOT = {
+						has_law = law_type:law_no_health_system
+					}
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_yellow_fever_mild_modifier
+				days = panum_yellow_fever_time_value
+			}
+		}
+		else_if = {
+			limit = {
+				owner = {
+					OR = {
+						has_technology_researched = malaria_prevention
+						AND = {
+							institution_investment_level = {
+								institution	= institution_health_system
+								value >= 2
+							}
+							NOT = {
+								has_law = law_type:law_no_health_system
+							}
+						}
+					}
+				}
+			}
+			add_modifier = {
+				name = panum_epidemic_yellow_fever_normal_modifier
+				days = panum_yellow_fever_time_value
+			}
+		}
+		else = {
+			add_modifier = {
+				name = panum_epidemic_yellow_fever_severe_modifier
+				days = panum_yellow_fever_time_value
+			}
+		}
+	}
+}
+
+# This effect adds the Yellow Fever Description
+panum_add_yellow_fever_description_effect = {
+	custom_tooltip = {
+		text = panum_add_yellow_fever_description_effect_tt
+		set_variable = panum_yellow_fever_description_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_yellow_fever_description_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_yellow_fever_description_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_yellow_fever_description_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_yellow_fever_description_inventor_var
+			}
+		}
+	}
+}
+
+# This effect adds the Yellow Fever Treatment
+panum_add_yellow_fever_treatment_effect = {
+	custom_tooltip = {
+		text = panum_add_yellow_fever_treatment_effect_tt
+		set_variable = panum_yellow_fever_treatment_var
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_yellow_fever_treatment_invented_global_var
+				}
+			}
+			set_global_variable = {
+				name = panum_yellow_fever_treatment_year_global_var
+				value = year
+			}
+			country_definition = {
+				set_global_variable = {
+					name = panum_yellow_fever_treatment_invented_global_var
+					value = this
+				}
+			}
+			var:panum_physician_var = {
+				set_variable = panum_yellow_fever_treatment_inventor_var
+			}
+		}
+	}
+}
+
+### General ###
 
 panum_remove_disease_effect = {
 	if = {
@@ -149,5 +719,74 @@ panum_remove_disease_effect = {
 			has_modifier = panum_personal_treatment_modifier
 		}
 		remove_modifier = panum_personal_treatment_modifier
+	}
+}
+
+panum_set_start_medical_inventions_effect = {
+	if = {
+		limit = {
+			game_date >= 1796.1.1 #Edward Jenner invents vaccine
+		}
+		set_global_variable = {
+			name = theiler_cholera_vaccine_year_global_var
+			value = year
+		}
+		if = {
+			limit = {
+				exists = c:GBR
+			}
+			c:GBR = {
+				country_definition = {
+					set_global_variable = {
+						name = theiler_cholera_vaccine_invented_global_var
+						value = this
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			game_date >= 1500.1.1 #Variolation
+		}
+		set_global_variable = {
+			name = panum_smallpox_treatment_year_global_var
+			value = year
+		}
+		if = {
+			limit = {
+				exists = c:CHI
+			}
+			c:CHI = {
+				country_definition = {
+					set_global_variable = {
+						name = panum_smallpox_treatment_invented_global_var
+						value = this
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			game_date >= 925.1.1 #Rhazes
+		}
+		set_global_variable = {
+			name = panum_smallpox_description_year_global_var
+			value = year
+		}
+		if = {
+			limit = {
+				exists = c:PER
+			}
+			c:PER = {
+				country_definition = {
+					set_global_variable = {
+						name = panum_smallpox_description_invented_global_var
+						value = this
+					}
+				}
+			}
+		}
 	}
 }
