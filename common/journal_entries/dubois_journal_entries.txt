@@ -1128,5 +1128,147 @@ je_systemize_fossils = {
 
 	weight = 30
 
-	should_be_pinned_by_default = yes
+	should_be_pinned_by_default = no
+}
+
+###Prehistoric Scenery###
+je_prehistoric_scenery = {
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	scripted_button = dubois_stop_paleontologist_project_button
+
+	group = je_group_dubois_nature
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = dubois_paleontologist_scenery_progress_var
+				add = 1
+			}
+		}
+		random_events = {
+			50 = 0
+			1 = dubois.272 #Dubois 272: Materials
+			1 = dubois.273 #Dubois 273: A ridiculous job?
+			1 = dubois.274 #Dubois 274: Student interest
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = dubois_paleontologist_scenery_progress_var
+			value = 0
+		}
+		if = {
+			limit = {
+				has_variable = dubois_jurassic_scenery_var
+				NOT = {
+					has_variable = dubois_triassic_scenery_var
+				}
+			}
+			set_variable = dubois_triassic_scenery_ongoing_var
+		}
+		else_if = {
+			limit = {
+				has_variable = dubois_cretaceous_scenery_var
+				NOT = {
+					has_variable = dubois_jurassic_scenery_var
+				}
+			}
+			set_variable = dubois_jurassic_scenery_ongoing_var
+		}
+		else = {
+			set_variable = dubois_cretaceous_scenery_ongoing_var
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+		if = {
+			limit = {
+				has_variable = dubois_triassic_scenery_ongoing_var
+			}
+			set_variable = dubois_triassic_scenery_var
+		}
+		else_if = {
+			limit = {
+				has_variable = dubois_jurassic_scenery_ongoing_var
+			}
+			set_variable = dubois_jurassic_scenery_var
+		}
+		else_if = {
+			limit = {
+				has_variable = dubois_cretaceous_scenery_ongoing_var
+			}
+			set_variable = dubois_cretaceous_scenery_var
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.271
+		}
+	}
+
+	current_value = {
+		value = var:dubois_paleontologist_scenery_progress_var
+	}
+
+	goal_add_value = {
+		value = 24
+	}
+
+	invalid = {
+		OR = {
+			custom_tooltip = {
+				text = je_paleontologist_dies_tt
+				NOT = {
+					has_variable = dubois_paleontologist_var
+				}
+			}
+			custom_tooltip = {
+				text = dubois_stop_paleontologist_project_tt
+				OR = {
+					trigger_if = {
+						limit = { is_ai = yes }
+						dubois_has_paleontologist = yes
+						dubois_has_paleontologist_no_tooltip_trigger = yes
+					}
+					has_variable = dubois_stop_paleontologist_project_var
+				}
+			}
+			custom_tooltip = {
+				text = dubois_no_university_for_scenery_tt
+				NOT = {
+					any_scope_building = {
+						is_building_type = building_university
+						NOR = {
+							has_modifier = dubois_cretaceous_scenery_modifier
+							has_modifier = dubois_jurassic_scenery_modifier
+							has_modifier = dubois_triassic_scenery_modifier
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = dubois_can_stop_active_paleontologist_project_var #Needs to be removed, when the JE is removed
+		remove_variable = dubois_stop_paleontologist_project_var
+		var:dubois_naturalist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = dubois_cretaceous_scenery_ongoing_var
+		remove_variable = dubois_jurassic_scenery_ongoing_var
+		remove_variable = dubois_triassic_scenery_ongoing_var
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = no
 }
