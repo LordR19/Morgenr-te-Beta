@@ -2,7 +2,7 @@ Changelog for 2.2.3b "Miss Duce"
 
 Fixes
 - Cooldown for Volcano Expeditions (3 years).
-- Composers are no longer naked.
+- Female Composers are no longer naked.
 - Seismograph JE works properly.
 - Art Deco Cinema will trigger only once.
 - Cholera will start in 1852 (Third wave).
