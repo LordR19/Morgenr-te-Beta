@@ -4161,7 +4161,6 @@ dubois.22 = {
 ######SAFARI######
 
 #Dubois 31: Safari starts
-
 dubois.31 = {
 	dlc = dlc_morgenrote
 
@@ -4191,9 +4190,6 @@ dubois.31 = {
 		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
-		dubois_set_safari_progress = yes
-		dubois_set_safari_trap = yes
-		dubois_set_safari_track = yes
 	}
 
 	option = {
@@ -4217,6 +4213,9 @@ dubois.31 = {
 			name = dubois_safari_hippopotamus
 			value = 1
 		}
+		add_journal_entry = {
+			type = je_dubois_safari_hippopotamus
+		}
 	}
 
 	option = {
@@ -4238,6 +4237,9 @@ dubois.31 = {
 		set_variable = {
 			name = dubois_safari_lion
 			value = 1
+		}
+		add_journal_entry = {
+			type = je_dubois_safari_lion
 		}
 	}
 
@@ -4261,6 +4263,9 @@ dubois.31 = {
 			name = dubois_safari_elephant
 			value = 1
 		}
+		add_journal_entry = {
+			type = je_dubois_safari_elephant
+		}
 	}
 
 	option = {
@@ -4282,6 +4287,9 @@ dubois.31 = {
 		set_variable = {
 			name = dubois_safari_giraffe
 			value = 1
+		}
+		add_journal_entry = {
+			type = je_dubois_safari_giraffe
 		}
 	}
 
@@ -4305,17 +4313,16 @@ dubois.31 = {
 			name = dubois_safari_zebra
 			value = 1
 		}
+		add_journal_entry = {
+			type = je_dubois_safari_zebra
+		}
 	}
 
 	after = {
-		add_journal_entry = {
-			type = je_dubois_safari
-		}
 	}
 }
 
 #Dubois 32: Standard event: Trap or Follow
-
 dubois.32 = {
 	dlc = dlc_morgenrote
 
@@ -4551,7 +4558,6 @@ dubois.32 = {
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
 	trigger = {
-		var:dubois_safari_progress <= 4
 	}
 
 	immediate = {
@@ -4584,16 +4590,62 @@ dubois.32 = {
 	option = {
 		name = dubois.32.g #Trap
 		default_option = yes
-		dubois_add_safari_trap = yes
+		dubois_add_1_safari_trap_effect = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_journal_entry = je_dubois_safari_hippopotamus
+						has_journal_entry = je_dubois_safari_lion
+						has_journal_entry = je_dubois_safari_elephant
+					}
+					NOT = {
+						has_technology_researched = automatic_machine_guns
+					}
+				}
+				random_list = {
+					2 = {}
+					1 = {
+						trigger_event = {
+							id = dubois.36
+							days = 1
+							popup = yes
+						}
+					}
+				}
+			}
+		}
 	}
 
 	option = {
 		name = dubois.32.h #Track
-		dubois_add_safari_track = yes
+		dubois_add_1_safari_track_effect = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_journal_entry = je_dubois_safari_giraffe
+						has_journal_entry = je_dubois_safari_zebra
+					}
+					NOT = {
+						has_technology_researched = combustion_engine
+					}
+				}
+				random_list = {
+					2 = {}
+					1 = {
+						trigger_event = {
+							id = dubois.35
+							days = 1
+							popup = yes
+						}
+					}
+				}
+			}
+		}
 	}
 
 	after = {
-		dubois_add_safari_progress = yes
 
 		if = {
 			limit = {
@@ -4644,7 +4696,6 @@ dubois.32 = {
 }
 
 #Dubois 33: Rare Flowers
-
 dubois.33 = {
 	dlc = dlc_morgenrote
 
@@ -4703,7 +4754,6 @@ dubois.33 = {
 	}
 
 	trigger = {
-		var:dubois_safari_progress <= 4
 	}
 
 	immediate = {
@@ -4716,7 +4766,6 @@ dubois.33 = {
 		name = dubois.33.g #We need these flowers
 		default_option = yes
 		dubois_medium_add_technology = yes
-		dubois_add_safari_progress = yes
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
@@ -4724,6 +4773,7 @@ dubois.33 = {
 
 	option = {
 		name = dubois.33.h #This is a waste of time
+		dubois_add_1_safari_trap_effect = yes
 	}
 
 	after = {
@@ -4731,7 +4781,6 @@ dubois.33 = {
 }
 
 #Dubois 34: Unknown Species
-
 dubois.34 = {
 	dlc = dlc_morgenrote
 
@@ -4790,7 +4839,6 @@ dubois.34 = {
 	}
 
 	trigger = {
-		var:dubois_safari_progress <= 4
 	}
 
 	immediate = {
@@ -4803,7 +4851,6 @@ dubois.34 = {
 		name = dubois.34.g #We need these unknown species
 		default_option = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 5000 }
-		dubois_add_safari_progress = yes
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
@@ -4811,14 +4858,14 @@ dubois.34 = {
 
 	option = {
 		name = dubois.34.h #This is a waste of time
+		dubois_add_1_safari_track_effect = yes
 	}
 
 	after = {
 	}
 }
 
-#Dubois 35: New vehicle
-
+#Dubois 35: Animal Escapes!
 dubois.35 = {
 	dlc = dlc_morgenrote
 
@@ -4828,7 +4875,8 @@ dubois.35 = {
 
 	desc = dubois.35.t
 
-	flavor = dubois.35.f
+	flavor = {
+	}
 
 	duration = 1
 
@@ -4841,14 +4889,15 @@ dubois.35 = {
 
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
-	cooldown = {
-		years = 1
+	trigger = {
 	}
 
-	trigger = {
-		var:dubois_safari_progress <= 4
-		has_technology_researched = combustion_engine
-	}
+	cancellation_trigger = {
+    	NOR = {
+			has_journal_entry = je_dubois_safari_giraffe
+			has_journal_entry = je_dubois_safari_zebra
+		}
+    }
 
 	immediate = {
 		var:dubois_naturalist_var ?= {
@@ -4857,24 +4906,51 @@ dubois.35 = {
 	}
 
 	option = {
-		name = dubois.35.g #This car will help us
+		name = dubois.35.g #There is nothing we can do
 		default_option = yes
-		add_treasury = -10000
-		dubois_add_safari_2_track = yes
+		trigger = {
+			NOT = {
+				var:dubois_naturalist_var ?= {
+					has_trait = dubois_zoologist
+				}
+			}
+		}
+		dubois_sub_1_safari_track_effect = yes
+		if = {
+			limit = {
+				has_variable = dubois_safari_giraffe
+			}
+			change_variable = {
+				name = dubois_safari_giraffe
+				add = -1
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_zebra
+			}
+			change_variable = {
+				name = dubois_safari_zebra
+				add = -1
+			}
+		}
 	}
 
 	option = {
-		name = dubois.35.h #Trap
-		dubois_add_safari_trap = yes
+		name = dubois.36.i #The professor has everything under control.
+		trigger = {
+			var:dubois_naturalist_var ?= {
+				has_trait = dubois_zoologist
+			}
+		}
+		custom_tooltip = dubois_safari_zoologist_tt
 	}
 
 	after = {
-		dubois_add_safari_progress = yes
 	}
 }
 
-#Dubois 36: Extra traps
-
+#Dubois 36: Animal Attacks!
 dubois.36 = {
 	dlc = dlc_morgenrote
 
@@ -4884,7 +4960,172 @@ dubois.36 = {
 
 	desc = dubois.36.t
 
-	flavor = dubois.36.f
+	flavor = {
+	}
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	cancellation_trigger = {
+    	NOR = {
+			has_journal_entry = je_dubois_safari_hippopotamus
+			has_journal_entry = je_dubois_safari_lion
+			has_journal_entry = je_dubois_safari_elephant
+		}
+    }
+
+	immediate = {
+		var:dubois_naturalist_var ?= {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.36.g #Flee, you fools!
+		default_option = yes
+		trigger = {
+			NOT = {
+				var:dubois_naturalist_var ?= {
+					has_trait = dubois_zoologist
+				}
+			}
+		}
+		dubois_sub_1_safari_trap_effect = yes
+		if = {
+			limit = {
+				has_variable = dubois_safari_hippopotamus
+			}
+			change_variable = {
+				name = dubois_safari_hippopotamus
+				add = -1
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_lion
+			}
+			change_variable = {
+				name = dubois_safari_lion
+				add = -1
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_elephant
+			}
+			change_variable = {
+				name = dubois_safari_elephant
+				add = -1
+			}
+		}
+	}
+
+	option = {
+		name = dubois.36.h #Lay out the traps anyway!
+		trigger = {
+			NOT = {
+				var:dubois_naturalist_var ?= {
+					has_trait = dubois_zoologist
+				}
+			}
+		}
+		random_list = {
+			1 = {
+				custom_tooltip = dubois.36.success_tt
+			}
+			1 = {
+				custom_tooltip = dubois.36.fail_tt
+				set_variable = dubois_safari_accident_var
+			}
+		}
+	}
+
+	option = {
+		name = dubois.36.i #The professor has everything under control.
+		trigger = {
+			var:dubois_naturalist_var ?= {
+				has_trait = dubois_zoologist
+			}
+		}
+		custom_tooltip = dubois_safari_zoologist_tt
+	}
+
+	after = {
+	}
+}
+
+#Dubois 37: Safari Accident
+dubois.37 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.37.t
+
+	desc = dubois.37.d
+
+	flavor = dubois.37.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_naturalist_var ?= {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.37.g #
+		default_option = yes
+		naturalist_experience_gain_effect = { AMOUNT = -5 }
+		remove_modifier = dubois_on_safari_modifier
+		add_modifier = {
+			name = dubois_had_safari_modifier
+			years = 3
+		}
+	}
+
+	after = {
+		dubois_remove_safari_effect = yes
+		scope:dubois_naturalist_scope = {
+			set_character_busy_and_immortal = no
+			remove_variable = dubois_naturalist_on_safari_var
+			remove_modifier = dubois_animal_hunter_modifier
+		}
+	}
+}
+
+#Dubois 38: Safari Extras
+dubois.38 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.38.t
+
+	desc = dubois.38.t
+
+	flavor = dubois.38.f
 
 	duration = 1
 
@@ -4902,8 +5143,10 @@ dubois.36 = {
 	}
 
 	trigger = {
-		var:dubois_safari_progress <= 4
-		has_technology_researched = automatic_machine_guns
+		OR = {
+			has_technology_researched = automatic_machine_guns
+			has_technology_researched = combustion_engine
+		}
 	}
 
 	immediate = {
@@ -4913,68 +5156,29 @@ dubois.36 = {
 	}
 
 	option = {
-		name = dubois.36.g #Buy them
+		name = dubois.38.g #Buy them
 		default_option = yes
-		add_treasury = -10000
-		dubois_add_safari_2_trap = yes
-	}
-
-	option = {
-		name = dubois.36.h #Track
-		dubois_set_safari_track = yes
-	}
-
-	after = {
-		dubois_add_safari_progress = yes
-	}
-}
-
-#Dubois 38: Safari Hidden
-
-dubois.38 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		var:dubois_safari_progress = 5
-		NOR = {
-			AND = {
-				has_variable = dubois_safari_hippopotamus
-				var:dubois_safari_trap >= 3
+		if = {
+			limit = {
+				has_technology_researched = automatic_machine_guns
 			}
-			AND = {
-				has_variable = dubois_safari_lion
-				var:dubois_safari_trap >= 2
-				var:dubois_safari_track >= 2
+			custom_tooltip = dubois.38.machine_guns_tt
+			dubois_add_2_safari_trap_effect = yes
+		}
+		if = {
+			limit = {
+				has_technology_researched = combustion_engine
 			}
-			AND = {
-				has_variable = dubois_safari_elephant
-				var:dubois_safari_trap >= 4
-			}
-			AND = {
-				has_variable = dubois_safari_giraffe
-				var:dubois_safari_trap >= 2
-				var:dubois_safari_track >= 1
-			}
-			AND = {
-				has_variable = dubois_safari_zebra
-				var:dubois_safari_trap >= 1
-				var:dubois_safari_track >= 2
-			}
+			custom_tooltip = dubois.38.combustion_engine_tt
+			dubois_add_2_safari_track_effect = yes
 		}
 	}
 
-	immediate = {
-		dubois_add_safari_progress = yes
-		set_variable = dubois_safari_fail
+	after = {
 	}
 }
 
 #Dubois 39: Safari Success
-
 dubois.39 = {
 	dlc = dlc_morgenrote
 
@@ -5024,39 +5228,12 @@ dubois.39 = {
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
 	trigger = {
-		var:dubois_safari_progress = 5
-		OR = {
-			AND = {
-				has_variable = dubois_safari_hippopotamus
-				var:dubois_safari_trap >= 3
-			}
-			AND = {
-				has_variable = dubois_safari_lion
-				var:dubois_safari_trap >= 2
-				var:dubois_safari_track >= 2
-			}
-			AND = {
-				has_variable = dubois_safari_elephant
-				var:dubois_safari_trap >= 4
-			}
-			AND = {
-				has_variable = dubois_safari_giraffe
-				var:dubois_safari_trap >= 2
-				var:dubois_safari_track >= 1
-			}
-			AND = {
-				has_variable = dubois_safari_zebra
-				var:dubois_safari_trap >= 1
-				var:dubois_safari_track >= 2
-			}
-		}
 	}
 
 	immediate = {
 		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
-		set_variable = dubois_safari_success
 	}
 
 	option = {
@@ -5066,8 +5243,15 @@ dubois.39 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "25"
 		}
-
-		var:dubois_naturalist_var ?= {
+		remove_modifier = dubois_on_safari_modifier
+		add_modifier = {
+			name = dubois_had_safari_modifier
+			years = 3
+		}
+		scope:dubois_naturalist_scope = {
+			set_character_busy_and_immortal = no
+			remove_variable = dubois_naturalist_on_safari_var
+			remove_modifier = dubois_animal_hunter_modifier
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_zoologist }
@@ -5078,12 +5262,11 @@ dubois.39 = {
 	}
 
 	after = {
-		dubois_add_safari_progress = yes
+		dubois_remove_safari_effect = yes
 	}
 }
 
 #Dubois 40: Safari back home
-
 dubois.40 = {
 	dlc = dlc_morgenrote
 
@@ -5091,20 +5274,7 @@ dubois.40 = {
 
 	title = dubois.40.t
 
-	desc = {
-		triggered_desc = {
-			trigger = {
-				has_variable = dubois_safari_success
-			}
-			desc = dubois.40.d.success
-		}
-		triggered_desc = {
-			trigger = {
-				has_variable = dubois_safari_fail
-			}
-			desc = dubois.40.d.fail
-		}
-	}
+	desc = dubois.40.d
 
 	flavor = dubois.40.f
 
@@ -10332,7 +10502,7 @@ dubois.271 = {
 		}
 		triggered_desc = {
 			trigger = {
-				has_variable = ldubois_triassic_scenery_ongoing_var
+				has_variable = dubois_triassic_scenery_ongoing_var
 			}
 			desc = dubois.271.t_triassic
 		}
@@ -10353,7 +10523,7 @@ dubois.271 = {
 		}
 		triggered_desc = {
 			trigger = {
-				has_variable = ldubois_triassic_scenery_ongoing_var
+				has_variable = dubois_triassic_scenery_ongoing_var
 			}
 			desc = dubois.271.f_triassic
 		}
