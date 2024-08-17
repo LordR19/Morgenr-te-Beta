@@ -7,71 +7,6 @@
 
 ############################
 
-######SAFARI######
-
-je_dubois_safari = {
-	icon = "gfx/interface/icons/event_icons/event_animals.dds"
-
-	group = je_group_dubois_nature
-
-	on_monthly_pulse = {
-		random_events = {
-			4 = dubois.32 #Standard event: Trap or Follow
-			2 = dubois.33 #Rare Flowers
-			2 = dubois.34 #Unknown Species
-			1 = dubois.35 #New vehicle: 2 follows possible
-			1 = dubois.36 #Extra traps: 2 traps possible
-			10 = dubois.38 #Hidden event
-			10 = dubois.39 #Succesful Safari
-		}
-	}
-	
-	immediate = {
-		var:dubois_naturalist_var = {
-			save_scope_as = dubois_naturalist_scope
-		}
-	}
-	
-    fail = {
-    }
-
-	on_fail = {
-	}
-
-	complete = {
-		custom_tooltip = {
-			text = je_dubois_safari_fail
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}
-		}
-	}
-
-	on_complete = {
-		trigger_event = {
-			id = dubois.40
-			popup = yes
-		}
-	}
-
-	invalid = {
-	}
-
-	current_value = {
-		value = var:dubois_safari_progress
-	}
-
-	goal_add_value = {
-		add = 6
-	}
-
-	progressbar = yes
-
-	should_be_pinned_by_default = yes
-
-	weight = 35
-}
-
 ######NATIVE ANIMAL######
 
 je_dubois_native_animal = {
@@ -1271,4 +1206,482 @@ je_prehistoric_scenery = {
 	weight = 30
 
 	should_be_pinned_by_default = no
+}
+
+##############################################################
+
+######SAFARI######
+
+je_dubois_safari_hippopotamus = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_3_traps_tt
+			je:je_dubois_safari_hippopotamus = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 3
+			}
+		}
+		custom_tooltip = {
+			text = je_dubois_safari_1_track_tt
+			je:je_dubois_safari_hippopotamus = {
+				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 1
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+}
+
+je_dubois_safari_lion = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_2_traps_tt
+			je:je_dubois_safari_lion = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 2
+			}
+		}
+		custom_tooltip = {
+			text = je_dubois_safari_2_track_tt
+			je:je_dubois_safari_lion = {
+				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 2
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+}
+
+je_dubois_safari_elephant = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_4_traps_tt
+			je:je_dubois_safari_lion = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 4
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+}
+
+je_dubois_safari_giraffe = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_2_traps_tt
+			je:je_dubois_safari_giraffe = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 2
+			}
+		}
+		custom_tooltip = {
+			text = je_dubois_safari_2_track_tt
+			je:je_dubois_safari_giraffe = {
+				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 2
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+}
+
+je_dubois_safari_zebra = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_1_traps_tt
+			je:je_dubois_safari_zebra = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 1
+			}
+		}
+		custom_tooltip = {
+			text = je_dubois_safari_3_track_tt
+			je:je_dubois_safari_zebra = {
+				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 3
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
 }
