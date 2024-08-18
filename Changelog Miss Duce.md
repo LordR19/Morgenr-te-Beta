@@ -1,4 +1,4 @@
-Changelog for 2.2.3b "Miss Duce"
+Changelog for 2.2.3c "Miss Duce"
 
 Paleontology
 - New actions for Paleontologists: Systemize fossils. This is a theoretical work which will not need Geological Formations. Useful in early game.
