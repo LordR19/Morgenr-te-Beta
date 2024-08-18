@@ -93,6 +93,45 @@ dubois_on_building_built = {
 }
 
 dubois_on_acquired_technology = {
+	effect = {
+		if = {
+			limit = {
+				is_ai = yes
+				has_technology_researched = dubois_paleontology_tech
+				NOT = {
+					has_variable = dubois_free_formation_for_ai_var
+				}
+				OR = {
+					any_scope_state = {
+						has_variable = dubois_has_normal_formation_var
+						NOT = {
+							has_state_trait = dubois_state_trait_normal_formation
+						}
+					}
+					any_scope_state = {
+						has_variable = dubois_has_great_formation_var
+						NOR = {
+							has_state_trait = dubois_state_trait_great_north_american_formation
+							has_state_trait = dubois_state_trait_south_american_formation
+							has_state_trait = dubois_state_trait_great_european_formation
+							has_state_trait = dubois_state_trait_great_african_formation
+							has_state_trait = dubois_state_trait_great_asian_formation
+							has_state_trait = dubois_state_trait_great_australian_formation
+						}
+					}
+				}
+			}
+			set_variable = dubois_free_formation_for_ai_var
+			trigger_event = {
+				id = dubois.72
+				days = 7
+			}
+			trigger_event = {
+				id = dubois.73
+				days = 14
+			}
+		}
+	}
 	events = {
 		dubois.2 #Dubois 2: On the Origin of Species
 		dubois.200 #Dubois 200: Opening of the Natural History Museum (Owen)
