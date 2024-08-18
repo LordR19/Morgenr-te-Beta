@@ -430,18 +430,20 @@ mr_systemize_fossils_stop_button = {
 }
 
 #Prehistoric Sceneries buttons
-#Visibility Buttons
-mr_prehistoric_scenery_visibility = {
+#Cretaceous
+mr_prehistoric_scenery_cretaceous_button_visible = {
 	is_shown = {
-		NOT = {
-			has_variable = dubois_cretaceous_scenery_var
-			has_variable = dubois_jurassic_scenery_var
-			has_variable = dubois_triassic_scenery_var
+		OR = {
+			NOT = {
+				has_variable = dubois_cretaceous_scenery_var
+			}
+			AND = {
+				has_journal_entry = je_prehistoric_scenery
+				has_variable = dubois_cretaceous_scenery_ongoing_var
+			}
 		}
 	}
 }
-
-#Cretaceous
 mr_prehistoric_scenery_cretaceous_button = {
     scope = country
 	is_shown = {
@@ -450,9 +452,6 @@ mr_prehistoric_scenery_cretaceous_button = {
 		}
 	}
     is_valid = {
-		custom_tooltip = {
-			text = MR_PREHISTORIC_SCENERY_BUTTON_TRIGGER
-		}
 		custom_tooltip = {
 			text = MR_GEOLOGICAL_AGE_1_TRIGGER
 			global_var:agassiz_geological_knowledge_global_var > 1
@@ -488,8 +487,13 @@ mr_prehistoric_scenery_cretaceous_button = {
 		add_journal_entry = {
 			type = je_prehistoric_scenery
 		}
-		var:dubois_paleontologist_var ?= {
-			set_character_busy_and_immortal = yes
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var
+			}
+			var:dubois_paleontologist_var = {
+				set_character_busy_and_immortal = yes
+			}
 		}
     }
 }
@@ -511,17 +515,30 @@ mr_prehistoric_scenery_cretaceous_stop_button = {
 }
 
 #Jurassic
+mr_prehistoric_scenery_jurassic_button_visible = {
+	is_shown = {
+		OR = {
+			NOT = {
+				has_variable = dubois_jurassic_scenery_var
+			}
+			AND = {
+				has_journal_entry = je_prehistoric_scenery
+				has_variable = dubois_jurassic_scenery_ongoing_var
+			}
+		}
+	}
+}
 mr_prehistoric_scenery_jurassic_button = {
     scope = country
 	is_shown = {
-		has_variable = dubois_cretaceous_scenery_var
 		NOT = {
 			has_variable = dubois_jurassic_scenery_var
 		}
 	}
     is_valid = {
 		custom_tooltip = {
-			text = MR_PREHISTORIC_SCENERY_BUTTON_TRIGGER
+			text = MR_SCENERY_HAS_CRETACEOUS_TRIGGER_TT
+			has_variable = dubois_cretaceous_scenery_var
 		}
 		custom_tooltip = {
 			text = MR_GEOLOGICAL_AGE_5_TRIGGER
@@ -558,8 +575,13 @@ mr_prehistoric_scenery_jurassic_button = {
 		add_journal_entry = {
 			type = je_prehistoric_scenery
 		}
-		var:dubois_paleontologist_var ?= {
-			set_character_busy_and_immortal = yes
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var
+			}
+			var:dubois_paleontologist_var = {
+				set_character_busy_and_immortal = yes
+			}
 		}
     }
 }
@@ -581,17 +603,30 @@ mr_prehistoric_scenery_jurassic_stop_button = {
 }
 
 #Triassic
+mr_prehistoric_scenery_triassic_button_visible = {
+	is_shown = {
+		OR = {
+			NOT = {
+				has_variable = dubois_triassic_scenery_var
+			}
+			AND = {
+				has_journal_entry = je_prehistoric_scenery
+				has_variable = dubois_triassic_scenery_ongoing_var
+			}
+		}
+	}
+}
 mr_prehistoric_scenery_triassic_button = {
     scope = country
 	is_shown = {
-		has_variable = dubois_jurassic_scenery_var
 		NOT = {
 			has_variable = dubois_triassic_scenery_var
 		}
 	}
     is_valid = {
 		custom_tooltip = {
-			text = MR_PREHISTORIC_SCENERY_BUTTON_TRIGGER
+			text = MR_SCENERY_HAS_JURASSIC_TRIGGER_TT
+			has_variable = dubois_jurassic_scenery_var
 		}
 		custom_tooltip = {
 			text = MR_GEOLOGICAL_AGE_10_TRIGGER
@@ -628,8 +663,13 @@ mr_prehistoric_scenery_triassic_button = {
 		add_journal_entry = {
 			type = je_prehistoric_scenery
 		}
-		var:dubois_paleontologist_var ?= {
-			set_character_busy_and_immortal = yes
+		if = {
+			limit = {
+				has_variable = dubois_paleontologist_var
+			}
+			var:dubois_paleontologist_var = {
+				set_character_busy_and_immortal = yes
+			}
 		}
     }
 }
