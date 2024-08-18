@@ -15,6 +15,9 @@ Safari
 - Machine Guns and Combustion engine will not only give trapping and tracking bonus, but also prevent animals from attacking or escaping.
 - JE will be inactivated if Naturalist dies.
 
+Compatibility
+- Morgenröte is now fully compatible with the Community GUI Framework.
+
 Fixes
 - Female Composers are no longer naked.
 - Fixed some Loc issues.
