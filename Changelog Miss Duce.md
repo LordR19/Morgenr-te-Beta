@@ -2,7 +2,7 @@ Changelog for 2.2.3c "Miss Duce"
 
 Paleontology
 - New actions for Paleontologists: Systemize fossils. This is a theoretical work which will not need Geological Formations. Useful in early game.
-- New action for Paleontologists: Prehistoric Scene. Paleontologists may create a Prehistoric Scenery in a University, giving a small modifier (innovation/pop qualification) to the University when ready.
+- New action for Paleontologists: Prehistoric Scenery. Paleontologists may create a Prehistoric Scenery in a University, giving a small modifier (innovation/pop qualification) to the University when ready.
 - Three Prehistoric Sceneries are possible.
 
 Safari
