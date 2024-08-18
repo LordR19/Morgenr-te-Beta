@@ -1079,6 +1079,7 @@ panum.200 = {
 
 	immediate = {
 		panum_set_tuberculosis_state_effect = yes
+		panum_set_number_of_tuberculosis_states_effect = yes
 	}
 
 	option = {	#Tuberculosis!
@@ -1183,6 +1184,880 @@ panum.200 = {
 			has_technology_researched = pasteurization
 			factor = 0.1
 		}
+	}
+}
+
+#Panum 201: Tuberculosis in STATE
+panum.201 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.201.t
+
+	desc = panum.201.d
+
+	flavor = panum.200.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_tuberculosis.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		panum_state_can_have_tuberculosis_trigger = yes
+	}
+
+	immediate = {
+		panum_set_tuberculosis_state_effect = yes
+		panum_add_number_of_tuberculosis_states_effect = yes
+	}
+
+	option = {	#Tuberculosis
+		name = panum.201.g
+		default_option = yes
+		panum_add_tuberculosis_modifier_effect = yes
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 202: A hereditary disease?
+panum.202 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.202.t
+
+	desc = panum.202.d
+
+	flavor = panum.202.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_tuberculosis.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		NOT = {
+			panum_has_tuberculosis_treatment_trigger = yes
+		}
+		any_scope_state = {
+			panum_state_has_tuberculosis_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_tuberculosis_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#It is a hereditary disease and there is nothing we can do.
+		name = panum.202.g
+		default_option = yes
+		random_list = {
+			1 = {}
+			1 = {
+				scope:panum_disease_state = {
+					kill_population_percent_in_state = {
+						percent = 0.002
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#It is a contagious disease and we must do everything we can to stop it from spreading!
+		name = panum.202.h
+		set_variable = {
+			name = panum_tuberculosis_contagious_var
+			years = 3
+		}
+		every_scope_state = {
+			limit = {
+				panum_state_has_tuberculosis_trigger = yes
+			}
+			add_modifier = {
+				name = panum_tuberculosis_quarantine_modifier
+			}
+			add_radicals_in_state = {
+				value = 0.01
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 203: Spitting on the streets
+panum.203 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.203.t
+
+	desc = panum.203.d
+
+	flavor = panum.203.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_tuberculosis.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 5
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_tuberculosis_trigger = yes
+			NOT = {
+				has_modifier = panum_forbidden_spitting_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_tuberculosis_trigger = yes
+				NOT = {
+					has_modifier = panum_forbidden_spitting_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Ban this disgusting habit!
+		name = panum.203.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_forbidden_spitting_modifier
+				days = 100
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				strata = poor
+			}
+		}
+	}
+
+	option = {	#Announce a draconian ban and make the evildoers pay!
+		name = panum.203.h
+		default_option = yes
+		add_treasury = 100000
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_forbidden_spitting_modifier
+				days = 365
+			}
+			add_radicals_in_state = {
+				value = 0.02
+				strata = poor
+			}
+		}
+	}
+
+	option = {	#Spitting is a human nature that cannot be banned.
+		name = panum.203.i
+		default_option = yes
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				strata = poor
+				percent = 0.003
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 204: ARTIST gets Tuberculosis
+panum.204 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.204.t
+
+	desc = panum.204.d
+
+	flavor = panum.204.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:disease_victim_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		OR = {
+			AND = {
+				has_variable = elgar_composer_var
+				var:elgar_composer_var ?= {
+					NOR = {
+						has_trait = panum_tuberculosis
+						has_variable = panum_tuberculosis_immunity_var
+					}
+				}
+			}
+			AND = {
+				has_variable = manzoni_writer_var
+				var:manzoni_writer_var ?= {
+					NOR = {
+						has_trait = panum_tuberculosis
+						has_variable = panum_tuberculosis_immunity_var
+					}
+				}
+			}
+			AND = {
+				has_variable = klimt_painter_var
+				var:klimt_painter_var ?= {
+					NOR = {
+						has_trait = panum_tuberculosis
+						has_variable = panum_tuberculosis_immunity_var
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				has_variable = elgar_composer_var
+				var:elgar_composer_var ?= {
+					NOR = {
+						has_trait = panum_tuberculosis
+						has_variable = panum_tuberculosis_immunity_var
+					}
+				}
+			}
+			var:elgar_composer_var ?= {
+				save_scope_as = disease_victim_scope
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = manzoni_writer_var
+				var:manzoni_writer_var ?= {
+					NOR = {
+						has_trait = panum_tuberculosis
+						has_variable = panum_tuberculosis_immunity_var
+					}
+				}
+			}
+			var:manzoni_writer_var ?= {
+				save_scope_as = disease_victim_scope
+			}
+		}
+		else = {
+			var:klimt_painter_var ?= {
+				save_scope_as = disease_victim_scope
+			}
+		}
+	}
+
+	option = {	#Ensures the best possible treatment!
+		name = panum.104.g
+		default_option = yes
+		add_modifier = {
+			name = panum_personal_treatment_cost_modifier
+		}
+		scope:disease_victim_scope = {
+			add_trait = panum_tuberculosis
+			add_modifier = {
+				name = panum_personal_treatment_modifier
+			}
+		}
+	}
+
+	option = {	#Call Doctor Hasenbein!
+		name = panum.104.h
+		trigger = {
+			has_variable = panum_physician_var
+		}
+		scope:disease_victim_scope = {
+			set_variable = panum_tuberculosis_immunity_var
+		}
+	}
+
+	option = {	#Wouldn't that be an inspiring occasion for a requiem?
+		name = panum.204.i
+		trigger = {
+			scope:disease_victim_scope = {
+				has_variable = mr_is_composer_var
+			}
+		}
+		scope:disease_victim_scope = {
+			add_trait = panum_tuberculosis
+		}
+		elgar_add_x_music_tradition_unscaled_effect = { AMOUNT = 20 }
+		composer_experience_gain_effect = { AMOUNT = 10 }
+		random_list = {
+			3 = {}
+			1 = { 
+				scope:disease_victim_scope = {
+					kill_composer_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {	#But hasn't tuberculosis always been the subject of writers?
+		name = panum.204.j
+		trigger = {
+			scope:disease_victim_scope = {
+				has_variable = mr_is_writer_var
+			}
+		}
+		scope:disease_victim_scope = {
+			add_trait = panum_tuberculosis
+		}
+		manzoni_add_x_literary_tradition_unscaled_effect = { AMOUNT = 10 }
+		writer_experience_gain_effect = { AMOUNT = 10 }
+		random_list = {
+			3 = {}
+			1 = { 
+				scope:disease_victim_scope = {
+					kill_writer_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {	#But doesn't this very sickness encourage to visualize misery?
+		name = panum.204.k
+		trigger = {
+			scope:disease_victim_scope = {
+				has_variable = mr_is_painter_var
+			}
+		}
+		scope:disease_victim_scope = {
+			add_trait = panum_tuberculosis
+		}
+		klimt_add_x_painting_tradition_unscaled_effect = { AMOUNT = 15 }
+		painter_experience_gain_effect = { AMOUNT = 10 }
+		random_list = {
+			3 = {}
+			1 = { 
+				scope:disease_victim_scope = {
+					kill_painter_effect = yes
+				}
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 205: Tuberculosis Sanatorium
+panum.205 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.205.t
+
+	desc = panum.205.d
+
+	flavor = panum.205.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_tuberculosis.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 5
+	}
+
+	trigger = {
+		NOT = {
+			any_scope_state = {
+				has_building = building_panum_tuberculosis_sanatorium
+			}
+		}
+		any_scope_state = {
+			panum_state_has_tuberculosis_trigger = yes
+		}
+		OR = {
+			dubois_has_mountains = yes
+			agassiz_has_terrain_mountains = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_tuberculosis_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+		if = {
+			limit = {
+				ROOT ?= c:SWI
+				mr_country_owns_grisons_trigger = yes
+			}
+			random_scope_state = {
+				limit = {
+					mr_state_in_grisons_trigger = yes
+				}
+				save_scope_as = panum_davos_scope
+			}
+		}
+		else = {
+			random_scope_state = {
+				limit = {
+					OR = {
+						has_state_trait = state_trait_scottish_highlands
+						has_state_trait = state_trait_cascades
+						has_state_trait = state_trait_sierra_nevada
+						has_state_trait = state_trait_rocky_mountains
+						has_state_trait = state_trait_sierra_madre_occidental
+						has_state_trait = state_trait_sierra_madre_oriental
+						has_state_trait = state_trait_central_american_cordilleras
+						has_state_trait = state_trait_wasatch_range
+						has_state_trait = state_trait_andes
+						has_state_trait = state_trait_alps_mountains
+						has_state_trait = state_trait_caucasus_mountains
+						has_state_trait = state_trait_atlas_mountains
+						has_state_trait = state_trait_zagros_mountains
+						has_state_trait = state_trait_alborz_mountains
+						has_state_trait = state_trait_baluchistan_mountains
+						has_state_trait = state_trait_himalayas_mountains
+						has_state_trait = state_trait_great_dividing_range
+						has_state_trait = dubois_state_trait_mount_whitney
+						has_state_trait = dubois_state_trait_citlaltepetl
+						has_state_trait = dubois_state_trait_mount_logan
+						has_state_trait = dubois_state_trait_mount_mckinley
+						has_state_trait = dubois_state_trait_chimborazo
+						has_state_trait = dubois_state_trait_illimani
+						has_state_trait = dubois_state_trait_huascaran
+						has_state_trait = dubois_state_trait_aconcagua
+						has_state_trait = dubois_state_trait_aneto
+						has_state_trait = dubois_state_trait_aiguille_verte
+						#has_state_trait = dubois_state_trait_matterhorn
+						has_state_trait = dubois_state_trait_dufourspitze
+						has_state_trait = dubois_state_trait_shkara
+						has_state_trait = dubois_state_trait_mount_cameroon
+						has_state_trait = dubois_state_trait_mount_stanley
+						has_state_trait = dubois_state_trait_batian
+						has_state_trait = dubois_state_trait_kibo
+						has_state_trait = dubois_state_trait_kaufmann_peak
+						has_state_trait = dubois_state_trait_kabru
+						has_state_trait = dubois_state_trait_kamet
+						has_state_trait = dubois_state_trait_chogolisa
+						#has_state_trait = dubois_state_trait_mount_everest
+						has_state_trait = dubois_state_trait_mount_cook
+						has_state_trait = dubois_state_trait_mount_wilhelm
+					}
+				}
+				save_scope_as = panum_davos_scope
+			}
+		}
+	}
+
+	option = {	#Build a Sanatorium in STATE!
+		name = panum.205.g
+		default_option = yes
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_treasury = -100000
+		}
+		add_modifier = {
+			name = panum_tuberculosis_sanatorium_cost_modifier
+			years = 35
+		}
+		scope:panum_davos_scope = {
+			start_building_construction = building_panum_tuberculosis_sanatorium
+		}
+
+		ai_chance = {
+			base = 80
+		}
+	}
+
+	option = {	#This is all just luxurious charlatanry.
+		name = panum.205.h
+
+		ai_chance = {
+			base = 20
+			modifier = {
+				trigger = {
+					ROOT ?= c:SWI
+				}
+				add = -20
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 206: The disease of the proletarians
+panum.206 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.206.t
+
+	desc = panum.206.d
+
+	flavor = panum.206.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:union_leader
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 4
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_tuberculosis_trigger = yes
+			NOT = {
+				has_modifier = panum_help_against_tuberculosis_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_tuberculosis_trigger = yes
+				NOT = {
+					has_modifier = panum_help_against_tuberculosis_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+		ig:ig_trade_unions = {
+			save_scope_as = trade_unions_ig 
+			leader = {
+				save_scope_as = union_leader
+			}
+		}
+	}
+
+	option = {	#Maybe the poor should just wash themselves more?
+		name = panum.206.g
+		default_option = yes
+		scope:trade_unions_ig = {
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 3
+			}
+		}
+		scope:panum_disease_state = {
+			add_radicals_in_state = {
+				value = 0.01
+				strata = poor
+			}
+		}
+	}
+
+	option = {	#Selective improvements in this area are warranted.
+		name = panum.206.h
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_help_against_tuberculosis_modifier
+			}
+		}
+	}
+
+	option = {	#The question of health care is a national matter.
+		name = panum.206.i
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_public_health_insurance
+					value > neutral
+				}
+			}
+			add_modifier = {
+				name = panum_supports_health_care_initiative_modifier
+				years = 3
+			}
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 3
+			}
+		}
+		every_interest_group = {
+			limit = {
+				law_stance = {
+					law = law_type:law_public_health_insurance
+					value < neutral
+				}
+			}
+			add_modifier = {
+				name = panum_opposes_health_care_initiative_modifier
+				years = 3
+			}
+		}
+	}
+
+	option = {	#Applause for this initiative!
+		name = panum.206.j
+		trigger = {
+			scope:trade_unions_ig = {
+				is_in_government = yes
+			}
+		}
+		scope:trade_unions_ig = {
+			add_modifier = {
+				name = panum_praised_for_tuberculosis_initiative_modifier
+				years = 3
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 207: Religious Initiative
+panum.207 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.207.t
+
+	desc = panum.207.d
+
+	flavor = panum.207.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:devout_leader
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 4
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_tuberculosis_trigger = yes
+			NOT = {
+				has_modifier = panum_tuberculosis_hospital_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_tuberculosis_trigger = yes
+				NOT = {
+					has_modifier = panum_tuberculosis_hospital_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+		ig:ig_devout = {
+			save_scope_as = devout_ig
+			leader = {
+				save_scope_as = devout_leader
+			}
+		}
+	}
+
+	option = {	#These storytellers are just trying to gain influence!
+		name = panum.207.g
+		default_option = yes
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.001
+			}
+		}
+	}
+
+	option = {	#Applause for this initiative!
+		name = panum.206.j
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_tuberculosis_hospital_modifier
+			}
+		}
+		scope:devout_ig = {
+			add_modifier = {
+				name = panum_praised_for_tuberculosis_initiative_modifier
+				years = 3
+			}
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 3
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 208: The white plague takes its toll
+panum.208 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.208.t
+
+	desc = panum.208.d
+
+	flavor = panum.208.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_tuberculosis.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_tuberculosis_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_tuberculosis_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Will this never end?
+		name = panum.208.g
+		default_option = yes
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_tuberculosis_severe_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.003
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_tuberculosis_normal_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.002
+				}
+			}
+		}
+		else = {
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.001
+				}
+			}
+		}
+	}
+
+	after = {
 	}
 }
 
