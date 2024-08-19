@@ -304,11 +304,14 @@ panum.103 = {
 	trigger = {
 		any_scope_state = {
 			panum_state_has_cholera_trigger = yes
-			NOT = {
-				has_modifier = panum_factory_quarantine_modifier
-			}
 			any_scope_building = {
 				is_building_group = bg_manufacturing
+			}
+			NOT = {
+				any_scope_building = {
+					is_building_group = bg_manufacturing
+					has_modifier = panum_factory_quarantine_modifier
+				}
 			}
 		}
 	}
@@ -317,11 +320,14 @@ panum.103 = {
 		random_scope_state = {
 			limit = {
 				panum_state_has_cholera_trigger = yes
-				NOT = {
-					has_modifier = panum_factory_quarantine_modifier
-				}
 				any_scope_building = {
 					is_building_group = bg_manufacturing
+				}
+				NOT = {
+					any_scope_building = {
+						is_building_group = bg_manufacturing
+						has_modifier = panum_factory_quarantine_modifier
+					}
 				}
 			}
 			save_scope_as = panum_disease_state
@@ -332,9 +338,14 @@ panum.103 = {
 		name = panum.103.g
 		default_option = yes
 		scope:panum_disease_state = {
-			add_modifier = {
-				name = panum_factory_quarantine_modifier
-				days = 365
+			every_scope_building = {
+				limit = {
+					is_building_group = bg_manufacturing
+				}
+				add_modifier = {
+					name = panum_factory_quarantine_modifier
+					days = 365
+				}
 			}
 		}
 	}
@@ -2486,6 +2497,7 @@ panum.500 = {
 	}
 
 	immediate = {
+		panum_set_number_of_yellow_fever_states_effect = yes
 		panum_set_yellow_fever_state_effect = yes
 	}
 
@@ -2573,6 +2585,548 @@ panum.500 = {
 			has_technology_researched = antibiotics
 			factor = 0.1
 		}
+	}
+}
+
+#Panum 501: Yellow Fever in STATE
+panum.501 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.501.t
+
+	desc = panum.501.d
+
+	flavor = panum.500.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		panum_state_can_have_yellow_fever_trigger = yes
+	}
+
+	immediate = {
+		panum_set_yellow_fever_state_effect = yes
+		panum_add_number_of_yellow_fever_states_effect = yes
+	}
+
+	option = {	#Yellow Fever
+		name = panum.501.g
+		default_option = yes
+		panum_add_yellow_fever_modifier_effect = yes
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 502: A contagious disease?
+panum.502 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.502.t
+
+	desc = panum.502.d
+
+	flavor = panum.502.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		NOT = {
+			panum_has_yellow_fever_treatment_trigger = yes
+		}
+		any_scope_state = {
+			panum_state_has_yellow_fever_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#It is a contagious disease and we must do everything we can to stop it from spreading!
+		name = panum.202.h
+		default_option = yes
+		every_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			add_modifier = {
+				name = panum_yellow_fever_quarantine_modifier
+			}
+		}
+	}
+
+	option = {	#There is no evidence that this is a contagious disease.
+		name = panum.502.g
+		default_option = yes
+		every_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			add_radicals_in_state = {
+				strata = rich
+				value = 0.03
+			}
+			add_radicals_in_state = {
+				strata = middle
+				value = 0.02
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 503: Yellow Fever affects Plantations
+panum.503 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.503.t
+
+	desc = panum.503.d
+
+	flavor = panum.503.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 4
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_yellow_fever_trigger = yes
+			any_scope_building = {
+				is_building_group = bg_plantations
+			}
+			NOT = {
+				any_scope_building = {
+					is_building_group = bg_plantations
+					has_modifier = panum_plantation_quarantine_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+				any_scope_building = {
+					is_building_group = bg_plantations
+				}
+				NOT = {
+					any_scope_building = {
+						is_building_group = bg_plantations
+						has_modifier = panum_plantation_quarantine_modifier
+					}
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Get the workers out of the fields!
+		name = panum.503.g
+		default_option = yes
+		scope:panum_disease_state = {
+			every_scope_building = {
+				limit = {
+					is_building_group = bg_plantations
+				}
+				add_modifier = {
+					name = panum_plantation_quarantine_modifier
+					days = 365
+				}
+			}
+		}
+	}
+
+	option = {	#The plantation must continue to run, at all costs!
+		name = panum.503.h
+		default_option = yes
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = farmers
+				percent = 0.005
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 504: Evacuation
+panum.504 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.504.t
+
+	desc = panum.504.d
+
+	flavor = panum.504.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_yellow_fever_trigger = yes
+			has_building = building_government_administration
+			NOT = {
+				has_modifier = panum_administrative_evacuation_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+				has_building = building_government_administration
+				NOT = {
+					has_modifier = panum_administrative_evacuation_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Evacuate the authorities.
+		name = panum.504.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_administrative_evacuation_modifier
+			}
+			add_radicals_in_state = {
+				value = 0.01
+			}
+		}
+	}
+
+	option = {	#The local administration must not collapse.
+		name = panum.504.h
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = bureaucrats
+				percent = 0.005
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 505: Yellow Fever spreads to Barracks
+panum.505 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.505.t
+
+	desc = panum.505.d
+
+	flavor = panum.505.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 4
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_yellow_fever_trigger = yes
+			has_building = building_barracks
+			NOT = {
+				any_scope_building = {
+					has_modifier = panum_yellow_fever_barracks_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+				has_building = building_barracks
+				NOT = {
+					any_scope_building = {
+						has_modifier = panum_yellow_fever_barracks_modifier
+					}
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#No! They were destined for an honorable death on the battlefield!
+		name = panum.505.g
+		default_option = yes
+		scope:panum_disease_state = {
+			every_scope_building = {
+				limit = {
+					is_building_group = bg_army
+				}
+				add_modifier = {
+					name = panum_yellow_fever_barracks_modifier
+				}
+			}
+		}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = soldiers
+				percent = 0.003
+			}
+			kill_population_percent_in_state = {
+				pop_type = officers
+				percent = 0.001
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 506: Sailor's sickness
+panum.506 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.506.t
+
+	desc = panum.506.d
+
+	flavor = panum.506.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_yellow_fever_trigger = yes
+			has_building = building_port
+			NOT = {
+				any_scope_building = {
+					has_modifier = panum_yellow_fever_port_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+				has_building = building_port
+				NOT = {
+					any_scope_building = {
+						has_modifier = panum_yellow_fever_port_modifier
+					}
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#A collapse for shipping!
+		name = panum.506.g
+		default_option = yes
+		scope:panum_disease_state = {
+			every_scope_building = {
+				limit = {
+					is_building_type = building_port
+				}
+				add_modifier = {
+					name = panum_yellow_fever_port_modifier
+				}
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 507: Black Vomit
+panum.507 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.507.t
+
+	desc = panum.507.d
+
+	flavor = panum.507.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_yellow_fever.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_yellow_fever_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_yellow_fever_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#When will we finally be freed from this plague?
+		name = panum.507.g
+		default_option = yes
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_yellow_fever_severe_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.003
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_yellow_fever_normal_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.002
+				}
+			}
+		}
+		else = {
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.001
+				}
+			}
+		}
+	}
+
+
+	after = {
 	}
 }
 
