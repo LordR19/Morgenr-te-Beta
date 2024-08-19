@@ -56,6 +56,7 @@ panum.100 = {
 	}
 
 	immediate = {
+		panum_set_number_of_cholera_states_effect = yes
 		panum_set_cholera_state_effect = yes
 	}
 
@@ -194,9 +195,14 @@ panum.101 = {
 
 	trigger = {
 		panum_state_can_have_cholera_trigger = yes
+		NAND = {
+			panum_has_cholera_treatment_trigger = yes
+			var:panum_number_of_cholera_states_var <= 3
+		}
 	}
 
 	immediate = {
+		panum_add_number_of_cholera_states_effect = yes
 		panum_set_cholera_state_effect = yes
 	}
 
@@ -2158,6 +2164,7 @@ panum.300 = {
 	}
 
 	immediate = {
+		panum_set_number_of_smallpox_states_effect = yes
 		panum_set_smallpox_state_effect = yes
 	}
 
@@ -2263,6 +2270,200 @@ panum.300 = {
 			has_technology_researched = panum_vaccination_tech
 			factor = 0.1
 		}
+	}
+}
+
+#Panum 301: Smallpox in STATE
+panum.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.301.t
+
+	desc = panum.301.d
+
+	flavor = panum.300.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		panum_state_can_have_smallpox_trigger = yes
+		NAND = {
+			panum_has_smallpox_treatment_trigger = yes
+			var:panum_number_of_smallpox_states_var <= 3
+		}
+	}
+
+	immediate = {
+		panum_add_number_of_smallpox_states_effect = yes
+		panum_set_smallpox_state_effect = yes
+	}
+
+	option = {	#Smallpox!
+		name = panum.301.g
+		default_option = yes
+		panum_add_smallpox_modifier_effect = yes
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 302: Smallpox spreads to COUNTRY
+panum.302 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.302.t
+
+	desc = panum.302.d
+
+	flavor = panum.300.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_country = {
+			panum_country_can_have_smallpox_trigger = yes
+			is_adjacent_to_country = ROOT
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				panum_country_can_have_smallpox_trigger = yes
+				is_adjacent_to_country = ROOT
+			}
+			save_scope_as = panum_infected_country
+		}
+	}
+
+	option = {	#This plague is completely out of control!
+		name = panum.302.g
+		default_option = yes
+		add_modifier = {
+			name = panum_useless_plague_fighter_modifier
+			years = 2
+		}
+		scope:panum_infected_country = {
+			trigger_event = {
+				id = panum.300
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 303: Smallpox out of control
+panum.303 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.303.t
+
+	desc = panum.303.d
+
+	flavor = panum.303.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_smallpox.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_smallpox_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_smallpox_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Is there no cure for this terrible illness?
+		name = panum.303.g
+		default_option = yes
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_smallpox_severe_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.003
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_smallpox_normal_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.002
+				}
+			}
+		}
+		else = {
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.001
+				}
+			}
+		}
+	}
+
+
+	after = {
 	}
 }
 
