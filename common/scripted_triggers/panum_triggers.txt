@@ -270,10 +270,43 @@ panum_country_can_have_yellow_fever_trigger = {
 	panum_has_yellow_fever_prevention_trigger = no
 	panum_has_epidemic_trigger = no
 	panum_state_can_have_yellow_fever_trigger = yes
+	any_scope_state = {
+		OR = {
+			region = sr:region_dixie
+			region = sr:region_mexico
+			region = sr:region_central_america
+			region = sr:region_caribbean
+
+			region = sr:region_brazil
+			region = sr:region_gran_colombia
+			state_region = s:STATE_SANTA_CRUZ
+			state_region = s:STATE_LA_PAZ
+			state_region = s:STATE_PASTAZA
+			state_region = s:STATE_ACRE
+			state_region = s:STATE_ALTO_PARAGUAY
+			state_region = s:STATE_BAJO_PARAGUAY
+			state_region = s:STATE_CORRIENTES
+			state_region = s:STATE_SANTA_FE
+			state_region = s:STATE_BUENOS_AIRES
+
+			AND = {
+				state_is_in_africa = yes
+				has_state_trait = state_trait_malaria
+			}
+			AND = {
+				state_is_in_africa = yes
+				has_state_trait = state_trait_severe_malaria
+			}
+		}
+	}
 }
 
 panum_state_can_have_yellow_fever_trigger = {
+	var:panum_number_of_yellow_fever_states_var <= 3
 	any_scope_state = {
+		any_neighbouring_state = {
+			panum_state_has_yellow_fever_trigger = yes
+		}
 		OR = {
 			region = sr:region_dixie
 			region = sr:region_mexico
