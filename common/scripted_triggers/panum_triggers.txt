@@ -159,13 +159,24 @@ panum_country_can_have_smallpox_trigger = {
 	}
 	panum_has_smallpox_prevention_trigger = no
 	panum_has_epidemic_trigger = no
-	panum_state_can_have_smallpox_trigger = yes
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_smallpox_var
+		}
+		any_scope_pop = {
+			strata = poor
+			standard_of_living <= 16
+		}
+	}
 }
 
 panum_state_can_have_smallpox_trigger = {
 	any_scope_state = {
 		NOT = {
 			has_variable = panum_recent_smallpox_var
+		}
+		any_neighbouring_state = {
+			panum_state_has_smallpox_trigger = yes
 		}
 		any_scope_pop = {
 			strata = poor
