@@ -20,6 +20,7 @@ namespace = academics
 #Academics 6: Anthropologist retires
 #Academics 7: Chemist retires
 #Academics 8: Geologist retires
+#Academics 9: Physician retires
 
 ###Death Notifications from Game caused Deaths###
 
@@ -892,6 +893,95 @@ academics.8 = {
 		}
 		set_variable = {
 			name = academics_geologist_emeritus_delayed_var
+			years = { 1 5 }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Academics 9: Physician retires
+academics.9 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.9.t
+
+	desc = academics.9.d
+
+#	flavor = agassiz_geologist_achievements_loc
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = academics_physician_emeritus_delayed_var
+		}
+		has_variable = panum_physician_var
+		var:panum_physician_var ?= {
+			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = panum_physician_var
+			var:panum_physician_var ?= {
+				age >= 65
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var ?= {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = academics_retired_person_scope
+			set_retirement_variable_effect = yes
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		retire_physician_effect = yes
+	}
+	
+	option = {	#We need him! Pay him extra!
+		name = academics.1.h
+
+		trigger = {
+			NOT = {
+				has_modifier = academics_physician_emeritus_delayed_modifier
+			}
+		}
+
+		add_modifier = {
+			name = academics_physician_emeritus_delayed_modifier
+			years = 5
+		}
+		set_variable = {
+			name = academics_physician_emeritus_delayed_var
 			years = { 1 5 }
 		}
 
