@@ -54,6 +54,7 @@ namespace = academics
 #Academics 56: Anthropologist
 #Academics 57: Chemist
 #Academics 58: Geologist
+#Academics 59: Physician
 
 #Academics 60: Foreign Scientist
 #Academics 61: Set up for academics_country_tech_advance_var variable (hidden)
@@ -2496,6 +2497,71 @@ academics.58 = {
 				trigger = { 
 					has_variable = dubois_geologist_var
 					var:dubois_geologist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 59: Physician
+
+academics.59 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.59.t
+
+	desc = academics.59.d
+
+	flavor = academics.59.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_new_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_physician_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.59.g
+		default_option = yes
+
+		panum_set_new_physician_as_physician_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.59.h
+		panum_medium_add_technology = yes
+		panum_remove_new_physician_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has a Physician that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = panum_physician_var
+					var:panum_physician_var = {
 						age <= 60
 					}
 				}
