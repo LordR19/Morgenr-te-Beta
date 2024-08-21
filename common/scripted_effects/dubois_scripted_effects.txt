@@ -340,6 +340,14 @@ dubois_remove_habitats_effect = {
 			remove_state_trait = dubois_state_trait_sealion_habitat
 		}
 	}
+	if = {
+		limit = {
+			has_state_trait = dubois_state_trait_thylacine_habitat
+		}
+		state_region = {
+			remove_state_trait = dubois_state_trait_thylacine_habitat
+		}
+	}
 }
 
 ############################################################################
@@ -1768,6 +1776,14 @@ dubois_add_animal_habitats = {
 		}
 		add_state_trait = dubois_state_trait_sealion_habitat
 	}
+
+	#Thylacine
+	every_state_region = {
+		limit = {
+			this = s:STATE_TASMANIA
+		}
+		add_state_trait = dubois_state_trait_thylacine_habitat
+	}
 }
 
 ######ADD ANIMALS######
@@ -2426,6 +2442,20 @@ dubois_add_zoo_animal_sealion = {
 	dubois_add_total_animals_naturalist = yes
 }
 
+dubois_add_zoo_animal_thylacine = {
+	change_variable = {
+		name = dubois_zoo_animal_total
+		add = 1
+	}
+	change_variable = {
+		name = dubois_zoo_animal_australia
+		add = 1
+	}
+	set_variable = dubois_zoo_animal_thylacine
+	custom_tooltip = dubois_add_zoo_animal_thylacine_tt
+	dubois_add_total_animals_naturalist = yes
+}
+
 ############################################################################
 
 ######LOCAL ANIMALS######
@@ -2968,6 +2998,18 @@ dubois_calculate_catch_animals = {
 		set_variable = dubois_zoo_animal_catch_sealion
 		dubois_add_catch_animals = yes
 	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_zoo_animal_thylacine
+			}
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_thylacine_habitat
+			}
+		}
+		set_variable = dubois_zoo_animal_catch_thylacine
+		dubois_add_catch_animals = yes
+	}
 }
 
 dubois_add_total_catch_animals = {
@@ -3235,6 +3277,12 @@ dubois_add_total_catch_animals = {
 		}
 		dubois_add_zoo_animal_sealion = yes
 	}
+	if = {
+		limit = {
+			has_variable = dubois_zoo_animal_catch_thylacine
+		}
+		dubois_add_zoo_animal_thylacine = yes
+	}
 }
 
 dubois_remove_catch_animals = {
@@ -3285,6 +3333,7 @@ dubois_remove_catch_animals = {
 	remove_variable = dubois_zoo_animal_catch_platypus
 	remove_variable = dubois_zoo_animal_catch_cassowary
 	remove_variable = dubois_zoo_animal_catch_sealion
+	remove_variable = dubois_zoo_animal_catch_thylacine
 }
 
 ######SAFARI ANIMALS######
@@ -4258,6 +4307,16 @@ dubois_state_breeding_add_habitat_effect = {
 			add_state_trait = dubois_state_trait_sealion_habitat
 		}
 	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = dubois_breeding_thylacine_var
+			}
+		}
+		state_region = {
+			add_state_trait = dubois_state_trait_thylacine_habitat
+		}
+	}
 }
 
 dubois_remove_breeding_effect = {
@@ -4313,6 +4372,7 @@ dubois_remove_breeding_effect = {
 	remove_variable = dubois_breeding_platypus_var
 	remove_variable = dubois_breeding_cassowary_var
 	remove_variable = dubois_breeding_sealion_var
+	remove_variable = dubois_breeding_thylacine_var
 
 	#Removes the state that was used to breed
 	remove_variable = dubois_breeding_state_var
@@ -5105,6 +5165,24 @@ dubois_begin_animal_documentation_effect = {
 		}
 		set_variable = dubois_sealion_documentation_ongoing_var
 	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_thylacine }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_thylacine_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_thylacine_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_thylacine_documentation_ongoing_var
+	}
 }
 
 dubois_begin_animal_documentation_film_effect = {
@@ -5804,6 +5882,22 @@ dubois_begin_animal_documentation_film_effect = {
 		}
 		set_variable = dubois_sealion_documentation_ongoing_var
 	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_thylacine }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_thylacine_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				has_state_trait = dubois_state_trait_thylacine_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_thylacine_documentation_ongoing_var
+	}
 }
 
 remove_ongoing_animal_documentation_effect = {
@@ -5861,6 +5955,7 @@ remove_ongoing_animal_documentation_effect = {
 	remove_variable = dubois_platypus_documentation_ongoing_var
 	remove_variable = dubois_cassowary_documentation_ongoing_var
 	remove_variable = dubois_sealion_documentation_ongoing_var
+	remove_variable = dubois_thylacine_documentation_ongoing_var
 }
 
 dubois_document_animal_effect = {
@@ -6350,6 +6445,17 @@ dubois_document_animal_effect = {
 		}
 		set_variable = dubois_documented_animal_sealion
 	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_thylacine }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_thylacine_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_thylacine
+	}
 }
 
 dubois_document_animal_film_effect = {
@@ -6796,6 +6902,16 @@ dubois_document_animal_film_effect = {
 			}
 		}
 		set_variable = dubois_documented_animal_sealion
+	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_thylacine }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_thylacine_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_thylacine
 	}
 }
 

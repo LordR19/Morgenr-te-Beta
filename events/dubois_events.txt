@@ -117,6 +117,7 @@ namespace = dubois
 #Dubois 155: Platypus
 #Dubois 156: Cassowary
 #Dubois 157: New Zealand Sea Lion
+#Dubois 158: Thylacine
 
 ######PALEONTOLOGY######
 
@@ -248,6 +249,7 @@ namespace = dubois
 #Dubois 1036: Platypus Enclosure
 #Dubois 1037: Cassowary Enclosure
 #Dubois 1038: Sealion Enclosure
+#Dubois 1039: Thylacine Enclosure
 
 #Dubois 1041: European Enclosures
 #Dubois 1042: Iberian Lynx Enclosure
@@ -2307,6 +2309,32 @@ dubois.11 = {
 			}
 		}
 	}
+	#Thylacine
+	option = {
+		name = dubois.11.thylacine
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_thylacine
+					has_variable = dubois_transport_thylacine
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_thylacine_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_thylacine
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.158
+				days = { 30 60 }
+			}
+		}
+	}
 
 	#No animal
 	option = {
@@ -3461,6 +3489,32 @@ dubois.12 = {
 			}
 		}
 	}
+	#Thylacine
+	option = {
+		name = dubois.11.thylacine
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_thylacine
+					has_variable = dubois_transport_thylacine
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_thylacine_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_thylacine
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.158
+				days = { 30 60 }
+			}
+		}
+	}
 
 	after = {
 		remove_variable = dubois_smuggle_zoo_animal_var
@@ -3848,6 +3902,12 @@ dubois.22 = {
 			}
 			desc = dubois.157.f
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_thylacine_documentation_ongoing_var
+			}
+			desc = dubois.158.f
+		}
 	}
 
 	###NORTH AMERICA###
@@ -4144,6 +4204,13 @@ dubois.22 = {
         }
         texture = "gfx/event_pictures/dubois_pictures/dubois_animal_sealion.dds"
     }
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_thylacine_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_thylacine.dds"
+	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -7888,6 +7955,45 @@ dubois.157 = {
 		name = dubois.157.g #Wonderful
 		default_option = yes
 		dubois_add_zoo_animal_sealion = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 158: Thylacine
+
+dubois.158 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.158.t
+	desc = dubois.158.d
+	flavor = dubois.158.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_thylacine.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.158.g #A Tasmanian Tiger!
+		default_option = yes
+		dubois_add_zoo_animal_thylacine = yes
 		remove_modifier = dubois_zoo_transport_modifier
 	}
 
@@ -19941,6 +20047,20 @@ dubois.1031 = {
 	}
 
 	option = {
+		name = dubois.1031.thylacine #Visit the Thylacine
+		trigger = {
+			has_variable = dubois_zoo_animal_thylacine
+		}
+		custom_tooltip = {
+			text = visit_thylacine_tt
+			trigger_event = {
+				id = dubois.1039
+				popup = yes
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1011.l #Return to the Main Entrance
 		custom_tooltip = {
 			text = zoo_main_entrance_tt
@@ -20681,7 +20801,7 @@ dubois.1038 = {
 
 	placement = root
 
-    event_image = {
+	event_image = {
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_sealion.dds"
 	}
 
@@ -20749,6 +20869,109 @@ dubois.1038 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_sealion_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1039: Thylacine Enclosure
+dubois.1039 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = dubois.1039.t
+    desc = dubois.1039.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1039.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1039.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1039.f3
+		}
+	}
+
+	placement = root
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_thylacine.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1032.k #Return to the Australian and Oceanian Enclosures
+		custom_tooltip = {
+			text = zoo_australian_enclosures_tt
+			trigger_event = {
+				id = dubois.1031
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_flavor_randomizer_var
 		}
 	}
 }
@@ -26332,6 +26555,34 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.thylacine #Thylacine
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_thylacine_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				mr_sea_lions_breeding_region_trigger = yes
+			}
+			has_variable = dubois_zoo_animal_thylacine
+		}
+		
+		set_variable = dubois_breeding_thylacine_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1301.j #Nevermind
 		
 		remove_variable = dubois_breeding_animals_var
@@ -26661,6 +26912,12 @@ dubois.1321 = {
 			has_Variable = dubois_breeding_sealion_var
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_sealion.dds"
+	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_thylacine_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_thylacine.dds"
 	}
 
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
