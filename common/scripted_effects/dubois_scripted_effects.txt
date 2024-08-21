@@ -222,6 +222,14 @@ dubois_remove_habitats_effect = {
 	}
 	if = {
 		limit = {
+			has_state_trait = dubois_state_trait_meerkat_habitat
+		}
+		state_region = {
+			remove_state_trait = dubois_state_trait_meerkat_habitat
+		}
+	}
+	if = {
+		limit = {
 			has_state_trait = dubois_state_trait_panda_habitat
 		}
 		state_region = {
@@ -1513,7 +1521,7 @@ dubois_add_animal_habitats = {
 			OR = {
 				this = s:STATE_KENYA
 				this = s:STATE_WADDAI
-				this = s:STATE_BOTSWANA
+				this = s:STATE_MOCAMBIQUE
 				this = s:STATE_HEREROLAND
 				this = s:STATE_UBANGI_SHARI
 			}
@@ -1540,7 +1548,7 @@ dubois_add_animal_habitats = {
 		limit = {
 			OR = {
 				this = s:STATE_RIFT_VALLEY
-				this = s:STATE_NAMAQUALAND
+				this = s:STATE_NIGER
 				this = s:STATE_TRANSVAAL
 				this = s:STATE_NORTHERN_CAPE
 				this = s:STATE_TANGANYIKA
@@ -1581,6 +1589,17 @@ dubois_add_animal_habitats = {
 			}
 		}
 		add_state_trait = dubois_state_trait_zebra_habitat
+	}
+
+	#Meerkat
+	every_state_region = {
+		limit = {
+			OR = {
+				this = s:STATE_NAMAQUALAND
+				this = s:STATE_BOTSWANA
+			}
+		}
+		add_state_trait = dubois_state_trait_meerkat_habitat
 	}
 
 	###ASIA
@@ -2179,6 +2198,20 @@ dubois_add_zoo_animal_zebra = {
 	dubois_add_total_animals_naturalist = yes
 }
 
+dubois_add_zoo_animal_meerkat = {
+	change_variable = {
+		name = dubois_zoo_animal_total
+		add = 1
+	}
+	change_variable = {
+		name = dubois_zoo_animal_africa
+		add = 1
+	}
+	set_variable = dubois_zoo_animal_meerkat
+	custom_tooltip = dubois_add_zoo_animal_meerkat_tt
+	dubois_add_total_animals_naturalist = yes
+}
+
 ###Asia
 
 dubois_add_zoo_animal_panda = {
@@ -2753,6 +2786,18 @@ dubois_calculate_catch_animals = {
 		set_variable = dubois_zoo_animal_catch_mole
 		dubois_add_catch_animals = yes
 	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_zoo_animal_meerkat
+			}
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_meerkat_habitat
+			}
+		}
+		set_variable = dubois_zoo_animal_catch_meerkat
+		dubois_add_catch_animals = yes
+	}
 	######ASIA######
 	if = {
 		limit = {
@@ -3098,6 +3143,12 @@ dubois_add_total_catch_animals = {
 		}
 		dubois_add_zoo_animal_mole = yes
 	}
+	if = {
+		limit = {
+			has_variable = dubois_zoo_animal_catch_meerkat
+		}
+		dubois_add_zoo_animal_meerkat = yes
+	}
 	######ASIA######
 	if = {
 		limit = {
@@ -3219,6 +3270,7 @@ dubois_remove_catch_animals = {
 	#remove_variable = dubois_zoo_animal_catch_zebra
 	remove_variable = dubois_zoo_animal_catch_penguin
 	remove_variable = dubois_zoo_animal_catch_mole
+	remove_variable = dubois_zoo_animal_catch_meerkat
 	remove_variable = dubois_zoo_animal_catch_panda
 	remove_variable = dubois_zoo_animal_catch_orangutan
 	remove_variable = dubois_zoo_animal_catch_tiger
@@ -4054,6 +4106,16 @@ dubois_state_breeding_add_habitat_effect = {
 			add_state_trait = dubois_state_trait_zebra_habitat
 		}
 	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = dubois_breeding_meerkat_var
+			}
+		}
+		state_region = {
+			add_state_trait = dubois_state_trait_meerkat_habitat
+		}
+	}
 	#Asia
 	else_if = {
 		limit = {
@@ -4234,6 +4296,7 @@ dubois_remove_breeding_effect = {
 	remove_variable = dubois_breeding_penguin_var
 	remove_variable = dubois_breeding_mole_var
 	remove_variable = dubois_breeding_zebra_var
+	remove_variable = dubois_breeding_meerkat_var
 
 	remove_variable = dubois_breeding_tiger_var
 	remove_variable = dubois_breeding_panda_var
@@ -4769,6 +4832,24 @@ dubois_begin_animal_documentation_effect = {
 			set_variable = dubois_animal_documentation_state_var
 		}
 		set_variable = dubois_zebra_documentation_ongoing_var
+	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_meerkat }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_meerkat_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_meerkat_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_meerkat_documentation_ongoing_var
 	}
 	###ASIA###
 	else_if = {
@@ -5481,6 +5562,22 @@ dubois_begin_animal_documentation_film_effect = {
 		}
 		set_variable = dubois_zebra_documentation_ongoing_var
 	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_meerkat }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_meerkat_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				has_state_trait = dubois_state_trait_meerkat_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_meerkat_documentation_ongoing_var
+	}
 	###ASIA###
 	else_if = {
 		limit = {  
@@ -5747,6 +5844,7 @@ remove_ongoing_animal_documentation_effect = {
 	remove_variable = dubois_penguin_documentation_ongoing_var
 	remove_variable = dubois_mole_documentation_ongoing_var
 	remove_variable = dubois_zebra_documentation_ongoing_var
+	remove_variable = dubois_meerkat_documentation_ongoing_var
 	###ASIA###
 	remove_variable = dubois_panda_documentation_ongoing_var
 	remove_variable = dubois_orangutan_documentation_ongoing_var
@@ -6072,7 +6170,7 @@ dubois_document_animal_effect = {
 				has_variable = dubois_animal_documentation_state_var
 			}
 		}
-		set_variable = dubois_documented_animal_mole 
+		set_variable = dubois_documented_animal_mole
 	}
 	else_if = { 
 		limit = {  
@@ -6083,7 +6181,18 @@ dubois_document_animal_effect = {
 				has_variable = dubois_animal_documentation_state_var
 			}
 		}
-		set_variable = dubois_documented_animal_zebra 
+		set_variable = dubois_documented_animal_zebra
+	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_meerkat }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_meerkat_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_meerkat
 	}
 	###ASIA###
 	else_if = { 
@@ -6524,7 +6633,7 @@ dubois_document_animal_film_effect = {
 				has_variable = dubois_animal_documentation_state_var
 			}
 		}
-		set_variable = dubois_documented_animal_mole 
+		set_variable = dubois_documented_animal_mole
 	}
 	else_if = { 
 		limit = {  
@@ -6534,7 +6643,17 @@ dubois_document_animal_film_effect = {
 				has_variable = dubois_animal_documentation_state_var
 			}
 		}
-		set_variable = dubois_documented_animal_zebra 
+		set_variable = dubois_documented_animal_zebra
+	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_meerkat }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_meerkat_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_meerkat
 	}
 	###ASIA###
 	else_if = { 

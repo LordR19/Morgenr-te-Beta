@@ -95,6 +95,7 @@ namespace = dubois
 #Dubois 135: African Penguin
 #Dubois 136: Naked Mole-Rat
 #Dubois 137: Zebra
+#Dubois 138: Meerkat
 
 #Asian Animals
 
@@ -228,6 +229,7 @@ namespace = dubois
 #Dubois 1016: African Penguin Enclosure
 #Dubois 1017: Naked Mole-Rat Enclosure
 #Dubois 1018: Zebra Enclosure
+#Dubois 1019: Meerkat Enclosure
 
 #Dubois 1021: Asian Enclosures
 #Dubois 1022: Panda Enclosure
@@ -1911,6 +1913,32 @@ dubois.11 = {
 			}
 		}
 	}
+	#Meerkat
+	option = {
+		name = dubois.11.meerkat
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_meerkat
+					has_variable = dubois_transport_meerkat
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_meerkat_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_meerkat
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.138
+				days = { 30 60 }
+			}
+		}
+	}
 	######ASIA######
 
 	#Giant Panda
@@ -3039,6 +3067,32 @@ dubois.12 = {
 			}
 		}
 	}
+	#Meerkat
+	option = {
+		name = dubois.11.meerkat
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_meerkat
+					has_variable = dubois_transport_meerkat
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_meerkat_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_meerkat
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.138
+				days = { 30 60 }
+			}
+		}
+	}
 	######ASIA######
 
 	#Giant Panda
@@ -3702,6 +3756,12 @@ dubois.22 = {
 			}
 			desc = dubois.137.f
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_meerkat_documentation_ongoing_var
+			}
+			desc = dubois.138.f
+		}
 		###ASIA###
 		triggered_desc = {
 			trigger = {
@@ -3978,6 +4038,13 @@ dubois.22 = {
             has_variable = dubois_zebra_documentation_ongoing_var
         }
         texture = "gfx/event_pictures/dubois_pictures/dubois_animal_zebra.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_meerkat_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_meerkat.dds"
     }
 	###ASIA###
 	event_image = {
@@ -7193,6 +7260,45 @@ dubois.137 = {
 		name = dubois.137.g #Wonderful
 		default_option = yes
 		dubois_add_zoo_animal_zebra = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 138: Meerkat
+
+dubois.138 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.138.t
+	desc = dubois.138.d
+	flavor = dubois.138.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_meerkat.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.137.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_meerkat = yes
 		remove_modifier = dubois_zoo_transport_modifier
 	}
 
@@ -17870,7 +17976,7 @@ dubois.1011 = {
 			has_variable = dubois_zoo_animal_mole
 		}
 		custom_tooltip = {
-			text = visit_african_moles_tt
+			text = visit_moles_tt
 			trigger_event = {
 				id = dubois.1017
 				popup = yes
@@ -17884,9 +17990,23 @@ dubois.1011 = {
 			has_variable = dubois_zoo_animal_zebra
 		}
 		custom_tooltip = {
-			text = visit_african_zebras_tt
+			text = visit_zebras_tt
 			trigger_event = {
 				id = dubois.1018
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.meerkat #Visit the Meerkat
+		trigger = {
+			has_variable = dubois_zoo_animal_meerkat
+		}
+		custom_tooltip = {
+			text = visit_meerkat_tt
+			trigger_event = {
+				id = dubois.1019
 				popup = yes
 			}
 		}
@@ -18717,6 +18837,109 @@ dubois.1018 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_zebra_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1019: Meerkat Enclosure
+dubois.1019 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = dubois.1019.t
+    desc = dubois.1019.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1019.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1019.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1019.f3
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_meerkat.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1012.k #Return to the African Enclosures
+		custom_tooltip = {
+			text = zoo_african_enclosures_tt
+			trigger_event = {
+				id = dubois.1011
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_flavor_randomizer_var
 		}
 	}
 }
@@ -25648,6 +25871,33 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.meerkat #Meerkat
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_meerkat_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				state_is_in_africa = yes
+			}
+			has_variable = dubois_zoo_animal_meerkat
+		}
+		
+		set_variable = dubois_breeding_meerkat_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1302.panda #Panda
 		default_option = yes
 		trigger = {
@@ -26317,6 +26567,12 @@ dubois.1321 = {
 			has_Variable = dubois_breeding_zebra_var
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_zebra.dds"
+	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_meerkat_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_meerkat.dds"
 	}
 
 	#Asia
