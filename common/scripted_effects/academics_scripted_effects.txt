@@ -9841,6 +9841,259 @@ set_start_chemist_stats_effect = {
 	}
 }
 
+######Physician######
+
+#This effect kills the current Physician
+# !!! Change stuff in both of the following effects !!!
+kill_physician_effect = {
+	var:panum_physician_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = panum_physician_var
+	if = {
+		limit = { has_modifier = academics_physician_emeritus_delayed_modifier }
+		remove_modifier = academics_physician_emeritus_delayed_modifier
+	}
+}
+#This Effect retires the current Physician
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_physician_effect = {
+	custom_tooltip = {
+		text = retire_physician_effect_tt
+
+		var:panum_physician_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = panum_physician_var
+	if = {
+		limit = { has_modifier = academics_physician_emeritus_delayed_modifier }
+		remove_modifier = academics_physician_emeritus_delayed_modifier
+	}
+}
+
+# Creates a new Physician without losing the old one
+create_new_physician_effect = {
+	random_list = {
+		1 = { #Random Physician
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						trait_generation = {}
+						save_scope_as = panum_new_physician_scope
+					}
+					scope:panum_new_physician_scope = {
+						add_trait = panum_physician
+						set_variable = mr_is_physician_var
+						physician_experience_set_up_effect = yes
+						mr_trait_generation_physician_effect = yes
+						place_character_in_void = 1200	
+					}
+					set_variable = {
+						name = panum_new_physician_var
+						value = scope:panum_new_physician_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						trait_generation = {}
+						save_scope_as = panum_new_physician_scope
+					}
+					scope:panum_new_physician_scope = {
+						add_trait = panum_physician
+						set_variable = mr_is_physician_var
+						physician_experience_set_up_effect = yes
+						mr_trait_generation_physician_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = panum_new_physician_var
+						value = scope:panum_new_physician_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var:panum_new_physician_var = {
+		save_scope_as = panum_new_physician_scope
+	}
+}
+
+# Set new Physician as official Physician
+panum_set_new_physician_as_physician_effect = {
+	custom_tooltip = {
+		text = panum_replace_physician_with_new_physician_tt
+	
+		if = {
+			limit = {
+				has_variable = panum_physician_var
+			}
+			var:panum_physician_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = panum_physician_var
+			value = scope:panum_new_physician_scope
+		}
+
+		remove_variable = panum_new_physician_var
+	}
+}
+
+# Remove new Physician
+panum_remove_new_physician_effect = {
+	scope:panum_new_physician_scope = {
+		free_character_from_void = no
+	}
+	remove_variable = panum_new_physician_var
+}
+
+# Used to set up the Experience of a character 
+physician_experience_set_up_effect = {
+	#Adds physician experience (see effect for further information)
+	general_experience_set_up_effect = {
+		TYPE = panum_physician_experience
+		UNI_PM = pm_dubois_university_humanities
+	}
+	
+	if = { #Adds the Experienced physician Trait if Experience is above 100
+		limit = {
+			var:panum_physician_experience >= 100
+			NOT = {
+				var:panum_physician_experience >= 300
+			}
+			NOR = {
+				has_trait = panum_physician_experienced
+				has_trait = panum_physician_famous
+			}
+		}
+		remove_trait = panum_physician
+		add_trait = panum_physician_experienced
+	}
+	if = { #Adds the Famous physician Trait if Experience is above 300
+		limit = {
+			var:panum_physician_experience >= 300
+			NOT = {
+				has_trait = panum_physician_famous
+			}
+		}
+		remove_trait = panum_physician
+		remove_trait = panum_physician_experienced
+		add_trait = panum_physician_famous
+	}
+}
+
+#Physician Experience gain
+physician_experience_gain_effect = { #adds XP to the Physician
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = panum_physician_var #should only add experience if there actually is an Physician
+		}
+		custom_tooltip = {
+			text = panum_physician_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:panum_physician_var = { #Fallback to make sure there are no errors if the Physician does not have the variable yet
+							has_variable = panum_physician_experience
+						}
+					}
+				}
+				var:panum_physician_var = { #Sets the experience in case it was not set yet
+					physician_experience_set_up_effect = yes
+				}
+			}
+			var:panum_physician_var = {
+				change_variable = {
+					name = panum_physician_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:panum_physician_var = {
+			if = {
+				limit = {
+					var:panum_physician_experience >= 100
+					NOT = {
+						var:panum_physician_experience >= 300
+					}
+					NOR = {
+						has_trait = panum_physician_experienced
+						has_trait = panum_physician_famous
+					}
+				}
+				remove_trait = panum_physician
+				add_trait = panum_physician_experienced
+				root = {
+					trigger_event = {
+						id = academics.116
+						popup = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					var:panum_physician_experience >= 300
+					NOT = {
+						has_trait = panum_physician_famous
+					}
+				}
+				remove_trait = panum_physician
+				remove_trait = panum_physician_experienced
+				add_trait = panum_physician_famous
+				root = {
+					trigger_event = {
+						id = academics.117
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
+
 ##########################################################################
 
 ######ACADEMIC FOCUS######
