@@ -286,6 +286,14 @@ dubois_remove_habitats_effect = {
 	}
 	if = {
 		limit = {
+			has_state_trait = dubois_state_trait_pallas_habitat
+		}
+		state_region = {
+			remove_state_trait = dubois_state_trait_pallas_habitat
+		}
+	}
+	if = {
+		limit = {
 			has_state_trait = dubois_state_trait_turtle_habitat
 		}
 		state_region = {
@@ -1698,6 +1706,19 @@ dubois_add_animal_habitats = {
 		add_state_trait = dubois_state_trait_cheetah_habitat
 	}
 
+	#Asiatic Pallas
+	every_state_region = {
+		limit = {
+			OR = {
+				this = s:STATE_QINGHAI
+				this = s:STATE_HINGGAN
+				this = s:STATE_URGA
+				this = s:STATE_SEMIRECHE
+			}
+		}
+		add_state_trait = dubois_state_trait_pallas_habitat
+	}
+
 	###AUSTRALIA&OCEANIA
 
 	#Green Sea Turtle
@@ -2342,6 +2363,20 @@ dubois_add_zoo_animal_red = {
 	dubois_add_total_animals_naturalist = yes
 }
 
+dubois_add_zoo_animal_pallas = {
+	change_variable = {
+		name = dubois_zoo_animal_total
+		add = 1
+	}
+	change_variable = {
+		name = dubois_zoo_animal_asia
+		add = 1
+	}
+	set_variable = dubois_zoo_animal_pallas
+	custom_tooltip = dubois_add_zoo_animal_pallas_tt
+	dubois_add_total_animals_naturalist = yes
+}
+
 ###Australia&Oceania
 
 dubois_add_zoo_animal_turtle = {
@@ -2913,6 +2948,18 @@ dubois_calculate_catch_animals = {
 		set_variable = dubois_zoo_animal_catch_cheetah
 		dubois_add_catch_animals = yes
 	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_zoo_animal_pallas
+			}
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_pallas_habitat
+			}
+		}
+		set_variable = dubois_zoo_animal_catch_pallas
+		dubois_add_catch_animals = yes
+	}
 	######AUSTRALIA&OCEANIA######
 	if = {
 		limit = {
@@ -3234,6 +3281,12 @@ dubois_add_total_catch_animals = {
 		}
 		dubois_add_zoo_animal_cheetah = yes
 	}
+	if = {
+		limit = {
+			has_variable = dubois_zoo_animal_catch_pallas
+		}
+		dubois_add_zoo_animal_pallas = yes
+	}
 	######AUSTRALIA&OCEANIA######
 	if = {
 		limit = {
@@ -3326,6 +3379,7 @@ dubois_remove_catch_animals = {
 	remove_variable = dubois_zoo_animal_catch_dragon
 	remove_variable = dubois_zoo_animal_catch_leopard
 	remove_variable = dubois_zoo_animal_catch_cheetah
+	remove_variable = dubois_zoo_animal_catch_pallas
 	remove_variable = dubois_zoo_animal_catch_turtle
 	remove_variable = dubois_zoo_animal_catch_manta
 	remove_variable = dubois_zoo_animal_catch_kangaroo
@@ -4236,6 +4290,16 @@ dubois_state_breeding_add_habitat_effect = {
 			add_state_trait = dubois_state_trait_cheetah_habitat
 		}
 	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = dubois_breeding_pallas_var
+			}
+		}
+		state_region = {
+			add_state_trait = dubois_state_trait_pallas_habitat
+		}
+	}
 	#Australia & Oceania
 	else_if = {
 		limit = {
@@ -4364,6 +4428,7 @@ dubois_remove_breeding_effect = {
 	remove_variable = dubois_breeding_tapir_var
 	remove_variable = dubois_breeding_leopard_var
 	remove_variable = dubois_breeding_cheetah_var
+	remove_variable = dubois_breeding_pallas_var
 
 	remove_variable = dubois_breeding_turtle_var
 	remove_variable = dubois_breeding_manta_var
@@ -5037,6 +5102,24 @@ dubois_begin_animal_documentation_effect = {
 			set_variable = dubois_animal_documentation_state_var
 		}
 		set_variable = dubois_cheetah_documentation_ongoing_var
+	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_pallas }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_pallas_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_pallas_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_pallas_documentation_ongoing_var
 	}
 	###AUSTRALIA&OCEANIA###
 	else_if = {
@@ -5769,6 +5852,22 @@ dubois_begin_animal_documentation_film_effect = {
 		}
 		set_variable = dubois_cheetah_documentation_ongoing_var
 	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_pallas }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_pallas_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				has_state_trait = dubois_state_trait_pallas_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_pallas_documentation_ongoing_var
+	}
 	###AUSTRALIA&OCEANIA###
 	else_if = {
 		limit = {  
@@ -5947,6 +6046,7 @@ remove_ongoing_animal_documentation_effect = {
 	remove_variable = dubois_dragon_documentation_ongoing_var
 	remove_variable = dubois_leopard_documentation_ongoing_var
 	remove_variable = dubois_cheetah_documentation_ongoing_var
+	remove_variable = dubois_pallas_documentation_ongoing_var
 	###AUSTRALIA&OCEANIA###
 	remove_variable = dubois_turtle_documentation_ongoing_var
 	remove_variable = dubois_manta_documentation_ongoing_var
@@ -6366,6 +6466,17 @@ dubois_document_animal_effect = {
 			}
 		}
 		set_variable = dubois_documented_animal_cheetah
+	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_pallas }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_pallas_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_pallas
 	}
 	###AUSTRALIA&OCEANIA###
 	else_if = { 
@@ -6831,6 +6942,16 @@ dubois_document_animal_film_effect = {
 			}
 		}
 		set_variable = dubois_documented_animal_cheetah
+	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_pallas }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_pallas_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_pallas
 	}
 	###AUSTRALIA&OCEANIA###
 	else_if = { 

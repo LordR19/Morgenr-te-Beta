@@ -107,6 +107,7 @@ namespace = dubois
 #Dubois 146: Snow Leopard
 #Dubois 147: Asiatic Cheetah
 #Dubois 148: Red Panda
+#Dubois 149: Pallas's Cat
 
 #Australian/Oceanian Animals
 
@@ -240,6 +241,7 @@ namespace = dubois
 #Dubois 1026: Komodo Dragon
 #Dubois 1027: Snow Leopard
 #Dubois 1028: Asiatic Cheetah
+#Dubois 1030: Pallas's Cat
 
 #Dubois 1031: Australian and Oceanian Enclosures
 #Dubois 1032: Sea Turtle Enclosure
@@ -2125,6 +2127,32 @@ dubois.11 = {
 			}
 		}
 	}
+	#Pallas's Cat
+	option = {
+		name = dubois.11.pallas
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_pallas
+					has_variable = dubois_transport_pallas
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_pallas_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_pallas
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.149
+				days = { 30 60 }
+			}
+		}
+	}
 	######AUSTRALIA & OCEANIA######
 
 	#Green Sea Turtle
@@ -3305,6 +3333,32 @@ dubois.12 = {
 			}
 		}
 	}
+	#Pallas's Cat
+	option = {
+		name = dubois.11.pallas
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_pallas
+					has_variable = dubois_transport_pallas
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_pallas_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_pallas
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.149
+				days = { 30 60 }
+			}
+		}
+	}
 	######AUSTRALIA & OCEANIA######
 
 	#Green Sea Turtle
@@ -3859,6 +3913,12 @@ dubois.22 = {
 			}
 			desc = dubois.147.f
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_pallas_documentation_ongoing_var
+			}
+			desc = dubois.149.f
+		}
 		###AUSTRALIA&OCEANIA###
 		triggered_desc = {
 			trigger = {
@@ -4155,6 +4215,13 @@ dubois.22 = {
         }
         texture = "gfx/event_pictures/dubois_pictures/dubois_animal_cheetah.dds"
     }
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_pallas_documentation_ongoing_var
+				}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_pallas.dds"
+	}
 	###AUSTRALIA&OCEANIA###
 	event_image = {
         trigger = {
@@ -7680,6 +7747,45 @@ dubois.148 = {
 		name = dubois.148.g #Wonderful
 		default_option = yes
 		dubois_add_zoo_animal_red = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 149: Pallas's Cat
+
+dubois.149 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.149.t
+	desc = dubois.149.d
+	flavor = dubois.149.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_pallas.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.149.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_pallas = yes
 		remove_modifier = dubois_zoo_transport_modifier
 	}
 
@@ -19178,6 +19284,20 @@ dubois.1021 = {
 	}
 
 	option = {
+		name = dubois.1021.pallas #Visit the Pallas's Cat
+		trigger = {
+			has_variable = dubois_zoo_animal_pallas
+		}
+		custom_tooltip = {
+			text = visit_pallas_tt
+			trigger_event = {
+				id = dubois.1030
+				popup = yes
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1011.l #Return to the Main Entrance
 		custom_tooltip = {
 			text = zoo_main_entrance_tt
@@ -19878,6 +19998,109 @@ dubois.1028 = {
 			10 = {
 				set_variable = {
 					name = dubois_zoo_cheetah_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1022.k #Return to the Asian Enclosures
+		custom_tooltip = {
+			text = zoo_asian_enclosures_tt
+			trigger_event = {
+				id = dubois.1021
+				popup = yes
+			}
+			remove_variable = dubois_zoo_dragon_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_dragon_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_dragon_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1030: Pallas's Cat
+dubois.1030 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = dubois.1030.t
+    desc = dubois.1030.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1030.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1030.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1030.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_pallas.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
 					value = 3
 				}
 			}
@@ -26359,6 +26582,40 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.pallas #Pallas's Cat
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_pallas_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_middle_east = yes
+					state_is_in_central_asia = yes
+					state_is_in_india = yes
+					state_is_in_east_asia = yes
+					state_is_in_southeast_asia = yes
+				}
+			}
+			has_variable = dubois_zoo_animal_pallas
+		}
+		
+		set_variable = dubois_breeding_pallas_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1302.turtle #Turtle
 		default_option = yes
 		trigger = {
@@ -26868,6 +27125,12 @@ dubois.1321 = {
 			has_Variable = dubois_breeding_cheetah_var
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_cheetah.dds"
+	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_pallas_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_pallas.dds"
 	}
 
 	#Australia & Oceania
