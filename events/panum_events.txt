@@ -2628,6 +2628,655 @@ panum.400 = {
 	}
 }
 
+#Panum 401: Typhus in STATE
+panum.401 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.401.t
+
+	desc = panum.401.d
+
+	flavor = panum.400.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		panum_state_can_have_typhus_trigger = yes
+	}
+
+	immediate = {
+		panum_set_typhus_state_effect = yes
+	}
+
+	option = {	#Typhus!
+		name = panum.401.g
+		default_option = yes
+		panum_add_typhus_modifier_effect = yes
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 402: A disease of moral corruption?
+panum.402 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.402.t
+
+	desc = panum.402.d
+
+	flavor = panum.402.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		NOT = {
+			panum_has_typhus_treatment_trigger = yes
+		}
+		any_scope_state = {
+			panum_state_has_typhus_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_typhus_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#There is a reason why typhus primarily affects criminals, prostitutes and immoral soldiers.
+		name = panum.402.g
+		default_option = yes
+		random_list = {
+			1 = {}
+			1 = {
+				scope:panum_disease_state = {
+					kill_population_percent_in_state = {
+						percent = 0.001
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#It probably matters less what these people are than where they live.
+		name = panum.402.h
+		scope:panum_disease_state = {
+			add_radicals_in_state = {
+				strata = rich
+				value = 0.05
+			}
+			add_radicals_in_state = {
+				strata = middle
+				value = 0.03
+			}
+			add_loyalists_in_state = {
+				strata = poor
+				value = 0.01
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 403: Quarantine
+panum.403 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.403.t
+
+	desc = panum.403.d
+
+	flavor = panum.403.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2
+	}
+
+	trigger = {
+		NOT = {
+			panum_has_typhus_treatment_trigger = yes
+		}
+		any_scope_state = {
+			panum_state_has_typhus_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_typhus_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#The whole area should be quarantined.
+		name = panum.403.g
+		scope:panum_disease_state = {
+			add_radicals_in_state = {
+				strata = rich
+				value = 0.03
+			}
+			add_radicals_in_state = {
+				strata = middle
+				value = 0.02
+			}
+			add_modifier = {
+				name = panum_typhus_quarantine_modifier
+			}
+		}
+	}
+
+	option = {	#Take the typhus sufferers to special houses.
+		name = panum.403.h
+		default_option = yes
+		scope:panum_disease_state = {
+			add_loyalists_in_state = {
+				strata = rich
+				value = 0.03
+			}
+			add_loyalists_in_state = {
+				strata = middle
+				value = 0.02
+			}
+			add_radicals_in_state = {
+				strata = poor
+				value = 0.01
+			}
+			add_modifier = {
+				name = panum_typhus_fever_sheds_modifier
+			}
+		}
+	}
+
+	option = {	#Typhus is not a contagious disease, so quarantine makes no sense.
+		name = panum.403.i
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				strata = poor
+				percent = 0.005
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 404: Filthy Sheds
+panum.404 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.404.t
+
+	desc = panum.404.d
+
+	flavor = panum.404.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		NOT = {
+			panum_has_typhus_treatment_trigger = yes
+		}
+		any_scope_state = {
+			panum_state_has_typhus_trigger = yes
+			has_modifier = panum_typhus_fever_sheds_modifier
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_typhus_trigger = yes
+				has_modifier = panum_typhus_fever_sheds_modifier
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#We can't risk more people becoming infected.
+		name = panum.404.g
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_typhus_rigid_rules_modifier
+			}
+			add_radicals_in_state = {
+				strata = poor
+				value = 0.01
+			}
+		}
+	}
+
+	option = {	#Improve the situation of typhus sufferers and provide medical help.
+		name = panum.404.h
+		default_option = yes
+		add_modifier = {
+			name = panum_typhus_fever_sheds_help_modifier
+		}
+		scope:panum_disease_state = {
+			add_loyalists_in_state = {
+				strata = poor
+				value = 0.01
+			}
+			random_list = {
+				1 = {}
+				1 = {
+					scope:panum_disease_state = {
+						kill_population_percent_in_state = {
+							percent = 0.001
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#Dismantle these inhumane houses!
+		name = panum.404.i
+		scope:panum_disease_state = {
+			remove_modifier = panum_typhus_fever_sheds_modifier
+			kill_population_percent_in_state = {
+				percent = 0.002
+			}
+			add_radicals_in_state = {
+				strata = rich
+				value = 0.02
+			}
+			add_radicals_in_state = {
+				strata = middle
+				value = 0.02
+			}
+			add_loyalists_in_state = {
+				strata = poor
+				value = 0.02
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 405: Riots against Fever Sheds
+panum.405 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.405.t
+
+	desc = panum.405.d
+
+	flavor = panum.405.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		NOT = {
+			panum_has_typhus_treatment_trigger = yes
+		}
+		any_scope_state = {
+			panum_state_has_typhus_trigger = yes
+			has_modifier = panum_typhus_fever_sheds_modifier
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_typhus_trigger = yes
+				has_modifier = panum_typhus_fever_sheds_modifier
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#This barbarism has no place in our country!
+		name = panum.405.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_additional_fever_shed_protection_modifier
+			}
+		}
+	}
+
+	option = {	#They die either way.
+		name = panum.405.h
+		change_infamy = 1
+		scope:panum_disease_state = {
+			remove_modifier = panum_typhus_fever_sheds_modifier
+			kill_population_percent_in_state = {
+				strata = poor
+				percent = 0.001
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 406: Unburied Corpses
+panum.406 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.406.t
+
+	desc = panum.406.d
+
+	flavor = panum.406.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_typhus_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_typhus_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Use all available means to prevent this problem from becoming overwhelming.
+		name = panum.406.g
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_additional_funeral_aids_modifier
+			}
+		}
+	}
+
+	option = {	#Dig the usual mass graves.
+		name = panum.406.h
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_mass_graves_modifier
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				strata = poor
+			}
+		}
+	}
+
+	option = {	#Our capacities are exhausted, you have to arrange things yourself!
+		name = panum.406.h
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				strata = poor
+				percent = 0.005
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 407: Typhus in Barracks
+panum.407 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.407.t
+
+	desc = panum.407.d
+
+	flavor = panum.407.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 2
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_typhus_trigger = yes
+			has_building = building_barracks
+			NOT = {
+				any_scope_building = {
+					has_modifier = panum_typhus_barracks_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_typhus_trigger = yes
+				has_building = building_barracks
+				NOT = {
+					any_scope_building = {
+						has_modifier = panum_typhus_barracks_modifier
+					}
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#No! They were destined for an honorable death on the battlefield!
+		name = panum.407.g
+		default_option = yes
+		scope:panum_disease_state = {
+			every_scope_building = {
+				limit = {
+					is_building_group = bg_army
+				}
+				add_modifier = {
+					name = panum_typhus_barracks_modifier
+				}
+			}
+		}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = soldiers
+				percent = 0.003
+			}
+			kill_population_percent_in_state = {
+				pop_type = officers
+				percent = 0.001
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 408: Tormented in illness, not in war
+panum.408 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.408.t
+
+	desc = panum.408.d
+
+	flavor = panum.408.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_typhus.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 4
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_typhus_trigger = yes
+			any_scope_building = {
+				has_modifier = panum_typhus_barracks_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_typhus_trigger = yes
+				any_scope_building = {
+					has_modifier = panum_typhus_barracks_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Terrible!
+		name = panum.408.g
+		default_option = yes
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = soldiers
+				percent = 0.03
+			}
+			kill_population_percent_in_state = {
+				pop_type = officers
+				percent = 0.01
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
 #Panum 420: Typhus epidemic over
 panum.420 = {
 	dlc = dlc_morgenrote
