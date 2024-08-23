@@ -166,6 +166,14 @@ dubois_remove_habitats_effect = {
 	}
 	if = {
 		limit = {
+			has_state_trait = dubois_state_trait_elk_habitat
+		}
+		state_region = {
+			remove_state_trait = dubois_state_trait_elk_habitat
+		}
+	}
+	if = {
+		limit = {
 			has_state_trait = dubois_state_trait_hippopotamus_habitat
 		}
 		state_region = {
@@ -1515,6 +1523,21 @@ dubois_add_animal_habitats = {
 		add_state_trait = dubois_state_trait_wisent_habitat
 	}
 
+	#Elk
+	every_state_region = {
+		limit = {
+			OR = {
+				this = s:STATE_NORTHERN_NORWAY
+				this = s:STATE_NORRLAND
+				this = s:STATE_OULU
+				this = s:STATE_KOLA
+				this = s:STATE_NENETSIA
+				this = s:STATE_SURGUT
+			}
+		}
+		add_state_trait = dubois_state_trait_elk_habitat
+	}
+
 	###AFRICA
 
 	#Hippopotamus
@@ -2132,6 +2155,20 @@ dubois_add_zoo_animal_wisent = {
 	}
 	set_variable = dubois_zoo_animal_wisent
 	custom_tooltip = dubois_add_zoo_animal_wisent_tt
+	dubois_add_total_animals_naturalist = yes
+}
+
+dubois_add_zoo_animal_elk = {
+	change_variable = {
+		name = dubois_zoo_animal_total
+		add = 1
+	}
+	change_variable = {
+		name = dubois_zoo_animal_europe
+		add = 1
+	}
+	set_variable = dubois_zoo_animal_elk
+	custom_tooltip = dubois_add_zoo_animal_elk_tt
 	dubois_add_total_animals_naturalist = yes
 }
 
@@ -2766,6 +2803,18 @@ dubois_calculate_catch_animals = {
 		set_variable = dubois_zoo_animal_catch_wisent
 		dubois_add_catch_animals = yes
 	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_zoo_animal_elk
+			}
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_elk_habitat
+			}
+		}
+		set_variable = dubois_zoo_animal_catch_elk
+		dubois_add_catch_animals = yes
+	}
 	######AFRICA######
 	#if = {
 	#	limit = {
@@ -3189,6 +3238,12 @@ dubois_add_total_catch_animals = {
 		}
 		dubois_add_zoo_animal_wisent = yes
 	}
+	if = {
+		limit = {
+			has_variable = dubois_zoo_animal_catch_elk
+		}
+		dubois_add_zoo_animal_elk = yes
+	}
 	######AFRICA######
 	#if = {
 	#	limit = {
@@ -3364,6 +3419,7 @@ dubois_remove_catch_animals = {
 	remove_variable = dubois_zoo_animal_catch_otter
 	remove_variable = dubois_zoo_animal_catch_ibex
 	remove_variable = dubois_zoo_animal_catch_wisent
+	remove_variable = dubois_zoo_animal_catch_elk
 	#remove_variable = dubois_zoo_animal_catch_hippopotamus
 	#remove_variable = dubois_zoo_animal_catch_lion
 	#remove_variable = dubois_zoo_animal_catch_elephant
@@ -4138,6 +4194,16 @@ dubois_state_breeding_add_habitat_effect = {
 			add_state_trait = dubois_state_trait_wisent_habitat
 		}
 	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = dubois_breeding_elk_var
+			}
+		}
+		state_region = {
+			add_state_trait = dubois_state_trait_elk_habitat
+		}
+	}
 	#Africa
 	else_if = {
 		limit = {
@@ -4411,6 +4477,7 @@ dubois_remove_breeding_effect = {
 	remove_variable = dubois_breeding_wolf_var
 	remove_variable = dubois_breeding_ibex_var
 	remove_variable = dubois_breeding_wisent_var
+	remove_variable = dubois_breeding_elk_var
 
 	remove_variable = dubois_breeding_lion_var
 	remove_variable = dubois_breeding_giraffe_var
@@ -4830,6 +4897,24 @@ dubois_begin_animal_documentation_effect = {
 			set_variable = dubois_animal_documentation_state_var
 		}
 		set_variable = dubois_wisent_documentation_ongoing_var
+	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_elk }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_elk_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_elk_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_elk_documentation_ongoing_var
 	}
 	###AFRICA###
 	else_if = {
@@ -5610,6 +5695,22 @@ dubois_begin_animal_documentation_film_effect = {
 		}
 		set_variable = dubois_wisent_documentation_ongoing_var
 	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_elk }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_elk_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				has_state_trait = dubois_state_trait_elk_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_elk_documentation_ongoing_var
+	}
 	###AFRICA###
 	else_if = {
 		limit = {  
@@ -6029,6 +6130,7 @@ remove_ongoing_animal_documentation_effect = {
 	remove_variable = dubois_otter_documentation_ongoing_var
 	remove_variable = dubois_ibex_documentation_ongoing_var
 	remove_variable = dubois_wisent_documentation_ongoing_var
+	remove_variable = dubois_elk_documentation_ongoing_var
 	###AFRICA###
 	remove_variable = dubois_hippopotamus_documentation_ongoing_var
 	remove_variable = dubois_lion_documentation_ongoing_var
@@ -6298,7 +6400,17 @@ dubois_document_animal_effect = {
 			}
 		}
 		set_variable = dubois_documented_animal_wisent
-	 
+	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_elk }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_elk_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_elk
 	}
 	###AFRICA###
 	else_if = { 
@@ -6789,7 +6901,16 @@ dubois_document_animal_film_effect = {
 			}
 		}
 		set_variable = dubois_documented_animal_wisent
-	 
+	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_elk }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_elk_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_elk
 	}
 	###AFRICA###
 	else_if = { 

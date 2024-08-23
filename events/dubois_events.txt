@@ -85,6 +85,7 @@ namespace = dubois
 #Dubois 125: Eurasian Otter
 #Dubois 126: Alpine Ibex
 #Dubois 127: Wisent
+#Dubois 128: Elk
 
 #African Animals
 
@@ -259,8 +260,9 @@ namespace = dubois
 #Dubois 1044: Eurasian Badger Enclosure
 #Dubois 1045: Stoat Enclosure
 #Dubois 1046: Eurasian Otter Enclosure
-#Dubois 1047: Eurasian Otter Enclosure
-#Dubois 1048: Eurasian Otter Enclosure
+#Dubois 1047: Alpine Ibex Enclosure
+#Dubois 1048: Wisent Enclosures
+#Dubois 1049: Elk Enclosures
 
 #Dubois 1051: North American Enclosures
 #Dubois 1052: Polar Bear Enclosure
@@ -1733,6 +1735,32 @@ dubois.11 = {
 			}
 		}
 	}
+	#Elk
+	option = {
+		name = dubois.11.elk
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_elk
+					has_variable = dubois_transport_elk
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_elk_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_elk
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.127
+				days = { 30 60 }
+			}
+		}
+	}
 	######AFRICA######
 
 	#Hippopotamus
@@ -2939,6 +2967,32 @@ dubois.12 = {
 			}
 		}
 	}
+	#Elk
+	option = {
+		name = dubois.11.elk
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_elk
+					has_variable = dubois_transport_elk
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_elk_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_elk
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.127
+				days = { 30 60 }
+			}
+		}
+	}
 	######AFRICA######
 
 	#Hippopotamus
@@ -3821,6 +3875,12 @@ dubois.22 = {
 			}
 			desc = dubois.127.f
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_elk_documentation_ongoing_var
+			}
+			desc = dubois.128.f
+		}
 		###AFRICA###
 		triggered_desc = {
 			trigger = {
@@ -4110,6 +4170,13 @@ dubois.22 = {
         }
         texture = "gfx/event_pictures/dubois_pictures/dubois_animal_wisent.dds"
     }
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_elk_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elk.dds"
+	}
 	###AFRICA###
 	event_image = {
         trigger = {
@@ -7119,6 +7186,45 @@ dubois.127 = {
 		name = dubois.127.g #Wonderful
 		default_option = yes
 		dubois_add_zoo_animal_wisent = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 128: Elk
+
+dubois.128 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.128.t
+	desc = dubois.128.d
+	flavor = dubois.128.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elk.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.128.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_elk = yes
 		remove_modifier = dubois_zoo_transport_modifier
 	}
 
@@ -21327,6 +21433,20 @@ dubois.1041 = {
 	}
 
 	option = {
+		name = dubois.1041.elk #Visit the Elks
+		trigger = {
+			has_variable = dubois_zoo_animal_elk
+		}
+		custom_tooltip = {
+			text = visit_elk_tt
+			trigger_event = {
+				id = dubois.1049
+				popup = yes
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1011.l #Return to the Main Entrance
 		custom_tooltip = {
 			text = zoo_main_entrance_tt
@@ -22012,7 +22132,7 @@ dubois.1047 = {
 	}
 }
 
-#Dubois 1048: Eurasian Otter Enclosure
+#Dubois 1048: Wisent Enclosures
 dubois.1048 = {
 	dlc = dlc_morgenrote
 
@@ -22111,6 +22231,109 @@ dubois.1048 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_wisent_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1049: Elk Enclosures
+dubois.1049 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.1049.t
+	desc = dubois.1049.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1049.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1049.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1049.f3
+		}
+	}
+
+	placement = root
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elk.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1042.k #Return to the European Enclosures
+		custom_tooltip = {
+			text = zoo_european_enclosures_tt
+			trigger_event = {
+				id = dubois.1041
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_flavor_randomizer_var
 		}
 	}
 }
@@ -26121,6 +26344,34 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.elk #Elk
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_elk_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				state_is_in_europe = yes
+			}
+			has_variable = dubois_zoo_animal_elk
+		}
+		
+		set_variable = dubois_breeding_elk_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1302.hippo #Hippopotamus
 		default_option = yes
 		trigger = {
@@ -27032,6 +27283,13 @@ dubois.1321 = {
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_wisent.dds"
 	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_elk_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elk.dds"
+	}
+
 
 	#African
 	event_image = {
