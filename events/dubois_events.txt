@@ -65,6 +65,7 @@ namespace = dubois
 #Dubois 105: Florida Panther
 #Dubois 106: Alligator
 #Dubois 107: Axolotl
+#Dubois 108: Gila Monster
 
 #South American Animals
 
@@ -272,6 +273,7 @@ namespace = dubois
 #Dubois 1056: American Bison Enclosure
 #Dubois 1057: Alligator Enclosure
 #Dubois 1058: Axolotl Enclosure
+#Dubois 1059: Gila Monster Enclosure
 
 #Dubois 1061: South American Enclosures
 #Dubois 1062: Brown-Throated Sloth Enclosure
@@ -1363,6 +1365,32 @@ dubois.11 = {
 		hidden_effect = {
 			trigger_event = {
 				id = dubois.107
+				days = { 30 60 }
+			}
+		}
+	}
+	#Gila Monster
+	option = {
+		name = dubois.11.gila
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_gila
+					has_variable = dubois_transport_gila
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_gila_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_gila
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.108
 				days = { 30 60 }
 			}
 		}
@@ -2599,6 +2627,32 @@ dubois.12 = {
 			}
 		}
 	}
+	#Gila
+	option = {
+		name = dubois.11.gila
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_gila
+					has_variable = dubois_transport_gila
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_gila_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_gila
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.108
+				days = { 30 60 }
+			}
+		}
+	}
 	######SOUTH AMERICA######
 
 	#Brown-throated Sloth
@@ -3789,6 +3843,12 @@ dubois.22 = {
 			}
 			desc = dubois.107.f
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_gila_documentation_ongoing_var
+			}
+			desc = dubois.108.f
+		}
 		###SOUTH AMERICA###
 		triggered_desc = {
 			trigger = {
@@ -4072,6 +4132,13 @@ dubois.22 = {
         }
         texture = "gfx/event_pictures/dubois_pictures/dubois_animal_axolotl.dds"
     }
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_gila_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gilal.dds"
+	}
 	###SOUTH AMERICA###
 	event_image = {
         trigger = {
@@ -6636,6 +6703,45 @@ dubois.107 = {
 		name = dubois.107.g #Wonderful
 		default_option = yes
 		dubois_add_zoo_animal_axolotl = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 108: Gila Monster
+
+dubois.108 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.108.t
+	desc = dubois.108.d
+	flavor = dubois.108.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gila.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.108.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_gila = yes
 		remove_modifier = dubois_zoo_transport_modifier
 	}
 
@@ -22466,6 +22572,20 @@ dubois.1051 = {
 	}
 
 	option = {
+		name = dubois.1051.o #Visit the Gila Monsters
+		trigger = {
+			has_variable = dubois_zoo_animal_gila
+		}
+		custom_tooltip = {
+			text = visit_gila_tt
+			trigger_event = {
+				id = dubois.1059
+				popup = yes
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1011.l #Return to the Main Entrance
 		custom_tooltip = {
 			text = zoo_main_entrance_tt
@@ -23333,6 +23453,109 @@ dubois.1058 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_axolotl_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1059: Gila Monster Enclosure
+dubois.1059 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.1059.t
+	desc = dubois.1059.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1059.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1059.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1059.f3
+		}
+	}
+
+	placement = root
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gila.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1052.k #Return to the North American Enclosures
+		custom_tooltip = {
+			text = zoo_north_american_enclosures_tt
+			trigger_event = {
+				id = dubois.1051
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_flavor_randomizer_var
 		}
 	}
 }
@@ -25921,6 +26144,37 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.gila #Gila Monsters
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_gila_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_north_america = yes
+					region = sr:region_mexico
+				}
+			}
+			has_variable = dubois_zoo_animal_gila
+		}
+		
+		set_variable = dubois_breeding_gila_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1302.sloth #Sloths
 		default_option = yes
 		trigger = {
@@ -27200,6 +27454,13 @@ dubois.1321 = {
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_axolotl.dds"
 	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_gila_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gila.dds"
+	}
+
 
 	#South America
 	event_image = {
