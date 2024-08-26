@@ -76,6 +76,7 @@ namespace = dubois
 #Dubois 115: Andean Condor
 #Dubois 116: West Indian Manatee
 #Dubois 117: Squirrel Monkey
+#Dubois 118: Capybara
 
 #European Animals
 
@@ -283,6 +284,7 @@ namespace = dubois
 #Dubois 1066: Andean Condor
 #Dubois 1067: West Indian Manatee
 #Dubois 1068: Squirrel Monkey
+#Dubois 1069: Capybara Enclosure
 
 #Animal Babies
 
@@ -1579,6 +1581,32 @@ dubois.11 = {
 			}
 		}
 	}
+	#Capybara
+	option = {
+		name = dubois.11.capybara
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_capybara
+					has_variable = dubois_transport_capybara
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_capybara_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_capybara
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.118
+				days = { 30 60 }
+			}
+		}
+	}
 	######EUROPE######
 
 	#Iberian Lynx
@@ -2837,6 +2865,32 @@ dubois.12 = {
 			}
 		}
 	}
+	#Capybara
+	option = {
+		name = dubois.11.capybara
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_capybara
+					has_variable = dubois_transport_capybara
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_capybara_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_capybara
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.118
+				days = { 30 60 }
+			}
+		}
+	}
 	######EUROPE######
 
 	#Iberian Lynx
@@ -3892,6 +3946,12 @@ dubois.22 = {
 			}
 			desc = dubois.117.f
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_capybara_documentation_ongoing_var
+			}
+			desc = dubois.118.f
+		}
 		###EUROPE###
 		triggered_desc = {
 			trigger = {
@@ -4183,11 +4243,18 @@ dubois.22 = {
     }
 
 	event_image = {
-        trigger = {
-            has_variable = dubois_monkey_documentation_ongoing_var
-        }
-        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_monkey.dds"
-    }
+		trigger = {
+			has_variable = dubois_monkey_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_monkey.dds"
+	}
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_capybara_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_capybara.dds"
+	}
 	###EUROPE###
 	event_image = {
         trigger = {
@@ -7017,6 +7084,45 @@ dubois.117 = {
 		name = dubois.117.g #Wonderful
 		default_option = yes
 		dubois_add_zoo_animal_monkey = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 118: Capybara
+
+dubois.118 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.118.t
+	desc = dubois.118.d
+	flavor = dubois.118.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_capybara.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.118.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_capybara = yes
 		remove_modifier = dubois_zoo_transport_modifier
 	}
 
@@ -23688,6 +23794,20 @@ dubois.1061 = {
 	}
 
 	option = {
+		name = dubois.1061.o #Visit the Capybara
+		trigger = {
+			has_variable = dubois_zoo_animal_capybara
+		}
+		custom_tooltip = {
+			text = visit_capybara_tt
+			trigger_event = {
+				id = dubois.1069
+				popup = yes
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1011.l #Return to the Main Entrance
 		custom_tooltip = {
 			text = zoo_main_entrance_tt
@@ -24426,6 +24546,110 @@ dubois.1068 = {
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_monkey_flavor_randomizer_var
 		}
+	}
+}
+
+#Dubois 1069: Capybara Enclosure
+dubois.1069 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.1069.t
+	desc = dubois.1069.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1069.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1069.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1069.f3
+		}
+	}
+
+	placement = root
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_capybara.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1062.k #Return to the South American Enclosures
+		custom_tooltip = {
+			text = zoo_south_american_enclosures_tt
+			trigger_event = {
+				id = dubois.1061
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+		}
+	}
+
+	after = {
+		remove_variable = dubois_zoo_flavor_randomizer_var
 	}
 }
 
@@ -26399,6 +26623,38 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.capybara #Capybara
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_capybara_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_south_america = yes
+					region = sr:region_central_america
+					region = sr:region_caribbean
+				}
+			}
+			has_variable = dubois_zoo_animal_capybara
+		}
+		
+		set_variable = dubois_breeding_capybara_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1302.lynx #Lynx
 		default_option = yes
 		trigger = {
@@ -27505,6 +27761,13 @@ dubois.1321 = {
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_monkey.dds"
 	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_capybara_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_capybara.dds"
+	}
+
 
 	#European
 	event_image = {

@@ -118,6 +118,14 @@ dubois_remove_habitats_effect = {
 	}
 	if = {
 		limit = {
+			has_state_trait = dubois_state_trait_capybara_habitat
+		}
+		state_region = {
+			remove_state_trait = dubois_state_trait_capybara_habitat
+		}
+	}
+	if = {
+		limit = {
 			has_state_trait = dubois_state_trait_lynx_habitat
 		}
 		state_region = {
@@ -1455,6 +1463,19 @@ dubois_add_animal_habitats = {
 		add_state_trait = dubois_state_trait_monkey_habitat
 	}
 
+	#Capybara
+	every_state_region = {
+		limit = {
+			OR = {
+				this = s:STATE_MINAS_GERAIS
+				this = s:STATE_BOLIVAR
+				this = s:STATE_BAJO_PARAGUAY
+				this = s:STATE_SAO_PAULO
+			}
+		}
+		add_state_trait = dubois_state_trait_capybara_habitat
+	}
+
 	###EUROPE
 
 	#Iberian Lynx
@@ -2089,6 +2110,20 @@ dubois_add_zoo_animal_monkey = {
 	}
 	set_variable = dubois_zoo_animal_monkey
 	custom_tooltip = dubois_add_zoo_animal_monkey_tt
+	dubois_add_total_animals_naturalist = yes
+}
+
+dubois_add_zoo_animal_capybara = {
+	change_variable = {
+		name = dubois_zoo_animal_total
+		add = 1
+	}
+	change_variable = {
+		name = dubois_zoo_animal_south_america
+		add = 1
+	}
+	set_variable = dubois_zoo_animal_capybara
+	custom_tooltip = dubois_add_zoo_animal_capybara_tt
 	dubois_add_total_animals_naturalist = yes
 }
 
@@ -2764,6 +2799,18 @@ dubois_calculate_catch_animals = {
 		set_variable = dubois_zoo_animal_catch_monkey
 		dubois_add_catch_animals = yes
 	}
+	if = {
+		limit = {
+			NOT = {
+				has_variable = dubois_zoo_animal_capybara
+			}
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_capybara_habitat
+			}
+		}
+		set_variable = dubois_zoo_animal_catch_capybara
+		dubois_add_catch_animals = yes
+	}
 	######EUROPE######
 	if = {
 		limit = {
@@ -3247,6 +3294,12 @@ dubois_add_total_catch_animals = {
 		}
 		dubois_add_zoo_animal_monkey = yes
 	}
+	if = {
+		limit = {
+			has_variable = dubois_zoo_animal_catch_capybara
+		}
+		dubois_add_zoo_animal_capybara = yes
+	}
 	######EUROPE######
 	if = {
 		limit = {
@@ -3465,6 +3518,7 @@ dubois_remove_catch_animals = {
 	remove_variable = dubois_zoo_animal_catch_condor
 	remove_variable = dubois_zoo_animal_catch_manatee
 	remove_variable = dubois_zoo_animal_catch_monkey
+	remove_variable = dubois_zoo_animal_catch_capybara
 	remove_variable = dubois_zoo_animal_catch_lynx
 	remove_variable = dubois_zoo_animal_catch_wolf
 	remove_variable = dubois_zoo_animal_catch_badger
@@ -4186,6 +4240,16 @@ dubois_state_breeding_add_habitat_effect = {
 			add_state_trait = dubois_state_trait_monkey_habitat
 		}
 	}
+	else_if = {
+		limit = {
+			owner = {
+				has_variable = dubois_breeding_capybara_var
+			}
+		}
+		state_region = {
+			add_state_trait = dubois_state_trait_capybara_habitat
+		}
+	}
 	#Europe
 	else_if = {
 		limit = {
@@ -4533,6 +4597,7 @@ dubois_remove_breeding_effect = {
 	remove_variable = dubois_breeding_condor_var
 	remove_variable = dubois_breeding_manatee_var
 	remove_variable = dubois_breeding_monkey_var
+	remove_variable = dubois_breeding_capybara_var
 	
 	remove_variable = dubois_breeding_otter_var
 	remove_variable = dubois_breeding_badger_var
@@ -4852,6 +4917,24 @@ dubois_begin_animal_documentation_effect = {
 			set_variable = dubois_animal_documentation_state_var
 		}
 		set_variable = dubois_monkey_documentation_ongoing_var
+	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_capybara }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_capybara_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_capybara_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_capybara_documentation_ongoing_var
 	}
 	###EUROPE###
 	else_if = {
@@ -5680,6 +5763,22 @@ dubois_begin_animal_documentation_film_effect = {
 		}
 		set_variable = dubois_monkey_documentation_ongoing_var
 	}
+	else_if = {
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_capybara }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_capybara_habitat
+			}
+		}	
+		random_scope_state = {
+			limit = {
+				has_state_trait = dubois_state_trait_capybara_habitat
+			}
+			save_scope_as = dubois_animal_documentation_state_scope
+			set_variable = dubois_animal_documentation_state_var
+		}
+		set_variable = dubois_capybara_documentation_ongoing_var
+	}
 	###EUROPE###
 	else_if = {
 		limit = {  
@@ -6221,6 +6320,7 @@ remove_ongoing_animal_documentation_effect = {
 	remove_variable = dubois_condor_documentation_ongoing_var
 	remove_variable = dubois_manatee_documentation_ongoing_var
 	remove_variable = dubois_monkey_documentation_ongoing_var
+	remove_variable = dubois_capybara_documentation_ongoing_var
 	###EUROPE###
 	remove_variable = dubois_lynx_documentation_ongoing_var
 	remove_variable = dubois_wolf_documentation_ongoing_var
@@ -6432,6 +6532,17 @@ dubois_document_animal_effect = {
 			}
 		}
 		set_variable = dubois_documented_animal_monkey
+	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_capybara }
+			any_scope_state = {
+				is_incorporated = yes
+				has_state_trait = dubois_state_trait_capybara_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_capybara
 	}
 	###EUROPE###
 	else_if = { 
@@ -6950,6 +7061,16 @@ dubois_document_animal_film_effect = {
 			}
 		}
 		set_variable = dubois_documented_animal_monkey
+	}
+	else_if = { 
+		limit = {  
+			NOT = { has_variable = dubois_documented_animal_capybara }
+			any_scope_state = {
+				has_state_trait = dubois_state_trait_capybara_habitat
+				has_variable = dubois_animal_documentation_state_var
+			}
+		}
+		set_variable = dubois_documented_animal_capybara
 	}
 	###EUROPE###
 	else_if = { 
