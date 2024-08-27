@@ -22,3 +22,15 @@ Fixes
 - Female Composers are no longer naked.
 - Fixed some Loc issues.
 - An Jung-sik will no longer spawn as a child.
+
+Changelog for 2.2.4 "XYZ"
+
+Animals:
+- Added multiple new animals: Meerkat, Gorilla, Gila Monster, Capybara, Thylacine, Pallas's Cat and Elks
+
+Fixes:
+- Fixed missing ELement Symbols
+- Colonial Helmet Mesh fixed.
+- Fixed various localization issues.
+- Engineers now properly get their experience every year.
+- Female Composers are now really no longer naked.
