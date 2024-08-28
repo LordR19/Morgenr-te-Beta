@@ -23,6 +23,8 @@ Fixes
 - Fixed some Loc issues.
 - An Jung-sik will no longer spawn as a child.
 
+
+
 Changelog for 2.2.4 "XYZ"
 
 Animals:
