@@ -23,16 +23,24 @@ Fixes
 - Fixed some Loc issues.
 - An Jung-sik will no longer spawn as a child.
 
-
-
 Changelog for 2.2.4 "XYZ"
 
 Animals:
 - Added multiple new animals: Meerkat, Gorilla, Gila Monster, Capybara, Thylacine, Pallas's Cat and Elks
+
+Engineering:
+- Levels of Mathematical-Technical focused Universities now give a bonus on Engineering Projects.
+
+Chemistry:
+- Levels of Mathematical-Technical focused Universities now give a bonus on Chemistry Projects.
+
+Natural History:
+- Levels of Natural History focused Universities now give a bonus on Breeding, Naturalist and Paleontologist Projects.
 
 Fixes:
 - Fixed missing ELement Symbols
 - Colonial Helmet Mesh fixed.
 - Fixed various localization issues.
 - Engineers now properly get their experience every year.
-- Female Composers are now really no longer naked.
+- Female Composers are now really no longer naked. (I hope, otherwise we might get another Reddit post about it...)
+- Added a Tooltip for the chemist improvement project.
