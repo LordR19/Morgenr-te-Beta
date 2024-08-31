@@ -156,6 +156,10 @@ namespace = rapanui
 #Rapanui 267: Southern celestial hemisphere
 #Rapanui 268: Solar Eclipse of 1845 (Australia), 1857 (Polynesia), 1868 (Indonesia/Australia), 1871 (All), 1875 (Indonesia), 1883 (Polynesia), 1885 (Polynesia)
 
+#Geology
+
+#Rapanui 269: Ring of Fire (Polynesia, Indonesia)
+#Rapanui 270: Rare Mineral (Australia)
 
 ###############
 # THE MISSION #
@@ -11234,6 +11238,129 @@ rapanui.270 = {
 	}
 
 	after = {
+	}
+}
+
+#Rapanui 280: A strange Wolf
+
+rapanui.280 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = rapanui.280.t
+	desc = rapanui.280.d
+	flavor = rapanui.280.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_thylacine"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 2
+	}
+
+	trigger = {
+		rapanui_has_naturalist_expedition = yes
+		has_variable = rapanui_pacific_expedition_location_australia
+		var:rapanui_pacific_expedition_progress <= 6
+		s:STATE_TASMANIA = {
+			has_state_trait = dubois_state_trait_thylacine_habitat
+		}
+	}
+
+	immediate = {
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		random_state = {
+			limit = {
+				state_region = s:STATE_TASMANIA
+			}
+			save_scope_as = rapanui_pacific_expedition_location
+		}
+	}
+
+	option = {
+		name = rapanui.280.g #Such an exotic animal needs to be in our Zoo!
+		default_option = yes
+		highlighted_option = yes
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_thylacine
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		add_modifier = {
+			name = dubois_zoo_transport_modifier
+		}
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.158
+				days = { 30 60 }
+			}
+		}
+		add_treasury = -2000
+	}
+
+	option = {
+		name = rapanui.236.h #Study this wonderful creature!
+		highlighted_option = yes
+		trigger = {
+			exists = scope:rapanui_scientist
+			scope:rapanui_scientist = {
+				OR = {
+					has_trait = dubois_naturalist
+					has_trait = dubois_naturalist_experienced
+					has_trait = dubois_naturalist_famous
+				}
+			}
+		}
+		show_as_unavailable = {
+			always = yes
+		}
+
+		dubois_medium_add_technology = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = "10"
+		}
+		add_treasury = -2000
+	}
+
+	option = {
+		name = rapanui.280.h #We'd rather observe it!
+		dubois_medium_add_technology = yes
+		add_treasury = -2000
+	}
+
+	option = {
+		name = rapanui.280.i #No thank you.
+	}
+
+	after = {
+		add_rapanui_pacific_expedition_progress = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		  has_variable = rapanui_pe_nature_var
+		  factor = 10
+		}
+		modifier = {
+			has_variable = rapanui_scientist_var
+			var:rapanui_scientist_var = {
+				has_trait = dubois_zoologist
+			}
+			factor = 2
+		}
 	}
 }
 
