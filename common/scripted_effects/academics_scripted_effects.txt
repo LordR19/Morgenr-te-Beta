@@ -10094,6 +10094,259 @@ physician_experience_gain_effect = { #adds XP to the Physician
 	}
 }
 
+######Biologist######
+
+#This effect kills the current Biologist
+# !!! Change stuff in both of the following effects !!!
+kill_biologist_effect = {
+	var:theiler_biologist_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = theiler_biologist_var
+	if = {
+		limit = { has_modifier = academics_biologist_emeritus_delayed_modifier }
+		remove_modifier = academics_biologist_emeritus_delayed_modifier
+	}
+}
+#This Effect retires the current Biologist
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_biologist_effect = {
+	custom_tooltip = {
+		text = retire_biologist_effect_tt
+
+		var:theiler_biologist_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = theiler_biologist_var
+	if = {
+		limit = { has_modifier = academics_biologist_emeritus_delayed_modifier }
+		remove_modifier = academics_biologist_emeritus_delayed_modifier
+	}
+}
+
+# Creates a new Biologist without losing the old one
+create_new_biologist_effect = {
+	random_list = {
+		1 = { #Random Biologist
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						trait_generation = {}
+						save_scope_as = theiler_new_biologist_scope
+					}
+					scope:theiler_new_biologist_scope = {
+						add_trait = theiler_biologist
+						set_variable = mr_is_biologist_var
+						biologist_experience_set_up_effect = yes
+						mr_trait_generation_biologist_effect = yes
+						place_character_in_void = 1200	
+					}
+					set_variable = {
+						name = theiler_new_biologist_var
+						value = scope:theiler_new_biologist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						trait_generation = {}
+						save_scope_as = theiler_new_biologist_scope
+					}
+					scope:theiler_new_biologist_scope = {
+						add_trait = theiler_biologist
+						set_variable = mr_is_biologist_var
+						biologist_experience_set_up_effect = yes
+						mr_trait_generation_biologist_effect = yes
+						place_character_in_void = 1200
+					}
+					set_variable = {
+						name = theiler_new_biologist_var
+						value = scope:theiler_new_biologist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var:theiler_new_biologist_var = {
+		save_scope_as = theiler_new_biologist_scope
+	}
+}
+
+# Set new Biologist as official Biologist
+theiler_set_new_biologist_as_biologist_effect = {
+	custom_tooltip = {
+		text = theiler_replace_biologist_with_new_biologist_tt
+	
+		if = {
+			limit = {
+				has_variable = theiler_biologist_var
+			}
+			var:theiler_biologist_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = theiler_biologist_var
+			value = scope:theiler_new_biologist_scope
+		}
+
+		remove_variable = theiler_new_biologist_var
+	}
+}
+
+# Remove new Biologist
+theiler_remove_new_biologist_effect = {
+	scope:theiler_new_biologist_scope = {
+		free_character_from_void = no
+	}
+	remove_variable = theiler_new_biologist_var
+}
+
+# Used to set up the Experience of a character 
+biologist_experience_set_up_effect = {
+	#Adds biologist experience (see effect for further information)
+	general_experience_set_up_effect = {
+		TYPE = theiler_biologist_experience
+		UNI_PM = pm_dubois_university_natural_history
+	}
+	
+	if = { #Adds the Experienced biologist Trait if Experience is above 100
+		limit = {
+			var:theiler_biologist_experience >= 100
+			NOT = {
+				var:theiler_biologist_experience >= 300
+			}
+			NOR = {
+				has_trait = theiler_biologist_experienced
+				has_trait = theiler_biologist_famous
+			}
+		}
+		remove_trait = theiler_biologist
+		add_trait = theiler_biologist_experienced
+	}
+	if = { #Adds the Famous biologist Trait if Experience is above 300
+		limit = {
+			var:theiler_biologist_experience >= 300
+			NOT = {
+				has_trait = theiler_biologist_famous
+			}
+		}
+		remove_trait = theiler_biologist
+		remove_trait = theiler_biologist_experienced
+		add_trait = theiler_biologist_famous
+	}
+}
+
+#Biologist Experience gain
+biologist_experience_gain_effect = { #adds XP to the Biologist
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = theiler_biologist_var #should only add experience if there actually is an Biologist
+		}
+		custom_tooltip = {
+			text = theiler_biologist_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:theiler_biologist_var = { #Fallback to make sure there are no errors if the Biologist does not have the variable yet
+							has_variable = theiler_biologist_experience
+						}
+					}
+				}
+				var:theiler_biologist_var = { #Sets the experience in case it was not set yet
+					biologist_experience_set_up_effect = yes
+				}
+			}
+			var:theiler_biologist_var = {
+				change_variable = {
+					name = theiler_biologist_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:theiler_biologist_var = {
+			if = {
+				limit = {
+					var:theiler_biologist_experience >= 100
+					NOT = {
+						var:theiler_biologist_experience >= 300
+					}
+					NOR = {
+						has_trait = theiler_biologist_experienced
+						has_trait = theiler_biologist_famous
+					}
+				}
+				remove_trait = theiler_biologist
+				add_trait = theiler_biologist_experienced
+				root = {
+					trigger_event = {
+						id = academics.116
+						popup = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					var:theiler_biologist_experience >= 300
+					NOT = {
+						has_trait = theiler_biologist_famous
+					}
+				}
+				remove_trait = theiler_biologist
+				remove_trait = theiler_biologist_experienced
+				add_trait = theiler_biologist_famous
+				root = {
+					trigger_event = {
+						id = academics.117
+						popup = yes
+					}
+				}
+			}
+		}
+	}
+}
+
 ##########################################################################
 
 ######ACADEMIC FOCUS######
