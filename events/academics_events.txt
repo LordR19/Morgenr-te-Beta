@@ -48,7 +48,7 @@ namespace = academics
 #Academics 51: Engineer
 #Academics 52: Astronomer
 #Academics 53: Chemist
-#(54)
+#Academics 54: Physicist
 
 #Academics 55: Geologist
 #Academics 56: Naturalist
@@ -1953,9 +1953,89 @@ academics.53 = {
 		ai_chance = {
 			base = 0
 			modifier = { #If the AI already has an Anthropologist that is younger than 60, it should nearly always take this option.
-				trigger = { 
+				trigger = {
 					has_variable = mendelejew_chemist_var
 					var:mendelejew_chemist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 54: Physicist
+
+academics.54 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.54.t
+
+	desc = academics.54.d
+
+	flavor = academics.54.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_new_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_physicist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.54.g
+		default_option = yes
+
+		curie_set_new_physicist_as_physicist_effect = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+						}
+					}
+				}
+				trigger_event = {
+					id = academics.80
+					days = { 7 21 }
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.54.h
+		curie_medium_add_technology = yes #TODO: Replace with correct effect
+		curie_remove_new_physicist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has an Anthropologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = curie_physicist_var
+					var:curie_physicist_var = {
 						age <= 60
 					}
 				}
