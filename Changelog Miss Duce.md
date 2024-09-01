@@ -38,6 +38,7 @@ Chemistry:
 
 Natural History:
 - Levels of Natural History focused Universities now give a bonus on Breeding, Naturalist and Paleontologist Projects.
+- Nature Reserves no longer cost money but don't give add any tourism income (pretend that they pay for themselves).
 
 Fixes:
 - Fixed missing ELement Symbols
@@ -45,4 +46,5 @@ Fixes:
 - Fixed various localization issues.
 - Engineers now properly get their experience every year.
 - Female Composers are now really no longer naked. (I hope, otherwise we might get another Reddit post about it...)
-- Added a Tooltip for the chemist improvement project.
+- Added a Tooltip for the improvement projects that were missing them.
+- The National Park now properly adds a modifier again as well.
