@@ -15,6 +15,7 @@ namespace = academics
 #Academics 1: Engineer retires
 #Academics 2: Astronomer retires
 #Academics 3: Chemist retires
+#Academics 4: Physicist retires
 
 #Academics 5: Geologist retires
 #Academics 6: Naturalist retires
@@ -457,6 +458,95 @@ academics.3 = {
 		}
 		set_variable = {
 			name = academics_chemist_emeritus_delayed_var
+			years = { 1 5 }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Academics 4: Physicist retires
+academics.4 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.4.t
+
+	desc = academics.4.d
+
+#	flavor = curie_physicist_achievements_loc
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = academics_physicist_emeritus_delayed_var
+		}
+		has_variable = curie_physicist_var
+		var:curie_physicist_var ?= {
+			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = curie_physicist_var
+			var:curie_physicist_var ?= {
+				age >= 65
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:curie_physicist_var ?= {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:curie_physicist_var = {
+			save_scope_as = academics_retired_person_scope
+			set_retirement_variable_effect = yes
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		retire_physicist_effect = yes
+	}
+	
+	option = {	#We need him! Pay him extra!
+		name = academics.1.h
+
+		trigger = {
+			NOT = {
+				has_modifier = academics_physicist_emeritus_delayed_modifier
+			}
+		}
+
+		add_modifier = {
+			name = academics_physicist_emeritus_delayed_modifier
+			years = 5
+		}
+		set_variable = {
+			name = academics_physicist_emeritus_delayed_var
 			years = { 1 5 }
 		}
 
@@ -1203,7 +1293,7 @@ academics.23 = {
 	}
 
 	immediate = {
-		remove_variable = mendelejew_chemist_var
+		remove_variable = curie_chemist_var
 		remove_modifier = academics_chemist_emeritus_delayed_modifier
 	}
 
