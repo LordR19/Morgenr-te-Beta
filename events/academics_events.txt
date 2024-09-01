@@ -48,6 +48,7 @@ namespace = academics
 
 ###Academy###
 
+#Academics 50: Biologist
 #Academics 51: Engineer
 #Academics 52: Astronomer
 #Academics 53: Naturalist
@@ -1968,6 +1969,73 @@ academics.36 = {
 #################################################################################
 
 ######ACADEMY######
+
+#Academics 50: Biologist
+
+academics.50 = {
+	dlc = dlc_morgenrote
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.50.t
+
+	desc = academics.50.d
+
+	flavor = academics.50.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_new_biologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_biologist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.50.g
+		default_option = yes
+
+		theiler_set_new_biologist_as_biologist_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.50.h
+		dubois_medium_add_technology = yes #TODO: Is a Theiler effect needed here?
+		theiler_remove_new_biologist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has a Biologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = theiler_biologist_var
+					var:theiler_biologist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
 
 #Academics 51: Engineer
 
