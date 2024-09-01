@@ -4457,7 +4457,6 @@ chemist_experience_set_up_effect = {
 	}
 }
 
-
 #Chemist Experience gain
 chemist_experience_gain_effect = { #adds XP to the Chemist
 	# Amount = amount of XP to add
@@ -4561,6 +4560,257 @@ set_start_chemist_stats_effect = {
 	}
 }
 
+######Physicist######
+
+#Effect to kill the current Physicist
+# !!! Change stuff in both of the following effects !!!
+kill_physicist_effect = {
+	var:curie_physicist_var = {
+		free_character_from_void = no
+	}
+
+	remove_variable = curie_physicist_var
+}
+#This Effect retires the current Physicist
+# Use "set_retirement_variable_effect" in the immediate effect when using this effect.
+retire_physicist_effect = {
+	custom_tooltip = {
+		text = retire_physicist_effect_tt
+
+		var:curie_physicist_var = {
+			free_character_from_void = no
+		}
+	}
+
+	remove_variable = curie_physicist_var
+}
+
+# Creates a new Physicist without losing the old one
+create_new_physicist_effect = {
+	random_list = { #Each Entry has a chance to appear if the triggers are met.
+		1 = { #Random Physicist (fallback and to make it uncertain for historical once to appear)
+			random_list = {
+				1 = {
+					create_character = {
+						female = yes
+						trait_generation = {}
+						save_scope_as = curie_new_physicist_scope
+					}
+					scope:curie_new_physicist_scope = {
+						add_trait = curie_physicist
+						set_variable = mr_is_physicist_var
+						mr_trait_generation_physicist_effect = yes
+						physicist_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = curie_new_physicist_var
+						value = scope:curie_new_physicist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = 4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = 9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = 19
+						}
+					}
+				}
+				99 = {
+					create_character = {
+						trait_generation = {}
+						save_scope_as = curie_new_physicist_scope
+					}
+					scope:curie_new_physicist_scope = {
+						add_trait = curie_physicist
+						set_variable = mr_is_physicist_var
+						mr_trait_generation_physicist_effect = yes
+						physicist_experience_set_up_effect = yes
+						place_character_in_void = 1200
+					}
+		
+					set_variable = {
+						name = curie_new_physicist_var
+						value = scope:curie_new_physicist_scope
+					}
+
+					modifier = {
+						if = {
+							limit = { has_law = law_type:law_women_own_property }
+							add = -4
+						}
+						if = {
+							limit = { has_law = law_type:law_women_in_the_workplace }
+							add = -9
+						}
+						if = {
+							limit = { has_law = law_type:law_womens_suffrage }
+							add = -19
+						}
+					}
+				}
+			}
+		}
+	}
+
+	var:curie_new_physicist_var = {
+		save_scope_as = curie_new_physicist_scope
+	}
+}
+
+# Set new Physicist as official Physicist
+curie_set_new_physicist_as_physicist_effect = {
+	custom_tooltip = {
+		text = curie_replace_physicist_with_new_physicist_tt
+	
+		if = {
+			limit = {
+				has_variable = curie_physicist_var
+			}
+			var:curie_physicist_var = {
+				free_character_from_void = no
+			}
+		}
+
+		set_variable = {
+			name = curie_physicist_var
+			value = scope:curie_new_physicist_scope
+		}
+	}
+}
+
+# Remove new Physicist
+curie_remove_new_physicist_effect = {
+	scope:curie_new_physicist_scope = {
+		free_character_from_void = no
+	}
+}
+
+# Used to set up the Experience of a character
+physicist_experience_set_up_effect = {
+	#Adds physicist experience (see effect for further information)
+	general_experience_set_up_effect = {
+		TYPE = curie_physicist_experience
+		UNI_PM = pm_dubois_university_mathematics
+	}
+	
+	if = { #Adds the Experienced Astronomer Trait if Experience is above 100
+		limit = {
+			var:curie_physicist_experience >= 100
+			NOT = {
+				var:curie_physicist_experience >= 300
+			}
+			NOR = {
+				has_trait = curie_physicist_experienced
+				has_trait = curie_physicist_famous
+			}
+		}
+		remove_trait = curie_physicist
+		add_trait = curie_physicist_experienced
+	}
+	if = { #Adds the Famous Astronomer Trait if Experience is above 300
+		limit = {
+			var:curie_physicist_experience >= 300
+			NOT = {
+				has_trait = curie_physicist_famous
+			}
+		}
+		remove_trait = curie_physicist
+		remove_trait = curie_physicist_experienced
+		add_trait = curie_physicist_famous
+	}
+}
+
+#Physicist Experience gain
+physicist_experience_gain_effect = { #adds XP to the Physicist
+	# Amount = amount of XP to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = xp_amount
+		value = $AMOUNT$
+	}
+
+	if = {
+		limit = {
+			has_variable = curie_physicist_var #should only add experience if there actually is an Physicist
+		}
+		custom_tooltip = {
+			text = curie_physicist_experience_gain_tt
+			if = {
+				limit = {
+					NOT = {
+						var:curie_physicist_var = { #Fallback to make sure there are no errors if the Physicist does not have the variable yet
+							has_variable = curie_physicist_experience
+						}
+					}
+				}
+				var:curie_physicist_var = { #Sets the experience in case it was not set yet
+					physicist_experience_set_up_effect = yes
+				}
+			}
+			var:curie_physicist_var = {
+				change_variable = {
+					name = curie_physicist_experience
+					add = $AMOUNT$
+				}
+			}
+		}
+		var:curie_physicist_var = {
+			if = {
+				limit = {
+					var:curie_physicist_experience >= 100
+					NOT = {
+						var:curie_physicist_experience >= 300
+					}
+					NOR = {
+						has_trait = curie_physicist_experienced
+						has_trait = curie_physicist_famous
+					}
+				}
+				root = {
+					trigger_event = {
+						id = academics.104
+						popup = yes
+					}
+					var:curie_physicist_var = {
+						remove_trait = curie_physicist
+						add_trait = curie_physicist_experienced
+					}
+				}
+			}
+			if = {
+				limit = {
+					var:curie_physicist_experience >= 300
+					NOT = {
+						has_trait = curie_physicist_famous
+					}
+				}
+				root = {
+					trigger_event = {
+						id = academics.105
+						popup = yes
+					}
+					var:curie_physicist_var = {
+						if = {
+							limit = { has_trait = curie_physicist }
+							remove_trait = curie_physicist
+						}
+						remove_trait = curie_physicist_experienced
+						add_trait = curie_physicist_famous
+					}
+				}
+			}
+		}
+	}
+}
+
 ######GEOLOGIST######
 
 #Effect to kill the current Geologist
@@ -4623,7 +4873,7 @@ create_new_geologist_effect = {
 
 			set_global_variable = agassiz_agassiz_created
 		}
-		1 = { #Random Chemist (fallback and to make it uncertain for historical once to appear)
+		1 = { #Random Geologist (fallback and to make it uncertain for historical once to appear)
 			random_list = {
 				1 = {
 					create_character = {
