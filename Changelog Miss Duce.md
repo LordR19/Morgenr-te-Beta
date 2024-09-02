@@ -5,6 +5,7 @@ AI:
 
 Animals:
 - Added multiple new animals: Meerkat, Gorilla, Gila Monster, Capybara, Thylacine, Pallas's Cat and Elks
+- Gorilla is a Safari animal
 
 Engineering:
 - Levels of Mathematical-Technical focused Universities now give a bonus on Engineering Projects.
@@ -17,7 +18,7 @@ Natural History:
 - Nature Reserves no longer cost money but don't give add any tourism income (pretend that they pay for themselves).
 
 Fixes:
-- Fixed missing ELement Symbols
+- Fixed missing Element Symbols
 - Colonial Helmet Mesh fixed.
 - Fixed various localization issues.
 - Engineers now properly get their experience every year.
