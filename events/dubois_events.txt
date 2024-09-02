@@ -4788,6 +4788,31 @@ dubois.31 = {
 		}
 	}
 
+	option = {
+		name = dubois.31.l #Gorilla
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_gorilla
+			}
+			any_state = {
+				has_state_trait = dubois_state_trait_gorilla_habitat
+				OR = {
+					owner = {
+						is_country_type = decentralized
+					}
+					owner = ROOT
+				}
+			}
+		}
+		set_variable = {
+			name = dubois_safari_gorilla
+			value = 1
+		}
+		add_journal_entry = {
+			type = je_dubois_safari_gorilla
+		}
+	}
+
 	after = {
 	}
 }
@@ -4904,6 +4929,27 @@ dubois.32 = {
 			}
 			desc = dubois.32.t.zebra_3
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_gorilla <= 1
+			}
+			desc = dubois.32.t.gorilla_1
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_gorilla = 2
+			}
+			desc = dubois.32.t.gorilla_2
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_gorilla > 2
+			}
+			desc = dubois.32.t.gorilla_3
+		}
 	}
 
 	desc = dubois.32.d
@@ -5014,6 +5060,27 @@ dubois.32 = {
 			}
 			desc = dubois.32.f.zebra.3
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_flavor_randomizer = 1
+			}
+			desc = dubois.32.f.gorilla.1
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_flavor_randomizer = 2
+			}
+			desc = dubois.32.f.gorilla.2
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_flavor_randomizer = 3
+			}
+			desc = dubois.32.f.gorilla.3
+		}
 	}
 
 	duration = 1
@@ -5068,6 +5135,7 @@ dubois.32 = {
 						has_journal_entry = je_dubois_safari_hippopotamus
 						has_journal_entry = je_dubois_safari_lion
 						has_journal_entry = je_dubois_safari_elephant
+						has_journal_entry = je_dubois_safari_gorilla
 					}
 					NOT = {
 						has_technology_researched = automatic_machine_guns
@@ -5162,6 +5230,15 @@ dubois.32 = {
 				add = 1
 			}
 		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_gorilla
+			}
+			change_variable = {
+				name = dubois_safari_gorilla
+				add = 1
+			}
+		}
 	}
 }
 
@@ -5203,6 +5280,12 @@ dubois.33 = {
 				has_variable = dubois_safari_zebra
 			}
 			desc = dubois.33.d.zebra
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+			}
+			desc = dubois.33.d.gorilla
 		}
 	}
 
@@ -5288,6 +5371,12 @@ dubois.34 = {
 				has_variable = dubois_safari_zebra
 			}
 			desc = dubois.34.d.zebra
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+			}
+			desc = dubois.34.d.gorilla
 		}
 	}
 
@@ -5452,6 +5541,7 @@ dubois.36 = {
 			has_journal_entry = je_dubois_safari_hippopotamus
 			has_journal_entry = je_dubois_safari_lion
 			has_journal_entry = je_dubois_safari_elephant
+			has_journal_entry = je_dubois_safari_gorilla
 		}
     }
 
@@ -5496,6 +5586,15 @@ dubois.36 = {
 			}
 			change_variable = {
 				name = dubois_safari_elephant
+				add = -1
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_gorilla
+			}
+			change_variable = {
+				name = dubois_safari_gorilla
 				add = -1
 			}
 		}
@@ -5690,6 +5789,20 @@ dubois.39 = {
 			has_variable = dubois_safari_giraffe
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_giraffe.dds"
+	}
+
+	event_image = { #Zebra
+		trigger = {
+			has_variable = dubois_safari_zebra
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_zebra.dds"
+	}
+
+	event_image = { #Gorilla
+		trigger = {
+			has_variable = dubois_safari_gorilla
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gorilla.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
