@@ -48,3 +48,4 @@ Fixes:
 - Female Composers are now really no longer naked. (I hope, otherwise we might get another Reddit post about it...)
 - Added a Tooltip for the improvement projects that were missing them.
 - The National Park now properly adds a modifier again as well.
+- The Interdisciplinary Symposium no longer requires a geologist who is a famous paleontologist but a paleontologist as it is intended.
