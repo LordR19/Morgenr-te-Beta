@@ -1,5 +1,8 @@
 Changelog for 2.2.4 "Gilbert"
 
+AI:
+- The AI is now more eager to specialize their universities.
+
 Animals:
 - Added multiple new animals: Meerkat, Gorilla, Gila Monster, Capybara, Thylacine, Pallas's Cat and Elks
 
