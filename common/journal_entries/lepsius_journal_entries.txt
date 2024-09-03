@@ -724,6 +724,10 @@ je_lepsius_palmyra = {
 
 	scripted_progress_bar = lepsius_archaeological_excavation_progress_bar
 
+	can_revolution_inherit = yes
+
+	can_deactivate = yes
+
 	is_shown_when_inactive = {
 		NOT = {
 			has_global_variable = lepsius_palmyra_excavation_finished_global_var
@@ -741,21 +745,66 @@ je_lepsius_palmyra = {
 		has_technology_researched = lepsius_early_archaeology_tech
 	}
 
+	immediate = {
+		trigger_event = lepsius.10003
+	}
+
 	complete = {
 		custom_tooltip = {
 			text = je_lepsius_palmyra_progress_complete_tt
 			je:je_lepsius_palmyra = {
 				"scripted_bar_progress(lepsius_archaeological_excavation_progress_bar)" >= 5000
 			}
+			any_scope_state = {
+				state_region = s:STATE_SYRIA
+				has_state_trait = lepsius_state_trait_palmyra_3
+			}
+		}
+	}
+
+	on_complete = {
+		set_global_variable = lepsius_palmyra_excavation_finished_global_var
+		trigger_event = lepsius.10003
+	}
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_archaeological_excavation_progress_bar)" >= 1500
+					}
+					any_scope_state = {
+						state_region = s:STATE_SYRIA
+						NOR = {
+							has_state_trait = lepsius_state_trait_palmyra_2
+							has_state_trait = lepsius_state_trait_palmyra_3
+							has_state_trait = lepsius_state_trait_palmyra_4
+						}
+					}
+				}
+				trigger_event = lepsius.10001
+			}
+			if = {
+				limit = {
+					scope:journal_entry = {
+						"scripted_bar_progress(lepsius_archaeological_excavation_progress_bar)" >= 3000
+					}
+					any_scope_state = {
+						state_region = s:STATE_SYRIA
+						NOR = {
+							has_state_trait = lepsius_state_trait_palmyra_3
+							has_state_trait = lepsius_state_trait_palmyra_4
+						}
+					}
+				}
+				trigger_event = lepsius.10002
+			}
 		}
 	}
 
 	fail = {
     }
-
-	on_complete = {
-		set_global_variable = lepsius_palmyra_excavation_finished_global_var
-	}
 
 	weight = 10
 
