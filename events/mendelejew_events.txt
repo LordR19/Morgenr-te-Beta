@@ -10,6 +10,154 @@ namespace = mendelejew
 
 ###################
 
+#Mendelejew 11: An Explosive Business
+mendelejew.11 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.11.t
+
+	desc = mendelejew.11.d
+
+	flavor = mendelejew.11.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:mendelejew_chemist_scope
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_technology_researched = dynamite
+		NOT = {
+			has_global_variable = mendelejew_dynamite_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = mendelejew_dynamite_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = mendelejew_chemist_var
+				}
+			}
+			create_new_chemist_effect = yes
+			mendelejew_set_new_chemist_as_chemist_effect = yes
+			var:mendelejew_chemist_var = {
+				save_scope_as = mendelejew_chemist_scope
+			}
+		}
+		if = {
+			limit = {
+				var:mendelejew_chemist_var = {
+					NOT = { has_trait = mendelejew_chemist_inspector }
+				}
+			}
+			var:mendelejew_chemist_var = {
+				add_trait = mendelejew_chemist_inspector
+			}
+		}
+		var:mendelejew_chemist_var = {
+			set_variable = mendelejew_chemist_invented_dynamite_var
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = {	#Is he also an entrepreneur?
+		name = mendelejew.11.g
+		default_option = yes
+		random_scope_state = {
+			limit = {
+				is_capital = yes
+			}
+			create_building = {
+				building = "building_explosives_factory"
+				level = 1
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Mendelejew 12: [SCOPE] found the cause for the Fraunhofer Lines
+mendelejew.12 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.12.t
+
+	desc = mendelejew.12.d
+
+	flavor = mendelejew.12.f
+
+	placement = ROOT
+
+	event_image = { #Original by Joseph Fraunhofer 1815, photo by Astroschmidt, CC 4.0 BY SA, https://commons.wikimedia.org/wiki/File:Fraunhofer_Spektrum_Medium.jpg
+		texture = "gfx/event_pictures/verrier_pictures/verrier_fraunhofer_lines.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	trigger = {
+		has_technology_researched = verrier_electromagnetism_tech
+		NOT = {
+			has_global_variable = verrier_electromagnetism_global_var
+		}
+	}
+
+	immediate = {
+		set_global_variable = verrier_electromagnetism_global_var
+		if = {
+			limit ={
+				NOT = {
+					has_variable = mendelejew_chemist_var
+				}
+			}
+			create_new_chemist_effect = yes
+			mendelejew_set_new_chemist_as_chemist_effect = yes
+			var:mendelejew_chemist_var = {
+				save_scope_as = mendelejew_chemist_scope
+			}
+		}
+		if = {
+			limit = {
+				var:mendelejew_chemist_var = {
+					NOT = { has_trait = mendelejew_chemist_analyst }
+				}
+			}
+			var:mendelejew_chemist_var = {
+				add_trait = mendelejew_chemist_analyst
+			}
+		}
+		var:mendelejew_chemist_var = {
+			set_variable = verrier_discovered_reason_fraunhofer_lines_var
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = { #Another mystery of the universe is solved!
+		name = mendelejew.12.g
+		default_option = yes
+		chemist_experience_gain_effect = {
+			AMOUNT = 40
+		}
+	}
+
+	after = {
+	}
+}
+
 #################################################################################
 
 #Mendelejew 101: A new Element theorized
@@ -40,6 +188,7 @@ mendelejew.101 = {
 
 	immediate = {
 		mendelejew_add_theorized_element_from_list_effect = yes
+		mendelejew_remove_je_duration = yes
 	}
 
 	option = {	#
@@ -86,6 +235,7 @@ mendelejew.102 = {
 
 	immediate = {
 		mendelejew_add_thought_element_from_list_effect = yes
+		mendelejew_add_theory_je_duration_effect = yes
 	}
 
 	option = {	#
@@ -127,6 +277,7 @@ mendelejew.103 = {
 	}
 
 	immediate = {
+		mendelejew_remove_je_duration = yes
 	}
 
 	option = {	#
@@ -461,6 +612,7 @@ mendelejew.201 = {
 
 	immediate = {
 		mendelejew_add_discovered_element_from_list_effect = yes
+		mendelejew_remove_je_duration = yes
 	}
 
 	option = {	#
@@ -507,6 +659,7 @@ mendelejew.202 = {
 
 	immediate = {
 		mendelejew_add_searched_element_from_list_effect = yes
+		mendelejew_add_discovery_je_duration_effect = yes
 	}
 
 	option = {	#
@@ -548,6 +701,7 @@ mendelejew.203 = {
 	}
 
 	immediate = {
+		mendelejew_remove_je_duration = yes
 	}
 
 	option = {	#
@@ -653,8 +807,6 @@ mendelejew.212 = {
 
 	type = country_event
 
-	placement = scope:mendelejew_university_state
-
 	title = mendelejew.212.t
 
 	desc = mendelejew.212.d
@@ -695,8 +847,6 @@ mendelejew.213 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-
-	placement = scope:mendelejew_university_state
 
 	title = mendelejew.213.t
 
@@ -744,8 +894,6 @@ mendelejew.214 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-
-	placement = scope:mendelejew_university_state
 
 	title = mendelejew.214.t
 
@@ -864,6 +1012,7 @@ mendelejew.301 = {
 
 	immediate = {
 		mendelejew_add_isolated_element_from_list_effect = yes
+		mendelejew_remove_je_duration = yes
 	}
 
 	option = {	#
@@ -910,6 +1059,7 @@ mendelejew.302 = {
 
 	immediate = {
 		mendelejew_add_examined_element_from_list_effect = yes
+		mendelejew_add_isolation_je_duration_effect = yes
 	}
 
 	option = {	#
@@ -951,6 +1101,7 @@ mendelejew.303 = {
 	}
 
 	immediate = {
+		mendelejew_remove_je_duration = yes
 	}
 
 	option = {	#
@@ -1182,7 +1333,7 @@ mendelejew.314 = {
 				years = 5
 			}
 		}
-		scope:mendelejew_university_state = {
+		scope:mendelejew_university_state.state_region = {
 			add_devastation = 5
 		}
 	}
@@ -1675,8 +1826,14 @@ mendelejew.601 = {
 	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
 
 	immediate = {
-		set_global_variable = mendelejew_atomic_weight_national
-		set_global_variable = mendelejew_atomic_weight_international
+		set_global_variable = {
+			name = mendelejew_atomic_weight_national
+			value = 0
+		}
+		set_global_variable = {
+			name = mendelejew_atomic_weight_international
+			value = 0
+		}
 		var:mendelejew_chemist_var = {
 			set_variable = mendelejew_attended_chemist_congress_var
 			save_scope_as = mendelejew_chemist_scope
@@ -2228,6 +2385,7 @@ mendelejew.701 = {
 	}
 
 	immediate = {
+		remove_modifier = mendelejew_chemist_synthetic_oil_cost_modifier
 	}
 
 	option = {
@@ -2256,11 +2414,72 @@ mendelejew.701 = {
 					has_global_variable = mendelejew_synthetic_oil_invented_var
 				}
 			}
+			set_variable = mendelejew_oil_achievement
 			mendelejew_large_add_technology = yes
 			var:mendelejew_chemist_var = {
 				set_variable = mendelejew_synthetic_oil_inventor_var
 			}
 			set_global_variable = mendelejew_synthetic_oil_invented_var
+		}
+	}
+	after = {
+	}
+}
+
+#Mendelejew 702: Synthetic Rubber Invented
+mendelejew.702 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.702.t
+	desc = mendelejew.702.d
+	flavor = mendelejew.702.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_achievement.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		remove_modifier = mendelejew_chemist_synthetic_rubber_cost_modifier
+	}
+
+	option = {
+		name = mendelejew.702.g #This means we are self-sufficient from rubber.
+		default_option = yes
+		chemist_experience_gain_effect = { AMOUNT = 35 }
+		add_technology_researched = mendelejew_synthetic_rubber_tech
+		var:mendelejew_chemist_var = {
+			set_character_busy_and_immortal = no
+		}
+		if = {
+			limit = {
+				NOT = {
+					var:mendelejew_chemist_var = {
+						has_trait = mendelejew_chemist_analyst
+					}
+				}
+			}
+			var:mendelejew_chemist_var = {
+				add_trait = mendelejew_chemist_analyst
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = mendelejew_synthetic_rubber_invented_var
+				}
+			}
+			mendelejew_large_add_technology = yes
+			var:mendelejew_chemist_var = {
+				set_variable = mendelejew_synthetic_rubber_inventor_var
+			}
+			set_global_variable = mendelejew_synthetic_rubber_invented_var
 		}
 	}
 	after = {
@@ -2289,6 +2508,7 @@ mendelejew.801 = {
 	}
 
 	immediate = {
+		set_variable = mendelejew_proud_achievement
 		var:mendelejew_chemist_var = {
 			set_variable = mendelejew_periodic_table_inventor_var
 		}
@@ -2313,6 +2533,70 @@ mendelejew.801 = {
 		}
 		var:mendelejew_chemist_var = {
 			add_trait = mendelejew_chemist_periodic_table_inventor
+		}
+	}
+	after = {
+	}
+}
+
+#########################################################################################################
+
+#Mendelejew 901: Noble Gases
+mendelejew.901 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = mendelejew.901.t
+	desc = mendelejew.901.d
+	flavor = mendelejew.901.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/mendelejew_pictures/mendelejew_element_achievement.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_chemistry.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			set_variable = mendelejew_noble_gases_discoverer_var
+		}
+	}
+
+	option = {
+		name = mendelejew.901.g #Noble? I'd call that lazy.
+		default_option = yes
+		mendelejew_large_add_technology = yes
+		if = {
+			limit = {
+				NOT = {
+					var:mendelejew_chemist_var = {
+						has_trait = mendelejew_chemist_inspector
+					}
+				}
+			}
+			var:mendelejew_chemist_var = {
+				add_trait = mendelejew_chemist_inspector
+			}
+		}
+		mendelejew_add_isolated_element_effect = { NUMBER = 2 }
+		custom_tooltip = {
+			text = mandelejew_noble_gases_901.tt
+			mendelejew_add_theorized_element_effect = { NUMBER = 10 } #Neon
+			mendelejew_add_discovered_element_effect = { NUMBER = 10 } #Neon
+			mendelejew_add_isolated_element_effect = { NUMBER = 10 } #Neon
+			mendelejew_add_theorized_element_effect = { NUMBER = 18 } #Argon
+			mendelejew_add_discovered_element_effect = { NUMBER = 18 } #Argon
+			mendelejew_add_isolated_element_effect = { NUMBER = 18 } #Argon
+			mendelejew_add_theorized_element_effect = { NUMBER = 36 } #Krypton
+			mendelejew_add_discovered_element_effect = { NUMBER = 36 } #Krypton
+			mendelejew_add_isolated_element_effect = { NUMBER = 36 } #Krypton
+			mendelejew_add_theorized_element_effect = { NUMBER = 54 } #Xenon
+			mendelejew_add_discovered_element_effect = { NUMBER = 54 } #Xenon
+			mendelejew_add_isolated_element_effect = { NUMBER = 54 } #Xenon
 		}
 	}
 	after = {

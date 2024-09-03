@@ -122,6 +122,53 @@ verrier_great_debate_possible_alert = {
 	alert_group = morgenroete
 }
 
+verrier_natural_satellites_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/verrier_astronomy_alert.dds"
+
+	valid = {
+		NOT = {
+			has_variable = verrier_decide_planet_var
+		}
+		verrier_has_active_astronomer_no_tooltip_trigger = yes
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			level > 0
+		}
+		verrier_can_discover_satellite_trigger = yes
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
+
+verrier_moon_photos_possible_alert = {
+	script_context = player_country
+	texture = "gfx/interface/icons/alert_icons/verrier_astronomy_alert.dds"
+
+	valid = {
+		NOT = {
+			has_modifier = verrier_moon_chartered_modifier
+		}
+		verrier_has_active_astronomer_no_tooltip_trigger = yes
+		has_technology_researched = verrier_astronomy_tech
+		has_technology_researched = camera
+		any_scope_building = {
+			is_building_type = building_verrier_observatory
+			level > 0
+		}
+		country_has_building_type_levels = {  
+			target = bt:building_university  
+			value  >= 10
+		}
+	}
+
+#	open_panel = tech_tree
+	type = important_action
+	alert_group = morgenroete
+}
+
 verrier_can_build_observatory_alert = {
 	script_context = player_country
 	texture = "gfx/interface/icons/alert_icons/verrier_astronomy_alert.dds"
@@ -130,14 +177,23 @@ verrier_can_build_observatory_alert = {
 		NOT = {
 			any_scope_building = {
 				is_building_type = building_verrier_observatory
+				level > 0
 			}
 		}
 		OR = {
-			has_technology_researched = verrier_astronomy_tech
-			verrier_has_astronomer = yes
-		}
-		any_scope_building = {
-			is_building_type = building_university
+			AND = {
+				has_technology_researched = verrier_astronomy_tech
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			AND = {
+				has_technology_researched = verrier_chemistry_tech
+				any_scope_building = {
+					is_building_type = building_university
+				}
+			}
+			has_variable = verrier_allowed_to_build_observatory
 		}
 	}
 

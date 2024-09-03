@@ -6,18 +6,36 @@
 
 ############################
 
-#Terrain Triggers
+###Geologist Triggers###
+
+agassiz_geologist_has_specialization_trigger = {
+	has_variable = dubois_geologist_var
+	var:dubois_geologist_var ?= {
+		OR = {
+			has_trait = agassiz_mineralogist
+			has_trait = agassiz_geophysicist
+			has_trait = agassiz_prospector
+			has_trait = agassiz_oceanographer
+			has_trait = agassiz_volcanologist
+		}
+	}
+}
+
+############################
+
+###Terrain Triggers###
+
+agassiz_has_geyser = {
+	any_scope_state = {
+		has_state_trait = agassiz_state_trait_geyser
+	}
+}
 
 agassiz_has_terrain_arctic = {
 	any_scope_state = {
 		OR = {
-			has_state_trait = state_trait_the_great_basin_desert
-			has_state_trait = state_trait_atacama_desert
-			has_state_trait = state_trait_sahara_desert
-			has_state_trait = state_trait_arabian_desert
-			has_state_trait = state_trait_gobi_desert
-			has_state_trait = state_trait_taklamakan_desert
-			has_state_trait = state_trait_australian_desert
+			has_state_trait = state_trait_northern_canadian_terrain
+			has_state_trait = state_trait_siberian_terrain
     	}
 	}
 }
@@ -98,4 +116,179 @@ agassiz_has_special_deposit = {
 			has_state_trait = state_trait_copper_coast
     	}
 	}
+}
+
+############################
+
+###Volcano Triggers###
+
+agassiz_state_has_volcano = {
+	has_state_trait = dubois_state_trait_volcano
+}
+
+############################
+
+###Earthquake Triggers###
+
+agassiz_state_in_earthquake_zone = {
+	OR = {
+		region = sr:region_indonesia
+		region = sr:region_indochina
+		region = sr:region_south_china
+		region = sr:region_north_china
+		region = sr:region_manchuria
+		region = sr:region_himalayas
+		region = sr:region_japan
+		region = sr:region_la_plata
+		region = sr:region_andes
+		region = sr:region_gran_colombia
+		region = sr:region_central_america
+		region = sr:region_mexico
+		region = sr:region_pacific_coast
+
+		region = sr:region_italy
+		region = sr:region_iberia
+		region = sr:region_balkans
+		region = sr:region_anatolia
+		region = sr:region_persia
+		region = sr:region_north_india
+		region = sr:region_caribbean
+	}
+}
+
+############################
+
+###Ressource Triggers###
+
+#General
+agassiz_can_find_new_vein_trigger = {
+	OR = {
+		agassiz_can_find_coal_vein_trigger = yes
+		agassiz_can_find_iron_vein_trigger = yes
+		agassiz_can_find_lead_vein_trigger = yes
+		agassiz_can_find_sulfur_vein_trigger = yes
+		agassiz_can_find_gold_vein_trigger = yes
+		agassiz_can_find_uranium_vein_trigger = yes
+	}
+}
+
+#Coal
+agassiz_can_find_coal_vein_trigger = {
+	any_scope_building = {
+		is_building_type = building_coal_mine
+		level > 0
+		NOT = {
+			has_modifier = agassiz_building_production_mult_modifier
+		}
+	}
+}
+
+#Iron
+agassiz_can_find_iron_vein_trigger = {
+	any_scope_building = {
+		is_building_type = building_iron_mine
+		level > 0
+		NOT = {
+			has_modifier = agassiz_building_production_mult_modifier
+		}
+	}
+}
+
+#Lead
+agassiz_can_find_lead_vein_trigger = {
+	any_scope_building = {
+		is_building_type = building_lead_mine
+		level > 0
+		NOT = {
+			has_modifier = agassiz_building_production_mult_modifier
+		}
+	}
+}
+
+#Sulfur
+agassiz_can_find_sulfur_vein_trigger = {
+	any_scope_building = {
+		is_building_type = building_sulfur_mine
+		level > 0
+		NOT = {
+			has_modifier = agassiz_building_production_mult_modifier
+		}
+	}
+}
+
+#Gold
+agassiz_can_find_gold_vein_trigger = {
+	any_scope_building = {
+		is_building_type = building_gold_mine
+		level > 0
+		NOT = {
+			has_modifier = agassiz_building_production_mult_modifier
+		}
+	}
+}
+
+#Uranium
+agassiz_can_find_uranium_vein_trigger = {
+	any_scope_building = {
+		is_building_type = building_curie_uranium_mine
+		level > 0
+		NOT = {
+			has_modifier = agassiz_building_production_mult_modifier
+		}
+	}
+}
+
+#Oil
+agassiz_can_find_oil_trigger = {
+	any_scope_building = {
+		is_building_type = building_oil_rig
+		level > 0
+		NOT = {
+			has_modifier = agassiz_building_production_2_mult_modifier
+		}
+	}
+}
+
+############################
+
+###Age of Earth Triggers###
+
+agassiz_can_calculate_new_age_of_earth_trigger = {
+	trigger_if = {
+		limit = { has_global_variable = agassiz_global_age_of_earth_global_var }
+		global_var:agassiz_global_age_of_earth_global_var < agassiz_country_age_of_earth_calculation_value
+	}
+	trigger_else = {
+		always = no
+	}
+}
+
+############################
+
+### Volcanology ###
+
+agassiz_state_has_unexplored_volcano = {
+	any_scope_building = {
+		is_building_type = building_agassiz_volcano_observatory
+		has_active_production_method = pm_agassiz_basic_volcanology
+	}
+}
+
+############################
+
+### Triggers for the rating display geologist ###
+agassiz_geologist_fantastic_rating_trigger = {
+	agassiz_geologist_character_rating_value > 8
+}
+
+agassiz_geologist_very_good_rating_trigger = {
+	agassiz_geologist_character_rating_value > 5
+}
+
+agassiz_geologist_good_rating_trigger = {
+	agassiz_geologist_character_rating_value > 2
+}
+
+agassiz_geologist_mediocre_rating_trigger = {
+	agassiz_geologist_character_rating_value > 0
 }

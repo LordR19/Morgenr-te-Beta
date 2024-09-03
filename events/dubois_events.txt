@@ -65,6 +65,7 @@ namespace = dubois
 #Dubois 105: Florida Panther
 #Dubois 106: Alligator
 #Dubois 107: Axolotl
+#Dubois 108: Gila Monster
 
 #South American Animals
 
@@ -75,6 +76,7 @@ namespace = dubois
 #Dubois 115: Andean Condor
 #Dubois 116: West Indian Manatee
 #Dubois 117: Squirrel Monkey
+#Dubois 118: Capybara
 
 #European Animals
 
@@ -85,6 +87,7 @@ namespace = dubois
 #Dubois 125: Eurasian Otter
 #Dubois 126: Alpine Ibex
 #Dubois 127: Wisent
+#Dubois 128: Elk
 
 #African Animals
 
@@ -95,6 +98,8 @@ namespace = dubois
 #Dubois 135: African Penguin
 #Dubois 136: Naked Mole-Rat
 #Dubois 137: Zebra
+#Dubois 138: Meerkat
+#Dubois 139: Gorilla
 
 #Asian Animals
 
@@ -106,6 +111,8 @@ namespace = dubois
 #Dubois 146: Snow Leopard
 #Dubois 147: Asiatic Cheetah
 #Dubois 148: Red Panda
+#Dubois 149: Pallas's Cat
+#Dubois 150: Pallas's Cat (But from Modifier)
 
 #Australian/Oceanian Animals
 
@@ -116,6 +123,7 @@ namespace = dubois
 #Dubois 155: Platypus
 #Dubois 156: Cassowary
 #Dubois 157: New Zealand Sea Lion
+#Dubois 158: Thylacine
 
 ######PALEONTOLOGY######
 
@@ -228,6 +236,8 @@ namespace = dubois
 #Dubois 1016: African Penguin Enclosure
 #Dubois 1017: Naked Mole-Rat Enclosure
 #Dubois 1018: Zebra Enclosure
+#Dubois 1019: Meerkat Enclosure
+#Dubois 1020: Gorilla Enclosure
 
 #Dubois 1021: Asian Enclosures
 #Dubois 1022: Panda Enclosure
@@ -237,6 +247,7 @@ namespace = dubois
 #Dubois 1026: Komodo Dragon
 #Dubois 1027: Snow Leopard
 #Dubois 1028: Asiatic Cheetah
+#Dubois 1030: Pallas's Cat
 
 #Dubois 1031: Australian and Oceanian Enclosures
 #Dubois 1032: Sea Turtle Enclosure
@@ -246,6 +257,7 @@ namespace = dubois
 #Dubois 1036: Platypus Enclosure
 #Dubois 1037: Cassowary Enclosure
 #Dubois 1038: Sealion Enclosure
+#Dubois 1039: Thylacine Enclosure
 
 #Dubois 1041: European Enclosures
 #Dubois 1042: Iberian Lynx Enclosure
@@ -253,8 +265,9 @@ namespace = dubois
 #Dubois 1044: Eurasian Badger Enclosure
 #Dubois 1045: Stoat Enclosure
 #Dubois 1046: Eurasian Otter Enclosure
-#Dubois 1047: Eurasian Otter Enclosure
-#Dubois 1048: Eurasian Otter Enclosure
+#Dubois 1047: Alpine Ibex Enclosure
+#Dubois 1048: Wisent Enclosures
+#Dubois 1049: Elk Enclosures
 
 #Dubois 1051: North American Enclosures
 #Dubois 1052: Polar Bear Enclosure
@@ -264,6 +277,7 @@ namespace = dubois
 #Dubois 1056: American Bison Enclosure
 #Dubois 1057: Alligator Enclosure
 #Dubois 1058: Axolotl Enclosure
+#Dubois 1059: Gila Monster Enclosure
 
 #Dubois 1061: South American Enclosures
 #Dubois 1062: Brown-Throated Sloth Enclosure
@@ -273,6 +287,7 @@ namespace = dubois
 #Dubois 1066: Andean Condor
 #Dubois 1067: West Indian Manatee
 #Dubois 1068: Squirrel Monkey
+#Dubois 1069: Capybara Enclosure
 
 #Animal Babies
 
@@ -382,7 +397,7 @@ dubois.1 = {
 		}
 		if = {
 			limit = { has_variable = dubois_naturalist_var }
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				set_variable = dubois_naturalist_inaugurated_zoo_var
 			}
 		}
@@ -455,7 +470,7 @@ dubois.2 = {
 			create_new_naturalist_effect = yes
 			dubois_set_new_naturalist_as_naturalist_effect = yes
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = dubois_invented_evolution_theory_var
 		}
@@ -540,7 +555,7 @@ dubois.3 = {
 	immediate = {
 		set_variable = dubois_beagle_returned
 		create_darwin_effect = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -830,12 +845,12 @@ dubois.7 = {
 		name = dubois.7.g
 
 		naturalist_experience_gain_effect = { AMOUNT = 10 }
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			set_variable = dubois_naturalist_showed_evolution_in_peppered_moths_var
 		}
 		dubois_medium_add_technology = yes
 
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_entomologist }
@@ -893,6 +908,12 @@ dubois.10 = {
 	option = {
 		name = dubois.10.g
 		default_option = yes
+
+		trigger = {
+			capital = {
+				has_building = building_dubois_zoo
+			}
+		}
 
 		scope:dubois_zoo_state = {
 			if = {
@@ -953,6 +974,206 @@ dubois.10 = {
 				ROOT = {
 					dubois_add_x_specimen_effect = { AMOUNT = 50000 }
 					add_treasury = 5000000
+				}
+			}
+		}
+		scope:dubois_zoo_state = {
+			remove_building = building_dubois_zoo
+		}
+	}
+
+	option = {
+		name = dubois.10.h
+		default_option = yes
+
+		trigger = {
+			NOT = {
+				capital = {
+					has_building = building_dubois_zoo
+				}
+			}
+		}
+
+		capital = {
+			create_building={
+				building="building_dubois_zoo"
+				reserves=1
+				level = 1
+			}
+		}
+		if = {
+			limit = {
+				scope:dubois_zoo_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_1
+					}
+				}
+			}
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_1
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:dubois_zoo_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_2
+					}
+				}
+			}
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_2
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:dubois_zoo_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_3
+					}
+				}
+			}
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_3
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:dubois_zoo_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_4
+					}
+				}
+			}
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_4
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:dubois_zoo_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_zoo_level_5
+					}
+				}
+			}
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_zoo_level_5
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:dubois_zoo_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_botanical_garden
+					}
+				}
+			}
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_botanical_garden
+				}
+			}
+		}
+		else = {
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_no_botanical_garden
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:dubois_zoo_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_paleontological_collection
+					}
+				}
+			}
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_paleontological_collection
+				}
+			}
+		}
+		else = {
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_no_paleontological_collection
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:dubois_zoo_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_specimen_collection
+					}
+				}
+			}
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_specimen_collection
+				}
+			}
+		}
+		else = {
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_no_specimen_collection
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:dubois_zoo_state = {
+					is_production_method_active = {
+						building_type = building_dubois_zoo
+						production_method = pm_mineral_cabinet
+					}
+				}
+			}
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_mineral_cabinet
+				}
+			}
+		}
+		else = {
+			capital = {
+				activate_production_method = {
+					building_type = building_dubois_zoo
+					production_method = pm_no_mineral_cabinet
 				}
 			}
 		}
@@ -1153,6 +1374,32 @@ dubois.11 = {
 			}
 		}
 	}
+	#Gila Monster
+	option = {
+		name = dubois.11.gila
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_gila
+					has_variable = dubois_transport_gila
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_gila_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_gila
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.108
+				days = { 30 60 }
+			}
+		}
+	}
 	######SOUTH AMERICA######
 
 	#Brown-throated Sloth
@@ -1333,6 +1580,32 @@ dubois.11 = {
 		hidden_effect = {
 			trigger_event = {
 				id = dubois.117
+				days = { 30 60 }
+			}
+		}
+	}
+	#Capybara
+	option = {
+		name = dubois.11.capybara
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_capybara
+					has_variable = dubois_transport_capybara
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_capybara_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_capybara
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.118
 				days = { 30 60 }
 			}
 		}
@@ -1521,6 +1794,32 @@ dubois.11 = {
 			}
 		}
 	}
+	#Elk
+	option = {
+		name = dubois.11.elk
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_elk
+					has_variable = dubois_transport_elk
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_elk_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_elk
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.128
+				days = { 30 60 }
+			}
+		}
+	}
 	######AFRICA######
 
 	#Hippopotamus
@@ -1701,6 +2000,58 @@ dubois.11 = {
 		hidden_effect = {
 			trigger_event = {
 				id = dubois.137
+				days = { 30 60 }
+			}
+		}
+	}
+	#Meerkat
+	option = {
+		name = dubois.11.meerkat
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_meerkat
+					has_variable = dubois_transport_meerkat
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_meerkat_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_meerkat
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.138
+				days = { 30 60 }
+			}
+		}
+	}
+	#Gorilla
+	option = {
+		name = dubois.11.gorilla
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_gorilla
+					has_variable = dubois_transport_gorilla
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_gorilla_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_gorilla
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.139
 				days = { 30 60 }
 			}
 		}
@@ -1889,6 +2240,32 @@ dubois.11 = {
 			}
 		}
 	}
+	#Pallas's Cat
+	option = {
+		name = dubois.11.pallas
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_pallas
+					has_variable = dubois_transport_pallas
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_pallas_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_pallas
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.149
+				days = { 30 60 }
+			}
+		}
+	}
 	######AUSTRALIA & OCEANIA######
 
 	#Green Sea Turtle
@@ -2069,6 +2446,32 @@ dubois.11 = {
 		hidden_effect = {
 			trigger_event = {
 				id = dubois.157
+				days = { 30 60 }
+			}
+		}
+	}
+	#Thylacine
+	option = {
+		name = dubois.11.thylacine
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_thylacine
+					has_variable = dubois_transport_thylacine
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_thylacine_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_thylacine
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.158
 				days = { 30 60 }
 			}
 		}
@@ -2281,6 +2684,32 @@ dubois.12 = {
 			}
 		}
 	}
+	#Gila
+	option = {
+		name = dubois.11.gila
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_gila
+					has_variable = dubois_transport_gila
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_gila_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_gila
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.108
+				days = { 30 60 }
+			}
+		}
+	}
 	######SOUTH AMERICA######
 
 	#Brown-throated Sloth
@@ -2465,6 +2894,32 @@ dubois.12 = {
 			}
 		}
 	}
+	#Capybara
+	option = {
+		name = dubois.11.capybara
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_capybara
+					has_variable = dubois_transport_capybara
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_capybara_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_capybara
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.118
+				days = { 30 60 }
+			}
+		}
+	}
 	######EUROPE######
 
 	#Iberian Lynx
@@ -2642,6 +3097,32 @@ dubois.12 = {
 		}
 		custom_tooltip = dubois_zoo_animal_transport_tt
 		set_variable = dubois_transport_wisent
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.127
+				days = { 30 60 }
+			}
+		}
+	}
+	#Elk
+	option = {
+		name = dubois.11.elk
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_elk
+					has_variable = dubois_transport_elk
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_elk_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_elk
 		hidden_effect = {
 			trigger_event = {
 				id = dubois.127
@@ -2833,6 +3314,58 @@ dubois.12 = {
 			}
 		}
 	}
+	#Meerkat
+	option = {
+		name = dubois.11.meerkat
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_meerkat
+					has_variable = dubois_transport_meerkat
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_meerkat_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_meerkat
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.138
+				days = { 30 60 }
+			}
+		}
+	}
+	#Gorilla
+	option = {
+		name = dubois.11.gorilla
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_gorilla
+					has_variable = dubois_transport_gorilla
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_gorilla_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_gorilla
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.139
+				days = { 30 60 }
+			}
+		}
+	}
 	######ASIA######
 
 	#Giant Panda
@@ -3013,6 +3546,32 @@ dubois.12 = {
 		hidden_effect = {
 			trigger_event = {
 				id = dubois.147
+				days = { 30 60 }
+			}
+		}
+	}
+	#Pallas's Cat
+	option = {
+		name = dubois.11.pallas
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_pallas
+					has_variable = dubois_transport_pallas
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_pallas_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_pallas
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.149
 				days = { 30 60 }
 			}
 		}
@@ -3201,6 +3760,32 @@ dubois.12 = {
 			}
 		}
 	}
+	#Thylacine
+	option = {
+		name = dubois.11.thylacine
+		default_option = yes
+		trigger = {
+			AND = {
+				NOT = {
+					has_variable = dubois_zoo_animal_thylacine
+					has_variable = dubois_transport_thylacine
+				}
+				scope:target_country = {
+					any_scope_state = {
+						has_state_trait = dubois_state_trait_thylacine_habitat
+					}
+				}
+			}
+		}
+		custom_tooltip = dubois_zoo_animal_transport_tt
+		set_variable = dubois_transport_thylacine
+		hidden_effect = {
+			trigger_event = {
+				id = dubois.158
+				days = { 30 60 }
+			}
+		}
+	}
 
 	after = {
 		remove_variable = dubois_smuggle_zoo_animal_var
@@ -3263,9 +3848,9 @@ dubois.13 = {
 	}
 }
 
-######Catch local animals######
+######Catch & document local animals######
 
-#Dubois 21: Collect animals
+#Dubois 21: Animals caught
 
 dubois.21 = {
 	dlc = dlc_morgenrote
@@ -3293,7 +3878,7 @@ dubois.21 = {
 
 	immediate = {
 		dubois_calculate_catch_animals = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -3318,12 +3903,734 @@ dubois.21 = {
 	}
 }
 
+#Dubois 22: Animals documented
+
+dubois.22 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.22.t
+
+	desc = dubois.22.d
+
+	flavor = {
+		###NORTH AMERICA###
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_grizzly_documentation_ongoing_var
+			}
+			desc = dubois.102.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_eagle_documentation_ongoing_var
+			}
+			desc = dubois.103.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_bison_documentation_ongoing_var
+			}
+			desc = dubois.104.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_panther_documentation_ongoing_var
+			}
+			desc = dubois.105.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_alligator_documentation_ongoing_var
+			}
+			desc = dubois.106.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_axolotl_documentation_ongoing_var
+			}
+			desc = dubois.107.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_gila_documentation_ongoing_var
+			}
+			desc = dubois.108.f
+		}
+		###SOUTH AMERICA###
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_sloth_documentation_ongoing_var
+			}
+			desc = dubois.111.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_jaguar_documentation_ongoing_var
+			}
+			desc = dubois.112.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_anteater_documentation_ongoing_var
+			}
+			desc = dubois.113.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_armadillo_documentation_ongoing_var
+			}
+			desc = dubois.114.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_condor_documentation_ongoing_var
+			}
+			desc = dubois.115.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_manatee_documentation_ongoing_var
+			}
+			desc = dubois.116.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_monkey_documentation_ongoing_var
+			}
+			desc = dubois.117.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_capybara_documentation_ongoing_var
+			}
+			desc = dubois.118.f
+		}
+		###EUROPE###
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_lynx_documentation_ongoing_var
+			}
+			desc = dubois.121.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_wolf_documentation_ongoing_var
+			}
+			desc = dubois.122.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_badger_documentation_ongoing_var
+			}
+			desc = dubois.123.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_stoat_documentation_ongoing_var
+			}
+			desc = dubois.124.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_otter_documentation_ongoing_var
+			}
+			desc = dubois.125.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_ibex_documentation_ongoing_var
+			}
+			desc = dubois.126.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_wisent_documentation_ongoing_var
+			}
+			desc = dubois.127.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_elk_documentation_ongoing_var
+			}
+			desc = dubois.128.f
+		}
+		###AFRICA###
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_hippopotamus_documentation_ongoing_var
+			}
+			desc = dubois.131.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_lion_documentation_ongoing_var
+			}
+			desc = dubois.132.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_elefant_documentation_ongoing_var
+			}
+			desc = dubois.133.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_giraffe_documentation_ongoing_var
+			}
+			desc = dubois.134.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_penguin_documentation_ongoing_var
+			}
+			desc = dubois.135.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_mole_documentation_ongoing_var
+			}
+			desc = dubois.136.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_zebra_documentation_ongoing_var
+			}
+			desc = dubois.137.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_meerkat_documentation_ongoing_var
+			}
+			desc = dubois.138.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_gorilla_documentation_ongoing_var
+			}
+			desc = dubois.139.f
+		}
+		###ASIA###
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_panda_documentation_ongoing_var
+			}
+			desc = dubois.141.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_orangutan_documentation_ongoing_var
+			}
+			desc = dubois.142.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_tiger_documentation_ongoing_var
+			}
+			desc = dubois.143.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_tapir_documentation_ongoing_var
+			}
+			desc = dubois.144.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_dragon_documentation_ongoing_var
+			}
+			desc = dubois.145.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_leopard_documentation_ongoing_var
+			}
+			desc = dubois.146.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_cheetah_documentation_ongoing_var
+			}
+			desc = dubois.147.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_pallas_documentation_ongoing_var
+			}
+			desc = dubois.149.f
+		}
+		###AUSTRALIA&OCEANIA###
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_turtle_documentation_ongoing_var
+			}
+			desc = dubois.151.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_manta_documentation_ongoing_var
+			}
+			desc = dubois.152.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_kangaroo_documentation_ongoing_var
+			}
+			desc = dubois.153.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_koala_documentation_ongoing_var
+			}
+			desc = dubois.154.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_platypus_documentation_ongoing_var
+			}
+			desc = dubois.155.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_cassowary_documentation_ongoing_var
+			}
+			desc = dubois.156.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_sealion_documentation_ongoing_var
+			}
+			desc = dubois.157.f
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_thylacine_documentation_ongoing_var
+			}
+			desc = dubois.158.f
+		}
+	}
+
+	###NORTH AMERICA###
+	event_image = {
+        trigger = {
+            has_variable = dubois_grizzly_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_grizzly.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_eagle_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_eagle.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_bison_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_bison.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_panther_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_panther.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_alligator_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_alligator.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_axolotl_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_axolotl.dds"
+    }
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_gila_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gila.dds"
+	}
+	###SOUTH AMERICA###
+	event_image = {
+        trigger = {
+            has_variable = dubois_sloth_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_sloth.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_jaguar_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_jaguar.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_anteater_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_anteater.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_armadillo_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_armadillo.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_condor_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_condor.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_manatee_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_manatee.dds"
+    }
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_monkey_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_monkey.dds"
+	}
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_capybara_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_capybara.dds"
+	}
+	###EUROPE###
+	event_image = {
+        trigger = {
+            has_variable = dubois_lynx_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_lynx.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_wolf_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_wolf.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_stoat_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_stoat.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_badger_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_badger.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_otter_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_otter.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_ibex_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_ibex.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_wisent_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_wisent.dds"
+    }
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_elk_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elk.dds"
+	}
+	###AFRICA###
+	event_image = {
+        trigger = {
+            has_variable = dubois_hippopotamus_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_hippopotamus.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_lion_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_lion.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_elefant_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elephant.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_giraffe_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_giraffe.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_penguin_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_penguin.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_mole_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_mole.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_zebra_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_zebra.dds"
+	}
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_meerkat_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_meerkat.dds"
+	}
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_gorilla_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gorilla.dds"
+	}
+	###ASIA###
+	event_image = {
+        trigger = {
+            has_variable = dubois_panda_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_panda.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_orangutan_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_orangutan.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_tiger_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_tiger.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_tapir_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_tapir.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_dragon_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_dragon.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_leopard_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_leopard.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_cheetah_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_cheetah.dds"
+    }
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_pallas_documentation_ongoing_var
+				}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_pallas.dds"
+	}
+	###AUSTRALIA&OCEANIA###
+	event_image = {
+        trigger = {
+            has_variable = dubois_turtle_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_turtle.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_manta_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_manta.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_kangaroo_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_kangaroo.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_koala_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_koala.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_platypus_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_platypus.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_cassowary_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_cassowary.dds"
+    }
+
+	event_image = {
+        trigger = {
+            has_variable = dubois_sealion_documentation_ongoing_var
+        }
+        texture = "gfx/event_pictures/dubois_pictures/dubois_animal_sealion.dds"
+    }
+
+	event_image = {
+		trigger = {
+			has_variable = dubois_thylacine_documentation_ongoing_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_thylacine.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_naturalist_var ?= {
+			save_scope_as = dubois_naturalist_scope
+		}
+		#Sets up a variable that sets the documentation title
+		set_variable = {
+			name = dubois_animal_documentation_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = dubois_animal_documentation_title_randomizer_var
+			nearest = 1
+		}
+		#Sets up a variable that sets the documentation topic
+		set_variable = {
+			name = dubois_animal_documentation_topic_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = dubois_animal_documentation_topic_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {
+		name = dubois.22.g
+		default_option = yes
+		dubois_add_x_specimen_effect = { AMOUNT = 1000 }
+		if = {
+			limit = {
+				has_technology_researched = film
+			}
+			dubois_document_animal_film_effect = yes
+		}
+		else = {
+			dubois_document_animal_effect = yes
+		}
+		dubois_small_add_technology = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = 15
+		}
+		if = {
+			limit = {
+				NOT = {
+					var:dubois_naturalist_var ?= {
+						has_trait = dubois_zoologist
+					}
+				}
+			}
+			random_list = {
+				1 = { 
+					var:dubois_naturalist_var ?= {
+						add_trait = dubois_zoologist
+					}
+				}
+				1 = {}
+			}
+		}
+	}
+
+	after = {
+		remove_ongoing_animal_documentation_effect = yes
+		remove_variable = dubois_animal_documentation_title_randomizer_var
+		remove_variable = dubois_animal_documentation_topic_randomizer_var
+		scope:dubois_naturalist_scope = {
+			set_character_busy_and_immortal = no
+			remove_variable = dubois_naturalist_on_zoological_expedition_var
+		}
+	}
+}
+
 #################################################################################
 
 ######SAFARI######
 
 #Dubois 31: Safari starts
-
 dubois.31 = {
 	dlc = dlc_morgenrote
 
@@ -3350,12 +4657,9 @@ dubois.31 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
-		dubois_set_safari_progress = yes
-		dubois_set_safari_trap = yes
-		dubois_set_safari_track = yes
 	}
 
 	option = {
@@ -3379,6 +4683,9 @@ dubois.31 = {
 			name = dubois_safari_hippopotamus
 			value = 1
 		}
+		add_journal_entry = {
+			type = je_dubois_safari_hippopotamus
+		}
 	}
 
 	option = {
@@ -3400,6 +4707,9 @@ dubois.31 = {
 		set_variable = {
 			name = dubois_safari_lion
 			value = 1
+		}
+		add_journal_entry = {
+			type = je_dubois_safari_lion
 		}
 	}
 
@@ -3423,6 +4733,9 @@ dubois.31 = {
 			name = dubois_safari_elephant
 			value = 1
 		}
+		add_journal_entry = {
+			type = je_dubois_safari_elephant
+		}
 	}
 
 	option = {
@@ -3444,6 +4757,9 @@ dubois.31 = {
 		set_variable = {
 			name = dubois_safari_giraffe
 			value = 1
+		}
+		add_journal_entry = {
+			type = je_dubois_safari_giraffe
 		}
 	}
 
@@ -3467,17 +4783,41 @@ dubois.31 = {
 			name = dubois_safari_zebra
 			value = 1
 		}
+		add_journal_entry = {
+			type = je_dubois_safari_zebra
+		}
+	}
+
+	option = {
+		name = dubois.31.l #Gorilla
+		trigger = {
+			NOT = {
+				has_variable = dubois_zoo_animal_gorilla
+			}
+			any_state = {
+				has_state_trait = dubois_state_trait_gorilla_habitat
+				OR = {
+					owner = {
+						is_country_type = decentralized
+					}
+					owner = ROOT
+				}
+			}
+		}
+		set_variable = {
+			name = dubois_safari_gorilla
+			value = 1
+		}
+		add_journal_entry = {
+			type = je_dubois_safari_gorilla
+		}
 	}
 
 	after = {
-		add_journal_entry = {
-			type = je_dubois_safari
-		}
 	}
 }
 
 #Dubois 32: Standard event: Trap or Follow
-
 dubois.32 = {
 	dlc = dlc_morgenrote
 
@@ -3589,6 +4929,27 @@ dubois.32 = {
 			}
 			desc = dubois.32.t.zebra_3
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_gorilla <= 1
+			}
+			desc = dubois.32.t.gorilla_1
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_gorilla = 2
+			}
+			desc = dubois.32.t.gorilla_2
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_gorilla > 2
+			}
+			desc = dubois.32.t.gorilla_3
+		}
 	}
 
 	desc = dubois.32.d
@@ -3699,12 +5060,71 @@ dubois.32 = {
 			}
 			desc = dubois.32.f.zebra.3
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_flavor_randomizer = 1
+			}
+			desc = dubois.32.f.gorilla.1
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_flavor_randomizer = 2
+			}
+			desc = dubois.32.f.gorilla.2
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+				var:dubois_safari_flavor_randomizer = 3
+			}
+			desc = dubois.32.f.gorilla.3
+		}
 	}
 
 	duration = 1
 
-	event_image = { 
-		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	event_image = { #Hippopotamus
+		trigger = {
+			has_variable = dubois_safari_hippopotamus
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_hippopotamus.dds"
+	}
+
+	event_image = { #Lion
+		trigger = {
+			has_variable = dubois_safari_lion
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_lion.dds"
+	}
+
+	event_image = { #Elephant
+		trigger = {
+			has_variable = dubois_safari_elephant
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elephant.dds"
+	}
+
+	event_image = { #Giraffe
+		trigger = {
+			has_variable = dubois_safari_giraffe
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_giraffe.dds"
+	}
+
+	event_image = { #Zebra
+		trigger = {
+			has_variable = dubois_safari_zebra
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_zebra.dds"
+	}
+
+	event_image = { #Gorilla
+		trigger = {
+			has_variable = dubois_safari_gorilla
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gorilla.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -3713,11 +5133,10 @@ dubois.32 = {
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
 	trigger = {
-		var:dubois_safari_progress <= 4
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 
@@ -3746,16 +5165,63 @@ dubois.32 = {
 	option = {
 		name = dubois.32.g #Trap
 		default_option = yes
-		dubois_add_safari_trap = yes
+		dubois_add_1_safari_trap_effect = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_journal_entry = je_dubois_safari_hippopotamus
+						has_journal_entry = je_dubois_safari_lion
+						has_journal_entry = je_dubois_safari_elephant
+						has_journal_entry = je_dubois_safari_gorilla
+					}
+					NOT = {
+						has_technology_researched = automatic_machine_guns
+					}
+				}
+				random_list = {
+					2 = {}
+					1 = {
+						trigger_event = {
+							id = dubois.36
+							days = 1
+							popup = yes
+						}
+					}
+				}
+			}
+		}
 	}
 
 	option = {
 		name = dubois.32.h #Track
-		dubois_add_safari_track = yes
+		dubois_add_1_safari_track_effect = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					OR = {
+						has_journal_entry = je_dubois_safari_giraffe
+						has_journal_entry = je_dubois_safari_zebra
+					}
+					NOT = {
+						has_technology_researched = combustion_engine
+					}
+				}
+				random_list = {
+					2 = {}
+					1 = {
+						trigger_event = {
+							id = dubois.35
+							days = 1
+							popup = yes
+						}
+					}
+				}
+			}
+		}
 	}
 
 	after = {
-		dubois_add_safari_progress = yes
 
 		if = {
 			limit = {
@@ -3802,11 +5268,19 @@ dubois.32 = {
 				add = 1
 			}
 		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_gorilla
+			}
+			change_variable = {
+				name = dubois_safari_gorilla
+				add = 1
+			}
+		}
 	}
 }
 
 #Dubois 33: Rare Flowers
-
 dubois.33 = {
 	dlc = dlc_morgenrote
 
@@ -3845,6 +5319,12 @@ dubois.33 = {
 			}
 			desc = dubois.33.d.zebra
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+			}
+			desc = dubois.33.d.gorilla
+		}
 	}
 
 	flavor = dubois.33.f
@@ -3865,11 +5345,10 @@ dubois.33 = {
 	}
 
 	trigger = {
-		var:dubois_safari_progress <= 4
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -3878,7 +5357,6 @@ dubois.33 = {
 		name = dubois.33.g #We need these flowers
 		default_option = yes
 		dubois_medium_add_technology = yes
-		dubois_add_safari_progress = yes
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
@@ -3886,6 +5364,7 @@ dubois.33 = {
 
 	option = {
 		name = dubois.33.h #This is a waste of time
+		dubois_add_1_safari_trap_effect = yes
 	}
 
 	after = {
@@ -3893,7 +5372,6 @@ dubois.33 = {
 }
 
 #Dubois 34: Unknown Species
-
 dubois.34 = {
 	dlc = dlc_morgenrote
 
@@ -3932,6 +5410,12 @@ dubois.34 = {
 			}
 			desc = dubois.34.d.zebra
 		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_safari_gorilla
+			}
+			desc = dubois.34.d.gorilla
+		}
 	}
 
 	flavor = dubois.34.f
@@ -3952,11 +5436,10 @@ dubois.34 = {
 	}
 
 	trigger = {
-		var:dubois_safari_progress <= 4
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -3965,7 +5448,6 @@ dubois.34 = {
 		name = dubois.34.g #We need these unknown species
 		default_option = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 5000 }
-		dubois_add_safari_progress = yes
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
@@ -3973,14 +5455,14 @@ dubois.34 = {
 
 	option = {
 		name = dubois.34.h #This is a waste of time
+		dubois_add_1_safari_track_effect = yes
 	}
 
 	after = {
 	}
 }
 
-#Dubois 35: New vehicle
-
+#Dubois 35: Animal Escapes!
 dubois.35 = {
 	dlc = dlc_morgenrote
 
@@ -3990,7 +5472,8 @@ dubois.35 = {
 
 	desc = dubois.35.t
 
-	flavor = dubois.35.f
+	flavor = {
+	}
 
 	duration = 1
 
@@ -4003,40 +5486,68 @@ dubois.35 = {
 
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
-	cooldown = {
-		years = 1
+	trigger = {
 	}
 
-	trigger = {
-		var:dubois_safari_progress <= 4
-		has_technology_researched = combustion_engine
-	}
+	cancellation_trigger = {
+    	NOR = {
+			has_journal_entry = je_dubois_safari_giraffe
+			has_journal_entry = je_dubois_safari_zebra
+		}
+    }
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
 
 	option = {
-		name = dubois.35.g #This car will help us
+		name = dubois.35.g #There is nothing we can do
 		default_option = yes
-		add_treasury = -10000
-		dubois_add_safari_2_track = yes
+		trigger = {
+			NOT = {
+				var:dubois_naturalist_var ?= {
+					has_trait = dubois_zoologist
+				}
+			}
+		}
+		dubois_sub_1_safari_track_effect = yes
+		if = {
+			limit = {
+				has_variable = dubois_safari_giraffe
+			}
+			change_variable = {
+				name = dubois_safari_giraffe
+				add = -1
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_zebra
+			}
+			change_variable = {
+				name = dubois_safari_zebra
+				add = -1
+			}
+		}
 	}
 
 	option = {
-		name = dubois.35.h #Trap
-		dubois_add_safari_trap = yes
+		name = dubois.36.i #The professor has everything under control.
+		trigger = {
+			var:dubois_naturalist_var ?= {
+				has_trait = dubois_zoologist
+			}
+		}
+		custom_tooltip = dubois_safari_zoologist_tt
 	}
 
 	after = {
-		dubois_add_safari_progress = yes
 	}
 }
 
-#Dubois 36: Extra traps
-
+#Dubois 36: Animal Attacks!
 dubois.36 = {
 	dlc = dlc_morgenrote
 
@@ -4046,7 +5557,182 @@ dubois.36 = {
 
 	desc = dubois.36.t
 
-	flavor = dubois.36.f
+	flavor = {
+	}
+
+	duration = 1
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	cancellation_trigger = {
+    	NOR = {
+			has_journal_entry = je_dubois_safari_hippopotamus
+			has_journal_entry = je_dubois_safari_lion
+			has_journal_entry = je_dubois_safari_elephant
+			has_journal_entry = je_dubois_safari_gorilla
+		}
+    }
+
+	immediate = {
+		var:dubois_naturalist_var ?= {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.36.g #Flee, you fools!
+		default_option = yes
+		trigger = {
+			NOT = {
+				var:dubois_naturalist_var ?= {
+					has_trait = dubois_zoologist
+				}
+			}
+		}
+		dubois_sub_1_safari_trap_effect = yes
+		if = {
+			limit = {
+				has_variable = dubois_safari_hippopotamus
+			}
+			change_variable = {
+				name = dubois_safari_hippopotamus
+				add = -1
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_lion
+			}
+			change_variable = {
+				name = dubois_safari_lion
+				add = -1
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_elephant
+			}
+			change_variable = {
+				name = dubois_safari_elephant
+				add = -1
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_safari_gorilla
+			}
+			change_variable = {
+				name = dubois_safari_gorilla
+				add = -1
+			}
+		}
+	}
+
+	option = {
+		name = dubois.36.h #Lay out the traps anyway!
+		trigger = {
+			NOT = {
+				var:dubois_naturalist_var ?= {
+					has_trait = dubois_zoologist
+				}
+			}
+		}
+		random_list = {
+			1 = {
+				custom_tooltip = dubois.36.success_tt
+			}
+			1 = {
+				custom_tooltip = dubois.36.fail_tt
+				set_variable = dubois_safari_accident_var
+			}
+		}
+	}
+
+	option = {
+		name = dubois.36.i #The professor has everything under control.
+		trigger = {
+			var:dubois_naturalist_var ?= {
+				has_trait = dubois_zoologist
+			}
+		}
+		custom_tooltip = dubois_safari_zoologist_tt
+	}
+
+	after = {
+	}
+}
+
+#Dubois 37: Safari Accident
+dubois.37 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.37.t
+
+	desc = dubois.37.d
+
+	flavor = dubois.37.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_naturalist_var ?= {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = dubois.37.g #
+		default_option = yes
+		naturalist_experience_gain_effect = { AMOUNT = -5 }
+		remove_modifier = dubois_on_safari_modifier
+		add_modifier = {
+			name = dubois_had_safari_modifier
+			years = 3
+		}
+	}
+
+	after = {
+		dubois_remove_safari_effect = yes
+		scope:dubois_naturalist_scope = {
+			set_character_busy_and_immortal = no
+			remove_variable = dubois_naturalist_on_safari_var
+			remove_modifier = dubois_animal_hunter_modifier
+		}
+	}
+}
+
+#Dubois 38: Safari Extras
+dubois.38 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.38.t
+
+	desc = dubois.38.t
+
+	flavor = dubois.38.f
 
 	duration = 1
 
@@ -4064,79 +5750,42 @@ dubois.36 = {
 	}
 
 	trigger = {
-		var:dubois_safari_progress <= 4
-		has_technology_researched = automatic_machine_guns
+		OR = {
+			has_technology_researched = automatic_machine_guns
+			has_technology_researched = combustion_engine
+		}
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
 
 	option = {
-		name = dubois.36.g #Buy them
+		name = dubois.38.g #Buy them
 		default_option = yes
-		add_treasury = -10000
-		dubois_add_safari_2_trap = yes
-	}
-
-	option = {
-		name = dubois.36.h #Track
-		dubois_set_safari_track = yes
-	}
-
-	after = {
-		dubois_add_safari_progress = yes
-	}
-}
-
-#Dubois 38: Safari Hidden
-
-dubois.38 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	hidden = yes
-
-	trigger = {
-		var:dubois_safari_progress = 5
-		NOR = {
-			AND = {
-				has_variable = dubois_safari_hippopotamus
-				var:dubois_safari_trap >= 3
+		if = {
+			limit = {
+				has_technology_researched = automatic_machine_guns
 			}
-			AND = {
-				has_variable = dubois_safari_lion
-				var:dubois_safari_trap >= 2
-				var:dubois_safari_track >= 2
+			custom_tooltip = dubois.38.machine_guns_tt
+			dubois_add_2_safari_trap_effect = yes
+		}
+		if = {
+			limit = {
+				has_technology_researched = combustion_engine
 			}
-			AND = {
-				has_variable = dubois_safari_elephant
-				var:dubois_safari_trap >= 4
-			}
-			AND = {
-				has_variable = dubois_safari_giraffe
-				var:dubois_safari_trap >= 2
-				var:dubois_safari_track >= 1
-			}
-			AND = {
-				has_variable = dubois_safari_zebra
-				var:dubois_safari_trap >= 1
-				var:dubois_safari_track >= 2
-			}
+			custom_tooltip = dubois.38.combustion_engine_tt
+			dubois_add_2_safari_track_effect = yes
 		}
 	}
 
-	immediate = {
-		dubois_add_safari_progress = yes
-		set_variable = dubois_safari_fail
+	after = {
 	}
 }
 
 #Dubois 39: Safari Success
-
 dubois.39 = {
 	dlc = dlc_morgenrote
 
@@ -4147,10 +5796,6 @@ dubois.39 = {
 	desc = dubois.39.d
 
 	flavor = dubois.39.f
-
-	event_image = { 
-		texture = "gfx/event_pictures/dubois_pictures/dubois_safari.dds"
-	}
 
 	event_image = { #Hippopotamus
 		trigger = {
@@ -4180,45 +5825,32 @@ dubois.39 = {
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_giraffe.dds"
 	}
 
+	event_image = { #Zebra
+		trigger = {
+			has_variable = dubois_safari_zebra
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_zebra.dds"
+	}
+
+	event_image = { #Gorilla
+		trigger = {
+			has_variable = dubois_safari_gorilla
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gorilla.dds"
+	}
+
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
 
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
 	trigger = {
-		var:dubois_safari_progress = 5
-		OR = {
-			AND = {
-				has_variable = dubois_safari_hippopotamus
-				var:dubois_safari_trap >= 3
-			}
-			AND = {
-				has_variable = dubois_safari_lion
-				var:dubois_safari_trap >= 2
-				var:dubois_safari_track >= 2
-			}
-			AND = {
-				has_variable = dubois_safari_elephant
-				var:dubois_safari_trap >= 4
-			}
-			AND = {
-				has_variable = dubois_safari_giraffe
-				var:dubois_safari_trap >= 2
-				var:dubois_safari_track >= 1
-			}
-			AND = {
-				has_variable = dubois_safari_zebra
-				var:dubois_safari_trap >= 1
-				var:dubois_safari_track >= 2
-			}
-		}
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
-		set_variable = dubois_safari_success
 	}
 
 	option = {
@@ -4228,8 +5860,15 @@ dubois.39 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "25"
 		}
-
-		var:dubois_naturalist_var = {
+		remove_modifier = dubois_on_safari_modifier
+		add_modifier = {
+			name = dubois_had_safari_modifier
+			years = 3
+		}
+		scope:dubois_naturalist_scope = {
+			set_character_busy_and_immortal = no
+			remove_variable = dubois_naturalist_on_safari_var
+			remove_modifier = dubois_animal_hunter_modifier
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_zoologist }
@@ -4240,12 +5879,11 @@ dubois.39 = {
 	}
 
 	after = {
-		dubois_add_safari_progress = yes
+		dubois_remove_safari_effect = yes
 	}
 }
 
 #Dubois 40: Safari back home
-
 dubois.40 = {
 	dlc = dlc_morgenrote
 
@@ -4253,20 +5891,7 @@ dubois.40 = {
 
 	title = dubois.40.t
 
-	desc = {
-		triggered_desc = {
-			trigger = {
-				has_variable = dubois_safari_success
-			}
-			desc = dubois.40.d.success
-		}
-		triggered_desc = {
-			trigger = {
-				has_variable = dubois_safari_fail
-			}
-			desc = dubois.40.d.fail
-		}
-	}
+	desc = dubois.40.d
 
 	flavor = dubois.40.f
 
@@ -4282,7 +5907,7 @@ dubois.40 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -4648,6 +6273,109 @@ dubois.45 = {
 
 #################################################################################
 
+######NATURALIST JE EVENTS######
+
+#Dubois 52: Improved Forestry
+
+dubois.52 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.52.t
+	desc = dubois.52.d
+	flavor = dubois.52.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			limit = { has_variable = dubois_naturalist_var }
+			var:dubois_naturalist_var ?= {
+				set_variable = dubois_forestry_improvement_finished_var
+				save_scope_as = dubois_naturalist_scope
+			}
+		}
+	}
+
+	option = {
+		name = dubois.52.g #More wood for everyone!
+		default_option = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		dubois_add_x_specimen_effect = { AMOUNT = 500 }
+	}
+
+	after = {
+		remove_variable = dubois_building_naturalist_improvement_var
+	}
+}
+
+#Dubois 53: Improved Rubber
+
+dubois.53 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.53.t
+	desc = dubois.53.d
+	flavor = dubois.53.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_naturalist_var ?= {
+			save_scope_as = dubois_naturalist_scope
+		}
+		if = {
+			limit = { has_variable = dubois_naturalist_var }
+			var:dubois_naturalist_var ?= {
+				set_variable = dubois_rubber_improvement_finished_var
+				save_scope_as = dubois_naturalist_scope
+			}
+		}
+	}
+
+	option = {
+		name = dubois.53.g #More rubber for everyone!
+		default_option = yes
+		naturalist_experience_gain_effect = {
+			AMOUNT = 10
+		}
+		dubois_add_x_specimen_effect = { AMOUNT = 500 }
+	}
+
+	after = {
+		remove_variable = dubois_building_naturalist_improvement_var
+	}
+}
+
+#################################################################################
+
 ######FORMATIONS######
 
 #Dubois 71: Add Formations
@@ -4719,7 +6447,6 @@ dubois.72 = {
 				has_state_trait = dubois_state_trait_normal_formation
 			}
 		}
-		dubois_can_discover_formation = yes
 	}
 
 	immediate = {
@@ -4737,6 +6464,7 @@ dubois.72 = {
 	option = { #We should inspect that formation
 		name = dubois.72.g
 		default_option = yes
+		geologist_experience_gain_effect = { AMOUNT = 10 }
 		scope:dubois_formation_state = {
 			state_region = {
 				add_state_trait = dubois_state_trait_normal_formation
@@ -4792,7 +6520,6 @@ dubois.73 = {
 				has_state_trait = dubois_state_trait_great_australian_formation
 			}
 		}
-		dubois_can_discover_formation = yes
 	}
 
 	immediate = {
@@ -4815,6 +6542,7 @@ dubois.73 = {
 	option = { #We should inspect that formation
 		name = dubois.72.g
 		default_option = yes
+		geologist_experience_gain_effect = { AMOUNT = 15 }
 		scope:dubois_formation_state = {
 			#NORTH AMERICA
 			if = {
@@ -4920,7 +6648,7 @@ dubois.82 = {
 		}
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					var:dubois_naturalist_experience >= 100
 				}
 			}
@@ -4928,7 +6656,7 @@ dubois.82 = {
 		}
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					var:dubois_naturalist_experience >= 200
 				}
 			}
@@ -4936,7 +6664,7 @@ dubois.82 = {
 		}
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					var:dubois_naturalist_experience >= 300
 				}
 			}
@@ -4944,7 +6672,7 @@ dubois.82 = {
 		}
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					has_trait = dubois_botanist
 				}
 			}
@@ -4952,7 +6680,7 @@ dubois.82 = {
 		}
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -5264,6 +6992,45 @@ dubois.107 = {
 	}
 }
 
+#Dubois 108: Gila Monster
+
+dubois.108 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.108.t
+	desc = dubois.108.d
+	flavor = dubois.108.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gila.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.108.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_gila = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
 ######111-120: South American Animals######
 
 #Dubois 111: Brown-throated Sloth
@@ -5532,6 +7299,45 @@ dubois.117 = {
 		name = dubois.117.g #Wonderful
 		default_option = yes
 		dubois_add_zoo_animal_monkey = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 118: Capybara
+
+dubois.118 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.118.t
+	desc = dubois.118.d
+	flavor = dubois.118.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_capybara.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.118.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_capybara = yes
 		remove_modifier = dubois_zoo_transport_modifier
 	}
 
@@ -5814,6 +7620,45 @@ dubois.127 = {
 	}
 }
 
+#Dubois 128: Elk
+
+dubois.128 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.128.t
+	desc = dubois.128.d
+	flavor = dubois.128.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elk.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.128.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_elk = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
 ######131-140: African Animals######
 
 #Dubois 131: Hippopotamus
@@ -6082,6 +7927,82 @@ dubois.137 = {
 		name = dubois.137.g #Wonderful
 		default_option = yes
 		dubois_add_zoo_animal_zebra = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 138: Meerkat
+
+dubois.138 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.138.t
+	desc = dubois.138.d
+	flavor = dubois.138.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_meerkat.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.137.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_meerkat = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+dubois.139 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.139.t
+	desc = dubois.139.d
+	flavor = dubois.139.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gorilla.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.137.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_gorilla = yes
 		remove_modifier = dubois_zoo_transport_modifier
 	}
 
@@ -6403,6 +8324,88 @@ dubois.148 = {
 	}
 }
 
+#Dubois 149: Pallas's Cat
+
+dubois.149 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.149.t
+	desc = dubois.149.d
+	flavor = dubois.149.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_pallas.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.149.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_pallas = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
+#Dubois 150: Pallas's Cat (But from Modifier)
+
+dubois.150 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.149.t
+	desc = dubois.149.d
+	flavor = dubois.149.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_pallas.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+		NOT = {
+			has_variable = dubois_zoo_animal_pallas
+		}
+		has_modifier = manul_zoo_exhibit
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.149.g #Wonderful
+		default_option = yes
+		dubois_add_zoo_animal_pallas = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
 ######151-160: Australian/Oceanian Animals######
 
 #Dubois 151: Green Sea Turtle
@@ -6678,6 +8681,45 @@ dubois.157 = {
 	}
 }
 
+#Dubois 158: Thylacine
+
+dubois.158 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.158.t
+	desc = dubois.158.d
+	flavor = dubois.158.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_thylacine.dds"
+	}
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = dubois.158.g #A Tasmanian Tiger!
+		default_option = yes
+		dubois_add_zoo_animal_thylacine = yes
+		remove_modifier = dubois_zoo_transport_modifier
+	}
+
+	after = {
+	}
+}
+
 #####################################################################
 
 ######PALEONTOLOGY######
@@ -6734,7 +8776,7 @@ dubois.200 = {
 				dubois_set_new_paleontologist_as_paleontologist_effect = yes
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 			set_variable = dubois_paleontologist_opened_first_paleontological_museum_var
 		}
@@ -6862,7 +8904,7 @@ dubois.201 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -7166,7 +9208,7 @@ dubois.203 = {
 				save_scope_as = pb_leader
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -7352,7 +9394,7 @@ dubois.205 = {
 		ig:ig_intelligentsia = {
 			save_scope_as = intelligentsia_ig
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -7461,7 +9503,7 @@ dubois.206 = {
 			}
 			save_scope_as = dubois_excavation_state
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -7517,7 +9559,7 @@ dubois.207 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -7744,7 +9786,7 @@ dubois.211 = {
 
 	immediate = {
 		dubois_set_dinosaur_excavation_progress = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -7767,43 +9809,43 @@ dubois.211 = {
 		  	factor = 4
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 25
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 50
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 100
 			}
 		  	factor = 3
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 150
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 200
 			}
 		  	factor = 3
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 250
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 300
 			}
 		  	factor = 3
@@ -7860,7 +9902,7 @@ dubois.213 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -7878,43 +9920,43 @@ dubois.213 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 50
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 100
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 150
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 200
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 250
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 300
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 350
 			}
 		  	factor = 2
@@ -7953,7 +9995,7 @@ dubois.214 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -7973,31 +10015,31 @@ dubois.214 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 50
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 150
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 250
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 300
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 350
 			}
 		  	factor = 2
@@ -8036,7 +10078,7 @@ dubois.215 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8056,31 +10098,31 @@ dubois.215 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 100
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 150
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 200
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 250
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 300
 			}
 		  	factor = 2
@@ -8119,7 +10161,7 @@ dubois.216 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8139,19 +10181,19 @@ dubois.216 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 100
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 200
 			}
 		  	factor = 2
 		}
 		modifier = {
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				var:dubois_paleontologist_experience >= 300
 			}
 		  	factor = 2
@@ -8184,7 +10226,7 @@ dubois.220 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8244,7 +10286,7 @@ dubois.221 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8315,7 +10357,7 @@ dubois.222 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8372,7 +10414,7 @@ dubois.223 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8429,7 +10471,7 @@ dubois.224 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8486,7 +10528,7 @@ dubois.225 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8546,7 +10588,7 @@ dubois.226 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8602,7 +10644,7 @@ dubois.227 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8680,7 +10722,7 @@ dubois.228 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8736,7 +10778,7 @@ dubois.231 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8751,7 +10793,7 @@ dubois.231 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				OR = {
 					has_trait = reckless
 					has_trait = wrathful
@@ -8762,7 +10804,7 @@ dubois.231 = {
 		}
 		modifier = {
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				OR = {
 					has_trait = charismatic
 					has_trait = imposing
@@ -8806,7 +10848,7 @@ dubois.232 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8821,7 +10863,7 @@ dubois.232 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				OR = {
 					has_trait = wrathful
 					has_trait = arrogant
@@ -8831,7 +10873,7 @@ dubois.232 = {
 		}
 		modifier = {
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				OR = {
 					has_trait = charismatic
 					has_trait = honorable
@@ -8897,7 +10939,7 @@ dubois.233 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				OR = {
 					has_trait = wrathful
 					has_trait = arrogant
@@ -8907,7 +10949,7 @@ dubois.233 = {
 		}
 		modifier = {
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				OR = {
 					has_trait = charismatic
 					has_trait = honorable
@@ -8950,7 +10992,7 @@ dubois.234 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -8965,7 +11007,7 @@ dubois.234 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				OR = {
 					has_trait = reckless
 					has_trait = alcoholic
@@ -8978,7 +11020,7 @@ dubois.234 = {
 		}
 		modifier = {
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				OR = {
 					has_trait = cautious
 					has_trait = surveyor
@@ -9020,7 +11062,7 @@ dubois.235 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -9035,7 +11077,7 @@ dubois.235 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				OR = {
 					has_trait = meticulous
 					has_trait = innovative
@@ -9084,7 +11126,7 @@ dubois.251 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -9133,7 +11175,7 @@ dubois.252 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -9149,6 +11191,509 @@ dubois.252 = {
 }
 
 #Dubois 252: Unknown Human Bone (Erectus)
+
+######Systemize Fossils######
+
+#Dubois 261: Systemization complete
+dubois.261 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.261.t
+	desc = dubois.261.d
+	flavor = dubois.261.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_paleontologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var ?= {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.261.g #It's really... HIGHLY INTERESTING
+		dubois_small_add_technology = yes
+		dubois_add_x_fossils_effect = { AMOUNT = 1 }
+		paleontologist_experience_gain_effect = { AMOUNT = 25 }
+		dubois_add_x_academy_progress = { AMOUNT = 25 }
+		var:dubois_paleontologist_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 262: Family tree of an animal
+dubois.262 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.262.t
+	desc = dubois.262.d
+	flavor = dubois.262.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_habitat_extinction.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var ?= {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.262.g #Do we have this animal in the zoo?
+		dubois_small_add_technology = yes
+	}
+
+	after = {
+	}
+}
+
+#Dubois 263: A small acquisition
+dubois.263 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.263.t
+	desc = dubois.263.d
+	flavor = dubois.263.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_flora.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var ?= {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.263.g #Was it worth it?
+		add_treasury = -10000
+		dubois_add_x_fossils_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
+#Dubois 264: Geological Suggestions
+dubois.264 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.264.t
+	desc = dubois.264.d
+	flavor = dubois.264.f
+
+	duration = 3
+
+	gui_window = event_window_2char
+
+	left_icon = scope:dubois_geologist_scope
+	right_icon = scope:dubois_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 5
+	}
+
+	trigger = {
+		dubois_has_paleontologist = yes
+		dubois_has_geologist = yes
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var ?= {
+			save_scope_as = dubois_paleontologist_scope
+		}
+		var:dubois_geologist_var ?= {
+			save_scope_as = dubois_geologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.264.g #Ah, the synergies of geology and paleontology!
+		geologist_experience_gain_effect = { AMOUNT = 15 }
+		paleontologist_experience_gain_effect = { AMOUNT = 15 }
+	}
+
+	after = {
+	}
+}
+
+#Dubois 265: An impressive lecture
+dubois.265 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.265.t
+	desc = dubois.265.d
+	flavor = dubois.265.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_paleontologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var ?= {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.265.g #A popular professor!
+		dubois_add_x_academy_progress = { AMOUNT = 15 }
+	}
+
+	after = {
+	}
+}
+
+######Prehistoric Scenery######
+
+#Dubois 271: Scenery complete
+dubois.271 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_cretaceous_scenery_ongoing_var
+			}
+			desc = dubois.271.t_cretaceous
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_jurassic_scenery_ongoing_var
+			}
+			desc = dubois.271.t_jurassic
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_triassic_scenery_ongoing_var
+			}
+			desc = dubois.271.t_triassic
+		}
+	}
+	desc = dubois.271.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_cretaceous_scenery_ongoing_var
+			}
+			desc = dubois.271.f_cretaceous
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_jurassic_scenery_ongoing_var
+			}
+			desc = dubois.271.f_jurassic
+		}
+		triggered_desc = {
+			trigger = {
+				has_variable = dubois_triassic_scenery_ongoing_var
+			}
+			desc = dubois.271.f_triassic
+		}
+	}
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_paleontologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var ?= {
+			save_scope_as = dubois_paleontologist_scope
+		}
+		random_scope_building = {
+			limit = {
+				is_building_type = building_university
+				NOR = {
+					has_modifier = dubois_cretaceous_scenery_modifier
+					has_modifier = dubois_jurassic_scenery_modifier
+					has_modifier = dubois_triassic_scenery_modifier
+				}
+			}
+			save_scope_as = dubois_university_scope
+		}
+	}
+
+	option = {
+		name = dubois.271.g #Beautiful
+		default_option = yes
+		scope:dubois_university_scope = {
+			if = {
+				limit = {
+					ROOT = {
+						has_variable = dubois_cretaceous_scenery_ongoing_var
+					}
+				}
+				add_modifier = {
+					name = dubois_cretaceous_scenery_modifier
+				}
+			}
+			if = {
+				limit = {
+					ROOT = {
+						has_variable = dubois_jurassic_scenery_ongoing_var
+					}
+				}
+				add_modifier = {
+					name = dubois_jurassic_scenery_modifier
+				}
+			}
+			if = {
+				limit = {
+					ROOT = {
+						has_variable = dubois_triassic_scenery_ongoing_var
+					}
+				}
+				add_modifier = {
+					name = dubois_triassic_scenery_modifier
+				}
+			}
+		}
+		paleontologist_experience_gain_effect = { AMOUNT = 10 }
+		dubois_add_x_academy_progress = { AMOUNT = 10 }
+		var:dubois_paleontologist_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = dubois_cretaceous_scenery_ongoing_var
+		remove_variable = dubois_jurassic_scenery_ongoing_var
+		remove_variable = dubois_triassic_scenery_ongoing_var
+	}
+}
+
+#Dubois 272: Materials
+dubois.272 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.272.t
+	desc = dubois.272.d
+	flavor = dubois.272.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_asia.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var ?= {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.272.g #For some artificial plants and lizards? Forget it!
+		dubois_add_x_academy_progress = { AMOUNT = -10 }
+	}
+
+	option = {
+		name = dubois.272.h #We want a beautiful diorama, spare no expense!
+		default_option = yes
+		dubois_add_x_academy_progress = { AMOUNT = 5 }
+		add_modifier = {
+			name = dubois_extra_scenery_cost_modifier
+			years = 1
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 273: A ridiculous job?
+dubois.273 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.273.t
+	desc = dubois.273.d
+	flavor = dubois.273.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_fossil_pterodactylus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var ?= {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.273.g #Paleontology is a serious science!
+		default_option = yes
+		dubois_add_x_academy_progress = { AMOUNT = -5 }
+	}
+
+	option = {
+		name = dubois.273.h #Admittedly, our paleontologist is a bit quirky.
+		paleontologist_experience_gain_effect = { AMOUNT = -5 }
+	}
+
+	option = {
+		name = dubois.273.i #Buy those nasty scholars a few bottles of sherry so they'll leave the doctor alone.
+		add_modifier = {
+			name = dubois_sherry_bribe_modifier
+			years = 1
+		}
+	}
+
+	after = {
+	}
+}
+
+#Dubois 274: Student Interest
+dubois.274 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.274.t
+	desc = dubois.274.d
+	flavor = dubois.274.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_dinosaur_north_america.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_paleontologist_var ?= {
+			save_scope_as = dubois_paleontologist_scope
+		}
+	}
+
+	option = {
+		name = dubois.274.g #A new generation of scholars!
+		default_option = yes
+		dubois_add_x_academy_progress = { AMOUNT = 5 }
+	}
+
+	option = {
+		name = dubois.274.h #They should help the Doctor.
+		paleontologist_experience_gain_effect = { AMOUNT = 5 }
+	}
+
+	after = {
+	}
+}
 
 #####################################################################
 
@@ -9177,7 +11722,7 @@ dubois.301 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -9349,7 +11894,7 @@ dubois.302 = {
 
 	immediate = {
 		dubois_set_naturalist_location = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = dubois_naturalist_found_victoria_amazonica_var
 		}
@@ -9381,7 +11926,7 @@ dubois.302 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_botanist }
@@ -9398,7 +11943,7 @@ dubois.302 = {
 		}
 		dubois_small_add_technology = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 3000 }
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_botanist }
@@ -9412,7 +11957,7 @@ dubois.302 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				has_trait = dubois_botanist
 			}
 		  	factor = 2
@@ -9456,7 +12001,7 @@ dubois.303 = {
 
 	immediate = {
 		dubois_set_naturalist_location = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = dubois_naturalist_found_attacus_atlas_var
 		}
@@ -9488,7 +12033,7 @@ dubois.303 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_entomologist }
@@ -9505,7 +12050,7 @@ dubois.303 = {
 		}
 		dubois_small_add_technology = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 3000 }
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_entomologist }
@@ -9519,7 +12064,7 @@ dubois.303 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				has_trait = dubois_entomologist
 			}
 		  	factor = 2
@@ -9563,7 +12108,7 @@ dubois.304 = {
 
 	immediate = {
 		dubois_set_naturalist_location = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = dubois_naturalist_found_amorphophallus_titanum_var
 		}
@@ -9595,7 +12140,7 @@ dubois.304 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_botanist }
@@ -9612,7 +12157,7 @@ dubois.304 = {
 		}
 		dubois_small_add_technology = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 3000 }
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_botanist }
@@ -9626,7 +12171,7 @@ dubois.304 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				has_trait = dubois_botanist
 			}
 		  	factor = 2
@@ -9670,7 +12215,7 @@ dubois.305 = {
 
 	immediate = {
 		dubois_set_naturalist_location = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_variable = dubois_naturalist_found_goliathus_var
 		}
@@ -9702,7 +12247,7 @@ dubois.305 = {
 		naturalist_experience_gain_effect = {
 			AMOUNT = "10"
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_entomologist }
@@ -9719,7 +12264,7 @@ dubois.305 = {
 		}
 		dubois_small_add_technology = yes
 		dubois_add_x_specimen_effect = { AMOUNT = 3000 }
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			if = {
 				limit = {
 					NOT = { has_trait = dubois_entomologist }
@@ -9733,7 +12278,7 @@ dubois.305 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				has_trait = dubois_entomologist
 			}
 		  	factor = 2
@@ -9777,7 +12322,7 @@ dubois.306 = {
 
 	immediate = {
 		dubois_set_naturalist_location = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -9789,7 +12334,7 @@ dubois.306 = {
 		}
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -9807,7 +12352,7 @@ dubois.306 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				has_trait = dubois_botanist
 			}
 		  	factor = 2
@@ -9851,7 +12396,7 @@ dubois.307 = {
 
 	immediate = {
 		dubois_set_naturalist_location = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -9869,7 +12414,7 @@ dubois.307 = {
 		default_option = yes
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -9887,7 +12432,7 @@ dubois.307 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				has_trait = dubois_botanist
 			}
 		  	factor = 2
@@ -9931,7 +12476,7 @@ dubois.308 = {
 
 	immediate = {
 		dubois_set_naturalist_location = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -9940,7 +12485,7 @@ dubois.308 = {
 		name = dubois.308.g #The expedition crew should collect these plants
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -9976,7 +12521,7 @@ dubois.308 = {
 		name = dubois.308.h #Collect them
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -10011,7 +12556,7 @@ dubois.308 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				has_trait = dubois_botanist
 			}
 		  	factor = 2
@@ -10054,7 +12599,7 @@ dubois.309 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		random_interest_group = {
@@ -10108,7 +12653,7 @@ dubois.309 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				OR = {
 					has_trait = tactful
 					has_trait = charismatic
@@ -10152,7 +12697,7 @@ dubois.310 = {
 
 	immediate = {
 		dubois_set_naturalist_location = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -10226,7 +12771,7 @@ dubois.311 = {
 
 	immediate = {
 		dubois_set_naturalist_location = yes
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -10236,7 +12781,7 @@ dubois.311 = {
 		default_option = yes
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					OR = {
 						has_trait = meticulous
 						has_trait = persistent
@@ -10272,7 +12817,7 @@ dubois.311 = {
 		base = 1
 		modifier = {
 			has_variable = dubois_naturalist_var
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				has_trait = dubois_botanist
 			}
 		  	factor = 2
@@ -10308,7 +12853,7 @@ dubois.411 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	trigger = {
 	}
@@ -10460,7 +13005,7 @@ dubois.412 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	trigger = {
 	}
@@ -10580,7 +13125,7 @@ dubois.413 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	trigger = {
 	}
@@ -10592,7 +13137,7 @@ dubois.413 = {
 			limit = {
 				has_variable = dubois_naturalist_var
 			}
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				save_scope_as = dubois_naturalist_scope
 			}
 		}
@@ -10600,7 +13145,7 @@ dubois.413 = {
 			limit = {
 				has_variable = dubois_paleontologist_var
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -10608,7 +13153,7 @@ dubois.413 = {
 			limit = {
 				has_variable = dubois_geologist_var
 			}
-			var:dubois_geologist_var = {
+			var:dubois_geologist_var ?= {
 				save_scope_as = dubois_geologist_scope
 			}
 		}
@@ -10693,7 +13238,7 @@ dubois.414 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	trigger = {
 	}
@@ -10750,7 +13295,7 @@ dubois.420 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	trigger = {
 	}
@@ -10838,7 +13383,7 @@ dubois.421 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	trigger = {
 		NOR = {
@@ -10958,7 +13503,7 @@ dubois.422 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	trigger = {
 		NOR = {
@@ -11112,7 +13657,7 @@ dubois.430 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		days = 60
@@ -11158,7 +13703,7 @@ dubois.431 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		days = 60
@@ -11311,6 +13856,15 @@ dubois.431 = {
 						}
 						add = 10
 					}
+					if = {
+						limit = {
+							exists = scope:dubois_mountain_scientist
+							scope:dubois_mountain_scientist = {
+								has_trait = dubois_geologist
+							}
+						}
+						add = 20
+					}
 				}
 				add_dubois_mountain_climbing_progress = yes #Success
 			}
@@ -11346,7 +13900,7 @@ dubois.432 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		days = 60
@@ -11499,6 +14053,15 @@ dubois.432 = {
 						}
 						add = 10
 					}
+					if = {
+						limit = {
+							exists = scope:dubois_mountain_scientist
+							scope:dubois_mountain_scientist = {
+								has_trait = dubois_geologist
+							}
+						}
+						add = 20
+					}
 				}
 				add_dubois_mountain_climbing_progress = yes #Success
 			}
@@ -11535,7 +14098,7 @@ dubois.433 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		days = 120
@@ -11688,6 +14251,15 @@ dubois.433 = {
 						}
 						add = 10
 					}
+					if = {
+						limit = {
+							exists = scope:dubois_mountain_scientist
+							scope:dubois_mountain_scientist = {
+								has_trait = dubois_geologist
+							}
+						}
+						add = 20
+					}
 				}
 				add_dubois_mountain_climbing_progress = yes #Success
 			}
@@ -11738,7 +14310,7 @@ dubois.434 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		days = 60
@@ -11891,6 +14463,15 @@ dubois.434 = {
 						}
 						add = 10
 					}
+					if = {
+						limit = {
+							exists = scope:dubois_mountain_scientist
+							scope:dubois_mountain_scientist = {
+								has_trait = dubois_geologist
+							}
+						}
+						add = 20
+					}
 				}
 				add_dubois_mountain_climbing_progress = yes #Success
 			}
@@ -11936,7 +14517,7 @@ dubois.435 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		days = 60
@@ -12089,6 +14670,15 @@ dubois.435 = {
 						}
 						add = 10
 					}
+					if = {
+						limit = {
+							exists = scope:dubois_mountain_scientist
+							scope:dubois_mountain_scientist = {
+								has_trait = dubois_geologist
+							}
+						}
+						add = 20
+					}
 				}
 				add_dubois_mountain_climbing_progress = yes #Success
 			}
@@ -12126,7 +14716,7 @@ dubois.436 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		days = 120
@@ -12278,6 +14868,15 @@ dubois.436 = {
 							}
 						}
 						add = 10
+					}
+					if = {
+						limit = {
+							exists = scope:dubois_mountain_scientist
+							scope:dubois_mountain_scientist = {
+								has_trait = dubois_geologist
+							}
+						}
+						add = 20
 					}
 				}
 				add_dubois_mountain_climbing_progress = yes #Success
@@ -12461,7 +15060,7 @@ dubois.437 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		years = 1
@@ -12614,6 +15213,15 @@ dubois.437 = {
 						}
 						add = 10
 					}
+					if = {
+						limit = {
+							exists = scope:dubois_mountain_scientist
+							scope:dubois_mountain_scientist = {
+								has_trait = dubois_geologist
+							}
+						}
+						add = 20
+					}
 				}
 				add_dubois_mountain_climbing_progress = yes #Success
 			}
@@ -12663,7 +15271,7 @@ dubois.438 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		years = 1
@@ -12816,6 +15424,15 @@ dubois.438 = {
 						}
 						add = 10
 					}
+					if = {
+						limit = {
+							exists = scope:dubois_mountain_scientist
+							scope:dubois_mountain_scientist = {
+								has_trait = dubois_geologist
+							}
+						}
+						add = 20
+					}
 				}
 				add_dubois_mountain_climbing_progress = yes #Success
 			}
@@ -12862,7 +15479,7 @@ dubois.439 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		years = 1
@@ -13015,6 +15632,15 @@ dubois.439 = {
 						}
 						add = 10
 					}
+					if = {
+						limit = {
+							exists = scope:dubois_mountain_scientist
+							scope:dubois_mountain_scientist = {
+								has_trait = dubois_geologist
+							}
+						}
+						add = 20
+					}
 				}
 				add_dubois_mountain_climbing_progress = yes #Success
 			}
@@ -13060,7 +15686,7 @@ dubois.440 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		days = 100
@@ -13081,7 +15707,7 @@ dubois.440 = {
 		if = {
 			limit = {
 				has_variable = dubois_naturalist_var
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					has_variable = dubois_mountain_scientist_var
 				}
 			}
@@ -13093,12 +15719,24 @@ dubois.440 = {
 		if = {
 			limit = {
 				has_variable = dubois_paleontologist_var
-				var:dubois_paleontologist_var = {
+				var:dubois_paleontologist_var ?= {
 					has_variable = dubois_mountain_scientist_var
 				}
 			}
 			dubois_add_x_fossils_effect = { AMOUNT = 1 }
 			paleontologist_experience_gain_effect = {
+				AMOUNT = "5"
+			}
+		}
+		if = {
+			limit = {
+				has_variable = dubois_geologist_var
+				var:dubois_geologist_var ?= {
+					has_variable = dubois_mountain_scientist_var
+				}
+			}
+			agassiz_add_x_generic_minerals_effect = { AMOUNT = 3000 }
+			geologist_experience_gain_effect = {
 				AMOUNT = "5"
 			}
 		}
@@ -13129,7 +15767,7 @@ dubois.441 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	cooldown = {
 		years = 100
@@ -13141,7 +15779,7 @@ dubois.441 = {
 			has_variable = dubois_summit_kamet_var
 		}
 		has_variable = dubois_naturalist_var
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			has_variable = dubois_mountain_scientist_var
 		}
 		var:dubois_mountain_climbing_progress <= 4
@@ -13172,6 +15810,104 @@ dubois.441 = {
 	}
 }
 
+#Dubois 442: Geological Knowledge
+
+dubois.442 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.442.t
+	desc = dubois.442.d
+	flavor = dubois.442.f
+
+	placement = scope:dubois_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_mountaineering_scientist.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		days = 200 #Slight, slight chance that it may happen again
+	}
+
+	trigger = {
+		var:dubois_geologist_var ?= {
+			has_variable = dubois_mountain_scientist_var
+		}
+		var:dubois_mountain_climbing_progress >= 3
+	}
+
+	immediate = {
+		set_dubois_mountain_expedition_leader_effect = yes
+		set_dubois_summit_location = yes
+		set_dubois_mountain_expedition_scientist_effect = yes
+	}
+
+	option = {
+		name = dubois.442.g #Thank God we have Dr. GEOLOGIST
+		add_dubois_mountain_climbing_progress = yes #Success
+	}
+
+	after = {
+	}
+}
+
+#Dubois 443: A Fine Mineral
+
+dubois.443 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.443.t
+	desc = dubois.443.d
+	flavor = dubois.443.f
+
+	placement = scope:dubois_summit_location
+
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/agassiz_pictures/agassiz_minerals.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
+
+	cooldown = {
+		days = 365
+	}
+
+	trigger = {
+		var:dubois_geologist_var ?= {
+			has_variable = dubois_mountain_scientist_var
+		}
+		var:dubois_mountain_climbing_progress >= 2
+	}
+
+	immediate = {
+		set_dubois_mountain_expedition_leader_effect = yes
+		set_dubois_summit_location = yes
+		set_dubois_mountain_expedition_scientist_effect = yes
+	}
+
+	option = {
+		name = dubois.443.g #What a lovely little surprise.
+		agassiz_add_x_rare_minerals_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+	}
+}
+
 #Dubois 450: Mountains of the World (overview window)
 
 dubois.450 = {
@@ -13190,7 +15926,7 @@ dubois.450 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	trigger = {
 	}
@@ -13238,7 +15974,7 @@ dubois.451 = {
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	icon = "gfx/interface/icons/event_icons/event_mountaineering.dds"
 
 	trigger = {
 	}
@@ -13298,7 +16034,7 @@ dubois.901 = {
 	immediate = {
 		set_global_variable = dubois_unique_yes
 		set_global_variable = dubois_unique_no
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			set_variable = dubois_attended_hippocampus_congress_var
 			save_scope_as = dubois_naturalist_scope
 		}
@@ -13370,7 +16106,7 @@ dubois.902 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			set_variable = dubois_attended_hippocampus_congress_var
 			save_scope_as = dubois_naturalist_scope
 		}
@@ -13414,7 +16150,7 @@ dubois.904 = {
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		random_country = {
@@ -13424,7 +16160,7 @@ dubois.904 = {
 					this = ROOT
 				}
 			}
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				save_scope_as = dubois_hippocampus_defender_scope
 			}
 		}
@@ -13434,13 +16170,13 @@ dubois.904 = {
 				NOT = {
 					this = ROOT
 				}
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					NOT = {
 						this = scope:dubois_hippocampus_defender_scope
 					}
 				}
 			}
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				save_scope_as = dubois_hippocampus_attacker_scope
 			}
 		}
@@ -13627,7 +16363,7 @@ dubois.904 = {
 		}
 		else_if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					OR = {
 						has_trait = innovative
 						has_trait = meticulous
@@ -13688,7 +16424,7 @@ dubois.905 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		every_country = {
@@ -13722,7 +16458,7 @@ dubois.905 = {
 	after = {
 		if = {
 			limit = {
-				var:dubois_naturalist_var = {
+				var:dubois_naturalist_var ?= {
 					OR = {
 						has_trait = innovative
 						has_trait = meticulous
@@ -13783,7 +16519,7 @@ dubois.906 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		every_country = {
@@ -13860,7 +16596,7 @@ dubois.907 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		random_scope_character = {
@@ -13915,7 +16651,7 @@ dubois.908 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -14008,7 +16744,7 @@ dubois.909 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 		if = {
@@ -14141,7 +16877,7 @@ dubois.910 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -15238,9 +17974,15 @@ dubois.921 = {
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_variable = dubois_attended_extinction_congress_var
 			save_scope_as = dubois_paleontologist_scope
+		}
+		random_country = {
+			limit = {
+				has_modifier = dubois_congress_host_modifier
+			}
+			save_scope_as = dubois_congress_host_country
 		}
 	}
 
@@ -15275,7 +18017,7 @@ dubois.921 = {
 				}
 				AND = {
 					has_variable = dubois_paleontologist_var
-					var:dubois_paleontologist_var = {
+					var:dubois_paleontologist_var ?= {
 						has_trait = dubois_paleontologist_famous
 					}
 				}
@@ -15327,7 +18069,7 @@ dubois.922 = {
 			}
 			save_scope_as = dubois_congress_host_country
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_variable = dubois_attended_extinction_congress_var
 			save_scope_as = dubois_paleontologist_scope
 		}
@@ -15352,7 +18094,7 @@ dubois.922 = {
 				}
 				AND = {
 					has_variable = dubois_paleontologist_var
-					var:dubois_paleontologist_var = {
+					var:dubois_paleontologist_var ?= {
 						has_trait = dubois_paleontologist_famous
 					}
 				}
@@ -15394,7 +18136,7 @@ dubois.923 = {
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 		var:verrier_astronomer_var = {
@@ -15442,7 +18184,7 @@ dubois.924 = {
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -15617,7 +18359,7 @@ dubois.929 = {
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 		if = {
@@ -15759,7 +18501,7 @@ dubois.930 = {
 	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -16059,7 +18801,7 @@ dubois.1011 = {
 			has_variable = dubois_zoo_animal_mole
 		}
 		custom_tooltip = {
-			text = visit_african_moles_tt
+			text = visit_moles_tt
 			trigger_event = {
 				id = dubois.1017
 				popup = yes
@@ -16073,7 +18815,7 @@ dubois.1011 = {
 			has_variable = dubois_zoo_animal_zebra
 		}
 		custom_tooltip = {
-			text = visit_african_zebras_tt
+			text = visit_zebras_tt
 			trigger_event = {
 				id = dubois.1018
 				popup = yes
@@ -16081,6 +18823,33 @@ dubois.1011 = {
 		}
 	}
 
+	option = {
+		name = dubois.1011.meerkat #Visit the Meerkat
+		trigger = {
+			has_variable = dubois_zoo_animal_meerkat
+		}
+		custom_tooltip = {
+			text = visit_meerkat_tt
+			trigger_event = {
+				id = dubois.1019
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.gorilla #Visit the Gorilla
+		trigger = {
+			has_variable = dubois_zoo_animal_gorilla
+		}
+		custom_tooltip = {
+			text = visit_gorilla_tt
+			trigger_event = {
+				id = dubois.1020
+				popup = yes
+			}
+		}
+	}
 	option = {
 		name = dubois.1011.l #Return to the Main Entrance
 		custom_tooltip = {
@@ -16910,6 +19679,214 @@ dubois.1018 = {
 	}
 }
 
+#Dubois 1019: Meerkat Enclosure
+dubois.1019 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = dubois.1019.t
+    desc = dubois.1019.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1019.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1019.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1019.f3
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_meerkat.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1012.k #Return to the African Enclosures
+		custom_tooltip = {
+			text = zoo_african_enclosures_tt
+			trigger_event = {
+				id = dubois.1011
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+		}
+	}
+
+	after = {
+		remove_variable = dubois_zoo_flavor_randomizer_var
+	}
+}
+
+#Dubois 1020: Gorilla Enclosure
+dubois.1020 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = dubois.1020.t
+    desc = dubois.1020.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1020.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1020.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1020.f3
+		}
+	}
+
+	placement = root
+
+    event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gorilla.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1012.k #Return to the African Enclosures
+		custom_tooltip = {
+			text = zoo_african_enclosures_tt
+			trigger_event = {
+				id = dubois.1011
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+		}
+	}
+
+	after = {
+		remove_variable = dubois_zoo_flavor_randomizer_var
+	}
+}
+
 #Dubois 1021: Asian Enclosures
 dubois.1021 = {
 	dlc = dlc_morgenrote
@@ -17032,6 +20009,20 @@ dubois.1021 = {
 			text = visit_cheetah_tt
 			trigger_event = {
 				id = dubois.1028
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1021.pallas #Visit the Pallas's Cat
+		trigger = {
+			has_variable = dubois_zoo_animal_pallas
+		}
+		custom_tooltip = {
+			text = visit_pallas_tt
+			trigger_event = {
+				id = dubois.1030
 				popup = yes
 			}
 		}
@@ -17779,6 +20770,109 @@ dubois.1028 = {
 	}
 }
 
+#Dubois 1030: Pallas's Cat
+dubois.1030 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = dubois.1030.t
+    desc = dubois.1030.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1030.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1030.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1030.f3
+		}
+	}
+
+	placement = root
+
+    event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_pallas.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1022.k #Return to the Asian Enclosures
+		custom_tooltip = {
+			text = zoo_asian_enclosures_tt
+			trigger_event = {
+				id = dubois.1021
+				popup = yes
+			}
+			remove_variable = dubois_zoo_dragon_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_dragon_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_dragon_flavor_randomizer_var
+		}
+	}
+}
+
 #Dubois 1031: Australian and Oceanian Enclosures
 dubois.1031 = {
 	dlc = dlc_morgenrote
@@ -17901,6 +20995,20 @@ dubois.1031 = {
 			text = visit_sealions_tt
 			trigger_event = {
 				id = dubois.1038
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1031.thylacine #Visit the Thylacine
+		trigger = {
+			has_variable = dubois_zoo_animal_thylacine
+		}
+		custom_tooltip = {
+			text = visit_thylacine_tt
+			trigger_event = {
+				id = dubois.1039
 				popup = yes
 			}
 		}
@@ -18647,7 +21755,7 @@ dubois.1038 = {
 
 	placement = root
 
-    event_image = {
+	event_image = {
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_sealion.dds"
 	}
 
@@ -18715,6 +21823,109 @@ dubois.1038 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_sealion_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1039: Thylacine Enclosure
+dubois.1039 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+    title = dubois.1039.t
+    desc = dubois.1039.d
+    flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1039.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1039.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1039.f3
+		}
+	}
+
+	placement = root
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_thylacine.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+    duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1032.k #Return to the Australian and Oceanian Enclosures
+		custom_tooltip = {
+			text = zoo_australian_enclosures_tt
+			trigger_event = {
+				id = dubois.1031
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_flavor_randomizer_var
 		}
 	}
 }
@@ -18841,6 +22052,20 @@ dubois.1041 = {
 			text = visit_wisent_tt
 			trigger_event = {
 				id = dubois.1048
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1041.elk #Visit the Elks
+		trigger = {
+			has_variable = dubois_zoo_animal_elk
+		}
+		custom_tooltip = {
+			text = visit_elk_tt
+			trigger_event = {
+				id = dubois.1049
 				popup = yes
 			}
 		}
@@ -19532,7 +22757,7 @@ dubois.1047 = {
 	}
 }
 
-#Dubois 1048: Eurasian Otter Enclosure
+#Dubois 1048: Wisent Enclosures
 dubois.1048 = {
 	dlc = dlc_morgenrote
 
@@ -19631,6 +22856,109 @@ dubois.1048 = {
 			text = leave_zoo_tt
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_wisent_flavor_randomizer_var
+		}
+	}
+}
+
+#Dubois 1049: Elk Enclosures
+dubois.1049 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.1049.t
+	desc = dubois.1049.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1049.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1049.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1049.f3
+		}
+	}
+
+	placement = root
+
+	event_image = {
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elk.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = {
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1042.k #Return to the European Enclosures
+		custom_tooltip = {
+			text = zoo_european_enclosures_tt
+			trigger_event = {
+				id = dubois.1041
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_flavor_randomizer_var
 		}
 	}
 }
@@ -19757,6 +23085,20 @@ dubois.1051 = {
 			text = visit_axolotl_tt
 			trigger_event = {
 				id = dubois.1058
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1051.o #Visit the Gila Monsters
+		trigger = {
+			has_variable = dubois_zoo_animal_gila
+		}
+		custom_tooltip = {
+			text = visit_gila_tt
+			trigger_event = {
+				id = dubois.1059
 				popup = yes
 			}
 		}
@@ -20634,6 +23976,109 @@ dubois.1058 = {
 	}
 }
 
+#Dubois 1059: Gila Monster Enclosure
+dubois.1059 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.1059.t
+	desc = dubois.1059.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1059.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1059.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1059.f3
+		}
+	}
+
+	placement = root
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gila.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1052.k #Return to the North American Enclosures
+		custom_tooltip = {
+			text = zoo_north_american_enclosures_tt
+			trigger_event = {
+				id = dubois.1051
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+			remove_variable = dubois_zoo_flavor_randomizer_var
+		}
+	}
+}
+
 #Dubois 1061: South American Enclosures
 dubois.1061 = {
 	dlc = dlc_morgenrote
@@ -20756,6 +24201,20 @@ dubois.1061 = {
 			text = visit_monkey_tt
 			trigger_event = {
 				id = dubois.1068
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1061.o #Visit the Capybara
+		trigger = {
+			has_variable = dubois_zoo_animal_capybara
+		}
+		custom_tooltip = {
+			text = visit_capybara_tt
+			trigger_event = {
+				id = dubois.1069
 				popup = yes
 			}
 		}
@@ -21500,6 +24959,110 @@ dubois.1068 = {
 			remove_variable = dubois_visiting_zoo_var
 			remove_variable = dubois_zoo_monkey_flavor_randomizer_var
 		}
+	}
+}
+
+#Dubois 1069: Capybara Enclosure
+dubois.1069 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = dubois.1069.t
+	desc = dubois.1069.d
+	flavor = {
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 1
+			}
+			desc = dubois.1069.f1
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 2
+			}
+			desc = dubois.1069.f2
+		}
+		triggered_desc = {
+			trigger = {
+				var:dubois_zoo_flavor_randomizer_var = 3
+			}
+			desc = dubois.1069.f3
+		}
+	}
+
+	placement = root
+
+	event_image = { 
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_capybara.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	on_opened_soundeffect = "event:/SFX/Events/middleeast/jungle_expedition"
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+		random_list = { #randomizes flavor text
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 1
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 2
+				}
+			}
+			10 = { 
+				set_variable = {
+					name = dubois_zoo_flavor_randomizer_var
+					value = 3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1062.k #Return to the South American Enclosures
+		custom_tooltip = {
+			text = zoo_south_american_enclosures_tt
+			trigger_event = {
+				id = dubois.1061
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1011.l #Return to the Main Entrance
+		custom_tooltip = {
+			text = zoo_main_entrance_tt
+			trigger_event = {
+				id = dubois.1001
+				popup = yes
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1001.m #Leave the Zoo
+		default_option = yes
+		custom_tooltip = {
+			text = leave_zoo_tt
+			remove_variable = dubois_visiting_zoo_var
+		}
+	}
+
+	after = {
+		remove_variable = dubois_zoo_flavor_randomizer_var
 	}
 }
 
@@ -22691,6 +26254,7 @@ dubois.1301 = {
 					}
 					OR = {
 						dubois_polar_breeding_possible_trigger = yes
+						dubois_elk_breeding_possible_trigger = yes
 						dubois_europe_breeding_possible_trigger = yes
 						dubois_north_america_breeding_possible_trigger = yes
 						dubois_south_america_breeding_possible_trigger = yes
@@ -22708,6 +26272,7 @@ dubois.1301 = {
 					}
 					OR = {
 						dubois_polar_breeding_possible_trigger = yes
+						dubois_elk_breeding_possible_trigger = yes
 						dubois_europe_breeding_possible_trigger = yes
 						dubois_north_america_breeding_possible_trigger = yes
 						dubois_south_america_breeding_possible_trigger = yes
@@ -22733,6 +26298,7 @@ dubois.1301 = {
 					}
 					OR = {
 						dubois_polar_breeding_possible_trigger = yes
+						dubois_elk_breeding_possible_trigger = yes
 						dubois_europe_breeding_possible_trigger = yes
 						dubois_north_america_breeding_possible_trigger = yes
 						dubois_south_america_breeding_possible_trigger = yes
@@ -22751,6 +26317,7 @@ dubois.1301 = {
 					}
 					OR = {
 						dubois_polar_breeding_possible_trigger = yes
+						dubois_elk_breeding_possible_trigger = yes
 						dubois_europe_breeding_possible_trigger = yes
 						dubois_north_america_breeding_possible_trigger = yes
 						dubois_south_america_breeding_possible_trigger = yes
@@ -22779,6 +26346,7 @@ dubois.1301 = {
 					}
 					OR = {
 						dubois_polar_breeding_possible_trigger = yes
+						dubois_elk_breeding_possible_trigger = yes
 						dubois_europe_breeding_possible_trigger = yes
 						dubois_north_america_breeding_possible_trigger = yes
 						dubois_south_america_breeding_possible_trigger = yes
@@ -22800,6 +26368,7 @@ dubois.1301 = {
 					}
 					OR = {
 						dubois_polar_breeding_possible_trigger = yes
+						dubois_elk_breeding_possible_trigger = yes
 						dubois_europe_breeding_possible_trigger = yes
 						dubois_north_america_breeding_possible_trigger = yes
 						dubois_south_america_breeding_possible_trigger = yes
@@ -23212,6 +26781,37 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.gila #Gila Monsters
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_gila_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_north_america = yes
+					region = sr:region_mexico
+				}
+			}
+			has_variable = dubois_zoo_animal_gila
+		}
+		
+		set_variable = dubois_breeding_gila_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1302.sloth #Sloths
 		default_option = yes
 		trigger = {
@@ -23436,6 +27036,38 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.capybara #Capybara
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_capybara_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_south_america = yes
+					region = sr:region_central_america
+					region = sr:region_caribbean
+				}
+			}
+			has_variable = dubois_zoo_animal_capybara
+		}
+		
+		set_variable = dubois_breeding_capybara_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1302.lynx #Lynx
 		default_option = yes
 		trigger = {
@@ -23641,6 +27273,33 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.elk #Elk
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_elk_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				mr_elk_breeding_region_trigger = yes
+			}
+			has_variable = dubois_zoo_animal_elk
+		}
+		
+		set_variable = dubois_breeding_elk_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1302.hippo #Hippopotamus
 		default_option = yes
 		trigger = {
@@ -23826,6 +27485,60 @@ dubois.1302 = {
 		}
 		
 		set_variable = dubois_breeding_zebra_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1302.meerkat #Meerkat
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_meerkat_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				state_is_in_africa = yes
+			}
+			has_variable = dubois_zoo_animal_meerkat
+		}
+		
+		set_variable = dubois_breeding_meerkat_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
+		name = dubois.1302.gorilla #Gorilla
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_gorilla_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				state_is_in_africa = yes
+			}
+			has_variable = dubois_zoo_animal_gorilla
+		}
+		
+		set_variable = dubois_breeding_gorilla_var
 
 		custom_tooltip = {
 			text = dubois.1302.option_tt
@@ -24075,6 +27788,40 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.pallas #Pallas's Cat
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_pallas_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				OR = {
+					state_is_in_middle_east = yes
+					state_is_in_central_asia = yes
+					state_is_in_india = yes
+					state_is_in_east_asia = yes
+					state_is_in_southeast_asia = yes
+				}
+			}
+			has_variable = dubois_zoo_animal_pallas
+		}
+		
+		set_variable = dubois_breeding_pallas_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1302.turtle #Turtle
 		default_option = yes
 		trigger = {
@@ -24271,6 +28018,34 @@ dubois.1302 = {
 	}
 
 	option = {
+		name = dubois.1302.thylacine #Thylacine
+		default_option = yes
+		trigger = {
+			var:dubois_breeding_state_var = {
+				NOT = {
+					has_state_trait = dubois_state_trait_thylacine_habitat
+				}
+				any_scope_building = {
+					is_building_type = building_dubois_national_park
+					level > 0
+				}
+				mr_sea_lions_breeding_region_trigger = yes
+			}
+			has_variable = dubois_zoo_animal_thylacine
+		}
+		
+		set_variable = dubois_breeding_thylacine_var
+
+		custom_tooltip = {
+			text = dubois.1302.option_tt
+			add_journal_entry = {
+				type = je_animal_breeding
+				target = var:dubois_breeding_state_var
+			}
+		}
+	}
+
+	option = {
 		name = dubois.1301.j #Nevermind
 		
 		remove_variable = dubois_breeding_animals_var
@@ -24375,6 +28150,13 @@ dubois.1321 = {
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_axolotl.dds"
 	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_gila_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gila.dds"
+	}
+
 
 	#South America
 	event_image = {
@@ -24419,6 +28201,13 @@ dubois.1321 = {
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_monkey.dds"
 	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_capybara_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_capybara.dds"
+	}
+
 
 	#European
 	event_image = {
@@ -24463,6 +28252,13 @@ dubois.1321 = {
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_wisent.dds"
 	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_elk_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_elk.dds"
+	}
+
 
 	#African
 	event_image = {
@@ -24507,6 +28303,19 @@ dubois.1321 = {
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_zebra.dds"
 	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_meerkat_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_meerkat.dds"
+	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_gorilla_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_gorilla.dds"
+	}
+
 
 	#Asia
 	event_image = {
@@ -24551,6 +28360,12 @@ dubois.1321 = {
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_cheetah.dds"
 	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_pallas_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_pallas.dds"
+	}
 
 	#Australia & Oceania
 	event_image = {
@@ -24594,6 +28409,12 @@ dubois.1321 = {
 			has_Variable = dubois_breeding_sealion_var
 		}
 		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_sealion.dds"
+	}
+	event_image = {
+		trigger = {
+			has_Variable = dubois_breeding_thylacine_var
+		}
+		texture = "gfx/event_pictures/dubois_pictures/dubois_animal_thylacine.dds"
 	}
 
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
@@ -24705,7 +28526,7 @@ dubois.2001 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -24873,7 +28694,7 @@ dubois.2011 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -25024,7 +28845,7 @@ dubois.2041 = {
 			limit = {
 				has_variable = dubois_paleontologist_var
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -25070,7 +28891,7 @@ dubois.2042 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -25111,7 +28932,7 @@ dubois.2043 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -25148,7 +28969,7 @@ dubois.2044 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -25175,7 +28996,7 @@ dubois.2044 = {
 		random_list = {
 			1 = {}
 			1 = {
-				var:dubois_paleontologist_var = {
+				var:dubois_paleontologist_var ?= {
 					save_scope_as = manzoni_scientist_scope
 				}
 				trigger_event = {
@@ -25184,7 +29005,7 @@ dubois.2044 = {
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			remove_variable = mr_paleontologist_is_mounting_dinosaur_var
 		}
 	}
@@ -25213,7 +29034,7 @@ dubois.2045 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -25237,7 +29058,7 @@ dubois.2045 = {
 
 	after = {
 		remove_dubois_construct_dinosaur_effect = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			remove_variable = mr_paleontologist_is_mounting_dinosaur_var
 		}
 	}
@@ -25266,7 +29087,7 @@ dubois.2046 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -25287,7 +29108,7 @@ dubois.2046 = {
 
 	after = {
 		remove_dubois_construct_dinosaur_effect = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			remove_variable = mr_paleontologist_is_mounting_dinosaur_var
 		}
 	}
@@ -25538,7 +29359,7 @@ dubois.2101 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -25561,7 +29382,7 @@ dubois.2101 = {
 
 	after = {
 		remove_dubois_remount_dinosaur_effect = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			remove_variable = mr_paleontologist_is_remounting_dinosaur_var
 		}
 	}
@@ -25590,7 +29411,7 @@ dubois.2102 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -25609,7 +29430,7 @@ dubois.2102 = {
 
 	after = {
 		remove_dubois_remount_dinosaur_effect = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			remove_variable = mr_paleontologist_is_remounting_dinosaur_var
 		}
 	}
@@ -25638,7 +29459,7 @@ dubois.2103 = {
 	}
 
 	immediate = {
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			save_scope_as = dubois_paleontologist_scope
 		}
 	}
@@ -25658,7 +29479,7 @@ dubois.2103 = {
 
 	after = {
 		remove_dubois_remount_dinosaur_effect = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			remove_variable = mr_paleontologist_is_remounting_dinosaur_var
 		}
 	}
@@ -25804,7 +29625,7 @@ dubois.2112 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -25879,7 +29700,7 @@ dubois.2113 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -25954,7 +29775,7 @@ dubois.2114 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26029,7 +29850,7 @@ dubois.2115 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26096,7 +29917,7 @@ dubois.2116 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26225,7 +30046,7 @@ dubois.2122 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26300,7 +30121,7 @@ dubois.2123 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26437,7 +30258,7 @@ dubois.2132 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26512,7 +30333,7 @@ dubois.2133 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26649,7 +30470,7 @@ dubois.2142 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26724,7 +30545,7 @@ dubois.2143 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26861,7 +30682,7 @@ dubois.2152 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -26936,7 +30757,7 @@ dubois.2153 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -27074,7 +30895,7 @@ dubois.2162 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -27149,7 +30970,7 @@ dubois.2163 = {
 			limit = {
 				has_variable = dubois_paleontologist_var 
 			}
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				save_scope_as = dubois_paleontologist_scope
 			}
 		}
@@ -27213,7 +31034,7 @@ dubois.2171 = {
 				has_variable = dubois_stegosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
@@ -27223,7 +31044,7 @@ dubois.2171 = {
 		set_variable = dubois_construct_north_american_dinosaur_var
 		dubois_construct_dinosaur_effect = yes
 		dubois_construct_north_american_dinosaur = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 	}
@@ -27236,7 +31057,7 @@ dubois.2171 = {
 				has_variable = dubois_argyrosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
@@ -27246,7 +31067,7 @@ dubois.2171 = {
 		set_variable = dubois_construct_south_american_dinosaur_var
 		dubois_construct_dinosaur_effect = yes
 		dubois_construct_south_american_dinosaur = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 	}
@@ -27259,7 +31080,7 @@ dubois.2171 = {
 				has_variable = dubois_plateosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
@@ -27269,7 +31090,7 @@ dubois.2171 = {
 		set_variable = dubois_construct_european_dinosaur_var
 		dubois_construct_dinosaur_effect = yes
 		dubois_construct_european_dinosaur = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 	}
@@ -27283,7 +31104,7 @@ dubois.2171 = {
 				has_variable = dubois_spinosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
@@ -27293,7 +31114,7 @@ dubois.2171 = {
 		set_variable = dubois_construct_african_dinosaur_var
 		dubois_construct_dinosaur_effect = yes
 		dubois_construct_african_dinosaur = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 	}
@@ -27306,7 +31127,7 @@ dubois.2171 = {
 				has_variable = dubois_velociraptor_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
@@ -27316,7 +31137,7 @@ dubois.2171 = {
 		set_variable = dubois_construct_asian_dinosaur_var
 		dubois_construct_dinosaur_effect = yes
 		dubois_construct_asian_dinosaur = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 	}
@@ -27329,7 +31150,7 @@ dubois.2171 = {
 				has_variable = dubois_rhoetosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
@@ -27339,7 +31160,7 @@ dubois.2171 = {
 		set_variable = dubois_construct_australian_dinosaur_var
 		dubois_construct_dinosaur_effect = yes
 		dubois_construct_australian_dinosaur = yes
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 	}
@@ -27361,7 +31182,7 @@ dubois.2171 = {
 			}
 		}
 		remove_variable = mr_mount_dinosaur_skeleton_button_var
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_variable = mr_paleontologist_is_mounting_dinosaur_var
 		}
 	}
@@ -27396,14 +31217,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_ankylosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_ankylosaurus_var
@@ -27423,14 +31244,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_diplodocus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_diplodocus_var
@@ -27450,14 +31271,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_triceratops_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_triceratops_var
@@ -27477,14 +31298,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_tyrannosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_tyrannosaurus_var
@@ -27504,14 +31325,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_stegosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_stegosaurus_var
@@ -27531,14 +31352,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_antarctosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_antarctosaurus_var
@@ -27558,14 +31379,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_argyrosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_argyrosaurus_var
@@ -27585,14 +31406,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_iguanodon_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_iguanodon_var
@@ -27612,14 +31433,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_plateosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_plateosaurus_var
@@ -27639,14 +31460,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_giraffatitan_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_giraffatitan_var
@@ -27666,14 +31487,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_spinosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_spinosaurus_var
@@ -27693,14 +31514,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_psittacosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_psittacosaurus_var
@@ -27720,14 +31541,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_velociraptor_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_velociraptor_var
@@ -27747,14 +31568,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_muttaburrasaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_muttaburrasaurus_var
@@ -27775,14 +31596,14 @@ dubois.2181 = {
 				has_variable = dubois_poor_rhoetosaurus_var
 			}
 			has_variable = dubois_paleontologist_var
-			var:dubois_paleontologist_var = {
+			var:dubois_paleontologist_var ?= {
 				is_busy = no
 				NOT = {
 					has_modifier = dubois_exhausted_paleontologist_modifier
 				}
 			}
 		}
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_character_busy_and_immortal = yes
 		}
 		set_variable = dubois_remount_rhoetosaurus_var
@@ -27803,7 +31624,7 @@ dubois.2181 = {
 
 	after = {
 		remove_variable = mr_remount_dinosaur_skeleton_button_var
-		var:dubois_paleontologist_var = {
+		var:dubois_paleontologist_var ?= {
 			set_variable = mr_paleontologist_is_remounting_dinosaur_var
 		}
 	}
@@ -27834,13 +31655,13 @@ dubois.3000 = {
 	}
 
 	trigger = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			age >= 55
 		}
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 			set_retirement_variable_effect = yes
 		}
@@ -27864,7 +31685,7 @@ dubois.3000 = {
 	option = { 
 		name = dubois.3000.h
 
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			add_trait = senile
 		}
 		
@@ -27876,14 +31697,14 @@ dubois.3000 = {
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				age >= 60
 			}
 			factor = 2
 		}
 
 		modifier = {
-			var:dubois_naturalist_var = {
+			var:dubois_naturalist_var ?= {
 				age >= 65
 			}
 			factor = 5
@@ -27912,14 +31733,14 @@ dubois.3010 = {
 	icon = "gfx/interface/icons/event_icons/event_botany.dds"
 
 	trigger = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			has_trait = senile
 		}
 		var:dubois_specimen >= 3000
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}
@@ -27953,7 +31774,7 @@ dubois.3011 = {
 	icon = "gfx/interface/icons/event_icons/event_botany.dds"
 
 	trigger = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			OR = {
 				has_trait = alcoholic
 				has_trait = opium_addiction
@@ -27966,7 +31787,7 @@ dubois.3011 = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
+		var:dubois_naturalist_var ?= {
 			save_scope_as = dubois_naturalist_scope
 		}
 	}

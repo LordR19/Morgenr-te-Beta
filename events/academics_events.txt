@@ -14,60 +14,86 @@ namespace = academics
 
 #Academics 1: Engineer retires
 #Academics 2: Astronomer retires
-#Academics 3: Naturalist retires
-#Academics 4: Paleontologist retires
-#Academics 5: Archaeologist retires
-#Academics 6: Anthropologist retires
+#Academics 3: Chemist retires
+#Academics 4: Physicist retires
+
+#Academics 5: Geologist retires
+#Academics 6: Naturalist retires
+#Academics 7: Paleontologist retires
+#Academics 8: Biologist retires
+
+#Academics 9: Archaeologist retires
+#Academics 10: Anthropologist retires
+#Academics 11: Physician retires
+
 
 ###Death Notifications from Game caused Deaths###
 
-#Academics 11: Engineer died
-#Academics 12: Astronomer died
-#Academics 13: Naturalist died
-#Academics 14: Paleontologist died
-#Academics 15: Archaeologist died
-#Academics 16: Anthropologist died
-#Academics 17: Chemist died
+#Academics 21: Engineer died
+#Academics 22: Astronomer died
+#Academics 23: Chemist died
+#Academics 24: Physicist died
 
-###Character Overview###
+#Academics 25: Geologist died
+#Academics 26: Naturalist died
+#Academics 27: Paleontologist died
+#Academics 28: Biologist died
 
-#Academics 30: Academic Society
-#Academics 31: Our Engineer, SCOPE
-#Academics 32: Our Astronomer, SCOPE
-#Academics 33: Our Naturalist, SCOPE
-#Academics 34: Our Paleontologist, SCOPE
-#Academics 35: Our Archaeologist, SCOPE
-#Academics 36: Our Anthropologist, SCOPE
+#Academics 29: Archaeologist died
+#Academics 30: Anthropologist died
+#Academics 31: Physician died
 
 ###Academy###
 
 #Academics 51: Engineer
 #Academics 52: Astronomer
-#Academics 53: Naturalist
-#Academics 54: Paleontologist
-#Academics 55: Archaeologist
-#Academics 56: Anthropologist
-#Academics 57: Chemist
+#Academics 53: Chemist
+#Academics 54: Physicist
 
-#Academics 60: Foreign Scientist
-#Academics 61: Set up for academics_country_tech_advance_var variable (hidden)
+#Academics 55: Geologist
+#Academics 56: Naturalist
+#Academics 57: Paleontologist
+#Academics 58: Biologist
 
-#Academics 70: Scientific Status
+#Academics 59: Archaeologist
+#Academics 60: Anthropologist
+#Academics 61: Physician
+#(62)
+
+#Academics 70: Foreign Scientist
+#Academics 71: Set up for academics_country_tech_advance_var variable (hidden)
+
+#Academics 80: New Academic wants Observatory
+
+###Academic Society###
+
+#Academics 90: Academic Society
+#Academics 91: Scientific Status
 
 ###Level Up Events###
 
 #Academics 102: Scope is now an experienced Astronomer
 #Academics 103: Scope is now a famous Astronomer
-#Academics 104: Scope is now an experienced Naturalist
-#Academics 105: Scope is now a famous Naturalist
-#Academics 106: Scope is now an experienced Paleontologist
-#Academics 107: Scope is now a famous Paleontologist
-#Academics 108: Scope is now an experienced Archaeologist
-#Academics 109: Scope is now a famous Archaeologist
-#Academics 110: Scope is now an experienced Anthropologist
-#Academics 111: Scope is now a famous Anthropologist
-#Academics 112: Scope is now an experienced Geologist
-#Academics 113: Scope is now a famous Geologist
+#Academics 104: Scope is now an experienced Chemist
+#Academics 105: Scope is now a famous Chemist
+#Academics 106: Scope is now an experienced Physicist
+#Academics 107: Scope is now a famous Physicist
+
+#Academics 108: Scope is now an experienced Geologist
+#Academics 109: Scope is now a famous Geologist
+#Academics 110: Scope is now an experienced Naturalist
+#Academics 111: Scope is now a famous Naturalist
+#Academics 112: Scope is now an experienced Paleontologist
+#Academics 113: Scope is now a famous Paleontologist
+#Academics 114: Scope is now an experienced Biologist
+#Academics 115: Scope is now a famous Biologist
+
+#Academics 116: Scope is now an experienced Archaeologist
+#Academics 117: Scope is now a famous Archaeologist
+#Academics 118: Scope is now an experienced Anthropologist
+#Academics 119: Scope is now a famous Anthropologist
+#Academics 120: Scope is now an experienced Physician
+#Academics 121: Scope is now a famous Physician
 
 #Academics 140: [Scope] is now a Civil Engineer
 #Academics 141: [Scope] is now a Mechanical Engineer
@@ -77,7 +103,7 @@ namespace = academics
 
 ###Experience Gain Events (hidden)###
 
-#Academics 151: Astronomer yearly Experience Gain
+#Academics 150: Academics Yearly Experience Gain
 
 ###Academic Interactions###
 
@@ -211,6 +237,15 @@ academics.1 = {
 		}
 	}
 
+	cancellation_trigger = {
+		NOR = {
+			has_variable = gaudi_engineer_var
+			var:gaudi_engineer_var ?= {
+				age >= 65
+			}
+		}
+	}
+
 	weight_multiplier = {
 		base = 1
 		modifier = {
@@ -291,6 +326,15 @@ academics.2 = {
 		}
 	}
 
+	cancellation_trigger = {
+		NOR = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var ?= {
+				age >= 65
+			}
+		}
+	}
+
 	weight_multiplier = {
 		base = 1
 		modifier = {
@@ -339,7 +383,7 @@ academics.2 = {
 	}
 }
 
-#Academics 3: Naturalist retires
+#Academics 3: Chemist retires
 academics.3 = {
 	dlc = dlc_morgenrote
 
@@ -363,11 +407,287 @@ academics.3 = {
 
 	trigger = {
 		NOT = {
+			has_variable = academics_chemist_emeritus_delayed_var
+		}
+		has_variable = mendelejew_chemist_var
+		var:mendelejew_chemist_var ?= {
+			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = mendelejew_chemist_var
+			var:mendelejew_chemist_var ?= {
+				age >= 65
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:mendelejew_chemist_var ?= {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = academics_retired_person_scope
+			set_retirement_variable_effect = yes
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		retire_chemist_effect = yes
+	}
+	
+	option = {	#We need him! Pay him extra!
+		name = academics.1.h
+
+		trigger = {
+			NOT = {
+				has_modifier = academics_chemist_emeritus_delayed_modifier
+			}
+		}
+
+		add_modifier = {
+			name = academics_chemist_emeritus_delayed_modifier
+			years = 5
+		}
+		set_variable = {
+			name = academics_chemist_emeritus_delayed_var
+			years = { 1 5 }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Academics 4: Physicist retires
+academics.4 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.4.t
+
+	desc = academics.4.d
+
+#	flavor = curie_physicist_achievements_loc
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = academics_physicist_emeritus_delayed_var
+		}
+		has_variable = curie_physicist_var
+		var:curie_physicist_var ?= {
+			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = curie_physicist_var
+			var:curie_physicist_var ?= {
+				age >= 65
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:curie_physicist_var ?= {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:curie_physicist_var = {
+			save_scope_as = academics_retired_person_scope
+			set_retirement_variable_effect = yes
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		retire_physicist_effect = yes
+	}
+	
+	option = {	#We need him! Pay him extra!
+		name = academics.1.h
+
+		trigger = {
+			NOT = {
+				has_modifier = academics_physicist_emeritus_delayed_modifier
+			}
+		}
+
+		add_modifier = {
+			name = academics_physicist_emeritus_delayed_modifier
+			years = 5
+		}
+		set_variable = {
+			name = academics_physicist_emeritus_delayed_var
+			years = { 1 5 }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Academics 5: Geologist retires
+academics.5 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.5.t
+
+	desc = academics.5.d
+
+	flavor = agassiz_geologist_achievements_loc
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = academics_geologist_emeritus_delayed_var
+		}
+		has_variable = dubois_geologist_var
+		var:dubois_geologist_var ?= {
+			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = dubois_geologist_var
+			var:dubois_geologist_var ?= {
+				age >= 65
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:dubois_geologist_var ?= {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = academics_retired_person_scope
+			set_retirement_variable_effect = yes
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		retire_geologist_effect = yes
+	}
+	
+	option = {	#We need him! Pay him extra!
+		name = academics.1.h
+
+		trigger = {
+			NOT = {
+				has_modifier = academics_geologist_emeritus_delayed_modifier
+			}
+		}
+
+		add_modifier = {
+			name = academics_geologist_emeritus_delayed_modifier
+			years = 5
+		}
+		set_variable = {
+			name = academics_geologist_emeritus_delayed_var
+			years = { 1 5 }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Academics 6: Naturalist retires
+academics.6 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.6.t
+
+	desc = academics.6.d
+
+	flavor = academics.6.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
 			has_variable = academics_naturalist_emeritus_delayed_var
 		}
 		dubois_has_naturalist = yes
 		var:dubois_naturalist_var ?= {
 			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = dubois_naturalist_var
+			var:dubois_naturalist_var ?= {
+				age >= 65
+			}
 		}
 	}
 
@@ -419,17 +739,17 @@ academics.3 = {
 	}
 }
 
-#Academics 4: Paleontologist retires
-academics.4 = {
+#Academics 7: Paleontologist retires
+academics.7 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.4.t
+	title = academics.7.t
 
-	desc = academics.4.d
+	desc = academics.7.d
 
-	flavor = academics.4.f
+	flavor = academics.7.f
 	
 	duration = 3
 
@@ -448,6 +768,15 @@ academics.4 = {
 		dubois_has_paleontologist = yes
 		var:dubois_paleontologist_var ?= {
 			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = dubois_paleontologist_var
+			var:dubois_paleontologist_var ?= {
+				age >= 65
+			}
 		}
 	}
 
@@ -499,17 +828,106 @@ academics.4 = {
 	}
 }
 
-#Academics 5: Archaeologist retires
-academics.5 = {
+#Academics 8: Biologist retires
+academics.8 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.5.t
+	title = academics.8.t
 
-	desc = academics.5.d
+	desc = academics.8.d
 
-	flavor = academics.5.f
+#	flavor = theiler_biologist_achievements_loc
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:academics_retired_person_scope
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = academics_biologist_emeritus_delayed_var
+		}
+		has_variable = theiler_biologist_var
+		var:theiler_biologist_var ?= {
+			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = theiler_biologist_var
+			var:theiler_biologist_var ?= {
+				age >= 65
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:theiler_biologist_var ?= {
+				age >= 70
+			}
+			factor = 10000
+		}
+	}
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = academics_retired_person_scope
+			set_retirement_variable_effect = yes
+		}
+	}
+
+	option = {	#He earned his retirement
+		name = academics.1.g
+		default_option = yes
+
+		retire_biologist_effect = yes
+	}
+	
+	option = {	#We need him! Pay him extra!
+		name = academics.1.h
+
+		trigger = {
+			NOT = {
+				has_modifier = academics_biologist_emeritus_delayed_modifier
+			}
+		}
+
+		add_modifier = {
+			name = academics_biologist_emeritus_delayed_modifier
+			years = 5
+		}
+		set_variable = {
+			name = academics_biologist_emeritus_delayed_var
+			years = { 1 5 }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#Academics 9: Archaeologist retires
+academics.9 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.9.t
+
+	desc = academics.9.d
+
+	flavor = academics.9.f
 	
 	duration = 3
 
@@ -532,6 +950,15 @@ academics.5 = {
 		}
 		var:lepsius_archaeologist_var ?= {
 			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = lepsius_archaeologist_var
+			var:lepsius_archaeologist_var ?= {
+				age >= 65
+			}
 		}
 	}
 
@@ -583,17 +1010,17 @@ academics.5 = {
 	}
 }
 
-#Academics 6: Anthropologist retires
-academics.6 = {
+#Academics 10: Anthropologist retires
+academics.10 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.6.t
+	title = academics.10.t
 
-	desc = academics.6.d
+	desc = academics.10.d
 
-	flavor = academics.6.f
+	flavor = academics.10.f
 	
 	duration = 3
 
@@ -612,6 +1039,15 @@ academics.6 = {
 		lepsius_has_anthropologist = yes
 		var:lepsius_anthropologist_var ?= {
 			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = lepsius_anthropologist_var
+			var:lepsius_anthropologist_var ?= {
+				age >= 65
+			}
 		}
 	}
 
@@ -663,17 +1099,17 @@ academics.6 = {
 	}
 }
 
-#Academics 7: Chemist retires
-academics.7 = {
+#Academics 11: Physician retires
+academics.11 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.7.t
+	title = academics.11.t
 
-	desc = academics.7.d
+	desc = academics.11.d
 
-	flavor = academics.7.f
+#	flavor = panum_physician_achievements_loc
 	
 	duration = 3
 
@@ -687,18 +1123,27 @@ academics.7 = {
 
 	trigger = {
 		NOT = {
-			has_variable = academics_chemist_emeritus_delayed_var
+			has_variable = academics_physician_emeritus_delayed_var
 		}
-		has_variable = mendelejew_chemist_var
-		var:mendelejew_chemist_var ?= {
+		has_variable = panum_physician_var
+		var:panum_physician_var ?= {
 			age >= 65
+		}
+	}
+
+	cancellation_trigger = {
+		NOR = {
+			has_variable = panum_physician_var
+			var:panum_physician_var ?= {
+				age >= 65
+			}
 		}
 	}
 
 	weight_multiplier = {
 		base = 1
 		modifier = {
-			var:mendelejew_chemist_var ?= {
+			var:panum_physician_var ?= {
 				age >= 70
 			}
 			factor = 10000
@@ -706,7 +1151,7 @@ academics.7 = {
 	}
 
 	immediate = {
-		var:mendelejew_chemist_var = {
+		var:panum_physician_var = {
 			save_scope_as = academics_retired_person_scope
 			set_retirement_variable_effect = yes
 		}
@@ -716,7 +1161,7 @@ academics.7 = {
 		name = academics.1.g
 		default_option = yes
 
-		retire_anthropologist_effect = yes
+		retire_physician_effect = yes
 	}
 	
 	option = {	#We need him! Pay him extra!
@@ -724,16 +1169,16 @@ academics.7 = {
 
 		trigger = {
 			NOT = {
-				has_modifier = academics_chemist_emeritus_delayed_modifier
+				has_modifier = academics_physician_emeritus_delayed_modifier
 			}
 		}
 
 		add_modifier = {
-			name = academics_chemist_emeritus_delayed_modifier
+			name = academics_physician_emeritus_delayed_modifier
 			years = 5
 		}
 		set_variable = {
-			name = academics_chemist_emeritus_delayed_var
+			name = academics_physician_emeritus_delayed_var
 			years = { 1 5 }
 		}
 
@@ -747,17 +1192,17 @@ academics.7 = {
 
 ######GAME CAUSED CHARACTER DEATH NOTIFICATION EVENT######
 
-#Academics 11: Our Engineer died
-academics.11 = {
+#Academics 21: Engineer died
+academics.21 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.11.t
+	title = academics.21.t
 
-	desc = academics.11.d
+	desc = academics.21.d
 
-#	flavor = academics.11.f
+#	flavor = academics.21.f
 	
 	duration = 3
 
@@ -780,24 +1225,24 @@ academics.11 = {
 	}
 
 	option = {	#This is a huge loss!
-		name = academics.11.g
+		name = academics.21.g
 		default_option = yes
 
-		custom_tooltip = academics.11_tt
+		custom_tooltip = academics.21_tt
 	}
 }
 
-#Academics 12: Our Astronomer died
-academics.12 = {
+#Academics 22: Astronomer died
+academics.22 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.12.t
+	title = academics.22.t
 
-	desc = academics.12.d
+	desc = academics.22.d
 
-#	flavor = academics.12.f
+#	flavor = academics.22.f
 	
 	duration = 3
 
@@ -819,24 +1264,141 @@ academics.12 = {
 	}
 
 	option = {	#This is a huge loss!
-		name = academics.11.g
+		name = academics.21.g
 		default_option = yes
 
-		custom_tooltip = academics.11_tt
+		custom_tooltip = academics.21_tt
 	}
 }
 
-#Academics 13: Our Naturalist died
-academics.13 = {
+#Academics 23: Chemist died
+academics.23 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.13.t
+	title = academics.23.t
 
-	desc = academics.13.d
+	desc = academics.23.d
 
-#	flavor = academics.13.f
+#	flavor = academics.21.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = mendelejew_chemist_var
+		remove_modifier = academics_chemist_emeritus_delayed_modifier
+	}
+
+	option = {	#This is a huge loss!
+		name = academics.21.g
+		default_option = yes
+
+		custom_tooltip = academics.21_tt
+	}
+}
+
+#Academics 24: Physicist died
+academics.24 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.24.t
+
+	desc = academics.24.d
+
+#	flavor = academics.24.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = curie_physicist_var
+		remove_modifier = academics_physicist_emeritus_delayed_modifier
+	}
+
+	option = {	#This is a huge loss!
+		name = academics.21.g
+		default_option = yes
+
+		custom_tooltip = academics.21_tt
+	}
+}
+
+#Academics 25: Geologist died
+academics.25 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.25.t
+
+	desc = academics.25.d
+
+#	flavor = academics.25.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = dubois_geologist_var
+		remove_modifier = academics_geologist_emeritus_delayed_modifier
+	}
+
+	option = {	#This is a huge loss!
+		name = academics.21.g
+		default_option = yes
+
+		custom_tooltip = academics.21_tt
+	}
+}
+
+#Academics 26: Naturalist died
+academics.26 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.26.t
+
+	desc = academics.26.d
+
+#	flavor = academics.26.f
 	
 	duration = 3
 
@@ -858,24 +1420,24 @@ academics.13 = {
 	}
 
 	option = {	#This is a huge loss!
-		name = academics.11.g
+		name = academics.21.g
 		default_option = yes
 
-		custom_tooltip = academics.11_tt
+		custom_tooltip = academics.21_tt
 	}
 }
 
-#Academics 14: Our Paleontologist died
-academics.14 = {
+#Academics 27: Paleontologist died
+academics.27 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.14.t
+	title = academics.27.t
 
-	desc = academics.14.d
+	desc = academics.27.d
 
-#	flavor = academics.11.f
+#	flavor = academics.21.f
 	
 	duration = 3
 
@@ -897,24 +1459,63 @@ academics.14 = {
 	}
 
 	option = {	#This is a huge loss!
-		name = academics.11.g
+		name = academics.21.g
 		default_option = yes
 
-		custom_tooltip = academics.11_tt
+		custom_tooltip = academics.21_tt
 	}
 }
 
-#Academics 15: Our Archaeologist died
-academics.15 = {
+#Academics 28: Biologist died
+academics.28 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.15.t
+	title = academics.28.t
 
-	desc = academics.15.d
+	desc = academics.28.d
 
-#	flavor = academics.15.f
+#	flavor = academics.28.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_academic_funeral.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by on_action in the journal
+	}
+
+	immediate = {
+		remove_variable = theiler_biologist_var
+		remove_modifier = academics_biologist_emeritus_delayed_modifier
+	}
+
+	option = {	#This is a huge loss!
+		name = academics.21.g
+		default_option = yes
+
+		custom_tooltip = academics.21_tt
+	}
+}
+
+#Academics 29: Archaeologist died
+academics.29 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.29.t
+
+	desc = academics.29.d
+
+#	flavor = academics.29.f
 	
 	duration = 3
 
@@ -936,24 +1537,24 @@ academics.15 = {
 	}
 
 	option = {	#This is a huge loss!
-		name = academics.11.g
+		name = academics.21.g
 		default_option = yes
 
-		custom_tooltip = academics.11_tt
+		custom_tooltip = academics.21_tt
 	}
 }
 
-#Academics 16: Our Anthropologist died
-academics.16 = {
+#Academics 30: Anthropologist died
+academics.30 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.16.t
+	title = academics.30.t
 
-	desc = academics.16.d
+	desc = academics.30.d
 
-#	flavor = academics.11.f
+#	flavor = academics.21.f
 	
 	duration = 3
 
@@ -975,24 +1576,24 @@ academics.16 = {
 	}
 
 	option = {	#This is a huge loss!
-		name = academics.11.g
+		name = academics.21.g
 		default_option = yes
 
-		custom_tooltip = academics.11_tt
+		custom_tooltip = academics.21_tt
 	}
 }
 
-#Academics 17: Chemist died
-academics.17 = {
+#Academics 31: Physician died
+academics.31 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.17.t
+	title = academics.31.t
 
-	desc = academics.17.d
+	desc = academics.31.d
 
-#	flavor = academics.11.f
+#	flavor = academics.25.f
 	
 	duration = 3
 
@@ -1009,497 +1610,15 @@ academics.17 = {
 	}
 
 	immediate = {
-		remove_variable = mendelejew_chemist_var
-		remove_modifier = academics_anthropologist_emeritus_delayed_modifier
+		remove_variable = panum_physician_var
+		remove_modifier = academics_physician_emeritus_delayed_modifier
 	}
 
 	option = {	#This is a huge loss!
-		name = academics.11.g
+		name = academics.21.g
 		default_option = yes
 
-		custom_tooltip = academics.11_tt
-	}
-}
-
-#################################################################################
-
-######CHARACTER OVERVIEW######
-
-#Academics 30: Academic Society
-academics.30 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.30.t
-
-	desc = academics.30.d
-
-	flavor = academics.30.f
-	
-	duration = 3
-
-	event_image = { 
-		texture = "gfx/event_pictures/academics_pictures/academics_royal_society.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-		#triggered by JE Button
-	}
-
-	immediate = {
-	}
-
-	option = {	#Bring me to the Engineer!
-		name = academics.30.g
-
-		trigger = {
-			has_variable = gaudi_engineer_var
-		}
-				
-		custom_tooltip = {
-			text = academics_society_visit_engineer_tt
-			trigger_event = {
-				id = academics.31
-				popup = yes
-			}
-		}
-	}
-	
-	option = {	#Bring me to the Astronomer!
-		name = academics.30.h
-
-		trigger = {
-			has_variable = verrier_astronomer_var
-		}
-
-		custom_tooltip = {
-			text = academics_society_visit_astronomer_tt
-			trigger_event = {
-				id = academics.32
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#Bring me to the Naturalist!
-		name = academics.30.i
-
-		trigger = {
-			has_variable = dubois_naturalist_var
-		}
-
-		custom_tooltip = {
-			text = academics_society_visit_naturalist_tt
-			trigger_event = {
-				id = academics.33
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#Bring me to the Paleontologist!
-		name = academics.30.j
-
-		trigger = {
-			has_variable = dubois_paleontologist_var
-		}
-
-		custom_tooltip = {
-			text = academics_society_visit_paleontologist_tt
-			trigger_event = {
-				id = academics.34
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#Bring me to the Archaeologist!
-		name = academics.30.k
-
-		trigger = {
-			has_variable = lepsius_archaeologist_var
-		}
-
-		custom_tooltip = {
-			text = 	academics_society_visit_archaeologist_tt
-			trigger_event = {
-				id = academics.35
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#Bring me to the Anthropologist!
-		name = academics.30.l
-
-		trigger = {
-			has_variable = lepsius_anthropologist_var
-		}
-
-		custom_tooltip = {
-			text = academics_society_visit_anthropologist_tt
-			trigger_event = {
-				id = academics.36
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#Show me the Scientific Status!
-		name = academics.30.y
-
-		custom_tooltip = {
-			text = academics_society_visit_status_tt
-			trigger_event = {
-				id = academics.70
-				popup = yes
-			}
-		}
-	}
-
-	option = {	#Bring me back!
-		name = academics.30.z
-		default_option = yes
-
-		custom_tooltip = {
-			text = leave_scientific_society_tt
-			remove_variable = academics_character_overview_var
-		}
-	}
-}
-
-#Academics 31: Our Engineer, SCOPE
-academics.31 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.31.t
-
-	desc = academics.31.d
-
-#	flavor = academics.31.f
-	
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:gaudi_engineer_scope
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-		#Triggered by academics.30
-	}
-
-	immediate = {
-		var:gaudi_engineer_var = {
-			save_scope_as = gaudi_engineer_scope
-		}
-	}
-
-	option = {	#Bring me back to the Scientific Society!
-		name = academics.31.g
-
-		custom_tooltip = {
-			text = return_to_scientific_society_tt
-			trigger_event = {
-				id = academics.30
-				popup = yes
-			}
-		}
-	}
-	
-	option = {	#Bring me Back!
-		name = academics.30.z
-		default_option = yes
-
-		custom_tooltip = {
-			text = leave_scientific_society_tt
-			remove_variable = academics_character_overview_var
-		}
-	}
-}
-
-#Academics 32: Our Astronomer, SCOPE
-academics.32 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.32.t
-
-	desc = academics.32.d
-
-	flavor = verrier.101.f
-	
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:verrier_astronomer_scope
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-		#Triggered by academics.30
-	}
-
-	immediate = {
-		var:verrier_astronomer_var = {
-			save_scope_as = verrier_astronomer_scope
-		}
-	}
-
-	option = {	#Bring me back to the Scientific Society!
-		name = academics.31.g
-
-		custom_tooltip = {
-			text = return_to_scientific_society_tt
-			trigger_event = {
-				id = academics.30
-				popup = yes
-			}
-		}
-	}
-	
-	option = {	#Bring me Back!
-		name = academics.30.z
-		default_option = yes
-
-		custom_tooltip = {
-			text = leave_scientific_society_tt
-			remove_variable = academics_character_overview_var
-		}
-	}
-}
-
-#Academics 33: Our Naturalist, SCOPE
-academics.33 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.33.t
-
-	desc = academics.33.d
-
-	flavor = academics.3.f
-	
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:dubois_naturalist_scope
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-		#Triggered by academics.30
-	}
-
-	immediate = {
-		var:dubois_naturalist_var = {
-			save_scope_as = dubois_naturalist_scope
-		}
-	}
-
-	option = {	#Bring me back to the Scientific Society!
-		name = academics.31.g
-
-		custom_tooltip = {
-			text = return_to_scientific_society_tt
-			trigger_event = {
-				id = academics.30
-				popup = yes
-			}
-		}
-	}
-	
-	option = {	#Bring me Back!
-		name = academics.30.z
-		default_option = yes
-
-		custom_tooltip = {
-			text = leave_scientific_society_tt
-			remove_variable = academics_character_overview_var
-		}
-	}
-}
-
-#Academics 34: Our Paleontologist, SCOPE
-academics.34 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.34.t
-
-	desc = academics.34.d
-
-	flavor = academics.4.f
-	
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:dubois_paleontologist_scope
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-		#Triggered by academics.30
-	}
-
-	immediate = {
-		var:dubois_paleontologist_var = {
-			save_scope_as = dubois_paleontologist_scope
-		}
-	}
-
-	option = {	#Bring me back to the Scientific Society!
-		name = academics.31.g
-
-		custom_tooltip = {
-			text = return_to_scientific_society_tt
-			trigger_event = {
-				id = academics.30
-				popup = yes
-			}
-		}
-	}
-	
-	option = {	#Bring me Back!
-		name = academics.30.z
-		default_option = yes
-
-		custom_tooltip = {
-			text = leave_scientific_society_tt
-			remove_variable = academics_character_overview_var
-		}
-	}
-}
-
-#Academics 35: Our Archaeologist, SCOPE
-academics.35 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.35.t
-
-	desc = academics.35.d
-
-	flavor = academics.5.f
-	
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:lepsius_archaeologist_scope
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-		#Triggered by academics.30
-	}
-
-	immediate = {
-		var:lepsius_archaeologist_var = {
-			save_scope_as = lepsius_archaeologist_scope
-		}
-	}
-
-	option = {	#Bring me back to the Scientific Society!
-		name = academics.31.g
-
-		custom_tooltip = {
-			text = return_to_scientific_society_tt
-			trigger_event = {
-				id = academics.30
-				popup = yes
-			}
-		}
-	}
-	
-	option = {	#Bring me Back!
-		name = academics.30.z
-		default_option = yes
-
-		custom_tooltip = {
-			text = leave_scientific_society_tt
-			remove_variable = academics_character_overview_var
-		}
-	}
-}
-
-#Academics 36: Our Anthropologist, SCOPE
-academics.36 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.36.t
-
-	desc = academics.36.d
-
-	flavor = academics.6.f
-	
-	duration = 3
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:lepsius_anthropologist_scope
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-		#Triggered by academics.30
-	}
-
-	immediate = {
-		var:lepsius_anthropologist_var = {
-			save_scope_as = lepsius_anthropologist_scope
-		}
-	}
-
-	option = {	#Bring me back to the Scientific Society!
-		name = academics.31.g
-
-		custom_tooltip = {
-			text = return_to_scientific_society_tt
-			trigger_event = {
-				id = academics.30
-				popup = yes
-			}
-		}
-	}
-	
-	option = {	#Bring me Back!
-		name = academics.30.z
-		default_option = yes
-
-		custom_tooltip = {
-			text = leave_scientific_society_tt
-			remove_variable = academics_character_overview_var
-		}
+		custom_tooltip = academics.21_tt
 	}
 }
 
@@ -1773,11 +1892,9 @@ academics.52 = {
 	}
 }
 
-#Academics 53: Naturalist
+#Academics 53: Chemist
 
 academics.53 = {
-	dlc = dlc_morgenrote
-
 	dlc = dlc_morgenrote
 
 	type = country_event
@@ -1787,267 +1904,6 @@ academics.53 = {
 	desc = academics.53.d
 
 	flavor = academics.53.f
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:dubois_new_naturalist_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	duration = 1
-
-	trigger = {
-	}
-
-	immediate = {
-		create_new_naturalist_effect = yes
-		dubois_remove_academy_effect = yes
-	}
-
-	option = {
-		name = academics.53.g
-		default_option = yes
-
-		dubois_set_new_naturalist_as_naturalist_effect = yes
-
-		ai_chance = {
-			base = 100
-		}
-	}
-
-	option = {
-		name = academics.53.h
-		dubois_medium_add_technology = yes
-		dubois_remove_new_naturalist_effect = yes
-
-		ai_chance = {
-			base = 0
-			modifier = { #If the AI already has a Naturalist that is younger than 60, it should nearly always take this option.
-				trigger = { 
-					has_variable = dubois_naturalist_var
-					var:dubois_naturalist_var = {
-						age <= 60
-					}
-				}
-				add = 10000
-			}
-		}
-	}
-
-	after = {
-	}
-}
-
-#Academics 54: Paleontologist
-
-academics.54 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.54.t
-
-	desc = academics.54.d
-
-	flavor = academics.54.f
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:dubois_new_paleontologist_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	duration = 1
-
-	trigger = {
-	}
-
-	immediate = {
-		create_new_paleontologist_effect = yes
-		dubois_remove_academy_effect = yes
-	}
-
-	option = {
-		name = academics.54.g
-		default_option = yes
-
-		dubois_set_new_paleontologist_as_paleontologist_effect = yes
-
-		ai_chance = {
-			base = 100
-		}
-	}
-
-	option = {
-		name = academics.54.h
-		dubois_medium_add_technology = yes
-		dubois_remove_new_paleontologist_effect = yes
-
-		ai_chance = {
-			base = 0
-			modifier = { #If the AI already has a Paleontologist that is younger than 60, it should nearly always take this option.
-				trigger = { 
-					has_variable = dubois_paleontologist_var
-					var:dubois_paleontologist_var = {
-						age <= 60
-					}
-				}
-				add = 10000
-			}
-		}
-	}
-
-	after = {
-	}
-}
-
-#Academics 55: Archaeologist
-
-academics.55 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.55.t
-
-	desc = academics.55.d
-
-	flavor = academics.55.f
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:lepsius_new_archaeologist_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	duration = 1
-
-	trigger = {
-	}
-
-	immediate = {
-		create_new_archaeologist_effect = yes
-		dubois_remove_academy_effect = yes
-	}
-
-	option = {
-		name = academics.55.g
-		default_option = yes
-
-		lepsius_set_new_archaeologist_as_archaeologist_effect = yes
-		lepsius_add_start_specialization_effect = yes
-
-		ai_chance = {
-			base = 100
-		}
-	}
-
-	option = {
-		name = academics.55.h
-		lepsius_medium_add_technology = yes
-		lepsius_remove_new_archaeologist_effect = yes
-
-		ai_chance = {
-			base = 0
-			modifier = { #If the AI already has an Archaeologist that is younger than 60, it should nearly always take this option.
-				trigger = { 
-					has_variable = lepsius_archaeologist_var
-					var:lepsius_archaeologist_var = {
-						age <= 60
-					}
-				}
-				add = 10000
-			}
-		}
-	}
-
-	after = {
-	}
-}
-
-#Academics 56: Anthropologist
-
-academics.56 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.56.t
-
-	desc = academics.56.d
-
-	flavor = academics.56.f
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:lepsius_new_anthropologist_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	duration = 1
-
-	trigger = {
-	}
-
-	immediate = {
-		create_new_anthropologist_effect = yes
-		dubois_remove_academy_effect = yes
-	}
-
-	option = {
-		name = academics.56.g
-		default_option = yes
-
-		lepsius_set_new_anthropologist_as_anthropologist_effect = yes
-
-		ai_chance = {
-			base = 100
-		}
-	}
-
-	option = {
-		name = academics.56.h
-		lepsius_medium_add_technology = yes
-		lepsius_remove_new_anthropologist_effect = yes
-
-		ai_chance = {
-			base = 0
-			modifier = { #If the AI already has an Anthropologist that is younger than 60, it should nearly always take this option.
-				trigger = { 
-					has_variable = lepsius_anthropologist_var
-					var:lepsius_anthropologist_var = {
-						age <= 60
-					}
-				}
-				add = 10000
-			}
-		}
-	}
-
-	after = {
-	}
-}
-
-#Academics 57: Chemist
-
-academics.57 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.57.t
-
-	desc = academics.57.d
-
-	flavor = academics.57.f
 
 	gui_window = event_window_1char_tabloid
 
@@ -2068,7 +1924,7 @@ academics.57 = {
 	}
 
 	option = {
-		name = academics.57.g
+		name = academics.53.g
 		default_option = yes
 
 		mendelejew_set_new_chemist_as_chemist_effect = yes
@@ -2094,14 +1950,14 @@ academics.57 = {
 	}
 
 	option = {
-		name = academics.57.h
+		name = academics.53.h
 		mendelejew_medium_add_technology = yes
 		mendelejew_remove_new_chemist_effect = yes
 
 		ai_chance = {
 			base = 0
 			modifier = { #If the AI already has an Anthropologist that is younger than 60, it should nearly always take this option.
-				trigger = { 
+				trigger = {
 					has_variable = mendelejew_chemist_var
 					var:mendelejew_chemist_var = {
 						age <= 60
@@ -2116,16 +1972,556 @@ academics.57 = {
 	}
 }
 
-#Academics 60: Foreign Scientist
+#Academics 54: Physicist
+
+academics.54 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.54.t
+
+	desc = academics.54.d
+
+	flavor = academics.54.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_new_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_physicist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.54.g
+		default_option = yes
+
+		curie_set_new_physicist_as_physicist_effect = yes
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						any_scope_building = {
+							is_building_type = building_verrier_observatory
+						}
+					}
+				}
+				trigger_event = {
+					id = academics.80
+					days = { 7 21 }
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.54.h
+		mendelejew_medium_add_technology = yes #TODO: Replace with correct effect
+		curie_remove_new_physicist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has an Anthropologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = curie_physicist_var
+					var:curie_physicist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 55: Geologist
+
+academics.55 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.55.t
+
+	desc = academics.55.d
+
+	flavor = academics.55.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_new_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_geologist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.55.g
+		default_option = yes
+
+		dubois_set_new_geologist_as_geologist_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.55.h
+		dubois_medium_add_technology = yes
+		dubois_remove_new_geologist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has a Geologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = dubois_geologist_var
+					var:dubois_geologist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 56: Naturalist
+
+academics.56 = {
+	dlc = dlc_morgenrote
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.56.t
+
+	desc = academics.56.d
+
+	flavor = academics.56.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_new_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_naturalist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.56.g
+		default_option = yes
+
+		dubois_set_new_naturalist_as_naturalist_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.56.h
+		dubois_medium_add_technology = yes
+		dubois_remove_new_naturalist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has a Naturalist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = dubois_naturalist_var
+					var:dubois_naturalist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 57: Paleontologist
+
+academics.57 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.57.t
+
+	desc = academics.57.d
+
+	flavor = academics.57.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_new_paleontologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_paleontologist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.57.g
+		default_option = yes
+
+		dubois_set_new_paleontologist_as_paleontologist_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.57.h
+		dubois_medium_add_technology = yes
+		dubois_remove_new_paleontologist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has a Paleontologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = dubois_paleontologist_var
+					var:dubois_paleontologist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 58: Biologist
+
+academics.58 = {
+	dlc = dlc_morgenrote
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.58.t
+
+	desc = academics.58.d
+
+	flavor = academics.58.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_new_biologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_biologist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.58.g
+		default_option = yes
+
+		theiler_set_new_biologist_as_biologist_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.58.h
+		dubois_medium_add_technology = yes #TODO: Is a Theiler effect needed here?
+		theiler_remove_new_biologist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has a Biologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = theiler_biologist_var
+					var:theiler_biologist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 59: Archaeologist
+
+academics.59 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.59.t
+
+	desc = academics.59.d
+
+	flavor = academics.59.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_new_archaeologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_archaeologist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.59.g
+		default_option = yes
+
+		lepsius_set_new_archaeologist_as_archaeologist_effect = yes
+		lepsius_add_start_specialization_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.59.h
+		lepsius_medium_add_technology = yes
+		lepsius_remove_new_archaeologist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has an Archaeologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = lepsius_archaeologist_var
+					var:lepsius_archaeologist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 60: Anthropologist
 
 academics.60 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
-	duration = 1
 
 	title = academics.60.t
+
 	desc = academics.60.d
+
+	flavor = academics.60.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:lepsius_new_anthropologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_anthropologist_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.60.g
+		default_option = yes
+
+		lepsius_set_new_anthropologist_as_anthropologist_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.60.h
+		lepsius_medium_add_technology = yes
+		lepsius_remove_new_anthropologist_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has an Anthropologist that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = lepsius_anthropologist_var
+					var:lepsius_anthropologist_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 61: Physician
+
+academics.61 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.61.t
+
+	desc = academics.61.d
+
+	flavor = academics.61.f
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_new_physician_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	duration = 1
+
+	trigger = {
+	}
+
+	immediate = {
+		create_new_physician_effect = yes
+		dubois_remove_academy_effect = yes
+	}
+
+	option = {
+		name = academics.61.g
+		default_option = yes
+
+		panum_set_new_physician_as_physician_effect = yes
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = academics.61.h
+		panum_medium_add_technology = yes
+		panum_remove_new_physician_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = { #If the AI already has a Physician that is younger than 60, it should nearly always take this option.
+				trigger = { 
+					has_variable = panum_physician_var
+					var:panum_physician_var = {
+						age <= 60
+					}
+				}
+				add = 10000
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 70: Foreign Scientist
+
+academics.70 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	duration = 1
+
+	title = academics.70.t
+	desc = academics.70.d
 
 	event_image = { 
 		texture = "gfx/event_pictures/academics_pictures/academics_foreign_scientist.dds"
@@ -2139,7 +2535,7 @@ academics.60 = {
 	}
 
 	option = { #Engineer
-		name = academics.60.g
+		name = academics.70.g
 		default_option = yes
 
 		trigger = {
@@ -2264,7 +2660,7 @@ academics.60 = {
 	}
 
 	option = { #Astronomer
-		name = academics.60.h
+		name = academics.70.h
 		
 		trigger = {
 			NOT = { has_variable = verrier_astronomer_var }
@@ -2348,7 +2744,7 @@ academics.60 = {
 	}
 
 	option = { #Naturalist
-		name = academics.60.i
+		name = academics.70.i
 		
 		trigger = {
 			NOT = { has_variable = dubois_naturalist_var }
@@ -2421,7 +2817,7 @@ academics.60 = {
 	}
 
 	option = { #Paleontologist
-		name = academics.60.j
+		name = academics.70.j
 		
 		trigger = {
 			NOT = { has_variable = dubois_paleontologist_var }
@@ -2508,7 +2904,7 @@ academics.60 = {
 	}
 
 	option = { #Archaeologist
-		name = academics.60.k
+		name = academics.70.k
 		
 		trigger = {
 			NOT = { has_variable = lepsius_archaeologist_var }
@@ -2598,7 +2994,7 @@ academics.60 = {
 	}
 
 	option = { #Anthropologist
-		name = academics.60.l
+		name = academics.70.l
 		
 		trigger = {
 			NOT = { has_variable = lepsius_anthropologist_var }
@@ -2668,10 +3064,10 @@ academics.60 = {
 	}
 
 	option = { #Actually, nevermind
-		name = academics.60.m
+		name = academics.70.m
 
 		custom_tooltip = {
-			text = academics.60.m_tt
+			text = academics.70.m_tt
 			change_relations = {
 				country = scope:target_country 
 				value = -5 
@@ -2690,8 +3086,8 @@ academics.60 = {
 	}
 }
 
-#Academics 61: Set up for academics_country_tech_advance_var variable (hidden)
-academics.61 = {
+#Academics 71: Set up for academics_country_tech_advance_var variable (hidden)
+academics.71 = {
 	dlc = dlc_morgenrote
 
 	hidden = yes
@@ -2700,311 +3096,6 @@ academics.61 = {
 		set_variable = {
 			name = academics_country_tech_advance_var
 			value = gaudi_percentage_more_advanced_countries_value
-		}
-	}
-}
-
-#Academics 70: Scientific Status
-academics.70 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.70.t
-	desc = academics.70.d
-
-	flavor = {
-		############
-		desc = academics.70.history
-		###EXODUS###
-		triggered_desc = {
-			trigger = {
-				NOR = {
-					has_global_variable = lepsius_exodus_merit
-					has_global_variable = lepsius_exodus_invention
-				}
-			}
-			desc = academics.70.exodus_default
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = lepsius_exodus_merit
-			}
-			desc = academics.70.exodus_merit
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = lepsius_exodus_invention
-			}
-			desc = academics.70.exodus_invention
-		}
-		###CIVILIZATION###
-		triggered_desc = {
-			trigger = {
-				NOR = {
-					has_global_variable = lepsius_civilization_panbabylonism
-					has_global_variable = lepsius_civilization_antipanbabylonism
-				}
-			}
-			desc = academics.70.civilization_default
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = lepsius_civilization_panbabylonism
-			}
-			desc = academics.70.civilization_panbabylonism
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = lepsius_civilization_antipanbabylonism
-			}
-			desc = academics.70.civilization_antipanbabylonism
-		}
-		###TROY###
-		triggered_desc = {
-			trigger = {
-				NOR = {
-					has_global_variable = lepsius_troy_homeric
-					has_global_variable = lepsius_troy_historical
-					has_global_variable = lepsius_troy_myth
-					has_global_variable = lepsius_troy_disputed
-				}
-			}
-			desc = academics.70.troy_default
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = lepsius_troy_homeric
-			}
-			desc = academics.70.troy_homeric
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = lepsius_troy_historical
-			}
-			desc = academics.70.troy_historical
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = lepsius_troy_myth
-			}
-			desc = academics.70.troy_myth
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = lepsius_troy_disputed
-			}
-			desc = academics.70.troy_disputed
-		}
-		#################
-		desc = academics.70.natural_history
-		###Hippocampus###
-		triggered_desc = {
-			trigger = {
-				NOR = {
-					has_global_variable = dubois_hippocampus_unique
-					has_global_variable = dubois_hippocampus_primate
-				}
-			}
-			desc = academics.70.hippocampus_default
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_hippocampus_unique
-			}
-			desc = academics.70.hippocampus_unique
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_hippocampus_primate
-			}
-			desc = academics.70.hippocampus_primate
-		}
-		###Origin###
-		triggered_desc = {
-			trigger = {
-				NOR = {
-					has_global_variable = dubois_origin_europe_vote
-					has_global_variable = dubois_origin_asia_vote
-					has_global_variable = dubois_origin_africa_vote
-				}
-			}
-			desc = academics.70.origin_default
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_europe_vote
-			}
-			desc = academics.70.origin_europe
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_asia_vote
-			}
-			desc = academics.70.origin_asia
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_origin_africa_vote
-			}
-			desc = academics.70.origin_africa
-		}
-		###Extinction###
-		triggered_desc = {
-			trigger = {
-				NOR = {
-					has_global_variable = dubois_extinction_asteroid
-					has_global_variable = dubois_extinction_climate
-					has_global_variable = dubois_extinction_sex
-					has_global_variable = dubois_extinction_mammals
-					has_global_variable = dubois_extinction_fat
-					has_global_variable = dubois_extinction_stupid
-				}
-			}
-			desc = academics.70.extinction_default
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_extinction_asteroid
-			}
-			desc = academics.70.extinction_asteroid
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_extinction_climate
-			}
-			desc = academics.70.extinction_climate
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_extinction_sex
-			}
-			desc = academics.70.extinction_sex
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_extinction_mammals
-			}
-			desc = academics.70.extinction_mammals
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_extinction_fat
-			}
-			desc = academics.70.extinction_fat
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = dubois_extinction_stupid
-			}
-			desc = academics.70.extinction_stupid
-		}
-		#############
-		desc = academics.70.astronomy
-		###Planets###
-		triggered_desc = {
-			trigger = {
-				NOR = {
-					has_global_variable = verrier_ceres_demoted_var
-					has_global_variable = verrier_ceres_saved_var
-				}
-			}
-			desc = academics.70.ceres_default
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_ceres_demoted_var
-			}
-			desc = academics.70.ceres_demoted
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_ceres_saved_var
-			}
-			desc = academics.70.ceres_saved
-		}
-		###Galaxies###
-		triggered_desc = {
-			trigger = {
-				NOR = {
-					has_global_variable = verrier_one_universe_var
-					has_global_variable = verrier_many_galaxies_var
-				}
-			}
-			desc = academics.70.galaxies_default
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_one_universe_var
-			}
-			desc = academics.70.galaxies_no
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_many_galaxies_var
-			}
-			desc = academics.70.galaxies_yes
-		}
-		###Sun Position##
-		triggered_desc = {
-			trigger = {
-				NOR = {
-					has_global_variable = verrier_sun_center_var
-					has_global_variable = verrier_sun_outer_var
-				}
-			}
-			desc = academics.70.sun_default
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_sun_center_var
-			}
-			desc = academics.70.sun_center
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_sun_outer_var
-			}
-			desc = academics.70.sun_outer
-		}
-	}
-	
-	duration = 3
-
-	event_image = { 
-		texture = "gfx/event_pictures/academics_pictures/academics_royal_society.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_academy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-		#Triggered by academics.30
-	}
-
-	immediate = {
-	}
-
-	option = {	#Bring me back to the Scientific Society!
-		name = academics.31.g
-
-		custom_tooltip = {
-			text = return_to_scientific_society_tt
-			trigger_event = {
-				id = academics.30
-				popup = yes
-			}
-		}
-	}
-	
-	option = {	#Bring me Back!
-		name = academics.30.z
-		default_option = yes
-
-		custom_tooltip = {
-			text = leave_scientific_society_tt
-			remove_variable = academics_character_overview_var
 		}
 	}
 }
@@ -3033,6 +3124,11 @@ academics.80 = {
 	duration = 3
 
 	trigger = {
+		NOT = {
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+			}
+		}
 	}
 
 	immediate = {
@@ -3106,6 +3202,367 @@ academics.80 = {
 	}
 
 	after = {
+	}
+}
+
+#################################################################################
+
+######ACADEMIC SOCIETY######
+
+#Academics 90: Academic Society
+academics.90 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.90.t
+
+	desc = academics.90.d
+
+	flavor = academics.90.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_royal_society.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#triggered by JE Button
+	}
+
+	immediate = {
+	}
+
+	option = {	#Show me the Scientific Status!
+		name = academics.90.y
+
+		custom_tooltip = {
+			text = academics_society_visit_status_tt
+			trigger_event = {
+				id = academics.91
+				popup = yes
+			}
+		}
+	}
+
+	option = {	#Bring me back!
+		name = academics.90.z
+		default_option = yes
+
+		custom_tooltip = {
+			text = leave_scientific_society_tt
+			remove_variable = academics_character_overview_var
+		}
+	}
+}
+
+#Academics 91: Scientific Status
+academics.91 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.91.t
+	desc = academics.91.d
+
+	flavor = {
+		############
+		desc = academics.91.history
+		###EXODUS###
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_global_variable = lepsius_exodus_merit
+					has_global_variable = lepsius_exodus_invention
+				}
+			}
+			desc = academics.91.exodus_default
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_merit
+			}
+			desc = academics.91.exodus_merit
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_exodus_invention
+			}
+			desc = academics.91.exodus_invention
+		}
+		###CIVILIZATION###
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_global_variable = lepsius_civilization_panbabylonism
+					has_global_variable = lepsius_civilization_antipanbabylonism
+				}
+			}
+			desc = academics.91.civilization_default
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_panbabylonism
+			}
+			desc = academics.91.civilization_panbabylonism
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_civilization_antipanbabylonism
+			}
+			desc = academics.91.civilization_antipanbabylonism
+		}
+		###TROY###
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_global_variable = lepsius_troy_homeric
+					has_global_variable = lepsius_troy_historical
+					has_global_variable = lepsius_troy_myth
+					has_global_variable = lepsius_troy_disputed
+				}
+			}
+			desc = academics.91.troy_default
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_homeric
+			}
+			desc = academics.91.troy_homeric
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_historical
+			}
+			desc = academics.91.troy_historical
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_myth
+			}
+			desc = academics.91.troy_myth
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = lepsius_troy_disputed
+			}
+			desc = academics.91.troy_disputed
+		}
+		#################
+		desc = academics.91.natural_history
+		###Hippocampus###
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_global_variable = dubois_hippocampus_unique
+					has_global_variable = dubois_hippocampus_primate
+				}
+			}
+			desc = academics.91.hippocampus_default
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_unique
+			}
+			desc = academics.91.hippocampus_unique
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_hippocampus_primate
+			}
+			desc = academics.91.hippocampus_primate
+		}
+		###Origin###
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_global_variable = dubois_origin_europe_vote
+					has_global_variable = dubois_origin_asia_vote
+					has_global_variable = dubois_origin_africa_vote
+				}
+			}
+			desc = academics.91.origin_default
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_origin_europe_vote
+			}
+			desc = academics.91.origin_europe
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_origin_asia_vote
+			}
+			desc = academics.91.origin_asia
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_origin_africa_vote
+			}
+			desc = academics.91.origin_africa
+		}
+		###Extinction###
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_global_variable = dubois_extinction_asteroid
+					has_global_variable = dubois_extinction_climate
+					has_global_variable = dubois_extinction_sex
+					has_global_variable = dubois_extinction_mammals
+					has_global_variable = dubois_extinction_fat
+					has_global_variable = dubois_extinction_stupid
+				}
+			}
+			desc = academics.91.extinction_default
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_asteroid
+			}
+			desc = academics.91.extinction_asteroid
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_climate
+			}
+			desc = academics.91.extinction_climate
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_sex
+			}
+			desc = academics.91.extinction_sex
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_mammals
+			}
+			desc = academics.91.extinction_mammals
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_fat
+			}
+			desc = academics.91.extinction_fat
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = dubois_extinction_stupid
+			}
+			desc = academics.91.extinction_stupid
+		}
+		#############
+		desc = academics.91.astronomy
+		###Planets###
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_global_variable = verrier_ceres_demoted_var
+					has_global_variable = verrier_ceres_saved_var
+				}
+			}
+			desc = academics.91.ceres_default
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_ceres_demoted_var
+			}
+			desc = academics.91.ceres_demoted
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_ceres_saved_var
+			}
+			desc = academics.91.ceres_saved
+		}
+		###Galaxies###
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_global_variable = verrier_one_universe_var
+					has_global_variable = verrier_many_galaxies_var
+				}
+			}
+			desc = academics.91.galaxies_default
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_one_universe_var
+			}
+			desc = academics.91.galaxies_no
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_many_galaxies_var
+			}
+			desc = academics.91.galaxies_yes
+		}
+		###Sun Position##
+		triggered_desc = {
+			trigger = {
+				NOR = {
+					has_global_variable = verrier_sun_center_var
+					has_global_variable = verrier_sun_outer_var
+				}
+			}
+			desc = academics.91.sun_default
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_sun_center_var
+			}
+			desc = academics.91.sun_center
+		}
+		triggered_desc = {
+			trigger = {
+				has_global_variable = verrier_sun_outer_var
+			}
+			desc = academics.91.sun_outer
+		}
+	}
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/academics_pictures/academics_royal_society.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_academy.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		#Triggered by academics.90
+	}
+
+	immediate = {
+	}
+
+	option = {	#Bring me back to the Scientific Society!
+		name = academics.31.g
+
+		custom_tooltip = {
+			text = return_to_scientific_society_tt
+			trigger_event = {
+				id = academics.90
+				popup = yes
+			}
+		}
+	}
+	
+	option = {	#Bring me Back!
+		name = academics.90.z
+		default_option = yes
+
+		custom_tooltip = {
+			text = leave_scientific_society_tt
+			remove_variable = academics_character_overview_var
+		}
 	}
 }
 
@@ -3205,7 +3662,7 @@ academics.103 = {
 	}
 }
 
-#Academics 104: Scope is now an experienced Naturalist
+#Academics 104: Scope is now an experienced Chemist
 academics.104 = {
 	dlc = dlc_morgenrote
 
@@ -3221,18 +3678,17 @@ academics.104 = {
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:dubois_naturalist_scope
+	left_icon = scope:mendelejew_chemist_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_animals.dds"
-
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
 	trigger = {
 	}
 
 	immediate = {
-		var:dubois_naturalist_var = {
-			save_scope_as = dubois_naturalist_scope
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
 		}
 	}
 
@@ -3240,16 +3696,19 @@ academics.104 = {
 		name = academics.104.g
 		default_option = yes
 
-		var:dubois_naturalist_var = {
+		var:mendelejew_chemist_var = {
 			show_as_tooltip = {
-				remove_trait = dubois_naturalist
-				add_trait = dubois_naturalist_experienced
+				remove_trait = mendelejew_chemist
+				add_trait = mendelejew_chemist_experienced
 			}
 		}
 	}
+
+	after = {
+	}
 }
 
-#Academics 105: Scope is now a famous Naturalist
+#Academics 105: Scope is now a famous Chemist
 academics.105 = {
 	dlc = dlc_morgenrote
 
@@ -3265,6 +3724,247 @@ academics.105 = {
 
 	gui_window = event_window_1char_tabloid
 
+	left_icon = scope:mendelejew_chemist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = {
+		name = academics.105.g
+		default_option = yes
+
+		var:mendelejew_chemist_var = {
+			show_as_tooltip = {
+				if = {
+					limit = { has_trait = mendelejew_chemist }
+					remove_trait = mendelejew_chemist
+				}
+				remove_trait = mendelejew_chemist_experienced
+				add_trait = mendelejew_chemist_famous
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 106: Scope is now an experienced Physicist
+academics.106 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.106.t
+
+	desc = academics.106.d
+
+	flavor = academics.106.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	trigger = {
+	}
+
+	immediate = {
+		var:curie_physicist_var = {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {
+		name = academics.106.g
+		default_option = yes
+
+		var:curie_physicist_var = {
+			show_as_tooltip = {
+				remove_trait = curie_physicist
+				add_trait = curie_physicist_experienced
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 107: Scope is now a famous Physicist
+academics.107 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.107.t
+
+	desc = academics.107.d
+
+	flavor = academics.107.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:curie_physicist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:curie_physicist_var = {
+			save_scope_as = curie_physicist_scope
+		}
+	}
+
+	option = {
+		name = academics.107.g
+		default_option = yes
+
+		var:curie_physicist_var = {
+			show_as_tooltip = {
+				if = {
+					limit = { has_trait = curie_physicist }
+					remove_trait = curie_physicist
+				}
+				remove_trait = curie_physicist_experienced
+				add_trait = curie_physicist_famous
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 108: Scope is now an experienced Geologist
+academics.108 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.108.t
+
+	desc = academics.108.d
+
+	flavor = academics.108.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = dubois_geologist_scope
+		}
+	}
+
+	option = {
+		name = academics.108.g
+		default_option = yes
+
+		var:dubois_geologist_var = {
+			remove_trait = dubois_geologist
+			add_trait = dubois_geologist_experienced
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 109: Scope is now a famous Geologist
+academics.109 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.109.t
+
+	desc = academics.109.d
+
+	flavor = academics.109.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_geologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_geologist_var = {
+			save_scope_as = dubois_geologist_scope
+		}
+	}
+
+	option = {
+		name = academics.109.g
+		default_option = yes
+
+		var:dubois_geologist_var = {
+			if = {
+				limit = { has_trait = dubois_geologist }
+				remove_trait = dubois_geologist
+			}
+			remove_trait = dubois_geologist_experienced
+			add_trait = dubois_geologist_famous
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 110: Scope is now an experienced Naturalist
+academics.110 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.110.t
+
+	desc = academics.110.d
+
+	flavor = academics.110.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
 	left_icon = scope:dubois_naturalist_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
@@ -3281,7 +3981,51 @@ academics.105 = {
 	}
 
 	option = {
-		name = academics.105.g
+		name = academics.110.g
+		default_option = yes
+
+		var:dubois_naturalist_var = {
+			show_as_tooltip = {
+				remove_trait = dubois_naturalist
+				add_trait = dubois_naturalist_experienced
+			}
+		}
+	}
+}
+
+#Academics 111: Scope is now a famous Naturalist
+academics.111 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.111.t
+
+	desc = academics.111.d
+
+	flavor = academics.111.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:dubois_naturalist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	option = {
+		name = academics.111.g
 		default_option = yes
 
 		var:dubois_naturalist_var = {
@@ -3297,17 +4041,17 @@ academics.105 = {
 	}
 }
 
-#Lepsius 106: Scope is now an experienced Paleontologist
-academics.106 = {
+#Academics 112: Scope is now an experienced Paleontologist
+academics.112 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.106.t
+	title = academics.112.t
 
-	desc = academics.106.d
+	desc = academics.112.d
 
-	flavor = academics.106.f
+	flavor = academics.112.f
 
 	placement = ROOT
 
@@ -3329,7 +4073,7 @@ academics.106 = {
 	}
 
 	option = {
-		name = academics.106.g
+		name = academics.112.g
 		default_option = yes
 
 		var:dubois_paleontologist_var = {
@@ -3344,17 +4088,17 @@ academics.106 = {
 	}
 }
 
-#Lepsius 107: Scope is now a famous Paleontologist
-academics.107 = {
+#Academics 113: Scope is now a famous Paleontologist
+academics.113 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.107.t
+	title = academics.113.t
 
-	desc = academics.107.d
+	desc = academics.113.d
 
-	flavor = academics.107.f
+	flavor = academics.113.f
 
 	placement = ROOT
 
@@ -3376,7 +4120,7 @@ academics.107 = {
 	}
 
 	option = {
-		name = academics.107.g
+		name = academics.113.g
 		default_option = yes
 
 		var:dubois_paleontologist_var = {
@@ -3392,17 +4136,114 @@ academics.107 = {
 	}
 }
 
-#Lepsius 108: Scope is now an experienced Archaeologist
-academics.108 = {
+#Academics 114: Scope is now an experienced Biologist
+academics.114 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.108.t
+	title = academics.114.t
 
-	desc = academics.108.d
+	desc = academics.114.d
 
-	flavor = academics.108.f
+	flavor = academics.114.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds" #TODO: change icon
+	trigger = {
+	}
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {
+		name = academics.114.g
+		default_option = yes
+
+		var:theiler_biologist_var = {
+			show_as_tooltip = {
+				remove_trait = theiler_biologist
+				add_trait = theiler_biologist_experienced
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 115: Scope is now a famous Biologist
+academics.115 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.115.t
+
+	desc = academics.115.d
+
+	flavor = academics.115.f
+
+	placement = ROOT
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:theiler_biologist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_geology.dds" #TODO: change icon
+
+	trigger = {
+	}
+
+	immediate = {
+		var:theiler_biologist_var = {
+			save_scope_as = theiler_biologist_scope
+		}
+	}
+
+	option = {
+		name = academics.115.g
+		default_option = yes
+
+		var:theiler_biologist_var = {
+			show_as_tooltip = {
+				if = {
+					limit = { has_trait = theiler_biologist }
+					remove_trait = theiler_biologist
+				}
+				remove_trait = theiler_biologist_experienced
+				add_trait = theiler_biologist_famous
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Academics 116: Scope is now an experienced Archaeologist
+academics.116 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = academics.116.t
+
+	desc = academics.116.d
+
+	flavor = academics.116.f
 
 	placement = ROOT
 
@@ -3424,7 +4265,7 @@ academics.108 = {
 	}
 
 	option = {
-		name = academics.108.g
+		name = academics.116.g
 		default_option = yes
 
 		var:lepsius_archaeologist_var = {
@@ -3439,17 +4280,17 @@ academics.108 = {
 	}
 }
 
-#Lepsius 109: Scope is now a famous Archaeologist
-academics.109 = {
+#Academics 117: Scope is now a famous Archaeologist
+academics.117 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.109.t
+	title = academics.117.t
 
-	desc = academics.109.d
+	desc = academics.117.d
 
-	flavor = academics.109.f
+	flavor = academics.117.f
 
 	placement = ROOT
 
@@ -3471,7 +4312,7 @@ academics.109 = {
 	}
 
 	option = {
-		name = academics.109.g
+		name = academics.117.g
 		default_option = yes
 
 		var:lepsius_archaeologist_var = {
@@ -3490,17 +4331,17 @@ academics.109 = {
 	}
 }
 
-#Academics 110: Scope is now an experienced Anthropologist
-academics.110 = {
+#Academics 118: Scope is now an experienced Anthropologist
+academics.118 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.110.t
+	title = academics.118.t
 
-	desc = academics.110.d
+	desc = academics.118.d
 
-	flavor = academics.110.f
+	flavor = academics.118.f
 
 	placement = ROOT
 
@@ -3522,7 +4363,7 @@ academics.110 = {
 	}
 
 	option = {
-		name = academics.110.g
+		name = academics.118.g
 		default_option = yes
 
 		var:lepsius_anthropologist_var = {
@@ -3537,17 +4378,17 @@ academics.110 = {
 	}
 }
 
-#Academics 111: Scope is now a famous Anthropologist
-academics.111 = {
+#Academics 119: Scope is now a famous Anthropologist
+academics.119 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.111.t
+	title = academics.119.t
 
-	desc = academics.111.d
+	desc = academics.119.d
 
-	flavor = academics.111.f
+	flavor = academics.119.f
 
 	placement = ROOT
 
@@ -3569,7 +4410,7 @@ academics.111 = {
 	}
 
 	option = {
-		name = academics.111.g
+		name = academics.119.g
 		default_option = yes
 
 		var:lepsius_anthropologist_var = {
@@ -3588,23 +4429,23 @@ academics.111 = {
 	}
 }
 
-#Academics 112: Scope is now an experienced Geologist
-academics.112 = {
+#Academics 120: Scope is now an experienced Physician
+academics.120 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.112.t
+	title = academics.120.t
 
-	desc = academics.112.d
+	desc = academics.120.d
 
-	flavor = academics.112.f
+	flavor = academics.120.f
 
 	placement = ROOT
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:dubois_geologist_scope
+	left_icon = scope:panum_physician_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -3613,112 +4454,19 @@ academics.112 = {
 	}
 
 	immediate = {
-		var:dubois_geologist_var = {
-			save_scope_as = dubois_geologist_scope
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
 		}
 	}
 
 	option = {
-		name = academics.112.g
+		name = academics.120.g
 		default_option = yes
 
-		var:dubois_geologist_var = {
-			remove_trait = dubois_geologist
-			add_trait = dubois_geologist_experienced
-		}
-	}
-
-	after = {
-	}
-}
-
-#Academics 113: Scope is now a famous Geologist
-academics.113 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.113.t
-
-	desc = academics.113.d
-
-	flavor = academics.113.f
-
-	placement = ROOT
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:dubois_geologist_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
-
-	trigger = {
-	}
-
-	immediate = {
-		var:dubois_geologist_var = {
-			save_scope_as = dubois_geologist_scope
-		}
-	}
-
-	option = {
-		name = academics.113.g
-		default_option = yes
-
-		var:dubois_geologist_var = {
-			if = {
-				limit = { has_trait = dubois_geologist }
-				remove_trait = dubois_geologist
-			}
-			remove_trait = dubois_geologist_experienced
-			add_trait = dubois_geologist_famous
-		}
-	}
-
-	after = {
-	}
-}
-
-#Academics 114: Scope is now an experienced Chemist
-academics.114 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = academics.114.t
-
-	desc = academics.114.d
-
-	flavor = academics.114.f
-
-	placement = ROOT
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:mendelejew_chemist_scope
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	icon = "gfx/interface/icons/event_icons/event_geology.dds"
-	trigger = {
-	}
-
-	immediate = {
-		var:mendelejew_chemist_var = {
-			save_scope_as = mendelejew_chemist_scope
-		}
-	}
-
-	option = {
-		name = academics.114.g
-		default_option = yes
-
-		var:mendelejew_chemist_var = {
+		var:panum_physician_var = {
 			show_as_tooltip = {
-				remove_trait = mendelejew_chemist
-				add_trait = mendelejew_chemist_experienced
+				remove_trait = panum_physician
+				add_trait = panum_physician_experienced
 			}
 		}
 	}
@@ -3727,23 +4475,23 @@ academics.114 = {
 	}
 }
 
-#Academics 115: Scope is now a famous Chemist
-academics.115 = {
+#Academics 121: Scope is now a famous Physician
+academics.121 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = academics.115.t
+	title = academics.121.t
 
-	desc = academics.115.d
+	desc = academics.121.d
 
-	flavor = academics.115.f
+	flavor = academics.121.f
 
 	placement = ROOT
 
 	gui_window = event_window_1char_tabloid
 
-	left_icon = scope:mendelejew_chemist_scope
+	left_icon = scope:panum_physician_scope
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
@@ -3753,23 +4501,23 @@ academics.115 = {
 	}
 
 	immediate = {
-		var:mendelejew_chemist_var = {
-			save_scope_as = mendelejew_chemist_scope
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
 		}
 	}
 
 	option = {
-		name = academics.115.g
+		name = academics.121.g
 		default_option = yes
 
-		var:mendelejew_chemist_var = {
+		var:panum_physician_var = {
 			show_as_tooltip = {
 				if = {
-					limit = { has_trait = mendelejew_chemist }
-					remove_trait = mendelejew_chemist
+					limit = { has_trait = panum_physician }
+					remove_trait = panum_physician
 				}
-				remove_trait = mendelejew_chemist_experienced
-				add_trait = mendelejew_chemist_famous
+				remove_trait = panum_physician_experienced
+				add_trait = panum_physician_famous
 			}
 		}
 	}
@@ -4025,10 +4773,15 @@ academics.150 = {
 		OR = {
 			has_variable = gaudi_engineer_var
 			has_variable = verrier_astronomer_var
-			has_variable = dubois_naturalist_var
+			has_variable = mendelejew_chemist_var
+			has_variable = curie_physicist_var
+			has_variable = dubois_geologist_var
 			has_variable = dubois_paleontologist_var
+			has_variable = dubois_naturalist_var
+			has_variable = theiler_biologist_var
 			has_variable = lepsius_archaeologist_var
 			has_variable = lepsius_anthropologist_var
+			has_variable = panum_physician_var
 		}
 	}
 
@@ -4038,19 +4791,19 @@ academics.150 = {
 			civil_engineer_experience_gain_effect = { AMOUNT = 5}
 		}
 		if = { #Mechanical Engineer
-			limit = { gaudi_has_civil_engineer_trigger = yes }
+			limit = { gaudi_has_mechanical_engineer_trigger = yes }
 			mechanical_engineer_experience_gain_effect = { AMOUNT = 5}
 		}
 		if = { #Military Engineer
-			limit = { gaudi_has_civil_engineer_trigger = yes }
+			limit = { gaudi_has_military_engineer_trigger = yes }
 			military_engineer_experience_gain_effect = { AMOUNT = 5}
 		}
 		if = { #Electrical Engineer
-			limit = { gaudi_has_civil_engineer_trigger = yes }
+			limit = { gaudi_has_electrical_engineer_trigger = yes }
 			electrical_engineer_experience_gain_effect = { AMOUNT = 5}
 		}
 		if = { #Aeronautical Engineer
-			limit = { gaudi_has_civil_engineer_trigger = yes }
+			limit = { gaudi_has_aeronautical_engineer_trigger = yes }
 			aeronautical_engineer_experience_gain_effect = { AMOUNT = 5}
 		}
 		if = { #Astronomer
@@ -4058,6 +4811,38 @@ academics.150 = {
 				has_variable = verrier_astronomer_var
 			}
 			astronomer_experience_gain_effect = {
+				AMOUNT = "5"
+			}
+		}
+		if = { #Chemist
+			limit = {
+				has_variable = mendelejew_chemist_var
+			}
+			chemist_experience_gain_effect = {
+				AMOUNT = "5"
+			}
+		}
+		if = { #Physicist
+			limit = {
+				has_variable = curie_physicist_var
+			}
+			physicist_experience_gain_effect = {
+				AMOUNT = "5"
+			}
+		}
+		if = { #Geologist
+			limit = {
+				has_variable = dubois_geologist_var
+			}
+			geologist_experience_gain_effect = {
+				AMOUNT = "5"
+			}
+		}
+		if = { #Paleontologist
+			limit = {
+				has_variable = dubois_paleontologist_var
+			}
+			paleontologist_experience_gain_effect = {
 				AMOUNT = "5"
 			}
 		}
@@ -4069,11 +4854,11 @@ academics.150 = {
 				AMOUNT = "5"
 			}
 		}
-		if = { #Paleontologist
+		if = { #Biologist
 			limit = {
-				has_variable = dubois_paleontologist_var
+				has_variable = theiler_biologist_var
 			}
-			paleontologist_experience_gain_effect = {
+			biologist_experience_gain_effect = {
 				AMOUNT = "5"
 			}
 		}
@@ -4090,6 +4875,14 @@ academics.150 = {
 				has_variable = lepsius_anthropologist_var
 			}
 			anthropologist_experience_gain_effect = {
+				AMOUNT = "5"
+			}
+		}
+		if = { #Physician
+			limit = {
+				has_variable = panum_physician_var
+			}
+			physician_experience_gain_effect = {
 				AMOUNT = "5"
 			}
 		}
@@ -4135,6 +4928,7 @@ academics.1000 = {
 			has_variable = academics_promote_paleontologist_active
 			has_variable = academics_promote_archaeologist_active
 			has_variable = academics_promote_anthropologist_active
+			has_variable = academics_promote_physician_active
 		}
 		has_variable = gaudi_engineer_var
 		NOR = {
@@ -4272,6 +5066,7 @@ academics.1001 = {
 			has_variable = academics_promote_paleontologist_active
 			has_variable = academics_promote_archaeologist_active
 			has_variable = academics_promote_anthropologist_active
+			has_variable = academics_promote_physician_active
 		}
 		has_variable = verrier_astronomer_var
 		NOR = {
@@ -4412,6 +5207,7 @@ academics.1002 = {
 			has_variable = academics_promote_astronomer_active
 			has_variable = academics_promote_archaeologist_active
 			has_variable = academics_promote_anthropologist_active
+			has_variable = academics_promote_physician_active
 		}
 		has_variable = dubois_naturalist_var
 		NOR = {
@@ -4552,6 +5348,7 @@ academics.1003 = {
 			has_variable = academics_promote_astronomer_active
 			has_variable = academics_promote_archaeologist_active
 			has_variable = academics_promote_anthropologist_active
+			has_variable = academics_promote_physician_active
 		}
 		has_variable = dubois_paleontologist_var
 		NOR = {
@@ -4690,6 +5487,7 @@ academics.1004 = {
 			has_variable = academics_promote_engineer_active
 			has_variable = academics_promote_chemist_active
 			has_variable = academics_promote_astronomer_active
+			has_variable = academics_promote_geologist_active
 			has_variable = academics_promote_naturalist_active
 			has_variable = academics_promote_paleontologist_active
 		}
@@ -4830,6 +5628,7 @@ academics.1005 = {
 			has_variable = academics_promote_engineer_active
 			has_variable = academics_promote_chemist_active
 			has_variable = academics_promote_astronomer_active
+			has_variable = academics_promote_geologist_active
 			has_variable = academics_promote_naturalist_active
 			has_variable = academics_promote_paleontologist_active
 		}
@@ -6796,7 +7595,7 @@ academics.2107 = {
 		name = academics.2104.g
 
 		add_journal_entry = {
-			type = je_academics_mesopotamian_artifacts
+			type = je_academics_precolumbian_artifacts
 		}
 
 		custom_tooltip = academics.2107_goal_tt
@@ -7693,6 +8492,7 @@ academics.2203 = {
 				has_variable = dubois_zoo_animal_panther
 				has_variable = dubois_zoo_animal_alligator
 				has_variable = dubois_zoo_animal_axolotl
+				has_variable = dubois_zoo_animal_gila
 				has_variable = dubois_zoo_animal_sloth
 				has_variable = dubois_zoo_animal_jaguar
 				has_variable = dubois_zoo_animal_anteater
@@ -7700,6 +8500,7 @@ academics.2203 = {
 				has_variable = dubois_zoo_animal_condor
 				has_variable = dubois_zoo_animal_manatee
 				has_variable = dubois_zoo_animal_monkey
+				has_variable = dubois_zoo_animal_capybara
 				has_variable = dubois_zoo_animal_lynx
 				has_variable = dubois_zoo_animal_wolf
 				has_variable = dubois_zoo_animal_badger
@@ -7707,6 +8508,7 @@ academics.2203 = {
 				has_variable = dubois_zoo_animal_otter
 				has_variable = dubois_zoo_animal_ibex
 				has_variable = dubois_zoo_animal_wisent
+				has_variable = dubois_zoo_animal_elk
 				has_variable = dubois_zoo_animal_hippopotamus
 				has_variable = dubois_zoo_animal_lion
 				has_variable = dubois_zoo_animal_elephant
@@ -7714,6 +8516,8 @@ academics.2203 = {
 				has_variable = dubois_zoo_animal_penguin
 				has_variable = dubois_zoo_animal_mole
 				has_variable = dubois_zoo_animal_zebra
+				has_variable = dubois_zoo_animal_meerkat
+				has_variable = dubois_zoo_animal_gorilla
 				has_variable = dubois_zoo_animal_panda
 				has_variable = dubois_zoo_animal_orangutan
 				has_variable = dubois_zoo_animal_tiger
@@ -7721,6 +8525,8 @@ academics.2203 = {
 				has_variable = dubois_zoo_animal_dragon
 				has_variable = dubois_zoo_animal_leopard
 				has_variable = dubois_zoo_animal_cheetah
+				has_variable = dubois_zoo_animal_pallas
+				has_variable = dubois_zoo_animal_thylacine
 			}
 		}
 		any_interest_group = {

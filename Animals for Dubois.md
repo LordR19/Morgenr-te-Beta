@@ -8,6 +8,7 @@
 - American Bison
 - Alligator
 - [Axolotl 1.8.3]
+- [Gila monster]
 
 ###South America###
 - Brown-throated sloth
@@ -17,6 +18,7 @@
 - Andean Condor
 - West Indian Manatee
 - [Squirrel Monkey 1.8.3]
+- [Capybara]
 
 ###Europe###
 - Eurasian Otter
@@ -26,6 +28,7 @@
 - Eurasian wolf
 - Alpine Ibex
 - [Wisent 1.8.3]
+- [Elk]
 
 ###Africa###
 - Lion
@@ -35,6 +38,8 @@
 - African Pinguin
 - Naked Mole-Rat
 - [Zebra 1.8.3]
+- [Gorilla]
+- [Meerkat]
 
 ###Asia###
 - Tiger
@@ -44,6 +49,8 @@
 - Malayan Tapir
 - Snow Leopard
 - [Asiatic Cheetah 1.8.3]
+- Red Panda (SECRET)
+- [The Paradox Cat]
 
 ###Australia&Oceania
 - Sea Turtle (South Pacific mission/expedition)
@@ -53,3 +60,4 @@
 - Platypus
 - Cassowary
 - [New Zealand Sea lion 1.8.3]
+- [Thylacine]

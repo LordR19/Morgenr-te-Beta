@@ -13,6 +13,7 @@ namespace = verrier
 #Events
 
 #Verrier 1: Yearly astronomical report
+#Verrier 2: Astronomical Prestige Set up event
 #Verrier 5: Observatory Inauguration
 #Verrier 6: Remove Observatory
 
@@ -107,11 +108,6 @@ namespace = verrier
 #Verrier 98: Skłodowska in Poland (if Poland is independent)
 #Verrier 99: Curie in France (if none of above is true)
 
-#Observatory
-
-#Verrier 100: Observatory
-#Verrier 101: Astronomer
-
 #Historical Events
 
 #Verrier 111: Miracles of the Sky (1836, Austria)
@@ -153,6 +149,15 @@ namespace = verrier
 
 #Verrier 200: [SCOPE] determines the distance of 61 Cygni to be 11.4 light years
 #Verrier 201: [SCOPE] found the cause for the Fraunhofer Lines
+
+#Venus Transit
+
+#Verrier 300: Notification for Venus Transit in 1872
+#Verrier 301: Venus Transit 1874
+
+#Meteroits
+
+#4
 
 #Historical Observatories and Astronomers
 
@@ -228,6 +233,14 @@ verrier.1 = {
 				AMOUNT = 2
 			}
 		}
+		if = {
+			limit = {
+				has_technology_researched = verrier_modern_physics_tech
+			}
+			verrier_add_x_astronomical_objects_effect = {
+				AMOUNT = 4
+			}
+		}
 		###Observatory PMs###
 		if = {
 			limit = {
@@ -271,9 +284,15 @@ verrier.1 = {
 		if = {
 			limit = {
 				any_scope_state = {
-					is_production_method_active = {
-						building_type = building_verrier_observatory
-						production_method = pm_mendelejew_spectroscopy
+					OR = {
+						is_production_method_active = {
+							building_type = building_verrier_observatory
+							production_method = pm_mendelejew_spectroscopy
+						}
+						is_production_method_active = {
+							building_type = building_verrier_observatory
+							production_method = pm_mendelejew_cyclotron
+						}
 					}
 				}
 			}
@@ -287,6 +306,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_astronomer
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -298,6 +318,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_astronomer_experienced
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -309,6 +330,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_astronomer_famous
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -321,6 +343,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_comet_observer
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -332,6 +355,7 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_magnetic_storm_observer
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -343,6 +367,19 @@ verrier.1 = {
 				has_variable = verrier_astronomer_var
 				var:verrier_astronomer_var = {
 					has_trait = verrier_solar_observer
+					is_busy = no
+				}
+			}
+			verrier_add_x_astronomical_objects_effect = {
+				AMOUNT = 2
+			}
+		}
+		if = {
+			limit = {
+				has_variable = verrier_astronomer_var
+				var:verrier_astronomer_var = {
+					has_trait = verrier_moon_observer
+					is_busy = no
 				}
 			}
 			verrier_add_x_astronomical_objects_effect = {
@@ -368,6 +405,25 @@ verrier.1 = {
 				verrier_astronomical_observation = yes #Notification
 			}
 			post_notification = verrier_astronomical_observation_notification
+		}
+	}
+}
+
+#Verrier 2: Astronomical Prestige Set up event
+verrier.2 = {
+	hidden = yes
+
+	immediate = {
+		while = {
+			limit = {
+				has_modifier = verrier_astronomical_prestige_modifier
+			}
+			remove_modifier = verrier_astronomical_prestige_modifier
+		}
+		#Adds the Astronomical Prestige Modifier if the country has any astronomical prestige
+		add_modifier = {
+			name = verrier_astronomical_prestige_modifier
+			multiplier = verrier_astronomical_prestige
 		}
 	}
 }
@@ -415,13 +471,15 @@ verrier.5 = {
 		dubois_add_x_academy_progress = {
 			AMOUNT = "5"
 		}
-		set_variable = verrier_visiting_observatory_var
-		hidden_effect = {
-			trigger_event = { 
-				id = verrier.100
-				popup = yes
+		custom_tooltip = {
+            text = VISIT_OBSERVATORY_BUTTON_TT
+            set_variable = mr_planetarium_window_open_var
+			mr_main_window_toggle_through_effect = yes
+			set_variable = {
+				name = mr_main_window_is_active_var
+				value = 1
 			}
-		}
+        }
 	}
 
 	option = {
@@ -645,6 +703,7 @@ verrier.10 = {
 				}
 			}
 		}
+		verrier_update_astronomical_prestige_effect = yes
 	}
 }
 
@@ -794,6 +853,7 @@ verrier.12 = {
 				}
 			}
 		}
+		verrier_update_astronomical_prestige_effect = yes
 	}
 }
 
@@ -942,6 +1002,7 @@ verrier.14 = {
 				type = je_verrier_dwarf_planets
 			}
 		}
+		verrier_update_astronomical_prestige_effect = yes
 	}
 }
 
@@ -1043,6 +1104,7 @@ verrier.15 = {
 				type = je_verrier_dwarf_planets
 			}
 		}
+		verrier_update_astronomical_prestige_effect = yes
 	}
 }
 
@@ -1144,6 +1206,7 @@ verrier.16 = {
 				type = je_verrier_dwarf_planets
 			}
 		}
+		verrier_update_astronomical_prestige_effect = yes
 	}
 }
 
@@ -1245,6 +1308,7 @@ verrier.17 = {
 				type = je_verrier_dwarf_planets
 			}
 		}
+		verrier_update_astronomical_prestige_effect = yes
 	}
 }
 
@@ -1352,6 +1416,7 @@ verrier.20 = {
 				}
 			}
 		}
+		verrier_update_astronomical_prestige_effect = yes
 	}
 }
 
@@ -2014,6 +2079,10 @@ verrier.35 = {
 			remove_modifier = verrier_discovered_astraea_modifier
 		}
 	}
+
+	after = {
+		verrier_update_astronomical_prestige_effect = yes
+	}
 }
 
 ####################################################################################
@@ -2151,10 +2220,6 @@ verrier.42 = {
 		verrier_add_x_astronomical_objects_effect = {
 			AMOUNT = 5
 		}
-		verrier_small_add_technology = yes
-		astronomer_experience_gain_effect = {
-			AMOUNT = 5
-		}
 		verrier_add_x_meteorites_effect = {
 			AMOUNT = 1
 		}
@@ -2246,6 +2311,18 @@ verrier.42 = {
 		modifier = {
 			has_modifier = academics_no_funding_astronomer_modifier
 			factor = 0.75
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			trigger_event = {
+				id = verrier.421
+				days = { 7 21 }
+			}
 		}
 	}
 }
@@ -2645,139 +2722,138 @@ verrier.46 = {
 }
 
 #Verrier 47: New Moons
-
-verrier.47 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.47.t
-	desc = verrier.47.d
-	flavor = verrier.47.f
-
-	duration = 1
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_saturn.dds"
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	trigger = {
-		verrier_astronomical_observation = yes
-		trigger_if = {
-			limit = { verrier_has_astronomer = yes }
-			NOT = {
-				var:verrier_astronomer_var = {
-					has_variable = verrier_astronomer_on_break_var
-				}
-			}
-		}
-	}
-
-	option = {
-		name = verrier.47.g #Excellent
-		verrier_add_x_astronomical_objects_effect = {
-			AMOUNT = 2
-		}
-		verrier_medium_add_technology = yes
-		astronomer_experience_gain_effect = {
-			AMOUNT = 5
-		}
-	}
-
-	weight_multiplier = {
-		base = 1
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = verrier_astronomer_experienced
-			}
-			factor = 1.1
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = verrier_astronomer_famous
-			}
-			factor = 1.2
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = verrier_mathematician
-			}
-			factor = 1.05
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = curie_physicist
-			}
-			factor = 1.05
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = meticulous
-			}
-			factor = 1.02
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = innovative
-			}
-			factor = 1.02
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = engineer
-			}
-			factor = 1.02
-		}
-		modifier = {
-			has_modifier = academics_additional_funding_astronomer_modifier
-			factor = 1.05
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = alcoholic
-			}
-			factor = 0.95
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = opium_addiction
-			}
-			factor = 0.95
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = cocaine_addiction
-			}
-			factor = 0.95
-		}
-		modifier = {
-			has_variable = verrier_astronomer_var
-			var:verrier_astronomer_var = {
-				has_trait = senile
-			}
-			factor = 0.5
-		}
-		modifier = {
-			has_modifier = academics_no_funding_astronomer_modifier
-			factor = 0.75
-		}
-	}
-}
+#verrier.47 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#
+#	title = verrier.47.t
+#	desc = verrier.47.d
+#	flavor = verrier.47.f
+#
+#	duration = 1
+#
+#	event_image = {
+#		texture = "gfx/event_pictures/verrier_pictures/verrier_saturn.dds"
+#	}
+#
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+#
+#	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+#
+#	trigger = {
+#		verrier_astronomical_observation = yes
+#		trigger_if = {
+#			limit = { verrier_has_astronomer = yes }
+#			NOT = {
+#				var:verrier_astronomer_var = {
+#					has_variable = verrier_astronomer_on_break_var
+#				}
+#			}
+#		}
+#	}
+#
+#	option = {
+#		name = verrier.47.g #Excellent
+#		verrier_add_x_astronomical_objects_effect = {
+#			AMOUNT = 2
+#		}
+#		verrier_medium_add_technology = yes
+#		astronomer_experience_gain_effect = {
+#			AMOUNT = 5
+#		}
+#	}
+#
+#	weight_multiplier = {
+#		base = 1
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = verrier_astronomer_experienced
+#			}
+#			factor = 1.1
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = verrier_astronomer_famous
+#			}
+#			factor = 1.2
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = verrier_mathematician
+#			}
+#			factor = 1.05
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = curie_physicist
+#			}
+#			factor = 1.05
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = meticulous
+#			}
+#			factor = 1.02
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = innovative
+#			}
+#			factor = 1.02
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = engineer
+#			}
+#			factor = 1.02
+#		}
+#		modifier = {
+#			has_modifier = academics_additional_funding_astronomer_modifier
+#			factor = 1.05
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = alcoholic
+#			}
+#			factor = 0.95
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = opium_addiction
+#			}
+#			factor = 0.95
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = cocaine_addiction
+#			}
+#			factor = 0.95
+#		}
+#		modifier = {
+#			has_variable = verrier_astronomer_var
+#			var:verrier_astronomer_var = {
+#				has_trait = senile
+#			}
+#			factor = 0.5
+#		}
+#		modifier = {
+#			has_modifier = academics_no_funding_astronomer_modifier
+#			factor = 0.75
+#		}
+#	}
+#}
 
 #Verrier 48: Incredible Nova!
 verrier.48 = {
@@ -2923,6 +2999,150 @@ verrier.48 = {
 	}
 }
 
+#Verrier 49: Sun Spots
+verrier.49 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.49.t
+	desc = verrier.49.d
+	flavor = verrier.49.f
+
+	duration = 1
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_sun_spots.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		verrier_astronomical_observation = yes
+		trigger_if = {
+			limit = { verrier_has_astronomer = yes }
+			NOT = {
+				var:verrier_astronomer_var = {
+					has_variable = verrier_astronomer_on_break_var
+				}
+			}
+		}
+	}
+
+	option = {
+		name = verrier.49.g #Excellent
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 2
+		}
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = {
+			AMOUNT = 5
+		}
+		if = {
+			limit = {
+				any_scope_building = {
+					is_building_type = building_verrier_observatory
+					has_active_production_method = pm_gaudi_magnetic_observatory
+				}
+			}
+			gaudi_add_x_magnetic_data = {
+				AMOUNT = 1
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = verrier_astronomer_experienced
+			}
+			factor = 1.1
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = verrier_astronomer_famous
+			}
+			factor = 1.2
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = verrier_mathematician
+			}
+			factor = 1.05
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = curie_physicist
+			}
+			factor = 1.05
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = meticulous
+			}
+			factor = 1.02
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = innovative
+			}
+			factor = 1.02
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = engineer
+			}
+			factor = 1.02
+		}
+		modifier = {
+			has_modifier = academics_additional_funding_astronomer_modifier
+			factor = 1.05
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = alcoholic
+			}
+			factor = 0.95
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = opium_addiction
+			}
+			factor = 0.95
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = cocaine_addiction
+			}
+			factor = 0.95
+		}
+		modifier = {
+			has_variable = verrier_astronomer_var
+			var:verrier_astronomer_var = {
+				has_trait = senile
+			}
+			factor = 0.5
+		}
+		modifier = {
+			has_modifier = academics_no_funding_astronomer_modifier
+			factor = 0.75
+		}
+	}
+}
 
 #####################################################################################
 
@@ -2958,6 +3178,18 @@ verrier.50 = {
 		verrier_large_add_technology = yes
 		astronomer_experience_gain_effect = {
 			AMOUNT = 15
+		}
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
 		}
 	}
 }
@@ -3201,6 +3433,11 @@ verrier.60 = {
 						has_variable = verrier_discovered_great_comet
 					}
 				}
+				set_global_variable = {
+					name = verrier_1843_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
 				set_global_variable = verrier_1843_comet_name_var
 				trigger_event = {
 					id = verrier.61
@@ -3208,6 +3445,10 @@ verrier.60 = {
 			}
 		}
 		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
 			random_country = {
 				limit = {
 					is_player = yes 
@@ -3381,6 +3622,11 @@ verrier.63 = {
 						has_variable = verrier_discovered_great_comet
 					}
 				}
+				set_global_variable = {
+					name = verrier_1858_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
 				set_global_variable = verrier_1858_comet_name_var
 				trigger_event = {
 					id = verrier.64
@@ -3388,6 +3634,10 @@ verrier.63 = {
 			}
 		}
 		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
 			random_country = {
 				limit = {
 					is_player = yes 
@@ -3561,6 +3811,11 @@ verrier.66 = {
 						has_variable = verrier_discovered_great_comet
 					}
 				}
+				set_global_variable = {
+					name = verrier_1861_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
 				set_global_variable = verrier_1861_comet_name_var
 				trigger_event = {
 					id = verrier.67
@@ -3568,6 +3823,10 @@ verrier.66 = {
 			}
 		}
 		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
 			random_country = {
 				limit = {
 					is_player = yes 
@@ -3741,6 +4000,11 @@ verrier.69 = {
 						has_variable = verrier_discovered_great_comet
 					}
 				}
+				set_global_variable = {
+					name = verrier_1874_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
 				set_global_variable = verrier_1874_comet_name_var
 				trigger_event = {
 					id = verrier.70
@@ -3748,6 +4012,10 @@ verrier.69 = {
 			}
 		}
 		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
 			random_country = {
 				limit = {
 					is_player = yes 
@@ -3921,6 +4189,11 @@ verrier.72 = {
 						has_variable = verrier_discovered_great_comet
 					}
 				}
+				set_global_variable = {
+					name = verrier_1882_comet_discoverer_global_var
+					value = var:verrier_astronomer_var
+					days = 365
+				}
 				set_global_variable = verrier_1882_comet_name_var
 				trigger_event = {
 					id = verrier.73
@@ -3928,6 +4201,10 @@ verrier.72 = {
 			}
 		}
 		else = {
+			set_global_variable = {
+				name = verrier_active_comet_global_var
+				days = 365
+			}
 			random_country = {
 				limit = {
 					is_player = yes 
@@ -5113,9 +5390,6 @@ verrier.95 = {
 		name = verrier.95.g
 		create_character = {
 			template = mr_swi_einstein_albert_character_template
-			on_created = {
-				set_variable = verrier_einstein_character_var
-			}
 		}
 	}
 
@@ -5134,278 +5408,6 @@ verrier.95 = {
 			name = verrier_breakthrough_modifier
 			years = 5
 		}
-	}
-}
-
-#####################################################################################
-
-#Verrier 100: Observatory
-
-verrier.100 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.100.t
-	desc = verrier.100.d
-
-	flavor = {
-		desc = verrier.100.planets
-		desc = verrier.100.mercury
-		desc = verrier.100.venus
-		desc = verrier.100.earth
-		desc = verrier.100.mars
-		triggered_desc = {
-			trigger = {
-				NOT = {
-					has_global_variable = verrier_vesta_demoted_var
-				}
-			}
-			desc = verrier.100.vesta
-		}
-		triggered_desc = {
-			trigger = {
-				NOT = {
-					has_global_variable = verrier_juno_demoted_var
-				}
-			}
-			desc = verrier.100.juno
-		}
-		triggered_desc = {
-			trigger = {
-				NOT = {
-					has_global_variable = verrier_ceres_demoted_var
-				}
-			}
-			desc = verrier.100.ceres
-		}
-		triggered_desc = {
-			trigger = {
-				NOT = {
-					has_global_variable = verrier_pallas_demoted_var
-				}
-			}
-			desc = verrier.100.pallas
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_astraea_discovered_var
-				NOT = {
-					has_global_variable = verrier_astraea_demoted_var
-				}
-			}
-			desc = verrier.100.astraea
-		}
-		desc = verrier.100.jupiter
-		desc = verrier.100.saturn
-		desc = verrier.100.uranus
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_neptune_discovered_var
-			}
-			desc = verrier.100.neptune
-		}
-		triggered_desc = {
-			trigger = {
-				has_global_variable = verrier_pluto_discovered_var
-			}
-			desc = verrier.100.pluto
-		}
-		desc = verrier.100.moon
-		desc = verrier.100.comets
-		desc = verrier.100.objects
-	}
-
-	duration = 3
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1881.dds"
-	}
-
-	immediate = {
-		random_country = {
-			limit = {
-				has_modifier = verrier_discovered_uranus_modifier
-			}
-			save_scope_as = verrier_uranus_discoverer_country
-		}
-		random_country = {
-			limit = {
-				has_modifier = verrier_discovered_ceres_modifier
-			}
-			save_scope_as = verrier_ceres_discoverer_country
-		}
-		random_country = {
-			limit = {
-				has_modifier = verrier_discovered_pallas_modifier
-			}
-			save_scope_as = verrier_pallas_discoverer_country
-		}
-		random_country = {
-			limit = {
-				has_modifier = verrier_discovered_juno_modifier
-			}
-			save_scope_as = verrier_juno_discoverer_country
-		}
-		random_country = {
-			limit = {
-				has_modifier = verrier_discovered_vesta_modifier
-			}
-			save_scope_as = verrier_vesta_discoverer_country
-		}
-		random_country = {
-			limit = {
-				has_modifier = verrier_discovered_astraea_modifier
-			}
-			save_scope_as = verrier_astraea_discoverer_country
-		}
-		random_country = {
-			limit = {
-				has_modifier = verrier_discovered_neptune_modifier
-			}
-			save_scope_as = verrier_neptune_discoverer_country
-		}
-		random_country = {
-			limit = {
-				has_modifier = verrier_discovered_pluto_modifier
-			}
-			save_scope_as = verrier_pluto_discoverer_country
-		}
-	}
-
-	option = { #Let us visit our astronomer!
-		name = verrier.100.h
-
-		trigger = {
-			has_variable = verrier_astronomer_var
-		}
-		trigger_event = {
-			id = verrier.101
-			popup = yes
-		}
-		ai_chance = {
-			base = 0
-		}
-	}
-	option = { #Show me the countries with the most Astronomical Discoveries!
-		name = verrier.100.i
-
-		trigger = {
-			year > 1836 #Change if you change the start date
-		}
-		trigger_event = {
-			id = verrier.102
-			popup = yes
-		}
-		ai_chance = {
-			base = 0
-		}
-	}
-	#Bye
-	option = {
-		name = verrier.100.g
-		default_option = yes
-		remove_variable = verrier_visiting_observatory_var
-		custom_tooltip = verrier_leave_observatory_tt
-	}
-}
-
-#Verrier 101: Astronomer
-
-verrier.101 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.101.t
-	desc = verrier.101.d
-	flavor = verrier.101.f
-	
-	duration = 2
-
-	gui_window = event_window_1char_tabloid
-
-	left_icon = scope:verrier_astronomer_scope
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/unspecific/airship"
-
-	trigger = {
-	}
-
-	immediate = {
-		var:verrier_astronomer_var = {
-			save_scope_as = verrier_astronomer_scope
-		}
-	}
-
-	option = {	#Return to the Observatory
-		name = verrier.101.h
-		default_option = yes
-
-		trigger_event = {
-			id = verrier.100
-			popup = yes
-		}
-	}
-	option = {	#Leave the Observatory
-		name = verrier.101.g
-		remove_variable = verrier_visiting_observatory_var
-
-		custom_tooltip = verrier_leave_observatory_tt
-	}
-}
-
-#Verrier 102: Astronomical Objects Leaderboard
-
-verrier.102 = {
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-    title = verrier.102.t
-		
-    desc = verrier.102.d
-
-	flavor = verrier.102.f
-
-	duration = 1
-		
-	event_image = { 
-		texture = "gfx/event_pictures/verrier_pictures/verrier_comet_1881.dds"
-	}
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-
-	trigger = {
-	}
-
-	immediate = {
-		verrier_create_astronomical_objects_ranking_effect = yes
-	}
-
-	option = {	#Return to the Observatory
-		name = verrier.101.h
-		default_option = yes
-
-		trigger_event = {
-			id = verrier.100
-			popup = yes
-		}
-	}
-	option = {	#Leave the Observatory
-		name = verrier.101.g
-		remove_variable = verrier_visiting_observatory_var
-
-		custom_tooltip = verrier_leave_observatory_tt
-	}
-
-	after = {
-		verrier_remove_astronomical_objects_ranking_variables = yes
 	}
 }
 
@@ -7530,6 +7532,7 @@ verrier.155 = {
 	option = {
 		name = verrier.155.g #Perfect
 		mendelejew_add_theorized_element_effect = { NUMBER = 2 }
+		mendelejew_add_discovered_element_effect = { NUMBER = 2 }
 		add_modifier = {
 			name = verrier_helium_discovered_modifier
 			years = 10
@@ -7618,61 +7621,102 @@ verrier.200 = {
 	}
 }
 
-#Verrier 201: [SCOPE] found the cause for the Fraunhofer Lines
+#################################################################################
 
-verrier.201 = {
+######Venus Transit######
+
+#Verrier 300: Notification for Venus Transit in 1872
+verrier.300 = {
 	dlc = dlc_morgenrote
 
 	type = country_event
 
-	title = verrier.201.t
+	title = verrier.300.t
+	desc = verrier.300.d
+	flavor = verrier.300.f
 
-	desc = verrier.201.d
+	duration = 3
 
-	flavor = verrier.201.f
-
-	placement = ROOT
-
-	event_image = { #Original by Joseph Fraunhofer 1815, photo by Astroschmidt, CC 4.0 BY SA, https://commons.wikimedia.org/wiki/File:Fraunhofer_Spektrum_Medium.jpg
-		texture = "gfx/event_pictures/verrier_pictures/verrier_fraunhofer_lines.dds"
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
 	}
 
 	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
 
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
 
 	trigger = {
-		has_technology_researched = verrier_electromagnetism_tech
-		NOT = {
-			has_global_variable = verrier_electromagnetism_global_var
+		is_player = yes
+	}
+
+	immediate = {
+		
+	}
+
+	option = {
+		name = verrier.300.g #We should outfit an expedition
+	}
+
+	after = {
+	}
+}
+
+#Verrier 301: Venus Transit 1874
+verrier.301 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.301.t
+	desc = verrier.301.d
+	flavor = verrier.301.f
+
+	placement = scope:rapanui_pacific_expedition_location
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/rapanui_pictures/rapanui_venus.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_navigation.dds"
+
+	cooldown = { 
+		years = 3
+	}
+
+	trigger = {
+		year = 1874
+		month = 10 # November. The trigger for months is on a 0-11 scale.
+		var:verrier_astronomer_var = {
+			has_variable = rapanui_scientist_var
 		}
 	}
 
 	immediate = {
-		set_global_variable = verrier_electromagnetism_global_var
-		if = {
-			limit ={
-				NOT = {
-					has_variable = verrier_astronomer_var
-				}
-			}
-			create_new_astronomer_effect = yes
-			verrier_set_new_astronomer_as_astronomer_effect = yes
-		}
-		var:verrier_astronomer_var = {
-			save_scope_as = verrier_astronomer_scope
-			set_variable = verrier_discovered_reason_fraunhofer_lines_var
+		set_rapanui_expedition_leader_effect = yes
+		set_rapanui_scientist_effect = yes
+		rapanui_pacific_expedition_location_effect = yes
+		scope:rapanui_scientist = {
+			set_variable = verrier_astronomer_observed_venus_transit_var
 		}
 	}
 
-	option = { #Another mystery of the universe is solved!
-		name = verrier.201.g
-		default_option = yes
-		astronomer_experience_gain_effect = {
-			AMOUNT = 30
+	option = {
+		name = verrier.301.g #Excellent
+		verrier_add_x_astronomical_objects_effect = {
+			AMOUNT = 5
 		}
-		var:verrier_astronomer_var = {
-			add_trait = mendelejew_chemist
+		verrier_large_add_technology = yes
+		add_modifier = {
+			name = rapanui_venus_transit_modifier
+			years = 10
 		}
 	}
 
@@ -7681,6 +7725,1823 @@ verrier.201 = {
 }
 
 #################################################################################
+
+######METEROITES######
+
+###Historical Meteorite Shower###
+
+#Verrier 401: Pultusk meteor shower happens
+verrier.401 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.401.t
+	desc = verrier.401.d
+	flavor = verrier.401.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteor_fall.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = { 
+		verrier_astronomical_observation = yes
+		NOT = {
+			has_global_variable = verrier_pultusk_event_var
+		}
+		year >= 1868
+		has_state_in_state_region = STATE_MAZOVIA
+	}
+		
+	option = { #"What a wonderful view!"
+		name = verrier.401.g 
+		random_list = {
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 5 } } #13%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 3 } } #50%
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 2 } } #13%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_pultusk_event_var
+	}
+
+	after = {
+		if = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			trigger_event = {
+				id = verrier.421
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 402: Holbrook meteor shower happens
+verrier.402 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.402.t
+	desc = verrier.402.d
+	flavor = verrier.402.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteor_fall.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = { 
+		verrier_astronomical_observation = yes
+		NOT = {
+			has_global_variable = verrier_holbrok_event_var
+		}
+		year >= 1912
+		has_state_in_state_region = STATE_ARIZONA
+	}
+		
+	option = { #"What a wonderful view!"
+		name = verrier.401.g 
+		random_list = {
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 5 } } #13%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 3 } } #50%
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 2 } } #13%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_holbrok_event_var
+	}
+
+	after = {
+		if = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			trigger_event = {
+				id = verrier.421
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 403: Knyahinya meteor shower happens
+verrier.403 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.403.t
+	desc = verrier.403.d
+	flavor = verrier.403.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteor_fall.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = { 
+		verrier_astronomical_observation = yes
+		NOT = {
+			has_global_variable = verrier_knyahinya_event_var
+		}
+		year >= 1866
+		has_state_in_state_region = STATE_EAST_SLOVAKIA
+	}
+		
+	option = { #"What a wonderful view!"
+		name = verrier.401.g 
+		random_list = {
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 5 } } #13%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 3 } } #50%
+			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 2 } } #13%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_knyahinya_event_var
+	}
+
+	after = {
+		if = {
+			limit = {
+				verrier_has_astronomer = yes
+			}
+			trigger_event = {
+				id = verrier.421
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+###Historical Meteorite Findings###
+
+#Verrier 411: Cape York meteorite
+verrier.411 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.411.t
+	desc = verrier.411.d
+	flavor = verrier.411.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		has_variable = verrier_astronomer_var
+		NOT = {
+			has_global_variable = verrier_cape_york_event_var
+		}
+		has_technology_researched = verrier_modern_physics_tech
+		has_state_in_state_region = STATE_GREENLAND
+	}
+		
+	option = { #"That is an incredible discovery!"
+		name = verrier.411.g
+		verrier_small_add_technology = yes
+		random_list = {
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 8 } } #25%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 6 } } #50%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_cape_york_event_var
+	}
+
+	after = {
+		if = {
+			limit = {
+				mendelejew_has_chemist = yes
+				var:verrier_meteorites_var >= 1
+				OR = {
+					has_journal_entry = je_mendelejew_element_theory
+					has_journal_entry = je_mendelejew_element_discovery
+					has_journal_entry = je_mendelejew_element_isolation
+					has_journal_entry = je_mendelejew_synthetic_oil
+					has_journal_entry = je_mendelejew_synthetic_rubber
+				}
+			}
+			trigger_event = {
+				id = verrier.422
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 412: Bacubirito meteorite
+verrier.412 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.412.t
+	desc = verrier.411.d
+	flavor = verrier.412.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		has_variable = verrier_astronomer_var
+		NOT = {
+			has_global_variable = verrier_bacubirito_event_var
+		}
+		has_technology_researched = verrier_modern_physics_tech
+		has_state_in_state_region = STATE_SINALOA
+	}
+		
+	option = { #"That is an incredible discovery!"
+		name = verrier.411.g
+		verrier_small_add_technology = yes
+		random_list = {
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 8 } } #25%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 6 } } #50%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_bacubirito_event_var
+	}
+
+	after = {
+		if = {
+			limit = {
+				mendelejew_has_chemist = yes
+				var:verrier_meteorites_var >= 1
+				OR = {
+					has_journal_entry = je_mendelejew_element_theory
+					has_journal_entry = je_mendelejew_element_discovery
+					has_journal_entry = je_mendelejew_element_isolation
+					has_journal_entry = je_mendelejew_synthetic_oil
+					has_journal_entry = je_mendelejew_synthetic_rubber
+				}
+			}
+			trigger_event = {
+				id = verrier.422
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 413: Mundrabilla meteorite
+verrier.413 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.413.t
+	desc = verrier.411.d
+	flavor = verrier.413.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		has_variable = verrier_astronomer_var
+		NOT = {
+			has_global_variable = verrier_mundrabilla_event_var
+		}
+		has_technology_researched = verrier_modern_physics_tech
+		has_state_in_state_region = STATE_WESTERN_AUSTRALIA
+	}
+		
+	option = { #"That is an incredible discovery!"
+		name = verrier.411.g
+		verrier_small_add_technology = yes
+		random_list = {
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 8 } } #25%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 6 } } #50%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_mundrabilla_event_var
+	}
+
+	after = {
+		if = {
+			limit = {
+				mendelejew_has_chemist = yes
+				var:verrier_meteorites_var >= 1
+				OR = {
+					has_journal_entry = je_mendelejew_element_theory
+					has_journal_entry = je_mendelejew_element_discovery
+					has_journal_entry = je_mendelejew_element_isolation
+					has_journal_entry = je_mendelejew_synthetic_oil
+					has_journal_entry = je_mendelejew_synthetic_rubber
+				}
+			}
+			trigger_event = {
+				id = verrier.422
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 414: Willamette meteorite
+verrier.414 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.414.t
+	desc = verrier.411.d
+	flavor = verrier.414.f
+
+	duration = 1 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		has_variable = verrier_astronomer_var
+		NOT = {
+			has_global_variable = verrier_willamette_event_var
+		}
+		has_technology_researched = verrier_modern_physics_tech
+		has_state_in_state_region = STATE_OREGON
+	}
+		
+	option = { #"That is an incredible discovery!"
+		name = verrier.411.g
+		verrier_small_add_technology = yes
+		random_list = {
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 8 } } #25%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 6 } } #50%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_willamette_event_var
+	}
+
+	after = {
+		if = {
+			limit = {
+				mendelejew_has_chemist = yes
+				var:verrier_meteorites_var >= 1
+				OR = {
+					has_journal_entry = je_mendelejew_element_theory
+					has_journal_entry = je_mendelejew_element_discovery
+					has_journal_entry = je_mendelejew_element_isolation
+					has_journal_entry = je_mendelejew_synthetic_oil
+					has_journal_entry = je_mendelejew_synthetic_rubber
+				}
+			}
+			trigger_event = {
+				id = verrier.422
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 415: Hoba meteorite
+verrier.415 = { 
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.415.t
+	desc = verrier.411.d
+	flavor = verrier.415.f
+
+	duration = 1 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+		has_variable = dubois_geologist_var
+		has_variable = verrier_astronomer_var
+		NOT = {
+			has_global_variable = verrier_hoba_event_var
+		}
+		has_technology_researched = verrier_modern_physics_tech
+		has_state_in_state_region = STATE_HEREROLAND
+	}
+		
+	option = { #"That is an incredible discovery!"
+		name = verrier.411.g
+		verrier_small_add_technology = yes
+		random_list = {
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 10 } } #25%
+			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 6 } } #25%
+			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 8 } } #50%
+		}
+	}
+	
+	immediate = {
+		set_global_variable = verrier_hoba_event_var
+	}
+
+	after = {
+		if = {
+			limit = {
+				mendelejew_has_chemist = yes
+				var:verrier_meteorites_var >= 1
+				OR = {
+					has_journal_entry = je_mendelejew_element_theory
+					has_journal_entry = je_mendelejew_element_discovery
+					has_journal_entry = je_mendelejew_element_isolation
+					has_journal_entry = je_mendelejew_synthetic_oil
+					has_journal_entry = je_mendelejew_synthetic_rubber
+				}
+			}
+			trigger_event = {
+				id = verrier.422
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+###After discovery###
+
+#Verrier 421: Astronomer decides to study the meteorite
+verrier.421 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.421.t
+	desc = verrier.421.d
+	flavor = verrier.421.f
+
+	duration = 3 
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = { #"Our astronomer must give all the meteoroids to our Academy of science!"
+		name = verrier.421.g
+		default_option = yes
+		verrier_small_add_technology = yes
+	}
+			
+	option = { #Astronomer can study one of the meteorites
+		name = verrier.421.h 
+		astronomer_experience_gain_effect = {
+			AMOUNT = 20 #adds 20 experience to the astronomer
+		}
+		dubois_add_x_academy_progress = { AMOUNT = 5 }
+		verrier_add_x_meteorites_effect = {
+			AMOUNT = -1
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				mendelejew_has_chemist = yes
+				var:verrier_meteorites_var >= 1
+				OR = {
+					has_journal_entry = je_mendelejew_element_theory
+					has_journal_entry = je_mendelejew_element_discovery
+					has_journal_entry = je_mendelejew_element_isolation
+					has_journal_entry = je_mendelejew_synthetic_oil
+					has_journal_entry = je_mendelejew_synthetic_rubber
+				}
+			}
+			trigger_event = {
+				id = verrier.422
+				days = { 7 21 }
+			}
+		}
+	}
+}
+
+#Verrier 422: Chemist wants to analyze the meteorite
+verrier.422 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.422.t
+	desc = verrier.422.d
+	flavor = verrier.422.f
+
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:mendelejew_chemist_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		var:mendelejew_chemist_var = {
+			save_scope_as = mendelejew_chemist_scope
+		}
+	}
+
+	option = { #Why does every academic running along think they can scrounge for my meteorite?
+		name = verrier.422.g
+		default_option = yes
+	}
+			
+	option = { #I'm sure this will advance chemistry.
+		name = verrier.422.h 
+		chemist_experience_gain_effect = {
+			AMOUNT = 10 #adds 20 experience to the chemist
+		}
+		mendelejew_add_x_chemist_progress_effect = { AMOUNT = 15 }
+		verrier_add_x_meteorites_effect = {
+			AMOUNT = -1
+		}
+	}
+
+	after = {
+	}
+}
+
+#################################################################################
+
+######SATELLITES######
+
+#Verrier 500: Planet Observation
+verrier.500 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.500.t
+	desc = verrier.500.d
+	flavor = verrier.500.f
+
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_planets.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = { #Mars
+		name = verrier.500.g
+		trigger = {
+			verrier_can_discover_mars_satellite_trigger = yes
+		}
+		add_journal_entry = {
+			type = je_verrier_mars_satellites
+		}
+	}
+			
+	option = { #Jupiter
+		name = verrier.500.h
+		trigger = {
+			verrier_can_discover_jupiter_satellite_trigger = yes
+		}
+		add_journal_entry = {
+			type = je_verrier_jupiter_satellites
+		}
+	}
+
+	option = { #Saturn
+		name = verrier.500.i
+		trigger = {
+			verrier_can_discover_saturn_satellite_trigger = yes
+		}
+		add_journal_entry = {
+			type = je_verrier_saturn_satellites
+		}
+	}
+
+	option = { #Uranus
+		name = verrier.500.j
+		trigger = {
+			verrier_can_discover_uranus_satellite_trigger = yes
+		}
+		add_journal_entry = {
+			type = je_verrier_uranus_satellites
+		}
+	}
+
+	option = { #Neptune
+		name = verrier.500.k
+		trigger = {
+			verrier_can_discover_neptune_satellite_trigger = yes
+		}
+		add_journal_entry = {
+			type = je_verrier_neptune_satellites
+		}
+	}
+
+	option = { #Nevermind
+		name = verrier.500.l
+		default_option = yes
+		trigger = {
+			is_player = yes
+		}
+		var:verrier_astronomer_var = {
+			set_character_busy_and_immortal = no
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		remove_variable = verrier_decide_planet_var
+	}
+}
+
+#Verrier 501: Satellite discovered by another nation
+verrier.501 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.501.t
+	desc = verrier.501.d
+	flavor = verrier.501.f
+
+	duration = 3 
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:verrier_astronomer_scope
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		var:verrier_astronomer_var = {
+			save_scope_as = verrier_astronomer_scope
+		}
+	}
+
+	option = { #Disappointing
+		name = verrier.501.g
+		default_option = yes
+		astronomer_experience_gain_effect = { AMOUNT = 10 }
+	}
+}
+
+###MARS###
+
+#Verrier 511: Deimos discovered
+verrier.511 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.511.t
+	desc = verrier.511.d
+	flavor = verrier.511.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_mars.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_deimos_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_deimos_discoverer_var
+		}
+	}
+}
+
+#Verrier 512: Phobos discovered
+verrier.512 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.512.t
+	desc = verrier.512.d
+	flavor = verrier.512.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_mars.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_phobos_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_phobos_discoverer_var
+		}
+	}
+}
+
+###JUPITER###
+
+#Verrier 521: Amalthea discovered
+verrier.521 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.521.t
+	desc = verrier.521.d
+	flavor = verrier.521.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_jupiter.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_amalthea_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_amalthea_discoverer_var
+		}
+	}
+}
+
+#Verrier 522: Himalia discovered
+verrier.522 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.522.t
+	desc = verrier.522.d
+	flavor = verrier.522.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_jupiter.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_himalia_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_himalia_discoverer_var
+		}
+	}
+}
+
+#Verrier 523: Elara discovered
+verrier.523 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.523.t
+	desc = verrier.523.d
+	flavor = verrier.523.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_jupiter.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_elara_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_elara_discoverer_var
+		}
+	}
+}
+
+#Verrier 524: Pasiphae discovered
+verrier.524 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.524.t
+	desc = verrier.524.d
+	flavor = verrier.524.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_jupiter.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_pasiphae_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_pasiphae_discoverer_var
+		}
+	}
+}
+
+#Verrier 525: Sinope discovered
+verrier.525 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.525.t
+	desc = verrier.525.d
+	flavor = verrier.525.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_jupiter.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_sinope_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_sinope_discoverer_var
+		}
+	}
+}
+
+#Verrier 526: Lysithea discovered
+verrier.526 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.526.t
+	desc = verrier.526.d
+	flavor = verrier.526.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_jupiter.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_lysithea_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_lysithea_discoverer_var
+		}
+	}
+}
+
+#Verrier 527: Carme discovered
+verrier.527 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.527.t
+	desc = verrier.527.d
+	flavor = verrier.527.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_jupiter.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_carme_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_carme_discoverer_var
+		}
+	}
+}
+
+###SATURN###
+
+#Verrier 531: Enceladus discovered
+verrier.531 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.531.t
+	desc = verrier.531.d
+	flavor = verrier.531.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_saturn.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_enceladus_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_enceladus_discoverer_var
+		}
+	}
+}
+
+#Verrier 522: Mimas discovered
+verrier.532 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.532.t
+	desc = verrier.532.d
+	flavor = verrier.532.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_saturn.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_mimas_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_mimas_discoverer_var
+		}
+	}
+}
+
+#Verrier 533: Hyperion discovered
+verrier.533 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.533.t
+	desc = verrier.533.d
+	flavor = verrier.533.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_saturn.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_hyperion_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_hyperion_discoverer_var
+		}
+	}
+}
+
+#Verrier 534: Phoebe discovered
+verrier.534 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.534.t
+	desc = verrier.534.d
+	flavor = verrier.534.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_saturn.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_phoebe_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_phoebe_discoverer_var
+		}
+	}
+}
+
+###URANUS###
+
+#Verrier 541: Titania discovered
+verrier.541 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.541.t
+	desc = verrier.541.d
+	flavor = verrier.541.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_uranus_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_titania_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_titania_discoverer_var
+		}
+	}
+}
+
+#Verrier 542: Oberon discovered
+verrier.542 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.542.t
+	desc = verrier.542.d
+	flavor = verrier.542.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_uranus_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_oberon_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_oberon_discoverer_var
+		}
+	}
+}
+
+#Verrier 543: Ariel discovered
+verrier.543 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.543.t
+	desc = verrier.543.d
+	flavor = verrier.543.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_uranus_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_ariel_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_ariel_discoverer_var
+		}
+	}
+}
+
+#Verrier 544: Umbriel discovered
+verrier.544 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.544.t
+	desc = verrier.544.d
+	flavor = verrier.544.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_uranus_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_umbriel_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_umbriel_discoverer_var
+		}
+	}
+}
+
+#Verrier 545: Miranda discovered
+verrier.545 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.545.t
+	desc = verrier.545.d
+	flavor = verrier.545.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_uranus_2.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_miranda_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_miranda_discoverer_var
+		}
+	}
+}
+
+###NEPTUNE###
+
+#Verrier 551: Triton discovered
+verrier.551 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.551.t
+	desc = verrier.551.d
+	flavor = verrier.551.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_neptune.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_triton_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_triton_discoverer_var
+		}
+	}
+}
+
+#Verrier 552: Nereid discovered
+verrier.552 = {
+
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = verrier.552.t
+	desc = verrier.552.d
+	flavor = verrier.552.f
+
+	duration = 3 
+
+	event_image = {
+		texture = "gfx/event_pictures/verrier_pictures/verrier_neptune.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
+
+	trigger = {
+	}
+
+	immediate = {
+		verrier_discover_nereid_effect = yes
+	}
+
+	option = { #One more moon in our collection.
+		name = verrier.511.g
+		default_option = yes
+		verrier_add_x_astronomical_objects_effect = { AMOUNT = 1 }
+		verrier_medium_add_technology = yes
+		astronomer_experience_gain_effect = { AMOUNT = 25 }
+		if = {
+			limit = {
+				NOT = {
+					var:verrier_astronomer_var = {
+						has_trait = verrier_moon_observer
+					}
+				}
+			}
+			var:verrier_astronomer_var = {
+				add_trait = verrier_moon_observer
+			}
+		}
+		var:verrier_astronomer_var = {
+			set_variable = verrier_nereid_discoverer_var
+		}
+	}
+}
+
+###########################################################################################################
 
 ############################
 # Historical Observatories #
@@ -9164,297 +11025,4 @@ verrier.9010 = {
 			months = short_modifier_time	
 		}
 	}
-}
-
-#Verrier 9020: Pulkuts meteor shower happens
-verrier.9020 = { 
-
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.9020.t
-	desc = verrier.9020.d
-	flavor = verrier.9020.f
-
-	duration = 1 
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	trigger = { 
-		verrier_astronomical_observation = yes
-		NOT = {
-			has_variable = verrier_pultusk_event_var
-		}
-		year >= 1868
-		has_state_in_state_region = STATE_MAZOVIA
-	}
-		
-	option = { #"What a wonderful view!"
-		name = verrier.9020.g 
-		random_list = {
-			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 5 } } #13%
-			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
-			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 3 } } #50%
-			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 2 } } #13%
-		}
-	}
-	
-	immediate = {
-		set_global_variable = verrier_pultusk_event_var
-	}
-
-	after = {
-		if = {
-			limit = { verrier_has_astronomer = yes }
-			trigger_event = {
-				id = verrier.9021
-				days = { 7 21 }
-			}
-		}
-	}
-}
-
-#Verrier 9021: Pultusk astronomer decides to study the meteor
-verrier.9021 = {
-
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.9021.t
-	desc = verrier.9021.d
-	flavor = verrier.9021.f
-
-	duration = 1 
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
-
-	trigger = {
-	}	
-
-	option = { #"Our astronomer must give all the meteoroids to our Academy of science!"
-		name = verrier.9021.g
-		default_option = yes
-		verrier_small_add_technology = yes
-	}
-			
-	option = { #Astronomer can study one of the meteorites
-		name = verrier.9021.h 
-		astronomer_experience_gain_effect = {
-			AMOUNT = 20 #adds 20 experience to the astronomer
-		}
-		verrier_add_x_meteorites_effect = {
-			AMOUNT = -1
-		}
-	}	
-}	
-
-#Verrier 9022: Holbrok meteor shower happens
-verrier.9022 = { 
-
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.9022.t
-	desc = verrier.9022.d
-	flavor = verrier.9022.f
-
-	duration = 1 
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	trigger = { 
-		verrier_astronomical_observation = yes
-		NOT = {
-			has_variable = verrier_holbrok_event_var
-		}
-		year >= 1912
-		has_state_in_state_region = STATE_ARIZONA
-	}
-		
-	option = { #"What a wonderful view!"
-		name = verrier.9022.g 
-		random_list = {
-			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 5 } } #13%
-			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
-			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 3 } } #50%
-			1 = { verrier_add_x_meteorites_effect = { AMOUNT = 2 } } #13%
-		}
-	}
-	
-	immediate = {
-		set_global_variable = verrier_holbrok_event_var
-	}
-
-	after = {
-		if = {
-			limit = {verrier_has_astronomer = yes}
-			trigger_event = {
-				id = verrier.9023
-				days = { 7 21 }
-			}
-		}
-	}
-}
-
-#Verrier 9023: Holbrok astronomer decides to study the meteor
-verrier.9023 = {
-
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.9023.t
-	desc = verrier.9023.d
-	flavor = verrier.9023.f
-
-	duration = 1 
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
-
-	trigger = {
-	}	
-
-	option = { #"Our astronomer must give all the meteoroids to our Academy of science!"
-		name = verrier.9023.g
-		default_option = yes
-		verrier_small_add_technology = yes
-	}
-			
-	option = { #Astronomer can study one of the meteorites
-		name = verrier.9023.h 
-		astronomer_experience_gain_effect = {
-			AMOUNT = 20 #adds 20 experience to the astronomer
-		}
-		verrier_add_x_meteorites_effect = {
-			AMOUNT = -1
-		}
-	}	
-}
-
-#Verrier 9024: Cape York meteorite found by scientist
-verrier.9024 = { 
-
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.9024.t
-	desc = verrier.9024.d
-	flavor = verrier.9024.f
-
-	duration = 1 
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds"
-
-	trigger = { 
-		verrier_astronomical_observation = yes
-		NOT = {
-			has_variable = verrier_cape_york_event_var
-		}
-		year >= 1894
-		has_state_in_state_region = STATE_GREENLAND
-	}
-		
-	option = { #"That is an incredible discovery!"
-		name = verrier.9024.g 
-		random_list = {
-			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 5 } } #25%
-			2 = { verrier_add_x_meteorites_effect = { AMOUNT = 4 } } #25%
-			4 = { verrier_add_x_meteorites_effect = { AMOUNT = 3 } } #50%
-		}
-	}
-	
-	immediate = {
-		set_global_variable = verrier_cape_york_event_var
-	}
-
-	after = {
-		if = {
-			limit = {verrier_has_astronomer = yes}
-			trigger_event = {
-				id = verrier.9025
-				days = { 7 21 }
-			}
-		}
-	}
-}
-
-#Verrier 9025: Cape York astronomer decides to study the meteor
-verrier.9025 = {
-
-	dlc = dlc_morgenrote
-
-	type = country_event
-
-	title = verrier.9025.t
-	desc = verrier.9025.d
-	flavor = verrier.9025.f
-
-	duration = 1 
-
-	event_image = {
-		texture = "gfx/event_pictures/verrier_pictures/verrier_meteorids.dds"  
-	}
-
-	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
-	on_opened_soundeffect = "event:/SFX/Events/misc/1Character_Banner"
-
-	icon = "gfx/interface/icons/event_icons/event_astronomy.dds" 
-
-	trigger = {
-	}	
-
-	option = { #"Our astronomer must give all the meteoroids to our Academy of science!"
-		name = verrier.9025.g
-		default_option = yes
-		verrier_small_add_technology = yes
-	}
-			
-	option = { #Astronomer can study one of the meteorites
-		name = verrier.9025.h 
-		astronomer_experience_gain_effect = {
-			AMOUNT = 20 #adds 20 experience to the astronomer
-		}
-		verrier_add_x_meteorites_effect = {
-			AMOUNT = -1
-		}
-	}	
 }

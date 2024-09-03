@@ -489,6 +489,9 @@ types arts_view
 									blockoverride "character" {
 										datacontext = "[GetPlayer.MakeScope.Var('elgar_composer_var').GetCharacter]"
 									}
+									blockoverride "character_animation" {
+										portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_composer', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
+									}
 									blockoverride "character_visible" {
 										visible = "[GetScriptedGui('mr_has_composer_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 									}
@@ -541,7 +544,22 @@ types arts_view
 												size = { 100% 100% }
 												texture = "gfx/interface/buttons/button_icons/list.dds"
 												block "enabled" {}
-												tooltip = "RANKING_MUSICAL_TRADITION_VAR_TT"
+												tooltipwidget = {
+													MR_TooltipRankingType = {
+														blockoverride "ranking_on_finish" {
+															on_finish = "[GetScriptedGui('mr_musical_tradition_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+														}
+														blockoverride "text" {
+															raw_text = "COMPOSER_MUSICAL_TRADITION_RANKING_HEADER"
+														}
+														blockoverride "ranking_datamodel" {
+															datamodel = "[GetGlobalList('mr_musical_tradition_ranking_global_list')]"
+														}
+														blockoverride "ranking_variable_used" {
+															raw_text = "[Country.MakeScope.GetVariable('elgar_music_tradition').GetValue|*V0]"
+														}
+													}
+												}
 											}
 										}
 										flowcontainer = {
@@ -986,6 +1004,9 @@ types arts_view
 									blockoverride "character" {
 										datacontext = "[GetPlayer.MakeScope.Var('manzoni_writer_var').GetCharacter]"
 									}
+									blockoverride "character_animation" {
+										portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_writer', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
+									}
 									blockoverride "character_visible" {
 										visible = "[GetScriptedGui('mr_has_writer_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 									}
@@ -1037,7 +1058,22 @@ types arts_view
 												size = { 100% 100% }
 												texture = "gfx/interface/buttons/button_icons/list.dds"
 												block "enabled" {}
-												tooltip = "RANKING_LITERARY_TRADITION_VAR_TT"
+												tooltipwidget = {
+													MR_TooltipRankingType = {
+														blockoverride "ranking_on_finish" {
+															on_finish = "[GetScriptedGui('mr_literary_tradition_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+														}
+														blockoverride "text" {
+															raw_text = "WRITER_LITERARY_TRADITION_RANKING_HEADER"
+														}
+														blockoverride "ranking_datamodel" {
+															datamodel = "[GetGlobalList('mr_literary_tradition_ranking_global_list')]"
+														}
+														blockoverride "ranking_variable_used" {
+															raw_text = "[Country.MakeScope.GetVariable('manzoni_literary_tradition_var').GetValue|*V0]"
+														}
+													}
+												}
 											}
 										}
 										flowcontainer = {
@@ -1286,23 +1322,6 @@ types arts_view
 																using = entry_bg_fancy
 		
 																container = {
-																#	button_icon_round = {
-																		# Exile local Writer
-																#		size = { 30 30 }
-																#		position = { 130 5 }
-													
-																#		datacontext = "[GetScriptedGui('mr_exile_local_writer_button')]"
-																#		onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_writer', Scope.GetCharacter.MakeScope ).End)]"
-																#		enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('chosen_writer', Scope.GetCharacter.MakeScope ).End)]"
-																#		tooltip = "MR_EXILE_LOCAL_WRITER_TT"
-																#		blockoverride "icon" {
-																#			texture = "gfx/interface/icons/GUI_icons/GUI_booting_button.dds"
-																#		}
-																#		blockoverride "icon_size" {
-																#			size = { 75% 75% }
-																#		}					
-																#	}
-	
 																	# Character Portrait
 																	character_portrait_medium_torso = {
 																		blockoverride "show_hat" {}
@@ -1376,6 +1395,9 @@ types arts_view
 									blockoverride "character" {
 										datacontext = "[GetPlayer.MakeScope.Var('klimt_painter_var').GetCharacter]"
 									}
+									blockoverride "character_animation" {
+										portrait_texture = "[Character.GetAnimatedPortrait('characters_portrait_environment', 'mr_camera_torso_painter', 'mr_test_idle', GetPortraitRenderSize(PdxGuiWidget.Self))]"
+									}
 									blockoverride "character_visible" {
 										visible = "[GetScriptedGui('mr_has_painter_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 									}
@@ -1428,7 +1450,22 @@ types arts_view
 												size = { 100% 100% }
 												texture = "gfx/interface/buttons/button_icons/list.dds"
 												block "enabled" {}
-												tooltip = "RANKING_PAINTING_TRADITION_VAR_TT"
+												tooltipwidget = {
+													MR_TooltipRankingType = {
+														blockoverride "ranking_on_finish" {
+															on_finish = "[GetScriptedGui('mr_painting_tradition_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+														}
+														blockoverride "text" {
+															raw_text = "PAINTER_PAINTING_TRADITION_RANKING_HEADER"
+														}
+														blockoverride "ranking_datamodel" {
+															datamodel = "[GetGlobalList('mr_painting_tradition_ranking_global_list')]"
+														}
+														blockoverride "ranking_variable_used" {
+															raw_text = "[Country.MakeScope.GetVariable('klimt_painting_tradition_var').GetValue|*V0]"
+														}
+													}
+												}
 											}
 										}
 										flowcontainer = {
@@ -1724,17 +1761,9 @@ types arts_view
 		}
 
 		# Character Portrait
-		character_portrait_large_torso = {
-			position = { 40 45 }
-			block "character"
-			{
-				datacontext = "[AccessPlayer.AccessRuler]"
-			}
+		mr_character_portrait_base = {
+			position = { 30 45 }
 			block "character_visible"{}
-			blockoverride "show_hat" {}
-			blockoverride "tooltip" {} #TODO Remove when Tooltip doesn't cause error anymore
-			blockoverride "portrait_icons" {} #TODO Remove when Tooltip doesn't cause error anymore
-			blockoverride "portrait_button" {} #TODO Remove when Tooltip doesn't cause error anymore
 		}
 		mr_no_character = {
 			position = { 40 65 }
@@ -1830,7 +1859,7 @@ types arts_view
 			}
 		}
 		widget = { #Displays the Traits of the character
-			size = { 40 40 }
+			size = { 250 40 }
 			parentanchor = bottom|left
 			position = { 15 -10 }
 					

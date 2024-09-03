@@ -31,23 +31,10 @@ mr_safari_expedition_button = {
 			has_technology_researched = civilizing_mission
 		}
 		custom_tooltip = {
-			text = MR_SAFARI_EXPEDITION_HAS_SMALL_OR_BIGGER_ZOO_TRIGGER_TT
-			any_scope_state = {
-				is_capital = yes
-				OR = {
-					is_production_method_active = {
-						building_type = building_dubois_zoo
-						production_method = pm_zoo_level_2
-					}
-					is_production_method_active = {
-						building_type = building_dubois_zoo
-						production_method = pm_zoo_level_3
-					}
-					is_production_method_active = {
-						building_type = building_dubois_zoo
-						production_method = pm_zoo_level_4
-					}
-				}
+			text = MR_VISIT_ZOO_BUILDING_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_dubois_zoo
+				level > 0
 			}
 		}
 		custom_tooltip = {
@@ -94,6 +81,60 @@ mr_safari_expedition_active_sgui = {
     is_shown = {
 		has_modifier = dubois_on_safari_modifier
     }
+}
+
+#MR_ANIMAL_DOCUMENTATION_BUTTON_TT
+mr_animal_documentation_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
+			dubois_has_active_naturalist = yes
+		}
+		OR = {
+			custom_tooltip = {
+				text = MR_CAN_DOCUMENT_ANIMAL_FILM_TRIGGER_TT
+				dubois_has_undocumented_animal_film = yes
+			}
+			custom_tooltip = {
+				text = MR_CAN_DOCUMENT_ANIMAL_TRIGGER_TT
+				dubois_has_undocumented_animal = yes
+			}
+		}
+    }
+	effect = {
+		if = {
+			limit = {
+				has_variable = dubois_naturalist_var
+			}
+			var:dubois_naturalist_var = {
+				set_character_busy_and_immortal = yes
+				set_variable = dubois_naturalist_on_zoological_expedition_var
+			}
+		}
+		if = {
+			limit = {
+				has_technology_researched = film
+			}
+			dubois_begin_animal_documentation_film_effect = yes
+		}
+		else = {
+			dubois_begin_animal_documentation_effect = yes
+		}
+		add_journal_entry = { type = je_dubois_native_animal }
+	}
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+mr_animal_documentation_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_dubois_native_animal
+	}
 }
 
 #MR_ZOOLOGICAL_EXPEDITION_BUTTON_TT
@@ -232,6 +273,127 @@ mr_botanical_expedition_recall_button = {
 			days = 90
 		}
     }
+}
+
+#MR_NATURALIST_IMPROVE_FORESTRY_BUTTON
+mr_naturalist_improve_forestry_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
+			dubois_has_active_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_NATURALIST_IMPROVE_FORESTRY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_logging_camp
+				level > 0
+				NOR = {
+					has_modifier = dubois_building_throughput_add_modifier
+					has_modifier = dubois_building_production_mult_modifier
+					has_modifier = dubois_building_goods_input_mult_modifier
+				}
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_dubois_improve_forestry_project }
+		add_modifier = {
+			name = dubois_naturalist_forestry_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		if = {
+			limit = {
+				has_variable = dubois_naturalist_var
+			}
+			var:dubois_naturalist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+		modifier = {
+			trigger = {
+				market = {
+					OR = {
+						mg:wood ?= { market_goods_has_goods_shortage = yes }
+						mg:hardwood ?= { market_goods_has_goods_shortage = yes }
+					}
+				}
+			}
+			add = 500
+		}
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+mr_improve_forestry_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_dubois_improve_forestry_project
+	}
+}
+
+#MR_NATURALIST_IMPROVE_Rubber_BUTTON
+mr_naturalist_improve_rubber_button = {
+	scope = country
+	is_valid = {
+		custom_tooltip = {
+			text = MR_SAFARI_EXPEDITION_NATURALIST_TRIGGER_TT
+			dubois_has_active_naturalist = yes
+		}
+		custom_tooltip = {
+			text = MR_NATURALIST_IMPROVE_RUBBER_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_rubber_plantation
+				level > 0
+				NOR = {
+					has_modifier = dubois_building_throughput_add_modifier
+					has_modifier = dubois_building_production_mult_modifier
+					has_modifier = dubois_building_goods_input_mult_modifier
+				}
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_dubois_improve_rubber_project }
+		add_modifier = {
+			name = dubois_naturalist_rubber_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		if = {
+			limit = {
+				has_variable = dubois_naturalist_var
+			}
+			var:dubois_naturalist_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+	}
+
+	ai_is_valid = { always = yes }	# Whether this SGUI is available to the AI or not (default false)
+	ai_chance = {
+		base = 100 # The chance that the AI will activate this SGUI (script value between 1 and 100)
+		modifier = {
+			trigger = {
+				market = {
+					mg:rubber ?= { market_goods_has_goods_shortage = yes }
+				}
+			}
+			add = 500
+		}
+	}
+	ai_frequency = 4 # Named value determining how frequently the AI will evaluate this SGUI (in months)
+}
+
+mr_improve_rubber_active_sgui = {
+	scope = country
+	is_shown = {
+		has_journal_entry = je_dubois_improve_rubber_project
+	}
 }
 
 #MR_HIPPOCAMPUS_CONGRESS_BUTTON

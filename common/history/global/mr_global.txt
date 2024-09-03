@@ -10,6 +10,15 @@
 
 GLOBAL = {
 
+	############################################################ ERROR PREVENTION
+
+	if = {
+		limit = {
+			always = no
+		}
+		mr_error_prevention_effect = yes
+	}
+
 	############################################################ START YEAR
 
 	set_global_variable = {
@@ -21,7 +30,7 @@ GLOBAL = {
 
 	#This event sets up the academics_country_tech_advance_var variable that is used to determine how advanced a country is.
 	every_country = {
-		trigger_event = academics.61
+		trigger_event = academics.71
 	}
 
 	############################################################LEPSIUS
@@ -168,6 +177,7 @@ GLOBAL = {
             name = lepsius_total_discoveries
             value = 0
 		}
+		lepsius_create_palmyra_effect = yes
 		######Anthropology######
 		set_global_variable = {
        		name = lepsius_global_human_fossil
@@ -230,6 +240,10 @@ GLOBAL = {
 	#Verrier Variable: Astronomical objects
 	every_country = {
 		set_variable = {
+            name = verrier_num_discovered_moons_var
+            value = 0
+		}
+		set_variable = {
             name = verrier_astronomical_objects
             value = 0
 		}
@@ -239,6 +253,10 @@ GLOBAL = {
 		}
 		set_variable = {
             name = verrier_great_comet
+            value = 0
+		}
+		set_variable = {
+            name = verrier_meteorites_var
             value = 0
 		}
 		set_global_variable = {
@@ -281,282 +299,8 @@ GLOBAL = {
 	}
 
 	#Verrier Modifiers: Countries who discovered certain asteroids which were considered planets; also Uranus for statistics
-	
-	#Uranus, discovered by Friedrich Wilhelm Herschel in 1781 [United Kingdom]
-	if = { #only gets executed if the year is 1781 or after
-		limit = {
-			year >= 1781
-		}
-		set_global_variable = verrier_uranus_discovered_global_var
-		set_global_variable = {
-			name = verrier_uranus_year_global_var
-			value = 1781
-		}
-		change_global_variable = {
-            name = verrier_planets_number
-            add = 1
-		}
-		if = {
-			limit = { exists = c:GBR }
-			c:GBR ?= {
-				add_modifier = {
-					name = verrier_discovered_uranus_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_uranus_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_uranus_global_var
-						value = this
-					}
-				}
-			}
-		}
-		else = {
-			random_country = {
-				limit = {
-					has_variable = academics_country_tech_advance_var
-					var:academics_country_tech_advance_var <= 0.2
-				}
-				add_modifier = {
-					name = verrier_discovered_uranus_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_uranus_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_uranus_global_var
-						value = this
-					}
-				}
-			}
-		}
-	}
-	
 
-	#Ceres, discovered by Giuseppe Piazzi in 1801 [Two Sicilies]
-	if = { #only gets executed if the year is 1801 or after
-		limit = {
-			year >= 1801
-		}
-		set_global_variable = verrier_ceres_discovered_global_var
-		set_global_variable = {
-			name = verrier_ceres_year_global_var
-			value = 1801
-		}
-		change_global_variable = {
-            name = verrier_planets_number
-            add = 1
-		}
-		if = {
-			limit = { exists = c:SIC }
-			c:SIC ?= {
-				add_modifier = {
-					name = verrier_discovered_ceres_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_ceres_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_ceres_global_var
-						value = this
-					}
-				}
-			}
-		}
-		else = {
-			random_country = {
-				limit = {
-					has_variable = academics_country_tech_advance_var
-					var:academics_country_tech_advance_var <= 0.2
-				}
-				add_modifier = {
-					name = verrier_discovered_ceres_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_ceres_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_ceres_global_var
-						value = this
-					}
-				}
-			}
-		}
-	}
-
-	#Pallas discovered by Heinrich Wilhelm Olbers in 1802 [Bremen]
-	if = { #only gets executed if the year is 1802 or after
-		limit = {
-			year >= 1802
-		}
-		set_global_variable = verrier_pallas_discovered_global_var
-		set_global_variable = {
-			name = verrier_pallas_year_global_var
-			value = 1802
-		}
-		change_global_variable = {
-            name = verrier_planets_number
-            add = 1
-		}
-		if = {
-			limit = { exists = c:BRE }
-			c:BRE ?= {
-				add_modifier = {
-					name = verrier_discovered_pallas_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_pallas_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_pallas_global_var
-						value = this
-					}
-				}
-			}
-		}
-		else = {
-			random_country = {
-				limit = {
-					has_variable = academics_country_tech_advance_var
-					var:academics_country_tech_advance_var <= 0.2
-				}
-				add_modifier = {
-					name = verrier_discovered_pallas_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_pallas_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_pallas_global_var
-						value = this
-					}
-				}
-			}
-		}
-	}
-
-	#Vesta, discovered by Heinrich Wilhelm Olbers in 1807 [Bremen]
-	if = { #only gets executed if the year is 1807 or after
-		limit = {
-			year >= 1807
-		}
-		set_global_variable = verrier_vesta_discovered_global_var
-		set_global_variable = {
-			name = verrier_vesta_year_global_var
-			value = 1807
-		}
-		change_global_variable = {
-            name = verrier_planets_number
-            add = 1
-		}
-		if = {
-			limit = { exists = c:BRE }
-			c:BRE ?= {
-				add_modifier = {
-					name = verrier_discovered_vesta_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_vesta_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_vesta_global_var
-						value = this
-					}
-				}
-			}
-		}
-		else = {
-			random_country = {
-				limit = {
-					has_variable = academics_country_tech_advance_var
-					var:academics_country_tech_advance_var <= 0.2
-				}
-				add_modifier = {
-					name = verrier_discovered_vesta_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_vesta_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_vesta_global_var
-						value = this
-					}
-				}
-			}
-		}
-	}
-
-	#Juno, discovered by Karl Ludwig Harding in 1804 [Hanover]
-	if = { #only gets executed if the year is 1804 or after
-		limit = {
-			year >= 1804
-		}
-		set_global_variable = verrier_juno_discovered_global_var
-		set_global_variable = {
-			name = verrier_juno_year_global_var
-			value = 1804
-		}
-		change_global_variable = {
-            name = verrier_planets_number
-            add = 1
-		}
-		if = {
-			limit = { exists = c:HAN }
-			c:HAN ?= {
-				add_modifier = {
-					name = verrier_discovered_juno_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_juno_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_juno_global_var
-						value = this
-					}
-				}
-			}
-		}
-		else = {
-			random_country = {
-				limit = {
-					has_variable = academics_country_tech_advance_var
-					var:academics_country_tech_advance_var <= 0.2
-				}
-				add_modifier = {
-					name = verrier_discovered_juno_modifier
-				}
-				set_global_variable = {
-					name = verrier_discoverer_juno_country_global_var
-					value = this
-				}
-				country_definition = {
-					set_global_variable = {
-						name = verrier_discoverer_juno_global_var
-						value = this
-					}
-				}
-			}
-		}
-	}
+	verrier_starting_planets_and_moons_effect = yes
 
 	#Verrier Variable: Observatory Inauguration
 
@@ -565,6 +309,16 @@ GLOBAL = {
 			verrier_astronomical_observation = yes
 		}
 		set_variable = verrier_observatory_inauguration_happened
+
+		every_country = {
+			limit = {
+				verrier_astronomical_prestige > 0
+				NOT = {
+					has_modifier = verrier_astronomical_prestige_modifier
+				}
+			}
+			trigger_event = verrier.2
+		}
 	}
 
 	if = {
@@ -702,7 +456,7 @@ GLOBAL = {
 		limit = {
 			OR = {
 				basileia_is_active = no #If Basileia is active the palace is not deactivated
-				s:STATE_MAZOVIA = { #If a polish nation owns the palace is not deactivated
+				s:STATE_GREATER_POLAND = { #If a polish nation owns the palace is not deactivated
 					any_scope_state = {
 						has_building = building_gaudi_saxon
 						NOT = {
@@ -714,7 +468,7 @@ GLOBAL = {
 				}
 			}
 		}
-		s:STATE_MAZOVIA = {
+		s:STATE_GREATER_POLAND = {
 			every_scope_state = {
 				limit = { has_active_building = building_gaudi_saxon }
 				deactivate_building = {
@@ -977,6 +731,104 @@ GLOBAL = {
 		}
 	}
 
+	every_country = {
+		limit = {
+			has_game_rule = academics_random_scientist_rule
+			any_scope_building = {
+				is_building_type = building_university
+			}
+		}
+		random_list = {
+			1 = {
+				create_new_engineer_effect = yes
+				gaudi_set_new_engineer_as_engineer_effect = yes
+			}
+			1 = {
+				trigger = { 
+					has_technology_researched = verrier_physics_tech
+					any_scope_building = {
+						is_building_type = building_verrier_observatory
+					}
+				}
+				create_new_astronomer_effect = yes
+				verrier_set_new_astronomer_as_astronomer_effect = yes
+			}
+			1 = {
+				trigger = { 
+					has_technology_researched = agassiz_geology_tech
+				}
+				create_new_geologist_effect = yes
+				dubois_set_new_geologist_as_geologist_effect = yes
+				modifier = {
+					if = {
+						limit = {
+							dubois_has_volcano = yes
+						}
+						add = 1
+					}
+				}
+			}
+			1 = {
+				trigger = { 
+					OR = {
+						country_rank >= rank_value:major_power #Only really useful with Pacific Expedition
+						dubois_has_habitat = yes #Only really useful with habitat
+					}
+					NOT = {
+						c:GBR ?= this #They get Darwin!
+					}
+				}
+				create_new_naturalist_effect = yes
+				dubois_set_new_naturalist_as_naturalist_effect = yes
+			}
+			1 = {
+				trigger = { 
+					has_technology_researched = prospecting
+					OR = {
+						country_rank >= rank_value:major_power #Only really useful with Pacific Expedition
+						any_scope_state = { #Only really useful with potential formation
+							has_variable = dubois_has_great_formation_var
+						}
+						any_scope_state = {
+							has_variable = dubois_has_normal_formation_var
+						}
+					}
+				}
+				create_new_paleontologist_effect = yes
+				dubois_set_new_paleontologist_as_paleontologist_effect = yes
+			}
+			1 = {
+				trigger = { 
+					has_technology_researched = lepsius_antiquarianism_tech
+					country_rank = rank_value:great_power #Only really useful with Archaeological Expedition, which will be mostly a Great Power thing
+					NOT = {
+						c:PRU ?= this #They get Lepsius!
+					}
+				}
+				create_new_archaeologist_effect = yes
+				lepsius_set_new_archaeologist_as_archaeologist_effect = yes
+				lepsius_add_start_specialization_effect = yes
+			}
+			1 = {
+				trigger = { 
+					has_technology_researched = lepsius_anthropology_tech 
+				}
+				create_new_anthropologist_effect = yes
+				lepsius_set_new_anthropologist_as_anthropologist_effect = yes
+			}
+			1 = {
+				trigger = { 
+					has_technology_researched = verrier_chemistry_tech
+					any_scope_building = {
+						is_building_type = building_verrier_observatory
+					}
+				}
+				create_new_chemist_effect = yes
+				mendelejew_set_new_chemist_as_chemist_effect = yes
+			}
+		}
+	}
+
 	#Hanover starts with Landed Voting
 	random_country = {
 		limit = {
@@ -1183,6 +1035,16 @@ GLOBAL = {
 	every_country = {
 		agassiz_add_variables = yes
 	}
+	set_global_variable = {
+		name = agassiz_geological_knowledge_global_var
+		value = 0
+	}
+	agassiz_set_start_age_of_earth_effect = yes
+	agassiz_add_geysers_at_start_effect = yes
+
+	######PANUM######
+
+	panum_set_start_medical_inventions_effect = yes
 
 	######GUI######
 

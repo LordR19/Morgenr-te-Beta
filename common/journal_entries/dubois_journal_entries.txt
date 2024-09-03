@@ -7,69 +7,67 @@
 
 ############################
 
-######SAFARI######
+######NATIVE ANIMAL######
 
-je_dubois_safari = {
+je_dubois_native_animal = {
 	icon = "gfx/interface/icons/event_icons/event_animals.dds"
 
 	group = je_group_dubois_nature
 
-	on_monthly_pulse = {
-		random_events = {
-			4 = dubois.32 #Standard event: Trap or Follow
-			2 = dubois.33 #Rare Flowers
-			2 = dubois.34 #Unknown Species
-			1 = dubois.35 #New vehicle: 2 follows possible
-			1 = dubois.36 #Extra traps: 2 traps possible
-			10 = dubois.38 #Hidden event
-			10 = dubois.39 #Succesful Safari
-		}
-	}
-	
 	immediate = {
-		var:dubois_naturalist_var = {
-			save_scope_as = dubois_naturalist_scope
+		set_variable = {
+			name = naturalist_native_animal_progress_var
+			value = 0
 		}
 	}
-	
-    fail = {
-    }
 
-	on_fail = {
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = naturalist_native_animal_progress_var
+				add = {
+					value = naturalist_native_animal_progress_value
+				}
+			}
+		}
+	}
+
+	current_value = {
+		value = var:naturalist_native_animal_progress_var
+	}
+
+	goal_add_value = {
+		value = 50
 	}
 
 	complete = {
-		custom_tooltip = {
-			text = je_dubois_safari_fail
-			scope:journal_entry = {
-				is_goal_complete = yes
-			}
+		scope:journal_entry = {
+			is_goal_complete = yes
 		}
 	}
 
 	on_complete = {
 		trigger_event = {
-			id = dubois.40
-			popup = yes
+			id = dubois.22
 		}
 	}
 
 	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
 	}
 
-	current_value = {
-		value = var:dubois_safari_progress
-	}
-
-	goal_add_value = {
-		add = 6
+	on_invalid = {
+		remove_ongoing_animal_documentation_effect = yes
 	}
 
 	progressbar = yes
 
-	should_be_pinned_by_default = yes
-
-	weight = 35
+	weight = 50
 }
 
 ######ANIMAL BREEDING######
@@ -403,6 +401,9 @@ je_dubois_mountain_expedition = {
 	group = je_group_vikelas_sports
 
 	on_monthly_pulse = {
+		events = {
+			dubois.442 #Dubois 442: Geological Knowledge
+		}
 		random_events = {
 			1 = 0
 			10 = dubois.430 #Dubois 430: An Easy Climb
@@ -417,6 +418,7 @@ je_dubois_mountain_expedition = {
 			20 = dubois.439 #Dubois 439: Rope Group
 			5 = dubois.440 #Dubois 440: Scientist does Science
 			5 = dubois.441 #Dubois 441: The Red Panda
+			5 = dubois.443 #Dubois 443: A Fine Mineral
 		}
 	}
 	
@@ -561,4 +563,1187 @@ je_dubois_mountain_expedition = {
 	progressbar = yes
 
 	weight = 25
+}
+
+##############################################################
+
+###Improve Forestry###
+je_dubois_improve_forestry_project = {
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	scripted_button = dubois_stop_naturalist_project_button
+
+	group = je_group_dubois_nature
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see dubois_scripted_effects for calculation)
+			dubois_naturalist_improvement_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = dubois_naturalist_improvement_progress_var
+				add = var:dubois_monthly_naturalist_improvement_progress_var
+			}
+			if = {
+				limit = { var:dubois_naturalist_improvement_progress_var > dubois_improvement_progress_cost }
+				if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_throughput_add_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_throughput_add_modifier }
+						}
+						add_modifier = {
+							name = dubois_building_throughput_add_modifier
+						}
+					}
+					change_variable = {
+						name = dubois_naturalist_improvement_progress_var
+						subtract = dubois_improvement_progress_cost
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_production_mult_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_production_mult_modifier }
+						}
+						add_modifier = {
+							name = dubois_building_production_mult_modifier
+						}
+					}
+					change_variable = {
+						name = dubois_naturalist_improvement_progress_var
+						subtract = dubois_improvement_progress_cost
+					}
+				}
+				else = {
+					random_scope_building = {
+						limit = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_goods_input_mult_modifier }
+						}
+						add_modifier = {
+							name = dubois_building_goods_input_mult_modifier
+						}
+					}
+					change_variable = {
+						name = dubois_naturalist_improvement_progress_var
+						subtract = dubois_improvement_progress_cost
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = dubois_can_stop_active_improvement_project_var #This is used to check if the country has a project already
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				is_building_type = building_logging_camp
+				NOR = {
+					has_modifier = dubois_building_throughput_add_modifier
+					has_modifier = dubois_building_production_mult_modifier
+					has_modifier = dubois_building_goods_input_mult_modifier
+				}
+			}
+			order_by = earnings
+			add_modifier = {
+				name = dubois_naturalist_focus_building_modifier
+			}
+			root = {
+				set_variable = {
+					name = dubois_building_naturalist_improvement_var
+					value = prev
+				}
+			}
+		}
+		#Sets the Naturalist Improvement Progress at the beginning
+		set_variable = {
+			name = dubois_naturalist_improvement_progress_var
+			value = 0
+		}
+		dubois_naturalist_improvement_progress = yes #Determines how much Naturalist Improvement Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = dubois_building_has_throughput_modifier_tt
+			any_scope_building = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+				has_modifier = dubois_building_throughput_add_modifier
+			}
+		}
+		custom_tooltip = {
+			text = dubois_building_has_production_modifier_tt
+			any_scope_building = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+				has_modifier = dubois_building_production_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = dubois_building_has_input_modifier_tt
+			any_scope_building = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+				has_modifier = dubois_building_goods_input_mult_modifier
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = dubois_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		dubois_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every Naturalist je
+		remove_variable = dubois_naturalist_improvement_progress_var
+		remove_variable = dubois_monthly_naturalist_improvement_progress_var
+		remove_variable = naturalist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+			}
+			remove_modifier = dubois_naturalist_focus_building_modifier
+		}
+		var:dubois_naturalist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		trigger_event = {
+			id = dubois.52
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the Naturalist Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:dubois_naturalist_improvement_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in dubois_script_values
+		value = dubois_improvement_progress_cost
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = dubois_stop_naturalist_improving_project_tt
+			has_variable = dubois_stop_naturalist_improving_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = dubois_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		dubois_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every naturalist je
+		remove_variable = dubois_naturalist_improvement_progress_var
+		remove_variable = dubois_monthly_naturalist_improvement_progress_var
+		remove_variable = naturalist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+			}
+			remove_modifier = dubois_naturalist_focus_building_modifier
+		}
+		remove_variable = dubois_stop_naturalist_improving_project_var
+		var:dubois_naturalist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+###Improve Rubber###
+je_dubois_improve_rubber_project = {
+	icon = "gfx/interface/icons/event_icons/event_botany.dds"
+
+	scripted_button = dubois_stop_naturalist_project_button
+
+	group = je_group_dubois_nature
+
+	on_monthly_pulse = {
+		effect = {
+			#Calculates the Progress added (see dubois_scripted_effects for calculation)
+			dubois_naturalist_improvement_progress = yes
+			#Adds the monthly progress to the variable
+			change_variable = {
+				name = dubois_naturalist_improvement_progress_var
+				add = var:dubois_monthly_naturalist_improvement_progress_var
+			}
+			if = {
+				limit = { var:dubois_naturalist_improvement_progress_var > dubois_improvement_progress_cost }
+				if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_throughput_add_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_throughput_add_modifier }
+						}
+						add_modifier = {
+							name = dubois_building_throughput_add_modifier
+						}
+					}
+					change_variable = {
+						name = dubois_naturalist_improvement_progress_var
+						subtract = dubois_improvement_progress_cost
+					}
+				}
+				else_if = {
+					limit = {
+						any_scope_building = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_production_mult_modifier }
+						}
+					}
+					random_scope_building = {
+						limit = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_production_mult_modifier }
+						}
+						add_modifier = {
+							name = dubois_building_production_mult_modifier
+						}
+					}
+					change_variable = {
+						name = dubois_naturalist_improvement_progress_var
+						subtract = dubois_improvement_progress_cost
+					}
+				}
+				else = {
+					random_scope_building = {
+						limit = {
+							has_modifier = dubois_naturalist_focus_building_modifier
+							NOT = { has_modifier = dubois_building_goods_input_mult_modifier }
+						}
+						add_modifier = {
+							name = dubois_building_goods_input_mult_modifier
+						}
+					}
+					change_variable = {
+						name = dubois_naturalist_improvement_progress_var
+						subtract = dubois_improvement_progress_cost
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = dubois_can_stop_active_improvement_project_var #This is used to check if the country has a project already
+		ordered_scope_building = {
+			limit = {
+				level > 0
+				is_building_type = building_rubber_plantation
+				NOR = {
+					has_modifier = dubois_building_throughput_add_modifier
+					has_modifier = dubois_building_production_mult_modifier
+					has_modifier = dubois_building_goods_input_mult_modifier
+				}
+			}
+			order_by = earnings
+			add_modifier = {
+				name = dubois_naturalist_focus_building_modifier
+			}
+			root = {
+				set_variable = {
+					name = dubois_building_naturalist_improvement_var
+					value = prev
+				}
+			}
+		}
+		#Sets the Naturalist Improvement Progress at the beginning
+		set_variable = {
+			name = dubois_naturalist_improvement_progress_var
+			value = 0
+		}
+		dubois_naturalist_improvement_progress = yes #Determines how much Naturalist Improvement Progress will be added next month
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = dubois_building_has_throughput_modifier_tt
+			any_scope_building = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+				has_modifier = dubois_building_throughput_add_modifier
+			}
+		}
+		custom_tooltip = {
+			text = dubois_building_has_production_modifier_tt
+			any_scope_building = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+				has_modifier = dubois_building_production_mult_modifier
+			}
+		}
+		custom_tooltip = {
+			text = dubois_building_has_input_modifier_tt
+			any_scope_building = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+				has_modifier = dubois_building_goods_input_mult_modifier
+			}
+		}
+	}
+
+	on_complete = {
+		remove_variable = dubois_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		dubois_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every Naturalist je
+		remove_variable = dubois_naturalist_improvement_progress_var
+		remove_variable = dubois_monthly_naturalist_improvement_progress_var
+		remove_variable = naturalist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+			}
+			remove_modifier = dubois_naturalist_focus_building_modifier
+		}
+		var:dubois_naturalist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		trigger_event = {
+			id = dubois.53
+			popup = yes
+		}
+	}
+
+	current_value = {
+		#Keeps track of the Naturalist Progress. If the Progress reaches the progress_cost, a modifier will be added.
+		value = var:dubois_naturalist_improvement_progress_var
+	}
+
+	goal_add_value = {
+		#You can change this in dubois_script_values
+		value = dubois_improvement_progress_cost
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = dubois_stop_naturalist_improving_project_tt
+			has_variable = dubois_stop_naturalist_improving_project_var
+		}
+	}
+
+	on_invalid = {
+		remove_variable = dubois_can_stop_active_improvement_project_var #Needs to be removed, when the JE is removed
+		dubois_remove_je_cost_modifiers_effect = yes
+		
+		#Those should be removed in every naturalist je
+		remove_variable = dubois_naturalist_improvement_progress_var
+		remove_variable = dubois_monthly_naturalist_improvement_progress_var
+		remove_variable = naturalist_experience_add_var
+
+		every_scope_building = {
+			limit = {
+				has_modifier = dubois_naturalist_focus_building_modifier
+			}
+			remove_modifier = dubois_naturalist_focus_building_modifier
+		}
+		remove_variable = dubois_stop_naturalist_improving_project_var
+		var:dubois_naturalist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+##############################################################
+
+###Systemize Fossils###
+je_systemize_fossils = {
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	scripted_button = dubois_stop_paleontologist_project_button
+
+	group = je_group_dubois_nature
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = dubois_paleontologist_systemization_progress_var
+				add = 1
+			}
+		}
+		random_events = {
+			100 = 0
+			1 = dubois.262 #Dubois 262: History of the ancestry of the ANIMAL
+			1 = dubois.263 #Dubois 263: A small acquisition
+			1 = dubois.264 #Dubois 264: Geological suggestions
+			1 = dubois.265 #Dubois 265: An impressive lecture
+		}
+	}
+
+	immediate = {
+		set_variable = dubois_can_stop_active_paleontologist_project_var
+		set_variable = {
+			name = dubois_paleontologist_systemization_progress_var
+			value = 0
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.261
+		}
+	}
+
+	current_value = {
+		value = var:dubois_paleontologist_systemization_progress_var
+	}
+
+	goal_add_value = {
+		value = 60
+	}
+
+	invalid = {
+		OR = {
+			custom_tooltip = {
+				text = je_paleontologist_dies_tt
+				NOT = {
+					has_variable = dubois_paleontologist_var
+				}
+			}
+			custom_tooltip = {
+				text = dubois_stop_paleontologist_project_tt
+				has_variable = dubois_stop_paleontologist_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = dubois_can_stop_active_paleontologist_project_var #Needs to be removed, when the JE is removed
+		remove_variable = dubois_stop_paleontologist_project_var
+		var:dubois_paleontologist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = no
+}
+
+###Prehistoric Scenery###
+je_prehistoric_scenery = {
+	icon = "gfx/interface/icons/event_icons/event_fossil.dds"
+
+	scripted_button = dubois_stop_paleontologist_project_button
+
+	group = je_group_dubois_nature
+
+	on_monthly_pulse = {
+		effect = {
+			change_variable = {
+				name = dubois_paleontologist_scenery_progress_var
+				add = 1
+			}
+		}
+		random_events = {
+			50 = 0
+			1 = dubois.272 #Dubois 272: Materials
+			1 = dubois.273 #Dubois 273: A ridiculous job?
+			1 = dubois.274 #Dubois 274: Student interest
+		}
+	}
+
+	immediate = {
+		set_variable = {
+			name = dubois_paleontologist_scenery_progress_var
+			value = 0
+		}
+	}
+
+	complete = {
+		scope:journal_entry = {
+			is_goal_complete = yes
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.271
+		}
+		if = {
+			limit = {
+				has_variable = dubois_triassic_scenery_ongoing_var
+			}
+			set_variable = dubois_triassic_scenery_var
+		}
+		else_if = {
+			limit = {
+				has_variable = dubois_jurassic_scenery_ongoing_var
+			}
+			set_variable = dubois_jurassic_scenery_var
+		}
+		else_if = {
+			limit = {
+				has_variable = dubois_cretaceous_scenery_ongoing_var
+			}
+			set_variable = dubois_cretaceous_scenery_var
+			remove_variable = dubois_cretaceous_scenery_ongoing_var
+		}
+	}
+
+	current_value = {
+		value = var:dubois_paleontologist_scenery_progress_var
+	}
+
+	goal_add_value = {
+		value = 24
+	}
+
+	invalid = {
+		OR = {
+			custom_tooltip = {
+				text = je_paleontologist_dies_tt
+				NOT = {
+					has_variable = dubois_paleontologist_var
+				}
+			}
+			custom_tooltip = {
+				text = dubois_stop_paleontologist_project_tt
+				has_variable = dubois_stop_paleontologist_project_var
+			}
+			custom_tooltip = {
+				text = dubois_no_university_for_scenery_tt
+				NOT = {
+					any_scope_building = {
+						is_building_type = building_university
+						NOR = {
+							has_modifier = dubois_cretaceous_scenery_modifier
+							has_modifier = dubois_jurassic_scenery_modifier
+							has_modifier = dubois_triassic_scenery_modifier
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = dubois_can_stop_active_paleontologist_project_var #Needs to be removed, when the JE is removed
+		remove_variable = dubois_stop_paleontologist_project_var
+		var:dubois_paleontologist_var ?= {
+			set_character_busy_and_immortal = no
+		}
+		remove_variable = dubois_cretaceous_scenery_ongoing_var
+		remove_variable = dubois_jurassic_scenery_ongoing_var
+		remove_variable = dubois_triassic_scenery_ongoing_var
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = no
+}
+
+##############################################################
+
+######SAFARI######
+
+je_dubois_safari_hippopotamus = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_3_traps_tt
+			je:je_dubois_safari_hippopotamus = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 3
+			}
+		}
+		custom_tooltip = {
+			text = je_dubois_safari_1_track_tt
+			je:je_dubois_safari_hippopotamus = {
+				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 1
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+}
+
+je_dubois_safari_lion = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_2_traps_tt
+			je:je_dubois_safari_lion = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 2
+			}
+		}
+		custom_tooltip = {
+			text = je_dubois_safari_2_track_tt
+			je:je_dubois_safari_lion = {
+				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 2
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+}
+
+je_dubois_safari_elephant = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_4_traps_tt
+			je:je_dubois_safari_lion = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 4
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+}
+
+je_dubois_safari_giraffe = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_2_traps_tt
+			je:je_dubois_safari_giraffe = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 2
+			}
+		}
+		custom_tooltip = {
+			text = je_dubois_safari_2_track_tt
+			je:je_dubois_safari_giraffe = {
+				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 2
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+}
+
+je_dubois_safari_zebra = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_1_traps_tt
+			je:je_dubois_safari_zebra = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 1
+			}
+		}
+		custom_tooltip = {
+			text = je_dubois_safari_3_track_tt
+			je:je_dubois_safari_zebra = {
+				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 3
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
+}
+
+je_dubois_safari_gorilla = {
+	icon = "gfx/interface/icons/event_icons/event_animals.dds"
+
+	group = je_group_dubois_nature
+
+	scripted_progress_bar = dubois_safari_trap_progress_bar
+	scripted_progress_bar = dubois_safari_track_progress_bar
+
+	on_monthly_pulse = {
+		events = {
+			dubois.38 #Dubois 38: Safari Extras
+		}
+		random_events = {
+			2 = 0
+			4 = dubois.32 #Standard event: Trap or Follow
+			1 = dubois.33 #Rare Flowers
+			1 = dubois.34 #Unknown Species
+		}
+	}
+	
+	immediate = {
+		var:dubois_naturalist_var = {
+			save_scope_as = dubois_naturalist_scope
+		}
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_dubois_safari_3_traps_tt
+			je:je_dubois_safari_gorilla = {
+				"scripted_bar_progress(dubois_safari_trap_progress_bar)" >= 3
+			}
+		}
+		custom_tooltip = {
+			text = je_dubois_safari_1_track_tt
+			je:je_dubois_safari_gorilla = {
+				"scripted_bar_progress(dubois_safari_track_progress_bar)" >= 1
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = dubois.39
+			popup = yes
+		}
+	}
+
+	fail = {
+		custom_tooltip = {
+			text = je_dubois_safari_fail_tt
+			has_variable = dubois_safari_accident_var
+		}
+	}
+
+	on_fail = {
+		trigger_event = {
+			id = dubois.37
+		}
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_naturalist_dies_tt
+			NOT = {
+				has_variable = dubois_naturalist_var
+			}
+		}
+	}
+
+	on_invalid = {
+		custom_tooltip = {
+			text = je_dubois_safari_invalid_tt
+			remove_modifier = dubois_on_safari_modifier
+			add_modifier = {
+				name = dubois_had_safari_modifier
+				years = 3
+			}
+			dubois_remove_safari_effect = yes
+		}
+	}
+
+	should_be_pinned_by_default = yes
+
+	weight = 35
+
+	timeout = 300
+
+	on_timeout = {
+		trigger_event = {
+			id = dubois.40
+			popup = yes
+		}
+	}
 }

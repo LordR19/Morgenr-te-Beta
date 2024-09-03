@@ -1,0 +1,246 @@
+﻿#########################
+# PANUM SCRPIT VALUES #
+#########################
+
+############################################################################
+
+### Diseases ###
+
+#Time value for Cholera
+panum_cholera_time_value = {
+	value = 365
+
+	if = {
+		limit = {
+			owner = {
+				panum_has_cholera_treatment_trigger = yes
+			}
+		}
+		divide = 6
+	}
+
+	round = yes
+}
+
+#Time value for Tuberculosis
+panum_tuberculosis_time_value = {
+	value = 365
+
+	if = {
+		limit = {
+			owner = {
+				panum_has_tuberculosis_treatment_trigger = yes
+			}
+		}
+		divide = 6
+	}
+
+	round = yes
+}
+
+#Time value for Smallpox
+panum_smallpox_time_value = {
+	value = 365
+
+	if = {
+		limit = {
+			owner = {
+				panum_has_smallpox_treatment_trigger = yes
+			}
+		}
+		divide = 6
+	}
+
+	round = yes
+}
+
+#Time value for Typhus
+panum_typhus_time_value = {
+	value = 365
+
+	if = {
+		limit = {
+			owner = {
+				panum_has_typhus_treatment_trigger = yes
+			}
+		}
+		divide = 6
+	}
+
+	round = yes
+}
+
+#Time value for Yellow Fever
+panum_yellow_fever_time_value = {
+	value = 365
+
+	if = {
+		limit = {
+			owner = {
+				panum_has_yellow_fever_treatment_trigger = yes
+			}
+		}
+		divide = 6
+	}
+
+	round = yes
+}
+
+### Negativ SoL ###
+panum_negative_sol_value = {
+	value = average_sol
+
+	multiply = -1
+}
+
+### Mosquito Terrain ###
+panum_mosquito_terrain_value = {
+	value = 1
+
+	if = {
+		limit = {
+			has_state_trait = state_trait_severe_malaria
+		}
+		add = 5
+	}
+
+	if = {
+		limit = {
+			has_state_trait = state_trait_malaria
+		}
+		add = 3
+	}
+
+	if = {
+		limit = {
+			OR = {
+				has_state_trait = state_trait_floridian_wetlands
+				has_state_trait = state_trait_mississippi_river
+				has_state_trait = state_trait_amazon_rainforest
+				has_state_trait = state_trait_amazon_rainforest_level_1
+				has_state_trait = state_trait_amazon_rainforest_level_2
+				has_state_trait = state_trait_orinoco_river
+				has_state_trait = state_trait_uruguay_river
+				has_state_trait = state_trait_parana_river
+				has_state_trait = state_trait_paraguay_river
+				has_state_trait = state_trait_amazon_river
+				has_state_trait = state_trait_nile_river
+				has_state_trait = state_trait_congo_river
+				has_state_trait = state_trait_niger_river
+				has_state_trait = state_trait_lake_victoria
+				has_state_trait = state_trait_congo_forest
+			}
+		}
+		add = 2
+	}
+
+	if = {
+		limit = {
+			has_state_trait = state_trait_natural_harbors
+		}
+		add = 1
+	}
+}
+
+############################################################################
+
+### TODO: Add remove stuff ###
+panum_physician_character_rating_value = {
+	### Experience: 1 point per 50 Experience ###
+	value = var:panum_physician_experience
+	divide = 50
+	### Positive Traits ###
+	#Experience Trait
+	if = {
+		limit = {
+			has_trait = panum_physician_famous
+		}
+		add = 3
+	}
+	else_if = {
+		limit = {
+			has_trait = panum_physician_experienced
+		}
+		add = 2
+	}
+	else = {
+		add = 1
+	}
+	#General
+	if = {
+		limit = {
+			has_trait = verrier_mathematician
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = curie_physicist
+		}
+		add = 2
+	}
+	if = {
+		limit = {
+			has_trait = meticulous
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = innovative
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			has_trait = engineer
+		}
+		add = 1
+	}
+	### Negative Traits ###
+	if = {
+		limit = {
+			has_trait = alcoholic
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = opium_addiction
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = cocaine_addiction
+		}
+		subtract = 2
+	}
+	if = {
+		limit = {
+			has_trait = senile
+		}
+		subtract = 5
+	}
+	### Age Factor, the older the worse for the ranking ###
+	if = {
+		limit = { age > 30 }
+		subtract = 1
+	}
+	if = {
+		limit = { age > 40 }
+		subtract = 2
+	}
+	if = {
+		limit = { age > 50 }
+		subtract = 3
+	}
+	if = {
+		limit = { age > 60 }
+		subtract = 4
+	}
+	if = {
+		limit = { age > 70 }
+		subtract = 5
+	}
+}
