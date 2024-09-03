@@ -733,11 +733,7 @@ je_lepsius_palmyra = {
 			has_global_variable = lepsius_palmyra_excavation_finished_global_var
 		}
 		any_scope_state = {
-			OR = {
-				has_state_trait = lepsius_state_trait_palmyra_1
-				has_state_trait = lepsius_state_trait_palmyra_2
-				has_state_trait = lepsius_state_trait_palmyra_3
-			}
+			state_region = s:STATE_SYRIA
 		}
 	}
 
@@ -746,7 +742,13 @@ je_lepsius_palmyra = {
 	}
 
 	immediate = {
-		trigger_event = lepsius.10003
+		random_scope_state = {
+			limit = {
+				state_region = s:STATE_SYRIA
+			}
+			save_scope_as = palmyra_state_scope
+		}
+		trigger_event = lepsius.10000
 	}
 
 	complete = {
@@ -755,8 +757,7 @@ je_lepsius_palmyra = {
 			je:je_lepsius_palmyra = {
 				"scripted_bar_progress(lepsius_archaeological_excavation_progress_bar)" >= 5000
 			}
-			any_scope_state = {
-				state_region = s:STATE_SYRIA
+			scope:palmyra_state_scope = {
 				has_state_trait = lepsius_state_trait_palmyra_3
 			}
 		}
@@ -774,8 +775,7 @@ je_lepsius_palmyra = {
 					scope:journal_entry = {
 						"scripted_bar_progress(lepsius_archaeological_excavation_progress_bar)" >= 1500
 					}
-					any_scope_state = {
-						state_region = s:STATE_SYRIA
+					scope:palmyra_state_scope = {
 						NOR = {
 							has_state_trait = lepsius_state_trait_palmyra_2
 							has_state_trait = lepsius_state_trait_palmyra_3
@@ -790,8 +790,7 @@ je_lepsius_palmyra = {
 					scope:journal_entry = {
 						"scripted_bar_progress(lepsius_archaeological_excavation_progress_bar)" >= 3000
 					}
-					any_scope_state = {
-						state_region = s:STATE_SYRIA
+					scope:palmyra_state_scope = {
 						NOR = {
 							has_state_trait = lepsius_state_trait_palmyra_3
 							has_state_trait = lepsius_state_trait_palmyra_4
