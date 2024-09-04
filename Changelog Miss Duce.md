@@ -16,6 +16,16 @@ Engineering:
 Chemistry:
 - Levels of Mathematical-Technical focused Universities now give a bonus on Chemistry Projects.
 
+Music:
+- With the invention of Nationalism, it is possible to adopt National Anthems.
+- Five categories of anthems with specific modifier: Monarch Anthem, Folk Anthem, Value Anthem, Military Anthem, Worker Anthem.
+- If a country has no historical anthem it can adopt via event, it is still possible to adopt one later via decision.
+- Composers may create music pieces by chance which may fit as national anthems later.
+- Composers can be commissioned to compose a national anthem.
+- National anthems can be adopted without lyrics, but national writers may write lyrics (which makes an anthem more prestigious).
+- Some anthems may get outdated after political changes (monarch anthems will not be used anymore without monarch).
+- Added many historical anthems via custom loc. Custom anthems are planned for the future.
+
 Natural History:
 - Levels of Natural History focused Universities now give a bonus on Breeding, Naturalist and Paleontologist Projects.
 - Nature Reserves no longer cost money but don't give add any tourism income (pretend that they pay for themselves).
