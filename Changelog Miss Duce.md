@@ -7,6 +7,9 @@ Animals:
 - Added multiple new animals: Meerkat, Gorilla, Gila Monster, Capybara, Thylacine, Pallas's Cat and Elks
 - Gorilla is a Safari animal
 
+Archaeology:
+- Added Palmyra Excavation.
+
 Engineering:
 - Levels of Mathematical-Technical focused Universities now give a bonus on Engineering Projects.
 
