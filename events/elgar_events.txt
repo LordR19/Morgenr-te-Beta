@@ -3623,6 +3623,25 @@ elgar.304 = {
 		elgar_add_x_music_tradition_effect = { AMOUNT = 25 }
 		add_treasury = -10000
 	}
+
+	option = { #Pay the composer twice to create a very special piece for the monarch.
+		name = elgar.304.h
+		default_option = yes
+		trigger = {
+			NOT = {
+				has_variable = elgar_monarch_anthem_melody_var
+			}
+		}
+		add_treasury = -20000
+		elgar_add_elgar_composer_num_compositions_effect = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 10
+		}
+		custom_tooltip = {
+			text = elgar_possible_monarch_anthem_tt
+			set_variable = elgar_monarch_anthem_melody_var
+		}
+	}
 }
 
 #Elgar 305: Sold out!
@@ -5328,6 +5347,22 @@ elgar.440 = {
 		name = elgar.440.h
 		elgar_small_add_technology = yes
 	}
+	option = { #There is definitely a folk song that everyone can identify with.
+		name = elgar.440.i
+		trigger = {
+			NOT = {
+				has_variable = elgar_folk_anthem_melody_var
+			}
+		}
+		elgar_add_elgar_composer_num_compositions_effect = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 10
+		}
+		custom_tooltip = {
+			text = elgar_possible_folk_anthem_tt
+			set_variable = elgar_folk_anthem_melody_var
+		}
+	}
 }
 
 #Elgar 441: Sea Shanty
@@ -5397,6 +5432,24 @@ elgar.441 = {
 				name = elgar_ig_wonderful_music_modifier
 				years = 5
 			}
+		}
+	}
+
+	option = { #A sea shanty could not only delight sailors...
+		name = elgar.441.h
+		default_option = yes
+		trigger = {
+			NOT = {
+				has_variable = elgar_military_anthem_melody_var
+			}
+		}
+		elgar_add_elgar_composer_num_compositions_effect = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 10
+		}
+		custom_tooltip = {
+			text = elgar_possible_military_anthem_tt
+			set_variable = elgar_military_anthem_melody_var
 		}
 	}
 }
@@ -5470,6 +5523,24 @@ elgar.442 = {
 				name = elgar_ig_wonderful_music_modifier
 				years = 5
 			}
+		}
+	}
+
+	option = { #A march could not only delight soldiers...
+		name = elgar.442.h
+		default_option = yes
+		trigger = {
+			NOT = {
+				has_variable = elgar_military_anthem_melody_var
+			}
+		}
+		elgar_add_elgar_composer_num_compositions_effect = yes
+		elgar_add_x_music_tradition_effect = {
+			AMOUNT = 10
+		}
+		custom_tooltip = {
+			text = elgar_possible_military_anthem_tt
+			set_variable = elgar_military_anthem_melody_var
 		}
 	}
 }
@@ -10332,32 +10403,21 @@ elgar.801 = {
 				has_law = law_type:law_monarchy
 				has_law = law_type:law_theocracy
 			}
-			OR = {
-				ROOT ?= c:AUS #Gott erhalte $FIRSTNAME$ den Kaiser
-				ROOT ?= c:BAV #Heil unserm König, Heil!
-				ROOT ?= c:BRZ #Hino Nacional Brasileiro (instrumental only)
-				ROOT ?= c:DAI #Đăng đàn cung
-				ROOT ?= c:DEN #Kong Christian stod ved højen mast
-				ROOT ?= c:FRA #Marche Henri IV
-				ROOT ?= c:GBR #God save the $Ruler$
-				ROOT ?= c:HES #Heil unserm Fürsten, Heil!
-				ROOT ?= c:NET #Wien Neêrlands Bloed
-				ROOT ?= c:POR #Hino da Carta
-				ROOT ?= c:PRU #Heil dir im Siegerkranz
-				ROOT ?= c:RUS #Bózhe, Tsaryá khraní
-				ROOT ?= c:SAR #Marcia Reale
-				ROOT ?= c:SAX #Sachsenlied
-				ROOT ?= c:SIC #Inno al Re
-				ROOT ?= c:SPA #La Marcha Real
-				ROOT ?= c:TUR #$FIRSTNAME$-ye
-				ROOT ?= c:TUS #La Leopolda
-				ROOT ?= c:WUR #Heil unserm König, Heil!
-			}
+			elgar_has_possible_monarch_anthem_trigger = yes
 		}
 		name = elgar.801.h #Monarch Anthem
 		add_modifier = {
 			name = elgar_monarch_anthem_modifier
 		}
+		if = {
+			limit = {
+				has_variable = elgar_monarch_anthem_text_var
+				has_variable = elgar_monarch_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
 
 		ai_chance = {
 			base = 100
@@ -10366,19 +10426,20 @@ elgar.801 = {
 
 	option = {
 		trigger = {
-			OR = {
-				has_law = law_type:law_presidential_republic
-				has_law = law_type:law_parliamentary_republic
-			}
-			OR = {
-				ROOT ?= c:CHL #Himno Nacional de Chile
-				ROOT ?= c:PRG #Tetã purahéi
-				ROOT ?= c:SWI #Rufst du, mein Vaterland
-			}
+			elgar_has_possible_folk_anthem_trigger = yes
 		}
-		name = elgar.801.i #Landscape Anthem
+		name = elgar.801.i #Folk Anthem
 		add_modifier = {
-			name = elgar_landscape_anthem_modifier
+			name = elgar_folk_anthem_modifier
+		}
+		if = {
+			limit = {
+				has_variable = elgar_folk_anthem_text_var
+				has_variable = elgar_folk_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
 		}
 
 		ai_chance = {
@@ -10388,20 +10449,21 @@ elgar.801 = {
 
 	option = {
 		trigger = {
-			OR = {
-				has_law = law_type:law_presidential_republic
-				has_law = law_type:law_parliamentary_republic
-			}
-			OR = {
-				ROOT ?= c:NOR #Sønner av Norge
-				ROOT ?= c:PER #Himno Nacional del Perú
-				ROOT ?= c:UCA #La Granadera
-			}
+			elgar_has_possible_value_anthem_trigger = yes
 		}
 		name = elgar.801.j #Value Anthem
 		add_modifier = {
 			name = elgar_value_anthem_modifier
 		}
+		if = {
+			limit = {
+				has_variable = elgar_value_anthem_text_var
+				has_variable = elgar_value_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
 
 		ai_chance = {
 			base = 100
@@ -10410,19 +10472,44 @@ elgar.801 = {
 
 	option = {
 		trigger = {
-			OR = {
-				has_law = law_type:law_presidential_republic
-				has_law = law_type:law_parliamentary_republic
-			}
-			OR = {
-				ROOT ?= c:ARG #Himno Nacional Argentino
-				ROOT ?= c:FRA #La Marseillaise
-				ROOT ?= c:USA #Hail, Columbia
-			}
+			elgar_has_possible_military_anthem_trigger = yes
 		}
 		name = elgar.801.k #Military Anthem
 		add_modifier = {
 			name = elgar_military_anthem_modifier
+		}
+		if = {
+			limit = {
+				has_variable = elgar_military_anthem_text_var
+				has_variable = elgar_military_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		trigger = {
+			has_law = law_type:law_council_republic
+			elgar_has_possible_worker_anthem_trigger = yes
+		}
+		name = elgar.801.l #Worker Anthem
+		add_modifier = {
+			name = elgar_worker_anthem_modifier
+		}
+		if = {
+			limit = {
+				has_variable = elgar_worker_anthem_text_var
+				has_variable = elgar_worker_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
 		}
 
 		ai_chance = {
@@ -10434,7 +10521,7 @@ elgar.801 = {
 		trigger = {
 			has_law = law_type:law_council_republic
 		}
-		name = elgar.801.l #Internationale Anthem
+		name = elgar.801.m #Internationale Anthem
 		add_modifier = {
 			name = elgar_internationale_anthem_modifier
 		}
@@ -10452,6 +10539,350 @@ elgar.801 = {
 
 		ai_chance = {
 			base = 1 #AI should take an existing anthem if possible
+		}
+	}
+
+	after = {
+	}
+}
+
+#Elgar 802: Outdated Anthem
+elgar.802 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = elgar.802.t
+	desc = elgar.802.d
+	flavor = elgar.802.f
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_marseillaise.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	duration = 3
+
+	trigger = {
+		OR = {
+			AND = {
+				has_modifier = elgar_monarch_anthem_modifier
+				OR = {
+					has_law = law_type:law_parliamentary_republic
+					has_law = law_type:law_presidential_republic
+				}
+			}
+			AND = {
+				has_modifier = elgar_worker_anthem_modifier
+				NOT = {
+					has_law = law_type:law_council_republic
+				}
+			}
+			AND = {
+				has_modifier = elgar_internationale_anthem_modifier
+				NOT = {
+					has_law = law_type:law_council_republic
+				}
+			}
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = elgar.802.g #This anthem no longer represents our country.
+		elgar_remove_national_anthem_effect = yes
+		add_modifier = {
+			name = elgar_no_anthem_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Elgar 803: Reactionary Anthem
+elgar.803 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = elgar.803.t
+	desc = elgar.803.d
+	flavor = elgar.803.f
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_marseillaise.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	duration = 3
+
+	trigger = {
+		has_law = law_type:law_council_republic
+		OR = {
+			has_modifier = elgar_monarch_anthem_modifier
+			has_modifier = elgar_folk_anthem_modifier
+			has_modifier = elgar_value_anthem_modifier
+			has_modifier = elgar_military_anthem_modifier
+		}
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = elgar.802.g #This anthem no longer represents our country.
+		elgar_remove_national_anthem_effect = yes
+		add_modifier = {
+			name = elgar_no_anthem_modifier
+		}
+		add_loyalists = {
+			value = 0.03
+		}
+	}
+
+	after = {
+	}
+}
+
+#Elgar 804: The Future of the Anthem
+#elgar.804 = {
+#	dlc = dlc_morgenrote
+#
+#	type = country_event
+#	placement = ROOT
+#
+#	title = elgar.804.t
+#	desc = elgar.804.d
+#	flavor = elgar.804.f
+#
+#	event_image = {
+#		texture = "gfx/event_pictures/elgar_pictures/elgar_marseillaise.dds"
+#	}
+#
+#	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+#
+#	icon = "gfx/interface/icons/event_icons/event_music.dds"
+#
+#	duration = 3
+#
+#	trigger = {
+#		is_revolutionary = yes
+#		OR = {
+#			AND = {
+#				has_modifier = elgar_folk_anthem_modifier
+#				has_variable = elgar_folk_anthem_text_var
+#			}
+#			AND = {
+#				has_modifier = elgar_value_anthem_modifier
+#				has_variable = elgar_value_anthem_text_var
+#			}
+#			AND = {
+#				has_modifier = elgar_military_anthem_modifier
+#				has_variable = elgar_military_anthem_text_var
+#			}
+#		}
+#	}
+#
+#	immediate = {
+#	}
+#
+#	option = {
+#		name = elgar.803.g #Woe betide anyone who dares to lay hands on this sacred text!
+#		add_radicals = {
+#			value = 0.03
+#		}
+#	}
+#
+#	option = {
+#		name = elgar.803.h #Keep the melody, but get rid of the old lyrics.
+#		custom_tooltip = elgar_anthem_loses_lyrics_tt
+#		if = {
+#			limit = {
+#				has_modifier = elgar_folk_anthem_modifier
+#				has_variable = elgar_folk_anthem_text_var
+#			}
+#			remove_variable = elgar_folk_anthem_text_var
+#			remove_modifier = elgar_solemn_anthem_modifier
+#		}
+#		if = {
+#			limit = {
+#				has_modifier = elgar_value_anthem_modifier
+#				has_variable = elgar_value_anthem_text_var
+#			}
+#			remove_variable = elgar_value_anthem_text_var
+#			remove_modifier = elgar_solemn_anthem_modifier
+#		}
+#		if = {
+#			limit = {
+#				has_modifier = elgar_military_anthem_modifier
+#				has_variable = elgar_military_anthem_text_var
+#			}
+#			remove_variable = elgar_military_anthem_text_var
+#			remove_modifier = elgar_solemn_anthem_modifier
+#		}
+#	}
+#
+#	option = {
+#		name = elgar.802.g #This anthem no longer represents our country.
+#		elgar_remove_national_anthem_effect = yes
+#		add_modifier = {
+#			name = elgar_no_anthem_modifier
+#		}
+#		add_loyalists = {
+#			value = 0.03
+#		}
+#	}
+#
+#	after = {
+#	}
+#}
+
+#Elgar 811: The National Anthem
+elgar.811 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = elgar.811.t
+	desc = elgar.811.d
+	flavor = elgar.801.f
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_marseillaise.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		default_option = yes
+		trigger = {
+			OR = {
+				has_law = law_type:law_monarchy
+				has_law = law_type:law_theocracy
+			}
+			elgar_has_possible_monarch_anthem_trigger = yes
+		}
+		name = elgar.801.h #Monarch Anthem
+		add_modifier = {
+			name = elgar_monarch_anthem_modifier
+		}
+		if = {
+			limit = {
+				has_variable = elgar_monarch_anthem_text_var
+				has_variable = elgar_monarch_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			elgar_has_possible_folk_anthem_trigger = yes
+		}
+		name = elgar.801.i #Folk Anthem
+		add_modifier = {
+			name = elgar_folk_anthem_modifier
+		}
+		if = {
+			limit = {
+				has_variable = elgar_folk_anthem_text_var
+				has_variable = elgar_folk_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			elgar_has_possible_value_anthem_trigger = yes
+		}
+		name = elgar.801.j #Value Anthem
+		add_modifier = {
+			name = elgar_value_anthem_modifier
+		}
+		if = {
+			limit = {
+				has_variable = elgar_value_anthem_text_var
+				has_variable = elgar_value_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			elgar_has_possible_military_anthem_trigger = yes
+		}
+		name = elgar.801.k #Military Anthem
+		add_modifier = {
+			name = elgar_military_anthem_modifier
+		}
+		if = {
+			limit = {
+				has_variable = elgar_military_anthem_text_var
+				has_variable = elgar_military_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			has_law = law_type:law_council_republic
+			elgar_has_possible_worker_anthem_trigger = yes
+		}
+		name = elgar.801.l #Worker Anthem
+		add_modifier = {
+			name = elgar_worker_anthem_modifier
+		}
+		if = {
+			limit = {
+				has_variable = elgar_worker_anthem_text_var
+				has_variable = elgar_worker_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			has_law = law_type:law_council_republic
+		}
+		name = elgar.801.m #Internationale Anthem
+		add_modifier = {
+			name = elgar_internationale_anthem_modifier
 		}
 	}
 
