@@ -28,7 +28,7 @@ mendelejew_31_gallium_custom_name_type = {
 			}
 		}
 		localization_key = custom_element_31_gallium
-    set_variable_mendlejew_prefix_ga_used
+    	set_variable_mendlejew_prefix_ga_used
 	}
 
 # German options #
