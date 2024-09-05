@@ -378,6 +378,43 @@ mr_beethoven_monument_button = {
     }
 }
 
+#MR_ANTHEM_MUSIC_BUTTON
+mr_anthem_music_button = {
+    scope = country
+	is_shown = {
+		has_modifier = elgar_no_anthem_modifier
+	}
+    is_valid = {
+		elgar_has_active_composer = yes
+		elgar_composer_not_exhausted = yes
+		custom_tooltip = {
+            text = MR_HAS_CONSERVATORY_TT
+            any_scope_state = {
+                is_production_method_active = {
+                    building_type = building_arts_academy
+                    production_method = pm_artists_arts_academy_conservatory
+                }
+            }
+        }
+    }
+    effect = {
+		if = {
+			limit = { has_variable = elgar_composer_var }
+			var:elgar_composer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		trigger_event = {
+			id = elgar.821
+			popup = yes
+		}
+		set_elgar_composer_progress = yes
+		add_journal_entry = {
+			type = je_elgar_composer_anthem
+		}
+    }
+}
+
 #MR_NBC_BUTTON
 mr_nbc_button = {
     scope = country
