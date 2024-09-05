@@ -10801,6 +10801,9 @@ elgar.811 = {
 
 	option = {
 		trigger = {
+			NOT = {
+				has_law = law_type:law_council_republic
+			}
 			elgar_has_possible_folk_anthem_trigger = yes
 		}
 		name = elgar.801.i #Folk Anthem
@@ -10820,6 +10823,9 @@ elgar.811 = {
 
 	option = {
 		trigger = {
+			NOT = {
+				has_law = law_type:law_council_republic
+			}
 			elgar_has_possible_value_anthem_trigger = yes
 		}
 		name = elgar.801.j #Value Anthem
@@ -10839,6 +10845,9 @@ elgar.811 = {
 
 	option = {
 		trigger = {
+			NOT = {
+				has_law = law_type:law_council_republic
+			}
 			elgar_has_possible_military_anthem_trigger = yes
 		}
 		name = elgar.801.k #Military Anthem
@@ -10883,6 +10892,284 @@ elgar.811 = {
 		name = elgar.801.m #Internationale Anthem
 		add_modifier = {
 			name = elgar_internationale_anthem_modifier
+		}
+	}
+
+	after = {
+	}
+}
+
+#Elgar 821: National Anthem Music
+elgar.821 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = elgar.821.t
+	desc = elgar.821.d
+	flavor = elgar.821.f
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_marseillaise.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		default_option = yes
+		trigger = {
+			OR = {
+				has_law = law_type:law_monarchy
+				has_law = law_type:law_theocracy
+			}
+			elgar_has_possible_monarch_anthem_trigger = no
+		}
+		name = elgar.821.h #The anthem is intended to praise our monarch.
+		set_variable = elgar_composer_creates_monarch_anthem
+	}
+
+	option = {
+		trigger = {
+			NOR = {
+				has_law = law_type:law_autocracy
+				has_law = law_type:law_council_republic
+			}
+			elgar_has_possible_folk_anthem_trigger = no
+		}
+		name = elgar.821.i #A popular folk song is intended to bind the government and the people.
+		set_variable = elgar_composer_creates_folk_anthem
+	}
+
+	option = {
+		trigger = {
+			NOT = {
+				has_law = law_type:law_council_republic
+			}
+			elgar_has_possible_value_anthem_trigger = no
+		}
+		name = elgar.821.j #We need a sublime anthem that represents our country's values.
+		set_variable = elgar_composer_creates_value_anthem
+	}
+
+	option = {
+		trigger = {
+			NOT = {
+				has_law = law_type:law_council_republic
+			}
+			elgar_has_possible_military_anthem_trigger = no
+		}
+		name = elgar.821.k #We need a song that motivates our people in battle!
+		set_variable = elgar_composer_creates_military_anthem
+	}
+
+	option = {
+		trigger = {
+			has_law = law_type:law_council_republic
+			elgar_has_possible_worker_anthem_trigger = no
+		}
+		name = elgar.821.l #Only a workers' song that glorifies the proletariat is acceptable.
+		set_variable = elgar_composer_creates_worker_anthem
+	}
+
+	after = {
+	}
+}
+
+#Elgar 822: National Anthem Music composed
+elgar.822 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = elgar.822.t
+	desc = elgar.822.d
+	flavor = elgar.822.f
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_marseillaise.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		default_option = yes
+		name = elgar.822.g #Hopefully it will find acceptance among the people.
+		composer_experience_gain_effect = { AMOUNT = 20 }
+		elgar_add_x_music_tradition_effect = { AMOUNT = 10 }
+		elgar_add_elgar_composer_num_compositions_effect = yes
+		if = {
+			limit = {
+				has_variable = elgar_composer_creates_monarch_anthem
+			}
+			custom_tooltip = {
+				text = elgar_possible_monarch_anthem_tt
+				set_variable = elgar_monarch_anthem_melody_var
+			}
+		}
+		if = {
+			limit = {
+				has_variable = elgar_composer_creates_folk_anthem
+			}
+			custom_tooltip = {
+				text = elgar_possible_folk_anthem_tt
+				set_variable = elgar_folk_anthem_melody_var
+			}
+		}
+		if = {
+			limit = {
+				has_variable = elgar_composer_creates_value_anthem
+			}
+			custom_tooltip = {
+				text = elgar_possible_value_anthem_tt
+				set_variable = elgar_value_anthem_melody_var
+			}
+		}
+		if = {
+			limit = {
+				has_variable = elgar_composer_creates_military_anthem
+			}
+			custom_tooltip = {
+				text = elgar_possible_military_anthem_tt
+				set_variable = elgar_military_anthem_melody_var
+			}
+		}
+		if = {
+			limit = {
+				has_variable = elgar_composer_creates_worker_anthem
+			}
+			custom_tooltip = {
+				text = elgar_possible_worker_anthem_tt
+				set_variable = elgar_worker_anthem_melody_var
+			}
+		}
+	}
+
+	after = {
+		remove_variable = elgar_composer_creates_monarch_anthem
+		remove_variable = elgar_composer_creates_folk_anthem
+		remove_variable = elgar_composer_creates_value_anthem
+		remove_variable = elgar_composer_creates_military_anthem
+		remove_variable = elgar_composer_creates_worker_anthem
+
+		trigger_event = {
+			id = elgar.407
+			days = 7
+		}
+	}
+}
+
+#Elgar 831: National Anthem Lyrics written
+elgar.831 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+	placement = ROOT
+
+	title = elgar.831.t
+	desc = elgar.831.d
+	flavor = elgar.831.f
+
+	event_image = {
+		texture = "gfx/event_pictures/elgar_pictures/elgar_marseillaise.dds"
+	}
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/event_music.dds"
+
+	duration = 3
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {
+		default_option = yes
+		name = elgar.822.g #Hopefully it will find acceptance among the people.
+		writer_experience_gain_effect = { AMOUNT = 20 }
+		if = {
+			limit = {
+				has_modifier= elgar_monarch_anthem_modifier
+			}
+			custom_tooltip = {
+				text = elgar_possible_monarch_anthem_text_tt
+				set_variable = elgar_monarch_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_modifier= elgar_folk_anthem_modifier
+			}
+			custom_tooltip = {
+				text = elgar_possible_folk_anthem_text_tt
+				set_variable = elgar_folk_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_modifier= elgar_value_anthem_modifier
+			}
+			custom_tooltip = {
+				text = elgar_possible_value_anthem_text_tt
+				set_variable = elgar_value_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_modifier= elgar_military_anthem_modifier
+			}
+			custom_tooltip = {
+				text = elgar_possible_military_anthem_text_tt
+				set_variable = elgar_military_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
+		}
+		if = {
+			limit = {
+				has_modifier= elgar_worker_anthem_modifier
+			}
+			custom_tooltip = {
+				text = elgar_possible_worker_anthem_text_tt
+				set_variable = elgar_worker_anthem_text_var
+			}
+			add_modifier = {
+				name = elgar_solemn_anthem_modifier
+			}
 		}
 	}
 
