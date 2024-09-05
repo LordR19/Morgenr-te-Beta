@@ -252,3 +252,69 @@ mr_reading_tour_active_sgui  = {
 		has_modifier = manzoni_writer_on_tour_modifier
     }
 }
+
+#MR_ANTHEM_TEXT_BUTTON
+mr_anthem_text_button  = {
+    scope = country
+	is_shown = {
+		OR = {
+			AND = {
+				has_modifier = elgar_monarch_anthem_modifier
+				NOT = {
+					has_variable = elgar_monarch_anthem_text_var
+				}
+			}
+			AND = {
+				has_modifier = elgar_folk_anthem_modifier
+				NOT = {
+					has_variable = elgar_folk_anthem_text_var
+				}
+			}
+			AND = {
+				has_modifier = elgar_value_anthem_modifier
+				NOT = {
+					has_variable = elgar_value_anthem_text_var
+				}
+			}
+			AND = {
+				has_modifier = elgar_military_anthem_modifier
+				NOT = {
+					has_variable = elgar_military_anthem_text_var
+				}
+			}
+			AND = {
+				has_modifier = elgar_worker_anthem_modifier
+				NOT = {
+					has_variable = elgar_worker_anthem_text_var
+				}
+			}
+		}
+	}
+    is_valid = {
+		custom_tooltip = {
+            text = MR_HAS_LITERARY_SALON_TT
+            any_scope_state = {
+                is_production_method_active = {
+                    building_type = building_arts_academy
+                    production_method = pm_artists_arts_academy_salon
+                }
+            }
+        }
+		manzoni_has_active_writer = yes
+    }
+
+    effect = {
+		if = {
+			limit = {
+				has_variable = manzoni_writer_var
+			}
+			var:manzoni_writer_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+		trigger_event = {
+			id = elgar.831
+			popup = yes
+		}
+    }
+}
