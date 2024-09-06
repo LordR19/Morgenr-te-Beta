@@ -11,7 +11,7 @@ Archaeology:
 - Added Palmyra Excavation.
 
 Astronomy
-- Added Moon Libration event when doing Moon fotos.
+- Added Moon Libration event when doing Selenography.
 
 Chemistry:
 - Levels of Mathematical-Technical focused Universities now give a bonus on Chemistry Projects.
