@@ -10,12 +10,15 @@ Animals:
 Archaeology:
 - Added Palmyra Excavation.
 
-Engineering:
-- Levels of Mathematical-Technical focused Universities now give a bonus on Engineering Projects.
-- Added the additional work teams button to most Engineering Projects.
+Astronomy
+- Added Moon Libration event when doing Moon fotos.
 
 Chemistry:
 - Levels of Mathematical-Technical focused Universities now give a bonus on Chemistry Projects.
+
+Engineering:
+- Levels of Mathematical-Technical focused Universities now give a bonus on Engineering Projects.
+- Added the additional work teams button to most Engineering Projects.
 
 Music:
 - With the invention of Nationalism, it is possible to adopt National Anthems.
