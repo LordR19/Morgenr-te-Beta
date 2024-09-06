@@ -12,6 +12,7 @@ Archaeology:
 
 Engineering:
 - Levels of Mathematical-Technical focused Universities now give a bonus on Engineering Projects.
+- Added the additional work teams button to most Engineering Projects.
 
 Chemistry:
 - Levels of Mathematical-Technical focused Universities now give a bonus on Chemistry Projects.
