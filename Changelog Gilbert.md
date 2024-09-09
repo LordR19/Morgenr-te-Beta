@@ -43,3 +43,8 @@ Fixes:
 - Added a Tooltip for the improvement projects that were missing them.
 - The National Park now properly adds a modifier again as well.
 - The Interdisciplinary Symposium no longer requires a geologist who is a famous paleontologist but a paleontologist as it is intended.
+
+Changelog for 2.2.5? "X"
+
+Fixes:
+- Receiving a Gorilla will no longer cause you to say "Horsy."
