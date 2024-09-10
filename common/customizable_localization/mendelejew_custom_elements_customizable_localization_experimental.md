@@ -6,6 +6,24 @@
 
 ######################
 
+Question Space:
+
+	#	else_if = {
+	#		limit = {
+	#			capital_state {
+	#				STATE_SAXONY
+	#			}
+	#			NOT = {
+	#				has_global_variable = custom_element_suffix_sa_global_var
+	#			}
+	#		}
+	#			set_global_variable = custom_element_21_sassonium_global_var
+	#			set_global_variable = custom_element_suffix_sa_global_var
+	#	}
+
+
+
+
 ### Gallium (31) ###
 
 #Name
