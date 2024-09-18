@@ -12,6 +12,12 @@ on_yearly_pulse_country = {
 	}
 }
 
+on_law_enactment_pass = {
+	on_actions = {
+		panum_on_law_enactment_pass
+	}
+}
+
 panum_on_yearly_pulse_country = {
 
 	random_events = {
@@ -22,5 +28,39 @@ panum_on_yearly_pulse_country = {
 		#5 = panum.300 #Panum 300: Smallpox Epidemic
 		#5 = panum.400 #Panum 400: Typhus Epidemic
 		#5 = panum.500 #Panum 500: Yellow Fever Epidemic
+	}
+}
+
+panum_on_law_enactment_pass = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					is_enacting_law = law_type:law_public_health_insurance
+					is_enacting_law = law_type:law_private_health_insurance
+					is_enacting_law = law_type:law_charitable_health_system
+				}
+				any_scope_character = {
+					has_role = agitator
+					OR = {
+						has_ideology = ideology:ideology_panum_medical_reformer_public
+						has_ideology = ideology:ideology_panum_medical_reformer_private
+						has_ideology = ideology:ideology_panum_medical_reformer_charity
+					}
+				}
+			}
+
+			random_scope_character = {
+				limit = {
+					has_role = agitator
+					OR = {
+						has_ideology = ideology:ideology_panum_medical_reformer_public
+						has_ideology = ideology:ideology_panum_medical_reformer_private
+						has_ideology = ideology:ideology_panum_medical_reformer_charity
+					}
+				}
+				kill_character = yes
+			}
+		}
 	}
 }
