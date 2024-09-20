@@ -408,7 +408,7 @@ mendelejew_element_custom_name_effect = {
 				set_global_variable = custom_element_suffix_os_global_var
 			}
 
-			### Element Names depending on cultures ###
+			### Element Names depending on cultures, states, etc. ###
 			10 = { #Named after the continent of Europe
 				trigger = {
 					NOT = {
@@ -513,6 +513,32 @@ mendelejew_element_custom_name_effect = {
 
 				set_global_variable = custom_element_$NUMBER$_tamesium_global_var
 				set_global_variable = custom_element_suffix_ts_global_var
+			}
+			4 = { #Named after the latin name of Edinburgh
+				trigger = {
+					NOT = {
+						has_global_variable = custom_element_suffix_ed_global_var
+					}
+					any_scope_state = {
+						state_region = s:STATE_LOWLANDS
+						is_homeland_of_country_cultures = root
+					}
+				}
+
+				set_global_variable = custom_element_$NUMBER$_edinburgium_global_var
+				set_global_variable = custom_element_suffix_ed_global_var
+
+				modifier = {
+					if = {
+						limit = {
+							OR = {
+								c:SCO ?= this
+								was_formed_from = SCO
+							}
+						}
+						add = 16 #Should be way more probable if it is element 31
+					}
+				}
 			}
 			20 = { #Named after the Latin word for France
 				trigger = {
