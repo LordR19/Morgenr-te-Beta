@@ -11,3 +11,5 @@ Fixes:
 - Neptunium can no longer exist twice.
 - There should no longer be any element symbols being used twice.
 - Zoos will no longer downgrade automatically.
+- No more Error spam in observer games.
+- Painters and Writers should no longer get more than 500 reputation.
