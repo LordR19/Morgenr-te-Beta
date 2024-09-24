@@ -15,3 +15,5 @@ Fixes:
 - Painters and Writers should no longer get more than 500 reputation.
 - You can recruit academics now if other countries have a geologist or chemist now.
 - Safari now end if you acquire the animals in other ways.
+- Pilots will stop being busy after an airshow instead of becoming even more busy.
+- You should no longer get a new pilot at the Schneider trophy if you already has one. If it happens anyways, you have the option to keep your current pilot.
