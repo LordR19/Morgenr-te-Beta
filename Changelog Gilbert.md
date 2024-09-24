@@ -14,3 +14,4 @@ Fixes:
 - No more Error spam in observer games.
 - Painters and Writers should no longer get more than 500 reputation.
 - You can recruit academics now if other countries have a geologist or chemist now.
+- Safari now end if you acquire the animals in other ways.
