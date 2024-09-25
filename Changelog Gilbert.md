@@ -19,3 +19,4 @@ Fixes:
 - You should no longer get a new pilot at the Schneider trophy if you already has one. If it happens anyways, you have the option to keep your current pilot.
 - Campania should no longer show up as Volcano Expedition location when not owned.
 - The Observatory should no longer give a warning for you to upgrade it, if it is fully upgraded.
+- Various Tooltips are now more informative and tell you which country is affected.
