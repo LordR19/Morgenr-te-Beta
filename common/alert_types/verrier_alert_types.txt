@@ -262,8 +262,9 @@ verrier_can_update_observatory_pms_alert = {
 				#Chemistry
 				AND = {
 					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_mendelejew_chemistry }
-					NOT = {
+					NOR = {
 						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_mendelejew_spectroscopy }
+						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_mendelejew_cyclotron }
 					}
 					market ?= {
 						mg:sulfur ?= {
@@ -273,8 +274,25 @@ verrier_can_update_observatory_pms_alert = {
 				}
 				AND = {
 					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_mendelejew_spectroscopy }
+					NOT = {
+						is_production_method_active = { building_type = building_verrier_observatory production_method = pm_mendelejew_cyclotron }
+					}
 					market ?= {
 						mg:sulfur ?= {
+							market_goods_sell_orders > 0
+						}
+					}
+				}
+				AND = {
+					can_activate_production_method = { building_type = building_verrier_observatory production_method = pm_mendelejew_cyclotron }
+					market ?= {
+						mg:sulfur ?= {
+							market_goods_sell_orders > 0
+						}
+						mg:curie_uranium ?= {
+							market_goods_sell_orders > 0
+						}
+						mg:electricity ?= {
 							market_goods_sell_orders > 0
 						}
 					}
