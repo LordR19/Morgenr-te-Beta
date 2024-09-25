@@ -65,6 +65,63 @@ namespace = panum
 
 #################################################################################
 
+######PHYSICIAN ACTIONS######
+
+#Panum 51: Describe Local Disease
+panum.51 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.51.t
+
+	desc = panum.51.d
+
+	flavor = panum.51.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cancellation_trigger = {
+		panum_has_epidemic_trigger = no
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		random_scope_state = {
+			limit = {
+				panum_state_has_epidemic_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#
+		name = panum.51.g
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+		panum_set_je_description_local_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_physician_action_active_var
+	}
+}
+
+#################################################################################
+
 ######CHOLERA######
 
 #Panum 100: The Cholera Epidemic in YEAR
