@@ -4,6 +4,14 @@
 
 #by Marco Dandolo
 
+### Technology ###
+
+panum_small_add_technology = {}
+
+panum_medium_add_technology = {}
+
+panum_large_add_technology = {}
+
 ### Cholera ###
 
 # This effect choses a random_scope_state with the highest urbanization
@@ -148,26 +156,44 @@ panum_add_cholera_description_effect = {
 	custom_tooltip = {
 		text = panum_add_cholera_description_effect_tt
 		set_variable = panum_cholera_description_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_cholera_description_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_cholera_description_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_cholera_description_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_cholera_description_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_cholera_description_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_cholera_description_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_cholera_description_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_cholera_description_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 40 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_description_cholera_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 20 }
+		panum_small_add_technology = yes
 	}
 }
 
@@ -176,26 +202,44 @@ panum_add_cholera_treatment_effect = {
 	custom_tooltip = {
 		text = panum_add_cholera_treatment_effect_tt
 		set_variable = panum_cholera_treatment_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_cholera_treatment_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_cholera_treatment_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_cholera_treatment_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_cholera_treatment_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_cholera_treatment_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_cholera_treatment_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_cholera_treatment_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_cholera_treatment_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 60 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_treatment_cholera_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 30 }
+		panum_small_add_technology = yes
 	}
 }
 
@@ -212,6 +256,86 @@ panum_add_number_of_cholera_states_effect = {
 	change_variable = {
 		name = panum_number_of_cholera_states_var
 		add = 1
+	}
+}
+
+#Effect to add $AMOUNT$ Cholera Description Clues
+panum_add_x_cholera_description_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = cholera_description_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_cholera_description_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_cholera_description_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_cholera_description_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_cholera_description_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_cholera_description_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_cholera_description_clues_var
+		add = scope:cholera_description_clues_amount
+	}
+}
+
+#Effect to add $AMOUNT$ Cholera Treatment Clues
+panum_add_x_cholera_treatment_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = cholera_treatment_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_cholera_treatment_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_cholera_treatment_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_cholera_treatment_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_cholera_treatment_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_cholera_treatment_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_cholera_treatment_clues_var
+		add = scope:cholera_treatment_clues_amount
 	}
 }
 
@@ -338,26 +462,44 @@ panum_add_tuberculosis_description_effect = {
 	custom_tooltip = {
 		text = panum_add_tuberculosis_description_effect_tt
 		set_variable = panum_tuberculosis_description_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_tuberculosis_description_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_tuberculosis_description_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_tuberculosis_description_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_tuberculosis_description_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_tuberculosis_description_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_tuberculosis_description_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_tuberculosis_description_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_tuberculosis_description_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 40 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_description_tuberculosis_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 20 }
+		panum_small_add_technology = yes
 	}
 }
 
@@ -366,26 +508,44 @@ panum_add_tuberculosis_treatment_effect = {
 	custom_tooltip = {
 		text = panum_add_tuberculosis_treatment_effect_tt
 		set_variable = panum_tuberculosis_treatment_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_tuberculosis_treatment_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_tuberculosis_treatment_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_tuberculosis_treatment_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_tuberculosis_treatment_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_tuberculosis_treatment_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_tuberculosis_treatment_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_tuberculosis_treatment_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_tuberculosis_treatment_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 60 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_treatment_tuberculosis_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 30 }
+		panum_small_add_technology = yes
 	}
 }
 
@@ -402,6 +562,86 @@ panum_add_number_of_tuberculosis_states_effect = {
 	change_variable = {
 		name = panum_number_of_tuberculosis_states_var
 		add = 1
+	}
+}
+
+#Effect to add $AMOUNT$ Tuberculosis Description Clues
+panum_add_x_tuberculosis_description_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = tuberculosis_description_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_tuberculosis_description_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_tuberculosis_description_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_tuberculosis_description_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_tuberculosis_description_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_tuberculosis_description_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_tuberculosis_description_clues_var
+		add = scope:tuberculosis_description_clues_amount
+	}
+}
+
+#Effect to add $AMOUNT$ Tuberculosis Treatment Clues
+panum_add_x_tuberculosis_treatment_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = tuberculosis_treatment_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_tuberculosis_treatment_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_tuberculosis_treatment_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_tuberculosis_treatment_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_tuberculosis_treatment_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_tuberculosis_treatment_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_tuberculosis_treatment_clues_var
+		add = scope:tuberculosis_treatment_clues_amount
 	}
 }
 
@@ -516,26 +756,44 @@ panum_add_smallpox_description_effect = {
 	custom_tooltip = {
 		text = panum_add_smallpox_description_effect_tt
 		set_variable = panum_smallpox_description_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_smallpox_description_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_smallpox_description_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_smallpox_description_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_smallpox_description_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_smallpox_description_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_smallpox_description_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_smallpox_description_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_smallpox_description_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 40 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_description_smallpox_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 20 }
+		panum_small_add_technology = yes
 	}
 }
 
@@ -544,26 +802,44 @@ panum_add_smallpox_treatment_effect = {
 	custom_tooltip = {
 		text = panum_add_smallpox_treatment_effect_tt
 		set_variable = panum_smallpox_treatment_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_smallpox_treatment_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_smallpox_treatment_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_smallpox_treatment_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_smallpox_treatment_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_smallpox_treatment_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_smallpox_treatment_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_smallpox_treatment_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_smallpox_treatment_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 60 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_treatment_smallpox_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 30 }
+		panum_small_add_technology = yes
 	}
 }
 
@@ -580,6 +856,86 @@ panum_add_number_of_smallpox_states_effect = {
 	change_variable = {
 		name = panum_number_of_smallpox_states_var
 		add = 1
+	}
+}
+
+#Effect to add $AMOUNT$ Smallpox Description Clues
+panum_add_x_smallpox_description_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = smallpox_description_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_smallpox_description_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_smallpox_description_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_smallpox_description_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_smallpox_description_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_smallpox_description_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_smallpox_description_clues_var
+		add = scope:smallpox_description_clues_amount
+	}
+}
+
+#Effect to add $AMOUNT$ Smallpox Treatment Clues
+panum_add_x_smallpox_treatment_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = smallpox_treatment_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_smallpox_treatment_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_smallpox_treatment_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_smallpox_treatment_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_smallpox_treatment_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_smallpox_treatment_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_smallpox_treatment_clues_var
+		add = scope:smallpox_treatment_clues_amount
 	}
 }
 
@@ -702,26 +1058,44 @@ panum_add_typhus_description_effect = {
 	custom_tooltip = {
 		text = panum_add_typhus_description_effect_tt
 		set_variable = panum_typhus_description_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_typhus_description_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_typhus_description_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_typhus_description_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_typhus_description_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_typhus_description_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_typhus_description_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_typhus_description_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_typhus_description_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 40 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_description_typhus_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 20 }
+		panum_small_add_technology = yes
 	}
 }
 
@@ -730,26 +1104,124 @@ panum_add_typhus_treatment_effect = {
 	custom_tooltip = {
 		text = panum_add_typhus_treatment_effect_tt
 		set_variable = panum_typhus_treatment_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_typhus_treatment_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_typhus_treatment_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_typhus_treatment_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_typhus_treatment_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_typhus_treatment_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_typhus_treatment_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_typhus_treatment_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_typhus_treatment_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 60 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_treatment_typhus_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 30 }
+		panum_small_add_technology = yes
+	}
+}
+
+#Effect to add $AMOUNT$ Typhus Description Clues
+panum_add_x_typhus_description_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = typhus_description_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_typhus_description_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_typhus_description_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_typhus_description_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_typhus_description_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_typhus_description_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_typhus_description_clues_var
+		add = scope:typhus_description_clues_amount
+	}
+}
+
+#Effect to add $AMOUNT$ Typhus Treatment Clues
+panum_add_x_typhus_treatment_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = typhus_treatment_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_typhus_treatment_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_typhus_treatment_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_typhus_treatment_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_typhus_treatment_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_typhus_treatment_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_typhus_treatment_clues_var
+		add = scope:typhus_treatment_clues_amount
 	}
 }
 
@@ -898,26 +1370,44 @@ panum_add_yellow_fever_description_effect = {
 	custom_tooltip = {
 		text = panum_add_yellow_fever_description_effect_tt
 		set_variable = panum_yellow_fever_description_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_yellow_fever_description_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_yellow_fever_description_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_yellow_fever_description_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_yellow_fever_description_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_yellow_fever_description_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_yellow_fever_description_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_yellow_fever_description_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_yellow_fever_description_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 40 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_description_yellow_fever_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 20 }
+		panum_small_add_technology = yes
 	}
 }
 
@@ -926,26 +1416,44 @@ panum_add_yellow_fever_treatment_effect = {
 	custom_tooltip = {
 		text = panum_add_yellow_fever_treatment_effect_tt
 		set_variable = panum_yellow_fever_treatment_var
-		if = {
-			limit = {
-				NOT = {
-					has_global_variable = panum_yellow_fever_treatment_invented_global_var
-				}
-			}
-			set_global_variable = {
-				name = panum_yellow_fever_treatment_year_global_var
-				value = year
-			}
-			country_definition = {
-				set_global_variable = {
-					name = panum_yellow_fever_treatment_invented_global_var
-					value = this
-				}
-			}
-			var:panum_physician_var = {
-				set_variable = panum_yellow_fever_treatment_inventor_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_yellow_fever_treatment_invented_global_var
 			}
 		}
+		set_global_variable = {
+			name = panum_yellow_fever_treatment_year_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_yellow_fever_treatment_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_yellow_fever_treatment_inventor_var
+		}
+		add_modifier = {
+			name = panum_medical_avant_garde_modifier
+			years = 5
+		}
+		physician_experience_gain_effect = { AMOUNT = 60 }
+		panum_medium_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_treatment_yellow_fever_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 30 }
+		panum_small_add_technology = yes
 	}
 }
 
@@ -962,6 +1470,86 @@ panum_add_number_of_yellow_fever_states_effect = {
 	change_variable = {
 		name = panum_number_of_yellow_fever_states_var
 		add = 1
+	}
+}
+
+#Effect to add $AMOUNT$ Yellow Fever Description Clues
+panum_add_x_yellow_fever_description_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = yellow_fever_description_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_yellow_fever_description_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_yellow_fever_description_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_yellow_fever_description_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_yellow_fever_description_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_yellow_fever_description_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_yellow_fever_description_clues_var
+		add = scope:yellow_fever_description_clues_amount
+	}
+}
+
+#Effect to add $AMOUNT$ Yellow Fever Treatment Clues
+panum_add_x_yellow_fever_treatment_clues_effect = {
+	# Amount = amount of Clues to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = yellow_fever_treatment_clues_amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = panum_add_x_yellow_fever_treatment_clues_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = panum_add_x_yellow_fever_treatment_clues_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = panum_add_x_yellow_fever_treatment_clues_plus_x_tt
+	}
+
+	#This part adds the AMOUNT of Clues
+	if = { #Fallback if the variable does not exist yet
+		limit = {
+			NOT = {
+				has_variable = panum_yellow_fever_treatment_clues_var
+			}
+		}
+		set_variable = {
+			name = panum_yellow_fever_treatment_clues_var
+			value = 0
+		}
+	}
+	change_variable = {
+		name = panum_yellow_fever_treatment_clues_var
+		add = scope:yellow_fever_treatment_clues_amount
 	}
 }
 
@@ -1153,6 +1741,7 @@ panum_remove_disease_effect = {
 	}
 }
 
+# Add Medical Inventions (Descriptions, Treatments) depending on start date
 panum_set_start_medical_inventions_effect = {
 	if = {
 		limit = {
@@ -1266,49 +1855,7 @@ panum_set_je_description_local_effect = {
 	}
 }
 
-# Add Disease Description JE depending on a current foreign epidemic
-panum_set_je_description_local_effect = {
-	if = {
-		limit = {
-			has_journal_entry = je_panum_cholera
-		}
-		add_journal_entry = {
-			type = je_panum_cholera_description
-		}
-	}
-	if = {
-		limit = {
-			has_journal_entry = je_panum_tuberculosis
-		}
-		add_journal_entry = {
-			type = je_panum_tuberculosis_description
-		}
-	}
-	if = {
-		limit = {
-			has_journal_entry = je_panum_smallpox
-		}
-		add_journal_entry = {
-			type = je_panum_smallpox_description
-		}
-	}
-	if = {
-		limit = {
-			has_journal_entry = je_panum_typhus
-		}
-		add_journal_entry = {
-			type = je_panum_typhus_description
-		}
-	}
-	if = {
-		limit = {
-			has_journal_entry = je_panum_yellow_fever
-		}
-		add_journal_entry = {
-			type = je_panum_yellow_fever_description
-		}
-	}
-}
+
 
 ### Medical Reformer ###
 
