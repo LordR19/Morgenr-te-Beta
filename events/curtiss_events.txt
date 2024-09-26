@@ -1671,10 +1671,15 @@ curtiss.100 = {
 				popup = yes
 				days = 30
 			}
-			trigger_event = {
-				id = curtiss.108
-				popup = yes
-				days = 60
+			if = {
+				limit = {
+					curtiss_has_pilot = no
+				}
+				trigger_event = {
+					id = curtiss.108
+					popup = yes
+					days = 60
+				}
 			}
 			trigger_event = {
 				id = curtiss.140
@@ -1889,10 +1894,15 @@ curtiss.102 = {
 				popup = yes
 				days = 30
 			}
-			trigger_event = {
-				id = curtiss.108
-				popup = yes
-				days = 60
+			if = {
+				limit = {
+					curtiss_has_pilot = no
+				}
+				trigger_event = {
+					id = curtiss.108
+					popup = yes
+					days = 60
+				}
 			}
 			trigger_event = {
 				id = curtiss.140
@@ -2250,16 +2260,42 @@ curtiss.108 = {
 
 	immediate = {
 		create_new_pilot_effect = yes
+		if = {
+			limit = { curtiss_has_pilot_no_tooltip_trigger = yes }
+			var:curtiss_pilot_var = {
+				save_scope_as = curtiss_current_pilot
+			}
+		}
 	}
 
 	option = {
+		default_option = yes
 		name = curtiss.108.k
 		curtiss_set_new_pilot_as_pilot_effect = yes
 		scope:curtiss_new_pilot_scope = {
 			set_character_busy_and_immortal = yes
 		}
 	}
-	
+
+	option = {
+		name = curtiss.108.l
+
+		trigger = {
+			curtiss_has_pilot_no_tooltip_trigger = yes
+		}
+
+		scope:curtiss_current_pilot = {
+			set_character_busy_and_immortal = yes
+		}
+		scope:curtiss_new_pilot_scope = {
+			free_character_from_void = no
+		}
+
+		ai_chance = {
+			base = 10000
+		}
+	}
+
 	after = {
 		trigger_event = {
 			id = curtiss.104
@@ -12124,7 +12160,7 @@ curtiss.431 = {
 			years = 3
 		}
 		var:curtiss_pilot_var ?= {
-			set_character_busy_and_immortal = yes
+			set_character_busy_and_immortal = no
 		}
 	}
 

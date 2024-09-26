@@ -23,6 +23,103 @@ namespace = panum
 #Panum 110: Common Purpose
 #Panum 120: Cholera epidemic over
 
+#Panum 200: Tuberculosis epidemic
+#Panum 201: Tuberculosis in STATE
+#Panum 202: A hereditary disease?
+#Panum 203: Spitting on the streets
+#Panum 204: ARTIST gets Tuberculosis
+#Panum 205: Tuberculosis Sanatorium
+#Panum 206: The disease of the proletarians
+#Panum 207: Religious Initiative
+#Panum 208: The white plague takes its toll
+#Panum 220: Tuberculosis epidemic over
+
+#Panum 300: Smallpox epidemic
+#Panum 301: Smallpox in STATE
+#Panum 302: Smallpox spreads to COUNTRY
+#Panum 303: Smallpox out of control
+#Panum 320: Smallpox epidemic over
+
+#Panum 400: Typhus epidemic
+#Panum 401: Typhus in STATE
+#Panum 402: A disease of moral corruption?
+#Panum 403: Quarantine
+#Panum 404: Filthy Sheds
+#Panum 405: Riots against Fever Sheds
+#Panum 406: Unburied Corpses
+#Panum 407: Typhus in Barracks
+#Panum 408: Tormented in illness, not in war
+#Panum 420: Typhus epidemic over
+
+#Panum 500: Yellow Fever epidemic
+#Panum 501: Yellow Fever in STATE
+#Panum 502: A contagious disease?
+#Panum 503: Yellow Fever affects Plantations
+#Panum 504: Evacuation
+#Panum 505: Yellow Fever spreads to Barracks
+#Panum 506: Sailor's sickness
+#Panum 507: Black Vomit
+#Panum 520: Yellow Fever epidemic over
+
+#Panum 1000: Calls for Medical Reforms
+
+#################################################################################
+
+######PHYSICIAN ACTIONS######
+
+#Panum 51: Describe Local Disease
+panum.51 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.51.t
+
+	desc = panum.51.d
+
+	flavor = panum.51.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cancellation_trigger = {
+		panum_has_epidemic_trigger = no
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		random_scope_state = {
+			limit = {
+				panum_state_has_epidemic_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#
+		name = panum.51.g
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+		panum_set_je_description_local_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_physician_action_active_var
+	}
+}
+
 #################################################################################
 
 ######CHOLERA######
@@ -4015,6 +4112,180 @@ panum.520 = {
 		default_option = yes
 	}
 
+
+	after = {
+	}
+}
+
+#Panum 1000: Calls for Medical Reforms
+panum.1000 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.1000.t
+	desc = panum.1000.d
+	flavor = panum.1000.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_medical_reformer_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		has_law = law_type:law_no_health_system
+		OR = {
+			has_technology_researched = medical_degrees
+			has_technology_researched = pharmaceuticals
+		}
+		NOT = {
+			any_scope_character = {
+				has_role = agitator
+				OR = {
+					has_ideology = ideology:ideology_panum_medical_reformer_public
+					has_ideology = ideology:ideology_panum_medical_reformer_private
+					has_ideology = ideology:ideology_panum_medical_reformer_charity
+				}
+			}
+		}
+	}
+
+	immediate = {
+		add_modifier = {
+			name = panum_medical_reformer_slot_modifier
+		}
+		create_character = {
+			is_agitator = yes
+			save_scope_as = panum_medical_reformer_scope
+			on_created = {
+				set_variable = mr_is_physician_var
+				add_trait = panum_physician
+				if = {
+					limit = {
+						interest_group = {
+							law_stance = {
+								law = law_type:law_public_health_insurance
+								value > neutral
+							}
+						}
+					}
+					set_ideology = ideology:ideology_panum_medical_reformer_public
+				}
+				else_if = {
+					limit = {
+						interest_group = {
+							law_stance = {
+								law = law_type:law_private_health_insurance
+								value > neutral
+							}
+						}
+					}
+					set_ideology = ideology:ideology_panum_medical_reformer_private
+				}
+				else_if = {
+					limit = {
+						interest_group = {
+							law_stance = {
+								law = law_type:law_charitable_health_system
+								value > neutral
+							}
+						}
+					}
+					set_ideology = ideology:ideology_panum_medical_reformer_charity
+				}
+				else = {
+					random_list = {
+						1 = { set_ideology = ideology:ideology_panum_medical_reformer_public }
+						1 = { set_ideology = ideology:ideology_panum_medical_reformer_private }
+						1 = { set_ideology = ideology:ideology_panum_medical_reformer_charity }
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#I think they would favor public healthcare!
+		name = panum.1000.g
+		default_option = yes
+
+		trigger = {
+			is_player = yes
+			has_technology_researched = pharmaceuticals
+		}
+		show_as_unavailable = {
+			always = yes
+		}
+
+		scope:panum_medical_reformer_scope = {
+			set_ideology = ideology:ideology_panum_medical_reformer_public
+			add_modifier = {
+				name = panum_medical_reformer_modifier
+				is_decaying = yes
+				years = 5
+			}
+		}
+	}
+
+	option = {	#I think they would favor private healthcare!
+		name = panum.1000.h
+
+		trigger = {
+			is_player = yes
+			has_technology_researched = pharmaceuticals
+		}
+
+		show_as_unavailable = {
+			always = yes
+		}
+		scope:panum_medical_reformer_scope = {
+			set_ideology = ideology:ideology_panum_medical_reformer_private
+			add_modifier = {
+				name = panum_medical_reformer_modifier
+				is_decaying = yes
+				years = 5
+			}
+		}
+	}
+
+	option = {	#I think they would favor charitable healthcare!
+		name = panum.1000.i
+
+		trigger = {
+			is_player = yes
+			has_technology_researched = medical_degrees
+		}
+		show_as_unavailable = {
+			always = yes
+		}
+
+		scope:panum_medical_reformer_scope = {
+			set_ideology = ideology:ideology_panum_medical_reformer_charity
+			add_modifier = {
+				name = panum_medical_reformer_modifier
+				is_decaying = yes
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			is_ai = yes
+		}
+		
+		scope:panum_medical_reformer_scope = {
+			add_modifier = {
+				name = panum_medical_reformer_modifier
+				is_decaying = yes
+				years = 5
+			}
+		}
+	}
 
 	after = {
 	}
