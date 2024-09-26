@@ -22,6 +22,8 @@ namespace = panum
 #Panum 109: Public Panic
 #Panum 110: Common Purpose
 #Panum 120: Cholera epidemic over
+#Panum 130: Cholera Description
+#Panum 140: Cholera Treatment
 
 #Panum 200: Tuberculosis epidemic
 #Panum 201: Tuberculosis in STATE
@@ -33,12 +35,16 @@ namespace = panum
 #Panum 207: Religious Initiative
 #Panum 208: The white plague takes its toll
 #Panum 220: Tuberculosis epidemic over
+#Panum 230: Tuberculosis Description
+#Panum 240: Tuberculosis Treatment
 
 #Panum 300: Smallpox epidemic
 #Panum 301: Smallpox in STATE
 #Panum 302: Smallpox spreads to COUNTRY
 #Panum 303: Smallpox out of control
 #Panum 320: Smallpox epidemic over
+#Panum 330: Smallpox Description
+#Panum 340: Smallpox Treatment
 
 #Panum 400: Typhus epidemic
 #Panum 401: Typhus in STATE
@@ -50,6 +56,8 @@ namespace = panum
 #Panum 407: Typhus in Barracks
 #Panum 408: Tormented in illness, not in war
 #Panum 420: Typhus epidemic over
+#Panum 430: Typhus Description
+#Panum 440: Typhus Treatment
 
 #Panum 500: Yellow Fever epidemic
 #Panum 501: Yellow Fever in STATE
@@ -60,6 +68,8 @@ namespace = panum
 #Panum 506: Sailor's sickness
 #Panum 507: Black Vomit
 #Panum 520: Yellow Fever epidemic over
+#Panum 530: Yellow Fever Description
+#Panum 540: Yellow Fever Treatment
 
 #Panum 1000: Calls for Medical Reforms
 
@@ -113,6 +123,194 @@ panum.51 = {
 			set_character_busy_and_immortal = yes
 		}
 		panum_set_je_description_local_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_physician_action_active_var
+	}
+}
+
+#Panum 52: Describe Foreign Disease
+panum.52 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.52.t
+
+	desc = panum.52.d
+
+	flavor = panum.52.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cancellation_trigger = {
+		panum_can_describe_foreign_disease_trigger = no
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_cholera
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_cholera
+				}
+				save_scope_as = panum_cholera_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_tuberculosis
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_tuberculosis
+				}
+				save_scope_as = panum_tuberculosis_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_smallpox
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_smallpox
+				}
+				save_scope_as = panum_smallpox_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_typhus
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_typhus
+				}
+				save_scope_as = panum_typhus_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_yellow_fever
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_yellow_fever
+				}
+				save_scope_as = panum_yellow_fever_country_scope
+			}
+		}
+	}
+
+	option = {	#Cholera Country
+		name = panum.52.g
+		default_option =yes
+		trigger = {
+			exists = scope:panum_cholera_country_scope
+			panum_has_cholera_description_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_cholera_description_expedition
+			target = scope:panum_cholera_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	option = {	#Tuberculosis Country
+		name = panum.52.h
+		trigger = {
+			exists = scope:panum_tuberculosis_country_scope
+			panum_has_tuberculosis_description_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_tuberculosis_description_expedition
+			target = scope:panum_tuberculosis_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	option = {	#Smallpox Country
+		name = panum.52.i
+		trigger = {
+			exists = scope:panum_smallpox_country_scope
+			panum_has_smallpox_description_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_smallpox_description_expedition
+			target = scope:panum_smallpox_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	option = {	#Typhus Country
+		name = panum.52.j
+		trigger = {
+			exists = scope:panum_typhus_country_scope
+			panum_has_typhus_description_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_typhus_description_expedition
+			target = scope:panum_typhus_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	option = {	#Yellow Fever Country
+		name = panum.52.k
+		trigger = {
+			exists = scope:panum_yellow_fever_country_scope
+			panum_has_yellow_fever_description_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_yellow_fever_description_expedition
+			target = scope:panum_yellow_fever_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
 	}
 
 	after = {
@@ -1156,6 +1354,108 @@ panum.120 = {
 
 
 	after = {
+	}
+}
+
+#Panum 130: Cholera Description
+panum.130 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.130.t
+
+	desc = panum.130.d
+
+	flavor = panum.130.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the description title
+		set_variable = {
+			name = panum_description_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_description_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Now we know the beast better.
+		name = panum.130.g
+		panum_add_cholera_description_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_description_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 140: Cholera Treatment
+panum.140 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.140.t
+
+	desc = panum.140.d
+
+	flavor = panum.140.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the treatment title
+		set_variable = {
+			name = panum_treatment_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_treatment_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Cholera is losing its horror.
+		name = panum.130.g
+		panum_add_cholera_treatment_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_title_randomizer_var
+		remove_variable = panum_disease_title_var
 	}
 }
 
@@ -2228,6 +2528,108 @@ panum.220 = {
 	}
 }
 
+#Panum 230: Tuberculosis Description
+panum.230 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.130.t
+
+	desc = panum.230.d
+
+	flavor = panum.130.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the description title
+		set_variable = {
+			name = panum_description_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_description_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Now we know the beast better.
+		name = panum.130.g
+		panum_add_tuberculosis_description_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_description_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 240: Tuberculosis Treatment
+panum.240 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.140.t
+
+	desc = panum.240.d
+
+	flavor = panum.140.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the treatment title
+		set_variable = {
+			name = panum_treatment_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_treatment_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Tuberculosis is losing its horror.
+		name = panum.130.g
+		panum_add_tuberculosis_treatment_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
 #################################################################################
 
 ######SMALLPOX######
@@ -2599,6 +3001,108 @@ panum.320 = {
 
 
 	after = {
+	}
+}
+
+#Panum 330: Smallpox Description
+panum.330 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.130.t
+
+	desc = panum.330.d
+
+	flavor = panum.130.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the description title
+		set_variable = {
+			name = panum_description_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_description_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Now we know the beast better.
+		name = panum.130.g
+		panum_add_smallpox_description_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_description_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 340: Smallpox Treatment
+panum.340 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.140.t
+
+	desc = panum.340.d
+
+	flavor = panum.140.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the treatment title
+		set_variable = {
+			name = panum_treatment_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_treatment_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Smallpox is losing its horror.
+		name = panum.130.g
+		panum_add_smallpox_treatment_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_title_randomizer_var
+		remove_variable = panum_disease_title_var
 	}
 }
 
@@ -3412,6 +3916,108 @@ panum.420 = {
 	}
 }
 
+#Panum 430: Typhus Description
+panum.430 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.130.t
+
+	desc = panum.430.d
+
+	flavor = panum.130.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the description title
+		set_variable = {
+			name = panum_description_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_description_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Now we know the beast better.
+		name = panum.130.g
+		panum_add_typhus_description_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_description_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 440: Typhus Treatment
+panum.440 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.140.t
+
+	desc = panum.440.d
+
+	flavor = panum.140.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the treatment title
+		set_variable = {
+			name = panum_treatment_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_treatment_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Typhus is losing its horror.
+		name = panum.130.g
+		panum_add_typhus_treatment_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
 #################################################################################
 
 ######YELLOW FEVER######
@@ -4116,6 +4722,110 @@ panum.520 = {
 	after = {
 	}
 }
+
+#Panum 530: Yellow Fever Description
+panum.530 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.130.t
+
+	desc = panum.530.d
+
+	flavor = panum.130.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the description title
+		set_variable = {
+			name = panum_description_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_description_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Now we know the beast better.
+		name = panum.130.g
+		panum_add_yellow_fever_description_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_description_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 540: Yellow Fever Treatment
+panum.540 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.140.t
+
+	desc = panum.440.d
+
+	flavor = panum.140.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the treatment title
+		set_variable = {
+			name = panum_treatment_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_treatment_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Yellow Fever is losing its horror.
+		name = panum.130.g
+		panum_add_yellow_fever_treatment_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
+################################################################
 
 #Panum 1000: Calls for Medical Reforms
 panum.1000 = {
