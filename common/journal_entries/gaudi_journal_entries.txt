@@ -5099,6 +5099,76 @@ je_gaudi_modernizing_industries_project = {
 	should_be_pinned_by_default = yes
 }
 
+je_gaudi_mechanical_computer_project = {
+	icon = "gfx/interface/icons/event_icons/machinists.dds"
+
+	scripted_button = gaudi_stop_engineering_project_button
+#	scripted_button = gaudi_additional_support_for_civil_engineer_button
+#	scripted_button = gaudi_additional_support_for_civil_engineer_stop_button
+
+	group = je_group_gaudi_engineers
+
+	scripted_progress_bar = gaudi_mechanical_computer_project_progress_bar
+
+	modifiers_while_active = {
+		gaudi_engineer_project_very_high_cost_modifier
+	}
+
+	on_monthly_pulse = {
+	}
+
+	immediate = {
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_gaudi_mechanical_computer_progress_complete_tt
+			je:je_gaudi_mechanical_computer_project = {
+				"scripted_bar_progress(gaudi_mechanical_computer_project_progress_bar)" >= 2000
+			}
+		}
+	}
+
+	on_complete = {
+	#	add_technology_researched = verrier_mechanical_computer_tech
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = gaudi_stop_engineering_project_tt
+			OR = {
+				trigger_if = {
+					limit = { is_ai = yes }
+					gaudi_has_engineer = yes
+					gaudi_has_no_mechanical_engineer_trigger = yes
+				}
+				has_variable = gaudi_stop_engineering_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = gaudi_can_stop_active_engineering_project_var #Needs to be removed, when the JE is removed
+		gaudi_remove_je_cost_modifiers_effect = yes
+
+		set_variable = {
+			name = gaudi_mechanical_computer_progress_save_var
+			value = gaudi_mechanical_computer_progress_percentage_value
+		}
+
+		remove_variable = gaudi_stop_engineering_project_var
+		var:gaudi_engineer_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
 ###################
 
 ######MILITARY ENGINEER PROJECTS######
