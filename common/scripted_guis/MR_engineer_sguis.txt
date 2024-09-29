@@ -545,6 +545,58 @@ mr_mechanical_engineer_industries_button = {
 	}
 }
 
+#MR_MECHANICAL_ENGINEER_MECHANICAL_COMPUTER_BUTTON
+mr_mechanical_engineer_mechanical_computer_button = {
+	scope = country
+	is_shown = {
+		NOT = { has_technology_researched = verrier_mechanical_computer_tech }
+		gaudi_has_mechanical_engineer_trigger = yes
+	}
+	is_valid = {
+		gaudi_has_active_engineer = yes
+		custom_tooltip = {
+			text = MR_HAS_ATMOSPHERIC_ENGINE_TECH_TRIGGER_TT
+			has_technology_researched = atmospheric_engine
+		}
+		custom_tooltip = {
+			text = MR_HAS_MECHANICAL_TOOLS_TECH_TRIGGER_TT
+			has_technology_researched = mechanical_tools
+		}
+		custom_tooltip = {
+			text = MR_ELECTRICAL_ENGINEER_OBSERVATORY_WITH_MAGNETIC_OBSERVATORY_TRIGGER_TT
+			any_scope_building = {
+				is_building_type = building_verrier_observatory
+				has_active_production_method = pm_gaudi_magnetic_observatory
+			}
+		}
+	}
+	effect = {
+		add_journal_entry = { type = je_gaudi_mechanical_computer_project }
+		#Informing the player about the costs of the project (Is actually applied in the JE)
+		show_as_tooltip = {
+			add_modifier = {
+				name = gaudi_engineer_project_very_high_cost_modifier
+			}
+		}
+		#This part is used to add already existing progress to the project.
+		if = {
+			limit = {
+				has_variable = gaudi_mechanical_computer_progress_save_var
+			}
+			je:je_gaudi_mechanical_computer_project = {
+				set_bar_progress = {
+					value = owner.var:gaudi_mechanical_computer_progress_save_var
+					name = gaudi_mechanical_computer_project_progress_bar
+				}
+			}
+		}
+		#Makes the Engineer busy
+		var:gaudi_engineer_var ?= {
+			set_character_busy_and_immortal = yes
+		}
+	}
+}
+
 ### Military Engineer Buttons ###
 
 #MR_MILITARY_ENGINEER_RESEARCH_BUTTON
