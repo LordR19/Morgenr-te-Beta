@@ -318,6 +318,252 @@ panum.52 = {
 	}
 }
 
+#Panum 53: Treat Local Disease
+panum.53 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.53.t
+
+	desc = panum.53.d
+
+	flavor = panum.53.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cancellation_trigger = {
+		panum_has_epidemic_trigger = no
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		random_scope_state = {
+			limit = {
+				panum_state_has_epidemic_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#
+		name = panum.51.g
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+		panum_set_je_treatment_local_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_physician_action_active_var
+	}
+}
+
+#Panum 54: Treat Foreign Disease
+panum.54 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.54.t
+
+	desc = panum.54.d
+
+	flavor = panum.52.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cancellation_trigger = {
+		panum_can_find_foreign_treatment_trigger = no
+	}
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_cholera
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_cholera
+				}
+				save_scope_as = panum_cholera_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_tuberculosis
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_tuberculosis
+				}
+				save_scope_as = panum_tuberculosis_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_smallpox
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_smallpox
+				}
+				save_scope_as = panum_smallpox_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_typhus
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_typhus
+				}
+				save_scope_as = panum_typhus_country_scope
+			}
+		}
+		if = {
+			limit = {
+				any_country = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_yellow_fever
+				}
+			}
+			random_country = {
+				limit = {
+					has_diplomatic_relevance = ROOT
+					has_journal_entry = je_panum_yellow_fever
+				}
+				save_scope_as = panum_yellow_fever_country_scope
+			}
+		}
+	}
+
+	option = {	#Cholera Country
+		name = panum.52.g
+		default_option =yes
+		trigger = {
+			exists = scope:panum_cholera_country_scope
+			panum_has_cholera_description_trigger = yes
+			panum_has_cholera_treatment_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_cholera_treatment_expedition
+			target = scope:panum_cholera_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	option = {	#Tuberculosis Country
+		name = panum.52.h
+		trigger = {
+			exists = scope:panum_tuberculosis_country_scope
+			panum_has_tuberculosis_description_trigger = yes
+			panum_has_tuberculosis_treatment_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_tuberculosis_treatment_expedition
+			target = scope:panum_tuberculosis_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	option = {	#Smallpox Country
+		name = panum.52.i
+		trigger = {
+			exists = scope:panum_smallpox_country_scope
+			panum_has_smallpox_description_trigger = yes
+			panum_has_smallpox_treatment_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_smallpox_treatment_expedition
+			target = scope:panum_smallpox_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	option = {	#Typhus Country
+		name = panum.52.j
+		trigger = {
+			exists = scope:panum_typhus_country_scope
+			panum_has_typhus_description_trigger = yes
+			panum_has_typhus_treatment_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_typhus_treatment_expedition
+			target = scope:panum_typhus_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	option = {	#Yellow Fever Country
+		name = panum.52.k
+		trigger = {
+			exists = scope:panum_yellow_fever_country_scope
+			panum_has_yellow_fever_description_trigger = yes
+			panum_has_yellow_fever_treatment_trigger = no
+		}
+		add_journal_entry = {
+			type = je_panum_yellow_fever_treatment_expedition
+			target = scope:panum_yellow_fever_country_scope
+		}
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = yes
+		}
+	}
+
+	after = {
+		remove_variable = panum_physician_action_active_var
+	}
+}
+
 #################################################################################
 
 ######CHOLERA######
