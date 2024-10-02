@@ -22,3 +22,7 @@ Fixes:
 - Various Tooltips are now more informative and tell you which country is affected.
 - Hopefully fixed a bug that showed the Transatlantic Cable expedition as active even once it was finished.
 - Terbium is called Terbium again and not Tebrium.
+- Planet discoverers will now be displayed all the time and not suddenly disappear.
+
+Performance:
+- Removed some global variables for planet discoveries
