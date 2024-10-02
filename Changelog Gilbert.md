@@ -25,4 +25,5 @@ Fixes:
 - Planet discoverers will now be displayed all the time and not suddenly disappear.
 
 Performance:
-- Removed some global variables for planet discoveries
+- Removed some global variables for planet discoveries.
+- Revamped the way the AI gets a balloonist which will improve performance slightly.
