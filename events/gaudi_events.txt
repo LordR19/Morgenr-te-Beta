@@ -336,6 +336,8 @@ namespace = gaudi
 #Gaudí 1211: New Production Methods for [Building]
 #Gaudí 1211: New Production Methods for [Building]
 
+#Gaudí 1221: The Mechanical Computer
+
 ### Military Engineering ###
 #Gaudí 1301: New Rifles invented
 #Gaudí 1311: New Tank developed
@@ -14446,6 +14448,56 @@ gaudi.1211 = {
 	}
 	after = {
 		remove_variable = gaudi_industrial_building_modernizing_var
+	}
+}
+
+#Gaudí 1221: The Mechanical Computer
+
+gaudi.1221 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = gaudi.1211.t
+	desc = gaudi.1211.d
+	flavor = gaudi.1211.f
+
+	event_image = { 
+		texture = "gfx/event_pictures/gaudi_pictures/gaudi_engineering_mechanical_production_methods.dds"
+	}	
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	icon = "gfx/interface/icons/event_icons/machinists.dds"
+
+	trigger = {
+	}
+
+	immediate = {
+		if = {
+			#The global variable saves the first country that first invents the mechanical computer.
+			limit = {
+				NOT = { has_global_variable = gaudi_mechanical_computer_inventor_global_var }
+			}
+			set_global_variable = {
+				name = gaudi_mechanical_computer_inventor_global_var
+				value = root.country_definition
+			}
+			#Used for enineer achievement loc
+			if = {
+				limit = { has_variable = gaudi_engineer_var }
+				var:gaudi_engineer_var = {
+					set_variable = gaudi_mechanical_computer_finished_engineer_var
+				}
+			}
+		}
+	}
+
+	option = {
+		name = gaudi.1211.g #A true Marvel of Enineering
+		default_option = yes
+
+		mechanical_engineer_experience_gain_effect = { AMOUNT = 25 }
 	}
 }
 
