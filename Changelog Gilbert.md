@@ -21,3 +21,4 @@ Fixes:
 - The Observatory should no longer give a warning for you to upgrade it, if it is fully upgraded.
 - Various Tooltips are now more informative and tell you which country is affected.
 - Hopefully fixed a bug that showed the Transatlantic Cable expedition as active even once it was finished.
+- Terbium is called Terbium again and not Tebrium.
