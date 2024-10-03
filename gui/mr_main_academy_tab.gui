@@ -4943,12 +4943,147 @@ types academy_view
 										}
 									}
 								}
-								
+
 								# Fourth Row
 								hbox = {
 									layoutpolicy_horizontal = expanding
 									spacing = 15
 
+									#Physician
+									academics_widget_character_with_button = {
+										blockoverride "role_icon" {
+											texture = "gfx/interface/icons/character_role_icons/panum_physician_role.dds"
+										}
+										blockoverride "role_tooltip" {
+											tooltip = "[concept_panum_physician_desc]"
+										}
+										blockoverride "role_name" {
+											text = "PHYSICIAN_HEADER_TEXT"
+										}
+										blockoverride "character" {
+											datacontext = "[GetPlayer.MakeScope.Var('panum_physician_var').GetCharacter]"
+										}
+										blockoverride "character_visible" {
+											visible = "[GetScriptedGui('mr_has_physician_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+										}
+										blockoverride "no_character_visible" {
+											visible = "[Not( GetScriptedGui('mr_has_physician_sgui').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+										}
+										blockoverride "character_name" {
+											text = "[GetPlayer.GetCustom('academics_has_physician_gui_type')]"
+										}
+										blockoverride "achievements_icon_visibility" {
+											visible = yes
+										}
+										blockoverride "scientist_achievement_tooltip" {
+											tooltip = "MR_PHYSICIAN_ACHIEVEMENTS_TT"
+										}
+										blockoverride "character_traits" {
+											datacontext = "[GetPlayer.MakeScope.Var('panum_physician_var').GetCharacter]"
+											datamodel = "[Character.AccessTraits]"
+										}
+										blockoverride "experience_bar_visibility" {
+											visible = yes
+										}
+										blockoverride "values" {
+											min = 0
+											max = 300
+											value = "[GetPlayer.MakeScope.Var('panum_physician_var').GetVariable('panum_physician_experience').GetValue]"
+										}
+										blockoverride "experience_tooltip" {
+											tooltip = "[GetPlayer.GetCustom('GUI_panum_physician_experience_type')]"
+										}
+										blockoverride "experience_bar_text" {
+											text = "[GetPlayer.GetCustom('GUI_panum_physician_experience_text_type')]"
+										}
+										blockoverride "small_box_content" {
+											widget = {
+												#This Icon allows an overview of the 10 Nations with the most Total Artifacts
+												#GUI_on_actions.txt sets the values up with two scripted_effects from GUI_scripted_effects.txt
+												#The Correct Localizations are chosen in the GUI_customizable_localization.txt and
+												#used in the mr_GUI_l_english.yml file to display the global variables.
+												size = { 30 30 }
+												parentanchor = top|right
+												position = { 5 -5 }
+											
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/backgrounds/round_button_bg.dds"
+													block "enabled" {}
+												}
+												icon = {
+													size = { 100% 100% }
+													texture = "gfx/interface/buttons/button_icons/list.dds"
+													block "enabled" {}
+													tooltipwidget = {
+														MR_TooltipRankingType = {
+															blockoverride "ranking_on_finish" {
+																on_finish = "[GetScriptedGui('mr_total_human_fossils_ranking_sgui').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]" #Resets the Ranking
+															}
+															blockoverride "text" {
+																raw_text = "ANTHROPOLOGIST_TOTAL_HUMAN_FOSSILS_RANKING_HEADER"
+															}
+															blockoverride "ranking_datamodel" {
+																datamodel = "[GetGlobalList('mr_total_human_fossils_ranking_global_list')]"
+															}
+															blockoverride "ranking_variable_used" {
+																raw_text = "[Country.MakeScope.GetVariable('lepsius_total_human_fossil').GetValue|V0]"
+															}
+														}
+													}
+												}
+											}
+
+											flowcontainer = {
+												direction = vertical
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 20 }
+
+												textbox = {
+													#Paranthropus
+													text = "PARANTHROPUS_VAR"
+													parentanchor = top|left
+													maximumsize = { 255 310 }
+													autoresize = yes
+													multiline = yes
+													using = fontsize_xxl
+													tooltip = "PARANTHROPUS_VAR_TT"
+												}		
+											}
+										}
+										blockoverride "visit_button" {
+											text = "VISIT_ANTHROPOLOGICAL_COLLECTION_BUTTON"
+											datacontext = "[GetScriptedGui('mr_visit_anthropological_collection')]"
+											onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+											tooltip = "VISIT_ANTHROPOLOGICAL_COLLECTION_BUTTON_TT"
+										}
+										blockoverride "big_box_content" {
+											flowcontainer = {
+												direction = vertical
+												parentanchor = hcenter
+												ignoreinvisible = yes
+												spacing = 8
+												margin = { 25 15 }
+
+												### Other Buttons ###
+												button = {
+													#Origin Congress
+													using = default_button_primary_big_action
+													size = { 250 40 }
+													raw_text = "MR_ORIGIN_CONGRESS_BUTTON"
+													using = fontsize_medium
+							
+													datacontext = "[GetScriptedGui('mr_origin_congress_button')]"
+													onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+													tooltip = "MR_ORIGIN_CONGRESS_BUTTON_TT"
+												}
+											}
+										}
+									}
 									
 									#Archaeologist
 									academics_widget_character_with_button = {
@@ -5751,6 +5886,12 @@ types academy_view
 											}
 										}
 									}
+								}
+
+								# Fourth Row
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									spacing = 15
 
 									#Anthropologist
 									academics_widget_character_with_button = {
@@ -6050,8 +6191,10 @@ types academy_view
 											}
 										}
 									}
+
+									academics_placeholder = {}
 								}
-							}	
+							}
 						}
 					}
 				}
