@@ -23,6 +23,7 @@ Fixes:
 - Hopefully fixed a bug that showed the Transatlantic Cable expedition as active even once it was finished.
 - Terbium is called Terbium again and not Tebrium.
 - Planet discoverers will now be displayed all the time and not suddenly disappear.
+- Children and babies will no longer win the Olympic Games (might still have some instances though).
 
 Performance:
 - Removed some global variables for planet discoveries.
