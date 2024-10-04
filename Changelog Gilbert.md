@@ -24,6 +24,7 @@ Fixes:
 - Terbium is called Terbium again and not Tebrium.
 - Planet discoverers will now be displayed all the time and not suddenly disappear.
 - Children and babies will no longer win the Olympic Games (might still have some instances though).
+- The Cretaceous Scenery now has a title and flavor text again.
 
 Performance:
 - Removed some global variables for planet discoveries.
