@@ -2,6 +2,7 @@ Changelog for 2.2.5? "X"
 
 Astronomy:
 - There are no longer empty planet modifiers. Instead it will be handled with variables and you will get a tooltip telling you, how much Astronomy Prestige you will get.
+- Other astronomical Discoveries will now also show you, how much astronomical prestige they add.
 
 Element Names:
 - Added various new element names.
