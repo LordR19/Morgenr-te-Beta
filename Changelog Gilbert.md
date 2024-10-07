@@ -30,6 +30,7 @@ Fixes:
 - Planet discoverers will now be displayed all the time and not suddenly disappear.
 - Children and babies will no longer win the Olympic Games (might still have some instances though).
 - The Cretaceous Scenery now has a title and flavor text again.
+- Chemicals in the water will now make people there angry.
 
 Performance:
 - Removed some global variables for planet discoveries.
