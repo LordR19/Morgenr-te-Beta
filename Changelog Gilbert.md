@@ -31,6 +31,7 @@ Fixes:
 - Children and babies will no longer win the Olympic Games (might still have some instances though).
 - The Cretaceous Scenery now has a title and flavor text again.
 - Chemicals in the water will now make people there angry.
+- Switzerland and Sweden now actually get the atmospheric engine at game start.
 
 Performance:
 - Removed some global variables for planet discoveries.
