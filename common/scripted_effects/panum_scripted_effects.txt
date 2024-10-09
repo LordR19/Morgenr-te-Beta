@@ -221,6 +221,7 @@ panum_add_cholera_treatment_effect = {
 		}
 		var:panum_physician_var = {
 			set_variable = panum_cholera_treatment_inventor_var
+			add_trait = panum_epidemiologist
 		}
 		add_modifier = {
 			name = panum_medical_avant_garde_modifier
@@ -240,6 +241,7 @@ panum_add_cholera_treatment_effect = {
 	else = {
 		physician_experience_gain_effect = { AMOUNT = 30 }
 		panum_small_add_technology = yes
+		panum_add_epidemiologist_chance_effect = yes
 	}
 }
 
@@ -527,6 +529,7 @@ panum_add_tuberculosis_treatment_effect = {
 		}
 		var:panum_physician_var = {
 			set_variable = panum_tuberculosis_treatment_inventor_var
+			add_trait = panum_epidemiologist
 		}
 		add_modifier = {
 			name = panum_medical_avant_garde_modifier
@@ -546,6 +549,7 @@ panum_add_tuberculosis_treatment_effect = {
 	else = {
 		physician_experience_gain_effect = { AMOUNT = 30 }
 		panum_small_add_technology = yes
+		panum_add_epidemiologist_chance_effect = yes
 	}
 }
 
@@ -821,6 +825,7 @@ panum_add_smallpox_treatment_effect = {
 		}
 		var:panum_physician_var = {
 			set_variable = panum_smallpox_treatment_inventor_var
+			add_trait = panum_epidemiologist
 		}
 		add_modifier = {
 			name = panum_medical_avant_garde_modifier
@@ -840,6 +845,7 @@ panum_add_smallpox_treatment_effect = {
 	else = {
 		physician_experience_gain_effect = { AMOUNT = 30 }
 		panum_small_add_technology = yes
+		panum_add_epidemiologist_chance_effect = yes
 	}
 }
 
@@ -1123,6 +1129,7 @@ panum_add_typhus_treatment_effect = {
 		}
 		var:panum_physician_var = {
 			set_variable = panum_typhus_treatment_inventor_var
+			add_trait = panum_epidemiologist
 		}
 		add_modifier = {
 			name = panum_medical_avant_garde_modifier
@@ -1142,6 +1149,7 @@ panum_add_typhus_treatment_effect = {
 	else = {
 		physician_experience_gain_effect = { AMOUNT = 30 }
 		panum_small_add_technology = yes
+		panum_add_epidemiologist_chance_effect = yes
 	}
 }
 
@@ -1435,6 +1443,7 @@ panum_add_yellow_fever_treatment_effect = {
 		}
 		var:panum_physician_var = {
 			set_variable = panum_yellow_fever_treatment_inventor_var
+			add_trait = panum_epidemiologist
 		}
 		add_modifier = {
 			name = panum_medical_avant_garde_modifier
@@ -1454,6 +1463,7 @@ panum_add_yellow_fever_treatment_effect = {
 	else = {
 		physician_experience_gain_effect = { AMOUNT = 30 }
 		panum_small_add_technology = yes
+		panum_add_epidemiologist_chance_effect = yes
 	}
 }
 
@@ -1555,6 +1565,7 @@ panum_add_x_yellow_fever_treatment_clues_effect = {
 
 ### General ###
 
+# Remove all disease effects
 panum_remove_disease_effect = {
 	if = {
 		limit = {
@@ -1967,6 +1978,30 @@ panum_add_treatment_expedition_clue_effect = {
 		panum_add_x_yellow_fever_treatment_clues_effect = { AMOUNT = 1 }
 	}
 	post_notification = panum_treatment_medical_expedition_notification
+}
+
+# Add a 50 % chance that the physician gains the Epidemiologist trait
+panum_add_epidemiologist_chance_effect = {
+	if = {
+		limit = {
+			NOT = {
+				var:panum_physician_var = {
+					has_trait = panum_epidemiologist
+				}
+			}
+		}
+		random_list = {
+			1 = {
+				var:panum_physician_var = {
+					add_trait = panum_epidemiologist
+				}
+			}
+			1 = {}
+		}
+	}
+	var:panum_physician_var = {
+		set_character_busy_and_immortal = no
+	}
 }
 
 ### Medical Reformer ###
