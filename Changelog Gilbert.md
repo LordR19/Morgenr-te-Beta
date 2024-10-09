@@ -36,6 +36,7 @@ Fixes:
 - Chemicals in the water will now make people there angry.
 - Switzerland and Sweden now actually get the atmospheric engine at game start.
 - Schliemann will now only be available at between 1852 and 1890.
+- Fixed missing animal names for the Get Exotic animal Journal Entry.
 
 Performance:
 - Removed some global variables for planet discoveries.
