@@ -11,6 +11,9 @@ Element Names:
 Balance:
 - Most Licences do no longer cost influence.
 
+Quality of Life:
+- Added many modifiers to show you what effect our traits, production method, etc. have on the Morgenröte Mechanics.
+
 Fixes:
 - The Special Art styles no longer tell you to look at the Technology window instead of the Morgenröte GUI.
 - Neptunium can no longer exist twice.
