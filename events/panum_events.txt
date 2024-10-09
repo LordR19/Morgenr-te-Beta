@@ -10,6 +10,10 @@ namespace = panum
 
 ###################
 
+######CHOLERA######
+
+### Cholera Epidemic ###
+
 #Panum 100: The Cholera Epidemic in YEAR
 #Panum 101: Cholera in STATE
 #Panum 102: Cholera spreads to COUNTRY
@@ -21,8 +25,16 @@ namespace = panum
 #Panum 108: Cholera Hospitals
 #Panum 109: Public Panic
 #Panum 110: Common Purpose
+#Panum 111: The Horror
+#Panum 112: A Glimmer of Hope
 #Panum 120: Cholera epidemic over
+
+### Cholera Description ###
+
 #Panum 130: Cholera Description
+
+### Cholera Treatment ###
+
 #Panum 140: Cholera Treatment
 
 #Panum 200: Tuberculosis epidemic
@@ -1593,9 +1605,9 @@ panum.112 = {
 
 	placement = scope:panum_disease_state
 
-	event_image = { 
-		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
-	}
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_new_physician_scope
 
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
 
@@ -3069,6 +3081,84 @@ panum.208 = {
 					percent = 0.001
 				}
 			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 209: The Tuberculosis Doctor
+panum.209 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.209.t
+
+	desc = panum.209.d
+
+	flavor = panum.112.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_new_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		panum_has_physician = no
+		any_scope_state = {
+			has_building = building_panum_tuberculosis_sanatorium
+		}
+		any_scope_state = {
+			panum_state_has_tuberculosis_trigger = yes
+		}
+	}
+
+	immediate = {
+		create_new_physician_effect = yes
+		random_scope_state = {
+			limit = {
+				panum_state_has_cholera_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Give him an official position immediately!
+		name = panum.112.g
+		default_option = yes
+		panum_set_new_physician_as_physician_effect = yes
+		ai_chance = {
+			base = 100 #AI will always take the Physician
+		}
+	}
+
+	option = {	#The doctor should train future generations to fight the next epidemic.
+		name = panum.112.h
+		panum_medium_add_technology = yes
+		dubois_add_x_academy_progress = { AMOUNT = 30 }
+		if = {
+			limit = {
+				panum_has_tuberculosis_treatment_trigger = no
+			}
+			panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 3 }
+		}
+
+		panum_remove_new_physician_effect = yes
+		ai_chance = {
+			base = 0
 		}
 	}
 
