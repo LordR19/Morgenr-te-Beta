@@ -31,10 +31,10 @@ namespace = panum
 
 ### Cholera Description ###
 
-#Panum 121: Cholera Incubation
-#Panum 122: Cholera Symptoms
-#Panum 123: Cholera Morbus and Asiatic Cholera
-#Panum 124: Cholera Hint (hidden)
+#Panum 121: Cholera Hint (hidden)
+#Panum 122: Cholera Incubation
+#Panum 123: Cholera Symptoms
+#Panum 124: Cholera Asiatica
 #Panum 130: Cholera Description
 
 ### Generic unfinished/expedition events ###
@@ -50,6 +50,10 @@ namespace = panum
 
 #Panum 140: Cholera Treatment
 
+######TUBERCULOSIS######
+
+### Tuberculosis Epidemic ###
+
 #Panum 200: Tuberculosis epidemic
 #Panum 201: Tuberculosis in STATE
 #Panum 202: A hereditary disease?
@@ -60,16 +64,44 @@ namespace = panum
 #Panum 207: Religious Initiative
 #Panum 208: The white plague takes its toll
 #Panum 220: Tuberculosis epidemic over
+
+### Tuberculosis Description ###
+
+#Panum 221: Tuberculosis Hint (hidden)
+#Panum 222: Tuberculosis Incubation
+#Panum 223: Tuberculosis Symptoms
+#Panum 224: Tuberculosis and Scrofula
 #Panum 230: Tuberculosis Description
+
+### Tuberculosis Treatment ###
+
 #Panum 240: Tuberculosis Treatment
+
+######SMALLPOX######
+
+### Smallpox Epidemic ###
 
 #Panum 300: Smallpox epidemic
 #Panum 301: Smallpox in STATE
 #Panum 302: Smallpox spreads to COUNTRY
 #Panum 303: Smallpox out of control
 #Panum 320: Smallpox epidemic over
+
+### Smallpox Description ###
+
+#Panum 321: Smallpox Hint (hidden)
+#Panum 322: Smallpox Incubation and Symptoms
+#Panum 323: Chickenpox or Smallpox?
+#Panum 324: The Difference between Measles and Smallpox
 #Panum 330: Smallpox Description
+
+### Smallpox Treatment ###
+
 #Panum 340: Smallpox Treatment
+
+######TYPHUS######
+
+### Typhus Epidemic ###
 
 #Panum 400: Typhus epidemic
 #Panum 401: Typhus in STATE
@@ -81,8 +113,22 @@ namespace = panum
 #Panum 407: Typhus in Barracks
 #Panum 408: Tormented in illness, not in war
 #Panum 420: Typhus epidemic over
+
+### Typhus Description ###
+
+#Panum 421: Typhus Hint (hidden)
+#Panum 422: Typhus Symptoms & Incubation
+#Panum 423: The Camp Fever
+#Panum 424: Typhus: Two Diseases in one?
 #Panum 430: Typhus Description
+
+### Typhus Treatment ###
+
 #Panum 440: Typhus Treatment
+
+######YELLOW FEVER######
+
+### Yellow Fever Epidemic ###
 
 #Panum 500: Yellow Fever epidemic
 #Panum 501: Yellow Fever in STATE
@@ -93,7 +139,17 @@ namespace = panum
 #Panum 506: Sailor's sickness
 #Panum 507: Black Vomit
 #Panum 520: Yellow Fever epidemic over
+
+### Yellow Fever Description ###
+
+#Panum 521: Yellow Fever Hint (hidden)
+#Panum 522: Two Courses of Yellow Fever
+#Panum 523: Yellow Fever Seasons
+#Panum 524: A Local Disease?
 #Panum 530: Yellow Fever Description
+
+### Yellow Fever Treatment ###
+
 #Panum 540: Yellow Fever Treatment
 
 #Panum 1000: Calls for Medical Reforms
@@ -5274,6 +5330,234 @@ panum.420 = {
 	}
 }
 
+#Panum 421: Typhus Hint (hidden)
+panum.421 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	cooldown = {
+		months = 1
+	}
+
+	immediate = {
+		panum_add_x_typhus_description_clues_effect = { AMOUNT = 1 }
+		post_notification = panum_description_progress_notification
+	}
+}
+
+#Panum 422: Typhus Symptoms & Incubation
+panum.422 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.422.t
+
+	desc = panum.422.d
+
+	flavor = panum.422.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_typhus_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 423: The Camp Fever
+panum.423 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.423.t
+
+	desc = panum.423.d
+
+	flavor = panum.423.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_typhus_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 424: Typhus: Two Diseases in one?
+panum.424 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.424.t
+
+	desc = panum.424.d
+
+	flavor = panum.424.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Precisely observed.
+		name = panum.124.g
+		default_option = yes
+		panum_add_x_typhus_description_clues_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
 #Panum 430: Typhus Description
 panum.430 = {
 	dlc = dlc_morgenrote
@@ -6078,6 +6362,234 @@ panum.520 = {
 
 
 	after = {
+	}
+}
+
+#Panum 521: Yellow Fever Hint (hidden)
+panum.521 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	cooldown = {
+		months = 1
+	}
+
+	immediate = {
+		panum_add_x_yellow_fever_description_clues_effect = { AMOUNT = 1 }
+		post_notification = panum_description_progress_notification
+	}
+}
+
+#Panum 522: Two Courses of Yellow Fever
+panum.522 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.522.t
+
+	desc = panum.522.d
+
+	flavor = panum.522.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_yellow_fever_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 523: Yellow Fever Seasons
+panum.523 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.523.t
+
+	desc = panum.523.d
+
+	flavor = panum.523.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_yellow_fever_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 524: A Local Disease?
+panum.524 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.524.t
+
+	desc = panum.524.d
+
+	flavor = panum.524.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Precisely observed.
+		name = panum.124.g
+		default_option = yes
+		panum_add_x_yellow_fever_description_clues_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
 	}
 }
 
