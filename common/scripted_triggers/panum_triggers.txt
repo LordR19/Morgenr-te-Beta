@@ -40,6 +40,11 @@ panum_has_epidemic_trigger = {
 		has_journal_entry = je_panum_smallpox
 		has_journal_entry = je_panum_typhus
 		has_journal_entry = je_panum_yellow_fever
+		#has_journal_entry = je_panum_measles
+		#has_journal_entry = je_panum_scarlet
+		#has_journal_entry = je_panum_plague
+		#has_journal_entry = je_panum_diphteria
+		#has_journal_entry = je_panum_polio
 	}
 }
 
@@ -50,6 +55,11 @@ panum_state_has_epidemic_trigger = {
 		panum_state_has_smallpox_trigger = yes
 		panum_state_has_typhus_trigger = yes
 		panum_state_has_yellow_fever_trigger = yes
+		#panum_state_has_measles_trigger = yes
+		#panum_state_has_scarlet_trigger = yes
+		#panum_state_has_plague_trigger = yes
+		#panum_state_has_diphteria_trigger = yes
+		#panum_state_has_polio_trigger = yes
 	}
 }
 
@@ -421,6 +431,290 @@ panum_has_yellow_fever_treatment_trigger = {
 	}
 }
 
+###Measles###
+
+panum_country_can_have_measles_trigger = {
+	NOT = {
+		has_variable = panum_recent_measles_in_country_var
+	}
+	panum_has_measles_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	panum_state_can_have_measles_trigger = yes
+}
+
+panum_state_can_have_measles_trigger = {
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_measles_var
+		}
+		any_neighbouring_state = {
+			panum_state_has_measles_trigger = yes
+		}
+		is_incorporated = yes
+	}
+}
+
+panum_has_measles_prevention_trigger = {
+	has_technology_researched = antibiotics
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 5
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_measles_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_measles_severe_modifier
+		has_modifier = panum_epidemic_measles_normal_modifier
+		has_modifier = panum_epidemic_measles_mild_modifier
+	}
+}
+
+panum_has_measles_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_measles_description_tt
+		has_variable = panum_measles_description_var
+	}
+}
+
+panum_has_measles_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_measles_treatment_tt
+		has_variable = panum_measles_treatment_var
+	}
+}
+
+###Scarlet###
+
+panum_country_can_have_scarlet_trigger = {
+	NOT = {
+		has_variable = panum_recent_scarlet_in_country_var
+	}
+	panum_has_scarlet_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	panum_state_can_have_scarlet_trigger = yes
+}
+
+panum_state_can_have_scarlet_trigger = {
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_scarlet_var
+		}
+		any_neighbouring_state = {
+			panum_state_has_scarlet_trigger = yes
+		}
+		is_incorporated = yes
+	}
+}
+
+panum_has_scarlet_prevention_trigger = {
+	has_technology_researched = panum_antitoxins_tech
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 3
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_scarlet_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_scarlet_severe_modifier
+		has_modifier = panum_epidemic_scarlet_normal_modifier
+		has_modifier = panum_epidemic_scarlet_mild_modifier
+	}
+}
+
+panum_has_scarlet_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_scarlet_description_tt
+		has_variable = panum_scarlet_description_var
+	}
+}
+
+panum_has_scarlet_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_scarlet_treatment_tt
+		has_variable = panum_scarlet_treatment_var
+	}
+}
+
+###Plague###
+
+panum_country_can_have_plague_trigger = {
+	NOT = {
+		has_variable = panum_recent_plague_in_country_var
+	}
+	panum_has_plague_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	panum_state_can_have_plague_trigger = yes
+}
+
+panum_state_can_have_plague_trigger = {
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_plague_var
+		}
+		any_scope_pop = {
+			strata = poor
+			standard_of_living <= 15
+		}
+		any_neighbouring_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+}
+
+panum_has_plague_prevention_trigger = {
+	has_technology_researched = panum_antitoxins_tech
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 2
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_plague_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_plague_severe_modifier
+		has_modifier = panum_epidemic_plague_normal_modifier
+		has_modifier = panum_epidemic_plague_mild_modifier
+	}
+}
+
+panum_has_plague_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_plague_description_tt
+		has_variable = panum_plague_description_var
+	}
+}
+
+panum_has_plague_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_plague_treatment_tt
+		has_variable = panum_plague_treatment_var
+	}
+}
+
+###Diphteria###
+
+panum_country_can_have_diphteria_trigger = {
+	NOT = {
+		has_variable = panum_recent_diphteria_in_country_var
+	}
+	panum_has_diphteria_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	panum_state_can_have_diphteria_trigger = yes
+}
+
+panum_state_can_have_diphteria_trigger = {
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_diphteria_var
+		}
+		any_scope_pop = {
+			strata = poor
+			standard_of_living <= 20
+		}
+	}
+}
+
+panum_has_diphteria_prevention_trigger = {
+	has_technology_researched = panum_antitoxins_tech
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 3
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_diphteria_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_diphteria_severe_modifier
+		has_modifier = panum_epidemic_diphteria_normal_modifier
+		has_modifier = panum_epidemic_diphteria_mild_modifier
+	}
+}
+
+panum_has_diphteria_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_diphteria_description_tt
+		has_variable = panum_diphteria_description_var
+	}
+}
+
+panum_has_diphteria_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_diphteria_treatment_tt
+		has_variable = panum_diphteria_treatment_var
+	}
+}
+
+###Polio###
+
+panum_country_can_have_polio_trigger = {
+	NOT = {
+		has_variable = panum_recent_polio_in_country_var
+	}
+	panum_has_polio_prevention_trigger = no
+	panum_has_epidemic_trigger = no
+	panum_state_can_have_polio_trigger = yes
+}
+
+panum_state_can_have_polio_trigger = {
+	any_scope_state = {
+		NOT = {
+			has_variable = panum_recent_polio_var
+		}
+		any_scope_pop = {
+			strata = poor
+			standard_of_living <= 25
+		}
+		total_urbanization >= 1000
+	}
+}
+
+panum_has_polio_prevention_trigger = {
+	has_technology_researched = panum_antitoxins_tech
+	institution_investment_level = {
+		institution	= institution_health_system
+		value >= 4
+	}
+	NOT = {
+		has_law = law_type:law_no_health_system
+	}
+}
+
+panum_state_has_polio_trigger = {
+	OR = {
+		has_modifier = panum_epidemic_polio_severe_modifier
+		has_modifier = panum_epidemic_polio_normal_modifier
+		has_modifier = panum_epidemic_polio_mild_modifier
+	}
+}
+
+panum_has_polio_description_trigger = {
+	custom_tooltip = {
+		text = panum_has_polio_description_tt
+		has_variable = panum_polio_description_var
+	}
+}
+
+panum_has_polio_treatment_trigger = {
+	custom_tooltip = {
+		text = panum_has_polio_treatment_tt
+		has_variable = panum_polio_treatment_var
+	}
+}
+
 ############################
 
 ######SGUI######
@@ -449,6 +743,26 @@ panum_can_describe_local_disease_trigger = {
 			has_journal_entry = je_panum_yellow_fever
 			panum_has_yellow_fever_description_trigger = no
 		}
+		#AND = {
+		#	has_journal_entry = je_panum_measles
+		#	panum_has_measles_description_trigger = no
+		#}
+		#AND = {
+		#	has_journal_entry = je_panum_scarlet
+		#	panum_has_scarlet_description_trigger = no
+		#}
+		#AND = {
+		#	has_journal_entry = je_panum_plague
+		#	panum_has_plague_description_trigger = no
+		#}
+		#AND = {
+		#	has_journal_entry = je_panum_diphteria
+		#	panum_has_diphteria_description_trigger = no
+		#}
+		#AND = {
+		#	has_journal_entry = je_panum_polio
+		#	panum_has_polio_description_trigger = no
+		#}
 	}
 }
 
