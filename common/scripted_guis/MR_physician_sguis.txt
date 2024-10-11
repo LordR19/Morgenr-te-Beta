@@ -165,3 +165,58 @@ mr_physician_find_treatment_foreign_active = {
 		has_variable = panum_physician_find_treatment_foreign_active_var
 	}
 }
+
+#MR_MEDICAL_CONGRESS_BUTTON
+mr_medical_congress_button = {
+    scope = country
+    is_valid = {
+		custom_tooltip = {
+			text = MR_HAS_PHYSICIAN_TRIGGER
+			has_variable = panum_physician_var
+		}
+		custom_tooltip = {
+			text = MR_MEDICAL_CONGRESS_PHARMACEUTICALS_TECH_TRIGGER_TT
+			has_technology_researched = pharmaceuticals
+		}
+		custom_tooltip = {
+			text = MR_MEDICINE_8_COUNTRIES_WITH_PHYSICIAN_TRIGGER_TT
+			any_country = {
+				panum_has_physician = yes
+				count >= 8
+			}
+		}
+		custom_tooltip = {
+			text = MR_ASTEROID_CONGRESS_UNIVERSITY_BUILDING_TRIGGER_TT
+			country_has_building_type_levels = {  
+				target = bt:building_university  
+				value  >= 5
+			}
+		}
+		custom_tooltip = {
+			text = MR_MEDICAL_AVANTGARDE_TRIGGER_TT
+			NOT = {
+				any_country = {
+					has_modifier = panum_medical_avant_garde_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = MR_MEDICAL_CONGRESS_COOLDOWN_TRIGGER_TT
+			NOT = {
+				any_country = {
+					has_modifier = panum_congress_host_modifier
+				}
+			}
+		}
+    }
+    effect = {
+		trigger_event = { 
+			id = panum.2001
+			popup = yes 
+		}
+		add_modifier = {
+			name = panum_congress_host_modifier
+			years = 5
+		}	
+    }
+}
