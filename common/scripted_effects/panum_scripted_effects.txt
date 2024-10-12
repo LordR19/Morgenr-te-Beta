@@ -4488,6 +4488,95 @@ panum_create_medical_reformer_effect = {
 	}
 }
 
+### Effect for starting research from the Disease Journal Entry ###
+panum_general_disease_research_from_je_effect = {
+	every_country = {
+		limit = {
+			has_diplomatic_relevance = ROOT
+			panum_$DISEASE$_research_tech_requirement_trigger = yes
+			panum_has_active_physician_no_tooltip_trigger = yes
+			NOT = { has_variable = panum_physician_action_active_var }
+			OR = {
+				panum_has_$DISEASE$_description_trigger = no
+				AND = {
+					panum_has_$DISEASE$_description_trigger = yes
+					panum_has_$DISEASE$_treatment_trigger = no
+				}
+			}
+		}
+		if = {
+			limit = {
+				root = this
+			}
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				#Effect for this country if it is AI
+				if = {
+					limit = { panum_has_$DISEASE$_description_trigger = no }
+					set_variable = panum_physician_describe_disease_active_var
+					var:panum_physician_var = {
+						set_character_busy_and_immortal = yes
+					}
+					add_journal_entry = {
+						type = je_panum_$DISEASE$_description
+					}
+				}
+				else_if = {
+					limit = { panum_has_$DISEASE$_treatment_trigger = no }
+					set_variable = panum_physician_find_treatment_active_var
+					var:panum_physician_var = {
+						set_character_busy_and_immortal = yes
+					}
+					add_journal_entry = {
+						type = je_panum_$DISEASE$_treatment
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				is_player = yes
+			}
+			#Effect for foreign Player Country
+			if = {
+				limit = { panum_has_$DISEASE$_description_trigger = no }
+
+			}
+			else_if = {
+				limit = { panum_has_$DISEASE$_treatment_trigger = no }
+				
+			}
+		}
+		else = {
+			#Effect for foreign AI Country
+			if = {
+				limit = { panum_has_$DISEASE$_description_trigger = no }
+				set_variable = panum_physician_describe_disease_foreign_active_var
+				var:panum_physician_var = {
+					set_character_busy_and_immortal = yes
+				}
+				add_journal_entry = {
+					type = je_panum_$DISEASE$_description_expedition
+					target = root
+				}
+			}
+			else_if = {
+				limit = { panum_has_$DISEASE$_treatment_trigger = no }
+				set_variable = panum_physician_find_treatment_foreign_active_var
+				var:panum_physician_var = {
+					set_character_busy_and_immortal = yes
+				}
+				add_journal_entry = {
+					type = je_panum_$DISEASE$_treatment_expedition
+					target = root
+				}
+			}
+		}
+	}
+}
+
 ### End of JEs ###
 panum_remove_active_variables_effect = {
 	remove_variable = panum_physician_describe_disease_active_var
