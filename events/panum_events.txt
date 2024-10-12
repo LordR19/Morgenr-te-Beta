@@ -10,6 +10,15 @@ namespace = panum
 
 ###################
 
+######PHYSICIAN ACTIONS######
+
+#Panum 51: Describe Local Disease
+#Panum 52: Describe Foreign Disease
+#Panum 53: Treat Local Disease
+#Panum 54: Treat Foreign Disease
+#Panum 55: Event informing the player that foreign disease description is possible
+#Panum 56: Event informing the player that foreign disease treatment is possible
+
 ######CHOLERA######
 
 ### Cholera Epidemic ###
@@ -642,6 +651,134 @@ panum.54 = {
 
 	after = {
 		remove_variable = panum_physician_action_active_var
+	}
+}
+
+#Panum 55: Event informing the player that foreign disease description is possible
+panum.55 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.55.t
+
+	desc = panum.55.d
+
+	flavor = panum.55.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Send our Physician immediately!
+		name = panum.55.g
+		default_option = yes
+
+		set_variable = panum_physician_action_active_var
+		set_variable = panum_physician_describe_disease_foreign_active_var
+		trigger_event = { 
+			id = panum.52
+			popup = yes
+		}
+	}
+
+	option = {	#Only fire notifications
+		name = panum.55.h
+		default_option = yes
+
+		custom_tooltip = {
+			text = panum_foreign_disease_research_only_notification_loc
+			set_variable = panum_foreign_disease_research_only_notification_var
+		}
+	}
+
+	option = {	#No more reminders
+		name = panum.55.i
+		default_option = yes
+
+		custom_tooltip = {
+			text = panum_foreign_disease_research_no_notification_loc
+			set_variable = panum_foreign_disease_research_no_notification_var
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 56: Event informing the player that foreign disease treatment is possible
+panum.56 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.56.t
+
+	desc = panum.56.d
+
+	flavor = panum.56.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_cholera.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Send our Physician immediately!
+		name = panum.56.g
+		default_option = yes
+
+		set_variable = panum_physician_action_active_var
+		set_variable = panum_physician_find_treatment_foreign_active_var
+		trigger_event = { 
+			id = panum.54
+			popup = yes 
+		}
+	}
+
+	option = {	#Only fire notifications
+		name = panum.56.h
+		default_option = yes
+
+		custom_tooltip = {
+			text = panum_foreign_disease_research_only_notification_loc
+			set_variable = panum_foreign_disease_research_only_notification_var
+		}
+	}
+
+	option = {	#No more reminders
+		name = panum.56.i
+		default_option = yes
+
+		custom_tooltip = {
+			text = panum_foreign_disease_research_no_notification_loc
+			set_variable = panum_foreign_disease_research_no_notification_var
+		}
+	}
+
+	after = {
 	}
 }
 
