@@ -5,6 +5,10 @@ Astronomy:
 - Other astronomical Discoveries will now also show you, how much astronomical prestige they add.
 - The GUI now shows you how many astronomical objects you are expected to discover per year.
 
+Engineering:
+- Added a new project to develop the first mechanical computer.
+- You can now see all engineering projects even if your specialization does not match your engineer.
+
 Element Names:
 - Added various new element names.
 
