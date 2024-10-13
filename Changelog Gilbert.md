@@ -11,6 +11,7 @@ Engineering:
 
 Characters:
 - Peter Panum (random Danish Physician)
+- Robert Koch (random German Physician)
 - Rudolf Virchow (random German Physician)
 - John Snow (random British Physician)
 - Alexandre Yersin (random Swiss Physician)
