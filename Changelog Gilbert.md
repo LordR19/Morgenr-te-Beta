@@ -44,6 +44,7 @@ Fixes:
 - Switzerland and Sweden now actually get the atmospheric engine at game start.
 - Schliemann will now only be available at between 1852 and 1890.
 - Fixed missing animal names for the Get Exotic animal Journal Entry.
+- Characters with the academic gowns will no longer wear sashes.
 
 Performance:
 - Removed some global variables for planet discoveries.
