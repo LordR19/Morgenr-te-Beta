@@ -101,7 +101,6 @@ je_panum_tuberculosis = {
 	}
 
 	immediate = {
-		panum_general_disease_research_from_je_effect = { DISEASE = tuberculosis }
 	}
 	
     fail = {
@@ -163,7 +162,6 @@ je_panum_smallpox = {
 	}
 
 	immediate = {
-		panum_general_disease_research_from_je_effect = { DISEASE = smallpox }
 	}
 	
     fail = {
@@ -230,7 +228,6 @@ je_panum_typhus = {
 	}
 
 	immediate = {
-		panum_general_disease_research_from_je_effect = { DISEASE = typhus }
 	}
 	
     fail = {
@@ -296,7 +293,6 @@ je_panum_yellow_fever = {
 	}
 
 	immediate = {
-		panum_general_disease_research_from_je_effect = { DISEASE = yellow_fever }
 	}
 	
     fail = {
@@ -1319,7 +1315,7 @@ je_panum_cholera_description_expedition = {
 			value = 1
 		}
 		trigger_event = {
-			id = panum.130
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -1408,7 +1404,7 @@ je_panum_tuberculosis_description_expedition = {
 			value = 2
 		}
 		trigger_event = {
-			id = panum.230
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -1497,7 +1493,7 @@ je_panum_smallpox_description_expedition = {
 			value = 3
 		}
 		trigger_event = {
-			id = panum.330
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -1586,7 +1582,7 @@ je_panum_typhus_description_expedition = {
 			value = 4
 		}
 		trigger_event = {
-			id = panum.430
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -1675,7 +1671,7 @@ je_panum_yellow_fever_description_expedition = {
 			value = 5
 		}
 		trigger_event = {
-			id = panum.530
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -1764,7 +1760,7 @@ je_panum_measles_description_expedition = {
 			value = 6
 		}
 		trigger_event = {
-			id = panum.630
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -1853,7 +1849,7 @@ je_panum_scarlet_description_expedition = {
 			value = 7
 		}
 		trigger_event = {
-			id = panum.730
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -1942,7 +1938,7 @@ je_panum_plague_description_expedition = {
 			value = 8
 		}
 		trigger_event = {
-			id = panum.830
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2031,7 +2027,7 @@ je_panum_diphteria_description_expedition = {
 			value = 9
 		}
 		trigger_event = {
-			id = panum.930
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2120,7 +2116,7 @@ je_panum_polio_description_expedition = {
 			value = 10
 		}
 		trigger_event = {
-			id = panum.1030
+			id = panum.138
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2158,6 +2154,115 @@ je_panum_polio_description_expedition = {
 
 je_panum_cholera_treatment = {
 	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		random_events = {
+			30 = 0
+
+			#Good Events
+			1 = panum.141 #Panum 141: The Brewery
+			2 = panum.142 #Panum 142: Creatures of Habit
+			2 = panum.143 #Panum 143: The odd ones
+			2 = panum.144 #Panum 144: The filters
+			2 = panum.145 #Panum 145: Brown Water
+			2 = panum.146 #Panum 146: The First Death
+			2 = panum.147 #Panum 147: The Pit
+			1 = panum.148 #Panum 148: The Mansion
+			1 = panum.149 #Panum 149: The Tiny Death
+			2 = panum.150 #Panum 150: A Hands on Matter
+
+			#Bad Events
+			1 = panum.151 #Panum 151: The Tool Factory
+			1 = panum.152 #Panum 152: The Jar
+			1 = panum.153 #Panum 153: Misplaced
+			1 = panum.154 #Panum 154: The Copycat killer
+			1 = panum.155 #Panum 155: The Miasma ...?
+			1 = panum.156 #Panum 156: Deconstructed
+			1 = panum.157 #Panum 157: Contamined
+
+			#Character Events
+			10 = panum.161 #Panum 161: A spot of gin
+			10 = panum.162 #Panum 162: Bottom's up
+			10 = panum.163 #Panum 163: A Map to success
+			10 = panum.164 #Panum 164: Fire and Fury
+			10 = panum.165 #Panum 165: The Heart of Infection
+			10 = panum.166 #Panum 166: The Power of Prayer
+			10 = panum.167 #Panum 167: Safe over sorry
+			10 = panum.168 #Panum 168: Restless Labor
+		}
+	}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_cholera_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_cholera_treatment_clues_var
+				value = 0
+			}
+		}
+	}
+
+	fail = {
+		NOT = {
+			has_journal_entry = je_panum_cholera
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = panum.134 #Unfinished Treatment
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.140
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	current_value = {
+		value = var:panum_cholera_treatment_clues_var
+	}
+
+	goal_add_value = {
+		value = 12
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+			NOT = {
+				has_variable = panum_physician_var
+			}
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
 
 je_panum_tuberculosis_treatment = {
@@ -2253,7 +2358,7 @@ je_panum_cholera_treatment_expedition = {
 			value = 1
 		}
 		trigger_event = {
-			id = panum.140
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2342,7 +2447,7 @@ je_panum_tuberculosis_treatment_expedition = {
 			value = 2
 		}
 		trigger_event = {
-			id = panum.230
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2431,7 +2536,7 @@ je_panum_smallpox_treatment_expedition = {
 			value = 3
 		}
 		trigger_event = {
-			id = panum.330
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2520,7 +2625,7 @@ je_panum_typhus_treatment_expedition = {
 			value = 4
 		}
 		trigger_event = {
-			id = panum.430
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2609,7 +2714,7 @@ je_panum_yellow_fever_treatment_expedition = {
 			value = 5
 		}
 		trigger_event = {
-			id = panum.530
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2698,7 +2803,7 @@ je_panum_measles_treatment_expedition = {
 			value = 6
 		}
 		trigger_event = {
-			id = panum.630
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2787,7 +2892,7 @@ je_panum_scarlet_treatment_expedition = {
 			value = 7
 		}
 		trigger_event = {
-			id = panum.730
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2876,7 +2981,7 @@ je_panum_plague_treatment_expedition = {
 			value = 8
 		}
 		trigger_event = {
-			id = panum.830
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -2965,7 +3070,7 @@ je_panum_diphteria_treatment_expedition = {
 			value = 9
 		}
 		trigger_event = {
-			id = panum.930
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
@@ -3054,7 +3159,7 @@ je_panum_polio_treatment_expedition = {
 			value = 10
 		}
 		trigger_event = {
-			id = panum.1030
+			id = panum.139
 			popup = yes
 		}
 		panum_remove_active_variables_effect = yes
