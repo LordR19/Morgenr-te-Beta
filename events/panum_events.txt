@@ -54,6 +54,8 @@ namespace = panum
 #Panum 134: Unfinished Treatment
 #Panum 135: News from the Medical Research Expedition (hidden)
 #Panum 136: Unfinished Treatment (Expedition)
+#Panum 138: Disease Description (Expedition)
+#Panum 139: Disease Treatment (Expedition)
 
 ### Cholera Treatment ###
 
@@ -2458,6 +2460,102 @@ panum.136 = {
 	}
 
 	after = {
+	}
+}
+
+#Panum 138: Disease Description (Expedition)
+panum.138 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.138.t
+
+	desc = panum.138.d
+
+	flavor = panum.138.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the description title
+		set_variable = {
+			name = panum_description_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_description_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#DISEASE is losing its horror.
+		name = panum.138.g
+		panum_add_disease_description_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_description_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 139: Disease Treatment (Expedition)
+panum.139 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.139.t
+
+	desc = panum.139.d
+
+	flavor = panum.139.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the treatment title
+		set_variable = {
+			name = panum_treatment_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_treatment_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#DISEASE is losing its horror.
+		name = panum.139.g
+		panum_add_disease_treatment_effect = yes
+	}
+
+	after = {
+		remove_variable = panum_treatment_title_randomizer_var
+		remove_variable = panum_disease_title_var
 	}
 }
 
