@@ -9,6 +9,9 @@ Engineering:
 - Added a new project to develop the first mechanical computer.
 - You can now see all engineering projects even if your specialization does not match your engineer.
 
+Characters:
+- Peter Panum (random Danish Physician)
+
 Element Names:
 - Added various new element names.
 
