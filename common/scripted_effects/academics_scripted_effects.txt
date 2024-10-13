@@ -10495,6 +10495,40 @@ create_new_physician_effect = {
 
 			set_global_variable = panum_snow_created_global_var
 		}
+		4 = { #Alexandre Yersin, Switzerland
+			trigger = {
+				NOT = { has_global_variable = panum_yersin_created_global_var }
+				OR = {
+					mr_country_owns_vaud_trigger = yes
+					has_state_in_state_region = STATE_ILE_DE_FRANCE
+				}
+				NOT = {
+					cu:francoprovencal = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1918.09.22 #Age 55
+				year >= 1886 #Worked at Pasteur Institute
+			}
+			create_character = {
+				template = mr_swi_yersin_alexandre_character_template
+
+				save_scope_as = panum_new_physician_scope
+			}
+			scope:panum_new_physician_scope = {
+				set_variable = mr_is_physician_var
+				set_variable = mr_no_headgear_var
+				physician_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = panum_new_physician_var
+				value = scope:panum_new_physician_scope
+			}
+
+			set_global_variable = panum_yersin_created_global_var
+		}
 		1 = { #Random Physician
 			random_list = {
 				1 = {
