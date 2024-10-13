@@ -12,6 +12,7 @@ Engineering:
 Characters:
 - Peter Panum (random Danish Physician)
 - John Snow (random British Physician)
+- Alexandre Yersin (random Swiss Physician)
 
 Element Names:
 - Added various new element names.
