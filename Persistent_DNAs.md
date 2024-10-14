@@ -60440,7 +60440,6 @@ mr_ita_golgi_camillo={
  		eye_accessory={ "normal_eyes" 0 "normal_eyes" 0 }
  		eye_lashes_accessory={ "normal_eyelashes" 0 "normal_eyelashes" 0 }
  		teeth_accessory={ "normal_teeth" 0 "normal_teeth" 0 }
- 		aiguillettes={ "no_aiguillettes" 0 "all_aiguillettes" 0 }
 	}
 	entity={ 0 0 }
 }
