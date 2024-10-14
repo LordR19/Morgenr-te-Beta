@@ -13,6 +13,7 @@ Characters:
 - Carlos Finlay (random Cuban Physician)
 - Peter Panum (random Danish Physician)
 - Robert Koch (random German Physician)
+- Johann Lukas Schönlein (random German Physician)
 - Rudolf Virchow (random German Physician)
 - John Snow (random British Physician)
 - Alexandre Yersin (random Swiss Physician)
