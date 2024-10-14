@@ -4784,6 +4784,51 @@ panum_add_x_germ_theory_clues_effect = {
 	}
 }
 
+# This effect adds the Germm Theory
+panum_add_germ_theory_effect = {
+	custom_tooltip = {
+		text = panum_add_germ_theory_effect_tt
+		set_variable = panum_germ_theory_var
+	}
+	if = {
+		limit = {
+			NOT = {
+				has_global_variable = panum_germ_theory_invented_global_var
+			}
+		}
+		set_global_variable = {
+			name = panum_germ_theory_invented_global_var
+			value = year
+		}
+		country_definition = {
+			set_global_variable = {
+				name = panum_germ_theory_invented_global_var
+				value = this
+			}
+		}
+		var:panum_physician_var = {
+			set_variable = panum_germ_theory_inventor_var
+			add_trait = panum_epidemiologist
+			add_trait = theiler_microbiologist
+		}
+		physician_experience_gain_effect = { AMOUNT = 50 }
+		panum_large_add_technology = yes
+		hidden_effect = {
+			every_country = {
+				limit = {
+					is_player = yes
+				}
+				post_notification = panum_germ_theory_notification
+			}
+		}
+	}
+	else = {
+		physician_experience_gain_effect = { AMOUNT = 25 }
+		panum_small_add_technology = yes
+		panum_add_epidemiologist_chance_effect = yes
+	}
+}
+
 ### Medical Reformer ###
 
 panum_create_medical_reformer_effect = {
