@@ -17,6 +17,7 @@ Characters:
 - Johann Lukas Schönlein (random German Physician)
 - Rudolf Virchow (random German Physician)
 - John Snow (random British Physician)
+- Camillo Golgi (random Italian Physician)
 - Cesare Lombroso (random Italian Physician)
 - Alexandre Yersin (random Swiss Physician)
 - William Wood Gerhard (random American Physician)
