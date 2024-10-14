@@ -3,6 +3,32 @@
     selection_behavior = weighted_random
 
     #General Illness
+    mr_sickly = {
+        dna_modifiers = {
+			morph = {
+				mode = add
+				gene = mr_diseases
+				template = mr_sickly
+				value = 1.0
+			}
+            morph = {
+              mode = modify
+              gene = gene_bs_body_type
+              value = -0.1
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                scope:character ?= {
+                    has_trait = sickly
+                }
+            }
+        }
+    }
+
+    #General Illness
     mr_general_illness = {
         dna_modifiers = {
 			morph = {
@@ -11,20 +37,18 @@
 				template = mr_illness
 				value = 1.0
 			}
-            color = {
-				gene = skin_color
-				mode = modify
-				x = 0.2
-				y = -0.1
-			}
+            morph = {
+              mode = modify
+              gene = gene_bs_body_type
+              value = -0.2
+            }
         }
         weight = {
             base = 0
             modifier = {
-                add = 100
+                add = 200
                 scope:character ?= {
                     OR = {
-						has_trait = sickly
 						has_trait = panum_cholera
 						has_trait = panum_tuberculosis
 					}
@@ -34,25 +58,24 @@
     }
 
     #Yellow Fever
-    mr_general_illness = {
+    mr_yellow_fever = {
         dna_modifiers = {
 			morph = {
 				mode = add
 				gene = mr_diseases
-				template = mr_illness
+				template = mr_yellow_fever
 				value = 1.0
 			}
-            color = {
-				gene = skin_color
-				mode = modify
-				x = 1
-				y = -0.1
-			}
+            morph = {
+              mode = modify
+              gene = gene_bs_body_type
+              value = -0.2
+            }
         }
         weight = {
             base = 0
             modifier = {
-                add = 200
+                add = 300
                 scope:character ?= {
                     has_trait = panum_yellow_fever
                 }
