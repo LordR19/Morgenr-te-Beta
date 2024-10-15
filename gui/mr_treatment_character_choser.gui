@@ -153,15 +153,16 @@ widget = {
                                         spacing = 10
 
                                         #Sickly
-                                        widget = {
-                                            
-                                            size = { 180 34 }
-
-                                            icon = {
-                                                size = { 24 32 }
-                                                parentanchor = left|center
+                                        panum_character_treatment_per_trait_box = {
+                                            blockoverride "visible" {
+                                                visible = "[GetScriptedGui('mr_character_has_sickly_trait_for_treatment_sgui').IsShown(GuiScope.SetRoot(Character.MakeScope).End)]"
+                                            }
+                                            blockoverride "trait_icon" {
                                                 texture = "gfx/interface/icons/character_trait_icons/sickly.dds"
                                                 tooltip = "MR_SICKLY_SPECIAL_TOOLTIP"
+                                            }
+                                            blockoverride "success_chance" {
+                                                raw_text = "MR_SICKLY_TREATMENT_SUCCESS_LOC"
                                             }
                                         }
                                     }
@@ -190,4 +191,38 @@ widget = {
             }
 		}
     }
+}
+
+types panum_character_treatment_per_trait_box {
+	type panum_character_treatment_per_trait_box = hbox {
+		block "visible" {
+            visible = "[GetScriptedGui('mr_character_has_sickly_trait_for_treatment_sgui').IsShown(GuiScope.SetRoot(Character.MakeScope).End)]"
+        }
+        layoutpolicy_horizontal = expanding
+
+        icon = {
+            size = { 24 32 }
+            parentanchor = left|center
+            
+            block "trait_icon" {
+                texture = "gfx/interface/icons/character_trait_icons/sickly.dds"
+                tooltip = "MR_SICKLY_SPECIAL_TOOLTIP"
+            }
+        }
+
+        #Probability of Success
+        textbox = {
+            max_update_rate = 100
+            block "success_chance" {
+                raw_text = "MR_SICKLY_TREATMENT_SUCCESS_LOC"
+            }
+            size = { 120 32 }
+            elide = right
+            align = nobaseline
+            using = fontsize_medium
+            margin = { 10 0 }
+        }
+
+        expand = {}
+	}
 }

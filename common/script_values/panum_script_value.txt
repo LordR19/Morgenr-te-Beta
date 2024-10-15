@@ -244,3 +244,170 @@ panum_physician_character_rating_value = {
 		subtract = 5
 	}
 }
+
+############################################################################
+
+### Success Chance for various treatments ###
+
+#Basic success chance
+panum_basic_success_chance_factors_value = {
+	value = 0
+	add = institution:institution_health_system.investment
+	multiply = 10
+	if = {
+		limit = { has_variable = panum_physician_var }
+		add = {
+			value = var:panum_physician_var.var:panum_physician_experience
+			divide = 6
+		}
+	}
+}
+
+#Basic Success Chance Diseases and Surgical
+panum_basic_success_chance_medical_factors_value = {
+	if = {
+		limit = { panum_has_miasma_theory_trigger = yes }
+		add = 10
+	}
+	if = {
+		limit = { has_technology_researched = antibiotics }
+		add = 50
+	}
+	else_if = {
+		limit = { has_technology_researched = panum_antitoxins_tech }
+		add = 40
+	}
+	else_if = {
+		limit = { has_technology_researched = malaria_prevention }
+		add = 30
+	}
+	else_if = {
+		limit = { has_technology_researched = theiler_microbiology_tech }
+		add = 25
+	}
+	else_if = {
+		limit = { has_technology_researched = quinine }
+		add = 20
+	}
+	else_if = {
+		limit = { has_technology_researched = pharmaceuticals }
+		add = 15
+	}
+	else_if = {
+		limit = { has_technology_researched = panum_vaccination_tech }
+		add = 10
+	}
+	else_if = {
+		limit = { has_technology_researched = medical_degrees }
+		add = 5
+	}
+}
+
+#Basic Success Chance Psychology
+panum_basic_success_chance_disease_factors_value = {
+	if = {
+		limit = { has_technology_researched = behaviorism }
+		add = 50
+	}
+	else_if = {
+		limit = { has_technology_researched = psychoanalysis }
+		add = 40
+	}
+	else_if = {
+		limit = { has_technology_researched = psychiatry }
+		add = 20
+	}
+	else_if = {
+		limit = { has_technology_researched = medical_degrees }
+		add = 5
+	}
+}
+
+#Basic Success Chance Traits
+panum_basic_success_chance_traits_factors_value = {
+	value = 0
+	if = {
+		limit = {
+			has_variable = panum_physician_var
+		}
+
+		#Positive Traits
+		if = {
+			limit = {
+				var:panum_physician_var = {
+					has_trait = innovative
+				}
+			}
+			add = 5
+		}
+		if = {
+			limit = {
+				var:panum_physician_var = {
+					has_trait = meticulous
+				}
+			}
+			add = 5
+		}
+		if = {
+			limit = {
+				var:panum_physician_var = {
+					has_trait = ambitious
+				}
+			}
+			add = 5
+		}
+		#Negative Traits
+		if = {
+			limit = {
+				var:panum_physician_var = {
+					has_trait = reckless
+				}
+			}
+			add = -5
+		}
+		if = {
+			limit = {
+				var:panum_physician_var = {
+					OR = {
+						has_trait = alcoholic
+						has_trait = opium_addiction
+						has_trait = cocaine_addiction
+						has_trait = syphilis
+						has_trait = shellshocked
+						has_trait = psychological_affliction
+					}
+				}
+			}
+			add = -20
+		}
+		if = {
+			limit = {
+				var:panum_physician_var = {
+					has_trait = senile
+				}
+			}
+			add = -100
+		}
+	}
+}
+
+#Scuccess Chance for the sickly trait
+panum_sickly_success_chance_value = {
+	value = 0
+	add = panum_basic_success_chance_factors_value
+	add = panum_basic_success_chance_medical_factors_value
+	add = panum_basic_success_chance_traits_factors_value
+	if = {
+		limit = {
+			has_variable = panum_physician_var
+			var:panum_physician_var = {
+				has_trait = panum_surgeon
+			}
+		}
+		add = 10
+	}
+
+	multiply = 0.01
+	min = 0
+	max = 1
+}
