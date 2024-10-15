@@ -196,6 +196,12 @@ namespace = panum
 
 #Panum 1000: Calls for Medical Reforms
 
+### Medical System Expansion ###
+
+#Panum 2101: Medical System Expanded
+#Panum 2102: Specialist Clinic in STATE
+#Panum 2103: Hospital in STATE
+
 #################################################################################
 
 ######JEs & HISTORICAL#######
@@ -10649,6 +10655,199 @@ panum.2009 = {
 	option = { 
 		name = panum.2009.g #Did you enjoy the buffet?
 		remove_modifier = panum_congress_attend_modifier
+	}
+
+	after = {
+	}
+}
+
+##############################################################################################################
+
+#Panum 2101: Medical System Expanded
+panum.2101 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2101.t
+
+	desc = panum.2101.d
+
+	flavor = panum.2101.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+	}
+
+	option = {	#Back to work
+		name = panum.2101.g
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 2102: Specialist Clinic in STATE
+panum.2102 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2102.t
+
+	desc = panum.2102.d
+
+	flavor = panum.2102.f
+
+	placement = scope:panum_clinic_state
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_clinic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = panum_first_clinic_opened_var
+		}
+		any_scope_state = {
+			has_building = building_government_administration
+			any_scope_building = {
+				is_building_type = building_government_administration
+				level >= 5
+				has_active_production_method = pm_panum_clinic
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = panum_first_clinic_opened_var
+		random_scope_state = {
+			limit = {
+				has_building = building_government_administration
+				any_scope_building = {
+					is_building_type = building_government_administration
+					level >= 5
+					has_active_production_method = pm_panum_clinic
+				}
+			}
+			save_scope_as = panum_clinic_state
+		}
+	}
+
+	option = {	#Surgery
+		name = panum.2102.g
+		var:panum_physician_var ?= {
+			add_trait = panum_surgeon
+		}
+		dubois_add_x_academy_progress = { AMOUNT = 25 }
+	}
+
+	option = {	#Psychiatry
+		name = panum.2102.h
+		var:panum_physician_var ?= {
+			add_trait = panum_psychatrist
+		}
+		dubois_add_x_academy_progress = { AMOUNT = 25 }
+	}
+
+	option = {	#Epidemiology
+		name = panum.2102.i
+		var:panum_physician_var ?= {
+			add_trait = panum_epidemiologist
+		}
+		dubois_add_x_academy_progress = { AMOUNT = 25 }
+	}
+
+	option = {	#Military Medicine
+		name = panum.2102.j
+		var:panum_physician_var ?= {
+			add_trait = panum_military_physician
+		}
+		dubois_add_x_academy_progress = { AMOUNT = 25 }
+	}
+
+	after = {
+	}
+}
+
+#Panum 2103: Hospital in STATE
+panum.2103 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.2103.t
+
+	desc = panum.2103.d
+
+	flavor = panum.2103.f
+
+	placement = scope:panum_clinic_state
+	
+	duration = 3
+
+	event_image = {
+		texture = "gfx/event_pictures/panum_pictures/panum_clinic.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_variable = panum_first_hospital_opened_var
+		}
+		any_scope_state = {
+			has_building = building_government_administration
+			any_scope_building = {
+				is_building_type = building_government_administration
+				level >= 5
+				has_active_production_method = pm_panum_hospital
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = panum_first_hospital_opened_var
+		random_scope_state = {
+			limit = {
+				has_building = building_government_administration
+				any_scope_building = {
+					is_building_type = building_government_administration
+					level >= 5
+					has_active_production_method = pm_panum_hospital
+				}
+			}
+			save_scope_as = panum_clinic_state
+		}
+	}
+
+	option = {	#Bravo!
+		name = panum.2103.g
+		panum_small_add_technology = yes
+		dubois_add_x_academy_progress = { AMOUNT = 50 }
 	}
 
 	after = {
