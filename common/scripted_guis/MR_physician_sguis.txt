@@ -166,6 +166,81 @@ mr_physician_find_treatment_foreign_active = {
 	}
 }
 
+#MR_PHYSICIAN_EXPAND_MEDICAL_SYSTEM_BUTTON
+mr_physician_expand_medical_system_button = {
+    scope = country
+    is_valid = {
+		hidden_trigger = {
+			NOT = {
+				has_variable = panum_physician_action_active_var
+			}
+		}
+		custom_tooltip = {
+			text = MR_ACTIVE_PHYSICIAN_TRIGGER
+			has_variable = panum_physician_var
+			var:panum_physician_var = {
+				is_busy = no
+			}
+		}
+		custom_tooltip = {
+			text = MR_PHYSICIAN_HAS_HEALTH_SYSTEM_TRIGGER_TT
+			NOT = {
+				has_law = law:law_no_health_system
+			}
+		}
+		custom_tooltip = {
+			text = MR_PHYSICIAN_HAS_HEALTH_SYSTEM_INSTITUTION_TRIGGER_TT
+			institution_investment_level = {
+				institution	= institution_health_system
+				value >= 1
+			}
+		}
+		OR = {
+			custom_tooltip = {
+				text = MR_PHYSICIAN_HAS_POSSIBLE_CLINIC_TRIGGER_TT
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_government_administration
+						level >= 5
+						has_active_production_method = pm_panum_no_clinic
+					}
+				}
+			}
+			custom_tooltip = {
+				text = MR_PHYSICIAN_HAS_POSSIBLE_HOSPITAL_TRIGGER_TT
+				any_scope_state = {
+					any_scope_building = {
+						is_building_type = building_government_administration
+						level >= 20
+						has_active_production_method = pm_panum_clinic
+					}
+				}
+			}
+		}
+    }
+    effect = {
+		add_modifier = {
+			name = panum_medical_system_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		add_journal_entry = { type = je_panum_medical_system_project }
+		if = {
+			limit = {
+				has_variable = panum_physician_var
+			}
+			var:panum_physician_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+    }
+}
+#Checks if this is button is active
+mr_physician_expand_medical_system_active = {
+	is_shown = {
+		has_variable = mr_physician_expand_medical_system_var
+	}
+}
+
 #MR_MEDICAL_CONGRESS_BUTTON
 mr_medical_congress_button = {
     scope = country
