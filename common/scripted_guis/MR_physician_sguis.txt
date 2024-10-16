@@ -219,6 +219,7 @@ mr_physician_expand_medical_system_button = {
 		}
     }
     effect = {
+		set_variable = mr_physician_expand_medical_system_var
 		add_modifier = {
 			name = panum_medical_system_cost_modifier
 			multiplier = money_amount_multiplier_small
@@ -238,6 +239,41 @@ mr_physician_expand_medical_system_button = {
 mr_physician_expand_medical_system_active = {
 	is_shown = {
 		has_variable = mr_physician_expand_medical_system_var
+	}
+}
+
+#MR_PHYSICIAN_RESEARCH_BUTTON
+mr_physician_research_button = {
+	scope = country
+	custom_tooltip = {
+		text = MR_ACTIVE_PHYSICIAN_TRIGGER
+		has_variable = panum_physician_var
+		var:panum_physician_var = {
+			is_busy = no
+		}
+	}
+	effect = {
+		set_variable = mr_physician_medical_research_var
+		add_modifier = {
+			name = panum_medical_research_cost_modifier
+			multiplier = money_amount_multiplier_small
+		}
+		add_journal_entry = { type = je_panum_medical_research_project }
+		if = {
+			limit = {
+				has_variable = panum_physician_var
+			}
+			var:panum_physician_var = {
+				set_character_busy_and_immortal = yes
+			}
+		}
+	}
+}
+#Active
+mr_physician_research_active = {
+	scope = country
+	is_shown = {
+		has_variable = mr_physician_medical_research_var
 	}
 }
 
