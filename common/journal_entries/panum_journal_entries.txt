@@ -70,7 +70,7 @@ je_panum_germ_theory = {
 
 ### Expand Medical System ###
 je_panum_medical_system_project = {
-	icon = "gfx/interface/icons/event_icons/machinists.dds"
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
 
 	scripted_button = panum_stop_medical_project_button
 
@@ -87,7 +87,7 @@ je_panum_medical_system_project = {
 				}
 				#Physician gets experience
 				physician_experience_gain_effect = { AMOUNT = 20 }
-				#The state with the next available telegraph office will be chosen
+				#The state with the next available hospital > clinic will be chosen
 				if = {
 					limit = {
 						any_scope_state = {
@@ -186,6 +186,7 @@ je_panum_medical_system_project = {
 	}
 
 	on_complete = {
+		remove_variable = mr_physician_expand_medical_system_var
 		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
 		trigger_event = {
 			id = panum.2101
@@ -218,6 +219,103 @@ je_panum_medical_system_project = {
 	}
 
 	on_invalid = {
+		remove_variable = mr_physician_expand_medical_system_var
+		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
+		var:panum_physician_var ?= {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
+}
+
+### Medical Research ###
+je_panum_medical_research_project = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	scripted_button = panum_stop_medical_project_button
+
+	group = je_group_panum_medicine
+
+	scripted_progress_bar = panum_medical_research_project_progress_bar
+
+	on_monthly_pulse = {
+		effect = {
+			if = {
+				#If the Progress reaches the cost, the PM will be unlocked in a state
+				limit = {
+					var:panum_medical_research_project_progress_var >= 40
+				}
+				#Physician gets experience	
+				panum_small_add_technology = yes
+				physician_experience_gain_effect = { AMOUNT = 10 }
+				post_notification = panum_technology_boost_from_physician_notification
+				#AI should abandon this if descriptions or treatments are possible
+				if = {
+					limit = {
+						is_ai = yes
+						OR = {
+							panum_has_$DISEASE$_description_trigger = no
+							AND = {
+								panum_has_$DISEASE$_description_trigger = yes
+								panum_has_$DISEASE$_treatment_trigger = no
+							}
+						}
+					}
+					set_variable = panum_stop_medical_project_var
+				}
+				#The cost will be subtracted from the current progress
+				change_variable = {
+					name = panum_medical_system_project_progress_var
+					subtract = 40
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = panum_can_stop_active_medical_project_var #This is used to check if the country has a project already
+		#Sets the Medical Progress at the beginning
+		set_variable = {
+			name = panum_medical_research_project_progress_var
+			value = 0
+		}
+	}
+
+	complete = {
+	}
+
+	on_complete = {
+	}
+
+	current_value = {
+		#Keeps track of the Medical Progress. If the Progress reaches the progress_cost, a PM will be unlocked.
+		value = var:panum_medical_research_project_progress_var
+	}
+
+	goal_add_value = {
+		value = 40
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = panum_stop_medical_project_tt
+			OR = {
+				custom_tooltip = {
+					text = je_physician_dies_tt
+					NOT = {
+						has_variable = panum_physician_var
+					}
+				}
+				has_variable = panum_stop_medical_project_var
+			}
+		}
+	}
+
+	on_invalid = {
+		remove_variable = mr_physician_medical_research_var
 		remove_variable = panum_can_stop_active_medical_project_var #Needs to be removed, when the JE is removed
 		var:panum_physician_var ?= {
 			set_character_busy_and_immortal = no
