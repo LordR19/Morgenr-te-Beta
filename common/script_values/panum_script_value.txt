@@ -264,12 +264,12 @@ panum_physician_character_rating_value = {
 panum_basic_success_chance_factors_value = {
 	value = 0
 	add = institution:institution_health_system.investment
-	multiply = 10
+	multiply = 0.1
 	if = {
 		limit = { has_variable = panum_physician_var }
 		add = {
 			value = var:panum_physician_var.var:panum_physician_experience
-			divide = 6
+			divide = 600
 		}
 	}
 }
@@ -278,39 +278,39 @@ panum_basic_success_chance_factors_value = {
 panum_basic_success_chance_medical_factors_value = {
 	if = {
 		limit = { panum_has_miasma_theory_trigger = yes }
-		add = 10
+		add = 0.1
 	}
 	if = {
 		limit = { has_technology_researched = antibiotics }
-		add = 50
+		add = 0.5
 	}
 	else_if = {
 		limit = { has_technology_researched = panum_antitoxins_tech }
-		add = 40
+		add = 0.4
 	}
 	else_if = {
 		limit = { has_technology_researched = malaria_prevention }
-		add = 30
+		add = 0.3
 	}
 	else_if = {
 		limit = { has_technology_researched = theiler_microbiology_tech }
-		add = 25
+		add = 0.25
 	}
 	else_if = {
 		limit = { has_technology_researched = quinine }
-		add = 20
+		add = 0.2
 	}
 	else_if = {
 		limit = { has_technology_researched = pharmaceuticals }
-		add = 15
+		add = 0.15
 	}
 	else_if = {
 		limit = { has_technology_researched = panum_vaccination_tech }
-		add = 10
+		add = 0.1
 	}
 	else_if = {
 		limit = { has_technology_researched = medical_degrees }
-		add = 5
+		add = 0.05
 	}
 }
 
@@ -318,19 +318,19 @@ panum_basic_success_chance_medical_factors_value = {
 panum_basic_success_chance_disease_factors_value = {
 	if = {
 		limit = { has_technology_researched = behaviorism }
-		add = 50
+		add = 0.5
 	}
 	else_if = {
 		limit = { has_technology_researched = psychoanalysis }
-		add = 40
+		add = 0.4
 	}
 	else_if = {
 		limit = { has_technology_researched = psychiatry }
-		add = 20
+		add = 0.2
 	}
 	else_if = {
 		limit = { has_technology_researched = medical_degrees }
-		add = 5
+		add = 0.05
 	}
 }
 
@@ -341,7 +341,6 @@ panum_basic_success_chance_traits_factors_value = {
 		limit = {
 			has_variable = panum_physician_var
 		}
-
 		#Positive Traits
 		if = {
 			limit = {
@@ -349,7 +348,7 @@ panum_basic_success_chance_traits_factors_value = {
 					has_trait = innovative
 				}
 			}
-			add = 5
+			add = 0.05
 		}
 		if = {
 			limit = {
@@ -357,7 +356,7 @@ panum_basic_success_chance_traits_factors_value = {
 					has_trait = meticulous
 				}
 			}
-			add = 5
+			add = 0.05
 		}
 		if = {
 			limit = {
@@ -365,7 +364,7 @@ panum_basic_success_chance_traits_factors_value = {
 					has_trait = ambitious
 				}
 			}
-			add = 5
+			add = 0.05
 		}
 		#Negative Traits
 		if = {
@@ -374,7 +373,7 @@ panum_basic_success_chance_traits_factors_value = {
 					has_trait = reckless
 				}
 			}
-			add = -5
+			add = -0.05
 		}
 		if = {
 			limit = {
@@ -389,7 +388,7 @@ panum_basic_success_chance_traits_factors_value = {
 					}
 				}
 			}
-			add = -20
+			add = -0.2
 		}
 		if = {
 			limit = {
@@ -397,7 +396,7 @@ panum_basic_success_chance_traits_factors_value = {
 					has_trait = senile
 				}
 			}
-			add = -100
+			add = -1
 		}
 	}
 }
@@ -415,10 +414,19 @@ panum_sickly_success_chance_value = {
 				has_trait = panum_surgeon
 			}
 		}
-		add = 10
+		add = 0.1
 	}
 
-	multiply = 0.01
-	min = 0
+	min = 0.01
 	max = 1
+}
+panum_sickly_no_effect_chance_value = {
+	value = 1
+	subtract = panum_sickly_success_chance_value
+	multiply = 0.9
+}
+panum_sickly_negative_effect_chance_value = {
+	value = 1
+	subtract = panum_sickly_success_chance_value
+	multiply = 0.1
 }
