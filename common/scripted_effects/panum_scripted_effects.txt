@@ -766,13 +766,15 @@ panum_add_cholera_modifier_effect = {
 			limit = {
 				ROOT = {
 					has_technology_researched = modern_sewerage
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 2
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 2
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -796,39 +798,47 @@ panum_add_cholera_modifier_effect = {
 		else_if = {
 			limit = {
 				ROOT = {
-					has_technology_researched = modern_sewerage
 					NOT = {
 						has_law = law_type:law_no_health_system
 					}
 				}
-			}
-			if = {
-				limit = {
+				OR = {
 					ROOT = {
-						panum_has_cholera_treatment_trigger = yes
-					}
-				}
-				add_modifier = {
-					name = panum_epidemic_cholera_normal_modifier
-					days = 60
-				}
-			}
-			else = {
-				add_modifier = {
-					name = panum_epidemic_cholera_normal_modifier
-					days = 365
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				ROOT = {
-					OR = {
 						has_technology_researched = modern_sewerage
+					}
+					panum_state_has_clinic_trigger = yes
+				}
+			}
+			if = {
+				limit = {
+					ROOT = {
+						panum_has_cholera_treatment_trigger = yes
+					}
+				}
+				add_modifier = {
+					name = panum_epidemic_cholera_normal_modifier
+					days = 60
+				}
+			}
+			else = {
+				add_modifier = {
+					name = panum_epidemic_cholera_normal_modifier
+					days = 365
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					ROOT = {
+						has_technology_researched = modern_sewerage
+					}
+					ROOT = {
 						NOT = {
 							has_law = law_type:law_no_health_system
 						}
 					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -1103,13 +1113,15 @@ panum_add_tuberculosis_modifier_effect = {
 			limit = {
 				ROOT = {
 					has_technology_researched = pasteurization
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 3
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 3
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -1132,19 +1144,17 @@ panum_add_tuberculosis_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				ROOT = {
-					OR = {
+				OR = {
+					ROOT = {
 						has_technology_researched = pasteurization
-						AND = {
-							institution_investment_level = {
-								institution	= institution_health_system
-								value >= 3
-							}
-							NOT = {
-								has_law = law_type:law_no_health_system
-							}
+					}
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 3
 						}
 					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -1418,13 +1428,15 @@ panum_add_smallpox_modifier_effect = {
 			limit = {
 				ROOT = {
 					has_technology_researched = panum_vaccination_tech
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 1
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 1
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -1447,8 +1459,19 @@ panum_add_smallpox_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				ROOT = {
-					has_technology_researched = panum_vaccination_tech
+				limit = {
+					OR = {
+						ROOT = {
+							has_technology_researched = panum_vaccination_tech
+						}
+						ROOT = {
+							institution_investment_level = {
+								institution	= institution_health_system
+								value >= 1
+							}
+						}
+						panum_state_has_clinic_trigger = yes
+					}
 				}
 			}
 			if = {
@@ -1718,14 +1741,16 @@ panum_add_typhus_modifier_effect = {
 		if = {
 			limit = {
 				ROOT = {
-					has_technology_researched = antibiotics
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 2
+					has_technology_researched = modern_nursing
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 2
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -1748,19 +1773,17 @@ panum_add_typhus_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				ROOT = {
-					OR = {
-						has_technology_researched = antibiotics
-						AND = {
-							institution_investment_level = {
-								institution	= institution_health_system
-								value >= 2
-							}
-							NOT = {
-								has_law = law_type:law_no_health_system
-							}
+				OR = {
+					ROOT = {
+						has_technology_researched = modern_nursing
+					}
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 2
 						}
 					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -2041,13 +2064,15 @@ panum_add_yellow_fever_modifier_effect = {
 			limit = {
 				ROOT = {
 					has_technology_researched = malaria_prevention
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 2
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 2
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -2070,19 +2095,17 @@ panum_add_yellow_fever_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				ROOT = {
-					OR = {
+				OR = {
+					ROOT = {
 						has_technology_researched = malaria_prevention
-						AND = {
-							institution_investment_level = {
-								institution	= institution_health_system
-								value >= 2
-							}
-							NOT = {
-								has_law = law_type:law_no_health_system
-							}
+					}
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 2
 						}
 					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -2353,13 +2376,15 @@ panum_add_measles_modifier_effect = {
 			limit = {
 				ROOT = {
 					has_technology_researched = antibiotics
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 3
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 3
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -2382,19 +2407,17 @@ panum_add_measles_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				ROOT = {
-					OR = {
+				OR = {
+					ROOT = {
 						has_technology_researched = antibiotics
-						AND = {
-							institution_investment_level = {
-								institution	= institution_health_system
-								value >= 3
-							}
-							NOT = {
-								has_law = law_type:law_no_health_system
-							}
+					}
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 3
 						}
 					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -2665,13 +2688,15 @@ panum_add_scarlet_modifier_effect = {
 			limit = {
 				ROOT = {
 					has_technology_researched = panum_antitoxins_tech
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 3
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 3
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -2694,19 +2719,17 @@ panum_add_scarlet_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				ROOT = {
-					OR = {
+				OR = {
+					ROOT = {
 						has_technology_researched = panum_antitoxins_tech
-						AND = {
-							institution_investment_level = {
-								institution	= institution_health_system
-								value >= 3
-							}
-							NOT = {
-								has_law = law_type:law_no_health_system
-							}
+					}
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 3
 						}
 					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -2964,13 +2987,15 @@ panum_add_plague_modifier_effect = {
 			limit = {
 				ROOT = {
 					has_technology_researched = panum_antitoxins_tech
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 2
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 2
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -2993,19 +3018,17 @@ panum_add_plague_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				ROOT = {
-					OR = {
+				OR = {
+					ROOT = {
 						has_technology_researched = panum_antitoxins_tech
-						AND = {
-							institution_investment_level = {
-								institution	= institution_health_system
-								value >= 2
-							}
-							NOT = {
-								has_law = law_type:law_no_health_system
-							}
+					}
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 2
 						}
 					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -3279,13 +3302,15 @@ panum_add_diphteria_modifier_effect = {
 			limit = {
 				ROOT = {
 					has_technology_researched = panum_antitoxins_tech
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 3
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 3
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -3308,19 +3333,17 @@ panum_add_diphteria_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				ROOT = {
-					OR = {
+				OR = {
+					ROOT = {
 						has_technology_researched = panum_antitoxins_tech
-						AND = {
-							institution_investment_level = {
-								institution	= institution_health_system
-								value >= 3
-							}
-							NOT = {
-								has_law = law_type:law_no_health_system
-							}
+					}
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 3
 						}
 					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -3579,13 +3602,15 @@ panum_add_polio_modifier_effect = {
 			limit = {
 				ROOT = {
 					has_technology_researched = panum_antitoxins_tech
-					institution_investment_level = {
-						institution	= institution_health_system
-						value >= 4
+				}
+				OR = {
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 4
+						}
 					}
-					NOT = {
-						has_law = law_type:law_no_health_system
-					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
@@ -3608,19 +3633,17 @@ panum_add_polio_modifier_effect = {
 		}
 		else_if = {
 			limit = {
-				ROOT = {
-					OR = {
+				OR = {
+					ROOT = {
 						has_technology_researched = panum_antitoxins_tech
-						AND = {
-							institution_investment_level = {
-								institution	= institution_health_system
-								value >= 4
-							}
-							NOT = {
-								has_law = law_type:law_no_health_system
-							}
+					}
+					ROOT = {
+						institution_investment_level = {
+							institution	= institution_health_system
+							value >= 4
 						}
 					}
+					panum_state_has_clinic_trigger = yes
 				}
 			}
 			if = {
