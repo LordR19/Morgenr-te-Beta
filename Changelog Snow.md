@@ -59,3 +59,6 @@ Fixes:
 Performance:
 - Removed some global variables for planet discoveries.
 - Revamped the way the AI gets a balloonist which will improve performance slightly.
+
+Other:
+- Kopenhagen starts with university
