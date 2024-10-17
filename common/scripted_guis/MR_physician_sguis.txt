@@ -426,6 +426,14 @@ mr_physician_wounded_treatment_button_sgui = {
 								NOT = { has_trait = scarred }
 							}
 						}
+						2 = {
+							remove_trait = wounded
+							add_trait = mr_seriously_injured
+
+							trigger = {
+								NOT = { has_trait = mr_seriously_injured }
+							}
+						}
 						1 = {
 							add_trait = sickly
 
@@ -451,6 +459,90 @@ mr_physician_wounded_treatment_button_sgui = {
 
 				modifier = {
 					add = panum_wounded_negative_effect_chance_value
+				}
+			}
+		}
+	}
+}
+
+mr_character_has_seriously_injured_trait_for_treatment_sgui = {
+	scope = character
+	is_shown = {
+		has_trait = mr_seriously_injured
+	}
+}
+mr_physician_seriously_injured_treatment_button_sgui = {
+	scope = country
+	saved_scopes = {
+        chosen_character
+    }
+	effect = {
+		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
+		random_list = {
+			0 = {
+				scope:chosen_character = {
+					remove_trait = mr_seriously_injured
+				}
+
+				modifier = {
+					add = panum_seriously_injured_success_chance_value
+				}
+			}
+			0 = {
+
+				modifier = {
+					add = panum_seriously_injured_no_effect_chance_value
+				}
+			}
+			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						2 = {
+							add_trait = scarred
+
+							trigger = {
+								NOT = { has_trait = scarred }
+							}
+						}
+						1 = {
+							add_trait = sickly
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						2 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						7 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							add_trait = mr_blind
+
+							trigger = {
+								NOT = { has_trait = mr_blind }
+							}
+						}
+						1 = {
+							kill_character = yes
+						}
+					}
+				}
+
+				modifier = {
+					add = panum_seriously_injured_negative_effect_chance_value
 				}
 			}
 		}
