@@ -343,6 +343,14 @@ mr_physician_character_treatment_button_sgui = {
 		NOT = {
 			has_variable = panum_physician_character_treatment_button_active
 		}
+		trigger_if = {
+			limit = { has_variable = panum_physician_var }
+			NOT = {
+				var:panum_physician_var = {
+					has_modifier = panum_physician_recent_treatment_conducted_modifier
+				}
+			}
+		}
 		custom_tooltip = {
 			text = MR_ACTIVE_PHYSICIAN_TRIGGER
 			has_variable = panum_physician_var
@@ -388,8 +396,12 @@ mr_physician_wounded_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = wounded
+				}
 
 				modifier = {
 					add = panum_wounded_success_chance_value
@@ -402,6 +414,40 @@ mr_physician_wounded_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						2 = {
+							add_trait = scarred
+
+							trigger = {
+								NOT = { has_trait = scarred }
+							}
+						}
+						1 = {
+							add_trait = sickly
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						2 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						7 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_wounded_negative_effect_chance_value
@@ -424,8 +470,12 @@ mr_physician_kidney_stones_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = kidney_stones
+				}
 
 				modifier = {
 					add = panum_kidney_stones_success_chance_value
@@ -438,6 +488,50 @@ mr_physician_kidney_stones_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						3 = {
+							add_trait = scarred
+
+							trigger = {
+								NOT = { has_trait = scarred }
+							}
+						}
+						3 = {
+							add_trait = wounded
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						3 = {
+							add_trait = sickly
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						4 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						9 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							kill_character = yes
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_kidney_stones_negative_effect_chance_value
@@ -460,8 +554,12 @@ mr_physician_cancer_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = cancer
+				}
 
 				modifier = {
 					add = panum_cancer_success_chance_value
@@ -474,6 +572,57 @@ mr_physician_cancer_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						3 = {
+							add_trait = scarred
+
+							trigger = {
+								NOT = { has_trait = scarred }
+							}
+						}
+						3 = {
+							add_trait = wounded
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						3 = {
+							add_trait = sickly
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						5 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						9 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							add_trait = mr_blind
+
+							trigger = {
+								NOT = { has_trait = mr_blind }
+							}
+						}
+						1 = {
+							kill_character = yes
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_cancer_negative_effect_chance_value
@@ -496,8 +645,12 @@ mr_physician_syphilis_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = syphilis
+				}
 
 				modifier = {
 					add = panum_syphilis_success_chance_value
@@ -510,6 +663,57 @@ mr_physician_syphilis_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						5 = {
+							add_trait = scarred
+
+							trigger = {
+								NOT = { has_trait = scarred }
+							}
+						}
+						5 = {
+							add_trait = wounded
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						5 = {
+							add_trait = sickly
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						10 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						20 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						2 = {
+							add_trait = mr_blind
+
+							trigger = {
+								NOT = { has_trait = mr_blind }
+							}
+						}
+						1 = {
+							kill_character = yes
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_syphilis_negative_effect_chance_value
@@ -532,8 +736,12 @@ mr_physician_sickly_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = sickly
+				}
 
 				modifier = {
 					add = panum_sickly_success_chance_value
@@ -546,6 +754,43 @@ mr_physician_sickly_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						4 = {
+							add_trait = alcoholic
+
+							trigger = {
+								NOT = { has_trait = alcoholic }
+							}
+						}
+						4 = {
+							add_trait = opium_addiction
+
+							trigger = {
+								NOT = { has_trait = opium_addiction }
+							}
+						}
+						4 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						20 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							kill_character = yes
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_sickly_negative_effect_chance_value
@@ -568,8 +813,12 @@ mr_physician_panum_cholera_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = panum_cholera
+				}
 
 				modifier = {
 					add = panum_cholera_success_chance_value
@@ -582,6 +831,50 @@ mr_physician_panum_cholera_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						8 = {
+							add_trait = sickly
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						4 = {
+							add_trait = alcoholic
+
+							trigger = {
+								NOT = { has_trait = alcoholic }
+							}
+						}
+						4 = {
+							add_trait = opium_addiction
+
+							trigger = {
+								NOT = { has_trait = opium_addiction }
+							}
+						}
+						4 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						20 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							kill_character = yes
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_cholera_negative_effect_chance_value
@@ -604,8 +897,12 @@ mr_physician_panum_tuberculosis_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = panum_tuberculosis
+				}
 
 				modifier = {
 					add = panum_tuberculosis_success_chance_value
@@ -618,6 +915,50 @@ mr_physician_panum_tuberculosis_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						8 = {
+							add_trait = sickly
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						4 = {
+							add_trait = alcoholic
+
+							trigger = {
+								NOT = { has_trait = alcoholic }
+							}
+						}
+						4 = {
+							add_trait = opium_addiction
+
+							trigger = {
+								NOT = { has_trait = opium_addiction }
+							}
+						}
+						4 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						20 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							kill_character = yes
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_tuberculosis_negative_effect_chance_value
@@ -640,8 +981,12 @@ mr_physician_panum_yellow_fever_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = panum_yellow_fever
+				}
 
 				modifier = {
 					add = panum_yellow_fever_success_chance_value
@@ -654,6 +999,50 @@ mr_physician_panum_yellow_fever_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						8 = {
+							add_trait = sickly
+
+							trigger = {
+								NOT = { has_trait = sickly }
+							}
+						}
+						4 = {
+							add_trait = alcoholic
+
+							trigger = {
+								NOT = { has_trait = alcoholic }
+							}
+						}
+						4 = {
+							add_trait = opium_addiction
+
+							trigger = {
+								NOT = { has_trait = opium_addiction }
+							}
+						}
+						4 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						20 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							kill_character = yes
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_yellow_fever_negative_effect_chance_value
@@ -676,8 +1065,12 @@ mr_physician_psychological_affliction_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = psychological_affliction
+				}
 
 				modifier = {
 					add = panum_psychological_affliction_success_chance_value
@@ -690,6 +1083,54 @@ mr_physician_psychological_affliction_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						1 = {
+							add_trait = hedonist
+
+							trigger = {
+								NOT = { has_trait = hedonist }
+							}
+						}
+						1 = {
+							add_trait = alcoholic
+
+							trigger = {
+								NOT = { has_trait = hedonist }
+							}
+						}
+						6 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							add_trait = opium_addiction
+
+							trigger = {
+								NOT = { has_trait = opium_addiction }
+							}
+						}
+						1 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						1 = {
+							add_trait = psychological_affliction
+
+							trigger = {
+								NOT = { has_trait = psychological_affliction }
+							}
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_psychological_affliction_negative_effect_chance_value
@@ -712,8 +1153,12 @@ mr_physician_shellshocked_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = shellshocked
+				}
 
 				modifier = {
 					add = panum_shellshocked_success_chance_value
@@ -726,6 +1171,54 @@ mr_physician_shellshocked_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						1 = {
+							add_trait = hedonist
+
+							trigger = {
+								NOT = { has_trait = hedonist }
+							}
+						}
+						1 = {
+							add_trait = alcoholic
+
+							trigger = {
+								NOT = { has_trait = hedonist }
+							}
+						}
+						6 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							add_trait = opium_addiction
+
+							trigger = {
+								NOT = { has_trait = opium_addiction }
+							}
+						}
+						1 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						1 = {
+							add_trait = psychological_affliction
+
+							trigger = {
+								NOT = { has_trait = psychological_affliction }
+							}
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_shellshocked_negative_effect_chance_value
@@ -748,8 +1241,12 @@ mr_physician_alcoholic_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
 		random_list = {
 			0 = {
+				scope:chosen_character = {
+					remove_trait = alcoholic
+				}
 
 				modifier = {
 					add = panum_alcoholic_success_chance_value
@@ -762,6 +1259,47 @@ mr_physician_alcoholic_treatment_button_sgui = {
 				}
 			}
 			0 = {
+				scope:chosen_character = {
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						3 = {
+							add_trait = hedonist
+
+							trigger = {
+								NOT = { has_trait = hedonist }
+							}
+						}
+						6 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							add_trait = opium_addiction
+
+							trigger = {
+								NOT = { has_trait = opium_addiction }
+							}
+						}
+						1 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						1 = {
+							add_trait = psychological_affliction
+
+							trigger = {
+								NOT = { has_trait = psychological_affliction }
+							}
+						}
+					}
+				}
 
 				modifier = {
 					add = panum_alcoholic_negative_effect_chance_value
@@ -784,11 +1322,14 @@ mr_physician_opium_addiction_treatment_button_sgui = {
     }
 	effect = {
 		remove_variable = panum_physician_character_treatment_button_active
+		panum_treatment_cooldown_modifier_add_effect = yes
+
 		random_list = {
 			0 = {
 				scope:chosen_character = {
 					remove_trait = opium_addiction
 				}
+
 				modifier = {
 					add = panum_opium_addiction_success_chance_value
 				}
@@ -801,9 +1342,33 @@ mr_physician_opium_addiction_treatment_button_sgui = {
 			}
 			0 = {
 				scope:chosen_character = {
-					remove_trait = opium_addiction
-					add_trait = cocaine_addiction
+					#This effect adds a negative modifier to the I of the character if the character is not a Morgenröte Character
+					panum_botched_treatment_ig_effect = yes
+
+					random_list = {
+						3 = {
+							add_trait = cocaine_addiction
+
+							trigger = {
+								NOT = { has_trait = cocaine_addiction }
+							}
+						}
+						6 = {
+							add_modifier = {
+								name = panum_physician_botched_treatment_modifier
+								years = 2
+							}
+						}
+						1 = {
+							add_trait = psychological_affliction
+
+							trigger = {
+								NOT = { has_trait = psychological_affliction }
+							}
+						}
+					}
 				}
+
 				modifier = {
 					add = panum_opium_addiction_negative_effect_chance_value
 				}
