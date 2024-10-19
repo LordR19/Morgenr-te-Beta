@@ -23,6 +23,7 @@ Characters:
 - Cesare Lombroso (random Italian Physician)
 - Alexandre Yersin (random Swiss Physician)
 - William Wood Gerhard (random American Physician)
+- Oliver Wendell Holmes (random American Physician)
 
 Element Names:
 - Added various new element names.
