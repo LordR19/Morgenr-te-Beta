@@ -10,6 +10,7 @@ Engineering:
 - You can now see all engineering projects even if your specialization does not match your engineer.
 
 Characters:
+- Charles Lyell (random British Geoloist)
 - Arnold Escher von der Linth (random Swiss Geologist)
 - Mark Walrod Harrington (random American Geologist and Astronomer)
 - Timothy Abbott Conrad (random American Geologist)
