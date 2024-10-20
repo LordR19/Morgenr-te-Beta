@@ -10,6 +10,7 @@ Engineering:
 - You can now see all engineering projects even if your specialization does not match your engineer.
 
 Characters:
+- Arnold Escher von der Linth (random Swiss Geologist)
 - Ignaz Semmelweis (random Austrian Physician)
 - Carlos Finlay (random Cuban Physician)
 - Peter Panum (random Danish Physician)
