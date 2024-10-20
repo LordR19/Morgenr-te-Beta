@@ -195,6 +195,32 @@ namespace = panum
 
 #Panum 540: Yellow Fever Treatment
 
+######MEASLES######
+
+### Measles Epidemic ###
+
+#Panum 600: Measles epidemic
+#Panum 601: Measles in STATE
+#Panum 602: Measles spreads to COUNTRY
+#Panum 603: Measles kills children
+#Panum 604: Measles paralyzes sailors
+#Panum 605: Child Clinic for Measles
+#Panum 606: Measles Depression
+#Panum 620: Measles epidemic over
+
+### Measles Description ###
+
+#Panum 621: Measles Hint (hidden)
+#Panum 622: Measles Incubation
+#Panum 623: Measles & Scarlet Fever
+#Panum 624: Lifelong Immunity
+
+### Measles Treatment ###
+
+#Panum 640: Measles Treatment
+
+#############################################
+
 #Panum 1000: Calls for Medical Reforms
 
 ### Medical System Expansion ###
@@ -9007,6 +9033,95 @@ panum.603 = {
 			scope:panum_disease_state = {
 				kill_population_percent_in_state = {
 					percent = 0.001
+				}
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 604: Measles paralyzes sailors
+panum.604 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.604.t
+
+	desc = panum.604.d
+
+	flavor = panum.604.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_measles.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_measles_trigger = yes
+			OR = {
+				has_building = building_fishing_wharf
+				has_building = building_whaling_station
+			}
+			NOT = {
+				any_scope_building = {
+					OR = {
+						is_building_group = bg_fishing
+						is_building_group = bg_whaling
+					}
+					has_modifier = panum_sailor_quarantine_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_measles_trigger = yes
+				OR = {
+					has_building = building_fishing_wharf
+					has_building = building_whaling_station
+				}
+				NOT = {
+					any_scope_building = {
+						has_modifier = panum_sailor_quarantine_modifier
+					}
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#But who then goes to sea?
+		name = panum.604.g
+		default_option = yes
+		scope:panum_disease_state = {
+			every_scope_building = {
+				limit = {
+					OR = {
+						is_building_group = bg_fishing
+						is_building_group = bg_whaling
+					}
+				}
+				add_modifier = {
+					name = panum_sailor_quarantine_modifier
+					days = 365
 				}
 			}
 		}
