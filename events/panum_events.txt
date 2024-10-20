@@ -8720,6 +8720,773 @@ panum.540 = {
 	}
 }
 
+#################################################################################
+
+######MEASLES######
+
+#Panum 600: Measles epidemic
+panum.600 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.600.t
+
+	desc = panum.600.d
+
+	flavor = panum.600.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_measles.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		panum_country_can_have_measles_trigger = yes
+	}
+
+	immediate = {
+		panum_set_number_of_measles_states_effect = yes
+		panum_set_measles_state_effect = yes
+	}
+
+	option = {	#Measles!
+		name = panum.600.g
+		default_option = yes
+		panum_add_measles_modifier_effect = yes
+		add_journal_entry = {
+			type = je_panum_measles
+		}
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			any_neighbouring_state = {
+				panum_state_has_measles_trigger = yes
+			}
+			factor = 10
+		}
+		modifier = {
+			has_journal_entry = je_famine
+			factor = 5
+		}
+		modifier = {
+			has_journal_entry = je_sol_1
+			factor = 5
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 20
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 15
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 10
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 5
+				}
+			}
+			factor = 2
+		}
+		modifier = {
+			has_law = law_type:law_no_health_system
+			factor = 1.5
+		}
+		modifier = {
+			has_law = law_type:law_charitable_health_system
+			factor = 0.8
+		}
+		modifier = {
+			has_law = law_type:law_private_health_insurance
+			factor = 0.65
+		}
+		modifier = {
+			has_law = law_type:law_public_health_insurance
+			factor = 0.5
+		}
+		modifier = {
+			has_technology_researched = antibiotics
+			factor = 0.5
+		}
+	}
+}
+
+#Panum 601: Measles in STATE
+panum.601 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		panum_state_can_have_measles_trigger = yes
+		NAND = {
+			panum_has_measles_treatment_trigger = yes
+			var:panum_number_of_measles_states_var <= 3
+		}
+	}
+
+	immediate = {
+		panum_add_number_of_measles_states_effect = yes
+		panum_set_measles_state_effect = yes
+		panum_add_measles_modifier_effect = yes
+		post_notification = panum_epidemic_spread_notification
+	}
+
+	after = {
+	}
+}
+
+#Panum 602: Measles spreads to COUNTRY
+panum.602 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.602.t
+
+	desc = panum.602.d
+
+	flavor = panum.600.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_measles.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 9
+	}
+
+	trigger = {
+		any_country = {
+			panum_country_can_have_measles_trigger = yes
+			is_adjacent_to_country = ROOT
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				panum_country_can_have_measles_trigger = yes
+				is_adjacent_to_country = ROOT
+			}
+			save_scope_as = panum_infected_country
+		}
+	}
+
+	option = {	#This plague is completely out of control!
+		name = panum.602.g
+		default_option = yes
+		add_modifier = {
+			name = panum_useless_plague_fighter_modifier
+			years = 2
+		}
+		scope:panum_infected_country = {
+			trigger_event = {
+				id = panum.600
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 603: Measles kills children
+panum.603 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.603.t
+
+	desc = panum.603.d
+
+	flavor = panum.603.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_measles.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_measles_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_measles_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Is there no cure for this terrible illness?
+		name = panum.603.g
+		default_option = yes
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_measles_severe_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.003
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_measles_normal_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.002
+				}
+			}
+		}
+		else = {
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.001
+				}
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 605: Child Clinic for Measles
+panum.605 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.605.t
+
+	desc = panum.605.d
+
+	flavor = panum.605.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_measles.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_measles_trigger = yes
+			has_building = building_government_administration
+			any_scope_building = {
+				is_building_type = building_government_administration
+				level >= 2
+				has_active_production_method = pm_panum_no_clinic
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_measles_trigger = yes
+				has_building = building_government_administration
+				any_scope_building = {
+					is_building_type = building_government_administration
+					level >= 2
+					has_active_production_method = pm_panum_no_clinic
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+		random_interest_group = {
+			limit = {
+    			is_in_government = yes
+	        }
+			save_scope_as = panum_government_ig
+			leader = {
+				save_scope_as = panum_government_leader
+			}
+		}
+	}
+
+	option = {	#An initiative worth supporting.
+		name = panum.605.g
+		default_option = yes
+		add_treasury = -50000
+		scope:panum_disease_state = {
+			activate_production_method = {
+				building_type = building_government_administration
+				production_method = pm_panum_clinic
+			}
+		}
+		scope:panum_government_ig = {
+			add_modifier = {
+				name = manzoni_political_tailwind_modifier
+				years = 3
+			}
+		}
+	}
+
+	option = {	#This party only wants to exploit the disease for political purposes.
+		name = panum.605.h
+		add_modifier = {
+			name = panum_no_epidemic_corruption_modifier
+			years = 3
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 606: Measles Depression
+panum.606 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.606.t
+
+	desc = panum.606.d
+
+	flavor = panum.606.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_measles.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 8
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_measles_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_measles_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#An understandable demoralization.
+		name = panum.606.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_measles_depression_modifier
+				years = 2
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 620: Measles epidemic over
+panum.620 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.620.t
+
+	desc = panum.620.d
+
+	flavor = panum.620.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_measles.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#But at what cost?
+		name = panum.120.g
+		default_option = yes
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 621: Measles Hint (hidden)
+panum.621 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	cooldown = {
+		months = 1
+	}
+
+	immediate = {
+		panum_add_x_measles_description_clues_effect = { AMOUNT = 1 }
+		post_notification = panum_description_progress_notification
+	}
+}
+
+#Panum 622: Measles Incubation
+panum.622 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.622.t
+
+	desc = panum.622.d
+
+	flavor = panum.622.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_measles_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 623: Measles & Scarlet Fever
+panum.623 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.623.t
+
+	desc = panum.623.d
+
+	flavor = panum.623.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_measles_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 624: Lifelong Immunity
+panum.624 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.624.t
+
+	desc = panum.624.d
+
+	flavor = panum.624.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Precisely observed.
+		name = panum.124.g
+		default_option = yes
+		panum_add_x_measles_description_clues_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 640: Measles Treatment
+panum.640 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.140.t
+
+	desc = panum.140.d
+
+	flavor = panum.140.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the treatment title
+		set_variable = {
+			name = panum_treatment_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_treatment_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Measles is losing its horror.
+		name = panum.140.g
+		panum_add_measles_treatment_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
 ################################################################
 
 #Panum 1000: Calls for Medical Reforms
@@ -8896,7 +9663,7 @@ panum.1000 = {
 	}
 }
 
-################################################################
+########################################################################################################################
 
 ####### MEDICAL CONGRESS #######
 
