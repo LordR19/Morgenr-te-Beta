@@ -11,6 +11,7 @@ Engineering:
 
 Characters:
 - Arnold Escher von der Linth (random Swiss Geologist)
+- Mark Walrod Harrington (random American Geologist and Astronomer)
 - Ignaz Semmelweis (random Austrian Physician)
 - Carlos Finlay (random Cuban Physician)
 - Peter Panum (random Danish Physician)
