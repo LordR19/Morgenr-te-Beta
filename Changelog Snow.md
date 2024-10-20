@@ -11,6 +11,7 @@ Engineering:
 
 Characters:
 - Sam Eyde (random Norwegian Engineer)
+- Alfred Wegener (random German Geologist)
 - Charles Lyell (random British Geoloist)
 - Arnold Escher von der Linth (random Swiss Geologist)
 - Mark Walrod Harrington (random American Geologist and Astronomer)
