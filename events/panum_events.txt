@@ -8882,7 +8882,7 @@ panum.601 = {
 		panum_state_can_have_measles_trigger = yes
 		NAND = {
 			panum_has_measles_treatment_trigger = yes
-			var:panum_number_of_measles_states_var <= 3
+			var:panum_number_of_measles_states_var >= 1
 		}
 	}
 
@@ -9591,6 +9591,474 @@ panum.640 = {
 	option = {	#Measles is losing its horror.
 		name = panum.140.g
 		panum_add_measles_treatment_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
+##################################################################################################
+
+######SCARLET FEVER######
+
+#Panum 700: Scarlet Fever epidemic
+panum.700 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.700.t
+
+	desc = panum.700.d
+
+	flavor = panum.700.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_scarlet.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		panum_country_can_have_scarlet_trigger = yes
+	}
+
+	immediate = {
+		panum_set_number_of_scarlet_states_effect = yes
+		panum_set_scarlet_state_effect = yes
+	}
+
+	option = {	#Scarlet Fever!
+		name = panum.700.g
+		default_option = yes
+		panum_add_scarlet_modifier_effect = yes
+		add_journal_entry = {
+			type = je_panum_scarlet
+		}
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			any_neighbouring_state = {
+				panum_state_has_scarlet_trigger = yes
+			}
+			factor = 10
+		}
+		modifier = {
+			has_journal_entry = je_famine
+			factor = 5
+		}
+		modifier = {
+			has_journal_entry = je_sol_1
+			factor = 5
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 20
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 15
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 10
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 5
+				}
+			}
+			factor = 2
+		}
+		modifier = {
+			has_law = law_type:law_no_health_system
+			factor = 1.5
+		}
+		modifier = {
+			has_law = law_type:law_charitable_health_system
+			factor = 0.8
+		}
+		modifier = {
+			has_law = law_type:law_private_health_insurance
+			factor = 0.65
+		}
+		modifier = {
+			has_law = law_type:law_public_health_insurance
+			factor = 0.5
+		}
+		modifier = {
+			has_technology_researched = antibiotics
+			factor = 0.5
+		}
+	}
+}
+
+#Panum 701: Scarlet Fever in STATE
+panum.701 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		panum_state_can_have_scarlet_trigger = yes
+		NAND = {
+			panum_has_scarlet_treatment_trigger = yes
+			var:panum_number_of_scarlet_states_var >= 1
+		}
+	}
+
+	immediate = {
+		panum_add_number_of_scarlet_states_effect = yes
+		panum_set_scarlet_state_effect = yes
+		panum_add_scarlet_modifier_effect = yes
+		post_notification = panum_epidemic_spread_notification
+	}
+
+	after = {
+	}
+}
+
+#Panum 720: Scarlet Fever epidemic over
+panum.720 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.720.t
+
+	desc = panum.720.d
+
+	flavor = panum.720.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_scarlet.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#But at what cost?
+		name = panum.120.g
+		default_option = yes
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 721: Scarlet Fever Hint (hidden)
+panum.721 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	cooldown = {
+		months = 1
+	}
+
+	immediate = {
+		panum_add_x_scarlet_description_clues_effect = { AMOUNT = 1 }
+		post_notification = panum_description_progress_notification
+	}
+}
+
+#Panum 722: Scarlet Fever Incubation
+panum.722 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.622.t
+
+	desc = panum.622.d
+
+	flavor = panum.622.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_scarlet_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 723: Scarlet Fever Symptoms
+panum.723 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.723.t
+
+	desc = panum.723.d
+
+	flavor = panum.723.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_scarlet_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 724: Scarlet Fever or Diphteria?
+panum.724 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.724.t
+
+	desc = panum.724.d
+
+	flavor = panum.724.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Precisely observed.
+		name = panum.124.g
+		default_option = yes
+		panum_add_x_scarlet_description_clues_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 740: Scarlet Fever Treatment
+panum.740 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.140.t
+
+	desc = panum.140.d
+
+	flavor = panum.140.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the treatment title
+		set_variable = {
+			name = panum_treatment_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_treatment_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Scarlet Fever is losing its horror.
+		name = panum.140.g
+		panum_add_scarlet_treatment_effect = yes
 		var:panum_physician_var = {
 			set_character_busy_and_immortal = no
 		}
