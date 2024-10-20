@@ -31,6 +31,7 @@ Characters:
 - Alexandre Yersin (random Swiss Physician)
 - William Wood Gerhard (random American Physician)
 - Oliver Wendell Holmes (random American Physician)
+- Edvard Munch (random Norwegian Painter)
 
 Element Names:
 - Added various new element names.
