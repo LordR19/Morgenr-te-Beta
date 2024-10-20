@@ -10810,13 +10810,10 @@ create_new_physician_effect = {
 
 			set_global_variable = panum_lombroso_created_global_var
 		}
-		4 = { #Alexandre Yersin, Switzerland
+		4 = { #Theodor Kocher, Switzerland
 			trigger = {
 				NOT = { has_global_variable = panum_kocher_created_global_var }
-				OR = {
-					mr_country_owns_vaud_trigger = yes
-					mr_country_owns_bern_trigger = yes
-				}
+				mr_country_owns_bern_trigger = yes
 				NOT = {
 					cu:alemannic = {
 						culture_is_discriminated_in = root
@@ -10843,6 +10840,37 @@ create_new_physician_effect = {
 			}
 
 			set_global_variable = panum_kocher_created_global_var
+		}
+		4 = { #Frédéric Recordon, Switzerland
+			trigger = {
+				NOT = { has_global_variable = panum_recordon_created_global_var }
+				mr_country_owns_vaud_trigger = yes
+				NOT = {
+					cu:francoprovencal = {
+						culture_is_discriminated_in = root
+					}
+				}
+				game_date < 1866.04.08 #Age 55
+				year >= 1835 #Finished studies
+			}
+			create_character = {
+				template = mr_swi_recordon_frederic_character_template
+
+				save_scope_as = panum_new_physician_scope
+			}
+			scope:panum_new_physician_scope = {
+				set_variable = mr_is_physician_var
+				set_variable = mr_no_headgear_var
+				physician_experience_set_up_effect = yes
+				place_character_in_void = 1200	
+			}
+
+			set_variable = {
+				name = panum_new_physician_var
+				value = scope:panum_new_physician_scope
+			}
+
+			set_global_variable = panum_recordon_created_global_var
 		}
 		4 = { #Alexandre Yersin, Switzerland
 			trigger = {
