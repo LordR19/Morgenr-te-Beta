@@ -21,6 +21,7 @@ Characters:
 - John Snow (random British Physician)
 - Camillo Golgi (random Italian Physician)
 - Cesare Lombroso (random Italian Physician)
+- Theodor Kocher (random Swiss Physician)
 - Alexandre Yersin (random Swiss Physician)
 - William Wood Gerhard (random American Physician)
 - Oliver Wendell Holmes (random American Physician)
