@@ -10,6 +10,7 @@ Engineering:
 - You can now see all engineering projects even if your specialization does not match your engineer.
 
 Characters:
+- Sam Eyde (random Norwegian Engineer)
 - Charles Lyell (random British Geoloist)
 - Arnold Escher von der Linth (random Swiss Geologist)
 - Mark Walrod Harrington (random American Geologist and Astronomer)
