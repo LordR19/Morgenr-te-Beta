@@ -10337,7 +10337,7 @@ panum.802 = {
 	}
 
 	option = {	#This plague is completely out of control!
-		name = panum.102.g
+		name = panum.802.g
 		default_option = yes
 		add_modifier = {
 			name = panum_useless_plague_fighter_modifier
@@ -10389,7 +10389,7 @@ panum.803 = {
 	}
 
 	option = {	#Plague!
-		name = panum.800.g
+		name = panum.803.g
 		default_option = yes
 		panum_add_plague_modifier_effect = yes
 		add_journal_entry = {
@@ -10429,6 +10429,12 @@ panum.804 = {
 	}
 
 	immediate = {
+		random_country = {
+			limit = {
+				has_journal_entry = je_panum_plague
+			}
+			save_scope_as = panum_plague_country
+		}
 	}
 
 	option = {	#Plague!
@@ -10862,14 +10868,14 @@ panum.810 = {
 
 	trigger = {
 		any_scope_state = {
-			panum_state_has_plague_trigger = yes
+			has_modifier = panum_epidemic_plague_severe_modifier
 		}
 	}
 
 	immediate = {
 		random_scope_state = {
 			limit = {
-				panum_state_has_plague_trigger = yes
+				has_modifier = panum_epidemic_plague_severe_modifier
 			}
 			save_scope_as = panum_disease_state
 		}
@@ -10878,35 +10884,9 @@ panum.810 = {
 	option = {	#Will this never end?
 		name = panum.810.g
 		default_option = yes
-		if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_plague_severe_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.003
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				scope:panum_disease_state = {
-					has_modifier = panum_epidemic_plague_normal_modifier
-				}
-			}
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.002
-				}
-			}
-		}
-		else = {
-			scope:panum_disease_state = {
-				kill_population_percent_in_state = {
-					percent = 0.001
-				}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.003
 			}
 		}
 	}
@@ -11095,7 +11075,7 @@ panum.813 = {
 
 	trigger = {
 		any_scope_state = {
-			panum_state_has_plague_trigger = yes
+			has_modifier = panum_epidemic_plague_severe_modifier
 		}
 		NOT = {
 			has_modifier = panum_plague_loss_of_trust_modifier
@@ -11105,7 +11085,7 @@ panum.813 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				panum_state_has_plague_trigger = yes
+				has_modifier = panum_epidemic_plague_severe_modifier
 			}
 			save_scope_as = panum_disease_state
 		}
