@@ -219,6 +219,55 @@ namespace = panum
 
 #Panum 640: Measles Treatment
 
+######SCARLET FEVER######
+
+### Scarlet Fever Epidemic ###
+
+#Panum 700: Scarlet Fever Epidemic
+#Panum 701: Scarlet Fever in STATE
+
+### Scarlet Fever Description ###
+
+#Panum 721: Scarlet Fever Hint (hidden)
+#Panum 722: Scarlet Incubation
+#Panum 723: Scarlet Symptoms
+#Panum 724: Scarlet Fever or Diphteria?
+
+### Scarlet Fever Treatment ###
+
+#Panum 740: Scarlet Fever Treatment
+
+######PLAGUE######
+
+### Plague Epidemic ###
+
+#Panum 800: Return of the Plague
+#Panum 801: Plague in STATE
+#Panum 802: Plague spreads to COUNTRY
+#Panum 803: Plague Epidemic
+#Panum 804: A third wave?
+#Panum 805: Plague Quarantine
+#Panum 806: Plague Houses
+#Panum 807: The Plague Doctor
+#Panum 808: The Exodus of the Rich
+#Panum 809: Mass Graves
+#Panum 810: The Black Death takes its toll
+#Panum 811: Burn everything
+#Panum 812: Kill everything
+#Panum 813: Loss of trust
+#Panum 820: Plague epidemic over
+
+### Plague Description ###
+
+#Panum 821: Plague Hint (hidden)
+#Panum 822: The Black Death
+#Panum 823: Plague Symptoms
+#Panum 824: Bubonic plague and pneumonic plague
+
+### Plague Treatment ###
+
+#Panum 840: Plague Treatment
+
 #############################################
 
 #Panum 1000: Calls for Medical Reforms
@@ -9815,11 +9864,11 @@ panum.722 = {
 
 	type = country_event
 
-	title = panum.622.t
+	title = panum.722.t
 
-	desc = panum.622.d
+	desc = panum.722.d
 
-	flavor = panum.622.f
+	flavor = panum.722.f
 	
 	duration = 3
 
@@ -10021,6 +10070,1333 @@ panum.724 = {
 
 #Panum 740: Scarlet Fever Treatment
 panum.740 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.140.t
+
+	desc = panum.140.d
+
+	flavor = panum.140.f
+	
+	duration = 3
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	immediate = {
+		var:panum_physician_var = {
+			save_scope_as = panum_physician_scope
+		}
+		#Sets up a variable that sets the treatment title
+		set_variable = {
+			name = panum_treatment_title_randomizer_var
+			value = { 1 10 }
+		}
+		round_variable = {
+			name = panum_treatment_title_randomizer_var
+			nearest = 1
+		}
+	}
+
+	option = {	#Scarlet Fever is losing its horror.
+		name = panum.140.g
+		panum_add_scarlet_treatment_effect = yes
+		var:panum_physician_var = {
+			set_character_busy_and_immortal = no
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_title_randomizer_var
+		remove_variable = panum_disease_title_var
+	}
+}
+
+##################################################################################################
+
+######PLAGUE ######
+
+#Panum 800: Plague epidemic (start)
+panum.800 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.800.t
+
+	desc = panum.800.d
+
+	flavor = panum.800.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOT = {
+			has_global_variable = panum_third_plague_global_var
+		}
+		game_date >= 1894.1.1 #Third Wave started way earlier, but we begin with the Hong Kong outbreak to give enough time to develop antitoxins
+		any_scope_state = { #Historically Yunnan, but we make it a little bit more random
+			OR = {
+				region = sr:region_indochina
+				region = sr:region_south_china
+				region = sr:region_north_china
+				region = sr:region_north_india
+			}
+		}
+		panum_country_can_have_plague_trigger = yes
+	}
+
+	immediate = {
+		set_global_variable = panum_third_plague_global_var
+		panum_set_number_of_plague_states_effect = yes
+		panum_set_plague_state_effect = yes
+	}
+
+	option = {	#Plague!
+		name = panum.800.g
+		default_option = yes
+		panum_add_plague_modifier_effect = yes
+		add_journal_entry = {
+			type = je_panum_plague
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					is_player = no
+				}
+				every_country = {
+					limit = {
+						is_player = yes
+					}
+					trigger_event = {
+						id = panum.804
+						days = { 20 30 }
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_journal_entry = je_famine
+			factor = 10
+		}
+		modifier = {
+			has_journal_entry = je_sol_1
+			factor = 10
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 20
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 15
+				}
+			}
+			factor = 1.1
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 10
+				}
+			}
+			factor = 2
+		}
+		modifier = {
+			any_scope_state = {
+				any_scope_pop = {
+					strata = poor
+					standard_of_living < 5
+				}
+			}
+			factor = 3
+		}
+		modifier = {
+			has_law = law_type:law_no_health_system
+			factor = 1.5
+		}
+		modifier = {
+			has_law = law_type:law_charitable_health_system
+			factor = 0.8
+		}
+		modifier = {
+			has_law = law_type:law_private_health_insurance
+			factor = 0.65
+		}
+		modifier = {
+			has_law = law_type:law_public_health_insurance
+			factor = 0.5
+		}
+		modifier = {
+			has_technology_researched = antibiotics
+			factor = 0.5
+		}
+	}
+}
+
+#Panum 801: Plague in STATE
+panum.801 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	trigger = {
+		panum_state_can_have_plague_trigger = yes
+		NAND = {
+			panum_has_plague_treatment_trigger = yes
+			var:panum_number_of_plague_states_var >= 1
+		}
+	}
+
+	immediate = {
+		panum_add_number_of_plague_states_effect = yes
+		panum_set_plague_state_effect = yes
+		panum_add_plague_modifier_effect = yes
+		post_notification = panum_epidemic_spread_notification
+	}
+
+	after = {
+	}
+}
+
+#Panum 802: Plague spreads to COUNTRY
+panum.802 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.802.t
+
+	desc = panum.802.d
+
+	flavor = panum.800.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_country = {
+			panum_country_can_have_cholera_trigger = yes
+			is_adjacent_to_country = ROOT
+		}
+	}
+
+	immediate = {
+		random_country = {
+			limit = {
+				panum_country_can_have_cholera_trigger = yes
+				is_adjacent_to_country = ROOT
+			}
+			save_scope_as = panum_infected_country
+		}
+	}
+
+	option = {	#This plague is completely out of control!
+		name = panum.102.g
+		default_option = yes
+		add_modifier = {
+			name = panum_useless_plague_fighter_modifier
+			years = 2
+		}
+		scope:panum_infected_country = {
+			trigger_event = {
+				id = panum.803
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 803: Plague epidemic
+panum.803 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.800.t
+
+	desc = panum.803.d
+
+	flavor = panum.800.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		panum_country_can_have_plague_trigger = yes
+	}
+
+	immediate = {
+		panum_set_number_of_plague_states_effect = yes
+		panum_set_plague_state_effect = yes
+	}
+
+	option = {	#Plague!
+		name = panum.800.g
+		default_option = yes
+		panum_add_plague_modifier_effect = yes
+		add_journal_entry = {
+			type = je_panum_plague
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 804: Plague: A new wave?
+panum.804 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.804.t
+
+	desc = panum.804.d
+
+	flavor = panum.800.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Plague!
+		name = panum.804.g
+		default_option = yes
+	}
+
+	after = {
+	}
+}
+
+#Panum 805: Plague Quarantine
+panum.805 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.805.t
+
+	desc = panum.805.d
+
+	flavor = panum.805.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		NOT = {
+			panum_has_plague_treatment_trigger = yes
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+			NOT = {
+				has_modifier = panum_plague_quarantine_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+				NOT = {
+					has_modifier = panum_plague_quarantine_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#The whole area should be quarantined.
+		name = panum.805.g
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_plague_quarantine_modifier
+			}
+		}
+	}
+
+	option = {	#We shouldn't overdramatize.
+		name = panum.805.h
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.005
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 806: Plague Houses
+panum.806 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.806.t
+
+	desc = panum.806.d
+
+	flavor = panum.806.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		NOT = {
+			has_modifier = panum_plague_hospitals_modifier
+		}
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+				NOT = {
+					has_modifier = panum_plague_hospitals_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Beat them in the hospitals if you have to!
+		name = panum.806.g
+		default_option = yes
+		add_modifier = {
+			name = panum_plague_hospitals_modifier
+		}
+		scope:panum_disease_state = {
+			add_radicals_in_state = {
+				value = 0.01
+				strata = poor
+			}
+		}
+		ai_chance = {
+			base = 100 #AI will always take this option to get a Physician
+		}
+	}
+
+	option = {	#You can't force these stubborn oxen to live.
+		name = panum.806.h
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				strata = poor
+				percent = 0.002
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 807: The Plague Doctor
+panum.807 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.807.t
+
+	desc = panum.807.d
+
+	flavor = panum.807.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	gui_window = event_window_1char_tabloid
+
+	left_icon = scope:panum_new_physician_scope
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		panum_has_physician = no
+		has_modifier = panum_plague_hospitals_modifier
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		create_new_physician_effect = yes
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Give him an official position immediately!
+		name = panum.112.g
+		default_option = yes
+		panum_set_new_physician_as_physician_effect = yes
+	}
+
+	after = {
+	}
+}
+
+#Panum 808: The Exodus of the Rich
+panum.808 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.808.t
+
+	desc = panum.808.d
+
+	flavor = panum.808.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+			NOR = {
+				has_modifier = panum_the_great_equalizer_modifier
+				has_modifier = panum_unjust_death_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_cholera_trigger = yes
+				NOT = {
+					has_modifier = panum_the_great_equalizer_modifier
+					has_modifier = panum_unjust_death_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Let them go.
+		name = panum.105.g
+		default_option = yes
+		add_treasury = 100000
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_unjust_death_modifier
+			}
+			add_radicals_in_state = {
+				value = 0.01
+				strata = poor
+			}
+		}
+	}
+
+	option = {	#There is a motive we call him THE GREAT EQUALIZER.
+		name = panum.105.h
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_the_great_equalizer_modifier
+			}
+		}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = capitalists
+				percent = 0.003
+			}
+		}
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				pop_type = aristocrats
+				percent = 0.003
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 809: Mass Graves
+panum.809 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.809.t
+
+	desc = panum.809.d
+
+	flavor = panum.809.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+			NOR = {
+				has_modifier = panum_mass_graves_modifier
+				has_modifier = panum_slow_burials_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+				NOT = {
+					has_modifier = panum_mass_graves_modifier
+					has_modifier = panum_slow_burials_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#We have no time to waste with the funerals!
+		name = panum.107.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_mass_graves_modifier
+			}
+			add_radicals_in_state = {
+				value = 0.02
+				strata = poor
+			}
+		}
+	}
+
+	option = {	#Everyone deserves a dignified burial.
+		name = panum.107.h
+		if = {
+			limit = {
+				is_player = yes
+			}
+			add_treasury = -100000
+		}
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_slow_burials_modifier
+			}
+		}
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 810: The black death takes its toll
+panum.810 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.810.t
+
+	desc = panum.810.d
+
+	flavor = panum.810.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Will this never end?
+		name = panum.810.g
+		default_option = yes
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_plague_severe_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.003
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_plague_normal_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.002
+				}
+			}
+		}
+		else = {
+			scope:panum_disease_state = {
+				kill_population_percent_in_state = {
+					percent = 0.001
+				}
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 811: Burn everything
+panum.811 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.811.t
+
+	desc = panum.811.d
+
+	flavor = panum.811.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 6
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+			NOT = {
+				has_modifier = panum_plague_burn_everything_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+				NOT = {
+					has_modifier = panum_plague_burn_everything_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Burn clothes, furniture and even houses if necessary!
+		name = panum.811.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_plague_burn_everything_modifier
+			}
+			add_radicals_in_state = {
+				strata = rich
+				value = 0.05
+			}
+			add_radicals_in_state = {
+				strata = middle
+				value = 0.03
+			}
+		}
+	}
+
+	option = {	#That is not necessary.
+		name = panum.811.h
+		scope:panum_disease_state = {
+			kill_population_percent_in_state = {
+				percent = 0.002
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 812: Kill everything
+panum.812 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.812.t
+
+	desc = panum.812.d
+
+	flavor = panum.812.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 3
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+			NOT = {
+				has_modifier = panum_plague_rat_killer_modifier
+			}
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+				NOT = {
+					has_modifier = panum_plague_rat_killer_modifier
+				}
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Exterminate the Rats
+		name = panum.812.g
+		default_option = yes
+		scope:panum_disease_state = {
+			add_modifier = {
+				name = panum_plague_rat_killer_modifier
+			}
+			add_loyalists_in_state = {
+				value = 0.02
+			}
+		}
+	}
+
+	option = {	#This is too costly
+		name = panum.812.h
+	}
+
+	after = {
+	}
+}
+
+#Panum 813: Loss of trust in the government
+panum.813 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.813.t
+
+	desc = panum.813.d
+
+	flavor = panum.813.f
+	
+	duration = 3
+
+	placement = scope:panum_disease_state
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		months = 12
+	}
+
+	trigger = {
+		any_scope_state = {
+			panum_state_has_plague_trigger = yes
+		}
+		NOT = {
+			has_modifier = panum_plague_loss_of_trust_modifier
+		}
+	}
+
+	immediate = {
+		random_scope_state = {
+			limit = {
+				panum_state_has_plague_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
+	}
+
+	option = {	#Then do your mess alone!
+		name = panum.813.g
+		default_option = yes
+		add_modifier = {
+			name = panum_plague_loss_of_trust_modifier
+			years = 5
+		}
+		scope:panum_disease_state = {
+			add_radicals_in_state = {
+				value = 0.1
+			}
+		}
+	}
+
+	after = {
+	}
+}
+
+#Panum 820: Plague epidemic over
+panum.820 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.820.t
+
+	desc = panum.820.d
+
+	flavor = panum.820.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_plague.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#But at what cost?
+		name = panum.120.g
+		default_option = yes
+	}
+
+
+	after = {
+	}
+}
+
+#Panum 821: Plague Hint (hidden)
+panum.821 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	hidden = yes
+
+	cooldown = {
+		months = 1
+	}
+
+	immediate = {
+		panum_add_x_plague_description_clues_effect = { AMOUNT = 1 }
+		post_notification = panum_description_progress_notification
+	}
+}
+
+#Panum 822: The Black Death
+panum.822 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.822.t
+
+	desc = panum.822.d
+
+	flavor = panum.822.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_plague_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 823: Plague Symptoms
+panum.823 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.823.t
+
+	desc = panum.823.d
+
+	flavor = panum.823.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Well observed.
+		name = panum.122.g
+		default_option = yes
+		panum_add_x_plague_description_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 824: Bubonic plague and pneumonic plague
+panum.824 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.824.t
+
+	desc = panum.824.d
+
+	flavor = panum.824.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_panum.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 100 #Should happen never again
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+
+	option = {	#Precisely observed.
+		name = panum.124.g
+		default_option = yes
+		panum_add_x_plague_description_clues_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 3
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_famous
+			}
+			add = 2
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_physician_experienced
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = meticulous
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 840: Plague Treatment
+panum.840 = {
 	dlc = dlc_morgenrote
 
 	type = country_event

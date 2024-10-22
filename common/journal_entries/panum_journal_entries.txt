@@ -808,6 +808,70 @@ je_panum_plague = {
 	icon = "gfx/interface/icons/event_icons/event_skull.dds"
 
 	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		random_events = {
+			400 = 0
+			125 = panum.801 #Panum 801: Plague in STATE
+			25 = panum.802 #Panum 802: Plague spreads to COUNTRY
+			
+			10 = panum.805 #Panum 805: Plague Quarantine
+			10 = panum.806 #Panum 806: Plague Houses
+			5 = panum.807 #Panum 807: The Plague Doctor
+			10 = panum.808 #Panum 808: The Exodus of the Rich
+			10 = panum.809 #Panum 809: Mass Graves
+			10 = panum.810 #Panum 810: The Black Death takes its toll
+			10 = panum.811 #Panum 811: Burn everything
+			10 = panum.812 #Panum 812: Kill everything
+			10 = panum.813 #Panum 813: Loss of trust
+			10 = panum.1000 #Panum 1000: Calls for Medical Reforms
+		}
+	}
+
+	immediate = {
+		panum_general_disease_research_from_je_effect = { DISEASE = plague }
+	}
+	
+    fail = {
+    }
+
+	on_fail = {
+	}
+
+	complete = {
+		NOT = {
+			any_scope_state = {
+				panum_state_has_plague_trigger = yes
+			}
+		}
+	}
+
+	on_complete = {
+		set_variable = {
+			name = panum_recent_plague_in_country_var
+			years = 20
+		}
+		panum_remove_disease_effect = yes
+		trigger_event = {
+			id = panum.820
+			popup = yes
+		}
+	}
+
+	invalid = {
+	}
+
+	current_value = {
+	}
+
+	goal_add_value = {
+	}
+
+	progressbar = no
+
+	should_be_pinned_by_default = yes
+
+	weight = 50
 }
 
 je_panum_diphteria = {
@@ -1477,9 +1541,9 @@ je_panum_plague_description = {
 		random_events = {
 			20 = 0
 			4 = panum.821 #Panum 821: Plague Hint (hidden)
-			2 = panum.822 #Panum 822: Plague Incubation
+			2 = panum.822 #Panum 822: The Black Death
 			2 = panum.823 #Panum 823: Plague Symptoms
-			1 = panum.824 #Panum 824: The Black Death
+			1 = panum.824 #Panum 824: Bubonic plague and pneumonic plague
 		}
 	}
 
