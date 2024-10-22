@@ -7294,10 +7294,32 @@ gaudi_remove_je_cost_modifiers_effect = {
 #Effect used to add or remove progress from the scripted progress bar.
 # AMOUNT = amount of progress to add/subtract
 gaudi_add_x_mechanical_computer_progress_effect = {
-	je:je_gaudi_mechanical_computer_project = {
-		add_progress = { 
-			name = gaudi_mechanical_computer_project_progress_bar
-			value = $AMOUNT$
+	# Amount = amount of Progress to add
+	save_temporary_scope_value_as = { #This is used to display the amount in the tooltip
+		name = amount
+		value = $AMOUNT$
+	}
+	
+	#This part is used to display an accurate tooltip (Gain, loss, etc.)
+	if = { #Negative Plural Tooltip if local_var is negative
+		limit = { $AMOUNT$ < 0 }
+		custom_tooltip = gaudi_add_x_mechanical_computer_progress_minus_x_tt
+	}
+	if = { #Neutral Tooltip if $AMOUNT$ is 0
+		limit = { $AMOUNT$ = 0 }
+		custom_tooltip = gaudi_add_x_mechanical_computer_progress_0_tt
+	}
+	if = { #Positive Plural Tooltip if $AMOUNT$ is positive
+		limit = { $AMOUNT$ > 0 }
+		custom_tooltip = gaudi_add_x_mechanical_computer_progress_plus_x_tt
+	}
+
+	hidden_effect = {
+		je:je_gaudi_mechanical_computer_project = {
+			add_progress = { 
+				name = gaudi_mechanical_computer_project_progress_bar
+				value = $AMOUNT$
+			}
 		}
 	}
 }
