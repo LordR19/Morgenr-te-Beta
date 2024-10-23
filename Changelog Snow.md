@@ -55,6 +55,7 @@ Fixes:
 - Pilots will stop being busy after an airshow instead of becoming even more busy.
 - You should no longer get a new pilot at the Schneider trophy if you already has one. If it happens anyways, you have the option to keep your current pilot.
 - Campania should no longer show up as Volcano Expedition location when not owned.
+- Synthetic Rubber will not produce Silk anymore.
 - The Observatory should no longer give a warning for you to upgrade it, if it is fully upgraded.
 - Various Tooltips are now more informative and tell you which country is affected.
 - Hopefully fixed a bug that showed the Transatlantic Cable expedition as active even once it was finished.
