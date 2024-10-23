@@ -2730,36 +2730,36 @@ je_panum_cholera_treatment = {
 		random_events = {
 			30 = 0
 
-			#Good Events
-			1 = panum.141 #Panum 141: The Brewery
-			2 = panum.142 #Panum 142: Creatures of Habit
-			2 = panum.143 #Panum 143: The odd ones
-			2 = panum.144 #Panum 144: The filters
-			2 = panum.145 #Panum 145: Brown Water
-			2 = panum.146 #Panum 146: The First Death
-			2 = panum.147 #Panum 147: The Pit
-			1 = panum.148 #Panum 148: The Mansion
-			1 = panum.149 #Panum 149: The Tiny Death
-			2 = panum.150 #Panum 150: A Hands on Matter
+			#Good Events (+19)
+			1 = panum.141 #Panum 141: The Brewery +3
+			2 = panum.142 #Panum 142: Creatures of Habit +2
+			2 = panum.143 #Panum 143: The odd ones +2
+			2 = panum.144 #Panum 144: The filters +1
+			2 = panum.145 #Panum 145: Brown Water +1
+			2 = panum.146 #Panum 146: The First Death +1
+			2 = panum.147 #Panum 147: The Pit +1
+			1 = panum.148 #Panum 148: The Mansion +3
+			1 = panum.149 #Panum 149: The Tiny Death +4
+			2 = panum.150 #Panum 150: A Hands on Matter +1
 
-			#Bad Events
-			1 = panum.151 #Panum 151: The Tool Factory
-			1 = panum.152 #Panum 152: The Jar
-			1 = panum.153 #Panum 153: Misplaced
-			1 = panum.154 #Panum 154: The Copycat killer
-			1 = panum.155 #Panum 155: The Miasma ...?
-			1 = panum.156 #Panum 156: Deconstructed
-			1 = panum.157 #Panum 157: Contamined
+			#Bad Events (-9)
+			1 = panum.151 #Panum 151: The Tool Factory -2
+			1 = panum.152 #Panum 152: The Jar -1
+			1 = panum.153 #Panum 153: Misplaced -1
+			1 = panum.154 #Panum 154: The Copycat killer -2
+			1 = panum.155 #Panum 155: The Miasma ...? -1
+			1 = panum.156 #Panum 156: Deconstructed -1
+			1 = panum.157 #Panum 157: Contamined -1
 
-			#Character Events
-			10 = panum.161 #Panum 161: A spot of gin
-			10 = panum.162 #Panum 162: Bottom's up
-			10 = panum.163 #Panum 163: A Map to success
+			#Character Events (+12)
+			10 = panum.161 #Panum 161: A spot of gin +2
+			10 = panum.162 #Panum 162: Bottom's up +4
+			10 = panum.163 #Panum 163: A Map to success +3
 			10 = panum.164 #Panum 164: Fire and Fury
-			10 = panum.165 #Panum 165: The Heart of Infection
-			10 = panum.166 #Panum 166: The Power of Prayer
-			10 = panum.167 #Panum 167: Safe over sorry
-			10 = panum.168 #Panum 168: Restless Labor
+			10 = panum.165 #Panum 165: The Heart of Infection +1
+			10 = panum.166 #Panum 166: The Power of Prayer +2
+			10 = panum.167 #Panum 167: Safe over sorry -1
+			10 = panum.168 #Panum 168: Restless Labor +1
 		}
 	}
 
@@ -2840,6 +2840,92 @@ je_panum_tuberculosis_treatment = {
 	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
 
 	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		random_events = {
+			30 = 0
+
+			#Good Events
+			1 = panum.241 #Panum 241: The Rabbit Experiment +1-4
+
+			#Character Events (+9)
+			10 = panum.261 #Panum 261: Artificial Pneumothorax +4
+			10 = panum.262 #Panum 262: Thoracoplasty +4
+			10 = panum.263 #Panum 263: The Doctor did it again! +1
+		}
+	}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_tuberculosis_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_tuberculosis_treatment_clues_var
+				value = 0
+			}
+		}
+	}
+
+	fail = {
+		NOT = {
+			has_journal_entry = je_panum_tuberculosis
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = panum.134 #Unfinished Treatment
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_tuberculosis_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.240
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	current_value = {
+		value = var:panum_cholera_treatment_clues_var
+	}
+
+	goal_add_value = {
+		value = 8
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+			NOT = {
+				has_variable = panum_physician_var
+			}
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
 
 je_panum_smallpox_treatment = {
@@ -2849,7 +2935,109 @@ je_panum_smallpox_treatment = {
 }
 
 je_panum_typhus_treatment = {
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
 	group = je_group_panum_medicine
+
+	on_weekly_pulse = {
+		random_events = {
+			30 = 0
+
+			#Good Events (+17)
+			3 = panum.441 #Panum 441: An autopsy +1
+			3 = panum.442 #Panum 442: Unwashed and matted +1
+			3 = panum.443 #Panum 443: Warmth and cold +1
+			3 = panum.444 #Panum 444: Sweat and Breath +1
+			3 = panum.445 #Panum 445: Is it Hunger? +1
+			1 = panum.446 #Panum 446: Not Location, but situation +3
+			1 = panum.447 #Panum 447: Lice +4
+			2 = panum.448 #Panum 448: A hygienic Hospital +2
+			3 = panum.449 #Panum 449: Epidemic assistance +1
+			2 = panum.450 #Panum 450: Contaminated clothing? +2
+
+			#Bad Events (-7)
+			1 = panum.451 #Panum 451: Is it the climate? -2
+			1 = panum.452 #Panum 452: Putrefaction of organic matter -2
+			2 = panum.453 #Panum 453: Negative air currents -1
+			2 = panum.454 #Panum 454: Sick -1
+			2 = panum.455 #Panum 455: Documents lost -1
+
+			#Character Events (+3)
+			10 = panum.461 #Panum 461: Houses and Classes +3
+		}
+	}
+
+	immediate = {
+		if = { #Fallback if the variable does not exist yet
+			limit = {
+				NOT = {
+					has_variable = panum_typhus_treatment_clues_var
+				}
+			}
+			set_variable = {
+				name = panum_typhus_treatment_clues_var
+				value = 0
+			}
+		}
+	}
+
+	fail = {
+		NOT = {
+			has_journal_entry = je_panum_typhus
+		}
+    }
+
+	on_fail = {
+		trigger_event = {
+			id = panum.134 #Unfinished Treatment
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	complete = {
+		custom_tooltip = {
+			text = je_panum_typhus_treatment_success
+			scope:journal_entry = {
+				is_goal_complete = yes
+			}
+		}
+	}
+
+	on_complete = {
+		trigger_event = {
+			id = panum.440
+			popup = yes
+		}
+		panum_remove_active_variables_effect = yes
+	}
+
+	current_value = {
+		value = var:panum_typhus_treatment_clues_var
+	}
+
+	goal_add_value = {
+		value = 10
+	}
+
+	invalid = {
+		custom_tooltip = {
+			text = je_physician_dies_tt
+			NOT = {
+				has_variable = panum_physician_var
+			}
+		}
+	}
+
+	on_invalid = {
+		panum_remove_active_variables_effect = yes
+	}
+
+	progressbar = yes
+
+	weight = 30
+
+	should_be_pinned_by_default = yes
 }
 
 je_panum_yellow_fever_treatment = {
