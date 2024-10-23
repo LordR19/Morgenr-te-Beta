@@ -5575,7 +5575,7 @@ panum.209 = {
 		create_new_physician_effect = yes
 		random_scope_state = {
 			limit = {
-				panum_state_has_cholera_trigger = yes
+				panum_state_has_tuberculosis_trigger = yes
 			}
 			save_scope_as = panum_disease_state
 		}
@@ -5976,6 +5976,360 @@ panum.240 = {
 	after = {
 		remove_variable = panum_treatment_title_randomizer_var
 		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 241: The Rabbit Experiment
+panum.241 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.241.t
+
+	desc = panum.241.d
+
+	flavor = panum.241.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		NOT = {
+			var:panum_physician_var = {
+				has_trait = charismatic
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Stop these terrible animal experiments!
+		name = panum.241.g
+		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 1 }
+		trigger = {
+			NOT = {
+				var:panum_physician_var = {
+					has_trait = cruel
+				}
+			}
+		}
+		var:panum_physician_var = {
+			add_trait = charismatic
+		}
+	}
+
+	option = {	#Let's repeat the experiment to be sure.
+		name = panum.241.h
+		default_option = yes
+		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 2 }
+		if = {
+			limit = {
+				NOT = {
+					var:panum_physician_var = {
+						has_trait = cruel
+					}
+				}
+			}
+			random_list = {
+				1 = {}
+				1 = {
+					var:panum_physician_var = {
+						add_trait = cruel
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#A third rabbit experiment for science!
+		name = panum.241.i
+		default_option = yes
+		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 3 }
+		panum_add_x_germ_theory_clues_effect = { AMOUNT = 1 }
+		set_variable = panum_cruel_tuberculosis_experiments_var
+		if = {
+			limit = {
+				NOT = {
+					var:panum_physician_var = {
+						has_trait = cruel
+					}
+				}
+			}
+			random_list = {
+				1 = {}
+				2 = {
+					var:panum_physician_var = {
+						add_trait = cruel
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#The Doctor may kill as many rabbits as possible to proof his theory.
+		name = panum.241.j
+		default_option = yes
+		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 4 }
+		theiler_add_x_tuberculosis_pathogen_clues_effect = { AMOUNT = 1 }
+		panum_add_x_germ_theory_clues_effect = { AMOUNT = 1 }
+		set_variable = panum_cruel_tuberculosis_experiments_var
+		if = {
+			limit = {
+				NOT = {
+					var:panum_physician_var = {
+						has_trait = cruel
+					}
+				}
+			}
+			var:panum_physician_var = {
+				add_trait = cruel
+			}
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = cruel
+			}
+			add = 4
+		}
+	}
+}
+
+#Panum 261: Artificial Pneumothorax
+panum.261 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.261.t
+
+	desc = panum.261.d
+
+	flavor = panum.261.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOR = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+			has_variable = panum_pneumothorax_var
+		}
+		var:panum_physician_var ?= {
+			OR = {
+				has_trait = engineer
+				has_trait = innovative
+			}
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		set_variable = panum_pneumothorax_var
+	}
+
+	option = {	#It's about saving human lives.
+		name = panum.263.g
+		default_option = yes
+		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 4 }
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_pneumothorax_global_var
+				}
+			}
+			set_global_variable = panum_pneumothorax_global_var
+			var:panum_physician_var = {
+				set_variable = panum_pneumothorax_inventor_var
+			}
+			panum_add_x_medical_score_points_effect = { AMOUNT = 1 }
+			add_modifier = {
+				name = panum_pneumothorax_modifier
+			}
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 262: Thoracoplasty
+panum.262 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.262.t
+
+	desc = panum.262.d
+
+	flavor = panum.262.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	trigger = {
+		NOR = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+			has_variable = panum_thoracoplasty_var
+		}
+		var:panum_physician_var ?= {
+			has_trait = panum_surgeon
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		set_variable = panum_thoracoplasty_var
+	}
+
+	option = {	#It's about saving human lives.
+		name = panum.263.g
+		default_option = yes
+		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 4 }
+		if = {
+			limit = {
+				NOT = {
+					has_global_variable = panum_thoracoplasty_global_var
+				}
+			}
+			set_global_variable = panum_thoracoplasty_global_var
+			var:panum_physician_var = {
+				set_variable = panum_thoracoplasty_inventor_var
+			}
+			panum_add_x_medical_score_points_effect = { AMOUNT = 1 }
+			add_modifier = {
+				name = panum_thoracoplasty_modifier
+			}
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 263: The Doctor did it again!
+panum.263 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.263.t
+
+	desc = panum.263.d
+
+	flavor = panum.263.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		has_variable = panum_cruel_tuberculosis_experiments_var
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#It's about saving human lives.
+		name = panum.263.g
+		default_option = yes
+		panum_add_x_tuberculosis_treatment_clues_effect = { AMOUNT = 2 }
+		if = {
+			limit = {
+				NOT = {
+					var:panum_physician_var = {
+						has_trait = psychological_affliction
+					}
+				}
+			}
+			random_list = {
+				9 = {}
+				1 = {
+					var:panum_physician_var = {
+						add_trait = psychological_affliction
+					}
+				}
+			}
+		}
+	}
+
+	option = {	#This doctor has a serious problem.
+		name = panum.263.h
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
 	}
 }
 
@@ -7736,11 +8090,11 @@ panum.440 = {
 
 	type = country_event
 
-	title = panum.140.t
+	title = panum.440.t
 
-	desc = panum.140.d
+	desc = panum.440.d
 
-	flavor = panum.140.f
+	flavor = panum.440.f
 	
 	duration = 3
 
@@ -7765,19 +8119,950 @@ panum.440 = {
 			name = panum_treatment_title_randomizer_var
 			nearest = 1
 		}
+		random_scope_state = {
+			limit = {
+				panum_state_has_typhus_trigger = yes
+			}
+			save_scope_as = panum_disease_state
+		}
 	}
 
 	option = {	#Typhus is losing its horror.
-		name = panum.140.g
+		name = panum.440.g
 		panum_add_typhus_treatment_effect = yes
+		panum_add_x_germ_theory_clues_effect = { AMOUNT = 4 }
 		var:panum_physician_var = {
 			set_character_busy_and_immortal = no
+		}
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_typhus_severe_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				remove_modifier = panum_epidemic_typhus_severe_modifier
+			}
+		}
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_typhus_normal_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				remove_modifier = panum_epidemic_typhus_normal_modifier
+			}
+		}
+		if = {
+			limit = {
+				scope:panum_disease_state = {
+					has_modifier = panum_epidemic_typhus_mild_modifier
+				}
+			}
+			scope:panum_disease_state = {
+				remove_modifier = panum_epidemic_typhus_mild_modifier
+			}
 		}
 	}
 
 	after = {
 		remove_variable = panum_treatment_title_randomizer_var
 		remove_variable = panum_disease_title_var
+	}
+}
+
+#Panum 441: An Autopsy
+panum.441 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.441.t
+
+	desc = panum.441.d
+
+	flavor = panum.441.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.441.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 442: Unwashed and matted
+panum.442 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.442.t
+
+	desc = panum.442.d
+
+	flavor = panum.442.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.442.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 443: Unwashed and matted
+panum.443 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.443.t
+
+	desc = panum.443.d
+
+	flavor = panum.443.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.443.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 444: Sweat and Breath
+panum.444 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.444.t
+
+	desc = panum.444.d
+
+	flavor = panum.444.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_4.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.444.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 1 }
+		panum_add_x_germ_theory_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 445: Is it Hunger?
+panum.445 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.445.t
+
+	desc = panum.445.d
+
+	flavor = panum.445.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_5.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.445.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 446: Not Location, but situation
+panum.446 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.446.t
+
+	desc = panum.446.d
+
+	flavor = panum.446.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.446.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 447: Lice
+panum.447 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.447.t
+
+	desc = panum.447.d
+
+	flavor = panum.447.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.447.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 4 }
+		panum_add_x_germ_theory_clues_effect = { AMOUNT = 1 }
+	}
+
+	option = {	#Precisely observed.
+		name = panum.447.h
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 4 }
+		theiler_add_x_typhus_pathogen_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 448: Hygienic Hospital
+panum.448 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.448.t
+
+	desc = panum.448.d
+
+	flavor = panum.448.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.448.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 2 }
+		panum_add_x_germ_theory_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 449: Epidemic Assistance
+panum.449 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.449.t
+
+	desc = panum.449.d
+
+	flavor = panum.449.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_4.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.449.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 450: Contaminated clothing?
+panum.450 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.450.t
+
+	desc = panum.450.d
+
+	flavor = panum.450.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_5.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.450.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			var:panum_physician_var = {
+				has_trait = panum_epidemiologist
+			}
+			add = 1
+		}
+	}
+}
+
+#Panum 451: Typhus Climate
+panum.451 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.451.t
+
+	desc = panum.451.d
+
+	flavor = panum.451.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		panum_has_miasma_theory_trigger = yes
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.450.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = -2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 452: Putrefacation
+panum.452 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.452.t
+
+	desc = panum.452.d
+
+	flavor = panum.452.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_2.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		panum_has_miasma_theory_trigger = yes
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.452.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = -2 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 453: Negative Air Currents
+panum.453 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.453.t
+
+	desc = panum.453.d
+
+	flavor = panum.453.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_3.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		panum_has_miasma_theory_trigger = yes
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.453.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = -1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 454: Sick
+panum.454 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.454.t
+
+	desc = panum.454.d
+
+	flavor = panum.454.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_4.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		NOT = {
+			var:panum_physician_var ?= {
+				has_trait = panum_typhus
+			}
+		}	
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.454.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = -1 }
+	}
+
+	option = {	#Precisely observed.
+		name = panum.454.h
+		default_option = yes
+		random_list = {
+			55 = {}
+			35 = {
+				var:panum_physician_var = {
+					add_trait = panum_typhus
+				}
+			}
+			10 = {
+				var:panum_physician_var = {
+					kill_physician_effect = yes
+				}
+			}
+		}
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 455: Lost Documents
+panum.455 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.455.t
+
+	desc = panum.455.d
+
+	flavor = panum.455.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_5.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}	
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.455.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = -1 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+}
+
+#Panum 461: Houses and Classes
+panum.461 = {
+	dlc = dlc_morgenrote
+
+	type = country_event
+
+	title = panum.461.t
+
+	desc = panum.461.d
+
+	flavor = panum.461.f
+	
+	duration = 3
+
+	event_image = { 
+		texture = "gfx/event_pictures/panum_pictures/panum_investigation_1.dds"
+	}
+
+	icon = "gfx/interface/icons/event_icons/event_medicine.dds"
+
+	on_created_soundeffect = "event:/SFX/UI/Alerts/event_appear"
+
+	cooldown = {
+		years = 2 #Should not happen again in this epidemic
+	}
+
+	trigger = {
+		NOT = {
+			has_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+		}
+		var:panum_physician_var = {
+			OR = {
+				has_trait = meticulous
+				has_trait = innovative
+			}
+		}	
+	}
+
+	immediate = {
+		set_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
+	}
+
+	option = {	#Precisely observed.
+		name = panum.461.g
+		default_option = yes
+		panum_add_x_typhus_treatment_clues_effect = { AMOUNT = 3 }
+	}
+
+	after = {
+		remove_variable = panum_treatment_search_ongoing_var #We try to have only one event at a time
 	}
 }
 
@@ -10321,7 +11606,7 @@ panum.802 = {
 
 	trigger = {
 		any_country = {
-			panum_country_can_have_cholera_trigger = yes
+			panum_country_can_have_plague_trigger = yes
 			is_adjacent_to_country = ROOT
 		}
 	}
@@ -10329,7 +11614,7 @@ panum.802 = {
 	immediate = {
 		random_country = {
 			limit = {
-				panum_country_can_have_cholera_trigger = yes
+				panum_country_can_have_plague_trigger = yes
 				is_adjacent_to_country = ROOT
 			}
 			save_scope_as = panum_infected_country
@@ -10500,6 +11785,7 @@ panum.805 = {
 
 	option = {	#The whole area should be quarantined.
 		name = panum.805.g
+		default_option =yes
 		scope:panum_disease_state = {
 			add_modifier = {
 				name = panum_plague_quarantine_modifier
@@ -10702,7 +11988,7 @@ panum.808 = {
 	immediate = {
 		random_scope_state = {
 			limit = {
-				panum_state_has_cholera_trigger = yes
+				panum_state_has_plague_trigger = yes
 				NOT = {
 					has_modifier = panum_the_great_equalizer_modifier
 					has_modifier = panum_unjust_death_modifier
