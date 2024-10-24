@@ -68,6 +68,7 @@ Fixes:
 - Schliemann will now only be available at between 1852 and 1890.
 - Fixed missing animal names for the Get Exotic animal Journal Entry.
 - Characters with the academic gowns will no longer wear sashes.
+- Poems are no longer all nihilistic and instead have actual titles.
 
 Performance:
 - Removed some global variables for planet discoveries.
