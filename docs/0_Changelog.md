@@ -1,6 +1,7 @@
 Changelog for 2.8.3h "Mitsopoulos"
 
 Characters:
+- Charles Nicolle (French Biologist)
 - Émile Roux (French Biologist and Physician)
 - Ferdinand Cohn (German Biologist)
 - Sergei Winogradsky (Ukrainian Biologist)
