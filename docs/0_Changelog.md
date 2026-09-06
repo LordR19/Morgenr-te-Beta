@@ -14,4 +14,4 @@ Graphics:
 -
 
 Changes:
--
+- Kitasato Shibasaburō can now also spawn as a Biologist.
