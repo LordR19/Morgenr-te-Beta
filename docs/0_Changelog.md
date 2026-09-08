@@ -8,6 +8,7 @@ Characters:
 - Charles Nicolle (French Biologist)
 - Émile Roux (French Biologist and Physician)
 - Ferdinand Cohn (German Biologist)
+- Anton de Bary (German Biologist)
 - Julius Richard Petri (German Biologist)
 - Sergei Winogradsky (Ukrainian Biologist)
 
