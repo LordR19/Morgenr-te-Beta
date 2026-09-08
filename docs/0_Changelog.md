@@ -1,6 +1,7 @@
 Changelog for 2.8.3h "Mitsopoulos"
 
 Characters:
+- Albert Calmette (French Biologist)
 - Charles Nicolle (French Biologist)
 - Émile Roux (French Biologist and Physician)
 - Ferdinand Cohn (German Biologist)
