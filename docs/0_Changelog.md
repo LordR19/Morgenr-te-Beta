@@ -1,6 +1,7 @@
 Changelog for 2.8.3h "Mitsopoulos"
 
 Characters:
+- Harry Marshall Ward (British Biologist)
 - Albert Calmette (French Biologist)
 - Félix d'Hérelle (French Biologist)
 - Casimir Davaine (Frennch Biologist)
