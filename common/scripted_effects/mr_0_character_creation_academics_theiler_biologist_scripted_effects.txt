@@ -489,6 +489,46 @@ mr_create_historical_biologist_for_character_creation_effect = {
 				}
 			}
 		}
+		300 = { #Félix d'Hérelle, France
+			trigger = {
+				NOT = { has_global_variable = mr_d_herelle_felix_created_global_var }
+				OR = {
+					AND = {
+						has_state_in_state_region = STATE_ILE_DE_FRANCE #Born in Paris
+						country_average_cultural_acceptance = {
+							target = cu:french
+							value >= acceptance_status_4
+						}
+					}
+					AND = {
+						has_state_in_state_region = STATE_QUEBEC #Emigrated to Canada
+						country_has_primary_culture = cu:franco_canadian
+					}
+				}
+				year >= 1897 #Emigrated to Canada
+				year <= 1928 #Age 55
+			}
+			create_character = {
+				template = mr_fra_d_herelle_felix_character_template
+				save_scope_as = theiler_new_biologist_scope
+			}
+
+			set_variable = {
+				name = theiler_new_biologist_var
+				value = scope:theiler_new_biologist_scope
+			}
+
+			modifier = {
+				add = {
+					value = year
+					subtract = 1873
+					subtract = 25
+					min = 0
+					multiply = 2
+					multiply = -3
+				}
+			}
+		}
 		300 = { #Charles Louis Alphonse Laveran, France
 			trigger = {
 				NOT = { has_global_variable = mr_laveran_charles_louis_alphonse_created_global_var }
