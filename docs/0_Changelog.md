@@ -4,6 +4,7 @@ Characters:
 - Gregor Mendel (Austrian Biologist and Physicist)
 - Pierre-Marie Alexis Millardet (French Biologist)
 - Liberty Hyde Bailey (American Biologist)
+- Luther Burbank (American Biologist)
 
 Fixes:
 -
