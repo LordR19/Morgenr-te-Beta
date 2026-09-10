@@ -40,6 +40,38 @@ mr_create_historical_physicist_for_character_creation_effect = {
 				}
 			}
 		}
+		100 = { #Gregor Mendel, Austria
+			trigger = {
+				NOT = { has_global_variable = mr_mendel_gregor_created_global_var }
+				has_state_in_state_region = STATE_MORAVIA #Born in Heinzendorf bei Odrau (today's Hynčice)
+				country_average_cultural_acceptance = {
+					target = cu:south_german
+					value >= acceptance_status_4
+				}
+				year >= 1847 #Assistant to Eduard Suess
+				year <= 1877 #Age 55
+			}
+			create_character = {
+				template = mr_aus_mendel_gregor_character_template
+				save_scope_as = theiler_new_biologist_scope
+			}
+
+			set_variable = {
+				name = theiler_new_biologist_var
+				value = scope:theiler_new_biologist_scope
+			}
+
+			modifier = {
+				add = {
+					value = year
+					subtract = 1822
+					subtract = 25
+					min = 0
+					multiply = 2
+					multiply = -1
+				}
+			}
+		}
 		100 = { #Rudolf Ferdinand Spitaler, Austria
 			trigger = {
 				NOT = { has_global_variable = mr_spitaler_rudolf_ferdinand_created_global_var }
@@ -64,6 +96,37 @@ mr_create_historical_physicist_for_character_creation_effect = {
 				add = {
 					value = year
 					subtract = 1859
+					subtract = 25
+					min = 0
+					multiply = 2
+					multiply = -1
+				}
+			}
+		}
+		100 = { #Germinal Pierre Dandelin, Belgium
+			trigger = {
+				NOT = { has_global_variable = mr_dandelin_germinal_pierre_created_global_var }
+				has_state_in_state_region = STATE_FLANDERS #Lived in Ghent most of his life
+				country_average_cultural_acceptance = {
+					target = cu:wallonian
+					value >= acceptance_status_4
+				}
+				year >= 1819 #Age 25
+				year <= 1849 #Age 55
+			}
+			create_character = {
+				template = mr_bel_dandelin_germinal_pierre_character_template
+				save_scope_as = curie_new_physicist_scope
+			}
+			set_variable = {
+				name = curie_new_physicist_var
+				value = scope:curie_new_physicist_scope
+			}
+
+			modifier = {
+				add = {
+					value = year
+					subtract = 1794
 					subtract = 25
 					min = 0
 					multiply = 2
@@ -1148,4 +1211,5 @@ mr_make_character_physicist_effect = {
 		ROLE = character_role_curie_physicist
 		AGE_LEVEL = 2
 	}
+	mr_set_character_background_gfx_no_replacement_effect = { BACKGROUND = character_background_mr_char_role_fallback }
 }

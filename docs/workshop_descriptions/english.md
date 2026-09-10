@@ -98,9 +98,9 @@ https://paratranz.cn/projects/15114
 Thanks to: tremblejj, VWM26 and Nickbonham22
 
 [b] Turkish: [/b]
-65% complete
+100% complete
 https://paratranz.cn/projects/15153
-Thanks to: aek.aykut1
+Thanks to: aek.aykut1 and t2lha
 
 [b] Others: [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2880069248] Chinese Translation (for more mods) [/url]
@@ -127,11 +127,7 @@ Thanks to ...
 [h1] Compatches [/h1]
 Some of the compatches are not updated or no longer needed. Please check the date that they were last updated.
 [list]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3248164466] Basileia Romaion Compatch [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3146386373] Economic and Financial Mod Compatch [/url]
     [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3124672961] LLWA + Morgenröte Compatch [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3174785745] Make My Railways Profitable Again Compatch [/url]
-    [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3543693439] Morgenrote + I.R.O.N. Compatch [/url]
 [/list]
 
 [img]https://i.imgur.com/lyEXcxo.png[/img]
