@@ -1,6 +1,7 @@
 Changelog for 2.8.3i "Mitsopoulos"
 
 Characters:
+- Gregor Mendel (Austrian Biologist and Physicist)
 - Pierre-Marie Alexis Millardet (French Biologist)
 - Liberty Hyde Bailey (American Biologist)
 
