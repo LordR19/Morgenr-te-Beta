@@ -12,7 +12,7 @@ Fixes:
 -
 
 Graphics:
--
+- Schönlein DNA improved.
 
 Changes:
 -
