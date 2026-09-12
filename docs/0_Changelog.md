@@ -4,6 +4,7 @@ Characters:
 - Paul Camille Denis (German Engineer)
 - Joseph Scherer (German Chemist and Physician)
 - Ernst von Bibra (German Chemist and Naturalist)
+- Carl Friedrich Philipp von Martius (German Naturalist and Ethnologist)
 - Gregor Mendel (Austrian Biologist and Physicist)
 - Pierre-Marie Alexis Millardet (French Biologist)
 - Hugo de Vries (Dutch Biologist)
