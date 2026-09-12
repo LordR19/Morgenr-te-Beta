@@ -6,6 +6,7 @@ Characters:
 - Franz von Kobell (German Geologist and Writer)
 - Ernst von Bibra (German Chemist and Naturalist)
 - Carl Friedrich Philipp von Martius (German Naturalist and Ethnologist)
+- Andreas Wagner (German Paleontologist)
 - Gregor Mendel (Austrian Biologist and Physicist)
 - Pierre-Marie Alexis Millardet (French Biologist)
 - Hugo de Vries (Dutch Biologist)
