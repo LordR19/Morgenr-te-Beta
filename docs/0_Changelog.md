@@ -3,6 +3,7 @@ Changelog for 2.8.3i "Mitsopoulos"
 Characters:
 - Paul Camille Denis (German Engineer)
 - Joseph Scherer (German Chemist and Physician)
+- Franz von Kobell (German Geologist and Writer)
 - Ernst von Bibra (German Chemist and Naturalist)
 - Carl Friedrich Philipp von Martius (German Naturalist and Ethnologist)
 - Gregor Mendel (Austrian Biologist and Physicist)
